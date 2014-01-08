@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="utf-8">
+	<title>My AngularJS App</title>
+
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+	<base href="/~fabian/angular/">
+	<link rel="stylesheet" href="css/app.css"/>
+
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="opacity:0.96">
+		<img style="height: 36px; margin-left: 30px; margin-top: 8px;  opacity: 0.43;    width: 36px;" src="img/arachnelogo.png" class="pull-left"><a class="navbar-brand" href="#">arachne</a>
+	</nav>
+
+	<div class="col-md-12" >
+		<div ng-view></div>
+
+	</div>
+
+
+
+
+
+	<script src="lib/angular/angular.js"></script>
+	<script src="lib/angular/angular-route.js"></script>
+	<script src="lib/angular/angular-resource.js"></script>
+
+	<script src="lib/masonry.pkgd.min.js"></script>
+
+ 	<script src="lib/angular-masonry-directive.js"></script>
+ 	<script src="lib/imagesloaded.pkgd.min.js"></script>
+
+
+	<script src="http://code.angularjs.org/1.2.5/angular-sanitize.min.js"></script>
+	<script src="lib/ui-bootstrap-tpls-0.7.0.min.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/services.js"></script>
+	<script src="js/controllers.js"></script>
+	<!-- <script src="js/filters.js"></script>
+ 	<script src="js/directives.js"></script> -->
+ 	
+</body>
+</html>

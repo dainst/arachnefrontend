@@ -1,0 +1,23 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
+
+body {
+	padding-top: 60px;
+	background-color: #F8F8F8;
+	font-family: 'Open Sans', sans-serif;
+}
+.facet {
+	margin-top: 14px;
+}
+.facet li {
+	cursor: pointer;
+	overflow: hidden;
+	margin-top: 3px;
+	border-radius: 5px;
+	padding: 4px 6px;
+
+}
+.facet li:hover {
+	background-color: #eaeaea;
+
+
+};
