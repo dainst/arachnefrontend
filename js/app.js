@@ -1,18 +1,20 @@
 'use strict';
 
-angular.module("myApp", ['ui.bootstrap']);
+
+
+var myApp = angular.module("myApp", ['ui.bootstrap']);
 // Declare app level module which depends on filters, and services
 angular.module('myApp', [
 	'ngRoute',
 	'ngSanitize',
 	'ngResource',
-	'masonry',
-	// 'myApp.filters',
+	'myApp.filters',
 	'myApp.services',
-	// 'myApp.directives',
+	'myApp.directives',
 	'myApp.controllers'
 	]).
-config(['$routeProvider',  '$locationProvider', function($routeProvider, $locationProvider) {
+config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+	
 	$locationProvider.html5Mode(true);
 
 	$routeProvider
@@ -21,6 +23,3 @@ config(['$routeProvider',  '$locationProvider', function($routeProvider, $locati
 		.when('/search/:params?', {templateUrl: 'partials/search.html'});
 
 }]);
-
-
-

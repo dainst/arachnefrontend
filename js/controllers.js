@@ -15,6 +15,7 @@ angular.module('myApp.controllers', []).
 
 				$scope.results = [];
 
+
 				this.executeSearch = function (locationHash) {
 					$scope.search = arachneSearch.query(locationHash,function(data){
 						$scope.results.push.apply($scope.results, data.entities);

@@ -2,34 +2,34 @@
 
 	<div class="col-md-2">
 		<div>
-			<small class="text-muted">Insgesamt {{search.size}} Ergebnisse</small>
+			<small class="text-muted">Insgesamt {{ search.size }} Ergebnisse</small>
 		</div>
+		
 		<small>
 	
-			<ul  class="list-unstyled facet" ng-repeat="(facetName,values) in search.facets">
+			<ul class="list-unstyled facet" ng-repeat="(facetName,values) in search.facets">
 
-				<b class="text-muted">{{facetName}}</b>
+				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet"><b class="text-muted">{{facetName | i18n }}</b></button>
 				
-				<li ng-repeat="(facetValueName, count) in values">
+				<li ng-repeat="(facetValueName, count) in values"  ng-show="openfacet">
 					<b class="pull-right text-muted">{{count}}</b> {{facetValueName}}
 				</li>
 
 			</ul>
+
 		</small>
 	</div>
 
 
-	<div class="col-md-10 js-masonry" masonry='{  "columnWidth": 200,"transitionDuration" : "0.4s", "itemSelector" : ".tile"}' >
-		<div masonry-tile class="tile col-lg-2 col-md-3 col-sm-6 col-xs-12" ng-repeat="entity in results" style="width: 200px; padding-right:10px; margin-bottom:14px ">	
-			
-			<div style="box-shadow:0 2px 4px #D6D6D6">
-				<img style="width:100%; max-height:400px" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/{{entity.thumbnailId}}">
-				<div style="padding:10px; background:white; font-size:12px; line-height: 14px;">
-					{{entity.title}}<br>
-					<span  class="text-muted" style="font-size:12px">{{entity.subtitle}}</span>
-				</div>
-			</div>
-		</div>
+	<div class="col-md-10" imagetiles>
+		<table class="table table-condensed"  ng-repeat="entity in results">
+			<tr>
+				<td class="col-md-8"><b>{{entity.type }}:</b> {{entity.title}}</td>
+				<td class="col-md-2">{{entity.entityId}}</td>
+				<td class="col-md-2">{{entity.subtitle}}</td>
+			</tr>
+		
+		</table>
 	</div>
 
 	<p align="center">

@@ -4,8 +4,12 @@
 
 
 angular.module('myApp.directives', []).
-  directive('appVersion', ['version', function(version) {
-    return function(scope, elm, attrs) {
-      elm.text(version);
-    };
-  }]);
+	directive('imagetiles', function() {
+		return {
+			restrict: 'A',
+      		link: function (scope, $element, attrs) {
+      			
+        	}
+      	}
+	});
+
