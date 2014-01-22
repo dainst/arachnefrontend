@@ -11,8 +11,8 @@
 
 				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet"><b class="text-muted">{{facetName | i18n }}</b></button>
 				
-				<li ng-repeat="(facetValueName, count) in values"  ng-show="openfacet">
-					<b class="pull-right text-muted">{{count}}</b> {{facetValueName}}
+				<li ng-click="searchCtrl.addFacet(facetName, facetValue)"  ng-repeat="(facetValue, count) in values" ng-show="openfacet">
+					<b class="pull-right text-muted">{{count}}</b>{{facetValue}}
 				</li>
 
 			</ul>
@@ -21,8 +21,11 @@
 	</div>
 
 
-	<div class="col-md-10" imagetiles>
-		<table class="table table-condensed"  ng-repeat="entity in results">
+	<div class="col-md-10">
+		<div style="margin-bottom:20px">
+			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(active)" ng-repeat="active in activeFacets" style="margin-right:2px">{{active}}</button> 	
+		</div>
+		<table class="table table-condensed table-hover"  ng-repeat="entity in results">
 			<tr>
 				<td class="col-md-8"><b>{{entity.type }}:</b> {{entity.title}}</td>
 				<td class="col-md-2">{{entity.entityId}}</td>
@@ -33,7 +36,7 @@
 	</div>
 
 	<p align="center">
-		<button ng-click="searchCtrl.append()" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span> Weitere Ergebnisse laden</button>
+		<button ng-click="searchCtrl.append()" ng-if="search.size > 50" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span> Weitere Ergebnisse laden</button>
 	</p>
 
 </div>

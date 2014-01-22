@@ -20,4 +20,8 @@ body {
 	background-color: #eaeaea;
 
 
-};
+}
+
+.linethrough-hover:hover {
+	text-decoration: line-through;
+}
