@@ -2,7 +2,7 @@
 
 	<div class="col-md-2">
 		<div>
-			<small class="text-muted">Insgesamt {{ search.size }} Ergebnisse</small>
+			<small class="text-muted">Insgesamt <b>{{ search.size }}</b> Ergebnisse</small>
 		</div>
 		
 		<small>
@@ -23,20 +23,23 @@
 
 	<div class="col-md-10">
 		<div style="margin-bottom:20px">
-			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(active)" ng-repeat="active in activeFacets" style="margin-right:2px">{{active}}</button> 	
+			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b>{{facet.value}}</b></button> 	
 		</div>
-		<table class="table table-condensed table-hover"  ng-repeat="entity in results">
-			<tr>
-				<td class="col-md-8"><b>{{entity.type }}:</b> {{entity.title}}</td>
-				<td class="col-md-2">{{entity.entityId}}</td>
+		<table class="table table-condensed table-hover">
+			<tr ng-repeat="entity in results" class="small">
+				<td class="col-md-1">{{entity.entityId}}</td>
+				<td class="col-md-1">{{entity.type}}</td>
+
+				<td class="col-md-8"><b>{{entity.title}}</b></td>
 				<td class="col-md-2">{{entity.subtitle}}</td>
+
 			</tr>
 		
 		</table>
 	</div>
 
 	<p align="center">
-		<button ng-click="searchCtrl.append()" ng-if="search.size > 50" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span> Weitere Ergebnisse laden</button>
+		<button ng-click="searchCtrl.append()" ng-if="search.size > 50" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Weitere Ergebnisse laden</button>
 	</p>
 
 </div>

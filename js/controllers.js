@@ -2,21 +2,30 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
-	controller('MyCtrl1', [function() {
-
-	}])
-	.controller('MyCtrl2', [function() {
-
-	}])
+angular.module('myApp.controllers', [])
 	.controller('SearchCtrl',
 		['$location', 'arachneSearch', '$scope', 
 			function ( $location, arachneSearch, $scope) {
 
+
+				this.parseUrlFQ = function (fqParam) {
+					var facets = [];
+					fqParam = fqParam.split(/\"\,/);
+					for (var i = fqParam.length - 1; i >= 0; i--) {
+						var facetNameAndVal = fqParam[i].replace(/"/g,'').split(':');
+
+						facets.push({
+							name: facetNameAndVal[0],
+							value: facetNameAndVal[1]
+						});
+					};
+					return facets;
+				};
+
+
 				$scope.results = [];
 				$scope.facets = [];
-				$scope.activeFacets = $location.$$search.fq.split(',');
-
+				$scope.activeFacets = $location.$$search.fq ? this.parseUrlFQ($location.$$search.fq) : [];
 
 				this.executeSearch = function (locationHash) {
 					$scope.search = arachneSearch.query(locationHash,function(data){
@@ -24,7 +33,6 @@ angular.module('myApp.controllers', []).
 						
 					});
 				};
-				
 
 				this.append = function () {
 					var hash = $location.$$search;
@@ -56,12 +64,14 @@ angular.module('myApp.controllers', []).
 
 				this.removeFacet = function (facet) {
 					for (var i = $scope.activeFacets.length - 1; i >= 0; i--) {
-						if ($scope.activeFacets[i] == facet) {
+						if ($scope.activeFacets[i].name == facet.name) {
 							$scope.activeFacets.splice(i,1);
 						}
 					};
 					$scope.results = [];
-					var facets = $scope.activeFacets.join(',');
+					var facets = $scope.activeFacets.map(function(facet){
+    					return facet.name + ':"' + facet.value + '"';
+					}).join(",");
 					var hash = $location.$$search;
 					hash.fq = facets;
 					$location.search(hash);
