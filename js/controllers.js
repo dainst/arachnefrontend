@@ -50,6 +50,11 @@ angular.module('myApp.controllers', [])
 				this.executeSearch($location.$$search);
 
 				this.addFacet = function (facetName, facetValue) {
+					//Check if facet is already included
+					for (var i = $scope.activeFacets.length - 1; i >= 0; i--) {
+						if ($scope.activeFacets[i].name == facetName) return;
+					};
+
 					var hash = $location.$$search;
 
 					if (hash.fq) {
@@ -76,6 +81,14 @@ angular.module('myApp.controllers', [])
 					hash.fq = facets;
 					$location.search(hash);
 				}
+			}
+		]
+	)
+	.controller('EntityCtrl',
+		['$routeParams', '$scope', 'arachneEntity', 
+			function ( $routeParams, $scope, arachneEntity) {
+				console.log($routeParams.id);
+				$scope.entity = arachneEntity.get({id:$routeParams.id});
 			}
 		]
 	);

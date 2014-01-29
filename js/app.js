@@ -18,8 +18,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 	$locationProvider.html5Mode(true);
 
 	$routeProvider
-		.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'})
-		.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'})
+		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
 		.when('/search/:params?', {templateUrl: 'partials/search.html'});
 
 }]);
