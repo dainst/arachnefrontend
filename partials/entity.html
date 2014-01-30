@@ -1,4 +1,15 @@
-<div  ng-controller="EntityCtrl as entityCtrl">
-	<b>{{ entity.title }}</b>
-	<b>{{ search.q }}</b>
+<div class="row"  ng-controller="EntityCtrl as entityCtrl">
+	<div class="col-md-2" ng-show="currentSearch.results.entities">
+		Aktuelle Suche<br>
+		Suche nach <b>{{currentSearch.queryParams.q}}</b>
+	</div>
+	<div class="col-md-7">
+		{{ entity.title }}<br>
+		{{ entity }}
+		<br>
+		<a href="entity/5640">Baukomplex der Basilica Aemilia</a>
+	</div>
+	<div class="col-md-3">
+		<b>Medien</b>
+	</div>
 </div>

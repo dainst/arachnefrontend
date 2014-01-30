@@ -23,16 +23,7 @@ angular.module('myApp.controllers', [])
 				};
 
 
-				$scope.results = [];
-				$scope.facets = [];
 				$scope.activeFacets = $location.$$search.fq ? this.parseUrlFQ($location.$$search.fq) : [];
-
-				this.executeSearch = function (locationHash) {
-					$scope.search = arachneSearch.query(locationHash,function(data){
-						$scope.results.push.apply($scope.results, data.entities);
-						
-					});
-				};
 
 				this.append = function () {
 					var hash = $location.$$search;
@@ -42,12 +33,12 @@ angular.module('myApp.controllers', [])
 					} else {
 						hash.offset = 50;
 					}
-					this.executeSearch(hash)
+					$scope.search = arachneSearch.executeSearch(hash);
 					
 				};
 
 
-				this.executeSearch($location.$$search);
+				$scope.search = arachneSearch.executeSearch($location.$$search);
 
 				this.addFacet = function (facetName, facetValue) {
 					//Check if facet is already included
@@ -85,10 +76,11 @@ angular.module('myApp.controllers', [])
 		]
 	)
 	.controller('EntityCtrl',
-		['$routeParams', '$scope', 'arachneEntity', 
-			function ( $routeParams, $scope, arachneEntity) {
-				console.log($routeParams.id);
+		['$routeParams', 'arachneSearch', '$scope', 'arachneEntity', 
+			function ( $routeParams, arachneSearch, $scope, arachneEntity) {
+				$scope.currentSearch = arachneSearch.currentSearch;
 				$scope.entity = arachneEntity.get({id:$routeParams.id});
+				
 			}
 		]
 	);

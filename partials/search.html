@@ -26,7 +26,7 @@
 			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button> 	
 		</div>
 		<table class="table table-condensed table-hover">
-			<tr ng-repeat="entity in results" class="small">
+			<tr ng-repeat="entity in search.entities" class="small">
 				<td class="col-md-1">{{entity.entityId}}</td>
 				<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="searchCtrl.addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
 
