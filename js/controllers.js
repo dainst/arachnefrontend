@@ -22,7 +22,6 @@ angular.module('myApp.controllers', [])
 					return facets;
 				};
 
-
 				$scope.activeFacets = $location.$$search.fq ? this.parseUrlFQ($location.$$search.fq) : [];
 
 				this.append = function () {
@@ -76,9 +75,16 @@ angular.module('myApp.controllers', [])
 		]
 	)
 	.controller('EntityCtrl',
-		['$routeParams', 'arachneSearch', '$scope', 'arachneEntity', 
+		['$routeParams', 'arachneSearch', '$scope', 'arachneEntity',
 			function ( $routeParams, arachneSearch, $scope, arachneEntity) {
-				$scope.currentSearch = arachneSearch.currentSearch;
+				if(typeof $scope.currentSearch !== "undefined" && $scope.currentSearch !== null) {
+					$scope.currentSearch = arachneSearch.currentSearch;
+					console.log("JA");
+				} else {
+					$scope.currentSearch = JSON.parse(localStorage.getItem('currentSearch'));
+					console.log("NEIN");
+				}
+
 				$scope.entity = arachneEntity.get({id:$routeParams.id});
 				
 			}

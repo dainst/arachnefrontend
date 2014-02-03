@@ -23,3 +23,6 @@ body {
 .linethrough-hover:hover {
 	text-decoration: line-through;
 }
+.uppercase {
+	text-transform: uppercase;
+}

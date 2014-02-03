@@ -1,15 +1,43 @@
+<script type="text/ng-template" id="section_template.html">
+	<li ng-if="section.value">
+		{{section.value}}
+
+	</li>
+
+	<div ng-if="section.value instanceof Array">lol!!</div>
+
+	<ul ng-if="!section.value && section.label">
+		<b>{{section.label}}</b>
+		<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
+	</ul>
+</script>
+
 <div class="row"  ng-controller="EntityCtrl as entityCtrl">
-	<div class="col-md-2" ng-show="currentSearch.results.entities">
-		Aktuelle Suche<br>
+	<div class="col-md-2" ng-show="currentSearch">
+		<div class="page-header">
+			<h3>Suche</h3>
+		</div>
+		<b class="text-muted small uppercase">Aktuelle Suche</b><br>
 		Suche nach <b>{{currentSearch.queryParams.q}}</b>
 	</div>
 	<div class="col-md-7">
-		{{ entity.title }}<br>
-		{{ entity }}
-		<br>
-		<a href="entity/5640">Baukomplex der Basilica Aemilia</a>
+		<div class="page-header">
+			
+			<h3>
+				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }}</small>
+			</h3>
+
+		</div>
+		
+	
+		{{entity.sections.label}}
+		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>
+		
 	</div>
 	<div class="col-md-3">
-		<b>Medien</b>
+		<div class="page-header">
+			<h3>Medien</h3>
+		</div>
+
 	</div>
 </div>

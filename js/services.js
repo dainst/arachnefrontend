@@ -18,14 +18,17 @@ angular.module('myApp.services', [])
 		        }});
 
 		        service.currentSearch = {};
+
 		        service.executeSearch = function (pQueryParams) {
 		        	service.currentSearch.queryParams = pQueryParams;
 		            return arachneDataService.query(pQueryParams, function (data) {
 		            	service.currentSearch.results = data;
+		            	var localStorageReplication = {};
+		            	localStorageReplication.results = data;
+		            	localStorageReplication.queryParams = pQueryParams;
+		            	localStorage.setItem('currentSearch', JSON.stringify(localStorageReplication));
 		            });
 		        };
-
-
 
 				return service;
 			

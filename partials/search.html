@@ -8,9 +8,7 @@
 		<small>
 	
 			<ul class="list-unstyled facet" ng-repeat="(facetName,values) in search.facets">
-
 				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet" ng-class="{ 'active': openfacet }"><b class="text-muted">{{facetName | i18n }}</b></button>
-				
 				<li ng-click="searchCtrl.addFacet(facetName, facetValue)"  ng-repeat="(facetValue, count) in values" ng-show="openfacet">
 					<b class="pull-right text-muted">{{count}}</b>{{facetValue}}
 				</li>
