@@ -79,14 +79,16 @@ angular.module('myApp.controllers', [])
 			function ( $routeParams, arachneSearch, $scope, arachneEntity) {
 				if(typeof $scope.currentSearch !== "undefined" && $scope.currentSearch !== null) {
 					$scope.currentSearch = arachneSearch.currentSearch;
-					console.log("JA");
 				} else {
 					$scope.currentSearch = JSON.parse(localStorage.getItem('currentSearch'));
-					console.log("NEIN");
+				}
+				$scope.isArray = function(value) {
+					return angular.isArray(value);
 				}
 
 				$scope.entity = arachneEntity.get({id:$routeParams.id});
 				
+
 			}
 		]
 	);
