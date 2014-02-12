@@ -18,7 +18,7 @@ angular.module('myApp.directives', []).
 							if (counter==0) {
 								var scalingPercentage = 0, imagesWidth = 0;
 								for (var i = images.length - 1; i >= 0; i--) {
-									imagesWidth += images[i].width;
+									imagesWidth += images[i].width+4;
 								};
 								scalingPercentage = (document.getElementById("tiledImagesContainer").offsetWidth-30) / (imagesWidth / 100);
 								for (var i = images.length - 1; i >= 0; i--) {
