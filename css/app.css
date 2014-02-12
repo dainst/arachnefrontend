@@ -26,3 +26,6 @@ body {
 .uppercase {
 	text-transform: uppercase;
 }
+.imagesrow img {
+	padding: 2px;
+}

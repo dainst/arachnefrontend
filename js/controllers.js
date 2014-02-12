@@ -85,6 +85,11 @@ angular.module('myApp.controllers', [])
 				$scope.isArray = function(value) {
 					return angular.isArray(value);
 				}
+				$scope.typeOf = function(input) {
+					var result = typeof input;
+					console.log(input);
+					return result;
+				}
 
 				$scope.entity = arachneEntity.get({id:$routeParams.id});
 				

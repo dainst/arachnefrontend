@@ -18,23 +18,29 @@
 		</small>
 	</div>
 
-	<div class="col-md-10">
+	<div class="col-md-10" id="tiledImagesContainer">
 		<div style="margin-bottom:20px">
 			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button> 	
 		</div>
-		<table class="table table-condensed table-hover">
-			<tr ng-repeat="entity in search.entities" class="small">
-				<td class="col-md-1">{{entity.entityId}}</td>
-				<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="searchCtrl.addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
+			<div ng-repeat="entity in search.entities">
+				<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow">
+			
+					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index].thumbnailId}}?height=260">
 
-				<td class="col-md-8"><b><a href="entity/{{entity.entityId}}">{{entity.title}}</a></b></td>
-				<td class="col-md-2">{{entity.subtitle}}</td>
-			</tr>
-		</table>
+					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+1].thumbnailId}}?height=260">
+
+					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+2].thumbnailId}}?height=260">
+
+					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+4].thumbnailId}}?height=260">
+
+					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+4].thumbnailId}}?height=260">
+
+				</div>
+			</div>
 	</div>
 
 	<p align="center">
-		<button ng-click="searchCtrl.append()" ng-if="search.size > 50" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Weitere Ergebnisse laden</button>
+		<button ng-click="searchCtrl.append()" ng-if="search.size > 50" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> nächste Seite</button>
 	</p>
 
 </div>

@@ -2,9 +2,8 @@
 
 /* Filters */
 
-angular.module('myApp.filters', []).
-	filter('translate', function() {
-		
+angular.module('myApp.filters', [])
+	.filter('translate', function() {
 		return function(input) {
 			return "Translations[input]";
 		}

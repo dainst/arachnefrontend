@@ -19,6 +19,6 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 
 	$routeProvider
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
-		.when('/search/:params?', {templateUrl: 'partials/search.html'});
+		.when('/search/:params?', {templateUrl: 'partials/searchTiles.html'});
 
 }]);
