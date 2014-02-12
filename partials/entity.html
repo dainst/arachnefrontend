@@ -11,9 +11,11 @@
 
 
 
-	<ul ng-if="!section.value && section.label">
-		<b>{{section.label}}</b>
-		<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
+	<ul ng-if="!section.value">
+		
+			<b>{{section.label}}</b>
+			<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
+		
 	</ul>
 </script>
 
