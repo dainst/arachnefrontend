@@ -18,8 +18,10 @@ angular.module('myApp.directives', []).
 							if (counter==0) {
 								var scalingPercentage = 0, imagesWidth = 0;
 								for (var i = images.length - 1; i >= 0; i--) {
+									// 4 is padding of image
 									imagesWidth += images[i].width+4;
 								};
+								// 30 is padding of container
 								scalingPercentage = (document.getElementById("tiledImagesContainer").offsetWidth-30) / (imagesWidth / 100);
 								for (var i = images.length - 1; i >= 0; i--) {
 									images[i].width = (images[i].width/102)*scalingPercentage;
