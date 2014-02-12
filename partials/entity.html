@@ -26,6 +26,11 @@
 	<div class="col-md-2" style="padding-top:40px" ng-show="currentSearch">
 		<b class="text-muted small uppercase">Aktuelle Suche</b><br>
 		Suche nach <b>{{currentSearch.queryParams.q}}</b>
+
+		<div>
+			{{currentSearch.queryParams.fq}}	
+		</div>
+
 	</div>
 	<div class="col-md-7">
 		<div class="page-header">
