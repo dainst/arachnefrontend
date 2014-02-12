@@ -1,0 +1,40 @@
+<div ng-controller="SearchCtrl as searchCtrl">
+
+	<div class="col-md-2">
+		<div>
+			<small class="text-muted">Insgesamt <b>{{ search.size }}</b> Ergebnisse</small>
+		</div>
+		
+		<small>
+	
+			<ul class="list-unstyled facet" ng-repeat="(facetName,values) in search.facets">
+				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet" ng-class="{ 'active': openfacet }"><b class="text-muted">{{facetName | i18n }}</b></button>
+				<li ng-click="searchCtrl.addFacet(facetName, facetValue)"  ng-repeat="(facetValue, count) in values" ng-show="openfacet">
+					<b class="pull-right text-muted">{{count}}</b>{{facetValue}}
+				</li>
+
+			</ul>
+
+		</small>
+	</div>
+
+	<div class="col-md-10">
+		<div style="margin-bottom:20px">
+			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button> 	
+		</div>
+		<table class="table table-condensed table-hover">
+			<tr ng-repeat="entity in search.entities" class="small">
+				<td class="col-md-1">{{entity.entityId}}</td>
+				<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="searchCtrl.addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
+
+				<td class="col-md-8"><b><a href="entity/{{entity.entityId}}">{{entity.title}}</a></b></td>
+				<td class="col-md-2">{{entity.subtitle}}</td>
+			</tr>
+		</table>
+	</div>
+
+	<p align="center">
+		<button ng-click="searchCtrl.append()" ng-if="search.size > 50" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Weitere Ergebnisse laden</button>
+	</p>
+
+</div>
