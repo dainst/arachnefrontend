@@ -54,3 +54,4 @@ angular.module('myApp.services', [])
 			};
 		return factory;
 	});
+

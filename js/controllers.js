@@ -104,5 +104,4 @@ angular.module('myApp.controllers', [])
 		$scope.search = arachneSearch.executeSearch(hash);
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-
 	});
