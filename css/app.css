@@ -29,3 +29,26 @@ body {
 .imagesrow img {
 	padding: 2px;
 }
+.lander-category-thumbnails {
+  position: relative;
+  margin: 2px;
+  float: left;
+  width: 100%;
+  height: 80px;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  background-position: top;
+  background-size: cover; 
+}
+
+.lander-category-thumbnails span {
+    padding-left: 4px;
+    color: white;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.6); 
+}
