@@ -100,5 +100,4 @@ angular.module('myApp.controllers', [])
 	.controller('newsController', function ($scope, newsFactory, teaserFactory) {
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-
 	});
