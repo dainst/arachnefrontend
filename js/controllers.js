@@ -97,7 +97,12 @@ angular.module('myApp.controllers', [])
 			}
 		]
 	)
-	.controller('newsController', function ($scope, newsFactory, teaserFactory) {
+	.controller('newsController', function ($scope, newsFactory, teaserFactory, arachneSearch) {
+		$scope.items = ['search', 'youtube', 'news'];
+    	$scope.selection = $scope.items[0]
+		var hash = new Object();
+		hash.q = "*";
+		$scope.search = arachneSearch.executeSearch(hash);
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
 
