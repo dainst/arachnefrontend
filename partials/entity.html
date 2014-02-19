@@ -2,7 +2,7 @@
 	
 	<li ng-if="section.value">
 		<div ng-switch="isArray(section.value)">
-			<span ng-switch-when="false">{{section.value}}</span>
+			<span ng-switch-when="false">{{section.value }}</span>
 			<ul ng-switch-when="true">
 				<li ng-repeat="valueItem in section.value">{{ valueItem }}</li>
 			</ul>
@@ -12,11 +12,10 @@
 
 
 	<ul ng-if="!section.value">
-		
-			<b>{{section.label}}</b>
-			<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
-		
+		<b>{{section.label}}</b>
+		<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
 	</ul>
+
 </script>
 
 
