@@ -7,7 +7,6 @@ angular.module('myApp.controllers', [])
 		['$location', 'arachneSearch', '$scope', 
 			function ( $location, arachneSearch, $scope) {
 
-
 				this.parseUrlFQ = function (fqParam) {
 					var facets = [];
 					fqParam = fqParam.split(/\"\,/);
