@@ -40,4 +40,18 @@ angular.module('myApp.services', [])
 				);
 			}
 		]
-	);
+	)
+	.factory('newsFactory', function($http){
+		var factory = {};
+		factory.getNews = function() {
+				return $http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/news/de');
+			};
+		return factory;
+	})
+	.factory('teaserFactory', function($http){
+		var factory = {};
+		factory.getTeaser = function() {
+				return $http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/teasers/de');
+			};
+		return factory;
+	});

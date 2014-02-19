@@ -18,6 +18,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 	$locationProvider.html5Mode(true);
 
 	$routeProvider
+		.when('/', {templateUrl: 'partials/startSite.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
 		.when('/search/:params?', {templateUrl: 'partials/searchTiles.html'});
 
