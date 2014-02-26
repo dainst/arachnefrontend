@@ -91,7 +91,6 @@ angular.module('myApp.controllers', [])
 				}
 
 				$scope.entity = arachneEntity.get({id:$routeParams.id});
-				
 
 			}
 		]
@@ -104,4 +103,13 @@ angular.module('myApp.controllers', [])
 		$scope.search = arachneSearch.executeSearch(hash);
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-	});
+	})
+
+	.controller('SimpleMapController', ['$scope', function($scope) {
+		console.log('test');
+		angular.extend($scope, {
+			defaults: {
+				scrollWheelZoom: false
+			}
+		})
+	}]);

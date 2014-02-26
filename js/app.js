@@ -1,8 +1,8 @@
 'use strict';
 
 
+var myApp = angular.module('myApp', ['ui.bootstrap']);
 
-var myApp = angular.module("myApp", ['ui.bootstrap']);
 // Declare app level module which depends on filters, and services
 angular.module('myApp', [
 	'ngRoute',
@@ -11,7 +11,8 @@ angular.module('myApp', [
 	'myApp.filters',
 	'myApp.services',
 	'myApp.directives',
-	'myApp.controllers'
+	'myApp.controllers',
+	'leaflet-directive'
 	]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 	
@@ -20,6 +21,8 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 	$routeProvider
 		.when('/', {templateUrl: 'partials/startSite.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
-		.when('/search/:params?', {templateUrl: 'partials/search.html'});
+		.when('/search/:params?', {templateUrl: 'partials/search.html'})
+		.when('/map', {templateUrl: 'partials/map.html'});
+
 
 }]);

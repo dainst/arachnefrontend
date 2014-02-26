@@ -5,7 +5,7 @@
 	<div class="btn-group">
   		<button type="button" class="btn btn-default" ng-click="selection='search'">{{ "msg_search" | i18n }}</button>
   		<button type="button" class="btn btn-default" ng-click="selection='news'">News</button>
-  		<button type="button" class="btn btn-default" ng-click="selection='mapg'">Map</button>
+  		<button type="button" class="btn btn-default" ng-click="selection='map'">Map</button>
   		<button type="button" class="btn btn-default" ng-click="selection='youtube'">Youtube</button>
 	</div>
 </div>
@@ -94,9 +94,16 @@
 		</div>
 	</div>
 </div>
+<div ng-switch-when="map">
+	<div class="row">
+		<div ng-controller="SimpleMapController">
+			<leaflet defaults="defaults" height="480px"></leaflet>
+		</div>
+	</div>
 </div>
-
+</div>
 	<!--<div class="row">
+		<leaflet></leaflet>
     	<div ng-repeat="teaser in teaserList">
        	 	<a href="{{ teaser.links.1.href }}"><img style="height:70px; width:70px" src="{{ teaser.images.0 }}"></img></a>
     	</div>
