@@ -21,8 +21,6 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 	$routeProvider
 		.when('/', {templateUrl: 'partials/startSite.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
-		.when('/search/:params?', {templateUrl: 'partials/search.html'})
-		.when('/map', {templateUrl: 'partials/map.html'});
-
+		.when('/search/:params?', {templateUrl: 'partials/search.html'});
 
 }]);
