@@ -98,18 +98,29 @@ angular.module('myApp.controllers', [])
 	.controller('newsController', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 		$scope.items = ['search', 'youtube', 'news'];
     	$scope.selection = $scope.items[0]
+
 		var hash = new Object();
 		hash.q = "*";
+		hash.fl= "1500";
 		$scope.search = arachneSearch.executeSearch(hash);
+
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
 	})
 
-	.controller('SimpleMapController', ['$scope', function($scope) {
-		console.log('test');
+	.controller('SimpleMapController', ['$scope', function($scope, arachneSearch) {
+		
+		var hash = new Object();
+		hash.q = "*";
+		hash.fl= "1500";
+		$scope.search = arachneSearch.executeSearch(hash);
+		
 		angular.extend($scope, {
 			defaults: {
-				scrollWheelZoom: false
+				tileLayer: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+				minZoom: 0,
+        		maxZoom: 18,
+				scrollWheelZoom: true
 			}
 		})
 	}]);

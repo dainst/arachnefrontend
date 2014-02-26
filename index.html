@@ -5,7 +5,8 @@
 	<title>Arachne 4 CBensch</title>
 	<link rel="shortcut icon" href="img/arachnelogo.png">
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-	<base href="/~cbensch/frontend/">
+	<base href="/~obensch/frontend/">
+	<link rel="stylesheet" href="css/leaflet.css">
 	<link rel="stylesheet" href="css/app.css"/>
 	<script type="text/javascript">
 	var translations = {}
@@ -18,6 +19,7 @@
 	<script type="text/javascript" src="http://crazyhorse.archaeologie.uni-koeln.de/transl8/translation/jsonp?lang=de&application=arachne4_frontend&callback=recieveTranslations"></script>
 </head>
 <body ng-app="myApp">
+	
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="opacity:0.96">
 		<div class="col-md-2" style="padding-left:0px">
 			<img style="height: 36px; margin-left: 30px; margin-top: 8px;  opacity: 0.43;    width: 36px;" src="img/arachnelogo.png" class="pull-left"><a class="navbar-brand" href="#">arachne</a>
@@ -30,30 +32,31 @@
 				<button type="submit" class="btn btn-default" style="display:none;">Submit</button>
 			</form>
 		</div>
-	</nav>
+	</nav> 
+
 	<div class="col-md-12">
-		
 		<div ng-view></div>
 
 	</div>
 
 
-
-
+	<script src="lib/leaflet.js"></script>
 
 	<script src="lib/angular/angular.js"></script>
 	<script src="lib/angular/angular-route.js"></script>
 	<script src="lib/angular/angular-resource.js"></script>
 
-
-
 	<script src="lib/angular/angular-sanitize.min.js"></script>
 	<script src="lib/ui-bootstrap-tpls-0.7.0.min.js"></script>
+
+	<script src="lib/angular-leaflet-directive.min.js"></script>
+
 	<script src="js/app.js"></script>
 	<script src="js/services.js"></script>
 	<script src="js/controllers.js"></script>
 	<script src="js/filters.js"></script>
 	<script src="js/directives.js"></script>
+
 
 </body>
 </html>
