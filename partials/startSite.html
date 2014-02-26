@@ -1,165 +1,118 @@
 <div ng-controller="newsController as newsController">
 
-<div class="row">
-	<div class="col-md-4 col-md-offset-4">
-	<div class="btn-group">
-  		<button type="button" class="btn btn-default" ng-click="selection='search'">{{ "msg_search" | i18n }}</button>
-  		<button type="button" class="btn btn-default" ng-click="selection='news'">News</button>
-  		<button type="button" class="btn btn-default" ng-click="selection='map'">Map</button>
-  		<button type="button" class="btn btn-default" ng-click="selection='youtube'">Youtube</button>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="btn-group btn-group-justified">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default" ng-click="selection='search'">{{ "msg_search" | i18n }}</button>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn btn-default" ng-click="selection='news'">News</button>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn btn-default" ng-click="selection='map'">Map</button>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn btn-default" ng-click="selection='youtube'">Youtube</button>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
-</div>
 
-<div ng-switch on="selection">
-<div ng-switch-when="search">
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
-			Arachne<i>4</i> zurzeit {{ search.size }} Einträge</br>
-			<form class="input-group" role="search" method="GET" action="search/">
-				<div class="form-group">
-					<input type="text" ng-model="q" name="q" class="form-control" placeholder="Suche">
+	<div ng-switch on="selection" >
+		<div ng-switch-when="search">
+			<div class="row"style="padding-top:60px">
+				<div class="col-md-4 col-md-offset-4">
+					<h4><img style="height: 36px; width: 36px; opacity: 0.47" src="img/arachnelogo.png">Arachne<i>4</i><small> zurzeit {{ search.size }} Einträge</small></h4>
+					<form class="input-group" role="search" method="GET" action="search/">
+						<div class="form-group">
+							<input type="text" ng-model="q" name="q" class="form-control" placeholder="Suche">
+						</div>
+						<span class="input-group-btn">
+							<button type="submit" class="btn btn-default" type="button">Go!</button>
+						</span>
+					</form>
 				</div>
-				<span class="input-group-btn">
-        			<button type="submit" class="btn btn-default" type="button">Go!</button>
-      			</span>
-			</form>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4">
-			<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"bauwerk"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/424501');">
-						<span>Bauwerke</span>
-			</a>
-		</div>
-		<div class="col-md-4">
-			<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"bauwerksteil"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/1933196');">
-						<span>Bauwerksteile</span>
-					</a>					
-		</div>
-		<div class="col-md-4">
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"objekt"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/158019');">
-						<span>Objekte</span>
-					</a>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4">
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"relief"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/1922705');">
-						<span>Szenen</span>
-					</a>
-		</div>
-		<div class="col-md-4">
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"marbilder"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/46777');">
-						<span>Marbilder</span>
-					</a>
-		</div>
-		<div class="col-md-4">
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"buch"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/230879');">
-						<span>Bücher</span>
-					</a>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-4">
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"sammlungen"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/433041');">
-						<span>Sammlungen</span>
-					</a>
-		</div>
-		<div class="col-md-4">
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"topographie"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/3099823');">
-						<span>Topographien</span>
-					</a>
-		</div>
-		<div class="col-md-4">
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"rezeption"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/251347');">
-						<span>Rezeptionen</span>
-					</a>	
-		</div>
-	</div>
-</div>
-<div ng-switch-when="youtube">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <iframe  height="320px;" width="600px;" src="http://www.youtube.com/embed/nMlqSCJGSCY?rel=0&amp;hd=1" frameborder="0" allowfullscreen></iframe>
-        </div>
-    </div>
-</div>
-<div ng-switch-when="news">
-	<div class="col-md-8 col-md-offset-2">
-	<h2>Aktuelles</h2>
-		<div  ng-repeat="news in newsList">
-			<h4>{{ news.title }}</h4>
-			<div ng-bind-html="news.body"></div>
-		</div>
-	</div>
-</div>
-<div ng-switch-when="map">
-	<div class="row">
-		<div ng-controller="SimpleMapController">
-			Arachne<i>4</i> zurzeit {{ search.size }} Einträge</br>
-			<leaflet defaults="defaults" height="480px"></leaflet>
-		</div>
-	</div>
-</div>
-</div>
-	<!--<div class="row">
-		<leaflet></leaflet>
-    	<div ng-repeat="teaser in teaserList">
-       	 	<a href="{{ teaser.links.1.href }}"><img style="height:70px; width:70px" src="{{ teaser.images.0 }}"></img></a>
-    	</div>
-    </div>
-	
-	<div class="row">
-		<div class="col-md-6">
-		<h2>Aktuelles</h2>
-			<div  ng-repeat="news in newsList">
-				<h4>{{ news.title }}</h4>
-				<div ng-bind-html="news.body"></div>
+			</div>
+			<div class="row" style="padding-top:20px">
+				<div class=" col-md-6 col-md-offset-3">
+					<div class="row">
+						<div class="col-md-4">
+							<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"bauwerk"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/424501');">
+								<span>Bauwerke</span>
+							</a>
+						</div>
+						<div class="col-md-4">
+							<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"bauwerksteil"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/1933196');">
+								<span>Bauwerksteile</span>
+							</a>					
+						</div>
+						<div class="col-md-4">
+							<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"objekt"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/158019');">
+								<span>Objekte</span>
+							</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"relief"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/1922705');">
+								<span>Szenen</span>
+							</a>
+						</div>
+						<div class="col-md-4">
+							<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"marbilder"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/46777');">
+								<span>Marbilder</span>
+							</a>
+						</div>
+						<div class="col-md-4">
+							<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"buch"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/230879');">
+								<span>Bücher</span>
+							</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"sammlungen"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/433041');">
+								<span>Sammlungen</span>
+							</a>
+						</div>
+						<div class="col-md-4">
+							<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"topographie"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/3099823');">
+								<span>Topographien</span>
+							</a>
+						</div>
+						<div class="col-md-4">
+							<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"rezeption"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/251347');">
+								<span>Rezeptionen</span>
+							</a>	
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="cold-md6">			
-			<p class="lead">
-				<p class="lead">
-					Arachne ist die zentrale Objektdatenbank des Deutschen Archäologischen Instituts (DAI) und des Archäologischen Instituts der Universität zu Köln, administriert von Reinhard Foertsch.
-				</p>
-				<div class="row-fluid" style="margin: 20px 0px;">
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"bauwerk"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/424501');">
-						<span>Bauwerke</span>
-					</a>
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"bauwerksteil"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/1933196');">
-						<span>Bauwerksteile</span>
-					</a>
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"objekt"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/158019');">
-						<span>Objekte</span>
-					</a>
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"relief"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/1922705');">
-						<span>Szenen</span>
-					</a>
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"marbilder"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/46777');">
-						<span>Marbilder</span>
-					</a>
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"buch"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/230879');">
-						<span>Bücher</span>
-					</a>
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"sammlungen"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/433041');">
-						<span>Sammlungen</span>
-					</a>
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"topographie"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/3099823');">
-						<span>Topographien</span>
-					</a>
-					<a href='#simpleBrowsing?q=*&limit=20&offset=0&fl=100&fq=facet_kategorie:"rezeption"' class="lander-category-thumbnails" style="background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/251347');">
-						<span>Rezeptionen</span>
-					</a>	
+		<div ng-switch-when="youtube">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<iframe  height="320px;" width="600px;" src="http://www.youtube.com/embed/nMlqSCJGSCY?rel=0&amp;hd=1" frameborder="0" allowfullscreen></iframe>
 				</div>
-				<p>
-					Arachne soll als kostenloses Werkzeug der Internetrecherche für die Archäologie(n) und die Klassische Altertumswissenschaft Objekte und Zustände erschließen helfen und aus Hunderttausenden von Datensätzen schnell auffindbar machen. Dies gilt einerseits für den Bereich der seit langem bestehenden analogen Dokumentationsbestände, die teilweise zerfallsbedroht und weitestgehend unerschlossen sind: hier wird aktive digitale Erschließung betrieben.
-					<br>Es ist aber andererseits auch für den Bereich der zunehmend überbordenden Neuproduktion digitaler Objekt- und Bilddaten der Fall: hier wird eine niedrigstschwellig vorgehende Strukturierung verwendet, die sich auf der Ebene maschinenlesbarer Metadaten Strategien des Semantic Web bedient. Alle digitalisierten, bildlichen und textuellen Objektinformationen werden auf einem mehrfach redundanten Tivoli Storage System langzeitgesichert und im Kölner Storage Area Network via AFS weltweit online gehalten. 
-				</p>
-			</p>
-			<h2>Screencast</h2>
-			<div style="width:100%; height:100%; min-height:320px">
-				<iframe  height="320px;" src="http://www.youtube.com/embed/nMlqSCJGSCY?rel=0&amp;hd=1" frameborder="0" allowfullscreen></iframe>
 			</div>
-	</div>-->
+		</div>
+		<div ng-switch-when="news">
+			<div class="col-md-8 col-md-offset-2">
+				<h2>Aktuelles</h2>
+				<div  ng-repeat="news in newsList">
+					<h4>{{ news.title }}</h4>
+					<div ng-bind-html="news.body"></div>
+				</div>
+			</div>
+		</div>
+		<div ng-switch-when="map">
+			<div class="row">
+				<div ng-controller="SimpleMapController">
+					Arachne<i>4</i> zurzeit {{ search.size }} Einträge</br>
+					<leaflet defaults="defaults" height="480px"></leaflet>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
