@@ -32,6 +32,22 @@
 			{{currentSearch.queryParams.fq}}	
 		</div>
 
+		<div class="row" ng-repeat="entityCurrent in currentSearch.results.entities" ng-if="entity.entityId == entityCurrent.entityId">
+			<div ng-if="$index-1 >= 0">
+				<a href="entity/{{ currentSearch.results.entities[$index-1].entityId }}" >
+					<button type="button" class="btn btn-default btn-lg"> 
+						<span class="glyphicon glyphicon-arrow-left" ></span>
+					</button>
+				</a>
+			</div>
+			<div ng-if="!$last">
+				<a href="entity/{{ currentSearch.results.entities[$index+1].entityId }}" >
+				<button type="button" class="btn btn-default btn-lg"> 
+					<span class="glyphicon glyphicon-arrow-right" ></span>
+				</button>
+				</a>
+			</div>
+		</div>
 	</div>
 	<div class="col-md-7">
 		<div class="page-header">
