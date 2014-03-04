@@ -2,7 +2,7 @@
 
 /* Services */
 
-angular.module('myApp.services', [])
+angular.module('arachne.services', [])
 	.factory('arachneSearch', 
 		['$resource','$log',
 			function($resource) {

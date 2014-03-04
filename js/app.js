@@ -1,18 +1,16 @@
 'use strict';
 
 
-var myApp = angular.module('myApp', ['ui.bootstrap']);
-
-// Declare app level module which depends on filters, and services
-angular.module('myApp', [
+angular.module('arachne',
+	['ui.bootstrap',
 	'ngRoute',
 	'ngSanitize',
 	'ngResource',
-	'myApp.filters',
-	'myApp.services',
-	'myApp.directives',
-	'myApp.controllers',
-	'leaflet-directive'
+	'arachne.filters',
+	'arachne.services',
+	'arachne.directives',
+	'arachne.controllers',
+	'leaflet-directive',
 	]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 	

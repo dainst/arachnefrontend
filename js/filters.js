@@ -2,7 +2,7 @@
 
 /* Filters */
 
-angular.module('myApp.filters', [])
+angular.module('arachne.filters', [])
 
 	.filter('i18n', ['$window', function( $window) {
 	    return function (input) {
