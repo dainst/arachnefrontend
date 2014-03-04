@@ -12,7 +12,7 @@
 
 	<link rel="stylesheet" href="css/leaflet.css">
 
-	
+
 	<script type="text/javascript">
 	var translations = {}
 	var recieveTranslations = function (data) {
@@ -54,13 +54,18 @@
 	        </button>
 	    </div>
 	    <div class="col-md-10 collapse navbar-collapse"  collapse="isCollapsed" style="padding-left:10px">
+	    	<ul class="nav navbar-nav navbar-right">
+	        	<button type="button" class="btn btn-default navbar-btn" ng-click="open()">Anmelden</button>
+
+	    	</ul>
+
 	        <form class="navbar-form navbar-left ng-pristine ng-valid" action="search/" method="GET" role="search">
 	            <div class="form-group">
 	                <input class="form-control ng-pristine ng-valid" type="text" placeholder="Suche" name="q" ng-model="q"></input>
 	            </div>
 	            <button class="btn btn-default" style="display:none;" type="submit">Submit</button>
 	        </form>
-	        <button class="btn" ng-click="open()">login</button>
+
 	    </div>
 	</nav>
 
