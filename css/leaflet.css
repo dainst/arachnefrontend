@@ -1,4 +1,6 @@
 /* required styles */
+#map { height: 180px; }
+
 .leaflet-map-pane,
 .leaflet-tile,
 .leaflet-marker-icon,
