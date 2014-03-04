@@ -18,10 +18,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	]
 	)
 .controller('LoginCtrl',
-	['$scope', '$modalInstance',
-	function($scope, $modalInstance){
+	['$scope', '$modalInstance', 'sessionService', 'md5Filter',
+	function($scope, $modalInstance, sessionService, md5Filter){
+		$scope.loginData = {};
+		$scope.user = sessionService.user;
 		$scope.login = function () {
-			$modalInstance.close();
+			sessionService.login({user: $scope.loginData.user, password: md5Filter($scope.loginData.password)});
+
 		};
 
 		$scope.cancel = function () {
