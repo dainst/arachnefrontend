@@ -2,7 +2,33 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', [])
+angular.module('arachne.controllers', ['ui.bootstrap'])
+	.controller('MenuCtrl',
+		[ '$scope', '$modal', '$log',
+			function ($scope,  $modal, $log){
+				$scope.isCollapsed = true;
+				$scope.items = ['item1', 'item2', 'item3'];
+
+				  $scope.open = function () {
+
+				    var modalInstance = $modal.open({
+				      templateUrl: 'myModalContent.html',
+				      resolve: {
+				        items: function () {
+				          return $scope.items;
+				        }
+				      }
+				    });
+
+				    modalInstance.result.then(function (selectedItem) {
+				      $scope.selected = selectedItem;
+				    }, function () {
+				      $log.info('Modal dismissed at: ' + new Date());
+				    });
+				  };
+			}
+		]
+	)
 	.controller('SearchCtrl',
 		['$location', 'arachneSearch', '$scope', 
 			function ( $location, arachneSearch, $scope) {

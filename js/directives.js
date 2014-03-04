@@ -3,7 +3,7 @@
 /* Directives */
 
 
-angular.module('myApp.directives', []).
+angular.module('arachne.directives', []).
 	directive('imagesrow', function() {
 		return {
 			restrict: 'A',
