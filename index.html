@@ -2,11 +2,16 @@
 <html lang="en" ng-app="arachne">
 <head>
 	<meta charset="utf-8">
-	<title>Arachne 4 CBensch</title>
+	<title>Arachne 4</title>
 	<link rel="shortcut icon" href="img/arachnelogo.png">
-	<base href="/~fabian/frontend/">
 
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+	
+	<base href="/~fabian/frontend/">
+	
+	<link rel="stylesheet" href="css/MarkerCluster.css">
+	<link rel="stylesheet" href="css/MarkerCluster.Default.css">
+	<link rel="stylesheet" href="css/leaflet.css">
 
 	<link rel="stylesheet" href="css/app.css"/>
 
@@ -41,6 +46,7 @@
 <body>
 	
 	<nav class="navbar navbar-default navbar-fixed-top" style="opacity:0.96" role="navigation" ng-controller="MenuCtrl">
+
 	    <div class="col-md-2" style="padding-left:0px">
 	        <img class="pull-left" src="img/arachnelogo.png" style="height: 36px; margin-left: 30px; margin-top: 8px; opacity: 0.43; width: 36px;"></img>
 	        <a class="navbar-brand" href="#">arachne</a>
@@ -53,7 +59,7 @@
 	            <span class="icon-bar"></span>
 	        </button>
 	    </div>
-	    <div class="collapse navbar-collapse"  collapse="isCollapsed" style="padding-left:10px">
+	    <div class="col-md-10 collapse navbar-collapse"  collapse="isCollapsed" style="padding-left:10px">
 
 	        <form class="navbar-form navbar-left ng-pristine ng-valid" action="search/" method="GET" role="search">
 	            <div class="form-group">
@@ -62,7 +68,7 @@
 	            <button class="btn btn-default" style="display:none;" type="submit">Submit</button>
 	        </form>
 
-	        <ul class=" navbar-nav navbar-right">
+	        <ul class="navbar-nav">
 	        	<button type="button" class="btn btn-default navbar-btn" ng-click="open()">Anmelden</button>
 
 	    	</ul>
@@ -80,6 +86,7 @@
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
     
 	<script src="lib/leaflet.js"></script>
+	<script src="lib/leaflet.markercluster.js"></script>
 
 	<script src="lib/angular/angular-route.js"></script>
 	<script src="lib/angular/angular-resource.js"></script>

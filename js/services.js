@@ -8,7 +8,8 @@ angular.module('arachne.services', [])
 			function($resource) {
 
 
-				var service = {};
+				var service = {};				
+		        //var markers = new L.MarkerClusterGroup();
 
 		        var arachneDataService = $resource('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/search', {}, {query: {
 		            isArray: false,
@@ -32,8 +33,10 @@ angular.module('arachne.services', [])
 		        	service.currentSearch.queryParams = pQueryParams;
 		            return arachneDataService.query(pQueryParams, function (data) {
 		            	service.currentSearch.results = data;		       			
+		            	//service.markers = new L.MarkerClusterGroup();
 		            	service.currentSearch.results.markers = new Array();
-		            	
+	
+
 		            	for(var entry in data.facets.facet_geo)
 		            	{
 		            		var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1)
@@ -43,12 +46,12 @@ angular.module('arachne.services', [])
 							// title = title.replace('#simpleBrowsing', '#search')
 
 							var marker = new Object();
+							marker.layer = "locs";
 							marker.lat = parseFloat(coords[0]);
                 			marker.lng = parseFloat(coords[1]);
-                			marker.message = title;
-
+                			marker.message = title;                			
 							service.currentSearch.results.markers.push(marker)
-		            	}
+		            	}    
 		    		
             		});
 		        };

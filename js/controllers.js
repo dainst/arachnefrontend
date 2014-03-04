@@ -123,13 +123,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	)
 	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 		$scope.items = ['search', 'youtube', 'news'];
-    	$scope.selection = $scope.items[0]
+    	$scope.selection = $scope.items[0]		
 
 		var hash = new Object();
 		hash.q = "*";
-		hash.fl= "1500";
+		hash.fl= "500";
 		$scope.search = arachneSearch.getMarkers(hash);
-
+		
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
 
@@ -139,6 +139,22 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				minZoom: 0,
         		maxZoom: 18,
 				scrollWheelZoom: true
-			}
+			},
+       		layers: {
+            	baselayers: {
+                	xyz: {
+                    	name: 'OpenStreetMap (XYZ)',
+                    	url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+                    	type: 'xyz'
+                	}
+            	},
+            	overlays: {
+                	locs: {                           
+                        name: "Markers",
+                        type: "markercluster",
+                        visible: true
+                    }
+            	}
+        	}
 		})
 	}])
