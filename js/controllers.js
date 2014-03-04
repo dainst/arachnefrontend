@@ -95,51 +95,24 @@ angular.module('myApp.controllers', [])
 			}
 		]
 	)
-	.controller('newsController', function ($scope, newsFactory, teaserFactory, arachneSearch) {
+	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 		$scope.items = ['search', 'youtube', 'news'];
     	$scope.selection = $scope.items[0]
 
 		var hash = new Object();
 		hash.q = "*";
 		hash.fl= "1500";
-		$scope.search = arachneSearch.executeSearch(hash);
+		$scope.search = arachneSearch.getMarkers(hash);
 
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-	})
 
-	.controller('SimpleMapController', ['$scope', function($scope, arachneSearch) {
-		
-		/*var hash = new Object();
-		hash.q = "*";
-		hash.fl= "1500";
-		var search = arachneSearch.executeSearch(hash);
-		console.log(search.size);*/
 		angular.extend($scope, {
 			defaults: {
 				tileLayer: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
 				minZoom: 0,
         		maxZoom: 18,
 				scrollWheelZoom: true
-			}, 
-			markers: {				
-				/*for facet in search.facets.models
-					if facet.id == 'facet_geo'
-						for value in facet.attributes.values
-							if not hasGeo
-								hasGeo = true
-							coordsString = value.name.substring(value.name.indexOf("[", 1)+1, value.name.length - 1)
-							coords = coordsString.split ','
-							title = value.name.substring(0, value.name.indexOf("[", 1)-1) + " (Datensätze für diesen Ort: " + value.count + ")<br /><a href='"
-							title += value.link + "'>Objekte zu diesem Ort anzeigen</a>"
-							title = title.replace('#simpleBrowsing', '#search')
-							newMarker: {
-								lat: coords[0],
-               					lng: coords[1],
-                				message: title,
-                				focus: false,
-                				draggable: false
-							}*/
 			}
 		})
-	}]);
+	}])

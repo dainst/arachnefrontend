@@ -28,6 +28,30 @@ angular.module('myApp.services', [])
 		            	localStorage.setItem('currentSearch', JSON.stringify(localStorageReplication));
 		            });
 		        };
+ 				service.getMarkers = function(pQueryParams){
+		        	service.currentSearch.queryParams = pQueryParams;
+		            return arachneDataService.query(pQueryParams, function (data) {
+		            	service.currentSearch.results = data;		       			
+		            	service.currentSearch.results.markers = new Array();
+		            	
+		            	for(var entry in data.facets.facet_geo)
+		            	{
+		            		var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1)
+							var coords = coordsString.split(',');
+							var title = entry.substring(0, entry.indexOf("[", 1)-1);
+							// title += value.link + "'>Objekte zu diesem Ort anzeigen</a>"
+							// title = title.replace('#simpleBrowsing', '#search')
+
+							var marker = new Object();
+							marker.lat = parseFloat(coords[0]);
+                			marker.lng = parseFloat(coords[1]);
+                			marker.message = title;
+
+							service.currentSearch.results.markers.push(marker)
+		            	}
+		    		
+            		});
+		        };
 
 				return service;
 			

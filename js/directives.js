@@ -10,6 +10,8 @@ angular.module('myApp.directives', []).
 			link: function (scope, elem, attrs) {
 				var counter = 5;
 				var images = (angular.element(elem).find('img'));
+				
+
 				for (var i = images.length - 1; i >= 0; i--) {
 					images[i].addEventListener(
 						"load",
@@ -25,7 +27,7 @@ angular.module('myApp.directives', []).
 								scalingPercentage = (document.getElementById("tiledImagesContainer").offsetWidth-30) / (imagesWidth / 100);
 								for (var i = images.length - 1; i >= 0; i--) {
 									images[i].width = (images[i].width/102)*scalingPercentage;
-									images[i].removeEventListener("load", listener, false);
+									//images[i].removeEventListener("load", listener, false);
 								};
 							};
 
