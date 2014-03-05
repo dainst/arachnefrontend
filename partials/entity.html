@@ -49,7 +49,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-7">
+	<div class="col-md-6">
 		<div class="page-header">
 			
 			<h3>
@@ -60,11 +60,13 @@
 		
 	
 		{{entity.sections.label}}
-		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>
+		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>		
 		
 	</div>
-	<div class="col-md-3">
-	
-
+	<div class="col-md-4">
+		<div class="Bilder-Container">
+			Image preview: (todo: add link)
+			<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{ entity.thumbnailId }}?height=300" err-src="http://google.com/favicon.ico"></img>
+		</div>
 	</div>
 </div>

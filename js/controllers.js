@@ -124,10 +124,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
 
 	}])
-	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
-		$scope.items = ['search', 'youtube', 'news'];
-    	$scope.selection = $scope.items[0]		
 
+	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
+	
+		$scope.selection = 'search';
 		var hash = new Object();
 		hash.q = "*";
 		hash.fl= "1500";
@@ -135,11 +135,4 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-
-		angular.extend($scope, {
-			defaults: {
-				tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-				scrollWheelZoom: true
-			}
-		})
 	}]);
