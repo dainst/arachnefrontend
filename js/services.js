@@ -64,12 +64,16 @@ angular.module('arachne.services', [])
 			}
 		]
 	)
-	.factory('sessionService', function($http){
+	.factory('sessionService', function($http, $cookieStore){
 		
-		var currentUser = {};
-
-		function changeUser (newUser) {
-	       	angular.extend(currentUser, newUser);
+		var currentUser = $cookieStore.get('user') || {};
+		function changeUser (userFromServer) {
+	       	angular.extend(currentUser, {
+	       		username : userFromServer.userAdministration.username,
+	       		lastname : userFromServer.userAdministration.lastname,
+	       		firstname: userFromServer.userAdministration.firstname
+	       	});
+	       	$cookieStore.put('user',currentUser);
 	    };
 
 		return {
