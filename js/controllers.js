@@ -4,9 +4,9 @@
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('MenuCtrl',
-	[ '$scope', '$modal', '$log',
-	function ($scope,  $modal, $log){
-		$scope.isCollapsed = true;
+	[ '$scope', '$modal', '$log', 'sessionService',
+	function ($scope,  $modal, $log, sessionService){
+		$scope.user = sessionService.user;
 
 		$scope.openLoginModal = function () {
 			var modalInstance = $modal.open({
@@ -23,7 +23,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.loginData = {};
 		$scope.user = sessionService.user;
 		$scope.login = function () {
-			sessionService.login({user: $scope.loginData.user, password: md5Filter($scope.loginData.password)});
+			sessionService.login(
+				{user: $scope.loginData.user, password: md5Filter($scope.loginData.password)}
+				,
+	            function(res) {
+	                console.log("eingeloggt");
+	            },
+	            function(err) {
+	                console.log("nicht eingeloggt");
+	            });
 
 		};
 

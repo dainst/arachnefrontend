@@ -68,38 +68,37 @@ angular.module('arachne.services', [])
 		]
 	)
 	.factory('sessionService', function($http){
-		var service = {};
-		service.user = {};
-		service.user.username ="hans";
-
-
-
-
-
-		service.login  = function(loginData) {
-			service.user = $http({
-				url : 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/sessions',
-	            isArray: false,
-	            method: 'POST',
-	            data : loginData,
-	            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-	            transformRequest: function(obj) {
-			        var str = [];
-			        for(var p in obj)
-			        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-			        return str.join("&");
-			    },
-
-	        }).success(function (a,b,c) {
-			    	return a;
-			    	
-
-			});
-
-		};
-
 		
-		return service;
+		var currentUser = {};
+
+		function changeUser (newUser) {
+	       	angular.extend(currentUser, newUser);
+	    };
+
+		return {
+			user : currentUser,
+
+			
+			login : function(loginData, success, error) {
+				$http({
+					url : 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/sessions',
+		            isArray: false,
+		            method: 'POST',
+		            data : loginData,
+		            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+		            transformRequest: function(obj) {
+				        var str = [];
+				        for(var p in obj)
+				        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+				        return str.join("&");
+				    },
+
+		        }).success(function (user) {
+				    	changeUser(user);
+				    	success(user);
+				}).error(error);
+			}
+		}
 	})
 	.factory('newsFactory', function($http){
 		var factory = {};
