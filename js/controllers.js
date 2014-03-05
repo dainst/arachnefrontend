@@ -123,46 +123,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
 
-	}
-	]
-	)
-.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
-	$scope.items = ['search', 'youtube', 'news'];
-	$scope.selection = $scope.items[0]		
-
-	var hash = new Object();
-	hash.q = "*";
-	hash.fl= "500";
-	$scope.search = arachneSearch.getMarkers(hash);
-
-	newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
-	teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-
-	angular.extend($scope, {
-		defaults: {
-			tileLayer: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-			minZoom: 0,
-			maxZoom: 18,
-			scrollWheelZoom: true
-		},
-		layers: {
-			baselayers: {
-				xyz: {
-					name: 'OpenStreetMap (XYZ)',
-					url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-					type: 'xyz'
-				}
-			},
-			overlays: {
-				locs: {                           
-					name: "Markers",
-					type: "markercluster",
-					visible: true
-				}
-			}
-<<<<<<< HEAD
-		]
-	)
+	}])
 	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 		$scope.items = ['search', 'youtube', 'news'];
     	$scope.selection = $scope.items[0]		
@@ -181,9 +142,4 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				scrollWheelZoom: true
 			}
 		})
-	}])
-=======
-		}
-	})
-}])
->>>>>>> a6c14530a12a8b3c4db17ac3d4152acbb943fb44
+	}]);
