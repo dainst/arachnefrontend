@@ -3,68 +3,73 @@
 /* Controllers */
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
-	.controller('MenuCtrl',
-		[ '$scope', '$modal', '$log',
-			function ($scope,  $modal, $log){
-				$scope.isCollapsed = true;
-				$scope.items = ['item1', 'item2', 'item3'];
+.controller('MenuCtrl',
+	[ '$scope', '$modal', '$log',
+	function ($scope,  $modal, $log){
+		$scope.isCollapsed = true;
 
-				  $scope.open = function () {
-
-				    var modalInstance = $modal.open({
-				      templateUrl: 'myModalContent.html',
-				      resolve: {
-				        items: function () {
-				          return $scope.items;
-				        }
-				      }
-				    });
-
-				    modalInstance.result.then(function (selectedItem) {
-				      $scope.selected = selectedItem;
-				    }, function () {
-				      $log.info('Modal dismissed at: ' + new Date());
-				    });
-				  };
-			}
-		]
+		$scope.openLoginModal = function () {
+			var modalInstance = $modal.open({
+				templateUrl: 'loginForm.html',
+				controller: 'LoginCtrl'	
+			});				    
+		};
+	}
+	]
 	)
-	.controller('SearchCtrl',
-		['$location', 'arachneSearch', '$scope', 
-			function ( $location, arachneSearch, $scope) {
+.controller('LoginCtrl',
+	['$scope', '$modalInstance', 'sessionService', 'md5Filter',
+	function($scope, $modalInstance, sessionService, md5Filter){
+		$scope.loginData = {};
+		$scope.user = sessionService.user;
+		$scope.login = function () {
+			sessionService.login({user: $scope.loginData.user, password: md5Filter($scope.loginData.password)});
 
-				this.parseUrlFQ = function (fqParam) {
-					var facets = [];
-					fqParam = fqParam.split(/\"\,/);
-					for (var i = fqParam.length - 1; i >= 0; i--) {
-						var facetNameAndVal = fqParam[i].replace(/"/g,'').split(':');
+		};
 
-						facets.push({
-							name: facetNameAndVal[0],
-							value: facetNameAndVal[1]
-						});
-					};
-					return facets;
-				};
+		$scope.cancel = function () {
+			$modalInstance.dismiss();
+		};	
+	
+	}
+	]
+	)
+.controller('SearchCtrl',
+	['$location', 'arachneSearch', '$scope', 
+	function ( $location, arachneSearch, $scope) {
 
-				$scope.activeFacets = $location.$$search.fq ? this.parseUrlFQ($location.$$search.fq) : [];
+		this.parseUrlFQ = function (fqParam) {
+			var facets = [];
+			fqParam = fqParam.split(/\"\,/);
+			for (var i = fqParam.length - 1; i >= 0; i--) {
+				var facetNameAndVal = fqParam[i].replace(/"/g,'').split(':');
 
-				this.append = function () {
-					var hash = $location.$$search;
+				facets.push({
+					name: facetNameAndVal[0],
+					value: facetNameAndVal[1]
+				});
+			};
+			return facets;
+		};
 
-					if (hash.offset) {
-						hash.offset = parseInt(hash.offset)+50;
-					} else {
-						hash.offset = 50;
-					}
-					$scope.search = arachneSearch.executeSearch(hash);
-					
-				};
+		$scope.activeFacets = $location.$$search.fq ? this.parseUrlFQ($location.$$search.fq) : [];
+
+		this.append = function () {
+			var hash = $location.$$search;
+
+			if (hash.offset) {
+				hash.offset = parseInt(hash.offset)+50;
+			} else {
+				hash.offset = 50;
+			}
+			$scope.search = arachneSearch.executeSearch(hash);
+
+		};
 
 
-				$scope.search = arachneSearch.executeSearch($location.$$search);
+		$scope.search = arachneSearch.executeSearch($location.$$search);
 
-				this.addFacet = function (facetName, facetValue) {
+		this.addFacet = function (facetName, facetValue) {
 					//Check if facet is already included
 					for (var i = $scope.activeFacets.length - 1; i >= 0; i--) {
 						if ($scope.activeFacets[i].name == facetName) return;
@@ -90,35 +95,72 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					};
 					$scope.results = [];
 					var facets = $scope.activeFacets.map(function(facet){
-    					return facet.name + ':"' + facet.value + '"';
+						return facet.name + ':"' + facet.value + '"';
 					}).join(",");
 					var hash = $location.$$search;
 					hash.fq = facets;
 					$location.search(hash);
 				}
 			}
-		]
+			]
+			)
+.controller('EntityCtrl',
+	['$routeParams', 'arachneSearch', '$scope', 'arachneEntity',
+	function ( $routeParams, arachneSearch, $scope, arachneEntity) {
+		if(typeof $scope.currentSearch !== "undefined" && $scope.currentSearch !== null) {
+			$scope.currentSearch = arachneSearch.currentSearch;
+		} else {
+			$scope.currentSearch = JSON.parse(localStorage.getItem('currentSearch'));
+		}
+		$scope.isArray = function(value) {
+			return angular.isArray(value);
+		}
+		$scope.typeOf = function(input) {
+			var result = typeof input;
+			console.log(input);
+			return result;
+		}
+
+		$scope.entity = arachneEntity.get({id:$routeParams.id});
+
+	}
+	]
 	)
-	.controller('EntityCtrl',
-		['$routeParams', 'arachneSearch', '$scope', 'arachneEntity',
-			function ( $routeParams, arachneSearch, $scope, arachneEntity) {
-				if(typeof $scope.currentSearch !== "undefined" && $scope.currentSearch !== null) {
-					$scope.currentSearch = arachneSearch.currentSearch;
-				} else {
-					$scope.currentSearch = JSON.parse(localStorage.getItem('currentSearch'));
-				}
-				$scope.isArray = function(value) {
-					return angular.isArray(value);
-				}
-				$scope.typeOf = function(input) {
-					var result = typeof input;
-					console.log(input);
-					return result;
-				}
+.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
+	$scope.items = ['search', 'youtube', 'news'];
+	$scope.selection = $scope.items[0]		
 
-				$scope.entity = arachneEntity.get({id:$routeParams.id});
+	var hash = new Object();
+	hash.q = "*";
+	hash.fl= "500";
+	$scope.search = arachneSearch.getMarkers(hash);
 
+	newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
+	teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
+
+	angular.extend($scope, {
+		defaults: {
+			tileLayer: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+			minZoom: 0,
+			maxZoom: 18,
+			scrollWheelZoom: true
+		},
+		layers: {
+			baselayers: {
+				xyz: {
+					name: 'OpenStreetMap (XYZ)',
+					url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+					type: 'xyz'
+				}
+			},
+			overlays: {
+				locs: {                           
+					name: "Markers",
+					type: "markercluster",
+					visible: true
+				}
 			}
+<<<<<<< HEAD
 		]
 	)
 	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
@@ -140,3 +182,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			}
 		})
 	}])
+=======
+		}
+	})
+}])
+>>>>>>> a6c14530a12a8b3c4db17ac3d4152acbb943fb44

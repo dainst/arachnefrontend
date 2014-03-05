@@ -1,13 +1,16 @@
-<!doctype html>
 <html lang="en" ng-app="arachne">
 <head>
 	<meta charset="utf-8">
-	<title>Arachne 4 CBensch</title>
+	<title>Arachne 4</title>
 	<link rel="shortcut icon" href="img/arachnelogo.png">
 
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 	
+<<<<<<< HEAD
 	<base href="/~obensch/frontend/">
+=======
+	<base href="/~cbensch/frontend/">
+>>>>>>> a6c14530a12a8b3c4db17ac3d4152acbb943fb44
 	
 	<link rel="stylesheet" href="css/MarkerCluster.css">
 	<link rel="stylesheet" href="css/MarkerCluster.Default.css">
@@ -28,51 +31,60 @@
 	</script>
 	<script type="text/javascript" src="http://crazyhorse.archaeologie.uni-koeln.de/transl8/translation/jsonp?lang=de&application=arachne4_frontend&callback=recieveTranslations"></script>
 
-	<script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3>Login</h3>
-        </div>
-        <div class="modal-body">
-        	hier muesste man sich einloggen können
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
+	<script type="text/ng-template" id="loginForm.html">
+		<div class="modal-header">
+			<button type="button" class="close"  ng-click="cancel()" aria-hidden="true">&times;</button>
+			<h4 class="modal-title"><img src="img/arachnelogo.png" style="height: 36px; opacity: 0.43; width: 36px;"></img> &nbsp; Arachne-Anmeldung</h4>
+		</div>
+		<div class="modal-body">
+			<form class="form-inline" role="form" ng-submit="login()">
+				<div class="form-group">
+					<input type="username" class="form-control" id="exampleInputEmail2" ng-model="loginData.user" placeholder="Benutzername">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" id="exampleInputPassword2" ng-model="loginData.password" placeholder="Passwort">
+				</div>
+				<button class="btn btn-primary" type="submit">Anmelden</button>
+				<p>Session User: {{ user.username }}</p>
+
+			</form>
+		</div>
+		
+	</script>
 
 
 </head>
 <body>
 	
 	<nav class="navbar navbar-default navbar-fixed-top" style="opacity:0.96" role="navigation" ng-controller="MenuCtrl">
-	    <div class="col-md-2" style="padding-left:0px">
-	        <img class="pull-left" src="img/arachnelogo.png" style="height: 36px; margin-left: 30px; margin-top: 8px; opacity: 0.43; width: 36px;"></img>
-	        <a class="navbar-brand" href="#">arachne</a>
-	    </div>
-	    <div class="navbar-header">
-	        <button class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" type="button">
-	            <span class="sr-only">Toggle navigation</span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	        </button>
-	    </div>
-	    <div class="collapse navbar-collapse"  collapse="isCollapsed" style="padding-left:10px">
 
-	        <form class="navbar-form navbar-left ng-pristine ng-valid" action="search/" method="GET" role="search">
-	            <div class="form-group">
-	                <input class="form-control ng-pristine ng-valid" type="text" placeholder="Suche" name="q" ng-model="q"></input>
-	            </div>
-	            <button class="btn btn-default" style="display:none;" type="submit">Submit</button>
-	        </form>
+			<div class="col-md-2" style="padding-left:0px">
+					<img class="pull-left" src="img/arachnelogo.png" style="height: 36px; margin-left: 30px; margin-top: 8px; opacity: 0.43; width: 36px;"></img>
+					<a class="navbar-brand" href="#">arachne</a>
+			</div>
+			<div class="navbar-header">
+					<button class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" type="button">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+					</button>
+			</div>
+			<div class="col-md-10 collapse navbar-collapse"  collapse="isCollapsed" style="padding-left:10px">
 
-	        <ul class=" navbar-nav navbar-right">
-	        	<button type="button" class="btn btn-default navbar-btn" ng-click="open()">Anmelden</button>
+				<form class="navbar-form navbar-left ng-pristine ng-valid" action="search/" method="GET" role="search">
+						<div class="form-group">
+								<input class="form-control ng-pristine ng-valid" type="text" placeholder="Suche" name="q" ng-model="q"></input>
+						</div>
+						<button class="btn btn-default" style="display:none;" type="submit">Submit</button>
+				</form>
 
-	    	</ul>
+				<ul class="navbar-nav">
 
-	    </div>
+					<button type="button" class="btn btn-default navbar-btn" ng-click="openLoginModal()">Anmelden</button>
+				</ul>
+
+			</div>
 	</nav>
 
 
@@ -82,8 +94,8 @@
 	</div>
 
 	<script src="lib/angular/angular.js"></script>
-    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
-    
+	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
+		
 	<script src="lib/leaflet.js"></script>
 	<script src="lib/leaflet.markercluster.js"></script>
 
