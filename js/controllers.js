@@ -168,6 +168,30 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					visible: true
 				}
 			}
+<<<<<<< HEAD
+		]
+	)
+	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
+		$scope.items = ['search', 'youtube', 'news'];
+    	$scope.selection = $scope.items[0]		
+
+		var hash = new Object();
+		hash.q = "*";
+		hash.fl= "1500";
+		$scope.search = arachneSearch.getMarkers(hash);
+		
+		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
+		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
+
+		angular.extend($scope, {
+			defaults: {
+				tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+				scrollWheelZoom: true
+			}
+		})
+	}])
+=======
 		}
 	})
 }])
+>>>>>>> a6c14530a12a8b3c4db17ac3d4152acbb943fb44

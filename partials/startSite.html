@@ -1,5 +1,6 @@
 <div ng-controller="NewsController as newsController">
 
+	<div class="test" ng-model="blah" dynamicPlaceholder="BLUB"></div>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="btn-group btn-group-justified">
@@ -106,7 +107,9 @@
 		</div>
 		<div ng-switch-when="map">
 			<div class="row">
-				<leaflet defaults="defaults" markers="search.markers" layers="layers" height="480px"></leaflet> 
+				<div class="test" ng-model="map" placeholder="loading">
+				<leaflet defaults="defaults" markers="search.markers" height="480px"></leaflet>
+				</div> 
 			</div>
 		</div>
 	</div>
