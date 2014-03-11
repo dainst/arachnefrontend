@@ -25,6 +25,7 @@
 				<button class="btn btn-xs" ng-click="listStyle = 'tiles'" ng-class="{ 'active': listStyle == 'tiles' }">Kacheln</button>
 			</div>
 		</div>
+		<br><br>
 
 		<table class="table table-condensed table-hover" ng-switch-default="list">
 			<tr ng-repeat="entity in search.entities" class="small"	>
@@ -37,11 +38,11 @@
 		<div id="tiledImagesContainer" ng-switch-when="tiles">
 			<div ng-repeat="entity in search.entities">
 				<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index].thumbnailId}}?height=300">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+1].thumbnailId}}?height=300">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+2].thumbnailId}}?height=300">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+4].thumbnailId}}?height=300">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+4].thumbnailId}}?height=300">
+					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index].thumbnailId}}"></span>
+					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index+1].thumbnailId}}"></span>
+					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index+2].thumbnailId}}"></span>
+					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index+3].thumbnailId}}"></span>
+					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index+4].thumbnailId}}"></span>
 				</div>
 			</div>
 		</div>

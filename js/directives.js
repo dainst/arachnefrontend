@@ -14,6 +14,7 @@ angular.module('arachne.directives', []).
 				
 				var listener = function () {
 					counter--;
+					console.log(this);
 					if (counter==0) {
 						var scalingPercentage = 0, imagesWidth = 0;
 						for (var i = images.length - 1; i >= 0; i--) {
@@ -40,12 +41,17 @@ angular.module('arachne.directives', []).
 		}
 
 	})
-	.directive('errSrc', function() {
+	.directive('arachneimagerequest', function() {
   		return {
+  			restrict: 'A',
     		link: function(scope, element, attrs) {
-     			element.bind('error', function() {
-       				element.attr('src', attrs.errSrc);
-      			});
+    			var image = '';
+       			if(attrs.arachneimageid) {
+       				image = '<img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + attrs.arachneimageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '">';
+       			} else {
+       				image = '<img height="300" width="300" style="height:300px; width:300px; background-color:silver">';
+       			}
+       			element.append(angular.element(image));
     		}
   		}
 	})
