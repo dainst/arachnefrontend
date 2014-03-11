@@ -64,7 +64,7 @@
 		
 	</div>
 	<div class="col-md-4">
-		<div class="Bilder-Container">
+		<div class="Bilder-Container" ng-if="entity.thumbnailId">
 			Image preview: (click to enlarge)
 			<a href="entity/image/{{ entity.thumbnailId }}"><img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{ entity.thumbnailId }}?height=300" err-src="http://google.com/favicon.ico"></img></a>
 		</div>
