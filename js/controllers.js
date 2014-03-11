@@ -139,8 +139,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		var hash = new Object();
 		hash.q = "*";
 		hash.fl= "1500";
+
 		$scope.search = arachneSearch.getMarkers(hash);
-		
+
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-	}]);
+	}])
+
+	.controller('MapController', ['$scope', 'arachneSearch', function ($scope, arachneSearch) {
+		var hash = new Object();
+		hash.q = "*";
+		hash.fl= "1500";
+		$scope.map = arachneSearch.getMarkers(hash); 
+	}]);;

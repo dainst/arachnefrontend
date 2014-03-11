@@ -46,7 +46,8 @@ angular.module('arachne.services', [])
 							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
 							marker.bindPopup(title);
 							service.currentSearch.results.markers.addLayer(marker);
-		            	}    
+		            	}  
+		            	console.log(service.currentSearch.results.markers);  
             		});
 		        };
 

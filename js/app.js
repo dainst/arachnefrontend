@@ -20,6 +20,6 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/', {templateUrl: 'partials/startSite.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
 		.when('/search/:params?', {templateUrl: 'partials/search.html'})
-		.when('/entity/image/:id?', {templateUrl: 'partials/image.html'});
-
+		.when('/entity/image/:id?', {templateUrl: 'partials/image.html'})	
+		.when('/map', {templateUrl: 'partials/map.html'});
 }]);

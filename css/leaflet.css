@@ -1,5 +1,7 @@
 /* required styles */
-#map { height: 420px; }
+#map { 
+	height: 420px; 
+}
 
 .leaflet-map-pane,
 .leaflet-tile,

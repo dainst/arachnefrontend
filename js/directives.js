@@ -2,7 +2,6 @@
 
 /* Directives */
 
-
 angular.module('arachne.directives', []).
 	directive('imagesrow', function() {
 		return {
@@ -49,22 +48,20 @@ angular.module('arachne.directives', []).
 	})
 	.directive('map', function() {
     return {
-        restrict: 'E',
-        replace: true,
-        template: '<div></div>',
-        link: function(scope, attrs) 
+        restrict: 'A',
+        link: function(scope) 
         {
-        	var map = L.map('map').setView([40, -10], 3);
+			var map = L.map('map').setView([40, -10], 3);
 
+			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		        maxZoom: 18
+		    });
+		    map.addLayer(layer);
+			
         	L.Icon.Default.imagePath = 'img';
 
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                maxZoom: 18
-            }).addTo(map);
-
-            var markers = scope.search.markers;
-            console.log(markers);
-            map.addLayer(markers);
+        	var markers = scope.map.markers;	   
+	        map.addLayer(markers);   
         }
     };
 });
