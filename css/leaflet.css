@@ -1,6 +1,6 @@
 /* required styles */
 #map { 
-	height: 420px; 
+	height: 100%;
 }
 
 .leaflet-map-pane,
