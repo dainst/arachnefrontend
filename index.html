@@ -5,7 +5,8 @@
 	<link rel="shortcut icon" href="img/arachnelogo.png">
 
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-	<base href="/~fabian/frontend/">
+
+	<base href="/~obensch/frontend/">
 
 	<link rel="stylesheet" href="css/MarkerCluster.css">
 	<link rel="stylesheet" href="css/MarkerCluster.Default.css">
@@ -46,6 +47,7 @@
 
 </head>
 <body>
+
 	
 	<nav class="navbar navbar-default navbar-fixed-top" style="opacity:0.96" role="navigation" ng-controller="MenuCtrl">
 		<div class="col-md-2" style="padding-left:0px">
@@ -70,6 +72,10 @@
 			</form>
 
 			<ul class="navbar-nav">
+				<a href="map/"><button type="button" class="btn btn-default navbar-btn">Map</button></a>
+			</ul>
+
+			<ul class="navbar-nav">
 				<p class="navbar-text" ng-if="user.username">Arachne für {{user.username}}</p>
 				<button  ng-if="!user.username" type="button" class="btn btn-default navbar-btn" ng-click="openLoginModal()">Anmelden</button>
 			</ul>
@@ -91,7 +97,6 @@
 	<script src="lib/angular/angular-resource.js"></script>
 	<script src="lib/angular/angular-sanitize.min.js"></script>
 	<script src="lib/angular/angular-cookies.min.js"></script>
-	<script src="lib/angular-leaflet-directive.min.js"></script>
 
 	<script src="js/services.js"></script>
 	<script src="js/controllers.js"></script>

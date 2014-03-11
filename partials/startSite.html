@@ -1,6 +1,5 @@
 <div ng-controller="NewsController as newsController">
 
-	<div class="test" ng-model="blah" dynamicPlaceholder="BLUB"></div>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="btn-group btn-group-justified">
@@ -10,9 +9,9 @@
 				<div class="btn-group">
 					<button type="button" class="btn btn-default" ng-click="selection='news'">News</button>
 				</div>
-				<div class="btn-group">
+				<!--<div class="btn-group">
 					<button type="button" class="btn btn-default" ng-click="selection='map'">Map</button>
-				</div>
+				</div>-->
 				<div class="btn-group">
 					<button type="button" class="btn btn-default" ng-click="selection='youtube'">Youtube</button>
 				</div>
@@ -20,7 +19,7 @@
 		</div>
 	</div>
 
-	<div ng-switch on="selection" >
+	<div ng-switch on="selection">
 		<div ng-switch-when="search" style="padding-top:60px">
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4">
@@ -105,12 +104,10 @@
 				</div>
 			</div>
 		</div>
-		<div ng-switch-when="map">
+		<!--<div ng-switch-when="map">
 			<div class="row">
-				<div class="test" ng-model="map" placeholder="loading">
-				<leaflet defaults="defaults" markers="search.markers" height="480px"></leaflet>
-				</div> 
-			</div>
+				 <div ng-if="search.markers" class="col-md-12" map id="map"></div>
+			</div>-->
 		</div>
 	</div>
 </div>

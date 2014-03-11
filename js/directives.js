@@ -2,7 +2,6 @@
 
 /* Directives */
 
-
 angular.module('arachne.directives', []).
 	directive('imagesrow', function() {
 
@@ -49,4 +48,23 @@ angular.module('arachne.directives', []).
       			});
     		}
   		}
-	});
+	})
+	.directive('map', function() {
+    return {
+        restrict: 'A',
+        link: function(scope) 
+        {
+			var map = L.map('map').setView([40, -10], 3);
+
+			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		        maxZoom: 18
+		    });
+		    map.addLayer(layer);
+			
+        	L.Icon.Default.imagePath = 'img';
+
+        	var markers = scope.map.markers;	   
+	        map.addLayer(markers);   
+        }
+    };
+});
