@@ -56,11 +56,9 @@ angular.module('arachne.directives', []).
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 		        maxZoom: 18
 		    });
-		    map.addLayer(layer);
-			
+		    map.addLayer(layer);			
         	L.Icon.Default.imagePath = 'img';
-
-        	var markers = scope.map.markers;	   
+        	var markers = scope.map.markers;	 
 	        map.addLayer(markers);   
         }
     };

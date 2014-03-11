@@ -42,22 +42,31 @@ angular.module('arachne.services', [])
 		            		var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1);
 							var coords = coordsString.split(',');
 							var title = entry.substring(0, entry.indexOf("[", 1)-1);
+							//console.log(value.link);
 
 							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
 							marker.bindPopup(title);
 							service.currentSearch.results.markers.addLayer(marker);
-		            	}  
-		            	console.log(service.currentSearch.results.markers);  
+		            	}   
             		});
 		        };
 
 				return service;
 			
 		}])
+
 	.factory('arachneEntity',
 		['$resource',
 			function($resource){
 				return $resource('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/entity/:id'
+				);
+			}
+		]
+	)
+	.factory('arachneEntityImg',
+		['$resource',
+			function($resource){
+				return $resource('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/:id'
 				);
 			}
 		]

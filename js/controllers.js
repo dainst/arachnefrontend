@@ -130,7 +130,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
+		console.log($scope.entity);
+	}])
 
+	.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
+		function ($routeParams, $scope, arachneEntityImg) {
+		//$scope.img = arachneEntityImg.get({id:$routeParams.id});
+		$scope.imgID = $routeParams.id; 	
 	}])
 
 	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
