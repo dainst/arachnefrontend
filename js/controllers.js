@@ -138,8 +138,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				templateUrl: 'bookmarkForm.html'
 			});				    
 		};
-
-<<<<<<< HEAD
+		console.log($scope.entity);
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 	$scope.items = ['search', 'youtube', 'news'];
@@ -246,12 +245,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				});
 			
 		}
-}]);
-=======
-		console.log($scope.entity);
-	}])
-
-	.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
+}])
+.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
 		function ($routeParams, $scope, arachneEntityImg) {
 		//$scope.img = arachneEntityImg.get({id:$routeParams.id});
 		$scope.imgID = $routeParams.id; 	
@@ -275,5 +270,4 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		hash.q = "*";
 		hash.fl= "1500";
 		$scope.map = arachneSearch.getMarkers(hash); 
-	}]);;
->>>>>>> f091ca046b94adb6b7d9d054bce2a07a65f06254
+	}]);
