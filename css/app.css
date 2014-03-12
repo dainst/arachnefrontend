@@ -26,8 +26,20 @@ body {
 .uppercase {
 	text-transform: uppercase;
 }
-.imagesrow span {
-	padding: 2px;
+
+.imagesrow div {
+  float:left;
+  overflow: hidden;
+  padding: 2px;
+  bottom:0px;
+}
+.imagesrow img {
+  display:none;
+}
+.imagesrow p {
+  height: 50px;
+  padding: 5px 2px 2px 2px;
+  line-height: 13px;
 }
 
 .lander-category-thumbnails {
