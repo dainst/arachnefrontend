@@ -113,8 +113,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			]
 			)
 .controller('EntityCtrl',
-	['$routeParams', 'arachneSearch', '$scope', 'arachneEntity',
-	function ( $routeParams, arachneSearch, $scope, arachneEntity) {
+	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity',
+	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity) {
 		if(typeof $scope.currentSearch !== "undefined" && $scope.currentSearch !== null) {
 			$scope.currentSearch = arachneSearch.currentSearch;
 		} else {
@@ -130,6 +130,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
+		$scope.bookmarks = ['test', 'Rom', 'Berlin'];
+		$scope.selectedBK = 'test';
+  		//$scope.bookmarkSelected = $scope.bookmarks[2];
+		$scope.openBookmarkModal = function () {
+			var modalInstance = $modal.open({
+				templateUrl: 'bookmarkForm.html'
+			});				    
+		};
+
 		console.log($scope.entity);
 	}])
 
