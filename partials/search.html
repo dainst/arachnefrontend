@@ -17,30 +17,32 @@
 	</div>
 
 	<div class="col-md-10" ng-switch="listStyle">
+		<p ng-hide="search.entities.length">Lädt...</p>
 		<div style="margin-bottom:20px">
 			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button> 	
 			<div class="btn-group pull-right">
-				<button class="btn btn-xs" ng-click="listStyle = 'list'" ng-class="{ 'active': listStyle == 'list' || listStyle == undefined }">Liste</button>
-				<button class="btn btn-xs" ng-click="listStyle = 'tiles'" ng-class="{ 'active': listStyle == 'tiles' }">Kacheln</button>
+				<button class="btn btn-xs" ng-click="listStyle = 'list'" ng-class="{ 'active': listStyle == 'list' }">Liste</button>
+				<button class="btn btn-xs" ng-click="listStyle = 'tiles'" ng-class="{ 'active': listStyle == 'tiles' || listStyle == undefined }">Kacheln</button>
 			</div>
 		</div>
+		<br><br>
 
-		<table class="table table-condensed table-hover" ng-switch-default="list">
-			<tr ng-repeat="entity in search.entities" class="small">
+		<table class="table table-condensed table-hover" ng-switch-when="list">
+			<tr ng-repeat="entity in search.entities" class="small"	>
 				<td class="col-md-1">{{entity.entityId}}</td>
 				<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="searchCtrl.addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
 				<td class="col-md-8"><b><a href="entity/{{entity.entityId}}">{{entity.title}}</a></b></td>
 				<td class="col-md-2">{{entity.subtitle}}</td>
 			</tr>
 		</table>
-		<div id="tiledImagesContainer" ng-switch-when="tiles">
+		<div id="tiledImagesContainer" ng-switch-default="tiles">
 			<div ng-repeat="entity in search.entities">
-				<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index].thumbnailId}}?height=300">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+1].thumbnailId}}?height=300">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+2].thumbnailId}}?height=300">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+4].thumbnailId}}?height=300">
-					<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{search.entities[$index+4].thumbnailId}}?height=300">
+				<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow clearfix">
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+1]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+2]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+3]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+4]"></div>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
 
 body {
-	padding-top: 60px;
+	margin-top: 60px;
 	background-color: #F8F8F8;
 	font-family: 'Open Sans', sans-serif;
 }
@@ -26,9 +26,22 @@ body {
 .uppercase {
 	text-transform: uppercase;
 }
-.imagesrow img {
-	padding: 2px;
+
+.imagesrow div {
+  float:left;
+  overflow: hidden;
+  padding: 2px;
+  bottom:0px;
 }
+.imagesrow img {
+  display:none;
+}
+.imagesrow p {
+  height: 50px;
+  padding: 5px 2px 2px 2px;
+  line-height: 13px;
+}
+
 .lander-category-thumbnails {
   position: relative;
   margin: 2px;
@@ -51,4 +64,8 @@ body {
     left: 0px;
     height: 20px;
     background-color: rgba(0, 0, 0, 0.6); 
+}
+
+.imagePlaceholder {
+  content:url("../img/arachnelogo.png");
 }

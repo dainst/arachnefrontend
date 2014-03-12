@@ -11,7 +11,6 @@ angular.module('arachne',
 	'arachne.services',
 	'arachne.directives',
 	'arachne.controllers',
-	'leaflet-directive',
 	]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 	
@@ -21,6 +20,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/', {templateUrl: 'partials/startSite.html'})
 		.when('/bookmarks', {templateUrl: 'partials/bookmarks.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
-		.when('/search/:params?', {templateUrl: 'partials/search.html'});
-
+		.when('/search/:params?', {templateUrl: 'partials/search.html'})
+		.when('/entity/image/:id?', {templateUrl: 'partials/image.html'})	
+		.when('/map', {templateUrl: 'partials/map.html'});
 }]);

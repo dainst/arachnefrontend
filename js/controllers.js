@@ -113,8 +113,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			]
 			)
 .controller('EntityCtrl',
-	['$routeParams', 'arachneSearch', '$scope', 'arachneEntity',
-	function ( $routeParams, arachneSearch, $scope, arachneEntity) {
+	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity',
+	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity) {
 		if(typeof $scope.currentSearch !== "undefined" && $scope.currentSearch !== null) {
 			$scope.currentSearch = arachneSearch.currentSearch;
 		} else {
@@ -130,7 +130,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
+		$scope.bookmarks = ['test', 'Rom', 'Berlin'];
+		$scope.selectedBK = 'test';
+  		//$scope.bookmarkSelected = $scope.bookmarks[2];
+		$scope.openBookmarkModal = function () {
+			var modalInstance = $modal.open({
+				templateUrl: 'bookmarkForm.html'
+			});				    
+		};
 
+<<<<<<< HEAD
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 	$scope.items = ['search', 'youtube', 'news'];
@@ -238,3 +247,33 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 		}
 }]);
+=======
+		console.log($scope.entity);
+	}])
+
+	.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
+		function ($routeParams, $scope, arachneEntityImg) {
+		//$scope.img = arachneEntityImg.get({id:$routeParams.id});
+		$scope.imgID = $routeParams.id; 	
+	}])
+
+	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
+	
+		$scope.selection = 'search';
+		var hash = new Object();
+		hash.q = "*";
+		hash.fl= "1500";
+
+		$scope.search = arachneSearch.getMarkers(hash);
+
+		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
+		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
+	}])
+
+	.controller('MapController', ['$scope', 'arachneSearch', function ($scope, arachneSearch) {
+		var hash = new Object();
+		hash.q = "*";
+		hash.fl= "1500";
+		$scope.map = arachneSearch.getMarkers(hash); 
+	}]);;
+>>>>>>> f091ca046b94adb6b7d9d054bce2a07a65f06254

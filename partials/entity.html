@@ -18,12 +18,26 @@
 
 </script>
 
-
-
-
-
-
 <div class="row"  ng-controller="EntityCtrl as entityCtrl">
+
+	<script type="text/ng-template" id="bookmarkForm.html">
+        <div class="modal-header">
+			<h4 class="modal-title"><img src="img/arachnelogo.png" style="height: 36px; opacity: 0.43; width: 36px;"></img>Add-Bookmark</h4>
+		</div>
+		<div class="modal-body">
+			Select a Bookmark:
+			<ul>
+                <li ng-repeat="bk in bookmarks">
+                    <a ng-click="selectedBK = bk">{{ bk }}</a>
+                </li>
+            </ul>
+		</div>
+		<div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
 	<div class="col-md-2" style="padding-top:40px" ng-show="currentSearch">
 		<b class="text-muted small uppercase">Aktuelle Suche</b><br>
 		Suche nach <b>{{currentSearch.queryParams.q}}</b>
@@ -49,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-7">
+	<div class="col-md-6">
 		<div class="page-header">
 			
 			<h3>
@@ -60,11 +74,14 @@
 		
 	
 		{{entity.sections.label}}
-		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>
+		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>		
 		
 	</div>
-	<div class="col-md-3">
-	
-
+	<div class="col-md-4">
+		<button type="button" class="btn btn-default" ng-click="openBookmarkModal()">Bookmark!</button>
+		<div class="Bilder-Container" ng-if="entity.thumbnailId">
+			Image preview: (click to enlarge)
+			<a href="entity/image/{{ entity.thumbnailId }}"><img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
+		</div>
 	</div>
 </div>

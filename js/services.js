@@ -32,7 +32,7 @@ angular.module('arachne.services', [])
 		        	service.currentSearch.queryParams = pQueryParams;
 		            return arachneDataService.query(pQueryParams, function (data) {
 		            	service.currentSearch.results = data;		       
-		            	service.currentSearch.results.markers = new Array();
+		            	service.currentSearch.results.markers = new L.MarkerClusterGroup();
 
 						// title += value.link + "'>Objekte zu diesem Ort anzeigen</a>"
 						// title = title.replace('#simpleBrowsing', '#search')
@@ -42,24 +42,31 @@ angular.module('arachne.services', [])
 		            		var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1);
 							var coords = coordsString.split(',');
 							var title = entry.substring(0, entry.indexOf("[", 1)-1);
+							//console.log(value.link);
 
-							var marker = new Object();
-							marker.group = "locs";
-							marker.lat = Number(coords[0]);
-                			marker.lng = Number(coords[1]);
-                			marker.message = title;                			
-							service.currentSearch.results.markers.push(marker);
-		            	}    
+							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
+							marker.bindPopup(title);
+							service.currentSearch.results.markers.addLayer(marker);
+		            	}   
             		});
 		        };
 
 				return service;
 			
 		}])
+
 	.factory('arachneEntity',
 		['$resource',
 			function($resource){
 				return $resource('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/entity/:id'
+				);
+			}
+		]
+	)
+	.factory('arachneEntityImg',
+		['$resource',
+			function($resource){
+				return $resource('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/:id'
 				);
 			}
 		]
