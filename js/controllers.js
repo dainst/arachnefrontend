@@ -131,9 +131,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
 
-	}
-	]
-	)
+}])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 	$scope.items = ['search', 'youtube', 'news'];
 	$scope.selection = $scope.items[0]		
@@ -171,3 +169,72 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	})
 }])
+.controller('BookmarksController',[ '$scope', 'bookmarksFactory', '$modal',
+	function ($scope, bookmarksFactory, $modal){
+
+		$scope.bookmarksLists = [];
+
+		$scope.refreshBookmarkLists = function(){
+			bookmarksFactory.getBookmarksList(
+				function(data){
+					$scope.bookmarksLists = data;
+					$scope.bookmarksLists.notEmpty = true;
+					console.log("BookmarksList erhalten");
+				}, function(status){
+					if(status == 404)
+					{
+						$scope.bookmarksLists = [];
+						//$scope.createBookmarksListModal(false);
+					}
+				}
+			);
+		}
+
+		$scope.refreshBookmarkLists();
+
+		$scope.createBookmarksListModal = function(){
+			var modalInstance = $modal.open({
+				templateUrl: 'createBookmarksList.html'
+			});	
+
+			modalInstance.close = function(name, commentary){
+				if(name == undefined || name == "")
+				{
+					alert("Name setzen!")							
+				}else if(commentary == undefined || commentary == ""){
+					alert("Kommentar setzen!")
+				}else{
+					modalInstance.dismiss();
+					$scope.createBookmarksList(name, commentary, []);
+				}
+			}
+		}
+
+		$scope.createBookmarksList = function(name, commentary, bookmarks){
+			var list = new Object();
+			list.name = name;
+			list.commentary = commentary;
+			list.bookmarks = bookmarks;
+
+			bookmarksFactory.createBookmarksList(list, 
+				function(data)
+				{
+					console.log("Liste erstellt" + data);
+					$scope.refreshBookmarkLists();
+				}, function(status){
+					console.log("error creating list"+ status);
+				});
+			
+		}
+
+		$scope.deleteBookmarksList = function(id){
+			bookmarksFactory.deleteBookmarksList(id,
+				function(data){
+					console.log("deleted List" + data);
+					$scope.refreshBookmarkLists();
+				}, function(status){
+					console.log("error deleting list" + status);
+				});
+			
+		}
+}]);
