@@ -21,8 +21,8 @@
 		<div style="margin-bottom:20px">
 			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button> 	
 			<div class="btn-group pull-right">
-				<button class="btn btn-xs" ng-click="listStyle = 'list'" ng-class="{ 'active': listStyle == 'list' || listStyle == undefined }">Liste</button>
-				<button class="btn btn-xs" ng-click="listStyle = 'tiles'" ng-class="{ 'active': listStyle == 'tiles' }">Kacheln</button>
+				<button class="btn btn-xs" ng-click="listStyle = 'list'" ng-class="{ 'active': listStyle == 'list' }">Liste</button>
+				<button class="btn btn-xs" ng-click="listStyle = 'tiles'" ng-class="{ 'active': listStyle == 'tiles' || listStyle == undefined }">Kacheln</button>
 			</div>
 		</div>
 		<br><br>
