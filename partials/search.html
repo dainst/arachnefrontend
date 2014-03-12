@@ -27,7 +27,7 @@
 		</div>
 		<br><br>
 
-		<table class="table table-condensed table-hover" ng-switch-default="list">
+		<table class="table table-condensed table-hover" ng-switch-when="list">
 			<tr ng-repeat="entity in search.entities" class="small"	>
 				<td class="col-md-1">{{entity.entityId}}</td>
 				<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="searchCtrl.addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
@@ -35,14 +35,14 @@
 				<td class="col-md-2">{{entity.subtitle}}</td>
 			</tr>
 		</table>
-		<div id="tiledImagesContainer" ng-switch-when="tiles">
+		<div id="tiledImagesContainer" ng-switch-default="tiles">
 			<div ng-repeat="entity in search.entities">
-				<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow">
-					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index].thumbnailId}}"></span>
-					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index+1].thumbnailId}}"></span>
-					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index+2].thumbnailId}}"></span>
-					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index+3].thumbnailId}}"></span>
-					<span arachneImageRequest="height" arachneImageHeight="300" arachneImageId="{{search.entities[$index+4].thumbnailId}}"></span>
+				<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow clearfix">
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+1]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+2]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+3]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+4]"></div>
 				</div>
 			</div>
 		</div>

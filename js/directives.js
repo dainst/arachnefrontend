@@ -14,7 +14,6 @@ angular.module('arachne.directives', []).
 				
 				var listener = function () {
 					counter--;
-					console.log(this);
 					if (counter==0) {
 						var scalingPercentage = 0, imagesWidth = 0;
 						for (var i = images.length - 1; i >= 0; i--) {
@@ -24,11 +23,15 @@ angular.module('arachne.directives', []).
 						// 30 is padding of container
 						scalingPercentage = (document.getElementById("tiledImagesContainer").offsetWidth-30) / (imagesWidth / 100);
 						for (var i = images.length - 1; i >= 0; i--) {
-							images[i].width = (images[i].width/102)*scalingPercentage;
+							var newWidth =  (images[i].width/102)*scalingPercentage;
+							images[i].width = newWidth;
+							images[i].style.display = 'block';
+
+							images[i].parentNode.parentNode.style.width = newWidth + "px";
 							images[i].removeEventListener("load", listener, false);
+
 						};
 					};
-
 				};
 
 				for (var i = images.length - 1; i >= 0; i--) {
@@ -36,6 +39,7 @@ angular.module('arachne.directives', []).
 						"load",
 						listener,
 						false);
+					
 				}
 			}
 		}
@@ -44,12 +48,15 @@ angular.module('arachne.directives', []).
 	.directive('arachneimagerequest', function() {
   		return {
   			restrict: 'A',
+  			scope: {
+      			entity: '=',
+    		},
     		link: function(scope, element, attrs) {
     			var image = '';
-       			if(attrs.arachneimageid) {
-       				image = '<img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + attrs.arachneimageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '">';
+       			if(scope.entity.thumbnailId) {
+       				image = '<a href="entity/'+scope.entity.entityId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.thumbnailId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a><p><small>' + scope.entity.title+ '</small></p>';
        			} else {
-       				image = '<img height="300" width="300" style="height:300px; width:300px; background-color:silver">';
+       				image = '<a href="entity/'+scope.entity.entityId+'"><img src="img/imagePlaceholder.png"></a><p><small>' + scope.entity.title+ '</small></p>';
        			}
        			element.append(angular.element(image));
     		}
