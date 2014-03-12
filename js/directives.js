@@ -71,4 +71,4 @@ angular.module('arachne.directives', []).
 	        map.addLayer(markers);   
         }
     };
-});
+	});

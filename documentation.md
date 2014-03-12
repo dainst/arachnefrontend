@@ -1,3 +1,15 @@
+### Bookmarks
+## Entity-Bookmark:
+* Bookmark erstellen & einer Liste hinzufügen
+* Bookmark löschen
+* Bookmark erstellen & (einer neuen Liste hinzufügen)
+
+## Bookmarks-Site
+* Bookmark-Liste hinzufügen
+* Bookmark-Liste löschen
+* Bookmark-Liste editieren 
+* Einzelne Bookmarks Editieren & löschen
+
 ## Depencies
  * leaflet -> http://tombatossals.github.io/angular-leaflet-directive/#!/
 
