@@ -189,6 +189,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ($scope, bookmarksFactory, $modal){
 
 		$scope.bookmarksLists = [];
+		bookmarksFactory.checkEntity("2202");
 
 		$scope.refreshBookmarkLists = function(){
 			bookmarksFactory.getBookmarksList(
@@ -207,7 +208,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.refreshBookmarkLists();
-
+		/*
 		$scope.createBookmarksListModal = function(){
 			var modalInstance = $modal.open({
 				templateUrl: 'createBookmarksList.html'
@@ -252,7 +253,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					console.log("error deleting list" + status);
 				});
 			
-		}
+		}*/
 }])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
 		function ($routeParams, $scope, arachneEntityImg) {
