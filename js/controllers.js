@@ -232,6 +232,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.refreshBookmarkLists();
 		
+		$scope.deleteBookmark = function(id){
+			bookmarksFactory.deleteBookmark(id,
+				function(data){
+					console.log("deleted Bookmark" + data);
+					$scope.refreshBookmarkLists();
+				}, function(status){
+					console.log("error deleting Bookmark" + status);
+				});
+			
+		}
+
 		$scope.createBookmarksListModal = function(){
 			var modalInstance = $modal.open({
 				templateUrl: 'createBookmarksList.html'
