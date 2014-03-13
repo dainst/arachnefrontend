@@ -112,6 +112,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			}
 			]
 			)
+.controller('FilterController', ['$scope', 'arachneSearch', function ($scope, arachneSearch) {
+	var hash = new Object();
+	hash.q = "*";
+	hash.fl= "1500";
+	$scope.map = arachneSearch.getMarkers(hash);
+}
+]
+)
 .controller('EntityCtrl',
 	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity',
 	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity) {
@@ -274,24 +282,22 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		function ($routeParams, $scope, arachneEntityImg) {
 		//$scope.img = arachneEntityImg.get({id:$routeParams.id});
 		$scope.imgID = $routeParams.id; 	
-	}])
+}])
+.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 
-	.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
-	
-		$scope.selection = 'search';
-		var hash = new Object();
-		hash.q = "*";
-		hash.fl= "1500";
+	$scope.selection = 'search';
+	var hash = new Object();
+	hash.q = "*";
+	hash.fl= "1500";
 
-		$scope.search = arachneSearch.getMarkers(hash);
+	$scope.search = arachneSearch.getMarkers(hash);
 
-		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
-		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-	}])
-
-	.controller('MapController', ['$scope', 'arachneSearch', function ($scope, arachneSearch) {
-		var hash = new Object();
-		hash.q = "*";
-		hash.fl= "1500";
-		$scope.map = arachneSearch.getMarkers(hash); 
-	}]);
+	newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
+	teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
+}])
+.controller('MapController', ['$scope', 'arachneSearch', function ($scope, arachneSearch) {
+	var hash = new Object();
+	hash.q = "*";
+	hash.fl= "1500";
+	$scope.map = arachneSearch.getMarkers(hash); 
+}]);

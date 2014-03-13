@@ -1,7 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
 
 body {
-	margin-top: 60px;
+	margin-top: 50px;
 	background-color: #F8F8F8;
 	font-family: 'Open Sans', sans-serif;
 }
@@ -68,4 +68,10 @@ body {
 
 .imagePlaceholder {
   content:url("../img/arachnelogo.png");
+}
+.fullscreenMap {
+  height: 100%;
+}
+.halfscreenMap {
+  height: 50%;
 }

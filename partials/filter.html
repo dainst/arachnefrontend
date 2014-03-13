@@ -1,0 +1,6 @@
+<div ng-controller="FilterController as filterController">
+	<div class="row">
+        <div ng-if="!map.markers" class="col-md-12">Loading...</div>
+        <div ng-if="map.markers" class="col-md-12 halfscreenMap" map id="map"></div>
+	</div>
+</div>
