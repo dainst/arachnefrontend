@@ -127,15 +127,42 @@ angular.module('arachne.services', [])
 		var bookmarkslist = {};
 		var bookmark = {};
 
-		return {
-			getBookmark : function(id, successMethod, errorMethod){
-				$http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmark/' + id)
+		factory.checkEntity  = function(entityID){
+			var response = [];
+			factory.getBookmarksList(function(data) { response = data;});
+			console.log(response);
+			/*for(bookmarkListe in response){
+				console.log(bookmarkListe);
+					for(bookmark in bookmarkListe.bookmarks){
+						console.log(bookmark);
+						if(bookmark.arachneEntityId == entityID)
+							console.log("entity vorhanden!");
+					}
+				}*/
+			
+			//console.log("NICHT VORHANDEN!");
+		};
+
+		factory.getBookmarksList = function(successMethod, errorMethod){
+				return $http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarklist')
 				.success(function(data) {
-					bookmark = data;
+					bookmarkslist = data;
 					successMethod(data);
 				}).error(function(data, status, header, config){
 					errorMethod(status);
 				});
+			};
+		return factory;
+/*
+		return {
+			getBookmark : function(id, successMethod, errorMethod){
+					$http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmark/' + id)
+					.success(function(data) {
+						bookmark = data;
+						successMethod(data);
+					}).error(function(data, status, header, config){
+						errorMethod(status);
+					});
 			},
 			createBookmark : function(bm, id, successMethod, errorMethod) {
 				var q = 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/' + id + "/add";
@@ -198,6 +225,6 @@ angular.module('arachne.services', [])
 					errorMethod(status);
 				});
 			}
-		}
+		}*/
 	});
 
