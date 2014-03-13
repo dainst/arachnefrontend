@@ -23,11 +23,11 @@
 	</div>
 	{{ bookmarksLists }}
 	<accordion ng-repeat="bookmarksList in bookmarksLists" >
-    	<accordion-group heading="{{ bookmarksList.name }}" is-open="true" >
-      		<p>{{ bookmarksList.commentary }}</p>
-      		<div ng-repeat="bookmarks in bookmarksList">
-      			<p> {{ bookmark.arachneEntityId }} </p>
-      			<p> {{ bookmark.commentary }} </p>
+    	<accordion-group heading="{{ bookmarksList.name }} {{ bookmarksList.commentary }}" is-open="true" >
+
+      		<div ng-repeat="bookmarks in bookmarksList.bookmarks">
+      			<p> {{ bookmarks.arachneEntityId }} </p>
+      			<p> {{ bookmarks.commentary }} </p>
       		</div>
       		<button type="button" class="btn btn-default" ng-click="deleteBookmarksList(bookmarksList.id)">lösche Liste</button>
     	</accordion-group>

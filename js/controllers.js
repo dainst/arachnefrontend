@@ -181,7 +181,25 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ($scope, bookmarksFactory, $modal){
 
 		$scope.bookmarksLists = [];
-		bookmarksFactory.checkEntity("2202");
+		
+		bookmarksFactory.checkEntity("17012", function(data){
+			console.log(data);
+		}, function(status){
+			console.log(status)
+		});
+
+		var bm = {
+			arachneEntityId : 16012,
+			commentary : 'erste bookmark'
+		}
+		// bookmarksFactory.createBookmark(bm,30,
+		// 	function(data){
+		// 			console.log(data);
+		// 			console.log("bookmark erstellt");
+		// 		}, function(status){
+		// 			console.log(status);
+		// 		}
+		// 	);
 
 		$scope.refreshBookmarkLists = function(){
 			bookmarksFactory.getBookmarksList(
@@ -193,14 +211,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					if(status == 404)
 					{
 						$scope.bookmarksLists = [];
-						//$scope.createBookmarksListModal(false);
 					}
+					else if(status == 403)
+					{
+						$scope.bookmarksLists = [];
+					}
+					else
+						console.log("unknown error");
 				}
 			);
 		}
 
 		$scope.refreshBookmarkLists();
-		/*
+		
 		$scope.createBookmarksListModal = function(){
 			var modalInstance = $modal.open({
 				templateUrl: 'createBookmarksList.html'
@@ -245,7 +268,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					console.log("error deleting list" + status);
 				});
 			
-		}*/
+		}
 }])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
 		function ($routeParams, $scope, arachneEntityImg) {
