@@ -5,7 +5,7 @@
 		</div>
 		<small>
 
-			<ul class="list-unstyled facet" ng-repeat="(facetName,values) in search.facets">
+			<ul class="list-unstyled facet" ng-repeat="(facetName,values) in searchresults.facets">
 				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet" ng-class="{ 'active': openfacet }"><b class="text-muted">{{facetName | i18n }}</b></button>
 				<li ng-click="searchCtrl.addFacet(facetName, facetValue)"  ng-repeat="(facetValue, count) in values" ng-show="openfacet">
 					<b class="pull-right text-muted">{{count}}</b>{{facetValue}}
@@ -16,7 +16,7 @@
 	</div>
 
 	<div class="col-md-10" ng-switch="listStyle">
-		<p ng-hide="search.entities.length">Lädt...</p>
+		<p ng-hide="searchresults.entities.length">Lädt...</p>
 		<div style="margin-bottom:20px">
 			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button> 	
 			<div class="btn-group pull-right">
@@ -27,7 +27,7 @@
 		<br><br>
 
 		<table class="table table-condensed table-hover" ng-switch-when="list">
-			<tr ng-repeat="entity in search.entities" class="small"	>
+			<tr ng-repeat="entity in searchresults.entities" class="small"	>
 				<td class="col-md-1">{{entity.entityId}}</td>
 				<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="searchCtrl.addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
 				<td class="col-md-8"><b><a href="entity/{{entity.entityId}}">{{entity.title}}</a></b></td>
@@ -35,20 +35,20 @@
 			</tr>
 		</table>
 		<div id="tiledImagesContainer" ng-switch-default="tiles">
-			<div ng-repeat="entity in search.entities">
+			<div ng-repeat="entity in searchresults.entities">
 				<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow clearfix">
-					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index]"></div>
-					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+1]"></div>
-					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+2]"></div>
-					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+3]"></div>
-					<div arachneImageRequest="height" arachneImageHeight="300" entity="search.entities[$index+4]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="searchresults.entities[$index]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="searchresults.entities[$index+1]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="searchresults.entities[$index+2]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="searchresults.entities[$index+3]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="searchresults.entities[$index+4]"></div>
 				</div>
 			</div>
 		</div>
 	</div>	
 
 	<p align="center">
-		<button ng-click="searchCtrl.append()" ng-if="search.size > 50" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> nächste Seite</button>
+		<button ng-click="searchresults.append()" ng-if="searchresults.size > 50" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> nächste Seite</button>
 	</p>
 
 </div>

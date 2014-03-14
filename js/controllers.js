@@ -48,7 +48,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		var currentTemplateURL = $route.current.templateUrl;
 
 		$scope.activeFacets = arachneSearch.activeFacets;
-
+		$scope.currentQueryParameters = arachneSearch.currentQueryParameters;
 
 		this.addFacet = function (facetName, facetValue) {
 			arachneSearch.addFacet(facetName, facetValue);	

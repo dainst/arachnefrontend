@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-1">
 			<div class="page-header">
-				<h2 ng-repeat="facet in activeFacets" ng-if="facet.name == 'facet_kategorie'" class="capitalized">{{ facet.value }}</h2>
+				<h2 ng-repeat="facet in activeFacets" ng-if="facet.name == 'facet_kategorie'" class="capitalized">{{ facet.value }} <small> Arachne-Kategorie</small></h2>
 
 			</div>
 
@@ -22,10 +22,22 @@
 			</accordion>
 			
 		</div>
-		<div class="col-md-3 col-md-offset-1 well well-sm" style="margin-top:-30px">
+		<div class="col-md-3 col-md-offset-1 well well-sm" style="margin-top:-40px">
 			
-			<button type="button" class="btn btn-primary btn-lg btn-block">Alle Datensätze anzeigen</button>
+			<a href="search/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}" type="button" class="btn btn-primary btn-lg btn-block">Ausgewählte Objekte anzeigen &nbsp; <i class="glyphicon glyphicon-arrow-right"> </i></a>
+			
 			<hr>
+			<h4>Aktive Filter <small> Anlicken zum entfernen.</small></h4>
+			<ul class="list-group">
+				<li class="list-group-item linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px">
+					<i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b> <i class="glyphicon glyphicon-remove-circle pull-right"></i>
+				</li>
+			</ul>
+			<hr>
+			<h4 class="pull-left">Ergebnisse in Arachne</h4>
+			<h2 class="pull-right">{{searchresults.size}}</h2>
+				
+			
 		</div>
 		<div class="col-md-6">
 

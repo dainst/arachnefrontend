@@ -36,6 +36,7 @@ angular.module('arachne.services', [])
 		     //PUBLIC
 		        return {
 		        	activeFacets : _activeFacets,
+		        	currentQueryParameters : _currentQueryParameters,
 
 		        	executeSearch : function (queryParams) {
 		        		if (queryParams) {
