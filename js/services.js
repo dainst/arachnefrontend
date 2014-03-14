@@ -7,7 +7,7 @@ angular.module('arachne.services', [])
 		['$resource','$location',
 			function($resource, $location) {
 
-				
+			//PRIVATE
 		        function parseUrlFQ (fqParam) {
 		        	if(!fqParam) return;
 					var facets = [];
@@ -33,6 +33,7 @@ angular.module('arachne.services', [])
 		        var _currentQueryParameters =  {};
 
 		      	
+		     //PUBLIC
 		        return {
 		        	activeFacets : _activeFacets,
 

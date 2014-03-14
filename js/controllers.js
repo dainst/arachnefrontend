@@ -58,7 +58,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			arachneSearch.removeFacet(facet);
 		}
 
-		if (currentTemplateURL == 'partials/filter.html' || currentTemplateURL == 'partials/map.html') {
+		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
 			$scope.searchresults = arachneSearch.getMarkers();
 		} else {
 			$scope.searchresults = arachneSearch.executeSearch();
