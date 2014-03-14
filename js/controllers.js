@@ -68,8 +68,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ]
 )
 .controller('EntityCtrl',
-	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity',
-	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity) {
+	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', 'bookmarksFactory',
+	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity,bookmarksFactory ) {
 		if(typeof $scope.currentSearch !== "undefined" && $scope.currentSearch !== null) {
 			$scope.currentSearch = arachneSearch.currentSearch;
 		} else {
@@ -85,15 +85,87 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
-		$scope.bookmarks = ['test', 'Rom', 'Berlin'];
-		$scope.selectedBK = 'test';
-  		//$scope.bookmarkSelected = $scope.bookmarks[2];
-		$scope.openBookmarkModal = function () {
+
+		$scope.isBookmark = false;
+		$scope.bookmark = {};
+
+		$scope.reloadBM = function(){
+				bookmarksFactory.checkEntity($routeParams.id, function(data){;
+				if(data.length == 0){
+					console.log("Die Entity ist nicht gebookmarkt");
+					$scope.bookmark = {};
+					$scope.isBookmark = false;
+				}
+				else{
+					$scope.isBookmark = true;
+					$scope.bookmark = data;
+				}
+				
+			}, function(status){
+				console.log(status)
+			});
+		}
+
+		$scope.reloadBM();
+
+		$scope.deleteBookmark = function(){
+			bookmarksFactory.deleteBookmark($scope.bookmark.id,
+			function(data){
+				console.log("deleted Bookmark" + data);
+				$scope.reloadBM();
+			}, function(status){
+				console.log("error deleting Bookmark" + status);
+				$scope.reloadBM();
+			});
+			
+		}
+
+		$scope.createBookmarkModal = function(){
 			var modalInstance = $modal.open({
-				templateUrl: 'bookmarkForm.html'
-			});				    
-		};
+				templateUrl: 'createBookmark.html',
+				controller: 'createBookmarkCtrl',
+      		});
+
+      		modalInstance.result.then(function (selectedList) { 
+      			if(selectedList.commentary == undefined || selectedList.commentary == "")
+      				selectedList.commentary = "no comment set";
+
+      			var bm = {
+					arachneEntityId : $routeParams.id,
+					commentary : selectedList.commentary
+				}
+				bookmarksFactory.createBookmark(bm, selectedList.item.id, function(data){
+					console.log("bookmark erstellt");
+					$scope.reloadBM();
+				}, function(status){
+					console.log(status);
+				});
+      		});
+		}
 		console.log($scope.entity);
+}])
+.controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'bookmarksFactory', function($scope, $modalInstance, bookmarksFactory){
+	
+	$scope.items = [];
+	$scope.hasBookmarkList = false;
+	$scope.selected = {};
+	$scope.selected.commentary = "";
+
+	bookmarksFactory.getBookmarksList(
+			function(data){
+				$scope.items = data;
+				$scope.selected = {
+    				item: $scope.items[0]
+  				};
+  				$scope.selected.commentary = "commentary";
+			}, function(status){
+				if(status == 404)
+					$scope.bookmarkError = "noList";
+				else if(status == 403)
+					$scope.bookmarkError = "noLogin";
+				else
+					console.log("unknown error");
+		});
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 	$scope.items = ['search', 'youtube', 'news'];
@@ -106,37 +178,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 	teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-
-	angular.extend($scope, {
-		defaults: {
-			tileLayer: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-			minZoom: 0,
-			maxZoom: 18,
-			scrollWheelZoom: true
-		},
-		layers: {
-			baselayers: {
-				xyz: {
-					name: 'OpenStreetMap (XYZ)',
-					url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-					type: 'xyz'
-				}
-			},
-			overlays: {
-				locs: {                           
-					name: "Markers",
-					type: "markercluster",
-					visible: true
-				}
-			}
-		}
-	})
 }])
 .controller('BookmarksController',[ '$scope', 'bookmarksFactory', '$modal',
 	function ($scope, bookmarksFactory, $modal){
 
 		$scope.bookmarksLists = [];
-		bookmarksFactory.checkEntity("2202");
 
 		$scope.refreshBookmarkLists = function(){
 			bookmarksFactory.getBookmarksList(
@@ -148,14 +194,30 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					if(status == 404)
 					{
 						$scope.bookmarksLists = [];
-						//$scope.createBookmarksListModal(false);
 					}
+					else if(status == 403)
+					{
+						$scope.bookmarksLists = [];
+					}
+					else
+						console.log("unknown error");
 				}
 			);
 		}
 
 		$scope.refreshBookmarkLists();
-		/*
+		
+		$scope.deleteBookmark = function(id){
+			bookmarksFactory.deleteBookmark(id,
+				function(data){
+					console.log("deleted Bookmark" + data);
+					$scope.refreshBookmarkLists();
+				}, function(status){
+					console.log("error deleting Bookmark" + status);
+				});
+			
+		}
+
 		$scope.createBookmarksListModal = function(){
 			var modalInstance = $modal.open({
 				templateUrl: 'createBookmarksList.html'
@@ -200,7 +262,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					console.log("error deleting list" + status);
 				});
 			
-		}*/
+		}
 }])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
 		function ($routeParams, $scope, arachneEntityImg) {

@@ -184,18 +184,37 @@ angular.module('arachne.services', [])
 		var bookmarkslist = {};
 		var bookmark = {};
 
-		factory.checkEntity  = function(entityID){
+		factory.checkEntity  = function(entityID, successMethod, errorMethod){
 			var response = [];
-			factory.getBookmarksList(function(data) { response = data;});
-			console.log(response);
-			/*for(bookmarkListe in response){
-				console.log(bookmarkListe);
-					for(bookmark in bookmarkListe.bookmarks){
-						console.log(bookmark);
-						if(bookmark.arachneEntityId == entityID)
-							console.log("entity vorhanden!");
+			factory.getBookmarksList(
+				function(data){
+					response = data;
+					var entityBookmark = [];
+					console.log("bookmark entity");
+
+					for(var x in response){
+					//console.log(response[x].name);
+						for(var y in response[x].bookmarks){
+							//console.log(bookmark);
+							if(response[x].bookmarks[y].arachneEntityId == entityID)
+							{
+								entityBookmark = response[x].bookmarks[y];
+							}
+						}
 					}
-				}*/
+
+					successMethod(entityBookmark);
+				}, function(status){
+					if(status == 404)
+						console.log("keine BookmarksListe enthalten");
+					else if(status == 403)
+						console.log("bitte einloggen");
+					else
+						console.log("unknown error");
+
+					errorMethod("error");
+
+				});			
 			
 			//console.log("NICHT VORHANDEN!");
 		};
@@ -209,10 +228,34 @@ angular.module('arachne.services', [])
 					errorMethod(status);
 				});
 			};
-		return factory;
-/*
-		return {
-			getBookmark : function(id, successMethod, errorMethod){
+
+		factory.createBookmarksList = function(listData, successMethod, errorMethod) {
+				$http({
+					url : 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarklist',
+		            isArray: false,
+		            method: 'POST',
+		            data : listData,
+		           	headers: {'Content-Type': 'application/json'}
+		        }).success(function(data) {
+					bookmarkslist = data;
+					successMethod(data);
+				}).error(function(data, status, header, config){
+					errorMethod(status);
+				});
+			};
+
+		factory.deleteBookmarksList = function(id, successMethod, errorMethod){
+				var q = 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarklist/' + id;
+				console.log(q);
+				$http.delete(q)
+				.success(function(data) {
+					bookmarkslist = data;
+					successMethod(data);
+				}).error(function(data, status, header, config){
+					errorMethod(status);
+				});
+			};
+		factory.getBookmark = function(id, successMethod, errorMethod){
 					$http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmark/' + id)
 					.success(function(data) {
 						bookmark = data;
@@ -220,9 +263,9 @@ angular.module('arachne.services', [])
 					}).error(function(data, status, header, config){
 						errorMethod(status);
 					});
-			},
-			createBookmark : function(bm, id, successMethod, errorMethod) {
-				var q = 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/' + id + "/add";
+			};
+		factory.createBookmark = function(bm, id, successMethod, errorMethod) {
+				var q = 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarkList/' + id + '/add';
 				console.log(q);
 				$http({
 					url : q,
@@ -236,8 +279,8 @@ angular.module('arachne.services', [])
 				}).error(function(data, status, header, config){
 					errorMethod(status);
 				});
-			},
-			deleteBookmark : function(id, successMethod, errorMethod){
+			};
+		factory.deleteBookmark = function(id, successMethod, errorMethod){
 				var q = 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmark/' + id;
 				console.log(q);
 				$http.delete(q)
@@ -247,41 +290,7 @@ angular.module('arachne.services', [])
 				}).error(function(data, status, header, config){
 					errorMethod(status);
 				});
-			},
-			getBookmarksList : function(successMethod, errorMethod){
-				$http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarklist')
-				.success(function(data) {
-					bookmarkslist = data;
-					successMethod(data);
-				}).error(function(data, status, header, config){
-					errorMethod(status);
-				});
-			},
-			createBookmarksList : function(listData, successMethod, errorMethod) {
-				$http({
-					url : 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarklist',
-		            isArray: false,
-		            method: 'POST',
-		            data : listData,
-		           	headers: {'Content-Type': 'application/json'}
-		        }).success(function(data) {
-					bookmarkslist = data;
-					successMethod(data);
-				}).error(function(data, status, header, config){
-					errorMethod(status);
-				});
-			},
-			deleteBookmarksList : function(id, successMethod, errorMethod){
-				var q = 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarklist/' + id;
-				console.log(q);
-				$http.delete(q)
-				.success(function(data) {
-					bookmarkslist = data;
-					successMethod(data);
-				}).error(function(data, status, header, config){
-					errorMethod(status);
-				});
-			}
-		}*/
+			};
+		return factory;
 	});
 
