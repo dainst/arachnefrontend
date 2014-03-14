@@ -1,6 +1,36 @@
-<div ng-controller="FilterController as filterController">
+<div ng-controller="SearchCtrl as searchCtrl">
+	<div class="row fullscreenrow">
+        <div ng-if="!searchresults.markers" class="col-md-12">Loading...</div>
+        <div ng-if="searchresults.markers" class="col-md-12 halfscreenMap" map id="map"></div>
+
+	</div>
 	<div class="row">
-        <div ng-if="!map.markers" class="col-md-12">Loading...</div>
-        <div ng-if="map.markers" class="col-md-12 halfscreenMap" map id="map"></div>
+		<div class="col-md-6 col-md-offset-1">
+			<div class="page-header">
+				<h2 ng-repeat="facet in activeFacets" ng-if="facet.name == 'facet_kategorie'" class="capitalized">{{ facet.value }}</h2>
+
+			</div>
+
+			
+			<accordion close-others="oneAtATime">
+				<accordion-group heading="{{facetName | i18n }}" is-open="false"  ng-if="facetName!='facet_geo'" ng-repeat="(facetName,values) in searchresults.facets" >
+					<a class="list-group-item"  ng-click="searchCtrl.addFacet(facetName, facetValue)"  ng-repeat="(facetValue, count) in values">
+						<span class="badge">{{count}}</span>
+						{{facetValue}}
+					</a>
+			    </accordion-group>
+			</accordion>
+			
+		</div>
+		<div class="col-md-3 col-md-offset-1 well well-sm" style="margin-top:-30px">
+			
+			<button type="button" class="btn btn-primary btn-lg btn-block">Alle Datensätze anzeigen</button>
+			<hr>
+		</div>
+		<div class="col-md-6">
+
+				
+
+		</div>
 	</div>
 </div>

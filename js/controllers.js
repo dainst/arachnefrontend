@@ -43,80 +43,27 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	]
 	)
 .controller('SearchCtrl',
-	['$location', 'arachneSearch', '$scope', 
-	function ( $location, arachneSearch, $scope) {
+	['arachneSearch', '$scope', '$route', 
+	function ( arachneSearch, $scope, $route) {
+		var currentTemplateURL = $route.current.templateUrl;
 
-		this.parseUrlFQ = function (fqParam) {
-			var facets = [];
-			fqParam = fqParam.split(/\"\,/);
-			for (var i = fqParam.length - 1; i >= 0; i--) {
-				var facetNameAndVal = fqParam[i].replace(/"/g,'').split(':');
+		$scope.activeFacets = arachneSearch.activeFacets;
 
-				facets.push({
-					name: facetNameAndVal[0],
-					value: facetNameAndVal[1]
-				});
-			};
-			return facets;
-		};
-
-		$scope.activeFacets = $location.$$search.fq ? this.parseUrlFQ($location.$$search.fq) : [];
-
-		this.append = function () {
-			var hash = $location.$$search;
-
-			if (hash.offset) {
-				hash.offset = parseInt(hash.offset)+50;
-			} else {
-				hash.offset = 50;
-			}
-			$scope.search = arachneSearch.executeSearch(hash);
-
-		};
-
-
-		$scope.search = arachneSearch.executeSearch($location.$$search);
 
 		this.addFacet = function (facetName, facetValue) {
-					//Check if facet is already included
-					for (var i = $scope.activeFacets.length - 1; i >= 0; i--) {
-						if ($scope.activeFacets[i].name == facetName) return;
-					};
+			arachneSearch.addFacet(facetName, facetValue);	
+		}
 
-					var hash = $location.$$search;
+		this.removeFacet = function (facet) {
+			arachneSearch.removeFacet(facet);
+		}
 
-					if (hash.fq) {
-						hash.fq += "," + facetName + ':"' + facetValue + '"';
-					} else {
-						hash.fq = facetName + ':"' + facetValue + '"';
-					}
+		if (currentTemplateURL == 'partials/filter.html' || currentTemplateURL == 'partials/map.html') {
+			$scope.searchresults = arachneSearch.getMarkers();
+		} else {
+			$scope.searchresults = arachneSearch.executeSearch();
+		}
 
-					$scope.results = [];
-					$location.search(hash);
-				}
-
-				this.removeFacet = function (facet) {
-					for (var i = $scope.activeFacets.length - 1; i >= 0; i--) {
-						if ($scope.activeFacets[i].name == facet.name) {
-							$scope.activeFacets.splice(i,1);
-						}
-					};
-					$scope.results = [];
-					var facets = $scope.activeFacets.map(function(facet){
-						return facet.name + ':"' + facet.value + '"';
-					}).join(",");
-					var hash = $location.$$search;
-					hash.fq = facets;
-					$location.search(hash);
-				}
-			}
-			]
-			)
-.controller('FilterController', ['$scope', 'arachneSearch', function ($scope, arachneSearch) {
-	var hash = new Object();
-	hash.q = "*";
-	hash.fl= "1500";
-	$scope.map = arachneSearch.getMarkers(hash);
 }
 ]
 )
@@ -271,10 +218,4 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 	teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-}])
-.controller('MapController', ['$scope', 'arachneSearch', function ($scope, arachneSearch) {
-	var hash = new Object();
-	hash.q = "*";
-	hash.fl= "1500";
-	$scope.map = arachneSearch.getMarkers(hash); 
 }]);

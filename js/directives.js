@@ -74,7 +74,7 @@ angular.module('arachne.directives', []).
 		    });
 		    map.addLayer(layer);			
         	L.Icon.Default.imagePath = 'img';
-        	var markers = scope.map.markers;	 
+        	var markers = scope.searchresults.markers;	 
 	        map.addLayer(markers);   
         }
     };

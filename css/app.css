@@ -5,6 +5,16 @@ body {
 	background-color: #F8F8F8;
 	font-family: 'Open Sans', sans-serif;
 }
+.capitalized {
+  text-transform: capitalize;
+}
+
+.row {
+  margin-top:10px;
+}
+.fullscreenrow {
+  margin-top: 0px;
+}
 .facet {
 	margin-top: 14px;
 }
@@ -74,4 +84,11 @@ body {
 }
 .halfscreenMap {
   height: 50%;
+}
+/* Für Filter-Seite, an den Facetten */
+accordion .panel-body {
+  padding: 0px;
+}
+accordion .list-group-item {
+  border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px; cursor:pointer;
 }

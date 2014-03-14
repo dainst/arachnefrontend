@@ -4,11 +4,24 @@
 
 angular.module('arachne.services', [])
 	.factory('arachneSearch', 
-		['$resource','$log',
-			function($resource) {
+		['$resource','$location',
+			function($resource, $location) {
 
+				
+		        function parseUrlFQ (fqParam) {
+		        	if(!fqParam) return;
+					var facets = [];
+					fqParam = fqParam.split(/\"\,/);
+					for (var i = fqParam.length - 1; i >= 0; i--) {
+						var facetNameAndVal = fqParam[i].replace(/"/g,'').split(':');
 
-				var service = {};				
+						facets.push({
+							name: facetNameAndVal[0],
+							value: facetNameAndVal[1]
+						});
+					};
+					return facets;
+				};
 
 		        var arachneDataService = $resource('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/search', {}, {query: {
 		            isArray: false,
@@ -16,42 +29,86 @@ angular.module('arachne.services', [])
 		            headers: {'Content-Type': 'application/json'}
 		        }});
 
-		        service.currentSearch = {};
+		        var _activeFacets = [];
+		        var _currentQueryParameters =  {};
 
-		        service.executeSearch = function (pQueryParams) {
-		        	service.currentSearch.queryParams = pQueryParams;
-		            return arachneDataService.query(pQueryParams, function (data) {
-		            	service.currentSearch.results = data;
-		            	var localStorageReplication = {};
-		            	localStorageReplication.results = data;
-		            	localStorageReplication.queryParams = pQueryParams;
-		            	localStorage.setItem('currentSearch', JSON.stringify(localStorageReplication));
-		            });
-		        };
- 				service.getMarkers = function(pQueryParams){
-		        	service.currentSearch.queryParams = pQueryParams;
-		            return arachneDataService.query(pQueryParams, function (data) {
-		            	service.currentSearch.results = data;		       
-		            	service.currentSearch.results.markers = new L.MarkerClusterGroup();
+		      	
+		        return {
+		        	activeFacets : _activeFacets,
 
-						// title += value.link + "'>Objekte zu diesem Ort anzeigen</a>"
-						// title = title.replace('#simpleBrowsing', '#search')
+		        	executeSearch : function (queryParams) {
+		        		if (queryParams) {
+		        			angular.copy(queryParams,_currentQueryParameters);
+		        		} else {
+		        			angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
+		        			angular.copy( $location.$$search, _currentQueryParameters );
+		        		}
+			            return arachneDataService.query( _currentQueryParameters);
+			        },
 
-		            	for(var entry in data.facets.facet_geo)
-		            	{
-		            		var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1);
-							var coords = coordsString.split(',');
-							var title = entry.substring(0, entry.indexOf("[", 1)-1);
-							//console.log(value.link);
+			        addFacet : function (facetName, facetValue) {
+			        	//Check if facet is already included
+						for (var i = _activeFacets.length - 1; i >= 0; i--) {
+							if (_activeFacets[i].name == facetName) return;
+						};
 
-							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
-							marker.bindPopup(title);
-							service.currentSearch.results.markers.addLayer(marker);
-		            	}   
-            		});
-		        };
+						var hash = $location.$$search;
 
-				return service;
+						if (hash.fq) {
+							hash.fq += "," + facetName + ':"' + facetValue + '"';
+						} else {
+							hash.fq = facetName + ':"' + facetValue + '"';
+						}
+
+						$location.search(hash);
+		        	},
+
+		        	removeFacet : function (facet) {
+		        		for (var i = _activeFacets.length - 1; i >= 0; i--) {
+							if (_activeFacets[i].name == facet.name) {
+								_activeFacets.splice(i,1);
+							}
+						};
+						
+						var facets = _activeFacets.map(function(facet){
+							return facet.name + ':"' + facet.value + '"';
+						}).join(",");
+
+						var hash = $location.$$search;
+						hash.fq = facets;
+
+						$location.search(hash);
+		        	},
+
+		        	getMarkers : function(queryParams){
+		        		if (queryParams) {
+		        			angular.copy(queryParams,_currentQueryParameters);
+		        		} else {
+		        			angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
+		        			angular.copy( $location.$$search, _currentQueryParameters );
+		        		}
+			            return arachneDataService.query(_currentQueryParameters, function (data) {
+			            	data.markers = new L.MarkerClusterGroup();
+
+							// title += value.link + "'>Objekte zu diesem Ort anzeigen</a>"
+							// title = title.replace('#simpleBrowsing', '#search')
+
+			            	for(var entry in data.facets.facet_geo)
+			            	{
+			            		var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1);
+								var coords = coordsString.split(',');
+								var title = entry.substring(0, entry.indexOf("[", 1)-1);
+								//console.log(value.link);
+
+								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
+								marker.bindPopup(title);
+								data.markers.addLayer(marker);
+			            	} 
+			            	return data 
+	            		});
+			        }
+		        }
+
 			
 		}])
 
