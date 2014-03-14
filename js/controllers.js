@@ -142,7 +142,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				});
       		});
 		}
-		console.log($scope.entity);
 }])
 .controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'bookmarksFactory', function($scope, $modalInstance, bookmarksFactory){
 	
