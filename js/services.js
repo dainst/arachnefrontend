@@ -1,7 +1,7 @@
 'use strict';
 
 /* Services */
-
+var serverurl = "http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice";
 angular.module('arachne.services', [])
 	.factory('arachneSearch', 
 		['$resource','$location',
@@ -23,7 +23,7 @@ angular.module('arachne.services', [])
 					return facets;
 				};
 
-		        var arachneDataService = $resource('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/search', {}, {query: {
+		        var arachneDataService = $resource( serverurl + '/search', {}, {query: {
 		            isArray: false,
 		            method: 'GET',
 		            headers: {'Content-Type': 'application/json'}
@@ -117,7 +117,7 @@ angular.module('arachne.services', [])
 	.factory('arachneEntity',
 		['$resource',
 			function($resource){
-				return $resource('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/entity/:id'
+				return $resource( serverurl + '/entity/:id'
 				);
 			}
 		]
@@ -125,7 +125,7 @@ angular.module('arachne.services', [])
 	.factory('arachneEntityImg',
 		['$resource',
 			function($resource){
-				return $resource('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/:id'
+				return $resource( serverurl + '/image/:id'
 				);
 			}
 		]
@@ -148,7 +148,7 @@ angular.module('arachne.services', [])
 			
 			login : function(loginData, success, error) {
 				$http({
-					url : 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/sessions',
+					url :  serverurl + '/sessions',
 		            isArray: false,
 		            method: 'POST',
 		            data : loginData,
@@ -170,14 +170,14 @@ angular.module('arachne.services', [])
 	.factory('newsFactory', function($http){
 		var factory = {};
 		factory.getNews = function() {
-				return $http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/news/de');
+				return $http.get( serverurl + '/news/de');
 			};
 		return factory;
 	})
 	.factory('teaserFactory', function($http){
 		var factory = {};
 		factory.getTeaser = function() {
-				return $http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/teasers/de');
+				return $http.get( serverurl + '/teasers/de');
 			};
 		return factory;
 	})
@@ -222,7 +222,7 @@ angular.module('arachne.services', [])
 		};
 
 		factory.getBookmarksList = function(successMethod, errorMethod){
-				return $http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarklist')
+				return $http.get( serverurl + '/bookmarklist')
 				.success(function(data) {
 					bookmarkslist = data;
 					successMethod(data);
@@ -233,7 +233,7 @@ angular.module('arachne.services', [])
 
 		factory.createBookmarksList = function(listData, successMethod, errorMethod) {
 				$http({
-					url : 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarklist',
+					url :  serverurl + '/bookmarklist',
 		            isArray: false,
 		            method: 'POST',
 		            data : listData,
@@ -247,7 +247,7 @@ angular.module('arachne.services', [])
 			};
 
 		factory.deleteBookmarksList = function(id, successMethod, errorMethod){
-				var q = 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarklist/' + id;
+				var q = serverurl + '/bookmarklist/' + id;
 				console.log(q);
 				$http.delete(q)
 				.success(function(data) {
@@ -258,7 +258,7 @@ angular.module('arachne.services', [])
 				});
 			};
 		factory.getBookmark = function(id, successMethod, errorMethod){
-					$http.get('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmark/' + id)
+					$http.get( serverurl + '/bookmark/' + id)
 					.success(function(data) {
 						bookmark = data;
 						successMethod(data);
@@ -267,7 +267,7 @@ angular.module('arachne.services', [])
 					});
 			};
 		factory.createBookmark = function(bm, id, successMethod, errorMethod) {
-				var q = 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmarkList/' + id + '/add';
+				var q =  serverurl + '/bookmarkList/' + id + '/add';
 				console.log(q);
 				$http({
 					url : q,
@@ -283,7 +283,7 @@ angular.module('arachne.services', [])
 				});
 			};
 		factory.deleteBookmark = function(id, successMethod, errorMethod){
-				var q = 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/bookmark/' + id;
+				var q =  serverurl + '/bookmark/' + id;
 				console.log(q);
 				$http.delete(q)
 				.success(function(data) {
