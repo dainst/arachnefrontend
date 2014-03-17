@@ -83,9 +83,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			console.log(input);
 			return result;
 		}
+		$scope.blub = function () {
+			alert("asd");
+		}
 
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
-
+		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
 		$scope.bookmark = {};
 

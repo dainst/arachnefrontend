@@ -93,8 +93,22 @@
 		</div>
 		<button type="button" class="btn btn-default" ng-click="createBookmarkModal()" ng-if="!isBookmark">Bookmark!</button>
 		<div class="Bilder-Container" ng-if="entity.thumbnailId">
-			Image preview: (click to enlarge)
 			<a href="entity/image/{{ entity.thumbnailId }}"><img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
 		</div>
+		
+		<div class="page-header">
+			<h3>Verknüpfte Objekte</h3>
+		</div>
+
+		<accordion close-others="oneAtATime">
+			<accordion-group is-open="false" ng-repeat="facetValue in context">
+				<accordion-heading>
+					<span class="capitalized">{{facetValue.facetValueName}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
+				</accordion-heading>
+				<div ng-if="!facetValue.entities.length">lädt...</div>
+				<div ng-repeat="entity in facetValue.entities">{{entity.title}}</div>
+		    </accordion-group>
+		</accordion>
+
 	</div>
 </div>

@@ -23,11 +23,34 @@ angular.module('arachne.services', [])
 					return facets;
 				};
 
-		        var arachneDataService = $resource( serverurl + '/search', {}, {query: {
-		            isArray: false,
-		            method: 'GET',
-		            headers: {'Content-Type': 'application/json'}
-		        }});
+		        var arachneDataService = $resource('', { }, {
+		        	query: {
+			        	url : serverurl + '/search',
+			            isArray: false,
+			            method: 'GET'
+			        },
+		        	context :  {
+		        		//in transformReponse an Array gets build, so an array should be the aspected result
+		        		isArray: true,
+			        	url : serverurl + '/contexts/:id',
+			            method: 'GET',
+			            transformResponse : function (data) {
+			            	data = JSON.parse(data).facets['facet_kategorie'];
+			            	var context = [];
+			            	console.log(data);
+			            	for(var facetValue in data) {
+			            		var facetValueObject = {
+			            			'facetValueName' : facetValue,
+			            			'count' : data[facetValue],
+			            			'entities' : []
+			            		}
+			            		context.push(facetValueObject);
+			            	} 
+			            	return context;
+			            }
+
+		        	}
+		    	});
 
 		        var _activeFacets = [];
 		        var _currentQueryParameters =  {};
@@ -46,6 +69,19 @@ angular.module('arachne.services', [])
 		        			angular.copy( $location.$$search, _currentQueryParameters );
 		        		}
 			            return arachneDataService.query( _currentQueryParameters);
+			        },
+
+			        getContext : function (queryParams) {
+			        	return arachneDataService.context(queryParams);
+			        },
+
+			        getContextualEntitiesForEntityWithFacetValueName : function (queryParams) {
+			        	return $http({
+							url :  serverurl + '/contexts/',
+				            isArray: true
+				        }).success(function (result) {
+						    return result.entities;
+						})
 			        },
 
 			        addFacet : function (facetName, facetValue) {
