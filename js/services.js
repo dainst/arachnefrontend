@@ -4,7 +4,7 @@
 var serverurl = "http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice";
 angular.module('arachne.services', [])
 	.factory('arachneSearch', 
-		['$resource','$location',
+		['$resource','$location', 
 			function($resource, $location) {
 
 			//PRIVATE
@@ -37,7 +37,6 @@ angular.module('arachne.services', [])
 			            transformResponse : function (data) {
 			            	data = JSON.parse(data).facets['facet_kategorie'];
 			            	var context = [];
-			            	console.log(data);
 			            	for(var facetValue in data) {
 			            		var facetValueObject = {
 			            			'facetValueName' : facetValue,
@@ -47,6 +46,14 @@ angular.module('arachne.services', [])
 			            		context.push(facetValueObject);
 			            	} 
 			            	return context;
+			            }
+		        	},
+		        	contextEntities : {
+		        		isArray: true,
+			        	url : serverurl + '/contexts/:id',
+			            method: 'GET',
+			            transformResponse : function (data) {
+			            	return JSON.parse(data).entities;
 			            }
 
 		        	}
@@ -75,13 +82,8 @@ angular.module('arachne.services', [])
 			        	return arachneDataService.context(queryParams);
 			        },
 
-			        getContextualEntitiesForEntityWithFacetValueName : function (queryParams) {
-			        	return $http({
-							url :  serverurl + '/contexts/',
-				            isArray: true
-				        }).success(function (result) {
-						    return result.entities;
-						})
+			        getContextualEntities : function (queryParams) {
+			        	return arachneDataService.contextEntities(queryParams);
 			        },
 
 			        addFacet : function (facetName, facetValue) {

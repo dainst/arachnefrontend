@@ -51,7 +51,7 @@
 		<b class="text-muted small uppercase">Aktuelle Suche</b><br>
 		Suche nach <b>{{currentSearch.queryParams.q}}</b>
 
-		<div>
+		<div style="overflow:hidden">
 			{{currentSearch.queryParams.fq}}	
 		</div>
 
@@ -100,13 +100,22 @@
 			<h3>Verknüpfte Objekte</h3>
 		</div>
 
-		<accordion close-others="oneAtATime">
-			<accordion-group is-open="false" ng-repeat="facetValue in context">
+		<accordion close-others="true">
+			<accordion-group is-open="false" ng-repeat="facetValue in context" ng-click="loadFacetValue(facetValue)" ng-switch="facetValue.facetValueName == 'marbilder' || facetValue.facetValueName == 'buchseite'">
 				<accordion-heading>
 					<span class="capitalized">{{facetValue.facetValueName}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
 				</accordion-heading>
-				<div ng-if="!facetValue.entities.length">lädt...</div>
-				<div ng-repeat="entity in facetValue.entities">{{entity.title}}</div>
+				<span class="list-group-item" ng-if="!facetValue.entities.length" >lädt...</span>
+				<div ng-switch-when="true">
+					<a  href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
+						<img class="col-md-3" style="padding: 4px; max-height:70px" ng-src="http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice/image/thumbnail/{{entity.thumbnailId}}">
+					</a>
+				</div>
+				<div ng-switch-default="">
+					<a class="list-group-item" href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
+						{{entity.title}}
+					</a>
+				</div>
 		    </accordion-group>
 		</accordion>
 

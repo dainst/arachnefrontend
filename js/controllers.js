@@ -83,8 +83,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			console.log(input);
 			return result;
 		}
-		$scope.blub = function () {
-			alert("asd");
+		
+		$scope.loadFacetValue = function (facetValue) {
+			if (!facetValue.entities.length) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.facetValueName});
 		}
 
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
