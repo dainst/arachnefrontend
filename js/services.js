@@ -1,7 +1,7 @@
 'use strict';
 
 /* Services */
-var serverurl = "http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice";
+var serverurl = "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice";
 angular.module('arachne.services', [])
 	.factory('arachneSearch', 
 		['$resource','$location', 

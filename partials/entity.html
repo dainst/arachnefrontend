@@ -97,7 +97,7 @@
 		</div>
 		
 		<div class="page-header">
-			<h3>Verknüpfte Objekte</h3>
+			<h3>{{ 'msg_relatedObjects' | i18n }}</h3>
 		</div>
 
 		<accordion close-others="true">
@@ -105,10 +105,10 @@
 				<accordion-heading>
 					<span class="capitalized">{{facetValue.facetValueName}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
 				</accordion-heading>
-				<span class="list-group-item" ng-if="!facetValue.entities.length" >lädt...</span>
+				<span class="list-group-item" ng-if="!facetValue.entities.length" >{{ 'msg_loading...' | i18n }} </span>
 				<div ng-switch-when="true">
 					<a  href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
-						<img class="col-md-3" style="padding: 4px; max-height:70px" ng-src="http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice/image/thumbnail/{{entity.thumbnailId}}">
+						<img class="col-md-3" style="padding: 4px; max-height:70px" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/thumbnail/{{entity.thumbnailId}}">
 					</a>
 				</div>
 				<div ng-switch-default="">
