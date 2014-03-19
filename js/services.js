@@ -135,10 +135,14 @@ angular.module('arachne.services', [])
 
 			            	for(var entry in data.facets.facet_geo)
 			            	{
+			            		var num = 0;
+			            		if (data.facets.facet_geo.hasOwnProperty(entry)) 
+    								num = data.facets.facet_geo[entry];
 			            		var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1);
 								var coords = coordsString.split(',');
-								var title = entry.substring(0, entry.indexOf("[", 1)-1);
-								//console.log(value.link);
+								var title = "<b>" + entry.substring(0, entry.indexOf("[", 1)-1) + "</b><br/>";
+								title += "Einträge zu diesem Ort: " + num + "<br>";
+								title += "<a href=''>Diese Einträge anzeigen</a>";
 
 								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
 								marker.bindPopup(title);
@@ -160,14 +164,13 @@ angular.module('arachne.services', [])
 			}
 		]
 	)
-	.factory('arachneEntityImg',
-		['$resource',
-			function($resource){
-				return $resource( serverurl + '/image/:id'
-				);
-			}
-		]
-	)
+	.factory('arachneEntityImg', ['$resource', '$http', function($resource, $http){
+		var factory = {};
+		factory.getXml = function(id){
+			return $http.get(serverurl + '/image/zoomify/' + id.id +'/ImageProperties.xml');
+		}
+		return factory;
+	}])
 	.factory('sessionService', function($http, $cookieStore){
 		
 		var currentUser = $cookieStore.get('user') || {};
