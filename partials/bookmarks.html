@@ -17,6 +17,21 @@
         	</div>
 		</div>
 	</script> 
+	<script type="text/ng-template" id="updateBookmarkModal.html">
+		<div class="modal-header">
+			<h4 class="modal-title"><img src="img/arachnelogo.png" style="height: 36px; opacity: 0.43; width: 36px;"></img>Neuen Kommentar eingeben:
+			</h4>
+		</div>
+		<div class="modal-body">
+			<div class="form-group">
+				<input type="commentary" class="form-control" ng-model="commentary" placeholder="commentary">
+			</div>
+			<div class="modal-footer">
+            	<button class="btn btn-primary" ng-click="$close(commentary)">OK</button>
+            	<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+        	</div>
+		</div>
+	</script> 
 
 	<div ng-if="bmStatus == 404">
 		<p>keine Liste vorhanden, bitte eine erstellen!</p>
@@ -32,11 +47,13 @@
 		<accordion ng-repeat="bookmarksList in bookmarksLists" >
 			<accordion-group  is-open="true">
 	    	<accordion-heading>
-	    			<h4  class="capitalized">{{ bookmarksList.name }} <small>{{ bookmarksList.commentary }} </small><button type="button" class="btn btn-default" ng-click="deleteBookmarksList(bookmarksList.id)">lösche Liste</button></h4>
+	    			<h4  class="capitalized">{{ bookmarksList.name }} <small>{{ bookmarksList.commentary }} </small><button type="button" class="btn btn-default" ng-click="deleteBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-trash"></button></h4>
 	    	</accordion-heading>
 	    		<div ng-repeat="bookmarks in bookmarksList.bookmarks"class="list-group-item clearfix">
-	    					<b class="title" class="capitalized">{{ bookmarks.arachneEntityId }}</b>
-	    					{{ bookmarks.commentary }} <button type="button" class="btn btn-sm pull-right" ng-click="deleteBookmark(bookmarks.id)">lösche Bookmark</button>
+	    					<a href="../frontend/entity/{{bookmarks.arachneEntityId }}" class="title" class="capitalized">{{ bookmarks.arachneEntityId }}</a>
+	    					{{ bookmarks.commentary }} 
+	    					<button type="button" class="btn btn-sm pull-right" ng-click="deleteBookmark(bookmarks.id)"><span class="glyphicon glyphicon-trash"></span></button>
+	    					<button type="button" class="btn btn-sm pull-right" ng-click="updateBookmarkModal(bookmarks.id)"><span class="glyphicon glyphicon-pencil"></span></button>		
   				</div>
 	    	</accordion-group>
 	  	</accordion>
