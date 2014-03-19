@@ -1,3 +1,6 @@
 <div ng-controller="EntityImgCtrl as entityImgCtrl">
-<img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/{{ imgID }}"></img>
+	<div class="">	
+        <div ng-if="!id" class="col-md-12">Loading...</div>
+		<div ng-if="id" style="height:100%" zoomifyimg id="zoomifyimg"></div>
+	</div>
 </div>

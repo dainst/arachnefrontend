@@ -315,7 +315,22 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 }])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
 		function ($routeParams, $scope, arachneEntityImg) {
-		//$scope.img = arachneEntityImg.get({id:$routeParams.id});
+		arachneEntityImg.getXml({id:$routeParams.id}).success(function(data) { 
+			var xml = data;
+			
+			$scope.id = {id:$routeParams.id}.id;
+			var width = xml.substring(xml.indexOf("WIDTH=\"")+7);
+			$scope.width = width.substring(0, width.indexOf("\""));
+			var height = xml.substring(xml.indexOf("HEIGHT=\"")+8);
+			$scope.height = height.substring(0, height.indexOf("\""));
+			var tile = xml.substring(xml.indexOf("TILESIZE=\"")+10);
+			$scope.tilesize = tile.substring(0, tile.indexOf("\""));
+
+			// console.log($scope.id);
+			// console.log($scope.height);
+			// console.log($scope.width);
+			// console.log($scope.tilesize);
+		})
 		$scope.imgID = $routeParams.id; 	
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
