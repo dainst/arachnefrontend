@@ -307,6 +307,21 @@ angular.module('arachne.services', [])
 						errorMethod(status);
 					});
 			};
+		factory.updateBookmark = function(bm, id, successMethod, errorMethod) {
+				var q =  serverurl + '/bookmark/' + id;
+				console.log(q);
+				$http({
+					url : q,
+		            isArray: false,
+		            method: 'POST',
+		            data : bm,
+		           	headers: {'Content-Type': 'application/json'}
+		        }).success(function(data) {
+					successMethod(data);
+				}).error(function(data, status, header, config){
+					errorMethod(status);
+				});
+			};
 		factory.createBookmark = function(bm, id, successMethod, errorMethod) {
 				var q =  serverurl + '/bookmarkList/' + id + '/add';
 				console.log(q);

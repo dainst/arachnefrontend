@@ -195,16 +195,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			bookmarksFactory.getBookmarksList(
 				function(data){
 					$scope.bookmarksLists = data;
-
-					for(var x in $scope.bookmarksLists){
-						for(var y in $scope.bookmarksLists[x].bookmarks){
-							$scope.bE = arachneEntity.get({id:$scope.bookmarksLists[x].bookmarks[y].arachneEntityId});
-							//console.log($scope.bE);
-							$scope.bookmarksLists[x].bookmarks[y].title = $scope.bE.title;
-							console.log($scope.bookmarksLists[x].bookmarks[y].title);
-						}
-					}
-
 					$scope.bookmarksLists.notEmpty = true;
 					$scope.bmStatus = 0;
 					console.log("BookmarksList erhalten");
@@ -235,7 +225,44 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				}, function(status){
 					console.log("error deleting Bookmark" + status);
 				});
-			
+		}
+
+		$scope.updateBookmarkModal= function(id){
+			var modalInstance = $modal.open({
+				templateUrl: 'updateBookmarkModal.html'
+			});	
+
+			modalInstance.close = function(commentary){
+				if(commentary == undefined || commentary == ""){
+					alert("Kommentar setzen!")
+				}else{
+					modalInstance.dismiss();
+					$scope.updateBookmark(id, commentary);
+				}
+			}
+		}
+
+		$scope.updateBookmark = function(id, commentary){
+			var bm = new Object();
+			bookmarksFactory.getBookmark(id,
+				function(data){
+					console.log("got Bookmark" + data);
+					bm = data;
+					bm.commentary = commentary;
+
+					bookmarksFactory.updateBookmark(bm, id,
+						function(data)
+						{
+							console.log("Bookmark changed" + data);
+							$scope.refreshBookmarkLists();
+						}, function(status){
+							console.log("error changing bookmark "+ status);
+							$scope.bmStatus = status;
+						});	
+					$scope.refreshBookmarkLists();
+				}, function(status){
+					console.log("error getting Bookmark" + status);
+				});	
 		}
 
 		$scope.createBookmarksListModal = function(){
