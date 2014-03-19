@@ -18,17 +18,29 @@
 		</div>
 	</script> 
 
-	<div ng-if="!bookmarksLists.notEmpty">
+	<div ng-if="bmStatus == 404">
 		<p>keine Liste vorhanden, bitte eine erstellen!</p>
 	</div>
-	{{ bookmarksLists }}
-	<accordion ng-repeat="bookmarksList in bookmarksLists" >
-    	<accordion-group heading="{{ bookmarksList.name }} {{ bookmarksList.commentary }}" is-open="true" >
-      		<div ng-repeat="bookmarks in bookmarksList.bookmarks">
-      			<p> {{ bookmarks.arachneEntityId }}  <small>{{ bookmarks.commentary }} </small></p><button type="button" class="btn btn-default" ng-click="deleteBookmark(bookmarks.id)">lösche Bookmark</button>
-      		</div>
-      		<button type="button" class="btn btn-default" ng-click="deleteBookmarksList(bookmarksList.id)">lösche Liste</button>
-    	</accordion-group>
-  	</accordion>
-  	<button type="button" class="btn btn-default" ng-click="createBookmarksListModal()">neue Liste</button>
+
+	<div ng-if="bmStatus == 403">
+		<p>Bitte erst einloggen!</p>
+	</div>
+	<div class="col-md-6 col-md-offset-3" ng-if="bmStatus == 0 || bmStatus == 404">
+		<div class="page-header">
+			<h2 class="capitalized">Bookmarks</h2>
+		</div>
+		<accordion ng-repeat="bookmarksList in bookmarksLists" >
+			<accordion-group  is-open="true">
+	    	<accordion-heading>
+	    			<h4  class="capitalized">{{ bookmarksList.name }} <small>{{ bookmarksList.commentary }} </small><button type="button" class="btn btn-default" ng-click="deleteBookmarksList(bookmarksList.id)">lösche Liste</button></h4>
+	    	</accordion-heading>
+	    		<div ng-repeat="bookmarks in bookmarksList.bookmarks"class="list-group-item clearfix">
+	    					<b class="title" class="capitalized">{{ bookmarks.arachneEntityId }}</b>
+	    					{{ bookmarks.commentary }} <button type="button" class="btn btn-sm pull-right" ng-click="deleteBookmark(bookmarks.id)">lösche Bookmark</button>
+  				</div>
+	    	</accordion-group>
+	  	</accordion>
+	  	<button type="button" class="btn btn-default" ng-click="createBookmarksListModal()">neue Liste</button>
+	  
+  	</div>
 </div>

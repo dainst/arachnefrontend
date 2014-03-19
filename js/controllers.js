@@ -153,9 +153,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	$scope.hasBookmarkList = false;
 	$scope.selected = {};
 	$scope.selected.commentary = "";
+	$scope.bookmarkError = 0;
 
 	bookmarksFactory.getBookmarksList(
 			function(data){
+				$scope.bookmarkError = 0;
 				$scope.items = data;
 				$scope.selected = {
     				item: $scope.items[0]
@@ -163,9 +165,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
   				$scope.selected.commentary = "commentary";
 			}, function(status){
 				if(status == 404)
-					$scope.bookmarkError = "noList";
+					$scope.bookmarkError = status;
 				else if(status == 403)
-					$scope.bookmarkError = "noLogin";
+					$scope.bookmarkError = status;
 				else
 					console.log("unknown error");
 		});
@@ -182,25 +184,40 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 	teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
 }])
-.controller('BookmarksController',[ '$scope', 'bookmarksFactory', '$modal',
-	function ($scope, bookmarksFactory, $modal){
+.controller('BookmarksController',[ '$scope', 'bookmarksFactory', '$modal', 'arachneEntity',
+	function ($scope, bookmarksFactory, $modal, arachneEntity){
 
 		$scope.bookmarksLists = [];
+		$scope.bmStatus = 0;
+		$scope.bE = []
 
 		$scope.refreshBookmarkLists = function(){
 			bookmarksFactory.getBookmarksList(
 				function(data){
 					$scope.bookmarksLists = data;
+
+					for(var x in $scope.bookmarksLists){
+						for(var y in $scope.bookmarksLists[x].bookmarks){
+							$scope.bE = arachneEntity.get({id:$scope.bookmarksLists[x].bookmarks[y].arachneEntityId});
+							//console.log($scope.bE);
+							$scope.bookmarksLists[x].bookmarks[y].title = $scope.bE.title;
+							console.log($scope.bookmarksLists[x].bookmarks[y].title);
+						}
+					}
+
 					$scope.bookmarksLists.notEmpty = true;
+					$scope.bmStatus = 0;
 					console.log("BookmarksList erhalten");
 				}, function(status){
 					if(status == 404)
 					{
 						$scope.bookmarksLists = [];
+						$scope.bmStatus = 404;
 					}
 					else if(status == 403)
 					{
 						$scope.bookmarksLists = [];
+						$scope.bmStatus = 403;
 					}
 					else
 						console.log("unknown error");
@@ -251,7 +268,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					console.log("Liste erstellt" + data);
 					$scope.refreshBookmarkLists();
 				}, function(status){
-					console.log("error creating list"+ status);
+					console.log("error creating list "+ status);
+					$scope.bmStatus = status;
 				});
 			
 		}
@@ -263,6 +281,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					$scope.refreshBookmarkLists();
 				}, function(status){
 					console.log("error deleting list" + status);
+					$scope.bmStatus = status;
 				});
 			
 		}

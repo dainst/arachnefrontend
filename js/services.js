@@ -255,7 +255,7 @@ angular.module('arachne.services', [])
 					else
 						console.log("unknown error");
 
-					errorMethod("error");
+					errorMethod(status);
 
 				});			
 			
