@@ -119,7 +119,7 @@ angular.module('arachne.directives', []).
 						var mapSize = map.getSize(),
 							zoom = this._getBestFitZoom(mapSize),
 							imageSize = this._imageSize[zoom],
-							center = map.options.crs.pointToLatLng(L.point(imageSize.x/2, imageSize.y /2), zoom);
+							center = map.options.crs.pointToLatLng(L.point(imageSize.x/2, imageSize.y/2), zoom);
 
 						map.setView(center, zoom, true);
 					},
