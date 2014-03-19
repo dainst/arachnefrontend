@@ -112,7 +112,11 @@ angular.module('arachne.directives', []).
 						this._imageSize.reverse();
 						this._gridSize.reverse();
 
-				        this.options.maxZoom = this._gridSize.length - 1;     
+				        this.options.maxZoom = this._gridSize.length - 1;
+				        var southWest = map.unproject([0, options.height], this.options.maxZoom);
+						var northEast = map.unproject([options.width, 0], this.options.maxZoom);
+						map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
+
 					},
 					onAdd: function (map) {
 						L.TileLayer.prototype.onAdd.call(this, map);
@@ -207,9 +211,6 @@ angular.module('arachne.directives', []).
 		    		tolerance: 0.8
 				}).addTo(map);
 
-				var southWest = map.unproject([0, scope.height], 2);
-				var northEast = map.unproject([scope.width, 0], 2);
-				map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 	        }
     	};
 	});
