@@ -62,6 +62,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.searchresults = arachneSearch.getMarkers();
 		} else {
 			$scope.searchresults = arachneSearch.executeSearch();
+		
+		
+			$scope.onSelectPage = function (p) {
+				$scope.currentPage = p;
+				arachneSearch.goToPage(p);
+			}
 		}
 
 }

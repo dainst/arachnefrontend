@@ -1,7 +1,7 @@
 <div class="row" ng-controller="SearchCtrl as searchCtrl">
 	<div class="col-md-2">
 		<div>
-			<small class="text-muted">Insgesamt <b>{{ search.size }}</b> Ergebnisse</small>
+			<small ng-if="searchresults.size" class="text-muted">Insgesamt <b>{{ searchresults.size }}</b> Ergebnisse<br> auf <b>{{numPages}}</b> Seiten</small>
 		</div>
 		<small>
 
@@ -47,8 +47,8 @@
 		</div>
 	</div>	
 
-	<p align="center">
-		<button ng-click="searchresults.append()" ng-if="searchresults.size > 50" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> nächste Seite</button>
+	<p align="center"  ng-show="searchresults.size" >
+		<pagination page="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="{{ 'msg_back' | i18n }}" next-text="{{ 'msg_next' | i18n }}" boundary-links="true" first-text="&laquo;" last-text="&raquo;" on-select-page="onSelectPage(page)" num-pages="numPages"></pagination>
 	</p>
 
 </div>

@@ -23,11 +23,18 @@ angular.module('arachne.services', [])
 					return facets;
 				};
 
+				
+
 		        var arachneDataService = $resource('', { }, {
 		        	query: {
 			        	url : serverurl + '/search',
 			            isArray: false,
-			            method: 'GET'
+			            method: 'GET',
+			            transformResponse : function (data) {
+			            	var data = JSON.parse(data);
+			            	data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
+			            	return data;
+			            }
 			        },
 		        	context :  {
 		        		//in transformReponse an Array gets build, so an array should be the aspected result
@@ -61,7 +68,7 @@ angular.module('arachne.services', [])
 
 		        var _activeFacets = [];
 		        var _currentQueryParameters =  {};
-
+		        var _defaultLimit = 50;
 		      	
 		     //PUBLIC
 		        return {
@@ -75,7 +82,7 @@ angular.module('arachne.services', [])
 		        			angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
 		        			angular.copy( $location.$$search, _currentQueryParameters );
 		        		}
-			            return arachneDataService.query( _currentQueryParameters);
+			            return arachneDataService.query(_currentQueryParameters);
 			        },
 
 			        getContext : function (queryParams) {
@@ -85,6 +92,14 @@ angular.module('arachne.services', [])
 			        getContextualEntities : function (queryParams) {
 			        	return arachneDataService.contextEntities(queryParams);
 			        },
+
+			        goToPage : function (page) {
+			        	var hash = $location.$$search;
+			        	if (!hash.limit) hash.limit = _defaultLimit;
+			        	hash.offset = hash.limit*(page-1);
+			        	$location.search(hash);
+			        },
+
 
 			        addFacet : function (facetName, facetValue) {
 			        	//Check if facet is already included
