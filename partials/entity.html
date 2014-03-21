@@ -8,77 +8,100 @@
 			</ul>
 		</div>
 	</li>
-
-
-
 	<ul ng-if="!section.value">
 		<b>{{section.label}}</b>
 		<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
 	</ul>
-
+</script>
+<script type="text/ng-template" id="createBookmark.html">
+	<div ng-if="bookmarkError == 404">
+		<alert type="danger" close="$dismiss()">Bitte unter Bookmarks erst eine Liste erstellen</alert>
+	</div>
+	<div ng-if="bookmarkError == 403">
+		<alert type="danger" close="$dismiss()">Bitte erst einloggen</alert>
+	</div>
+	<div ng-if="bookmarkError == 0">
+		<div class="modal-header">
+			<h4 class="modal-title"><img src="img/arachnelogo.png" style="height: 36px; opacity: 0.43; width: 36px;"></img>Neue Bookmark anlegen:
+			</h4>
+		</div>
+		<div class="modal-body">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						{{ selected.item.name }} <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+							<li ng-repeat="item in items">
+								<a ng-click="selected.item = item">{{ item.name }}</a>
+							</li>
+						</ul>
+				</div>
+			<div class="form-group" >	
+				<b></br></b>
+				<input type="text" class="form-control" ng-model="selected.commentary">
+			</div>
+		</div>
+		<div class="modal-footer">
+					<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
+					<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+			</div>
+	</div>
 </script>
 
-<div class="row"  ng-controller="EntityCtrl as entityCtrl">
-
-	<script type="text/ng-template" id="createBookmark.html">
-		<div ng-if="bookmarkError == 404">
-			<alert type="danger" close="$dismiss()">Bitte unter Bookmarks erst eine Liste erstellen</alert>
-		</div>
-		<div ng-if="bookmarkError == 403">
-			<alert type="danger" close="$dismiss()">Bitte erst einloggen</alert>
-		</div>
-		<div ng-if="bookmarkError == 0">
-			<div class="modal-header">
-				<h4 class="modal-title"><img src="img/arachnelogo.png" style="height: 36px; opacity: 0.43; width: 36px;"></img>Neue Bookmark anlegen:
-				</h4>
-			</div>
-			<div class="modal-body">
-					<div class="btn-group">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							{{ selected.item.name }} <span class="caret"></span>
-						</button>
-					 	<ul class="dropdown-menu" role="menu">
-					    	<li ng-repeat="item in items">
-					    		<a ng-click="selected.item = item">{{ item.name }}</a>
-					    	</li>
-					  	</ul>
-					</div>
-				<div class="form-group" >	
-					<b></br></b>
-					<input type="text" class="form-control" ng-model="selected.commentary">
-				</div>
-			</div>
-			<div class="modal-footer">
-            	<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
-            	<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
-        	</div>
-		</div>
-	</script> 
+<div class="row"  ng-controller="EntityCtrl as entityCtrl"> 
 
 	<div class="col-md-2" style="padding-top:40px" ng-show="currentSearch">
-		<b class="text-muted small uppercase">Aktuelle Suche</b><br>
-		Suche nach <b>{{currentSearch.queryParams.q}}</b>
-
-		<div style="overflow:hidden">
-			{{currentSearch.queryParams.fq}}	
-		</div>
-
-		<div class="row" ng-repeat="entityCurrent in currentSearch.results.entities" ng-if="entity.entityId == entityCurrent.entityId">
-			<div ng-if="$index-1 >= 0">
-				<a href="entity/{{ currentSearch.results.entities[$index-1].entityId }}" >
-					<button type="button" class="btn btn-default btn-lg"> 
-						<span class="glyphicon glyphicon-arrow-left" ></span>
-					</button>
-				</a>
+		<h5 class="text-muted uppercase"><strong>Suche</strong></h5>
+		<hr>	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Letzte Suche<button type="button"  ng-click="deleteBookmark()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			</div>
-			<div ng-if="!$last">
-				<a href="entity/{{ currentSearch.results.entities[$index+1].entityId }}" >
-				<button type="button" class="btn btn-default btn-lg"> 
-					<span class="glyphicon glyphicon-arrow-right" ></span>
-				</button>
-				</a>
+			<div class="panel-body" style="overflow:hidden">
+				<b>Suchbegriff:</b>
+				<br>
+				{{currentSearch.queryParams.q}}
+				<br>
+				<br>
+				<b>Facetten:</b>
+				<br>
+				{{currentSearch.queryParams.fq}}
 			</div>
 		</div>
+
+
+		<div class="btn-group-vertical btn-block" ng-repeat="entityCurrent in currentSearch.results.entities" ng-if="entity.entityId == entityCurrent.entityId">
+	
+				<a ng-if="$index-1 >= 0" type="button" class="btn btn-block btn-default btn-sm" href="entity/{{ currentSearch.results.entities[$index-1].entityId }}" >
+						<span class="glyphicon glyphicon-arrow-left" ></span> vorheriges Suchergebnis
+						
+				</a>
+			
+
+				<a   type="button" class="btn btn-block btn-default btn-sm"  ng-if="!$last" href="entity/{{ currentSearch.results.entities[$index+1].entityId }}" >
+					
+					nächstes Suchergebnis <span class="glyphicon glyphicon-arrow-right" ></span>
+				</a>
+		</div>
+
+
+		<div class="page-header">
+			<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
+		</div>
+
+
+		<div ng-if="isBookmark"  class="panel panel-warning">
+			<div class="panel-heading">
+				Ihre Notiz<button type="button"  ng-click="deleteBookmark()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			</div>
+			<div class="panel-body">
+				{{ bookmark.commentary }}<br><br>
+				<button class="btn btn-default btn-xs">Eintrag & Noitz als versenden</button>
+			</div>
+		</div>
+
+		<button type="button" class="btn btn-warning btn-sm" ng-click="createBookmarkModal()" ng-if="!isBookmark"><span class="glyphicon glyphicon-plus"></span> Noitz als Lesezeichen</button>
+
 	</div>
 	<div class="col-md-6">
 		<div class="page-header">
@@ -95,13 +118,25 @@
 		
 	</div>
 	<div class="col-md-4">
-		<div ng-if="isBookmark">
-			Bookmark: {{ bookmark.commentary }}
-			<button type="button" class="btn btn-default" ng-click="deleteBookmark()"><span class="glyphicon glyphicon-trash"></button>
+		
+		<div ng-if="entity.thumbnailId">
+			<a href="entity/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
 		</div>
-		<button type="button" class="btn btn-default" ng-click="createBookmarkModal()" ng-if="!isBookmark">Bookmark!</button>
-		<div class="Bilder-Container" ng-if="entity.thumbnailId">
-			<a href="entity/image/{{ entity.thumbnailId }}"><img ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
+		<h3 class="text-justify">
+			<button class="btn btn-default btn-sm" ng-click="showConnectedImages = true" ng-hide="showConnectedImages"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} </span></button>
+		</h3>
+		<div ng-if="showConnectedImages">
+			<div class="page-header">
+				<h3>{{ 'Verbundene Bilder' | i18n }}</h3>
+			</div>
+
+			<div ng-if="entity.images.length" ng-repeat="image in entity.images">
+				<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="entity.images[$index]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="entity.images[$index+1]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="300" entity="entity.images[$index+2]"></div>
+				</div>
+			</div>
 		</div>
 		
 		<div class="page-header">
@@ -124,7 +159,7 @@
 						{{entity.title}}
 					</a>
 				</div>
-		    </accordion-group>
+				</accordion-group>
 		</accordion>
 	</div>
 </div>

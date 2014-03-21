@@ -20,7 +20,7 @@ angular.module('arachne.directives', []).
 							imagesWidth += images[i].width+4;
 						};
 						// 30 is padding of container
-						scalingPercentage = (document.getElementById("tiledImagesContainer").offsetWidth-30) / (imagesWidth / 100);
+						scalingPercentage = (elem.parent()[0].clientWidth-30) / (imagesWidth / 100);
 						for (var i = images.length - 1; i >= 0; i--) {
 							var newWidth =  (images[i].width/102)*scalingPercentage;
 							images[i].width = newWidth;
@@ -57,6 +57,8 @@ angular.module('arachne.directives', []).
     			var image = '';
        			if(scope.entity.thumbnailId) {
        				image = '<a href="entity/'+scope.entity.entityId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.thumbnailId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a><p><small>' + scope.entity.title+ '</small></p>';
+       			} else if (scope.entity.imageId) {
+       				image = '<a href="entity/image/'+scope.entity.imageId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.imageId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
        			} else {
        				image = '<a href="entity/'+scope.entity.entityId+'"><img src="img/imagePlaceholder.png"></a><p><small>' + scope.entity.title+ '</small></p>';
        			}
