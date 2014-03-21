@@ -9,9 +9,8 @@ angular.module('arachne.directives', []).
 		return {
 			restrict: 'A',
 			link: function (scope, elem, attrs) {
-				var counter = 5;
 				var images = (angular.element(elem).find('img'));
-				
+				var counter = images.length
 				var listener = function () {
 					counter--;
 					if (counter==0) {
@@ -52,6 +51,9 @@ angular.module('arachne.directives', []).
       			entity: '=',
     		},
     		link: function(scope, element, attrs) {
+    			if(scope.entity == "undefined" || scope.entity == null) {
+    				return null;
+    			}
     			var image = '';
        			if(scope.entity.thumbnailId) {
        				image = '<a href="entity/'+scope.entity.entityId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.thumbnailId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a><p><small>' + scope.entity.title+ '</small></p>';
