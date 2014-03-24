@@ -49,47 +49,44 @@
 </script>
 
 <div class="row"  ng-controller="EntityCtrl as entityCtrl"> 
+	<div class="col-md-2" style="padding-top:10px">
 
-	<div class="col-md-2" style="padding-top:40px" ng-show="currentSearch">
-		<h5 class="text-muted uppercase"><strong>Suche</strong></h5>
-		<hr>	
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				Letzte Suche<button type="button"  ng-click="deleteBookmark()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			</div>
-			<div class="panel-body" style="overflow:hidden">
-				<b>Suchbegriff:</b>
-				<br>
-				{{currentSearch.queryParams.q}}
-				<br>
-				<br>
-				<b>Facetten:</b>
-				<br>
-				{{currentSearch.queryParams.fq}}
-			</div>
-		</div>
-
-
-		<div class="btn-group-vertical btn-block" ng-repeat="entityCurrent in currentSearch.results.entities" ng-if="entity.entityId == entityCurrent.entityId">
-	
-				<a ng-if="$index-1 >= 0" type="button" class="btn btn-block btn-default btn-sm" href="entity/{{ currentSearch.results.entities[$index-1].entityId }}" >
-						<span class="glyphicon glyphicon-arrow-left" ></span> vorheriges Suchergebnis
-						
-				</a>
+		<div ng-if="currentQueryParameters.q">
 			
-
-				<a   type="button" class="btn btn-block btn-default btn-sm"  ng-if="!$last" href="entity/{{ currentSearch.results.entities[$index+1].entityId }}" >
-					
-					nächstes Suchergebnis <span class="glyphicon glyphicon-arrow-right" ></span>
-				</a>
+			<div class="page-header">
+				<h5 class="text-muted uppercase"><strong>Suche</strong></h5>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Letzte Suche<button type="button"  ng-click="deleteBookmark()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				</div>
+				<div class="panel-body" style="overflow:hidden">
+					<b>Suchbegriff:</b>
+					<br>
+					{{currentQueryParameters.q}}
+					<br>
+					<br>
+					<b>Facetten:</b>
+					<br>
+					{{currentQueryParameters.fq}}
+				</div>
+			</div>
 		</div>
 
+		<div class="btn-group-vertical btn-block" ng-if="previousEntitySearch.entities[0] || nextEntitySearch.entities[0]">
+    		<a ng-click="setResultIndex(resultIndex-1)" class="btn btn-default" style="text-align:left; overflow:hidden;" href="entity/{{ previousEntitySearch.entities[0].entityId }}" ng-if="previousEntitySearch.entities[0]">
+				<span class="glyphicon glyphicon-arrow-up" ></span> &nbsp; <small>{{previousEntitySearch.entities[0].title}}</small>
+			</a>
+			<!-- <img style="position:absolute; right:0px; top:0px;" class="pull-right" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{previousEntitySearch.entities[0].thumbnailId}}?height=40"> -->
+    		<a ng-click="setResultIndex(resultIndex+1)" class="btn btn-default" style="text-align:left; overflow:hidden;" href="entity/{{ nextEntitySearch.entities[0].entityId }}" ng-if="nextEntitySearch.entities[0]">
+				<span class="glyphicon glyphicon-arrow-down" ></span> &nbsp; <small>{{nextEntitySearch.entities[0].title}}</small>
+			</a>
+			<!-- <img style="position:absolute; right:0px; top:0px;" class="pull-right" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{nextEntitySearch.entities[0].thumbnailId}}?height=40"> -->
+		</div>
 
 		<div class="page-header">
 			<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
 		</div>
-
-
 		<div ng-if="isBookmark"  class="panel panel-warning">
 			<div class="panel-heading">
 				Ihre Notiz<button type="button"  ng-click="deleteBookmark()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

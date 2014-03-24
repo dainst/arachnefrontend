@@ -61,9 +61,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
 			$scope.searchresults = arachneSearch.getMarkers();
 		} else {
-			$scope.searchresults = arachneSearch.executeSearch();
-		
-		
+			$scope.searchresults = arachneSearch.persistentSearch();
+			
+
+			$scope.setResultIndex = function (resultIndex) {
+				arachneSearch.setResultIndex(resultIndex);
+			}
 			$scope.onSelectPage = function (p) {
 				$scope.currentPage = p;
 				arachneSearch.goToPage(p);
@@ -76,11 +79,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('EntityCtrl',
 	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', 'bookmarksFactory',
 	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity,bookmarksFactory ) {
-		if(typeof $scope.currentSearch !== "undefined" && $scope.currentSearch !== null) {
-			$scope.currentSearch = arachneSearch.currentSearch;
-		} else {
-			$scope.currentSearch = JSON.parse(localStorage.getItem('currentSearch'));
-		}
+
+		$scope.currentQueryParameters = arachneSearch.currentQueryParameters;
 		$scope.isArray = function(value) {
 			return angular.isArray(value);
 		}
@@ -97,7 +97,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.entity = arachneEntity.get({id:$routeParams.id});
 		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
-		$scope.bookmark = {};
+
+		$scope.resultIndex = arachneSearch.resultIndex;
+		if(arachneSearch.resultIndex != null) {
+			var queryhash = arachneSearch.currentQueryParameters;
+			queryhash.limit = 1;
+			queryhash.offset = arachneSearch.resultIndex+1;
+			$scope.nextEntitySearch = arachneSearch.search(queryhash);
+			queryhash.offset = arachneSearch.resultIndex-1;
+			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
+		}
+		$scope.setResultIndex = function (resultIndex) {
+			arachneSearch.setResultIndex(resultIndex);
+		}
 
 		$scope.reloadBM = function(){
 				bookmarksFactory.checkEntity($routeParams.id, function(data){;
