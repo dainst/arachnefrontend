@@ -12,6 +12,7 @@ angular.module('arachne',
 	'arachne.controllers',
 	]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+
 	
 	$locationProvider.html5Mode(true);
 
@@ -23,4 +24,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/entity/image/:id?', {templateUrl: 'partials/image.html'})
 		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
 		.when('/map', {templateUrl: 'partials/map.html'});
-}]);
+}]).constant('arachneSettings', {
+		dataserviceUri : "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice"
+		// dataserviceUri : "http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice"
+});

@@ -1,12 +1,10 @@
 'use strict';
 
 /* Services */
-var serverurl = "http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice";
-// var serverurl = "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice";
 angular.module('arachne.services', [])
 	.factory('arachneSearch', 
-		['$resource','$location', 
-			function($resource, $location) {
+		['$resource','$location', 'arachneSettings', 
+			function($resource, $location, arachneSettings) {
 
 			//PRIVATE
 		        function parseUrlFQ (fqParam) {
@@ -28,7 +26,7 @@ angular.module('arachne.services', [])
 			  // All server connections should be defined in this resource
 		        var arachneDataService = $resource('', { }, {
 		        	query: {
-			        	url : serverurl + '/search',
+			        	url : arachneSettings.dataserviceUri + '/search',
 			            isArray: false,
 			            method: 'GET',
 			            transformResponse : function (data) {
@@ -40,7 +38,7 @@ angular.module('arachne.services', [])
 		        	context :  {
 		        		//in transformReponse an Array gets build, so an array should be the aspected result
 		        		isArray: true,
-			        	url : serverurl + '/contexts/:id',
+			        	url : arachneSettings.dataserviceUri + '/contexts/:id',
 			            method: 'GET',
 			            transformResponse : function (data) {
 			            	data = JSON.parse(data).facets['facet_kategorie'];
@@ -58,7 +56,7 @@ angular.module('arachne.services', [])
 		        	},
 		        	contextEntities : {
 		        		isArray: true,
-			        	url : serverurl + '/contexts/:id',
+			        	url : arachneSettings.dataserviceUri + '/contexts/:id',
 			            method: 'GET',
 			            transformResponse : function (data) {
 			            	return JSON.parse(data).entities;
@@ -201,30 +199,40 @@ angular.module('arachne.services', [])
 		}])
 
 	.factory('arachneEntity',
-		['$resource',
-			function($resource){
-				return $resource( serverurl + '/entity/:id'
+		['$resource', 'arachneSettings',
+			function($resource, arachneSettings){
+				return $resource( arachneSettings.dataserviceUri + '/entity/:id'
 				);
 			}
 		]
 	)
-	.factory('arachneEntityImg', ['$resource', '$http', function($resource, $http){
+	.factory('arachneEntityImg', ['$resource', '$http', 'arachneSettings', function($resource, $http, arachneSettings){
 		var factory = {};
 		factory.getXml = function(id){
-			return $http.get(serverurl + '/image/zoomify/' + id.id +'/ImageProperties.xml');
+			return $http.get(arachneSettings.dataserviceUri + '/image/zoomify/' + id.id +'/ImageProperties.xml');
 		}
 		return factory;
 	}])
-	.factory('sessionService', function($http, $cookieStore){
+	.factory('sessionService', ['$http', '$cookieStore', 'arachneSettings', function($http, $cookieStore, arachneSettings){
 		
 		var currentUser = $cookieStore.get('user') || {};
+
 		function changeUser (userFromServer) {
+			
+			// Expiration is set to 'session'!
+			//	var date = new Date();
+			//	date.setTime(date.getTime()+(1*60*1000));
+			//	var _expires = date.toUTCString();
+			//	var _offset = -date.getTimezoneOffset()/60;
+
 	       	angular.extend(currentUser, {
 	       		username : userFromServer.userAdministration.username,
 	       		lastname : userFromServer.userAdministration.lastname,
 	       		firstname: userFromServer.userAdministration.firstname
 	       	});
-	       	$cookieStore.put('user',currentUser);
+	       	// Angulars cookiestore does not handle expires-parameter after the user-object. use native cookie-method
+	       	// Expiration is set to 'session' by using expires=''
+	       	document.cookie = 'user='+JSON.stringify(currentUser)+';timezone='+_offset+';expires=;path=/';
 	    };
 
 		return {
@@ -233,7 +241,7 @@ angular.module('arachne.services', [])
 			
 			login : function(loginData, success, error) {
 				$http({
-					url :  serverurl + '/sessions',
+					url :  arachneSettings.dataserviceUri + '/sessions',
 		            isArray: false,
 		            method: 'POST',
 		            data : loginData,
@@ -251,22 +259,22 @@ angular.module('arachne.services', [])
 				}).error(error);
 			}
 		}
-	})
-	.factory('newsFactory', function($http){
+	}])
+	.factory('newsFactory', ['$http', 'arachneSettings', function($http, arachneSettings){
 		var factory = {};
 		factory.getNews = function() {
-				return $http.get( serverurl + '/news/de');
+				return $http.get( arachneSettings.dataserviceUri + '/news/de');
 			};
 		return factory;
-	})
-	.factory('teaserFactory', function($http){
+	}])
+	.factory('teaserFactory', ['$http', 'arachneSettings', function($http, arachneSettings){
 		var factory = {};
 		factory.getTeaser = function() {
-				return $http.get( serverurl + '/teasers/de');
+				return $http.get( arachneSettings.dataserviceUri + '/teasers/de');
 			};
 		return factory;
-	})
-	.factory('bookmarksFactory', function($http){
+	}])
+	.factory('bookmarksFactory', ['$http', 'arachneSettings', function($http, arachneSettings){
 		var factory = {};
 		var bookmarkslist = {};
 		var bookmark = {};
@@ -307,7 +315,7 @@ angular.module('arachne.services', [])
 		};
 
 		factory.getBookmarksList = function(successMethod, errorMethod){
-				return $http.get( serverurl + '/bookmarklist')
+				return $http.get( arachneSettings.dataserviceUri + '/bookmarklist')
 				.success(function(data) {
 					bookmarkslist = data;
 					successMethod(data);
@@ -318,7 +326,7 @@ angular.module('arachne.services', [])
 
 		factory.createBookmarksList = function(listData, successMethod, errorMethod) {
 				$http({
-					url :  serverurl + '/bookmarklist',
+					url :  arachneSettings.dataserviceUri + '/bookmarklist',
 		            isArray: false,
 		            method: 'POST',
 		            data : listData,
@@ -332,7 +340,7 @@ angular.module('arachne.services', [])
 			};
 
 		factory.deleteBookmarksList = function(id, successMethod, errorMethod){
-				var q = serverurl + '/bookmarklist/' + id;
+				var q = arachneSettings.dataserviceUri + '/bookmarklist/' + id;
 				console.log(q);
 				$http.delete(q)
 				.success(function(data) {
@@ -343,7 +351,7 @@ angular.module('arachne.services', [])
 				});
 			};
 		factory.getBookmark = function(id, successMethod, errorMethod){
-					$http.get( serverurl + '/bookmark/' + id)
+					$http.get( arachneSettings.dataserviceUri + '/bookmark/' + id)
 					.success(function(data) {
 						bookmark = data;
 						successMethod(data);
@@ -352,7 +360,7 @@ angular.module('arachne.services', [])
 					});
 			};
 		factory.updateBookmark = function(bm, id, successMethod, errorMethod) {
-				var q =  serverurl + '/bookmark/' + id;
+				var q =  arachneSettings.dataserviceUri + '/bookmark/' + id;
 				console.log(q);
 				$http({
 					url : q,
@@ -367,7 +375,7 @@ angular.module('arachne.services', [])
 				});
 			};
 		factory.createBookmark = function(bm, id, successMethod, errorMethod) {
-				var q =  serverurl + '/bookmarkList/' + id + '/add';
+				var q =  arachneSettings.dataserviceUri + '/bookmarkList/' + id + '/add';
 				console.log(q);
 				$http({
 					url : q,
@@ -383,7 +391,7 @@ angular.module('arachne.services', [])
 				});
 			};
 		factory.deleteBookmark = function(id, successMethod, errorMethod){
-				var q =  serverurl + '/bookmark/' + id;
+				var q =  arachneSettings.dataserviceUri + '/bookmark/' + id;
 				console.log(q);
 				$http.delete(q)
 				.success(function(data) {
@@ -394,5 +402,5 @@ angular.module('arachne.services', [])
 				});
 			};
 		return factory;
-	});
+	}]);
 
