@@ -47,8 +47,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ( arachneSearch, $scope, $route) {
 		var currentTemplateURL = $route.current.templateUrl;
 
-		$scope.activeFacets = arachneSearch.activeFacets;
-		$scope.currentQueryParameters = arachneSearch.currentQueryParameters;
+		$scope.activeFacets = arachneSearch.getActiveFacets();
+		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
 
 		this.addFacet = function (facetName, facetValue) {
 			arachneSearch.addFacet(facetName, facetValue);	
@@ -77,40 +77,28 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ]
 )
 .controller('EntityCtrl',
-	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', 'bookmarksFactory',
-	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity,bookmarksFactory ) {
-
-		$scope.currentQueryParameters = arachneSearch.currentQueryParameters;
-		$scope.isArray = function(value) {
-			return angular.isArray(value);
-		}
-		$scope.typeOf = function(input) {
-			var result = typeof input;
-			console.log(input);
-			return result;
-		}
-		
-		$scope.loadFacetValue = function (facetValue) {
+	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', 'bookmarksFactory', '$location',
+	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, bookmarksFactory, $location ) {
+		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			if (!facetValue.entities.length) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.facetValueName});
 		}
-
-		$scope.entity = arachneEntity.get({id:$routeParams.id});
-		$scope.context = arachneSearch.getContext({id:$routeParams.id});
-		$scope.isBookmark = false;
-
-		$scope.resultIndex = arachneSearch.resultIndex;
-		if(arachneSearch.resultIndex != null) {
-			var queryhash = arachneSearch.currentQueryParameters;
-			queryhash.limit = 1;
-			queryhash.offset = arachneSearch.resultIndex+1;
-			$scope.nextEntitySearch = arachneSearch.search(queryhash);
-			queryhash.offset = arachneSearch.resultIndex-1;
-			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
+		this.goToResults = function () {
+			$location.path('search').search();
 		}
-		$scope.setResultIndex = function (resultIndex) {
-			arachneSearch.setResultIndex(resultIndex);
-		}
+		this.goToNextResult = function () {
+			arachneSearch.setResultIndex($scope.resultIndex+1);
+			var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
+				qHash.resultIndex = arachneSearch.getResultIndex();
+			$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search(qHash);
 
+		}
+		this.goToPreviousResult = function () {
+			arachneSearch.setResultIndex($scope.resultIndex-1);
+			var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
+				qHash.resultIndex = arachneSearch.getResultIndex();
+			$location.url("entity/" + $scope.previousEntitySearch.entities[0].entityId).search(qHash);
+		}
+		
 		$scope.reloadBM = function(){
 				bookmarksFactory.checkEntity($routeParams.id, function(data){;
 				if(data.length == 0){
@@ -127,9 +115,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				console.log(status)
 			});
 		}
-
-		$scope.reloadBM();
-
 		$scope.deleteBookmark = function(){
 			bookmarksFactory.deleteBookmark($scope.bookmark.id,
 			function(data){
@@ -141,7 +126,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 			
 		}
-
 		$scope.createBookmarkModal = function(){
 			var modalInstance = $modal.open({
 				templateUrl: 'createBookmark.html',
@@ -164,6 +148,51 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				});
       		});
 		}
+		$scope.isArray = function(value) {
+			return angular.isArray(value);
+		}
+		$scope.typeOf = function(input) {
+			var result = typeof input;
+			return result;
+		}
+
+	  // RECONSTRUCT SEARCH-SESSION IF THERE IS ONE IN THE URL-PARAMETERS
+		if($location.$$search.q) {
+			var qHash = $location.$$search
+			if(qHash.fq) {
+				arachneSearch.setActiveFacets(qHash.fq);
+			}
+			if (qHash.resultIndex) {
+				arachneSearch.setResultIndex(qHash.resultIndex);
+			}
+			delete qHash.resultIndex;
+			arachneSearch.setCurrentQueryParameters(qHash);
+		}
+
+		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
+		$scope.activeFacets = arachneSearch.getActiveFacets();
+		$scope.resultIndex = arachneSearch.getResultIndex();
+
+		$scope.entity = arachneEntity.get({id:$routeParams.id});
+		$scope.context = arachneSearch.getContext({id:$routeParams.id});
+		$scope.isBookmark = false;
+		$scope.reloadBM();
+
+		if($scope.resultIndex != null) {
+			var queryhash = angular.copy(arachneSearch.getCurrentQueryParameters());
+			queryhash.limit = 1;
+			queryhash.offset = $scope.resultIndex+1;
+			
+			$scope.nextEntitySearch = arachneSearch.search(queryhash);
+			
+			queryhash.offset = $scope.resultIndex-1;
+			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
+		}
+
+
+		
+
+		
 }])
 .controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'bookmarksFactory', function($scope, $modalInstance, bookmarksFactory){
 	
@@ -331,26 +360,26 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 		}
 }])
-.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
-		function ($routeParams, $scope, arachneEntityImg) {
-		arachneEntityImg.getXml({id:$routeParams.id}).success(function(data) { 
-			var xml = data;
+// .controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
+// 		function ($routeParams, $scope, arachneEntityImg) {
+// 		arachneEntityImg.getXml({id:$routeParams.id}).success(function(data) { 
+// 			var xml = data;
 			
-			$scope.id = {id:$routeParams.id}.id;
-			var width = xml.substring(xml.indexOf("WIDTH=\"")+7);
-			$scope.width = width.substring(0, width.indexOf("\""));
-			var height = xml.substring(xml.indexOf("HEIGHT=\"")+8);
-			$scope.height = height.substring(0, height.indexOf("\""));
-			var tile = xml.substring(xml.indexOf("TILESIZE=\"")+10);
-			$scope.tilesize = tile.substring(0, tile.indexOf("\""));
+// 			$scope.id = {id:$routeParams.id}.id;
+// 			var width = xml.substring(xml.indexOf("WIDTH=\"")+7);
+// 			$scope.width = width.substring(0, width.indexOf("\""));
+// 			var height = xml.substring(xml.indexOf("HEIGHT=\"")+8);
+// 			$scope.height = height.substring(0, height.indexOf("\""));
+// 			var tile = xml.substring(xml.indexOf("TILESIZE=\"")+10);
+// 			$scope.tilesize = tile.substring(0, tile.indexOf("\""));
 
-			// console.log($scope.id);
-			// console.log($scope.height);
-			// console.log($scope.width);
-			// console.log($scope.tilesize);
-		})
-		$scope.imgID = $routeParams.id; 	
-}])
+// 			// console.log($scope.id);
+// 			// console.log($scope.height);
+// 			// console.log($scope.width);
+// 			// console.log($scope.tilesize);
+// 		})
+// 		$scope.imgID = $routeParams.id; 	
+// }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 
 	$scope.selection = 'search';

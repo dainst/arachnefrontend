@@ -4,8 +4,6 @@
 
 angular.module('arachne.directives', []).
 	directive('imagesrow', function() {
-
-
 		return {
 			restrict: 'A',
 			link: function (scope, elem, attrs) {

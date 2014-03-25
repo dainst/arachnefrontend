@@ -1,7 +1,8 @@
 'use strict';
 
 /* Services */
-var serverurl = "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice";
+var serverurl = "http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice";
+// var serverurl = "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice";
 angular.module('arachne.services', [])
 	.factory('arachneSearch', 
 		['$resource','$location', 
@@ -23,8 +24,8 @@ angular.module('arachne.services', [])
 					return facets;
 				};
 
-				
-
+			  // THIS IS WHERE THE JUICE IS COMING FROM
+			  // All server connections should be defined in this resource
 		        var arachneDataService = $resource('', { }, {
 		        	query: {
 			        	url : serverurl + '/search',
@@ -65,41 +66,63 @@ angular.module('arachne.services', [])
 
 		        	}
 		    	});
+				
+				//USE GETTERS FOR THESE:
+				var _activeFacets  = [];
+		        var _currentQueryParameters  = {};
+		        var _resultIndex = null;
 
 		      	
 		     //PUBLIC
 		        return {
-		        	activeFacets : [],
-		        	currentQueryParameters : {},
-		        	resultIndex: null,
-
+		        	
+		          //SEARCHING METHODS
 		        	persistentSearch : function (queryParams) {
 		        		if (queryParams) {
-		        			// angular.copy(queryParams,_currentQueryParameters);
-		        			this.currentQueryParameters = queryParams;
+		        			this.setCurrentQueryParameters(queryParams);
 		        		} else {
-		        			// angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
-		        			if($location.$$search.fq) this.activeFacets = parseUrlFQ($location.$$search.fq);
-		        			// angular.copy( $location.$$search, _currentQueryParameters );
-		        			this.currentQueryParameters = $location.$$search;
+		        			if($location.$$search.fq) this.setActiveFacets($location.$$search.fq);
+		        			this.setCurrentQueryParameters($location.$$search);
 		        		}
-			            return arachneDataService.query(this.currentQueryParameters);
+			            return arachneDataService.query(_currentQueryParameters);
 			        },
 
 			        search : function (queryParams) {
-			        	return arachneDataService.query(queryParams);
+			        	if (queryParams) {
+		        			this.setCurrentQueryParameters(queryParams);
+		        		}
+			        	return arachneDataService.query(_currentQueryParameters);
 			        },
-
 			        getContext : function (queryParams) {
 			        	return arachneDataService.context(queryParams);
 			        },
-
 			        getContextualEntities : function (queryParams) {
 			        	return arachneDataService.contextEntities(queryParams);
 			        },
-			        setResultIndex : function (resultIndex) {
-			        	this.resultIndex = resultIndex;
+			        
+			      
+			      //SETTERS FOR VARIABLES
+			      	setResultIndex : function (resultIndex) {
+			        	_resultIndex = parseInt(resultIndex);
 			        },
+			        setCurrentQueryParameters : function (queryParams) {
+			        	angular.copy(queryParams,_currentQueryParameters);
+			        },
+			        setActiveFacets : function (facetsParam) {
+			        	angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
+			        },
+			        
+			      //GETTERS FOR VARIABLES
+			        getActiveFacets : function () {
+			        	return _activeFacets;
+			        },
+			        getCurrentQueryParameters : function () {
+			        	return _currentQueryParameters
+			        },
+			        getResultIndex : function () {
+			        	return _resultIndex;
+			        },
+			        
 
 			        goToPage : function (page) {
 			        	var hash = $location.$$search;
@@ -107,12 +130,10 @@ angular.module('arachne.services', [])
 			        	hash.offset = hash.limit*(page-1);
 			        	$location.search(hash);
 			        },
-
-
 			        addFacet : function (facetName, facetValue) {
 			        	//Check if facet is already included
-						for (var i = this.activeFacets.length - 1; i >= 0; i--) {
-							if (this.activeFacets[i].name == facetName) return;
+						for (var i = _activeFacets.length - 1; i >= 0; i--) {
+							if (_activeFacets[i].name == facetName) return;
 						};
 
 						var hash = $location.$$search;
@@ -127,9 +148,9 @@ angular.module('arachne.services', [])
 		        	},
 
 		        	removeFacet : function (facet) {
-		        		for (var i = this.activeFacets.length - 1; i >= 0; i--) {
-							if (this.activeFacets[i].name == facet.name) {
-								this.activeFacets.splice(i,1);
+		        		for (var i = _activeFacets.length - 1; i >= 0; i--) {
+							if (_activeFacets[i].name == facet.name) {
+								_activeFacets.splice(i,1);
 							}
 						};
 						
@@ -145,16 +166,12 @@ angular.module('arachne.services', [])
 
 		        	getMarkers : function(queryParams){
 		        		if (queryParams) {
-		        			// angular.copy(queryParams,_currentQueryParameters);
-		        			this.currentQueryParameters = queryParams;
+		        			this.setCurrentQueryParameters(queryParams);
 		        		} else {
-		        			// angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
-		        			if($location.$$search.fq)  this.activeFacets = parseUrlFQ($location.$$search.fq);
-		        			
-		        			// angular.copy( $location.$$search, _currentQueryParameters );
-		        			this.currentQueryParameters = $location.$$search;
+		        			if($location.$$search.fq) this.setActiveFacets($location.$$search.fq);
+		        			this.setCurrentQueryParameters($location.$$search);
 		        		}
-			            return arachneDataService.query(this.currentQueryParameters, function (data) {
+			            return arachneDataService.query(_currentQueryParameters, function (data) {
 			            	data.markers = new L.MarkerClusterGroup();
 
 							// title += value.link + "'>Objekte zu diesem Ort anzeigen</a>"

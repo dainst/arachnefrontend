@@ -58,31 +58,32 @@
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Letzte Suche<button type="button"  ng-click="deleteBookmark()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					Letzte Suche <button ng-click="entityCtrl.goToResults()" class="btn btn-xs pull-right btn-default">anzeigen</button>
 				</div>
 				<div class="panel-body" style="overflow:hidden">
-					<b>Suchbegriff:</b>
-					<br>
+					<small class="text-muted uppercase"><strong>Suchbegriff</strong></small><br>
 					{{currentQueryParameters.q}}
-					<br>
-					<br>
-					<b>Facetten:</b>
-					<br>
-					{{currentQueryParameters.fq}}
+					
+					<ul ng-if="activeFacets.length" class="list-unstyled" style="margin-top:10px">
+						<small class="text-muted uppercase"><strong>Facetten</strong></small>
+						<li ng-repeat="facet in activeFacets"><small><i>{{facet.name | i18n}}</i><b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b></small></li>
+					</ul>
 				</div>
 			</div>
 		</div>
 
+<!-- RESULT NAVIGATION -->
 		<div class="btn-group-vertical btn-block" ng-if="previousEntitySearch.entities[0] || nextEntitySearch.entities[0]">
-    		<a ng-click="setResultIndex(resultIndex-1)" class="btn btn-default" style="text-align:left; overflow:hidden;" href="entity/{{ previousEntitySearch.entities[0].entityId }}" ng-if="previousEntitySearch.entities[0]">
+    		<button ng-click="entityCtrl.goToPreviousResult()" class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="previousEntitySearch.entities[0]">
 				<span class="glyphicon glyphicon-arrow-up" ></span> &nbsp; <small>{{previousEntitySearch.entities[0].title}}</small>
-			</a>
+			</button>
 			<!-- <img style="position:absolute; right:0px; top:0px;" class="pull-right" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{previousEntitySearch.entities[0].thumbnailId}}?height=40"> -->
-    		<a ng-click="setResultIndex(resultIndex+1)" class="btn btn-default" style="text-align:left; overflow:hidden;" href="entity/{{ nextEntitySearch.entities[0].entityId }}" ng-if="nextEntitySearch.entities[0]">
+    		<button ng-click="entityCtrl.goToNextResult()"  class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="nextEntitySearch.entities[0]">
 				<span class="glyphicon glyphicon-arrow-down" ></span> &nbsp; <small>{{nextEntitySearch.entities[0].title}}</small>
-			</a>
+			</button>
 			<!-- <img style="position:absolute; right:0px; top:0px;" class="pull-right" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{nextEntitySearch.entities[0].thumbnailId}}?height=40"> -->
 		</div>
+<!-- END RESULT NAVIGATION -->
 
 		<div class="page-header">
 			<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
@@ -141,7 +142,7 @@
 		</div>
 
 		<accordion close-others="true">
-			<accordion-group is-open="false" ng-repeat="facetValue in context" ng-click="loadFacetValue(facetValue)" ng-switch="facetValue.facetValueName == 'marbilder' || facetValue.facetValueName == 'buchseite'">
+			<accordion-group is-open="false" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)" ng-switch="facetValue.facetValueName == 'marbilder' || facetValue.facetValueName == 'buchseite'">
 				<accordion-heading>
 					<span class="capitalized">{{facetValue.facetValueName}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
 				</accordion-heading>

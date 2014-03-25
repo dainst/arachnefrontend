@@ -26,8 +26,11 @@
 ## GridSystem
 * Die normale __row__ benutzen wir paraktisch um alles herum was Spalten (col-md-?) hat. Eine normale row-class hat margin-top: 10px;. Eine fullscreenrow-class hat margin-top:0px.  Wenn es eine fullscreen-anwendung (wie bspw. map) gibt benutzt man beide um das row-margin zu überschreiben.
 
-##Angular JS Files
---- 
+##Angular 
+---
+
+## Allgemeines
+ * Du kannst keine Bindings auf Variablen aus Services oder Factories machen! Siehe http://stackoverflow.com/questions/16023451/binding-variables-from-service-factory-to-controllers  
 
 ##app.js
  * legt in erster linie das Routing fest

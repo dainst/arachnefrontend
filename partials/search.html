@@ -15,7 +15,7 @@
 		</small>
 	</div>
 
-	<div class="col-md-10" ng-switch="listStyle" ng-init="offset = currentQueryParameters.offset? parseInt(currentQueryParameters) : 0">
+	<div class="col-md-10" ng-switch="listStyle" ng-init="offset = currentQueryParameters.offset? parseInt(currentQueryParameters.offset) : 0">
 		<p ng-hide="searchresults.entities.length">Lädt...</p>
 		<div style="margin-bottom:20px">
 			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button> 	
@@ -30,7 +30,7 @@
 			<tr ng-repeat="entity in searchresults.entities" class="small"	>
 				<td class="col-md-1">{{entity.entityId}}</td>
 				<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="searchCtrl.addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
-				<td class="col-md-8"><b><a href="entity/{{entity.entityId}}">{{entity.title}}</a></b></td>
+				<td class="col-md-8"><b><a href="entity/{{entity.entityId}}" ng-click="setResultIndex(offset + $index)">{{entity.title}}</a></b></td>
 				<td class="col-md-2">{{entity.subtitle}}</td>
 			</tr>
 		</table>

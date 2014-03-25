@@ -1,6 +1,5 @@
 'use strict';
 
-
 angular.module('arachne',
 	['ui.bootstrap',
 	'ngRoute',
