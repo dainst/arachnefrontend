@@ -1,5 +1,6 @@
 <div class="row" ng-controller="SearchCtrl as searchCtrl">
-	<div ng-hide="searchresults.entities.length" class="loading"></div>
+	<div ng-hide="searchresults.size >= 0" class="loading"></div>
+	<div ng-if="searchresults.size == 0">Keine Ergebnisse gefunden</div>
 
 	<div class="col-md-2"ng-if="searchresults.size">
 		<div>

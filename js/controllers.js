@@ -83,7 +83,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if (!facetValue.entities.length) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.facetValueName});
 		}
 		this.goToResults = function () {
-			$location.path('search').search();
+			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
 		}
 		this.goToNextResult = function () {
 			arachneSearch.setResultIndex($scope.resultIndex+1);
