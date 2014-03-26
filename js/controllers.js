@@ -59,10 +59,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
-			$scope.searchresults = arachneSearch.getMarkers();
+			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
 		} else {
 			$scope.searchresults = arachneSearch.persistentSearch();
-			
 
 			$scope.setResultIndex = function (resultIndex) {
 				arachneSearch.setResultIndex(resultIndex);
@@ -219,18 +218,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					console.log("unknown error");
 		});
 }])
-.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
-	$scope.items = ['search', 'youtube', 'news'];
-	$scope.selection = $scope.items[0]		
-
-	var hash = new Object();
-	hash.q = "*";
-	hash.fl= "500";
-	$scope.search = arachneSearch.getMarkers(hash);
-
-	newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
-	teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
-}])
 .controller('BookmarksController',[ '$scope', 'bookmarksFactory', '$modal', 'arachneEntity',
 	function ($scope, bookmarksFactory, $modal, arachneEntity){
 
@@ -380,9 +367,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	$scope.selection = 'search';
 	var hash = new Object();
 	hash.q = "*";
-	hash.fl= "1500";
 
-	$scope.search = arachneSearch.getMarkers(hash);
+	$scope.search = arachneSearch.search(hash);
 
 	newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
 	teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})

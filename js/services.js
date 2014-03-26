@@ -62,6 +62,37 @@ angular.module('arachne.services', [])
 							return JSON.parse(data).entities;
 						}
 
+					},
+					queryWithMarkers : {
+						url : arachneSettings.dataserviceUri + '/search',
+						isArray: false,
+						method: 'GET',
+						transformResponse : function (data) {
+							var data = JSON.parse(data);
+							data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
+							data.markers = new L.MarkerClusterGroup();
+
+							// title += value.link + "'>Objekte zu diesem Ort anzeigen</a>"
+							// title = title.replace('#simpleBrowsing', '#search')
+							
+							for(var entry in data.facets.facet_geo)
+							{
+								var num =0;
+								if (data.facets.facet_geo.hasOwnProperty(entry)) 
+									num = data.facets.facet_geo[entry];
+								var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1);
+								var coords = coordsString.split(',');
+								var title = "<b>" + entry.substring(0, entry.indexOf("[", 1)-1) + "</b><br/>";
+								title += "Einträge zu diesem Ort: " + num + "<br>";
+								title += "<a href='search?q=*&fq=facet_geo:\"" + entry +  "\"'>Diese Einträge anzeigen</a>";
+
+								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
+								marker.bindPopup(title);
+								data.markers.addLayer(marker);
+							}
+							return data;
+						}
+
 					}
 				});
 				
@@ -164,36 +195,14 @@ angular.module('arachne.services', [])
 						$location.search(hash);
 					},
 
-					getMarkers : function(queryParams){
+					persistentSearchWithMarkers : function(queryParams){
 						if (queryParams) {
 							this.setCurrentQueryParameters(queryParams);
 						} else {
 							if($location.$$search.fq) this.setActiveFacets($location.$$search.fq);
 							this.setCurrentQueryParameters($location.$$search);
 						}
-						return arachneDataService.query(_currentQueryParameters, function (data) {
-							data.markers = new L.MarkerClusterGroup();
-
-							// title += value.link + "'>Objekte zu diesem Ort anzeigen</a>"
-							// title = title.replace('#simpleBrowsing', '#search')
-							
-							for(var entry in data.facets.facet_geo)
-							{
-								var num =0;
-								if (data.facets.facet_geo.hasOwnProperty(entry)) 
-									num = data.facets.facet_geo[entry];
-								var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1);
-								var coords = coordsString.split(',');
-								var title = "<b>" + entry.substring(0, entry.indexOf("[", 1)-1) + "</b><br/>";
-								title += "Einträge zu diesem Ort: " + num + "<br>";
-								title += "<a href='search?q=*&fq=facet_geo:\"" + entry +  "\"'>Diese Einträge anzeigen</a>";
-
-								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
-								marker.bindPopup(title);
-								data.markers.addLayer(marker);
-							} 
-							return data 
-						});
+						return arachneDataService.queryWithMarkers(_currentQueryParameters);
 					}
 				}
 
