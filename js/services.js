@@ -232,7 +232,7 @@ angular.module('arachne.services', [])
 	       	});
 	       	// Angulars cookiestore does not handle expires-parameter after the user-object. use native cookie-method
 	       	// Expiration is set to 'session' by using expires=''
-	       	document.cookie = 'user='+JSON.stringify(currentUser)+';timezone='+_offset+';expires=;path=/';
+	       	document.cookie = 'user='+JSON.stringify(currentUser)+';expires=;path=/';
 	    };
 
 		return {

@@ -93,3 +93,34 @@ accordion .panel-body {
 accordion .list-group-item {
   border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px; cursor:pointer;
 }
+
+.loading{
+  height:100px;
+  position: absolute;
+  top: 0px;
+  bottom:0px;
+  left: 0px;
+  right: 0px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent grey grey rgba(0,0,0,0);
+  border-radius: 10px;
+  -webkit-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
+}
+@-webkit-keyframes spin{
+  0%{-webkit-transform: rotate(0deg);}
+  100%{-webkit-transform: rotate(720deg);}
+}
+@keyframes spin{
+  0%{transform: rotate(0deg);}
+  100%{transform: rotate(720deg);}
+}
