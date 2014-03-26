@@ -62,7 +62,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
 		} else {
 			$scope.searchresults = arachneSearch.persistentSearch();
-
+			
 			$scope.setResultIndex = function (resultIndex) {
 				arachneSearch.setResultIndex(resultIndex);
 			}

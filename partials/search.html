@@ -25,7 +25,7 @@
 			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button> 	
 			<div class="btn-group pull-right">
 				<button class="btn btn-sm btn-primary" ng-click="listStyle = 'list'" ng-class="{ 'active': listStyle == 'list' }"><span class="glyphicon glyphicon-align-justify"></span> Liste</button>
-				<button class="btn btn-sm btn-primary" ng-click="listStyle = 'map';" ng-class="{ 'active': listStyle == 'map' }"><span class="glyphicon glyphicon-map-marker"></span> Karte (Geo-Ergebnisse)</button>
+				<a href="map/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}&fl=2000" class="btn btn-sm btn-primary" ng-class="{ 'active': listStyle == 'map' }"><span class="glyphicon glyphicon-map-marker"></span> Karte (Geo-Ergebnisse)</a>
 				<button class="btn btn-sm btn-primary" ng-click="listStyle = 'tiles'" ng-class="{ 'active': listStyle == 'tiles' || listStyle == undefined }"><span class="glyphicon glyphicon-picture"></span> Kacheln</button>
 			</div>
 		</div>

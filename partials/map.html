@@ -4,7 +4,7 @@
 		<div ng-hide="searchresults.markers" class="loading"></div>
 
         <div ng-if="searchresults.markers" id="mapNavigation" class="col-md-2 well well-sm" style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:9999;">
-        	<div class="alert alert-info"><small><b>Hinweis</b> - Die Kreise auf dieser Karte zählen die darunterliegenden Orte. Diese Zahlen sind auch nur </small></div>
+        	<div class="alert alert-info"><small><b>Hinweis:</b>  Die Kreise auf dieser Karte zählen die darunterliegenden, <b>relevanten</b> Orte. <b>Annäherungen:</b> Für genaue Ergebnisse bitte die normale Suche nutzen. </small></div>
     		<a href="search/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}" type="button" class="btn btn-primary btn btn-block">Ausgewählte Objekte &nbsp; <i class="glyphicon glyphicon-arrow-right"> </i></a>
     		<div style="margin-top:10px;">
 				<small ng-if="searchresults.size" class="text-muted">
@@ -12,10 +12,14 @@
 				</small>
 
 			</div>
+			<div ng-if="currentQueryParameters.q">
+				<h6 class="text-muted uppercase"><strong>Suchbegriff</strong></h6>
+				{{currentQueryParameters.q}}
+			</div>
 
 			<div ng-if="activeFacets.length">
 				<h6 class="text-muted uppercase"><strong>Aktive Filter</strong></h6>
-    			<button class="btn btn-sm btn-block btn-default linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b> <i class="glyphicon glyphicon-remove-circle pull-right"></i></button>
+    			<button class="btn btn-sm btn-block btn-default linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button>
 			</div>
 
     		
