@@ -86,10 +86,7 @@ angular.module('arachne.services', [])
 			        },
 
 			        search : function (queryParams) {
-			        	if (queryParams) {
-		        			this.setCurrentQueryParameters(queryParams);
-		        		}
-			        	return arachneDataService.query(_currentQueryParameters);
+			        	return arachneDataService.query(queryParams);
 			        },
 			        getContext : function (queryParams) {
 			        	return arachneDataService.context(queryParams);
@@ -104,6 +101,8 @@ angular.module('arachne.services', [])
 			        	_resultIndex = parseInt(resultIndex);
 			        },
 			        setCurrentQueryParameters : function (queryParams) {
+			        	if(queryParams.offset) queryParams.offset = parseInt(queryParams.offset)
+			        	if(queryParams.limit) queryParams.limit = parseInt(queryParams.limit)
 			        	angular.copy(queryParams,_currentQueryParameters);
 			        },
 			        setActiveFacets : function (facetsParam) {
