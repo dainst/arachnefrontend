@@ -120,7 +120,7 @@
 			<a href="entity/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
 		</div>
 		<h3 class="text-justify">
-			<button class="btn btn-default btn-sm btn-primary" ng-click="showConnectedImages = true" ng-hide="showConnectedImages || entity.images.length < 2"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})</span></button>
+			<button class="btn btn-default btn-sm btn-primary" ng-click="showConnectedImages = true" ng-if="entity.images.length < 2" ng-hide="showConnectedImages"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})</span></button>
 		</h3>
 		<div ng-if="showConnectedImages">
 			<div class="page-header">
