@@ -40,14 +40,16 @@
 	<div ng-if="bmStatus == 403">
 		<p>Bitte erst einloggen!</p>
 	</div>
-	<div class="col-md-6 col-md-offset-3" ng-if="bmStatus == 0 || bmStatus == 404">
+	<div class="col-md-6" ng-if="bmStatus == 0 || bmStatus == 404">
 		<div class="page-header">
-			<h2 class="capitalized">Bookmarks</h2>
+			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksListModal()">Neue Liste anlegen</button>
+			<h3 class="capitalized">Ihre Notizen & Lesezeichen</h3>
+
 		</div>
 		<accordion ng-repeat="bookmarksList in bookmarksLists" >
-			<accordion-group  is-open="true">
+			<accordion-group  is-open="false">
 	    	<accordion-heading>
-	    			<h4  class="capitalized">{{ bookmarksList.name }} <small>{{ bookmarksList.commentary }} </small><button type="button" class="btn btn-default" ng-click="deleteBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-trash"></button></h4>
+	    			<h4  class="capitalized">{{ bookmarksList.name }} <small>{{ bookmarksList.commentary }} </small><button type="button" class="btn btn-default pull-right" ng-click="deleteBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-trash"></button></h4>
 	    	</accordion-heading>
 	    		<div ng-repeat="bookmarks in bookmarksList.bookmarks"class="list-group-item clearfix">
 	    					<a href="../frontend/entity/{{bookmarks.arachneEntityId }}" class="title" class="capitalized">{{ bookmarks.arachneEntityId }}</a>
@@ -57,7 +59,11 @@
   				</div>
 	    	</accordion-group>
 	  	</accordion>
-	  	<button type="button" class="btn btn-default" ng-click="createBookmarksListModal()">neue Liste</button>
-	  
+	  	
   	</div>
+  	<div class="col-md-5 col-md-offset-1" ng-if="bmStatus == 0 || bmStatus == 404">
+		<div class="page-header">
+			<h3 class="capitalized">Ihr Profil</h3>
+		</div>
+	</div>
 </div>
