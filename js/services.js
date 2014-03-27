@@ -230,23 +230,22 @@ angular.module('arachne.services', [])
 
 		var arachneDataService = $resource('', { }, {
 			login: {
-						url :  arachneSettings.dataserviceUri + '/sessions',
-						isArray: false,
-						method: 'POST',
-						// data : loginData,
-						headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-						transformRequest: function(obj) {
-							var str = [];
-							for(var p in obj)
-							str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-							return str.join("&");
-						}
-					},
+				url :  arachneSettings.dataserviceUri + '/sessions',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+				transformRequest: function(obj) {
+					var str = [];
+					for(var p in obj)
+					str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+					return str.join("&");
+				}
+			},
 			logout: {
-						url : arachneSettings.dataserviceUri + '/sessions',
-						isArray: false,
-						method: 'DELETE'
-					}
+				url : arachneSettings.dataserviceUri + '/sessions',
+				isArray: false,
+				method: 'DELETE'
+			}
 		});
 
 		function changeUser (userFromServer) {
@@ -270,7 +269,9 @@ angular.module('arachne.services', [])
 		return {
 			user : _currentUser,
 
-			
+			getUserInfo : function () {
+				return arachneDataService.getUserInfo();
+			},
 			login : function(loginData, success, error) {
 				arachneDataService.login(loginData, function (response) {
 					changeUser(response);

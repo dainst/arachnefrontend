@@ -235,6 +235,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.bookmarksLists = [];
 		$scope.bmStatus = 0;
 		$scope.bE = [];
+		$scope.user = sessionService.user;
 
 		this.logout = function () {
 			sessionService.logout();

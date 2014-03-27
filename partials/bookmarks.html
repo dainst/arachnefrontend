@@ -49,13 +49,16 @@
 		<accordion ng-repeat="bookmarksList in bookmarksLists" >
 			<accordion-group  is-open="false">
 	    	<accordion-heading>
-	    			{{ bookmarksList.name }} <small> {{ bookmarksList.commentary }} </small><button type="button" class="btn btn-default btn-sm pull-right" ng-click="deleteBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-trash"></button>
+	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksList(bookmarksList.id)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
 	    	</accordion-heading>
 	    		<div ng-repeat="bookmarks in bookmarksList.bookmarks"class="list-group-item clearfix">
 	    					<a href="../frontend/entity/{{bookmarks.arachneEntityId }}" class="title" >{{ bookmarks.arachneEntityId }}</a>
-	    					{{ bookmarks.commentary }} 
-	    					<button type="button" class="btn btn-sm pull-right" ng-click="deleteBookmark(bookmarks.id)"><span class="glyphicon glyphicon-trash"></span></button>
-	    					<button type="button" class="btn btn-sm pull-right" ng-click="updateBookmarkModal(bookmarks.id)"><span class="glyphicon glyphicon-pencil"></span></button>		
+	    					{{ bookmarks.commentary }}
+	    					<div class="btn-group pull-right">
+		    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmarks.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+		    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmarks.id)"><span class="glyphicon glyphicon-trash"></span></button>
+
+	    					</div>
   				</div>
 	    	</accordion-group>
 	  	</accordion>
@@ -63,8 +66,21 @@
   	</div>
   	<div class="col-md-5 col-md-offset-1" ng-if="bmStatus == 0 || bmStatus == 404">
 		<div class="page-header">
-			
+			<button class="btn pull-right">Abmelden &nbsp; <span class="glyphicon glyphicon-log-out"></span></button>
 			<h3>Ihr Profil</h3>
 		</div>
+
+		<ul class="list-group">
+			<li class="list-group-item">
+				<small class="text-muted">Nutzername</small> <span class="pull-right">{{user.username}}</span>
+			</li>
+			<li class="list-group-item">
+				<small class="text-muted">Vorname</small> <span class="pull-right">{{user.firstname}}</span>
+			</li>
+			<li class="list-group-item">
+				<small class="text-muted">Nachname</small> <span class="pull-right">{{user.lastname}}</span>
+			</li>
+		</ul>
+
 	</div>
 </div>
