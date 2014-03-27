@@ -1,29 +1,29 @@
 <div ng-controller="NewsController as newsController">
 
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-md-4 col-md-offset-4" style="margin-top:20px">
 			<div class="btn-group btn-group-justified">
 				<div class="btn-group">
-					<button type="button" class="btn btn-default" ng-class="{ 'active': selection == 'search' || selection == undefined }" ng-click="selection='search'">{{ "msg_search" | i18n }}</button>
+					<button type="button" class="btn btn-default btn-sm btn-startsite-tab" ng-class="{ 'active': selection == 'search' || selection == undefined }" ng-click="selection='search'">{{ "msg_search" | i18n }}</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn btn-default"  ng-class="{ 'active': selection == 'news' || selection == undefined }" ng-click="selection='news'">News</button>
+					<button type="button" class="btn btn-default btn-sm btn-startsite-tab"  ng-class="{ 'active': selection == 'news' || selection == undefined }" ng-click="selection='news'">News</button>
 				</div>
 				<!--<div class="btn-group">
 					<button type="button" class="btn btn-default" ng-click="selection='map'">Map</button>
 				</div>-->
 				<div class="btn-group">
-					<button type="button" class="btn btn-default" ng-class="{ 'active': selection == 'youtube' || selection == undefined }" ng-click="selection='youtube'">Youtube</button>
+					<button type="button" class="btn btn-default btn-sm btn-startsite-tab" ng-class="{ 'active': selection == 'youtube' || selection == undefined }" ng-click="selection='youtube'">Youtube</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<div ng-switch on="selection">
-		<div ng-switch-when="search" style="padding-top:60px">
+		<div ng-switch-when="search" style="padding-top:80px">
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4 text-center">
-					<h1 style="opacity: 0.57; font-weight: 200"><img style="height: 36px; width: 36px; opacity: 0.77" src="img/arachnelogo.png"> arachne <br></h1>
+					<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px"><img style="height: 66px; width: 66px; opacity: 0.77; margin-right: 10px" src="img/arachnelogo.png"> arachne <br></h1>
 					<h5 style="opacity: 0.57;" ng-show="search.size">  {{ search.size }} Einträge</h5>
 					<form class="input-group form-inline" role="search" method="GET" action="search/" >
 						<input type="text" ng-model="q" name="q" class="form-control" placeholder="Suche">
@@ -33,7 +33,7 @@
 					</form>
 				</div>
 			</div>
-			<div class="row" style="padding-top:60px">
+			<div class="row" style="padding-top:140px">
 				<div class=" col-md-8 col-md-offset-2">
 					
 
@@ -109,11 +109,6 @@
 					<div ng-bind-html="news.body"></div>
 				</div>
 			</div>
-		</div>
-		<!--<div ng-switch-when="map">
-			<div class="row">
-				 <div ng-if="search.markers" class="col-md-12" map id="map"></div>
-			</div>-->
 		</div>
 	</div>
 </div>

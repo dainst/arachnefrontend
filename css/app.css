@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,300);
 
 body {
 	margin-top: 50px;
@@ -7,6 +7,18 @@ body {
 }
 .capitalized {
   text-transform: capitalize;
+}
+
+.btn-startsite-tab {
+  border:none;
+  background: none;
+  border-radius: 0px;
+  border-bottom: 2px solid silver;
+}
+.btn-startsite-tab.active {
+  background: none;
+  box-shadow: none;
+  border-bottom: 2px solid rgb(66,139,202);
 }
 
 .row {
@@ -111,7 +123,7 @@ accordion .list-group-item {
   margin: auto;
   border-width: 1px;
   border-style: solid;
-  border-color: transparent grey grey rgba(0,0,0,0);
+  border-color: transparent rgb(66,139,202) rgb(66,139,202) rgba(0,0,0,0);
   border-radius: 10px;
   -webkit-animation: spin 1.5s linear infinite;
   animation: spin 1.5s linear infinite;

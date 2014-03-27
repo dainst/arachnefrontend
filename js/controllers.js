@@ -4,8 +4,8 @@
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('MenuCtrl',
-	[ '$scope', '$modal', '$log', 'sessionService',
-	function ($scope,  $modal, $log, sessionService){
+	[ '$scope', '$modal', 'sessionService',
+	function ($scope,  $modal, sessionService){
 		$scope.user = sessionService.user;
 
 		$scope.openLoginModal = function () {
