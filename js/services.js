@@ -224,9 +224,30 @@ angular.module('arachne.services', [])
 		}
 		return factory;
 	}])
-	.factory('sessionService', ['$http', '$cookieStore', 'arachneSettings', function($http, $cookieStore, arachneSettings){
+	.factory('sessionService', ['$resource', '$cookieStore', 'arachneSettings', function($resource, $cookieStore, arachneSettings){
 		
-		var currentUser = $cookieStore.get('user') || {};
+		var _currentUser = $cookieStore.get('user') || {};
+
+		var arachneDataService = $resource('', { }, {
+			login: {
+						url :  arachneSettings.dataserviceUri + '/sessions',
+						isArray: false,
+						method: 'POST',
+						// data : loginData,
+						headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+						transformRequest: function(obj) {
+							var str = [];
+							for(var p in obj)
+							str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+							return str.join("&");
+						}
+					},
+			logout: {
+						url : arachneSettings.dataserviceUri + '/sessions',
+						isArray: false,
+						method: 'DELETE'
+					}
+		});
 
 		function changeUser (userFromServer) {
 			
@@ -236,38 +257,28 @@ angular.module('arachne.services', [])
 				var _expires = date.toUTCString();
 				var _offset = -date.getTimezoneOffset()/60;
 
-			angular.extend(currentUser, {
+			angular.extend(_currentUser, {
 				username : userFromServer.userAdministration.username,
 				lastname : userFromServer.userAdministration.lastname,
 				firstname: userFromServer.userAdministration.firstname
 			});
 			// Angulars cookiestore does not handle expires-parameter after the user-object. use native cookie-method
 			// Expiration is set to 'session' by using expires=''
-			document.cookie = 'user='+JSON.stringify(currentUser)+';timezone='+_offset+';expires='+_expires+';path=/';
+			document.cookie = 'user='+JSON.stringify(_currentUser)+';timezone='+_offset+';expires='+_expires+';path=/';
 		};
 
 		return {
-			user : currentUser,
+			user : _currentUser,
 
 			
 			login : function(loginData, success, error) {
-				$http({
-					url :  arachneSettings.dataserviceUri + '/sessions',
-					isArray: false,
-					method: 'POST',
-					data : loginData,
-					headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-					transformRequest: function(obj) {
-						var str = [];
-						for(var p in obj)
-						str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-						return str.join("&");
-					},
-
-				}).success(function (user) {
-						changeUser(user);
-						success(user);
-				}).error(error);
+				arachneDataService.login(loginData, function (response) {
+					changeUser(response);
+					success(response);
+				}, error);
+			},
+			logout : function (success) {
+				arachneDataService.logout({},success);
 			}
 		}
 	}])

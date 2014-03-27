@@ -18,21 +18,32 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	]
 	)
 .controller('LoginCtrl',
-	['$scope', '$modalInstance', 'sessionService', 'md5Filter',
-	function($scope, $modalInstance, sessionService, md5Filter){
+	['$scope', '$modalInstance', 'sessionService', 'md5Filter', '$timeout',
+	function($scope, $modalInstance, sessionService, md5Filter, $timeout){
 		$scope.loginData = {};
 		$scope.user = sessionService.user;
+		$scope.loginerror = false;
 		$scope.login = function () {
 			sessionService.login(
-				{user: $scope.loginData.user, password: md5Filter($scope.loginData.password)}
-				,
-	            function(res) {
-	                console.log("eingeloggt");
+				{
+					user: $scope.loginData.user,
+					password: md5Filter($scope.loginData.password)
+				},
+	            function(response) {
+	            	$scope.loginerror = false;
+	            	var closeModal = function () {
+	            		$modalInstance.dismiss();
+	            	}
+	                $timeout(closeModal, 1200);
+	                
 	            },
-	            function(err) {
-	                console.log("nicht eingeloggt");
+	            function(error) {
+	                $scope.loginerror = true;
+	                var resetLoginerror = function () {
+	                	$scope.loginerror = false;
+	                };
+	                $timeout(resetLoginerror, 2000);
 	            });
-
 		};
 
 		$scope.cancel = function () {
@@ -218,12 +229,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					console.log("unknown error");
 		});
 }])
-.controller('BookmarksController',[ '$scope', 'bookmarksFactory', '$modal', 'arachneEntity',
-	function ($scope, bookmarksFactory, $modal, arachneEntity){
+.controller('BookmarksController',[ '$scope', 'bookmarksFactory', '$modal', 'arachneEntity', 'sessionService',
+	function ($scope, bookmarksFactory, $modal, arachneEntity, sessionService){
 
 		$scope.bookmarksLists = [];
 		$scope.bmStatus = 0;
-		$scope.bE = []
+		$scope.bE = [];
+
+		this.logout = function () {
+			sessionService.logout();
+		}
 
 		$scope.refreshBookmarkLists = function(){
 			bookmarksFactory.getBookmarksList(
