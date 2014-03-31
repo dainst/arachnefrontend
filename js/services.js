@@ -217,10 +217,34 @@ angular.module('arachne.services', [])
 			}
 		]
 	)
-	.factory('arachneEntityImg', ['$resource', '$http', 'arachneSettings', function($resource, $http, arachneSettings){
+	.factory('arachneEntityImg', ['$resource','arachneSettings', function($resource, arachneSettings){
+		var arachneDataService = $resource('', { }, {
+			getImageProperties : {
+				url: arachneSettings.dataserviceUri + '/image/zoomify/:id/ImageProperties.xml',
+				isArray : false,
+				method: 'GET',
+				transformResponse : function (data) {
+					var properties = {};
+					if (window.DOMParser) {
+						var parser = new DOMParser();
+						properties = parser.parseFromString(data,"text/xml");
+					} else {
+						properties = new ActiveXObject("Microsoft.XMLDOM");
+						properties.async=false;
+						properties.loadXML(data);
+					}
+					return {
+						width : properties.firstChild.getAttribute('WIDTH'),
+						height : properties.firstChild.getAttribute('HEIGHT'),
+						tilesize : properties.firstChild.getAttribute('TILESIZE')
+					};
+				}
+			}
+		});
+		
 		return {
-			getXml : function(id){
-				return $http.get(arachneSettings.dataserviceUri + '/image/zoomify/' + id.id +'/ImageProperties.xml');
+			getImageProperties : function(queryParams){
+				return arachneDataService.getImageProperties(queryParams);
 			}
 		}
 	}])

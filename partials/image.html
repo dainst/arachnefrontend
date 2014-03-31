@@ -4,6 +4,6 @@
 			Für die Vollansicht von Bildern, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 		</div>
 		<div ng-if="user.username" ng-init="entityImgCtrl.loadImageProperties();"></div>
-		<div ng-if="id" style="height:100%" zoomifyimg id="zoomifyimg"></div>
+		<div ng-if="imageProperties.width" style="height:100%" zoomifyimg entityid="{{entityId}}" imageProperties="{{imageProperties}}" zoomifyHeight="{{imageProperties.height}}" zoomifiyTilesize="{{imageProperties.tilesize}}"></div>
 	</div>
 </div>

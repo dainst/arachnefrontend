@@ -84,9 +84,8 @@ angular.module('arachne.directives', []).
 	.directive('zoomifyimg', function() {
     	return {
 	        restrict: 'A',
-	        link: function(scope) 
-	        {	
-				var serverurl = "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice"; 
+	        link: function(scope, element, attrs) 
+	        {
 				/*
 				 * L.TileLayer.Zoomify display Zoomify tiles with Leaflet
 				 */
@@ -182,7 +181,7 @@ angular.module('arachne.directives', []).
 						}
 					},
 					getTileUrl: function (tilePoint) {
-						return serverurl + '/image/zoomify/' + this._entityId + '/' + this._map.getZoom() + '-' + tilePoint.x + '-' + tilePoint.y + '.jpg';
+						return 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/zoomify/' + this._entityId + '/' + this._map.getZoom() + '-' + tilePoint.x + '-' + tilePoint.y + '.jpg';
 					},
 
 					_getTileGroup: function (tilePoint) {
@@ -204,12 +203,11 @@ angular.module('arachne.directives', []).
 				L.tileLayer.zoomify = function (entityId, options) {
 					return new L.TileLayer.Zoomify(entityId, options);
 				};
-	
-				var map = L.map('zoomifyimg').setView([0,0], 0);
-				L.tileLayer.zoomify(scope.id, {
-		    		width: scope.width,
-		    		height: scope.height,
-		    		tileSize : scope.tilesize,
+				var map = L.map(element[0]).setView([0,0], 0);
+				L.tileLayer.zoomify(attrs.entityid, {
+		    		width: scope.imageProperties.width,
+		    		height: scope.imageProperties.height,
+		    		tileSize : scope.imageProperties.tilesize,
 		    		tolerance: 0.8
 				}).addTo(map);
 
