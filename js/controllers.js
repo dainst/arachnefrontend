@@ -380,19 +380,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				$scope.height = height.substring(0, height.indexOf("\""));
 				var tile = xml.substring(xml.indexOf("TILESIZE=\"")+10);
 				$scope.tilesize = tile.substring(0, tile.indexOf("\""));
-			}).error(function(response,status){
-				if(status === 403) {
-
-				}
 			});
-			$scope.imgID = $routeParams.id; 
-		}
-
-		if($scope.user) {
-			this.loadImageProperties();
-		}
-
-			
+		}			
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 
