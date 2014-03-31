@@ -21,7 +21,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/bookmarks', {templateUrl: 'partials/bookmarks.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
 		.when('/search/:params?', {templateUrl: 'partials/search.html'})
-		.when('/entity/image/:id?', {templateUrl: 'partials/image.html'})
+		.when('/image/:id?', {templateUrl: 'partials/image.html'})
 		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
 		.when('/map', {templateUrl: 'partials/map.html'});
 }]).constant('arachneSettings', {

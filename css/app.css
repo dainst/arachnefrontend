@@ -80,13 +80,15 @@ body {
 
 .lander-category-thumbnails span {
     padding-left: 4px;
-    color: white;
+    color: black;
+    font-size: 28px;
+    font-weight: 300;
     position: absolute;
     bottom: 0px;
     right: 0px;
     left: 0px;
-    height: 20px;
-    background-color: rgba(0, 0, 0, 0.6); 
+    height: 38px;
+    background-color: rgba(255, 255, 255, 0.84); 
 }
 
 .imagePlaceholder {

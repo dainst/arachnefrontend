@@ -37,8 +37,8 @@
 		<p>keine Liste vorhanden, bitte eine erstellen!</p>
 	</div>
 
-	<div ng-if="bmStatus == 403">
-		<p>Bitte erst einloggen!</p>
+	<div ng-if="bmStatus == 403" class="col-md-12 text-right alert alert-info">
+			Für Notizen und Lesezeichen, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 	</div>
 	<div class="col-md-6" ng-if="bmStatus == 0 || bmStatus == 404">
 		<div class="page-header">
