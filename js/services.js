@@ -218,11 +218,11 @@ angular.module('arachne.services', [])
 		]
 	)
 	.factory('arachneEntityImg', ['$resource', '$http', 'arachneSettings', function($resource, $http, arachneSettings){
-		var factory = {};
-		factory.getXml = function(id){
-			return $http.get(arachneSettings.dataserviceUri + '/image/zoomify/' + id.id +'/ImageProperties.xml');
+		return {
+			getXml : function(id){
+				return $http.get(arachneSettings.dataserviceUri + '/image/zoomify/' + id.id +'/ImageProperties.xml');
+			}
 		}
-		return factory;
 	}])
 	.factory('sessionService', ['$resource', '$cookieStore', 'arachneSettings', function($resource, $cookieStore, arachneSettings){
 		
@@ -242,7 +242,7 @@ angular.module('arachne.services', [])
 				}
 			},
 			logout: {
-				url : arachneSettings.dataserviceUri + '/sessions',
+				url : arachneSettings.dataserviceUri + '/sessions/:sid',
 				isArray: false,
 				method: 'DELETE'
 			}
@@ -259,11 +259,16 @@ angular.module('arachne.services', [])
 			angular.extend(_currentUser, {
 				username : userFromServer.userAdministration.username,
 				lastname : userFromServer.userAdministration.lastname,
-				firstname: userFromServer.userAdministration.firstname
+				firstname: userFromServer.userAdministration.firstname,
+				sid  : userFromServer.sid
 			});
 			// Angulars cookiestore does not handle expires-parameter after the user-object. use native cookie-method
 			// Expiration is set to 'session' by using expires=''
 			document.cookie = 'user='+JSON.stringify(_currentUser)+';timezone='+_offset+';expires='+_expires+';path=/';
+		};
+		function removeCookie () {
+			angular.copy({},_currentUser);
+			document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/"; 
 		};
 
 		return {
@@ -272,14 +277,19 @@ angular.module('arachne.services', [])
 			getUserInfo : function () {
 				return arachneDataService.getUserInfo();
 			},
-			login : function(loginData, success, error) {
+			login : function(loginData, successMethod, errorMethod) {
 				arachneDataService.login(loginData, function (response) {
 					changeUser(response);
-					success(response);
-				}, error);
+					successMethod(response);
+				}, errorMethod);
 			},
-			logout : function (success) {
-				arachneDataService.logout({},success);
+			logout : function (successMethod) {
+				arachneDataService.logout(
+					{sid : _currentUser.sid},
+					function () {
+						removeCookie();
+						successMethod();
+					});
 			}
 		}
 	}])

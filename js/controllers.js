@@ -238,7 +238,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.user = sessionService.user;
 
 		this.logout = function () {
-			sessionService.logout();
+			sessionService.logout(function () {
+				window.location.href = '';
+			});
 		}
 
 		$scope.refreshBookmarkLists = function(){
@@ -363,20 +365,34 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 		}
 }])
-.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 
-	function ($routeParams, $scope, arachneEntityImg) {
-		arachneEntityImg.getXml({id:$routeParams.id}).success(function(data) { 
-			var xml = data;
+.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 'sessionService', 
+	function ($routeParams, $scope, arachneEntityImg, sessionService) {
+		$scope.user = sessionService.user;
+		
+		this.loadImageProperties = function () {
+			arachneEntityImg.getXml({id:$routeParams.id}).success(function(data) { 
+				var xml = data;
+				
+				$scope.id = {id:$routeParams.id}.id;
+				var width = xml.substring(xml.indexOf("WIDTH=\"")+7);
+				$scope.width = width.substring(0, width.indexOf("\""));
+				var height = xml.substring(xml.indexOf("HEIGHT=\"")+8);
+				$scope.height = height.substring(0, height.indexOf("\""));
+				var tile = xml.substring(xml.indexOf("TILESIZE=\"")+10);
+				$scope.tilesize = tile.substring(0, tile.indexOf("\""));
+			}).error(function(response,status){
+				if(status === 403) {
+
+				}
+			});
+			$scope.imgID = $routeParams.id; 
+		}
+
+		if($scope.user) {
+			this.loadImageProperties();
+		}
+
 			
-			$scope.id = {id:$routeParams.id}.id;
-			var width = xml.substring(xml.indexOf("WIDTH=\"")+7);
-			$scope.width = width.substring(0, width.indexOf("\""));
-			var height = xml.substring(xml.indexOf("HEIGHT=\"")+8);
-			$scope.height = height.substring(0, height.indexOf("\""));
-			var tile = xml.substring(xml.indexOf("TILESIZE=\"")+10);
-			$scope.tilesize = tile.substring(0, tile.indexOf("\""));
-		})
-		$scope.imgID = $routeParams.id; 	
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 
