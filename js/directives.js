@@ -56,7 +56,7 @@ angular.module('arachne.directives', []).
        			if(scope.entity.thumbnailId) {
        				image = '<a href="entity/'+scope.entity.entityId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.thumbnailId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a><p><small>' + scope.entity.title+ '</small></p>';
        			} else if (scope.entity.imageId) {
-       				image = '<a href="image/'+scope.entity.imageId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.imageId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
+       				image = '<a href="entity/'+attrs.parententityid+'/image/'+scope.entity.imageId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.imageId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
        			} else {
        				image = '<a href="entity/'+scope.entity.entityId+'"><img src="img/imagePlaceholder.png"></a><p><small>' + scope.entity.title+ '</small></p>';
        			}

@@ -211,9 +211,29 @@ angular.module('arachne.services', [])
 
 	.factory('arachneEntity',
 		['$resource', 'arachneSettings',
-			function($resource, arachneSettings){
-				return $resource( arachneSettings.dataserviceUri + '/entity/:id'
-				);
+			function($resource, arachneSettings) {
+
+				var _currentEntity = {};
+				var arachneDataService = $resource('', { }, {
+					get : {
+						url: arachneSettings.dataserviceUri + '/entity/:id',
+						isArray : false,
+						method: 'GET'
+					}
+				});
+
+				return {
+					getEntityById : function(entityId) {
+						if (_currentEntity.entityId == entityId) {
+							//Caching!
+							return _currentEntity;
+						} else {
+							_currentEntity = arachneDataService.get({id:entityId});
+							return _currentEntity;
+						}
+					}
+
+				}
 			}
 		]
 	)

@@ -183,7 +183,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.resultIndex = arachneSearch.getResultIndex();
 
-		$scope.entity = arachneEntity.get({id:$routeParams.id});
+		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
 		$scope.reloadBM();
@@ -197,12 +197,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 			queryhash.offset = $scope.resultIndex-1;
 			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
-		}
-
-
-		
-
-		
+		}		
 }])
 .controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'bookmarksFactory', function($scope, $modalInstance, bookmarksFactory){
 	
@@ -365,13 +360,33 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 		}
 }])
-.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 'sessionService', 
-	function ($routeParams, $scope, arachneEntityImg, sessionService) {
+.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 'sessionService', 'arachneEntity', 
+	function ($routeParams, $scope, arachneEntityImg, sessionService, arachneEntity) {
+		if($routeParams.entityId) {
+			
+			$scope.previousImage = null;
+		}
 		$scope.user = sessionService.user;
-		$scope.entityId = $routeParams.id;
+		$scope.entityId = $routeParams.imageId;
+		
+		//GALLERY METHODS
 		this.loadImageProperties = function () {
 			$scope.imageProperties = arachneEntityImg.getImageProperties({id: $scope.entityId});
-		}			
+		}
+		this.setNextAndPreviousImages = function () {
+			var currentImageIndex = -1;
+			for (var i = $scope.entity.images.length - 1; i >= 0; i--) {
+				if($scope.entity.images[i].imageId == $scope.entityId) currentImageIndex = i;
+			};
+			$scope.nextImage = ($scope.entity.images[currentImageIndex+1])? $scope.entity.images[currentImageIndex+1] : null;
+			$scope.previousImage = ($scope.entity.images[currentImageIndex-1])? $scope.entity.images[currentImageIndex-1] : null;
+
+		}
+		this.loadEntityForGallery = function () {
+			if ($routeParams.entityId) {
+				$scope.entity = arachneEntity.getEntityById($routeParams.entityId);
+			};
+		}		
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 

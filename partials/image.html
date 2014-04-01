@@ -4,6 +4,16 @@
 			Für die Vollansicht von Bildern, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 		</div>
 		<div ng-if="user.username" ng-init="entityImgCtrl.loadImageProperties();"></div>
-		<div ng-if="imageProperties.width" style="height:100%" zoomifyimg entityid="{{entityId}}" imageProperties="{{imageProperties}}" zoomifyHeight="{{imageProperties.height}}" zoomifiyTilesize="{{imageProperties.tilesize}}"></div>
+		<div ng-if="imageProperties.width" style="height:100%" zoomifyimg entityid="{{entityId}}" imageProperties="{{imageProperties}}" zoomifyHeight="{{imageProperties.height}}" zoomifiyTilesize="{{imageProperties.tilesize}}" ng-init="entityImgCtrl.loadEntityForGallery()"></div>
+		<div ng-if="entity"  style="opacity:0.8; position:absolute; right:10px; top: 60px;">
+			<a class="btn btn-default btn-xs" href="entity/{{entity.entityId}}">{{entity.title}}</a>
+
+		</div>
+
+		<ul class="pager" ng-if="entity.images" ng-init="entityImgCtrl.setNextAndPreviousImages()" style="opacity:0.8; position:absolute; bottom:10px; left:50%">
+			<li class="previous" ng-class="{ 'disabled': !previousImage }"><a href="entity/{{entity.entityId}}/image/{{previousImage.imageId}}" ><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+			<li class="next" ng-class="{ 'disabled': !nextImage }"><a href="entity/{{entity.entityId}}/image/{{nextImage.imageId}}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+		</ul>
+
 	</div>
 </div>
