@@ -15,12 +15,12 @@ angular.module('arachne.directives', []).
 						var scalingPercentage = 0, imagesWidth = 0;
 						for (var i = images.length - 1; i >= 0; i--) {
 							// 4 is padding of image
-							imagesWidth += images[i].width+4;
+							imagesWidth += images[i].width;
 						};
 						// 30 is padding of container
 						scalingPercentage = (elem.parent()[0].clientWidth-30) / (imagesWidth / 100);
 						for (var i = images.length - 1; i >= 0; i--) {
-							var newWidth =  (images[i].width/102)*scalingPercentage;
+							var newWidth =  (images[i].width/101)*scalingPercentage;
 							images[i].width = newWidth;
 							images[i].style.display = 'block';
 
@@ -52,15 +52,16 @@ angular.module('arachne.directives', []).
     			if(scope.entity == "undefined" || scope.entity == null) {
     				return null;
     			}
-    			var image = '';
+    			var newElement = '';
        			if(scope.entity.thumbnailId) {
-       				image = '<a href="entity/'+scope.entity.entityId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.thumbnailId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a><p><small>' + scope.entity.title+ '</small></p>';
+       				var titleText = (scope.entity.title)? scope.entity.title : scope.entity.subtitle;
+       				newElement = '<a href="entity/'+scope.entity.entityId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.thumbnailId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a><p><small>' + titleText + '</small></p>';
        			} else if (scope.entity.imageId) {
-       				image = '<a href="entity/'+attrs.parententityid+'/image/'+scope.entity.imageId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.imageId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
+       				newElement = '<a href="entity/'+attrs.parententityid+'/image/'+scope.entity.imageId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.imageId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
        			} else {
-       				image = '<a href="entity/'+scope.entity.entityId+'"><img src="img/imagePlaceholder.png"></a><p><small>' + scope.entity.title+ '</small></p>';
+       				newElement = '<a href="entity/'+scope.entity.entityId+'"><img src="img/imagePlaceholder.png"></a><p><small>' + scope.entity.title+ '</small></p>';
        			}
-       			element.append(angular.element(image));
+       			element.append(angular.element(newElement));
     		}
   		}
 	})

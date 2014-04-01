@@ -20,8 +20,8 @@
 	</div>
 
 	<div ng-switch on="selection">
-		<div ng-switch-when="search" style="padding-top:80px">
-			<div class="row">
+		<div ng-switch-when="search" style="padding-top:80px;">
+			<div class="row" style=" height:{{screenHeight}}px;">
 				<div class="col-md-4 col-md-offset-4 text-center">
 					<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px"><img style="height: 66px; width: 66px; opacity: 0.77; margin-right: 10px" src="img/arachnelogo.png"> arachne <br></h1>
 					<h5 style="opacity: 0.57;" ng-show="search.size">  {{ search.size }} Einträge</h5>
@@ -33,62 +33,14 @@
 					</form>
 				</div>
 			</div>
-			<div class="row" style="padding-top:140px">
-				<div class=" col-md-8 col-md-offset-2">
-					
-
-
-					<div class="row">
-						<div class="col-md-4">
-							<a href='category/?q=*&fq=facet_kategorie:"bauwerk"&fl=1500' class="lander-category-thumbnails" style="min-height:200px;background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/424501');">
-								<span>Bauwerke</span>
-							</a>
-
-
-						</div>
-						<div class="col-md-4">
-							<a href='category/?q=*&fq=facet_kategorie:"bauwerksteil"&fl=1500' class="lander-category-thumbnails" style="min-height:200px;background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/1933196');">
-								<span>Bauwerksteile</span>
-							</a>					
-						</div>
-						<div class="col-md-4">
-							<a href='category/?q=*&fq=facet_kategorie:"objekt"&fl=1500' class="lander-category-thumbnails" style="min-height:200px;background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/158019');">
-								<span>Objekte</span>
-							</a>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4">
-							<a href='category/?q=*&fq=facet_kategorie:"relief"&fl=1500' class="lander-category-thumbnails" style="min-height:200px;background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/1922705');">
-								<span>Szenen</span>
-							</a>
-						</div>
-						<div class="col-md-4">
-							<a href='category/?q=*&fq=facet_kategorie:"marbilder"&fl=1500' class="lander-category-thumbnails" style="min-height:200px;background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/46777');">
-								<span>Marbilder</span>
-							</a>
-						</div>
-						<div class="col-md-4">
-							<a href='category/?q=*&fq=facet_kategorie:"buch"&fl=1500' class="lander-category-thumbnails" style="min-height:200px;background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/230879');">
-								<span>Bücher</span>
-							</a>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4">
-							<a href='category/?q=*&fq=facet_kategorie:"sammlungen"&fl=1500' class="lander-category-thumbnails" style="min-height:200px;background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/433041');">
-								<span>Sammlungen</span>
-							</a>
-						</div>
-						<div class="col-md-4">
-							<a href='category/?q=*&fq=facet_kategorie:"topografie"&fl=1500' class="lander-category-thumbnails" style="min-height:200px;background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/3099823');">
-								<span>Topographien</span>
-							</a>
-						</div>
-						<div class="col-md-4">
-							<a href='category/?q=*&fq=facet_kategorie:"rezeption"&fl=1500' class="lander-category-thumbnails" style="min-height:200px;background-image: url('http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/preview/251347');">
-								<span>Rezeptionen</span>
-							</a>	
+			<div class="row" style="background-color:white">
+				<div  class="col-md-10 col-md-offset-1">
+					<h1 style="font-weight:300; margin:100px 0px 50px; text-align:center"></span> Kategorien in Arachne <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;"></h1>
+					<div ng-repeat="start in categoryStarts">
+						<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
+							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index]"></div>
+							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index+1]"></div>
+							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index+2]"></div>
 						</div>
 					</div>
 				</div>

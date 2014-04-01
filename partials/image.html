@@ -11,8 +11,10 @@
 		</div>
 
 		<ul class="pager" ng-if="entity.images" ng-init="entityImgCtrl.setNextAndPreviousImages()" style="opacity:0.8; position:absolute; bottom:10px; left:50%">
-			<li class="previous" ng-class="{ 'disabled': !previousImage }"><a href="entity/{{entity.entityId}}/image/{{previousImage.imageId}}" ><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-			<li class="next" ng-class="{ 'disabled': !nextImage }"><a href="entity/{{entity.entityId}}/image/{{nextImage.imageId}}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+			<li class="previous disabled" ng-if="!previousImage"><span class="glyphicon glyphicon-chevron-left"></span></li>
+			<li class="previous" ng-if="previousImage"><a href="entity/{{entity.entityId}}/image/{{previousImage.imageId}}" ><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+			<li class="next disabled" ng-if="!nextImage"><span class="glyphicon glyphicon-chevron-right"></span></li>
+			<li class="next" ng-if="nextImage"><a href="entity/{{entity.entityId}}/image/{{nextImage.imageId}}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
 		</ul>
 
 	</div>
