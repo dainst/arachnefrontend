@@ -117,19 +117,21 @@
 		<div ng-if="entity.thumbnailId">
 			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
 		</div>
-		<h3 class="text-justify" ng-init="showConnectedImages=false" ng-if="entity.images.length >0">
-			<button class="btn btn-default btn-sm btn-primary" ng-click="showConnectedImages = true"  ng-hide="showConnectedImages == true || entity.images.length < 2"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})</span></button>
-		</h3>
-		<div ng-if="showConnectedImages == true">
-			<div class="page-header">
-				<h3>{{ 'Verbundene Bilder' | i18n }}</h3>
-			</div>
+		<div ng-if="entity.images.length > 0">
+			<h3 class="text-justify" ng-init="showConnectedImages=false">
+				<button class="btn btn-default btn-sm btn-primary" ng-click="showConnectedImages = true"  ng-hide="showConnectedImages == true || entity.images.length < 2"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})</span></button>
+			</h3>
+			<div ng-if="showConnectedImages == true">
+				<div class="page-header">
+					<h3>{{ 'Verbundene Bilder' | i18n }}</h3>
+				</div>
 
-			<div ng-if="entity.images.length" ng-repeat="image in entity.images">
-				<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index]}}" imageid="{{entity.images[$index].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index].imageId}}" ></div>
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+1]}}" imageid="{{entity.images[$index+1].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+1].imageId}}" ></div>
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+2]}}" imageid="{{entity.images[$index+2].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+2].imageId}}" ></div>
+				<div ng-if="entity.images.length" ng-repeat="image in entity.images">
+					<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
+						<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index]}}" imageid="{{entity.images[$index].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index].imageId}}" ></div>
+						<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+1]}}" imageid="{{entity.images[$index+1].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+1].imageId}}" ></div>
+						<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+2]}}" imageid="{{entity.images[$index+2].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+2].imageId}}" ></div>
+					</div>
 				</div>
 			</div>
 		</div>
