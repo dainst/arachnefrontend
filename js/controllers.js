@@ -87,8 +87,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ]
 )
 .controller('EntityCtrl',
-	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', 'bookmarksFactory', '$location',
-	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, bookmarksFactory, $location ) {
+	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', 'bookmarksFactory', '$location','arachneSettings',
+	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, bookmarksFactory, $location, arachneSettings ) {
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			if (!facetValue.entities.length) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.facetValueName});
 		}
@@ -179,6 +179,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			arachneSearch.setCurrentQueryParameters(qHash);
 		}
 
+		$scope.dataserviceUri = arachneSettings.dataserviceUri;
+		
 		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.resultIndex = arachneSearch.getResultIndex();

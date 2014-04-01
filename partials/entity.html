@@ -76,11 +76,9 @@
     		<button ng-click="entityCtrl.goToPreviousResult()" class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="previousEntitySearch.entities[0]">
 				<span class="glyphicon glyphicon-arrow-up" ></span> &nbsp; <small>{{previousEntitySearch.entities[0].title}}</small>
 			</button>
-			<!-- <img style="position:absolute; right:0px; top:0px;" class="pull-right" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{previousEntitySearch.entities[0].thumbnailId}}?height=40"> -->
     		<button ng-click="entityCtrl.goToNextResult()"  class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="nextEntitySearch.entities[0]">
 				<span class="glyphicon glyphicon-arrow-down" ></span> &nbsp; <small>{{nextEntitySearch.entities[0].title}}</small>
 			</button>
-			<!-- <img style="position:absolute; right:0px; top:0px;" class="pull-right" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{nextEntitySearch.entities[0].thumbnailId}}?height=40"> -->
 		</div>
 <!-- END RESULT NAVIGATION -->
 
@@ -117,7 +115,7 @@
 	<div class="col-md-4" ng-show="entity.entityId">
 		
 		<div ng-if="entity.thumbnailId">
-			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
+			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
 		</div>
 		<h3 class="text-justify" ng-init="showConnectedImages=false" ng-if="entity.images.length >0">
 			<button class="btn btn-default btn-sm btn-primary" ng-click="showConnectedImages = true"  ng-hide="showConnectedImages == true || entity.images.length < 2"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})</span></button>
@@ -148,7 +146,7 @@
 				<span class="list-group-item" ng-if="!facetValue.entities.length" >{{ 'msg_loading...' | i18n }} </span>
 				<div ng-switch-when="true">
 					<a  href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
-						<img class="col-md-3" style="padding: 4px; max-height:70px" ng-src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/thumbnail/{{entity.thumbnailId}}">
+						<img class="col-md-3" style="padding: 4px; max-height:70px" ng-src="{{dataserviceUri}}/image/thumbnail/{{entity.thumbnailId}}">
 					</a>
 				</div>
 				<div ng-switch-default="">

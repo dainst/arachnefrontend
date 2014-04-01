@@ -47,7 +47,7 @@ angular.module('arachne.directives', []).
 	// + placeholderIfEmpty
 	// - arachneimagerequest
 	// - arachneimageheight
-	.directive('arachneimagerequest', function() {
+	.directive('arachneimagerequest', ['arachneSettings', function(arachneSettings) {
   		return {
   			restrict: 'A',
 
@@ -59,7 +59,7 @@ angular.module('arachne.directives', []).
     				newElement = '<span style="display:none"><img src="img/imagePlaceholder.png"></span>';
  				} else {
 	       			if(attrs.imageid) {
-	       				newElement = '<a href="'+attrs.link+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
+	       				newElement = '<a href="'+attrs.link+'"><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
 	       			} else {
 	       				newElement = '<a href="'+attrs.link+'"><img src="img/imagePlaceholder.png"></a>';
 	       			}
@@ -67,7 +67,7 @@ angular.module('arachne.directives', []).
        			element.prepend(angular.element(newElement));
     		}
   		}
-	})
+	}])
 	.directive('map', function() {
     return {
         restrict: 'A',
@@ -85,7 +85,7 @@ angular.module('arachne.directives', []).
         }
     };
 	})	
-	.directive('zoomifyimg', function() {
+	.directive('zoomifyimg', ['arachneSettings', function(arachneSettings) {
     	return {
 	        restrict: 'A',
 	        link: function(scope, element, attrs) 
@@ -185,7 +185,7 @@ angular.module('arachne.directives', []).
 						}
 					},
 					getTileUrl: function (tilePoint) {
-						return 'http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/zoomify/' + this._entityId + '/' + this._map.getZoom() + '-' + tilePoint.x + '-' + tilePoint.y + '.jpg';
+						return arachneSettings.dataserviceUri + '/image/zoomify/' + this._entityId + '/' + this._map.getZoom() + '-' + tilePoint.x + '-' + tilePoint.y + '.jpg';
 					},
 
 					_getTileGroup: function (tilePoint) {
@@ -217,4 +217,4 @@ angular.module('arachne.directives', []).
 
 	        }
     	};
-	});
+	}]);
