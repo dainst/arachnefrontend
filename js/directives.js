@@ -54,7 +54,9 @@ angular.module('arachne.directives', []).
     			}
     			var image = '';
        			if(scope.entity.thumbnailId) {
-       				image = '<a href="entity/'+scope.entity.entityId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.thumbnailId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a><p><small>' + scope.entity.title+ '</small></p>';
+
+       				var titleText = (scope.entity.title)? scope.entity.title : scope.entity.subtitle;
+       				image = '<a href="entity/'+scope.entity.entityId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.thumbnailId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a><p><small>' + titleText + '</small></p>';
        			} else if (scope.entity.imageId) {
        				image = '<a href="entity/'+attrs.parententityid+'/image/'+scope.entity.imageId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.imageId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
        			} else {
