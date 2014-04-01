@@ -390,7 +390,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 
-		$scope.screenHeight = window.outerHeight-290;
+		$scope.screenHeight = window.outerHeight-480;
 		$scope.selection = 'search';
 		var hash = new Object();
 		hash.q = "*";
