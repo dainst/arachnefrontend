@@ -312,6 +312,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				});	
 		}
 
+		$scope.deleteBookmarksListModal = function(id, name){
+			var id = id;
+			var name = name;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'deleteBookmarksList.html'
+			});	
+			modalInstance.close = function(){
+				modalInstance.dismiss();
+				$scope.deleteBookmarksList(id);
+			}
+		}
+
 		$scope.createBookmarksListModal = function(){
 			var modalInstance = $modal.open({
 				templateUrl: 'createBookmarksList.html'
