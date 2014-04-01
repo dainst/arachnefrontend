@@ -23,7 +23,9 @@ The string `try_files $uri $uri/ /index.html =404;` means that now all non-exist
 ---
 
 ####app.js
+
 select the right backend url in arachneSettings-object
+
 ---
 ## Bookmarks
 ## Entity-Bookmark:
