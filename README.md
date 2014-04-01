@@ -7,12 +7,13 @@
 ```
 server {
         listen   80;
-
         root /usr/share/nginx/www;
         try_files $uri $uri/ /index.html =404;
 }
 ```
-(The string try_files $uri $uri/ /index.html =404; means that now all non-existent url will be forwarded to index.html file, but without rewriting url in the browser address bar.)
+
+The string `try_files $uri $uri/ /index.html =404; means that now all non-existent url will be forwarded to index.html file, but without rewriting url in the browser address bar.
+
 ---
 #### index.html (into header) 
 ```
