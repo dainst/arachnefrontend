@@ -39,7 +39,9 @@
 					<div ng-repeat="start in categoryStarts">
 						<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
 							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index]"></div>
-							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index+1]"></div>
+							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index+1]">
+								<span style="position:absolute;z-index:9999;">bla</span>
+							</div>
 							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index+2]"></div>
 						</div>
 					</div>

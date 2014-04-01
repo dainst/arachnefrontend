@@ -129,9 +129,9 @@
 
 			<div ng-if="entity.images.length" ng-repeat="image in entity.images">
 				<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
-					<div arachneImageRequest="height" arachneImageHeight="300" parentEntityId="{{entity.entityId}}" entity="entity.images[$index]"></div>
-					<div arachneImageRequest="height" arachneImageHeight="300" parentEntityId="{{entity.entityId}}" entity="entity.images[$index+1]"></div>
-					<div arachneImageRequest="height" arachneImageHeight="300" parentEntityId="{{entity.entityId}}" entity="entity.images[$index+2]"></div>
+					<div arachneImageRequest="height" arachneImageHeight="150" imageid="{{entity.images[$index].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index].imageId}}" ></div>
+					<div arachneImageRequest="height" arachneImageHeight="150" imageid="{{entity.images[$index+1].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+1].imageId}}" ></div>
+					<div arachneImageRequest="height" arachneImageHeight="150" imageid="{{entity.images[$index+2].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+2].imageId}}" ></div>
 				</div>
 			</div>
 		</div>

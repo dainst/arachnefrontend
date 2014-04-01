@@ -42,6 +42,11 @@ angular.module('arachne.directives', []).
 		}
 
 	})
+	// Parameters:
+	// + imageId
+	// + link
+	// - arachneimagerequest
+	// - arachneimageheight
 	.directive('arachneimagerequest', function() {
   		return {
   			restrict: 'A',
@@ -49,19 +54,13 @@ angular.module('arachne.directives', []).
       			entity: '=',
     		},
     		link: function(scope, element, attrs) {
-    			if(scope.entity == "undefined" || scope.entity == null) {
-    				return null;
-    			}
     			var newElement = '';
-       			if(scope.entity.thumbnailId) {
-       				var titleText = (scope.entity.title)? scope.entity.title : scope.entity.subtitle;
-       				newElement = '<a href="entity/'+scope.entity.entityId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.thumbnailId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a><p><small>' + titleText + '</small></p>';
-       			} else if (scope.entity.imageId) {
-       				newElement = '<a href="entity/'+attrs.parententityid+'/image/'+scope.entity.imageId+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + scope.entity.imageId + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
+       			if(attrs.imageid) {
+       				newElement = '<a href="'+attrs.link+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
        			} else {
-       				newElement = '<a href="entity/'+scope.entity.entityId+'"><img src="img/imagePlaceholder.png"></a><p><small>' + scope.entity.title+ '</small></p>';
+       				newElement = '<a href="'+attrs.link+'"><img src="img/imagePlaceholder.png"></a>';
        			}
-       			element.append(angular.element(newElement));
+       			element.prepend(angular.element(newElement));
     		}
   		}
 	})

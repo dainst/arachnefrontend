@@ -412,47 +412,56 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			{
 				imageId : 424501,
 				title : "Bauwerke",
-				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.'
+				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				customlink : 'category/?q=*&fq=facet_kategorie:\"bauwerk\"&fl=1500'
 			},
 			{
 				imageId : 1933196,
 				title : "Bauwerksteile",
-				description :'Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.'
+				description :'Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.',
+				customlink : 'category/?q=*&fq=facet_kategorie:\"bauwerksteil\"&fl=1500'
 			},
 			{
 				imageId : 158019,
 				title : "Objekte",
-				description :'Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.'
+				description :'Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.',
+				customlink : 'category/?q=*&fq=facet_kategorie:\"objekt\"&fl=1500'
 			},
 			{
 				imageId : 1922705,
 				title : "Szenen",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
+				customlink : 'category/?q=*&fq=facet_kategorie:\"relief\"&fl=1500'
 			},
 			{
 				imageId : 46777,
 				title : "Marbilder",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
+				customlink : 'category/?q=*&fq=facet_kategorie:\"marbilder\"&fl=1500'
 			},
 			{
 				imageId : 230879,
 				title : "Bücher",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
+				customlink : 'category/?q=*&fq=facet_kategorie:\"buch\"&fl=1500'
 			},
 			{
 				imageId : 433041,
 				title : "Sammlungen",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
+				customlink : 'category/?q=*&fq=facet_kategorie:\"sammlungen\"&fl=1500'
 			},
 			{
 				imageId : 3099823,
 				title : "Topographien",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
+				customlink : 'category/?q=*&fq=facet_kategorie:\"topografie\"&fl=1500'
 			},
 			{
 				imageId : 251347,
 				title : "Rezeptionen",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
+				customlink : 'category/?q=*&fq=facet_kategorie:\"rezeption\"&fl=1500'
 			}
 
 
