@@ -390,12 +390,64 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 
-	$scope.selection = 'search';
-	var hash = new Object();
-	hash.q = "*";
+		$scope.screenHeight = window.outerHeight-290;
+		$scope.selection = 'search';
+		var hash = new Object();
+		hash.q = "*";
 
-	$scope.search = arachneSearch.search(hash);
+		$scope.categoryStarts = [
+			{
+				imageId : 424501,
+				title : "Bauwerke",
+				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.'
+			},
+			{
+				imageId : 1933196,
+				title : "Bauwerksteile",
+				description :'Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.'
+			},
+			{
+				imageId : 158019,
+				title : "Objekte",
+				description :'Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.'
+			},
+			{
+				imageId : 1922705,
+				title : "Szenen",
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+			},
+			{
+				imageId : 46777,
+				title : "Marbilder",
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+			},
+			{
+				imageId : 230879,
+				title : "Bücher",
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+			},
+			{
+				imageId : 433041,
+				title : "Sammlungen",
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+			},
+			{
+				imageId : 3099823,
+				title : "Topographien",
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+			},
+			{
+				imageId : 251347,
+				title : "Rezeptionen",
+				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.'
+			}
 
-	newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
-	teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
+
+
+		];
+
+		$scope.search = arachneSearch.search(hash);
+
+		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
+		teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
 }]);
