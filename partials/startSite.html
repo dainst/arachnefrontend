@@ -35,14 +35,27 @@
 			</div>
 			<div class="row" style="background-color:white">
 				<div  class="col-md-10 col-md-offset-1">
-					<h1 style="font-weight:300; margin:100px 0px 50px; text-align:center"></span> Kategorien in Arachne <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;"></h1>
+					<h1 ng-click='$("body,html").animate({scrollTop: 800}, "slow");' style="font-weight:300; margin:100px 0px 50px; text-align:center"></span> Kategorien in Arachne <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;"></h1>
 					<div ng-repeat="start in categoryStarts">
 						<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
-							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index]"></div>
-							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index+1]">
-								<span style="position:absolute;z-index:9999;">bla</span>
+							<div class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index].imageId}}" link="{{categoryStarts[$index].customlink}}">
+								<span>
+									<b>{{categoryStarts[$index].title}}</b><br>
+									<small>{{categoryStarts[$index].description}}</small>
+								</span>
 							</div>
-							<div arachneImageRequest="height" arachneImageHeight="300" entity="categoryStarts[$index+2]"></div>
+							<div  class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index+1].imageId}}" link="{{categoryStarts[$index+1].customlink}}">
+								<span>
+									<b>{{categoryStarts[$index+1].title}}</b><br>
+									<small>{{categoryStarts[$index+1].description}}</small>
+								</span>
+							</div>
+							<div  class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index+2].imageId}}" link="{{categoryStarts[$index+2].customlink}}">
+								<span>
+									<b>{{categoryStarts[$index+2].title}}</b><br>
+									<small>{{categoryStarts[$index+2].description}}</small>
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>

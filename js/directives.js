@@ -23,7 +23,6 @@ angular.module('arachne.directives', []).
 							var newWidth =  (images[i].width/101)*scalingPercentage;
 							images[i].width = newWidth;
 							images[i].style.display = 'block';
-
 							images[i].parentNode.parentNode.style.width = newWidth + "px";
 							images[i].removeEventListener("load", listener, false);
 
@@ -45,21 +44,26 @@ angular.module('arachne.directives', []).
 	// Parameters:
 	// + imageId
 	// + link
+	// + placeholderIfEmpty
 	// - arachneimagerequest
 	// - arachneimageheight
 	.directive('arachneimagerequest', function() {
   		return {
   			restrict: 'A',
-  			scope: {
-      			entity: '=',
-    		},
+
     		link: function(scope, element, attrs) {
     			var newElement = '';
-       			if(attrs.imageid) {
-       				newElement = '<a href="'+attrs.link+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
-       			} else {
-       				newElement = '<a href="'+attrs.link+'"><img src="img/imagePlaceholder.png"></a>';
-       			}
+    			//DIRTY workaround for iterations on things that does not exsist, maybe
+    			// handle tiles without data
+    			if(attrs.isPlaceholderIfEmpty == "") {
+    				newElement = '<span style="display:none"><img src="img/imagePlaceholder.png"></span>';
+ 				} else {
+	       			if(attrs.imageid) {
+	       				newElement = '<a href="'+attrs.link+'"><img src="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
+	       			} else {
+	       				newElement = '<a href="'+attrs.link+'"><img src="img/imagePlaceholder.png"></a>';
+	       			}
+	       		}
        			element.prepend(angular.element(newElement));
     		}
   		}
