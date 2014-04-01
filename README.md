@@ -1,6 +1,24 @@
 
-# ARACHNE (vers. 4) FRONTEND
+# Arachne 4 Frontend
 
+### nginx config/installation 
+(for html5 mode)
+#### nginx-site config
+```
+server {
+        listen   80;
+
+        root /usr/share/nginx/www;
+        try_files $uri $uri/ /index.html =404;
+}
+```
+#### index.html (into header) 
+```
+<base href="/">
+```
+####app.js
+select the right backend url in arachneSettings-object
+---
 ### Bookmarks
 ## Entity-Bookmark:
 * Bookmark erstellen & einer Liste hinzufügen
