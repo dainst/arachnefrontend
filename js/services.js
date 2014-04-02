@@ -213,7 +213,9 @@ angular.module('arachne.services', [])
 		['$resource', 'arachneSettings',
 			function($resource, arachneSettings) {
 
+			  // PERSISTENT OBJECTS, PRIVATE, USE GETTERS AND SETTERS
 				var _currentEntity = {};
+			  //SERVERCONNECTION (PRIVATE)
 				var arachneDataService = $resource('', { }, {
 					get : {
 						url: arachneSettings.dataserviceUri + '/entity/:id',
@@ -222,6 +224,7 @@ angular.module('arachne.services', [])
 					}
 				});
 
+			  // PUBLIC
 				return {
 					getEntityById : function(entityId) {
 						if (_currentEntity.entityId == entityId) {

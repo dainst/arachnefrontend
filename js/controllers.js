@@ -100,7 +100,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
 				qHash.resultIndex = arachneSearch.getResultIndex();
 			$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search(qHash);
-
 		}
 		this.goToPreviousResult = function () {
 			arachneSearch.setResultIndex($scope.resultIndex-1);
