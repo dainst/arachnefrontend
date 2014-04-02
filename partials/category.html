@@ -12,7 +12,7 @@
 			</div>
 
 			
-			<accordion close-others="oneAtATime">
+			<accordion class="accordion-with-list" close-others="oneAtATime">
 				<accordion-group heading="{{facetName | i18n }}" is-open="false"  ng-if="facetName!='facet_geo'" ng-repeat="(facetName,values) in searchresults.facets" >
 					<a class="list-group-item"  ng-click="searchCtrl.addFacet(facetName, facetValue)"  ng-repeat="(facetValue, count) in values">
 						<span class="badge">{{count}}</span>

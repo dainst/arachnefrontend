@@ -473,5 +473,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.search = arachneSearch.search(hash);
 
 		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
-		// teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
+	    teaserFactory.getTeaser().success(function(data) {$scope.projectList = data;
+	    	console.log(data);})
 }]);
