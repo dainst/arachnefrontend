@@ -70,9 +70,7 @@
 							<img class="img-responsive" ng-src="{{project.images[0]}}"></img>
 						</div>
 						<div class="col-md-8">
-							<div id="projectTeaser">
-								{{project.teaser}}
-							</div>
+							<div id="projectTeaser" ng-bind-html="project.teaser"></div>
 							<div ng-if="project.links.length">
 								<b>Links:</b>
 								<ul class="list-group">
