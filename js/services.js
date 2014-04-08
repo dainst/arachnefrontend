@@ -454,7 +454,7 @@ angular.module('arachne.services', [])
 			getBookmark : function(id, successMethod, errorMethod){
 				return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
 			},
-			updateBookmark: function(bm,id, successMethod, errorMethod) {
+			updateBookmark: function(bm, id, successMethod, errorMethod) {
 				return arachneDataService.updateBookmark({ "id": id}, bm, successMethod,errorMethod);
 			},
 			createBookmark : function(bm, id, successMethod, errorMethod) {

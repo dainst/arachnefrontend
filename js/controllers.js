@@ -87,8 +87,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ]
 )
 .controller('EntityCtrl',
-	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService',
-	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService ) {
+	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'sessionService',
+	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, sessionService ) {
+
+		$scope.user = sessionService.user;
+
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			if (!facetValue.entities.length) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.facetValueName});
 		}
@@ -136,27 +139,48 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 		}
 		$scope.createBookmarkModal = function(){
-			var modalInstance = $modal.open({
-				templateUrl: 'createBookmark.html',
-				controller: 'createBookmarkCtrl',
-      		});
+			NoteService.checkEntity($routeParams.id, function(data){;
+				if(data.length == 0){
+					var modalInstance = $modal.open({
+						templateUrl: 'createBookmark.html',
+						controller: 'createBookmarkCtrl',
+		      		});
 
-      		modalInstance.result.then(function (selectedList) { 
-      			if(selectedList.commentary == undefined || selectedList.commentary == "")
-      				selectedList.commentary = "no comment set";
+		      		modalInstance.result.then(function (selectedList) { 
+		      			if(selectedList.commentary == undefined || selectedList.commentary == "")
+		      				selectedList.commentary = "no comment set";
 
-      			var bm = {
-					arachneEntityId : $routeParams.id,
-					commentary : selectedList.commentary
+		      			var bm = {
+							arachneEntityId : $routeParams.id,
+							commentary : selectedList.commentary
+						}
+						console.log("tryin create bookmark");
+						NoteService.createBookmark(bm, selectedList.item.id, function(data){
+							console.log("bookmark erstellt");
+							$scope.reloadBM();
+						}, function(status){
+							console.log(status);
+						});
+		      		});
 				}
-				console.log("tryin create bookmark");
-				NoteService.createBookmark(bm, selectedList.item.id, function(data){
-					console.log("bookmark erstellt");
-					$scope.reloadBM();
-				}, function(status){
-					console.log(status);
-				});
-      		});
+				else{
+					var modalInstance = $modal.open({
+						templateUrl: 'allreadyBookmarked.html',
+		      		});
+
+		      		modalInstance.close = function(){
+						modalInstance.dismiss();
+					}
+
+					console.log("allready bookmarked!!");
+					$scope.bookmark = data;
+					$scope.isBookmark = true;
+				}
+				
+			}, function(status){
+				console.log(status)
+			});
+			
 		}
 		$scope.isArray = function(value) {
 			return angular.isArray(value);

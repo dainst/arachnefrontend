@@ -13,6 +13,9 @@
 		<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
 	</ul>
 </script>
+<script type="text/ng-template" id="allreadyBookmarked.html">
+		<alert type="danger" close="$dismiss()">Es exsistiert bereits eine Bookmark!</alert>
+</script> 
 <script type="text/ng-template" id="createBookmark.html">
 	<div ng-if="bookmarkError == 404">
 		<alert type="danger" close="$dismiss()">Bitte unter Bookmarks erst eine Liste erstellen</alert>
@@ -82,19 +85,21 @@
 		</div>
 <!-- END RESULT NAVIGATION -->
 
-		<div class="page-header">
-			<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
-		</div>
-		<div ng-if="isBookmark"  class="panel panel-warning">
-			<div class="panel-heading">
-				Ihre Notiz<button type="button"  ng-click="deleteBookmark()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<div ng-if="user.username">
+			<div class="page-header">
+				<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
 			</div>
-			<div class="panel-body">
-				{{ bookmark.commentary }}<br>
+			<div ng-if="isBookmark"  class="panel panel-warning">
+				<div class="panel-heading">
+					Ihre Notiz<button type="button"  ng-click="deleteBookmark()" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				</div>
+				<div class="panel-body">
+					{{ bookmark.commentary }}<br>
+				</div>
 			</div>
-		</div>
 
-		<button type="button" class="btn btn-warning btn-sm" ng-click="createBookmarkModal()" ng-if="!isBookmark"><span class="glyphicon glyphicon-plus"></span> Noitz als Lesezeichen</button>
+			<button ng-if="!isBookmark" type="button" class="btn btn-warning btn-sm" ng-click="createBookmarkModal()"><span class="glyphicon glyphicon-plus"></span> Noitz als Lesezeichen</button>
+		</div>
 
 	</div>
 	<div class="col-md-6" ng-show="entity.entityId">
