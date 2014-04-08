@@ -87,8 +87,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ]
 )
 .controller('EntityCtrl',
-	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', 'bookmarksFactory', '$location','arachneSettings',
-	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, bookmarksFactory, $location, arachneSettings ) {
+	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService',
+	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService ) {
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			if (!facetValue.entities.length) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.facetValueName});
 		}
@@ -110,7 +110,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 		
 		$scope.reloadBM = function(){
-				bookmarksFactory.checkEntity($routeParams.id, function(data){;
+				NoteService.checkEntity($routeParams.id, function(data){;
 				if(data.length == 0){
 					console.log("Die Entity ist nicht gebookmarkt");
 					$scope.bookmark = {};
@@ -126,7 +126,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 		}
 		$scope.deleteBookmark = function(){
-			bookmarksFactory.deleteBookmark($scope.bookmark.id,
+			NoteService.deleteBookmark($scope.bookmark.id,
 			function(data){
 				console.log("deleted Bookmark" + data);
 				$scope.reloadBM();
@@ -150,7 +150,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					arachneEntityId : $routeParams.id,
 					commentary : selectedList.commentary
 				}
-				bookmarksFactory.createBookmark(bm, selectedList.item.id, function(data){
+				console.log("tryin create bookmark");
+				NoteService.createBookmark(bm, selectedList.item.id, function(data){
 					console.log("bookmark erstellt");
 					$scope.reloadBM();
 				}, function(status){
@@ -201,7 +202,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
 		}		
 }])
-.controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'bookmarksFactory', function($scope, $modalInstance, bookmarksFactory){
+.controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', function($scope, $modalInstance, NoteService){
 	
 	$scope.items = [];
 	$scope.hasBookmarkList = false;
@@ -209,14 +210,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	$scope.selected.commentary = "";
 	$scope.bookmarkError = 0;
 
-	bookmarksFactory.getBookmarksList(
+	NoteService.getBookmarksList(
 			function(data){
 				$scope.bookmarkError = 0;
 				$scope.items = data;
 				$scope.selected = {
     				item: $scope.items[0]
   				};
-  				$scope.selected.commentary = "commentary";
+  				$scope.selected.commentary = "";
 			}, function(status){
 				if(status == 404)
 					$scope.bookmarkError = status;
@@ -226,8 +227,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					console.log("unknown error");
 		});
 }])
-.controller('BookmarksController',[ '$scope', 'bookmarksFactory', '$modal', 'arachneEntity', 'sessionService',
-	function ($scope, bookmarksFactory, $modal, arachneEntity, sessionService){
+.controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService',
+	function ($scope, $modal, arachneEntity, sessionService, NoteService){
 
 		$scope.bookmarksLists = [];
 		$scope.bmStatus = 0;
@@ -241,7 +242,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.refreshBookmarkLists = function(){
-			bookmarksFactory.getBookmarksList(
+			NoteService.getBookmarksList(
 				function(data){
 					$scope.bookmarksLists = data;
 					$scope.bookmarksLists.notEmpty = true;
@@ -266,13 +267,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.refreshBookmarkLists();
 		
-		$scope.deleteBookmark = function(id){
-			bookmarksFactory.deleteBookmark(id,
+		$scope.deleteBookmark = function(bookmark){
+			
+			NoteService.deleteBookmark(bookmark.id,
 				function(data){
 					console.log("deleted Bookmark" + data);
+					console.log(data);
 					$scope.refreshBookmarkLists();
-				}, function(status){
-					console.log("error deleting Bookmark" + status);
+				}, function(response){
+					console.log("error deleting Bookmark" + response.status);
+					console.log(response);
 				});
 		}
 
@@ -293,13 +297,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.updateBookmark = function(id, commentary){
 			var bm = new Object();
-			bookmarksFactory.getBookmark(id,
+			NoteService.getBookmark(id,
 				function(data){
 					console.log("got Bookmark" + data);
 					bm = data;
 					bm.commentary = commentary;
 
-					bookmarksFactory.updateBookmark(bm, id,
+					NoteService.updateBookmark(bm, id,
 						function(data)
 						{
 							console.log("Bookmark changed" + data);
@@ -351,20 +355,18 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			list.commentary = commentary;
 			list.bookmarks = bookmarks;
 
-			bookmarksFactory.createBookmarksList(list, 
-				function(data)
-				{
-					console.log("Liste erstellt" + data);
-					$scope.refreshBookmarkLists();
-				}, function(status){
-					console.log("error creating list "+ status);
+			$scope.bookmarksLists.push(NoteService.createBookmarksList(list, 
+				function(response){
+					console.log("creating BookmarksList" + response);
+				},
+				function(response){
+					console.log("Error creating BookmarksList" + response.status);
 					$scope.bmStatus = status;
-				});
-			
+				}));
 		}
 
 		$scope.deleteBookmarksList = function(id){
-			bookmarksFactory.deleteBookmarksList(id,
+			NoteService.deleteBookmarksList(id,
 				function(data){
 					console.log("deleted List" + data);
 					$scope.refreshBookmarkLists();

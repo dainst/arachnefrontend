@@ -351,14 +351,14 @@ angular.module('arachne.services', [])
 			};
 		return factory;
 	}])
-	.factory('bookmarksFactory', ['$http', 'arachneSettings', function($http, arachneSettings){
-		var factory = {};
-		var bookmarkslist = {};
-		var bookmark = {};
+.factory('NoteService', ['$resource', 'arachneSettings', '$http', function($resource, arachneSettings, $http){
+		var _bookmarksLists = [];
+		var bm = [];
+		var _id;
 
-		factory.checkEntity  = function(entityID, successMethod, errorMethod){
+		var checkEntity  = function(entityID, successMethod, errorMethod){
 			var response = [];
-			factory.getBookmarksList(
+			$http({method: 'GET', url: arachneSettings.dataserviceUri + '/bookmarklist'}).success(
 				function(data){
 					response = data;
 					var entityBookmark = [];
@@ -376,7 +376,7 @@ angular.module('arachne.services', [])
 					}
 
 					successMethod(entityBookmark);
-				}, function(status){
+				}).error(function(status){
 					if(status == 404)
 						console.log("keine BookmarksListe enthalten");
 					else if(status == 403)
@@ -386,98 +386,76 @@ angular.module('arachne.services', [])
 
 					errorMethod(status);
 
-				});			
-			
-			//console.log("NICHT VORHANDEN!");
+				});	
 		};
 
-		factory.getBookmarksList = function(successMethod, errorMethod){
-				return $http.get( arachneSettings.dataserviceUri + '/bookmarklist')
-				.success(function(data) {
-					bookmarkslist = data;
-					successMethod(data);
-				}).error(function(data, status, header, config){
-					errorMethod(status);
-				});
-			};
+		var arachneDataService = $resource('', { }, {
+			createBookmarksList: {
+				url :  arachneSettings.dataserviceUri + '/bookmarklist',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'}
+			},
+			getBookmarksLists : {
+				url : arachneSettings.dataserviceUri + '/bookmarklist',
+				isArray: true,
+				method: 'GET'
 
-		factory.createBookmarksList = function(listData, successMethod, errorMethod) {
-				$http({
-					url :  arachneSettings.dataserviceUri + '/bookmarklist',
-					isArray: false,
-					method: 'POST',
-					data : listData,
-					headers: {'Content-Type': 'application/json'}
-				}).success(function(data) {
-					bookmarkslist = data;
-					successMethod(data);
-				}).error(function(data, status, header, config){
-					errorMethod(status);
-				});
-			};
+			},
+			deleteBookmarksList: {
+				url : arachneSettings.dataserviceUri + '/bookmarklist/:id',
+				isArray: false,
+				method: 'DELETE'
+			},
+			deleteBookmark: {
+				url : arachneSettings.dataserviceUri + '/bookmark/:id',
+				isArray: false,
+				method: 'DELETE'
+			},
+			getBookmark: {
+				url: arachneSettings.dataserviceUri + '/bookmark/:id',
+				isArray: false,
+				method: 'GET'
+			},
+			updateBookmark: {
+				url: arachneSettings.dataserviceUri + '/bookmark/:id',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'}
+			},
+			createBookmark: {
+				url :  arachneSettings.dataserviceUri + '/bookmarkList/:id/add',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'}
+			}
+		});
 
-		factory.deleteBookmarksList = function(id, successMethod, errorMethod){
-				var q = arachneSettings.dataserviceUri + '/bookmarklist/' + id;
-				console.log(q);
-				$http.delete(q)
-				.success(function(data) {
-					bookmarkslist = data;
-					successMethod(data);
-				}).error(function(data, status, header, config){
-					errorMethod(status);
-				});
-			};
-		factory.getBookmark = function(id, successMethod, errorMethod){
-					$http.get( arachneSettings.dataserviceUri + '/bookmark/' + id)
-					.success(function(data) {
-						bookmark = data;
-						successMethod(data);
-					}).error(function(data, status, header, config){
-						errorMethod(status);
-					});
-			};
-		factory.updateBookmark = function(bm, id, successMethod, errorMethod) {
-				var q =  arachneSettings.dataserviceUri + '/bookmark/' + id;
-				console.log(q);
-				$http({
-					url : q,
-					isArray: false,
-					method: 'POST',
-					data : bm,
-					headers: {'Content-Type': 'application/json'}
-				}).success(function(data) {
-					successMethod(data);
-				}).error(function(data, status, header, config){
-					errorMethod(status);
-				});
-			};
-		factory.createBookmark = function(bm, id, successMethod, errorMethod) {
-				var q =  arachneSettings.dataserviceUri + '/bookmarkList/' + id + '/add';
-				console.log(q);
-				$http({
-					url : q,
-					isArray: false,
-					method: 'POST',
-					data : bm,
-					headers: {'Content-Type': 'application/json'}
-				}).success(function(data) {
-					//bookmarkslist = data;
-					successMethod(data);
-				}).error(function(data, status, header, config){
-					errorMethod(status);
-				});
-			};
-		factory.deleteBookmark = function(id, successMethod, errorMethod){
-				var q =  arachneSettings.dataserviceUri + '/bookmark/' + id;
-				console.log(q);
-				$http.delete(q)
-				.success(function(data) {
-					bookmark = data;
-					successMethod(data);
-				}).error(function(data, status, header, config){
-					errorMethod(status);
-				});
-			};
-		return factory;
+		return{
+			checkEntity : function(entityID, successMethod, errorMethod){
+				return checkEntity(entityID, successMethod, errorMethod);
+			},
+			getBookmarksList : function(successMethod, errorMethod){
+				_bookmarksLists = arachneDataService.getBookmarksLists({}, successMethod, errorMethod);
+				return _bookmarksLists;
+			},
+			createBookmarksList : function(listData, successMethod, errorMethod) {
+				return arachneDataService.createBookmarksList(listData, successMethod, errorMethod);
+			},
+			deleteBookmarksList : function(id, successMethod, errorMethod){
+				return arachneDataService.deleteBookmarksList({ "id": id}, successMethod,errorMethod);
+			},
+			deleteBookmark : function(id, successMethod, errorMethod){
+				return arachneDataService.deleteBookmark({ "id": id}, successMethod,errorMethod);
+			},
+			getBookmark : function(id, successMethod, errorMethod){
+				return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
+			},
+			updateBookmark: function(bm,id, successMethod, errorMethod) {
+				return arachneDataService.updateBookmark({ "id": id}, bm, successMethod,errorMethod);
+			},
+			createBookmark : function(bm, id, successMethod, errorMethod) {
+				return arachneDataService.createBookmark({"id": id}, bm, successMethod,errorMethod);
+			}
+		}
 	}]);
-

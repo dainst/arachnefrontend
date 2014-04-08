@@ -64,12 +64,12 @@
 	    	<accordion-heading>
 	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksListModal(bookmarksList.id, bookmarksList.name)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
 	    	</accordion-heading>
-	    		<div ng-repeat="bookmarks in bookmarksList.bookmarks"class="list-group-item clearfix">
-	    					<a href="entity/{{bookmarks.arachneEntityId }}" class="title" >{{ bookmarks.arachneEntityId }}</a>
-	    					{{ bookmarks.commentary }}
+	    		<div ng-repeat="bookmark in bookmarksList.bookmarks"class="list-group-item clearfix">
+	    					<a href="entity/{{bookmarks.arachneEntityId }}" class="title" >{{ bookmark.arachneEntityId }}</a>
+	    					{{ bookmark.commentary }}
 	    					<div class="btn-group pull-right">
-		    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmarks.id)"><span class="glyphicon glyphicon-pencil"></span></button>
-		    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmarks.id)"><span class="glyphicon glyphicon-trash"></span></button>
+		    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmark.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+		    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
 
 	    					</div>
   				</div>
