@@ -100,7 +100,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
 				qHash.resultIndex = arachneSearch.getResultIndex();
 			$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search(qHash);
-
 		}
 		this.goToPreviousResult = function () {
 			arachneSearch.setResultIndex($scope.resultIndex-1);
@@ -474,6 +473,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.search = arachneSearch.search(hash);
 
-		newsFactory.getNews().success(function(data) { $scope.newsList = data;})		
-		// teaserFactory.getTeaser().success(function(data) {$scope.teaserList = data;})
+		$scope.newsList = null;
+		$scope.projectList = null;
+
+		this.loadNews = function(){
+			if($scope.newsList == null)
+				newsFactory.getNews().success(function(data) { $scope.newsList = data;})
+		}
+
+		this.loadTeaser = function(){
+			if($scope.projectList == null)	
+	    		teaserFactory.getTeaser().success(function(data) {$scope.projectList = data;})
+		}
 }]);

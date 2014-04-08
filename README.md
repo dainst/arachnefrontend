@@ -56,8 +56,17 @@ select the right backend url in arachneSettings-object
 ##Angular 
 ---
 
-## Allgemeines
- * Du kannst keine Bindings auf Variablen aus Services oder Factories machen! Siehe http://stackoverflow.com/questions/16023451/binding-variables-from-service-factory-to-controllers  
+# Allgemeines, Ablauf der Programmteile
+
+## Allgemeines zu Services/Factories
+ * (1.) Services bestehen aus ihren (privaten) Variablen, die über (public) getter- und setter-Methoden von Controllern benutzt werden
+ * (1.2) Du kannst keine Bindings auf Variablen aus Services oder Factories machen! Siehe http://stackoverflow.com/questions/16023451/binding-variables-from-service-factory-to-controllers
+ * (2.) Services returnen nur ihre public Methoden, nie Variablen (siehe oben)!
+ * (3.) Services haben die private var `arachneDataService` die alle Server-Kommunikation beinhaltet. Sie ist ein Angular Resource. Diese ist kompliziert, daher unbedingt die Angular-Doku lesen.
+ * _Ablauf_: Controller ruft public Methoden des Services auf; dann ruft der Service seine Server-Funktionen auf. Diese (private) Server-Funktionen sind in unseren Services immer `arachneDataService` genannt. Der Service nimmt ggf. successMethod und errorMethod des Controllers entgegen.
+ * 
+
+
 
 ##app.js
  * legt in erster linie das Routing fest

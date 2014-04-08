@@ -80,11 +80,14 @@ body {
   height: 50%;
 }
 /* Für Filter-Seite, an den Facetten */
-accordion .panel-body {
+.accordion-with-list .panel-body {
   padding: 0px;
 }
-accordion .list-group-item {
+.accordion-with-list .list-group-item {
   border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px; cursor:pointer;
+}
+#projectTeaser{
+  padding-bottom: 15px;
 }
 
 .loading{
