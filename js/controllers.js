@@ -212,7 +212,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
-		$scope.reloadBM();
+
+		if(sessionService.user.username) {
+			$scope.reloadBM();
+		}
 
 		if($scope.resultIndex != null) {
 			var queryhash = angular.copy(arachneSearch.getCurrentQueryParameters());
