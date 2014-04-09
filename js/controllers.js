@@ -181,6 +181,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 			
 		}
+	  // TODO Abstract Sections-Template and Logic to seperate unit - for reuse 
+	  // LOGIC for sections-iteration
 		$scope.isArray = function(value) {
 			return angular.isArray(value);
 		}
@@ -398,15 +400,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 		}
 }])
-.controller('EntityImgCtrl', ['$routeParams', '$scope', 'sessionService', 'arachneEntity', 
-	function ($routeParams, $scope, sessionService, arachneEntity) {
+.controller('EntityImgCtrl', ['$routeParams', '$scope', 'sessionService', 'arachneEntity', '$modal', 'arachneSettings',
+	function ($routeParams, $scope, sessionService, arachneEntity, $modal, arachneSettings) {
 		if($routeParams.entityId) {
 			$scope.previousImage = null;
 		}
 		$scope.user = sessionService.user;
 		$scope.entityId = $routeParams.imageId;
-		
-		//GALLERY METHODS
+		$scope.dataserviceUri = arachneSettings.dataserviceUri;
+
+
+	  //GALLERY METHODS
 		this.loadImageProperties = function () {
 			$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.entityId});
 		}
@@ -424,10 +428,31 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				$scope.entity = arachneEntity.getEntityById($routeParams.entityId);
 			};
 		}
-		//METAINFO
+	  //METAINFO
 		this.getImageEntityForMetainfos = function () {
-			$scope.imageEntity = arachneEntity.getEntityById($routeParams.imageId);
+			if(!$scope.imageEntity) {
+				$scope.imageEntity = arachneEntity.getEntityById($routeParams.imageId);
+			} else {
+
+			}
+			var modalInstance = $modal.open({
+				templateUrl: 'metainfos.html',
+				scope: $scope
+			});	
+			modalInstance.close = function(){
+				modalInstance.dismiss();
+			}
 		}
+	  // LOGIC for sections-iteration
+	  // TODO Abstract Sections-Template and Logic to seperate unit - for reuse 
+		$scope.isArray = function(value) {
+			return angular.isArray(value);
+		}
+		$scope.typeOf = function(input) {
+			var result = typeof input;
+			return result;
+		}
+	  // TODO-END
 		this.openModalForImageEntity = function () {
 			this.getImageEntityForMetainfos();
 		}	

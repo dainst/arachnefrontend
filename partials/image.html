@@ -1,3 +1,38 @@
+<script type="text/ng-template" id="section_template.html">
+	<li ng-if="section.value">
+		<div ng-switch="isArray(section.value)">
+			<span ng-switch-when="false" ng-bind-html="section.value"></span>
+			<ul ng-switch-when="true">
+				<li ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></li>
+			</ul>
+		</div>
+	</li>
+	<ul ng-if="!section.value">
+		<b>{{section.label}}</b>
+		<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
+	</ul>
+</script>
+
+<script type="text/ng-template" id="metainfos.html">
+	<div class="modal-header">
+		<h4 class="modal-title">
+			<img src="img/arachnelogo.png" style="height: 36px; opacity: 0.43; width: 36px; margin-right:10px;"></img>
+			{{imageEntity.title}}
+		</h4>
+	</div>
+	<div class="modal-body">
+		<img  class="img-thumbnail pull-right" ng-src="{{dataserviceUri}}/image/thumbnail/{{ imageEntity.thumbnailId }}"></img><br>
+		<div ng-repeat="section in imageEntity.sections.content" ng-include="'section_template.html'"></div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
+	</div>
+</script>
+
+
+
+
+
 <div ng-controller="EntityImgCtrl as entityImgCtrl">
 	<div class="row fullscreenrow">	
         <div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
@@ -13,9 +48,9 @@
 
 		<ul class="pager" ng-if="entity.images" ng-init="entityImgCtrl.setNextAndPreviousImages()" style="opacity:0.8; position:absolute; bottom:10px; left:50%">
 			<li class="previous disabled" ng-if="!previousImage"><span class="glyphicon glyphicon-chevron-left"></span></li>
-			<li class="previous"  ng-if="previousImage"><a href="entity/{{entity.entityId}}/image/{{previousImage.imageId}}" ><span class="glyphicon glyphicon-arrow-left"></span></a></li>
+			<li class="previous"  ng-if="previousImage"><a href="entity/{{entity.entityId}}/image/{{previousImage.imageId}}" ><span class="glyphicon glyphicon-chevron-left"></span></a></li>
 			<li class="next disabled" ng-if="!nextImage"><span class="glyphicon glyphicon-chevron-right"></span></li>
-			<li class="next" ng-if="nextImage"><a href="entity/{{entity.entityId}}/image/{{nextImage.imageId}}"><span class="glyphicon glyphicon-arrow-right"></span></a></li>
+			<li class="next" ng-if="nextImage"><a href="entity/{{entity.entityId}}/image/{{nextImage.imageId}}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
 		</ul>
 
 	</div>
