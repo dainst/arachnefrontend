@@ -221,6 +221,27 @@ angular.module('arachne.services', [])
 						url: arachneSettings.dataserviceUri + '/entity/:id',
 						isArray : false,
 						method: 'GET'
+					},
+					getImageProperties : {
+						url: arachneSettings.dataserviceUri + '/image/zoomify/:id/ImageProperties.xml',
+						isArray : false,
+						method: 'GET',
+						transformResponse : function (data) {
+							var properties = {};
+							if (window.DOMParser) {
+								var parser = new DOMParser();
+								properties = parser.parseFromString(data,"text/xml");
+							} else {
+								properties = new ActiveXObject("Microsoft.XMLDOM");
+								properties.async=false;
+								properties.loadXML(data);
+							}
+							return {
+								width : properties.firstChild.getAttribute('WIDTH'),
+								height : properties.firstChild.getAttribute('HEIGHT'),
+								tilesize : properties.firstChild.getAttribute('TILESIZE')
+							};
+						}
 					}
 				});
 
@@ -234,43 +255,15 @@ angular.module('arachne.services', [])
 							_currentEntity = arachneDataService.get({id:entityId});
 							return _currentEntity;
 						}
+					},
+					getImageProperties : function(queryParams){
+						return arachneDataService.getImageProperties(queryParams);
 					}
 
 				}
 			}
 		]
 	)
-	.factory('arachneEntityImg', ['$resource','arachneSettings', function($resource, arachneSettings){
-		var arachneDataService = $resource('', { }, {
-			getImageProperties : {
-				url: arachneSettings.dataserviceUri + '/image/zoomify/:id/ImageProperties.xml',
-				isArray : false,
-				method: 'GET',
-				transformResponse : function (data) {
-					var properties = {};
-					if (window.DOMParser) {
-						var parser = new DOMParser();
-						properties = parser.parseFromString(data,"text/xml");
-					} else {
-						properties = new ActiveXObject("Microsoft.XMLDOM");
-						properties.async=false;
-						properties.loadXML(data);
-					}
-					return {
-						width : properties.firstChild.getAttribute('WIDTH'),
-						height : properties.firstChild.getAttribute('HEIGHT'),
-						tilesize : properties.firstChild.getAttribute('TILESIZE')
-					};
-				}
-			}
-		});
-		
-		return {
-			getImageProperties : function(queryParams){
-				return arachneDataService.getImageProperties(queryParams);
-			}
-		}
-	}])
 	.factory('sessionService', ['$resource', '$cookieStore', 'arachneSettings', function($resource, $cookieStore, arachneSettings){
 		
 		var _currentUser = $cookieStore.get('user') || {};
@@ -365,7 +358,6 @@ angular.module('arachne.services', [])
 				function(data){
 					response = data;
 					var entityBookmark = [];
-					console.log("bookmark entity");
 
 					for(var x in response){
 					//console.log(response[x].name);

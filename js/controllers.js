@@ -111,10 +111,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.url("entity/" + $scope.previousEntitySearch.entities[0].entityId).search(qHash);
 		}
 		
-		$scope.reloadBM = function(){
+		$scope.getBookmarkStatus = function(){
 				NoteService.checkEntity($routeParams.id, function(data){;
 				if(data.length == 0){
-					console.log("Die Entity ist nicht gebookmarkt");
 					$scope.bookmark = {};
 					$scope.isBookmark = false;
 				}
@@ -130,11 +129,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.deleteBookmark = function(){
 			NoteService.deleteBookmark($scope.bookmark.id,
 			function(data){
-				console.log("deleted Bookmark" + data);
-				$scope.reloadBM();
+				// console.log("deleted Bookmark" + data);
+				$scope.getBookmarkStatus();
 			}, function(status){
 				console.log("error deleting Bookmark" + status);
-				$scope.reloadBM();
+				getBookmarkStatus();
 			});
 			
 		}
@@ -154,10 +153,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 							arachneEntityId : $routeParams.id,
 							commentary : selectedList.commentary
 						}
-						console.log("tryin create bookmark");
+						//console.log("tryin create bookmark");
 						NoteService.createBookmark(bm, selectedList.item.id, function(data){
-							console.log("bookmark erstellt");
-							$scope.reloadBM();
+							// console.log("bookmark erstellt");
+							$scope.getBookmarkStatus();
 						}, function(status){
 							console.log(status);
 						});
@@ -172,7 +171,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 						modalInstance.dismiss();
 					}
 
-					console.log("allready bookmarked!!");
+					// console.log("allready bookmarked!!");
 					$scope.bookmark = data;
 					$scope.isBookmark = true;
 				}
@@ -212,10 +211,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
-
-		if(sessionService.user.username) {
-			$scope.reloadBM();
-		}
 
 		if($scope.resultIndex != null) {
 			var queryhash = angular.copy(arachneSearch.getCurrentQueryParameters());
@@ -406,7 +401,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 'sessionService', 'arachneEntity', 
 	function ($routeParams, $scope, arachneEntityImg, sessionService, arachneEntity) {
 		if($routeParams.entityId) {
-			
 			$scope.previousImage = null;
 		}
 		$scope.user = sessionService.user;
@@ -429,7 +423,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if ($routeParams.entityId) {
 				$scope.entity = arachneEntity.getEntityById($routeParams.entityId);
 			};
-		}		
+		}
+		//METAINFO
+		this.getImageEntityForMetainfos = function () {
+			$scope.imageEntity = arachneEntity.getEntityById($routeParams.imageId);
+		}
+		this.openModalForImageEntity = function () {
+			this.getImageEntityForMetainfos();
+		}	
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 

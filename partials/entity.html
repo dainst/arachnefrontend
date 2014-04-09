@@ -85,7 +85,7 @@
 		</div>
 <!-- END RESULT NAVIGATION -->
 
-		<div ng-if="user.username">
+		<div ng-if="user.username" ng-init="getBookmarkStatus()">
 			<div class="page-header">
 				<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
 			</div>
