@@ -398,8 +398,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 		}
 }])
-.controller('EntityImgCtrl', ['$routeParams', '$scope', 'arachneEntityImg', 'sessionService', 'arachneEntity', 
-	function ($routeParams, $scope, arachneEntityImg, sessionService, arachneEntity) {
+.controller('EntityImgCtrl', ['$routeParams', '$scope', 'sessionService', 'arachneEntity', 
+	function ($routeParams, $scope, sessionService, arachneEntity) {
 		if($routeParams.entityId) {
 			$scope.previousImage = null;
 		}
@@ -408,7 +408,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		
 		//GALLERY METHODS
 		this.loadImageProperties = function () {
-			$scope.imageProperties = arachneEntityImg.getImageProperties({id: $scope.entityId});
+			$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.entityId});
 		}
 		this.setNextAndPreviousImages = function () {
 			var currentImageIndex = -1;
