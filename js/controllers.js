@@ -163,14 +163,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		      		});
 				}
 				else{
-					var modalInstance = $modal.open({
-						templateUrl: 'allreadyBookmarked.html',
-		      		});
-
-		      		modalInstance.close = function(){
-						modalInstance.dismiss();
-					}
-
 					// console.log("allready bookmarked!!");
 					$scope.bookmark = data;
 					$scope.isBookmark = true;

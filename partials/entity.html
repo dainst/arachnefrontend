@@ -13,9 +13,6 @@
 		<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
 	</ul>
 </script>
-<script type="text/ng-template" id="allreadyBookmarked.html">
-		<alert type="danger" close="$dismiss()">Es exsistiert bereits eine Bookmark!</alert>
-</script> 
 <script type="text/ng-template" id="createBookmark.html">
 	<div ng-if="bookmarkError == 404">
 		<alert type="danger" close="$dismiss()">Bitte unter Bookmarks erst eine Liste erstellen</alert>
