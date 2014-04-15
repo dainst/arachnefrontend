@@ -59,7 +59,7 @@
 			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Notizen & Lesezeichen</h3>
 
 		</div>
-		<accordion ng-repeat="bookmarksList in bookmarksLists" >
+		<accordion class="accordion-with-list" ng-repeat="bookmarksList in bookmarksLists" >
 			<accordion-group  is-open="false">
 	    	<accordion-heading>
 	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksListModal(bookmarksList.id, bookmarksList.name)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
