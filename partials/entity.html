@@ -49,8 +49,9 @@
 <div class="row"  ng-controller="EntityCtrl as entityCtrl">
 	<div ng-hide="entity.entityId" class="loading"></div>
 	<div class="col-md-2" style="padding-top:10px">
+
+<!-- CURRENT QUERY STATUS -->
 		<div ng-if="currentQueryParameters.q">
-			
 			<div class="page-header">
 				<h5 class="text-muted uppercase"><strong>Suche</strong></h5>
 			</div>
@@ -59,9 +60,25 @@
 					Letzte Suche <button ng-click="entityCtrl.goToResults()" class="btn btn-xs pull-right btn-default">anzeigen</button>
 				</div>
 				<div class="panel-body" style="overflow:hidden">
-					<small class="text-muted uppercase"><strong>Suchbegriff</strong></small><br>
+					<div class="text-muted uppercase small"><b>Suchbegriff</b></div>
 					{{currentQueryParameters.q}}
-					
+
+					<div class="text-muted uppercase small"><br><b>Ergebnisse insgesamt</b></div>
+					{{nextEntitySearch.size}}
+
+					<div class="text-muted uppercase small"><br><b>Ergebnisnummer</b></div>
+
+					<form class="form-inline" role="form">
+						<div class="input-group" style="width:100%">
+							
+					    	<input type="number" size="4" ng-model="resultIndex" style="width:50%" class="form-control input-sm">
+					    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = resultIndex" ng-show="resultIndex!=oldResultIndex">
+					        	<button class="btn btn-default btn-sm" type="button">springe</button>
+					    	</span>
+					    </div>
+					</form>
+
+
 					<ul ng-if="activeFacets.length" class="list-unstyled" style="margin-top:10px">
 						<small class="text-muted uppercase"><strong>Facetten</strong></small>
 						<li ng-repeat="facet in activeFacets"><small><i>{{facet.name | i18n}}</i><b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b></small></li>
@@ -72,15 +89,15 @@
 
 <!-- RESULT NAVIGATION -->
 		<div class="btn-group-vertical btn-block" ng-if="previousEntitySearch.entities[0] || nextEntitySearch.entities[0]">
-    		<button ng-click="entityCtrl.goToPreviousResult()" class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="previousEntitySearch.entities[0]">
+				<button ng-click="entityCtrl.goToPreviousResult()" class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="previousEntitySearch.entities[0]">
 				<span class="glyphicon glyphicon-arrow-up" ></span> &nbsp; <small>{{previousEntitySearch.entities[0].title}}</small>
 			</button>
-    		<button ng-click="entityCtrl.goToNextResult()"  class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="nextEntitySearch.entities[0]">
+				<button ng-click="entityCtrl.goToNextResult()"  class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="nextEntitySearch.entities[0]">
 				<span class="glyphicon glyphicon-arrow-down" ></span> &nbsp; <small>{{nextEntitySearch.entities[0].title}}</small>
 			</button>
 		</div>
-<!-- END RESULT NAVIGATION -->
 
+<!-- NOTES -->
 		<div ng-if="user.username" ng-init="getBookmarkStatus()">
 			<div class="page-header">
 				<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
