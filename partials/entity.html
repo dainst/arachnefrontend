@@ -117,9 +117,9 @@
 	</div>
 	<div class="col-md-6" ng-show="entity.entityId">
 		<div class="page-header">
-			
+
 			<h3>
-				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }}</small>
+				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }} ID:{{ entity.entityId }}</small>
 			</h3>
 
 		</div>
@@ -127,7 +127,9 @@
 	
 		{{entity.sections.label}}
 		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>		
-		
+		<div ng-repeat="navigation in specialNavigations.specialNavigationElements">
+			<a href="{{ navigation.link }}"type="button" class="btn btn-warning btn-sm">{{ navigation.title}}</a>
+		</div>	
 	</div>
 	<div class="col-md-4" ng-show="entity.entityId">
 		

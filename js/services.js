@@ -222,6 +222,11 @@ angular.module('arachne.services', [])
 						isArray : false,
 						method: 'GET'
 					},
+					getSpecialNavigations : {
+						url: arachneSettings.dataserviceUri + '/specialNavigationsService?type=entity&id=:id',
+						isArray : false,
+						method: 'GET'
+					},
 					getImageProperties : {
 						url: arachneSettings.dataserviceUri + '/image/zoomify/:id/ImageProperties.xml',
 						isArray : false,
@@ -258,8 +263,10 @@ angular.module('arachne.services', [])
 					},
 					getImageProperties : function(queryParams){
 						return arachneDataService.getImageProperties(queryParams);
+					},
+					getSpecialNavigations : function(entityId) {
+						return arachneDataService.getSpecialNavigations({id:entityId});
 					}
-
 				}
 			}
 		]
