@@ -112,7 +112,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 		
 		$scope.getBookmarkStatus = function(){
-				NoteService.checkEntity($routeParams.id, function(data){;
+			NoteService.checkEntity($routeParams.id, function(data){;
 				if(data.length == 0){
 					$scope.bookmark = {};
 					$scope.isBookmark = false;
@@ -124,6 +124,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				
 			}, function(status){
 				console.log(status)
+				$scope.bookmark = {
+					commentary: "session Kaputt, bitte erneut an und abmelden!"
+				};
+				$scope.isBookmark = true;
 			});
 		}
 		$scope.deleteBookmark = function(){
@@ -256,6 +260,25 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 		}
 
+		$scope.getBookmarkInfo = function(){
+			NoteService.getBookmarkInfo($scope.bookmarksLists,
+				function(data){
+					console.log("Bookmark Info erhalten");
+
+					for(var x in $scope.bookmarksLists){
+						for(var y in $scope.bookmarksLists[x].bookmarks){
+							for(var z in data.entities){
+								if($scope.bookmarksLists[x].bookmarks[y].arachneEntityId == data.entities[z].entityId)
+									$scope.bookmarksLists[x].bookmarks[y].title = data.entities[z].title;
+							}
+						}
+					}
+				}, function(status){
+						console.log("query Error");
+				}
+			);
+		}
+
 		$scope.refreshBookmarkLists = function(){
 			NoteService.getBookmarksList(
 				function(data){
@@ -263,6 +286,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					$scope.bookmarksLists.notEmpty = true;
 					$scope.bmStatus = 0;
 					console.log("BookmarksList erhalten");
+
+					$scope.getBookmarkInfo();
+
 				}, function(status){
 					if(status == 404)
 					{
@@ -370,14 +396,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			list.commentary = commentary;
 			list.bookmarks = bookmarks;
 
-			$scope.bookmarksLists.push(NoteService.createBookmarksList(list, 
+			NoteService.createBookmarksList(list, 
 				function(response){
 					console.log("creating BookmarksList" + response);
 				},
 				function(response){
 					console.log("Error creating BookmarksList" + response.status);
 					$scope.bmStatus = status;
-				}));
+				});
+			$scope.refreshBookmarkLists();
 		}
 
 		$scope.deleteBookmarksList = function(id){
