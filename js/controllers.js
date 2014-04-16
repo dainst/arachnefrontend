@@ -206,7 +206,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.resultIndex = arachneSearch.getResultIndex();
 
-		$scope.entity = arachneEntity.getEntityById($routeParams.id);
+		$scope.entity = arachneEntity.getEntityById($routeParams.id);		
+		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
 		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
 
