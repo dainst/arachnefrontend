@@ -117,8 +117,8 @@ angular.module('arachne.services', [])
 						return arachneDataService.query(_currentQueryParameters);
 					},
 
-					search : function (queryParams) {
-						return arachneDataService.query(queryParams);
+					search : function (queryParams, successMethod) {
+						return arachneDataService.query(queryParams, successMethod);
 					},
 					getContext : function (queryParams) {
 						return arachneDataService.context(queryParams);
