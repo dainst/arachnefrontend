@@ -160,11 +160,11 @@
 		</div>
 
 		<accordion class="accordion-with-list" close-others="true">
-			<accordion-group is-open="false" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)" ng-switch="facetValue.facetValueName == 'marbilder' || facetValue.facetValueName == 'buchseite'">
+			<accordion-group is-open="false" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)" ng-switch="facetValue.value == 'marbilder' || facetValue.value == 'buchseite'">
 				<accordion-heading>
-					<span class="capitalized">{{facetValue.facetValueName}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
+					<span class="capitalized">{{facetValue.value}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
 				</accordion-heading>
-				<span class="list-group-item" ng-if="!facetValue.entities.length" >{{ 'msg_loading...' | i18n }} </span>
+				<span class="list-group-item" ng-if="!facetValue.entities || !facetValue.entities.length" >{{ 'msg_loading...' | i18n }} </span>
 				<div ng-switch-when="true">
 					<a href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
 						<img class="col-md-3" style="padding: 4px; max-height:70px" ng-src="{{dataserviceUri}}/image/thumbnail/{{entity.thumbnailId}}">
