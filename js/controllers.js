@@ -134,8 +134,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			}, function(status){
 				console.log("error deleting Bookmark" + status);
 				getBookmarkStatus();
-			});
-			
+			});	
 		}
 		$scope.createBookmarkModal = function(){
 			NoteService.checkEntity($routeParams.id, function(data){;
@@ -202,7 +201,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.resultIndex = arachneSearch.getResultIndex();
 
-		$scope.entity = arachneEntity.getEntityById($routeParams.id);		
+		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
 		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
@@ -216,7 +215,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 			queryhash.offset = $scope.resultIndex-1;
 			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
-		}		
+		}
 }])
 .controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', function($scope, $modalInstance, NoteService){
 	
@@ -531,4 +530,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if($scope.projectList == null)	
 	    		teaserFactory.getTeaser().success(function(data) {$scope.projectList = data;})
 		}
-}]);
+}])
+.run(function($rootScope, $location) {
+    $rootScope.location = $location;
+});
