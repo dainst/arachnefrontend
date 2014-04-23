@@ -6,7 +6,7 @@
 
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 
-	<base href="/~cbensch/frontend/">
+	<base href="/~fabian/frontend/">
 
 
 	<link rel="stylesheet" href="css/MarkerCluster.css">
@@ -48,10 +48,10 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-default navbar-fixed-top" style="opacity:0.92" role="navigation" ng-controller="MenuCtrl">
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:white; opacity:0.89" role="navigation" ng-controller="MenuCtrl">
 		<div class="col-md-2" style="padding-left:0px">
 			<img class="pull-left" src="img/arachnelogo.png" style="height: 36px; margin-left: 30px; margin-top: 8px; opacity: 0.53; width: 36px;"></img>
-			<a class="navbar-brand" href="#" style="font-weight:300">arachne</a>
+			<a class="navbar-brand" href="#" style="font-weight:300; font-size:20px;">arachne</a>
 		</div>
 		<div class="navbar-header">
 			<button class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" type="button">
@@ -74,13 +74,19 @@
 				<li>
 					<a id="nav-link-map" href="map?q=*&fl=2000">Karte</a>
 				</li>
+
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right" style="padding-right:30px;">
+				<li ng-if="user.username">
+					<a href="bookmarks"><span class="glyphicon glyphicon-user"></span> &nbsp;{{user.username}}</a>
+				</li>
 				<li>
 					<button ng-if="!user.username" type="button" class="btn btn-default navbar-btn" ng-click="openLoginModal()">Anmelden</button>
-					<a href="bookmarks" ng-if="user.username" type="button"><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"></span> Ihre Notizen & Lesezeichen</a>
+
+					<a href="bookmarks" ng-if="user.username" type="button"><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"></span>Notizen & Lesezeichen</a>
 				</li>
+
 				
 			</ul>
 

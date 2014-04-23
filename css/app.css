@@ -27,6 +27,9 @@ body {
 .fullscreenrow {
   margin-top: 0px;
 }
+.sections li {
+  list-style:none;
+}
 .facet {
 	margin-top: 14px;
 }
