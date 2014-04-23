@@ -252,7 +252,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.bookmarksLists = [];
 		$scope.bmStatus = 0;
-		$scope.bE = [];
 		$scope.user = sessionService.user;
 
 		this.logout = function () {
@@ -265,17 +264,22 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			NoteService.getBookmarkInfo($scope.bookmarksLists,
 				function(data){
 					console.log("Bookmark Info erhalten");
-
-					for(var x in $scope.bookmarksLists){
+					for(var x in $scope.bookmarksLists){						//durchlaue Bookmarks
 						for(var y in $scope.bookmarksLists[x].bookmarks){
-							for(var z in data.entities){
+							for(var z in data.entities){						//sortiere entity infos in die bookmarks ein
 								if($scope.bookmarksLists[x].bookmarks[y].arachneEntityId == data.entities[z].entityId)
+								{
 									$scope.bookmarksLists[x].bookmarks[y].title = data.entities[z].title;
+									$scope.bookmarksLists[x].bookmarks[y].entityId = data.entities[z].entityId;
+									$scope.bookmarksLists[x].bookmarks[y].thumbnailId = data.entities[z].thumbnailId;
+								}
 							}
 						}
 					}
+
+					console.log($scope.bookmarksLists);
 				}, function(status){
-						console.log("query Error");
+						console.log("getboomarkInfo error:" + status);
 				}
 			);
 		}
@@ -287,22 +291,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					$scope.bookmarksLists.notEmpty = true;
 					$scope.bmStatus = 0;
 					console.log("BookmarksList erhalten");
-
 					$scope.getBookmarkInfo();
-
 				}, function(status){
-					if(status == 404)
-					{
-						$scope.bookmarksLists = [];
-						$scope.bmStatus = 404;
-					}
-					else if(status == 403)
-					{
-						$scope.bookmarksLists = [];
-						$scope.bmStatus = 403;
-					}
-					else
-						console.log("unknown error");
+					console.log(status);
 				}
 			);
 		}
@@ -310,15 +301,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.refreshBookmarkLists();
 		
 		$scope.deleteBookmark = function(bookmark){
-			
 			NoteService.deleteBookmark(bookmark.id,
 				function(data){
 					console.log("deleted Bookmark" + data);
-					console.log(data);
 					$scope.refreshBookmarkLists();
 				}, function(response){
 					console.log("error deleting Bookmark" + response.status);
-					console.log(response);
 				});
 		}
 
@@ -379,8 +367,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});	
 
 			modalInstance.close = function(name, commentary){
-				if(name == undefined || name == "")
-				{
+				if(name == undefined || name == ""){
 					alert("Name setzen!")							
 				}else if(commentary == undefined || commentary == ""){
 					alert("Kommentar setzen!")
@@ -416,8 +403,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				}, function(status){
 					console.log("error deleting list" + status);
 					$scope.bmStatus = status;
-				});
-			
+				});	
 		}
 }])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'sessionService', 'arachneEntity', '$modal', 'arachneSettings',

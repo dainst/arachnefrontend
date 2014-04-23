@@ -134,7 +134,7 @@
 	<div class="col-md-4" ng-show="entity.entityId">
 		
 		<div ng-if="entity.thumbnailId">
-			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
+			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=50"></img></a>
 		</div>
 		<div ng-if="entity.images.length > 0">
 			<h3 class="text-justify" ng-init="showConnectedImages=false">
