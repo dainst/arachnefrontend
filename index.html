@@ -74,13 +74,19 @@
 				<li>
 					<a id="nav-link-map" href="map?q=*&fl=2000">Karte</a>
 				</li>
+
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right" style="padding-right:30px;">
+				<li ng-if="user.username">
+					<a href="bookmarks"><span class="glyphicon glyphicon-user"></span> &nbsp;{{user.username}}</a>
+				</li>
 				<li>
 					<button ng-if="!user.username" type="button" class="btn btn-default navbar-btn" ng-click="openLoginModal()">Anmelden</button>
-					<a href="bookmarks" ng-if="user.username" type="button"><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"></span> Ihre Notizen & Lesezeichen</a>
+
+					<a href="bookmarks" ng-if="user.username" type="button"><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"></span>Notizen & Lesezeichen</a>
 				</li>
+
 				
 			</ul>
 
