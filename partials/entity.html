@@ -120,9 +120,10 @@
 			<h3>
 				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }}</small>
 			</h3>
-
 		</div>
-		
+		Arachne-ID: {{ entity.entityId }} Inventarnummer: {{ entity.internalId }}<br/>
+	    Perma-Link: http://crazyhorse.archaeologie.uni-koeln.de/~obensch/frontend/entity/{{entity.entityId}}
+		<hr/>
 	
 		{{entity.sections.label}}
 		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>		
@@ -131,12 +132,6 @@
 		</div>	
 	</div>
 	<div class="col-md-4" ng-show="entity.entityId">
-
-		<div class="alert alert-info">
-	    		Arachne-ID: {{ entity.entityId }}<br/>
-	    		Inventarnummer: {{ entity.internalId }}<br/>
-	    		Perma-Link: http://crazyhorse.archaeologie.uni-koeln.de/~obensch/frontend/entity/{{entity.entityId}}
-	  	</div>
 
 		<div ng-if="entity.thumbnailId">
 			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
