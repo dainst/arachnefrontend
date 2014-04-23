@@ -247,7 +247,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.bookmarksLists = [];
 		$scope.bmStatus = 0;
-		$scope.bE = [];
 		$scope.user = sessionService.user;
 
 		this.logout = function () {
@@ -256,7 +255,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 		}
 
-<<<<<<< HEAD
 		$scope.getBookmarkInfo = function(){
 			NoteService.getBookmarkInfo($scope.bookmarksLists,
 				function(data){
@@ -272,7 +270,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 							}
 						}
 					}
-
 					console.log($scope.bookmarksLists);
 				}, function(status){
 						console.log("getboomarkInfo error:" + status);
@@ -280,8 +277,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			);
 		}
 
-=======
->>>>>>> 076c4db11651437378dad1a034887d576d61adcf
 		$scope.refreshBookmarkLists = function(){
 			NoteService.getBookmarksList(
 				function(data){
@@ -289,6 +284,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					$scope.bookmarksLists.notEmpty = true;
 					$scope.bmStatus = 0;
 					console.log("BookmarksList erhalten");
+					$scope.getBookmarkInfo();
 				}, function(status){
 					if(status == 404)
 					{
