@@ -69,11 +69,11 @@
 					<div class="text-muted uppercase small"><br><b>Ergebnisnummer</b></div>
 
 					<form class="form-inline" role="form">
-						<div class="input-group" style="width:100%">
+						<div class="input-group" style="width:100%; margin-top:6px">
 							
 					    	<input type="number" size="4" ng-model="resultIndex" style="width:50%" class="form-control input-sm">
 					    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = resultIndex" ng-show="resultIndex!=oldResultIndex">
-					        	<button class="btn btn-default btn-sm" type="button">springe</button>
+					        	<button class="btn btn-default btn-sm" type="button" ng-click="entityCtrl.goToResultByIndex(resultIndex)">springe</button>
 					    	</span>
 					    </div>
 					</form>
@@ -121,14 +121,23 @@
 				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }}</small>
 			</h3>
 
+
+
+
 		</div>
-		
-	
+
+		<div ng-if="specialNavigations.specialNavigationElements.length" class="navbar navbar-default">
+			<span class="navbar-brand">Andere Darstellungen</span>
+			<div ng-repeat="navigation in specialNavigations.specialNavigationElements">
+				<ul class="nav navbar-nav">
+					<li><a href="{{ navigation.link }}" target="_blank" >{{ navigation.title}}</a></li>
+				</ul>
+			</div>
+		</div>
+
 		{{entity.sections.label}}
 		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>		
-		<div ng-repeat="navigation in specialNavigations.specialNavigationElements">
-			<a href="{{ navigation.link }}"type="button" class="btn btn-warning btn-sm">{{ navigation.title}}</a>
-		</div>	
+		
 	</div>
 	<div class="col-md-4" ng-show="entity.entityId">
 
@@ -140,7 +149,7 @@
 	  	</div>
 
 		<div ng-if="entity.thumbnailId">
-			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
+			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=50"></img></a>
 		</div>
 		<div ng-if="entity.images.length > 0">
 			<h3 class="text-justify" ng-init="showConnectedImages=false">

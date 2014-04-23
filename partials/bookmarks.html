@@ -1,4 +1,6 @@
 <div ng-controller="BookmarksController as bookmarksController">
+
+	<!--################################################ MODALS #####################################################################-->
 	<script type="text/ng-template" id="deleteBookmarksList.html">
 		<div class="modal-header">
 			<h4 class="modal-title"><img src="img/arachnelogo.png" style="height: 36px; opacity: 0.43; width: 36px;"></img> Liste löschen:
@@ -46,6 +48,7 @@
         </div>
 	</script> 
 
+	<!--################################################ SITE #####################################################################-->
 	<div ng-if="bmStatus == 404">
 		<p>keine Liste vorhanden, bitte eine erstellen!</p>
 	</div>
@@ -65,13 +68,16 @@
 	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksListModal(bookmarksList.id, bookmarksList.name)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
 	    	</accordion-heading>
 	    		<div ng-repeat="bookmark in bookmarksList.bookmarks"class="list-group-item clearfix">
-	    					<a href="entity/{{bookmarks.arachneEntityId }}" class="title" >{{ bookmark.arachneEntityId }}</a>
-	    					{{ bookmark.commentary }}
-	    					<div class="btn-group pull-right">
-		    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmark.id)"><span class="glyphicon glyphicon-pencil"></span></button>
-		    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
+	    			<div class="pull-left" ng-if="bookmark.thumbnailId">
+						<a href="entity/{{bookmark.entityId}}/image/{{ bookmark.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/arachnedataservice/image/height/{{ bookmark.thumbnailId }}?height=50"></img></a>
+					</div>
+					<a href="entity/{{ bookmark.arachneEntityId }}" class="title" >{{ bookmark.title }} </br></a>
+					{{ bookmark.commentary }}
+					<div class="btn-group pull-right">
+    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmark.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
 
-	    					</div>
+					</div>
   				</div>
 	    	</accordion-group>
 	  	</accordion>

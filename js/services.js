@@ -22,8 +22,7 @@ angular.module('arachne.services', [])
 					return facets;
 				};
 
-			  // THIS IS WHERE THE JUICE IS COMING FROM
-			  // All server connections should be defined in this resource
+			  // Define all server connections in this angular-resource
 				var arachneDataService = $resource('', { }, {
 					query: {
 						url : arachneSettings.dataserviceUri + '/search',
@@ -117,8 +116,8 @@ angular.module('arachne.services', [])
 						return arachneDataService.query(_currentQueryParameters);
 					},
 
-					search : function (queryParams) {
-						return arachneDataService.query(queryParams);
+					search : function (queryParams, successMethod) {
+						return arachneDataService.query(queryParams, successMethod);
 					},
 					getContext : function (queryParams) {
 						return arachneDataService.context(queryParams);
@@ -355,10 +354,7 @@ angular.module('arachne.services', [])
 		return factory;
 	}])
 .factory('NoteService', ['$resource', 'arachneSettings', '$http', function($resource, arachneSettings, $http){
-		var _bookmarksLists = [];
-		var bm = [];
-		var _id;
-
+		
 		var checkEntity  = function(entityID, successMethod, errorMethod){
 			var response = [];
 			$http({method: 'GET', url: arachneSettings.dataserviceUri + '/bookmarklist'}).success(
@@ -367,31 +363,23 @@ angular.module('arachne.services', [])
 					var entityBookmark = [];
 
 					for(var x in response){
-					//console.log(response[x].name);
 						for(var y in response[x].bookmarks){
-							//console.log(bookmark);
 							if(response[x].bookmarks[y].arachneEntityId == entityID)
-							{
 								entityBookmark = response[x].bookmarks[y];
-							}
 						}
 					}
-
 					successMethod(entityBookmark);
 				}).error(function(status){
-					if(status == 404)
-						console.log("keine BookmarksListe enthalten");
-					else if(status == 403)
-						console.log("bitte einloggen");
-					else
-						console.log("unknown error");
-
 					errorMethod(status);
-
 				});	
 		};
 
 		var arachneDataService = $resource('', { }, {
+			getBookmarkInfo : {
+				url : arachneSettings.dataserviceUri + '/search',
+				isArray: false,
+				method: 'GET'
+			},
 			createBookmarksList: {
 				url :  arachneSettings.dataserviceUri + '/bookmarklist',
 				isArray: false,
@@ -402,7 +390,6 @@ angular.module('arachne.services', [])
 				url : arachneSettings.dataserviceUri + '/bookmarklist',
 				isArray: true,
 				method: 'GET'
-
 			},
 			deleteBookmarksList: {
 				url : arachneSettings.dataserviceUri + '/bookmarklist/:id',
@@ -434,12 +421,24 @@ angular.module('arachne.services', [])
 		});
 
 		return{
+			getBookmarkInfo : function(bookmarksLists, successMethod, errorMethod){	
+				var hash = new Object();
+				var entityIDs = new Array();
+				
+				for(var x in bookmarksLists){
+					for(var y in bookmarksLists[x].bookmarks){
+						entityIDs.push(bookmarksLists[x].bookmarks[y].arachneEntityId);					
+					}
+				}
+				hash.q = "entityId:(" + entityIDs.join(" OR ") + ")";
+
+				return arachneDataService.getBookmarkInfo(hash, successMethod, errorMethod);
+			},
 			checkEntity : function(entityID, successMethod, errorMethod){
 				return checkEntity(entityID, successMethod, errorMethod);
 			},
 			getBookmarksList : function(successMethod, errorMethod){
-				_bookmarksLists = arachneDataService.getBookmarksLists({}, successMethod, errorMethod);
-				return _bookmarksLists;
+				return arachneDataService.getBookmarksLists({}, successMethod, errorMethod);
 			},
 			createBookmarksList : function(listData, successMethod, errorMethod) {
 				return arachneDataService.createBookmarksList(listData, successMethod, errorMethod);
