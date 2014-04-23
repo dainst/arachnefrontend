@@ -8,6 +8,7 @@
 
 	<base href="/~cbensch/frontend/">
 
+
 	<link rel="stylesheet" href="css/MarkerCluster.css">
 	<link rel="stylesheet" href="css/MarkerCluster.Default.css">
 	<link rel="stylesheet" href="css/app.css"/>
@@ -15,14 +16,14 @@
 
 	<script type="text/javascript">
 		var translations = {}
-		var recieveTranslations = function (data) {
+		var parseTransl8 = function (data) {
 			for(var i = 0; i < data.length; i++) {
 				translations[data[i].key] = data[i].value;
 			}
 		}
 	</script>
 
-	<script type="text/javascript" src="http://crazyhorse.archaeologie.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&callback=recieveTranslations"></script>
+	<script type="text/javascript" src="http://crazyhorse.archaeologie.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&callback=parseTransl8"></script>
 	<script type="text/ng-template" id="loginForm.html">
 		<div class="modal-header">
 			<button type="button" class="close"  ng-click="cancel()" aria-hidden="true">&times;</button>

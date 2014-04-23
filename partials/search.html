@@ -8,10 +8,10 @@
 		</div>
 		<small>
 			<h5 class="text-muted uppercase"><strong>Filter</strong></h5>
-			<ul class="list-unstyled facet" ng-repeat="(facetName,values) in searchresults.facets">
-				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet" ng-class="{ 'active': openfacet }"><b>{{facetName | i18n }}</b></button>
-				<li ng-click="searchCtrl.addFacet(facetName, facetValue)"  ng-repeat="(facetValue, count) in values" ng-show="openfacet">
-					<b class="pull-right text-muted">{{count}}</b>{{facetValue}}
+			<ul class="list-unstyled facet" ng-repeat="facet in searchresults.facets">
+				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet" ng-class="{ 'active': openfacet }"><b>{{facet.name | i18n }}</b></button>
+				<li ng-click="searchCtrl.addFacet(facet.name, facetValue.value)"  ng-repeat="facetValue in facet.values" ng-show="openfacet">
+					<b class="pull-right text-muted">{{facetValue.count}}</b>{{facetValue.label}}
 				</li>
 			</ul>
 

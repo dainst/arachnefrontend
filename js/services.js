@@ -22,8 +22,7 @@ angular.module('arachne.services', [])
 					return facets;
 				};
 
-			  // THIS IS WHERE THE JUICE IS COMING FROM
-			  // All server connections should be defined in this resource
+			  // Define all server connections in this angular-resource
 				var arachneDataService = $resource('', { }, {
 					query: {
 						url : arachneSettings.dataserviceUri + '/search',
@@ -117,8 +116,8 @@ angular.module('arachne.services', [])
 						return arachneDataService.query(_currentQueryParameters);
 					},
 
-					search : function (queryParams) {
-						return arachneDataService.query(queryParams);
+					search : function (queryParams, successMethod) {
+						return arachneDataService.query(queryParams, successMethod);
 					},
 					getContext : function (queryParams) {
 						return arachneDataService.context(queryParams);

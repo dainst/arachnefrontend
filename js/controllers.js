@@ -110,6 +110,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				qHash.resultIndex = arachneSearch.getResultIndex();
 			$location.url("entity/" + $scope.previousEntitySearch.entities[0].entityId).search(qHash);
 		}
+		this.goToResultByIndex = function(index) {
+			var queryhash = angular.copy(arachneSearch.getCurrentQueryParameters());
+			queryhash.limit = 1;
+			queryhash.offset = index
+			
+			arachneSearch.search(queryhash, function(response){
+				arachneSearch.setResultIndex(index);
+				delete queryhash.limit
+				$location.url("entity/" + response.entities[0].entityId).search(queryhash);
+			});
+		}
 		
 		$scope.getBookmarkStatus = function(){
 			NoteService.checkEntity($routeParams.id, function(data){;
