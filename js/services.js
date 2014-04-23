@@ -353,15 +353,7 @@ angular.module('arachne.services', [])
 		return factory;
 	}])
 .factory('NoteService', ['$resource', 'arachneSettings', '$http', function($resource, arachneSettings, $http){
-		var _bookmarksLists = [];
-		var bm = [];
-		var _id;
-
-		var getBookmarkInfo = function(bookmarksLists){
-			
-
-		}
-
+		
 		var checkEntity  = function(entityID, successMethod, errorMethod){
 			var response = [];
 			$http({method: 'GET', url: arachneSettings.dataserviceUri + '/bookmarklist'}).success(
@@ -370,27 +362,14 @@ angular.module('arachne.services', [])
 					var entityBookmark = [];
 
 					for(var x in response){
-					//console.log(response[x].name);
 						for(var y in response[x].bookmarks){
-							//console.log(bookmark);
 							if(response[x].bookmarks[y].arachneEntityId == entityID)
-							{
 								entityBookmark = response[x].bookmarks[y];
-							}
 						}
 					}
-
 					successMethod(entityBookmark);
 				}).error(function(status){
-					if(status == 404)
-						console.log("keine BookmarksListe enthalten");
-					else if(status == 403)
-						console.log("bitte einloggen");
-					else
-						console.log("unknown error");
-
 					errorMethod(status);
-
 				});	
 		};
 
@@ -441,18 +420,16 @@ angular.module('arachne.services', [])
 		});
 
 		return{
-			getBookmarkInfo : function(bookmarksLists, successMethod, errorMethod){
-				_bookmarksLists = bookmarksLists;	
+			getBookmarkInfo : function(bookmarksLists, successMethod, errorMethod){	
 				var hash = new Object();
-				hash.q = "entityId:(";
-
-				for(var x in _bookmarksLists){
-					for(var y in _bookmarksLists[x].bookmarks){
-						hash.q += _bookmarksLists[x].bookmarks[y].arachneEntityId + " OR ";					
+				var entityIDs = new Array();
+				
+				for(var x in bookmarksLists){
+					for(var y in bookmarksLists[x].bookmarks){
+						entityIDs.push(bookmarksLists[x].bookmarks[y].arachneEntityId);					
 					}
 				}
-				hash.q = hash.q.substr(0, hash.q.length-4);
-				hash.q += ")";
+				hash.q = "entityId:(" + entityIDs.join(" OR ") + ")";
 
 				return arachneDataService.getBookmarkInfo(hash, successMethod, errorMethod);
 			},
@@ -460,8 +437,7 @@ angular.module('arachne.services', [])
 				return checkEntity(entityID, successMethod, errorMethod);
 			},
 			getBookmarksList : function(successMethod, errorMethod){
-				_bookmarksLists = arachneDataService.getBookmarksLists({}, successMethod, errorMethod);
-				return _bookmarksLists;
+				return arachneDataService.getBookmarksLists({}, successMethod, errorMethod);
 			},
 			createBookmarksList : function(listData, successMethod, errorMethod) {
 				return arachneDataService.createBookmarksList(listData, successMethod, errorMethod);
