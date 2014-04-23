@@ -34,9 +34,11 @@
 					</form>
 				</div>
 			</div>
-			<div class="row" style="background-color:white">
+			<div class="row" style="background-color:white" id="categories_container">
 				<div  class="col-md-10 col-md-offset-1">
-					<h1 ng-click='$("body,html").animate({scrollTop: 800}, "slow");' style="font-weight:300; margin:100px 0px 50px; text-align:center"></span> Kategorien in Arachne <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;"></h1>
+					<h1 style="font-weight:300; margin:100px 0px 50px; text-align:center">
+						<a href="javascript:document.getElementById('categories_container').scrollIntoView(true);">Kategorien in Arachne</a> <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;">
+					</h1>
 					<div ng-repeat="start in categoryStarts">
 						<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
 							<div class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index].imageId}}" link="{{categoryStarts[$index].customlink}}">
