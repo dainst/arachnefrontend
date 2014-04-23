@@ -270,7 +270,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 							}
 						}
 					}
-					console.log($scope.bookmarksLists);
 				}, function(status){
 						console.log("getboomarkInfo error:" + status);
 				}
@@ -334,26 +333,41 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.updateBookmark = function(id, commentary){
 			var bm = new Object();
+			var bml;
+			
 			NoteService.getBookmark(id,
 				function(data){
-					console.log("got Bookmark" + data);
 					bm = data;
 					bm.commentary = commentary;
-					console.log(id);
 
-					NoteService.updateBookmark(bm, id,
-						function(data)
-						{
-							console.log("Bookmark changed" + data);
-							$scope.refreshBookmarkLists();
-						}, function(status){
-							console.log("Bookmark change error: "+ status);
-							$scope.bmStatus = status;
-						});	
+					for(var x in $scope.bookmarksLists){						//durchlaue Bookmarks
+						for(var y in $scope.bookmarksLists[x].bookmarks){
+							if($scope.bookmarksLists[x].bookmarks[y].id  == bm.id)
+								bml = $scope.bookmarksLists[x].id;
+						}
+					}
+
+					NoteService.deleteBookmark(id,
+						function(data){
+							console.log("delteted bookmark");
+
+							NoteService.createBookmark(bm, bml, 
+								function(data){
+									console.log("bookmark erstellt");
+									$scope.refreshBookmarkLists();
+								}, function(status){
+								console.log(status);
+							});
+
+						},function(status){
+							console.log("delte failed");
+						});
+
 					$scope.refreshBookmarkLists();
 				}, function(status){
 					console.log("error getting Bookmark" + status);
 				});	
+
 		}
 
 		$scope.deleteBookmarksListModal = function(id, name){
