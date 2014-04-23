@@ -69,11 +69,11 @@
 					<div class="text-muted uppercase small"><br><b>Ergebnisnummer</b></div>
 
 					<form class="form-inline" role="form">
-						<div class="input-group" style="width:100%; margin-top:6px">
+						<div class="input-group" style="width:100%">
 							
 					    	<input type="number" size="4" ng-model="resultIndex" style="width:50%" class="form-control input-sm">
 					    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = resultIndex" ng-show="resultIndex!=oldResultIndex">
-					        	<button class="btn btn-default btn-sm" type="button" ng-click="entityCtrl.goToResultByIndex(resultIndex)">springe</button>
+					        	<button class="btn btn-default btn-sm" type="button">springe</button>
 					    	</span>
 					    </div>
 					</form>
@@ -117,31 +117,22 @@
 	</div>
 	<div class="col-md-6" ng-show="entity.entityId">
 		<div class="page-header">
-
 			<h3>
-				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }} ID:{{ entity.entityId }}</small>
+				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }}</small>
 			</h3>
-
-
-
-
 		</div>
-
-		<div ng-if="specialNavigations.specialNavigationElements.length" class="navbar navbar-default">
-			<span class="navbar-brand">Andere Darstellungen</span>
-			<div ng-repeat="navigation in specialNavigations.specialNavigationElements">
-				<ul class="nav navbar-nav">
-					<li><a href="{{ navigation.link }}" target="_blank" >{{ navigation.title}}</a></li>
-				</ul>
-			</div>
-		</div>
-
+		Arachne-ID: {{ entity.entityId }} Inventarnummer: {{ entity.internalId }}<br/>
+	    Perma-Link: http://crazyhorse.archaeologie.uni-koeln.de/~obensch/frontend/entity/{{entity.entityId}}
+		<hr/>
+	
 		{{entity.sections.label}}
 		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>		
-		
+		<div ng-repeat="navigation in specialNavigations.specialNavigationElements">
+			<a href="{{ navigation.link }}"type="button" class="btn btn-warning btn-sm">{{ navigation.title}}</a>
+		</div>	
 	</div>
 	<div class="col-md-4" ng-show="entity.entityId">
-		
+
 		<div ng-if="entity.thumbnailId">
 			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
 		</div>
@@ -169,11 +160,11 @@
 		</div>
 
 		<accordion class="accordion-with-list" close-others="true">
-			<accordion-group is-open="false" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)" ng-switch="facetValue.facetValueName == 'marbilder' || facetValue.facetValueName == 'buchseite'">
+			<accordion-group is-open="false" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)" ng-switch="facetValue.value == 'marbilder' || facetValue.value == 'buchseite'">
 				<accordion-heading>
-					<span class="capitalized">{{facetValue.facetValueName}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
+					<span class="capitalized">{{facetValue.value}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
 				</accordion-heading>
-				<span class="list-group-item" ng-if="!facetValue.entities.length" >{{ 'msg_loading...' | i18n }} </span>
+				<span class="list-group-item" ng-if="!facetValue.entities || !facetValue.entities.length" >{{ 'msg_loading...' | i18n }} </span>
 				<div ng-switch-when="true">
 					<a href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
 						<img class="col-md-3" style="padding: 4px; max-height:70px" ng-src="{{dataserviceUri}}/image/thumbnail/{{entity.thumbnailId}}">

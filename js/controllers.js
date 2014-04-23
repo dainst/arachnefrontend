@@ -93,7 +93,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.user = sessionService.user;
 
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
-			if (!facetValue.entities.length) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.facetValueName});
+			if (!facetValue.entities) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.value});
 		}
 		this.goToResults = function () {
 			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
@@ -110,20 +110,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				qHash.resultIndex = arachneSearch.getResultIndex();
 			$location.url("entity/" + $scope.previousEntitySearch.entities[0].entityId).search(qHash);
 		}
-		this.goToResultByIndex = function(index) {
-			var queryhash = angular.copy(arachneSearch.getCurrentQueryParameters());
-			queryhash.limit = 1;
-			queryhash.offset = index
-			
-			arachneSearch.search(queryhash, function(response){
-				arachneSearch.setResultIndex(index);
-				delete queryhash.limit
-				$location.url("entity/" + response.entities[0].entityId).search(queryhash);
-			});
-		}
 		
 		$scope.getBookmarkStatus = function(){
-			NoteService.checkEntity($routeParams.id, function(data){;
+				NoteService.checkEntity($routeParams.id, function(data){;
 				if(data.length == 0){
 					$scope.bookmark = {};
 					$scope.isBookmark = false;
@@ -135,10 +124,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				
 			}, function(status){
 				console.log(status)
-				$scope.bookmark = {
-					commentary: "session Kaputt, bitte erneut an und abmelden!"
-				};
-				$scope.isBookmark = true;
 			});
 		}
 		$scope.deleteBookmark = function(){
@@ -149,8 +134,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			}, function(status){
 				console.log("error deleting Bookmark" + status);
 				getBookmarkStatus();
-			});
-			
+			});	
 		}
 		$scope.createBookmarkModal = function(){
 			NoteService.checkEntity($routeParams.id, function(data){;
@@ -217,7 +201,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.resultIndex = arachneSearch.getResultIndex();
 
-		$scope.entity = arachneEntity.getEntityById($routeParams.id);		
+		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
 		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
@@ -231,7 +215,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 			queryhash.offset = $scope.resultIndex-1;
 			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
-		}		
+		}
 }])
 .controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', function($scope, $modalInstance, NoteService){
 	
@@ -263,6 +247,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.bookmarksLists = [];
 		$scope.bmStatus = 0;
+		$scope.bE = [];
 		$scope.user = sessionService.user;
 
 		this.logout = function () {
@@ -271,6 +256,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 		}
 
+<<<<<<< HEAD
 		$scope.getBookmarkInfo = function(){
 			NoteService.getBookmarkInfo($scope.bookmarksLists,
 				function(data){
@@ -294,6 +280,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			);
 		}
 
+=======
+>>>>>>> 076c4db11651437378dad1a034887d576d61adcf
 		$scope.refreshBookmarkLists = function(){
 			NoteService.getBookmarksList(
 				function(data){
@@ -301,9 +289,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					$scope.bookmarksLists.notEmpty = true;
 					$scope.bmStatus = 0;
 					console.log("BookmarksList erhalten");
-					$scope.getBookmarkInfo();
 				}, function(status){
-					console.log(status);
+					if(status == 404)
+					{
+						$scope.bookmarksLists = [];
+						$scope.bmStatus = 404;
+					}
+					else if(status == 403)
+					{
+						$scope.bookmarksLists = [];
+						$scope.bmStatus = 403;
+					}
+					else
+						console.log("unknown error");
 				}
 			);
 		}
@@ -311,12 +309,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.refreshBookmarkLists();
 		
 		$scope.deleteBookmark = function(bookmark){
+			
 			NoteService.deleteBookmark(bookmark.id,
 				function(data){
 					console.log("deleted Bookmark" + data);
+					console.log(data);
 					$scope.refreshBookmarkLists();
 				}, function(response){
 					console.log("error deleting Bookmark" + response.status);
+					console.log(response);
 				});
 		}
 
@@ -378,7 +379,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});	
 
 			modalInstance.close = function(name, commentary){
-				if(name == undefined || name == ""){
+				if(name == undefined || name == "")
+				{
 					alert("Name setzen!")							
 				}else if(commentary == undefined || commentary == ""){
 					alert("Kommentar setzen!")
@@ -395,7 +397,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			list.commentary = commentary;
 			list.bookmarks = bookmarks;
 
-			NoteService.createBookmarksList(list, 
+			$scope.bookmarksLists.push(NoteService.createBookmarksList(list, 
 				function(response){
 					console.log("creating BookmarksList" + response);
 					$scope.refreshBookmarkLists();
@@ -403,8 +405,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				function(response){
 					console.log("Error creating BookmarksList" + response.status);
 					$scope.bmStatus = status;
-				});
-			$scope.refreshBookmarkLists();
+				}));
 		}
 
 		$scope.deleteBookmarksList = function(id){
@@ -415,7 +416,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				}, function(status){
 					console.log("error deleting list" + status);
 					$scope.bmStatus = status;
-				});	
+				});
+			
 		}
 }])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'sessionService', 'arachneEntity', '$modal', 'arachneSettings',

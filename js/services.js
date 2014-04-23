@@ -40,17 +40,16 @@ angular.module('arachne.services', [])
 						url : arachneSettings.dataserviceUri + '/contexts/:id',
 						method: 'GET',
 						transformResponse : function (data) {
-							data = JSON.parse(data).facets['facet_kategorie'];
-							var context = [];
-							for(var facetValue in data) {
-								var facetValueObject = {
-									'facetValueName' : facetValue,
-									'count' : data[facetValue],
-									'entities' : []
+							var facets = JSON.parse(data).facets;
+							var categoryFacet = {};
+							for (var i = facets.length - 1; i >= 0; i--) {
+								if(facets[i].name == "facet_kategorie") {
+									categoryFacet = facets[i];
+									break;
 								}
-								context.push(facetValueObject);
-							} 
-							return context;
+							};
+							
+							return categoryFacet.values;
 						}
 					},
 					contextEntities : {
