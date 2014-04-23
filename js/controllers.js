@@ -281,7 +281,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 								if($scope.bookmarksLists[x].bookmarks[y].arachneEntityId == data.entities[z].entityId)
 								{
 									$scope.bookmarksLists[x].bookmarks[y].title = data.entities[z].title;
-									$scope.bookmarksLists[x].bookmarks[y].entityId = data.entities[z].entityId;
 									$scope.bookmarksLists[x].bookmarks[y].thumbnailId = data.entities[z].thumbnailId;
 								}
 							}
@@ -343,6 +342,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					console.log("got Bookmark" + data);
 					bm = data;
 					bm.commentary = commentary;
+					console.log(id);
 
 					NoteService.updateBookmark(bm, id,
 						function(data)
@@ -350,7 +350,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 							console.log("Bookmark changed" + data);
 							$scope.refreshBookmarkLists();
 						}, function(status){
-							console.log("error changing bookmark "+ status);
+							console.log("Bookmark change error: "+ status);
 							$scope.bmStatus = status;
 						});	
 					$scope.refreshBookmarkLists();
@@ -398,6 +398,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			NoteService.createBookmarksList(list, 
 				function(response){
 					console.log("creating BookmarksList" + response);
+					$scope.refreshBookmarkLists();
 				},
 				function(response){
 					console.log("Error creating BookmarksList" + response.status);
