@@ -296,10 +296,11 @@ angular.module('arachne.services', [])
 		function changeUser (userFromServer) {
 			
 			// Expiration is set to 60mins.
-				var date = new Date();
-				date.setTime(date.getTime()+(60*60*1000));
-				var _expires = date.toUTCString();
-				var _offset = -date.getTimezoneOffset()/60;
+				// var date = new Date();
+				// // date.setTime(date.getTime()+(60*60*1000));
+				// date.setTime(date.getTime()+10000);
+				// var _expires = date.toUTCString();
+				// var _offset = -date.getTimezoneOffset()/60;
 
 			angular.extend(_currentUser, {
 				username : userFromServer.userAdministration.username,
@@ -309,11 +310,11 @@ angular.module('arachne.services', [])
 			});
 			// Angulars cookiestore does not handle expires-parameter after the user-object. use native cookie-method
 			// Expiration is set to 'session' by using expires=''
-			document.cookie = 'user='+JSON.stringify(_currentUser)+';timezone='+_offset+';expires='+_expires+';path=/';
+			// document.cookie = 'user='+JSON.stringify(_currentUser)+';timezone='+_offset+';expires='+_expires+';path=/';
 		};
 		function removeCookie () {
-			angular.copy({},_currentUser);
-			document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/"; 
+			// angular.copy({},_currentUser);
+			// document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/"; 
 		};
 
 		return {
