@@ -334,41 +334,23 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.updateBookmark = function(id, commentary){
 			var bm = new Object();
-			var bml;
-			
+
 			NoteService.getBookmark(id,
 				function(data){
 					bm = data;
 					bm.commentary = commentary;
 
-					for(var x in $scope.bookmarksLists){						//durchlaue Bookmarks
-						for(var y in $scope.bookmarksLists[x].bookmarks){
-							if($scope.bookmarksLists[x].bookmarks[y].id  == bm.id)
-								bml = $scope.bookmarksLists[x].id;
-						}
-					}
-
-					NoteService.deleteBookmark(id,
-						function(data){
-							console.log("delteted bookmark");
-
-							NoteService.createBookmark(bm, bml, 
-								function(data){
-									console.log("bookmark erstellt");
-									$scope.refreshBookmarkLists();
-								}, function(status){
-								console.log(status);
-							});
+					NoteService.updateBookmark(bm, id, function(data){
+							console.log("updated bookmark");
 
 						},function(status){
-							console.log("delte failed");
+							console.log("update failed" + status);
 						});
 
 					$scope.refreshBookmarkLists();
 				}, function(status){
 					console.log("error getting Bookmark" + status);
 				});	
-
 		}
 
 		$scope.deleteBookmarksListModal = function(id, name){

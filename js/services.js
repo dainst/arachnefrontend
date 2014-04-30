@@ -354,6 +354,8 @@ angular.module('arachne.services', [])
 		return factory;
 	}])
 .factory('NoteService', ['$resource', 'arachneSettings', '$http', function($resource, arachneSettings, $http){
+
+	var nightUrl = "nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice"
 		
 		var checkEntity  = function(entityID, successMethod, errorMethod){
 			var response = [];
