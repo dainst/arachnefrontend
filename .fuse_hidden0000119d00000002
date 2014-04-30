@@ -6,8 +6,12 @@
 
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 
+<<<<<<< HEAD
+	<base href="/~obensch/frontend/">
 
+=======
 	<base href="/~cbensch/frontend/">
+>>>>>>> f0cacfe14cd29505efd9d72e8e7454708d08a1cd
 
 	<link rel="stylesheet" href="css/MarkerCluster.css">
 	<link rel="stylesheet" href="css/MarkerCluster.Default.css">
