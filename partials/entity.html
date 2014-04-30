@@ -118,18 +118,29 @@
 	<div class="col-md-6" ng-show="entity.entityId">
 		<div class="page-header">
 			<h2>
-				{{ entity.title }}<br>
+				{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type }}</span><br>
 				<small>{{ entity.subtitle }}</small>
 			</h2>
 		</div>
-		<b>Arachne-ID:</b> {{ entity.entityId }} <b>Inventarnummer:</b> {{ entity.internalId }} <b>Perma-Link: </b><button ng-show="!permaLink" type="button" class="btn btn-sm" ng-click="permaLink=true">Show Permalink</button><div ng-show="permaLink">{{ serverUri }}/entity/{{entity.entityId}}</div>
+		<div class="row">
+			<div class="col-md-4">
+				<b>Arachne-ID:</b> {{ entity.entityId }}
+			</div>
+			<div class="col-md-4">
+				<b>Inventarnummer:</b> {{ entity.internalId }}
+			</div>
+			<div class="col-md-4">
+				<button ng-show="!permaLink" type="button" class="btn btn-default btn-xs pull-right" ng-click="permaLink=true">Perma-Link anzeigen</button><div ng-show="permaLink"><b>Perma-Link:</b><br>{{ serverUri }}/entity/{{entity.entityId}}</div>
+			</div>
+		</div>
+		  
 		<hr/>
 		<div class="sections" ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>
 		<div ng-if="entity.additionalContent.ocrText">
-			<div class="page-header"><h4>OCR Text</h4></div>
+			<div class="page-header"><h4>OCR Text-Analyse</h4></div>
 			<ul>{{entity.additionalContent.ocrText}}</ul>
 		</div>
-		<div class="page-header">
+		<div ng-if="specialNavigations.specialNavigationElements" class="page-header">
 			<h4>Andere Ansichten dieses Datensatzes</h4>
 		</div>
 		<a ng-repeat="navigation in specialNavigations.specialNavigationElements" href="{{ navigation.link }}"type="button" class="btn btn-info btn-sm">{{ navigation.title}} </a>
