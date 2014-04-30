@@ -93,7 +93,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.user = sessionService.user;
 
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
-			if (!facetValue.entities) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.value});
+			if (!facetValue.entities.length) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.facetValueName});
 		}
 		this.goToResults = function () {
 			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
@@ -203,6 +203,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
+		console.log($scope.specialNavigations);
 		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
 

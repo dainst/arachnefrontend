@@ -121,8 +121,8 @@
 				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }}</small>
 			</h3>
 		</div>
-		<b>Arachne-ID:</b> {{ entity.entityId }} <b>Inventarnummer:</b> {{ entity.internalId }}<br/>
-	    <b>Perma-Link:</b> http://crazyhorse.archaeologie.uni-koeln.de/~obensch/frontend/entity/{{entity.entityId}}
+		Arachne-ID: {{ entity.entityId }} Inventarnummer: {{ entity.internalId }}<br/>
+	    Perma-Link: http://crazyhorse.archaeologie.uni-koeln.de/~obensch/frontend/entity/{{entity.entityId}}
 		<hr/>
 	
 		{{entity.sections.label}}
