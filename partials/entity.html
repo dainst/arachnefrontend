@@ -121,8 +121,7 @@
 				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }}</small>
 			</h3>
 		</div>
-		<b>Arachne-ID:</b> {{ entity.entityId }} <b>Inventarnummer:</b> {{ entity.internalId }}<br/>
-	    <b>Perma-Link: </b><button ng-show="!permaLink" type="button" class="btn btn-sm" ng-click="permaLink=true">Show Permalink</button><div ng-show="permaLink">http://crazyhorse.archaeologie.uni-koeln.de/~obensch/frontend/entity/{{entity.entityId}}</div>
+		<b>Arachne-ID:</b> {{ entity.entityId }} <b>Inventarnummer:</b> {{ entity.internalId }} <b>Perma-Link: </b><button ng-show="!permaLink" type="button" class="btn btn-sm" ng-click="permaLink=true">Show Permalink</button><div ng-show="permaLink">{{ serverUri }}/entity/{{entity.entityId}}</div>
 		<hr/>
 	
 		{{entity.sections.label}}

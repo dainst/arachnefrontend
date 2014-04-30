@@ -25,6 +25,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
 		.when('/map', {templateUrl: 'partials/map.html'});
 }]).constant('arachneSettings', {
-		dataserviceUri : "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice"
+		dataserviceUri : "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice",
 		// dataserviceUri : "http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice"
+		serverUri : "http://crazyhorse.archaeologie.uni-koeln.de/~obensch/frontend"
 });

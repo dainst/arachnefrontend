@@ -91,7 +91,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, sessionService ) {
 
 		$scope.user = sessionService.user;
-
+		$scope.serverUri = arachneSettings.serverUri;
+		
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			if (!facetValue.entities.length) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.facetValueName});
 		}
