@@ -73,7 +73,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
 		} else {
 			$scope.searchresults = arachneSearch.persistentSearch();
-			
+			console.log($scope.currentQueryParameters)
 			$scope.setResultIndex = function (resultIndex) {
 				arachneSearch.setResultIndex(resultIndex);
 			}
@@ -248,13 +248,33 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.bookmarksLists = [];
 		$scope.bmStatus = 0;
-		$scope.bE = [];
 		$scope.user = sessionService.user;
 
 		this.logout = function () {
 			sessionService.logout(function () {
 				window.location.href = '';
 			});
+		}
+
+		$scope.getBookmarkInfo = function(){
+			NoteService.getBookmarkInfo($scope.bookmarksLists,
+				function(data){
+					console.log("Bookmark Info erhalten");
+					for(var x in $scope.bookmarksLists){						//durchlaue Bookmarks
+						for(var y in $scope.bookmarksLists[x].bookmarks){
+							for(var z in data.entities){						//sortiere entity infos in die bookmarks ein
+								if($scope.bookmarksLists[x].bookmarks[y].arachneEntityId == data.entities[z].entityId)
+								{
+									$scope.bookmarksLists[x].bookmarks[y].title = data.entities[z].title;
+									$scope.bookmarksLists[x].bookmarks[y].thumbnailId = data.entities[z].thumbnailId;
+								}
+							}
+						}
+					}
+				}, function(status){
+						console.log("getboomarkInfo error:" + status);
+				}
+			);
 		}
 
 		$scope.refreshBookmarkLists = function(){
@@ -264,6 +284,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					$scope.bookmarksLists.notEmpty = true;
 					$scope.bmStatus = 0;
 					console.log("BookmarksList erhalten");
+					$scope.getBookmarkInfo();
 				}, function(status){
 					if(status == 404)
 					{
@@ -313,25 +334,41 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.updateBookmark = function(id, commentary){
 			var bm = new Object();
+			var bml;
+			
 			NoteService.getBookmark(id,
 				function(data){
-					console.log("got Bookmark" + data);
 					bm = data;
 					bm.commentary = commentary;
 
-					NoteService.updateBookmark(bm, id,
-						function(data)
-						{
-							console.log("Bookmark changed" + data);
-							$scope.refreshBookmarkLists();
-						}, function(status){
-							console.log("error changing bookmark "+ status);
-							$scope.bmStatus = status;
-						});	
+					for(var x in $scope.bookmarksLists){						//durchlaue Bookmarks
+						for(var y in $scope.bookmarksLists[x].bookmarks){
+							if($scope.bookmarksLists[x].bookmarks[y].id  == bm.id)
+								bml = $scope.bookmarksLists[x].id;
+						}
+					}
+
+					NoteService.deleteBookmark(id,
+						function(data){
+							console.log("delteted bookmark");
+
+							NoteService.createBookmark(bm, bml, 
+								function(data){
+									console.log("bookmark erstellt");
+									$scope.refreshBookmarkLists();
+								}, function(status){
+								console.log(status);
+							});
+
+						},function(status){
+							console.log("delte failed");
+						});
+
 					$scope.refreshBookmarkLists();
 				}, function(status){
 					console.log("error getting Bookmark" + status);
 				});	
+
 		}
 
 		$scope.deleteBookmarksListModal = function(id, name){
@@ -374,6 +411,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.bookmarksLists.push(NoteService.createBookmarksList(list, 
 				function(response){
 					console.log("creating BookmarksList" + response);
+					$scope.refreshBookmarkLists();
 				},
 				function(response){
 					console.log("Error creating BookmarksList" + response.status);

@@ -69,7 +69,10 @@
 	    	</accordion-heading>
 	    		<div ng-repeat="bookmark in bookmarksList.bookmarks"class="list-group-item clearfix">
 	    			<div class="pull-left" ng-if="bookmark.thumbnailId">
-						<a href="entity/{{bookmark.entityId}}/image/{{ bookmark.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/arachnedataservice/image/height/{{ bookmark.thumbnailId }}?height=50"></img></a>
+						<a href="entity/{{bookmark.entityId}}/image/{{ bookmark.thumbnailId }}"><img  class="img-thumbnail" width="50" height="50" ng-src="{{dataserviceUri}}/arachnedataservice/image/height/{{ bookmark.thumbnailId }}?height=50"></img></a>
+					</div>
+					<div class="pull-left" ng-if="!bookmark.thumbnailId">
+						<img  class="img-thumbnail" width="50" height="50" ng-src="img/imagePlaceholder.png"></img></a>
 					</div>
 					<a href="entity/{{ bookmark.arachneEntityId }}" class="title" >{{ bookmark.title }} </br></a>
 					{{ bookmark.commentary }}
@@ -85,7 +88,7 @@
   	</div>
   	<div class="col-md-5 col-md-offset-1" ng-if="bmStatus == 0 || bmStatus == 404">
 		<div class="page-header">
-			<button class="btn pull-right" ng-click="bookmarksController.logout()">Abmelden &nbsp; <span class="glyphicon glyphicon-log-out"></span></button>
+			<button class="btn btn-danger pull-right" ng-click="bookmarksController.logout()">Abmelden &nbsp; <span class="glyphicon glyphicon-log-out"></span></button>
 			<h3>Ihr Profil</h3>
 		</div>
 

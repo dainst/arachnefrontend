@@ -3,14 +3,14 @@
 		<div ng-switch="isArray(section.value)">
 			<span ng-switch-when="false" ng-bind-html="section.value"></span>
 			<ul ng-switch-when="true">
-				<li ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></li>
+				<li style="list-style:disc" ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></li>
 			</ul>
 		</div>
 	</li>
-	<ul ng-if="!section.value">
+	<div ng-if="!section.value">
 		<b>{{section.label}}</b>
-		<li ng-repeat="section in section.content" ng-include="'section_template.html'"></li>
-	</ul>
+		<ul ng-repeat="section in section.content" ng-include="'section_template.html'"></ul>
+	</div>
 </script>
 <script type="text/ng-template" id="createBookmark.html">
 	<div ng-if="bookmarkError == 404">
@@ -117,19 +117,23 @@
 	</div>
 	<div class="col-md-6" ng-show="entity.entityId">
 		<div class="page-header">
-			<h3>
-				{{ entity.title }} &nbsp; <small>{{ entity.subtitle }}</small>
-			</h3>
+			<h2>
+				{{ entity.title }}<br>
+				<small>{{ entity.subtitle }}</small>
+			</h2>
 		</div>
 		<b>Arachne-ID:</b> {{ entity.entityId }} <b>Inventarnummer:</b> {{ entity.internalId }}<br/>
 	    <b>Perma-Link:</b> http://crazyhorse.archaeologie.uni-koeln.de/~obensch/frontend/entity/{{entity.entityId}}
 		<hr/>
 	
-		{{entity.sections.label}}
-		<div ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>		
-		<div ng-repeat="navigation in specialNavigations.specialNavigationElements">
-			<a href="{{ navigation.link }}"type="button" class="btn btn-warning btn-sm">{{ navigation.title}}</a>
+		<div class="sections" ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>
+
+		<div class="page-header">
+			<h4>Andere Ansichten dieses Datensatzes</h4>
 		</div>	
+		<a ng-repeat="navigation in specialNavigations.specialNavigationElements" href="{{ navigation.link }}"type="button" class="btn btn-info btn-sm">{{ navigation.title}}</a>
+
+		
 	</div>
 	<div class="col-md-4" ng-show="entity.entityId">
 
@@ -138,7 +142,7 @@
 		</div>
 		<div ng-if="entity.images.length > 0">
 			<h3 class="text-justify" ng-init="showConnectedImages=false">
-				<button class="btn btn-default btn-sm btn-primary" ng-click="showConnectedImages = true"  ng-hide="showConnectedImages == true || entity.images.length < 2"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})</span></button>
+				<button class="btn btn-default btn-sm btn-default btn-block" ng-click="showConnectedImages = true"  ng-hide="showConnectedImages == true || entity.images.length < 2"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})</span></button>
 			</h3>
 			<div ng-if="showConnectedImages == true">
 				<div class="page-header">

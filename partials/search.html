@@ -7,7 +7,18 @@
 			<small ng-if="searchresults.size" class="text-muted">Insgesamt <b>{{ searchresults.size }}</b> Ergebnisse<br> auf <b>{{numPages}}</b> Seiten</small>
 		</div>
 		<small>
-			<h5 class="text-muted uppercase"><strong>Filter</strong></h5>
+			<h5 class="text-muted uppercase"><b>Suchbegriff</b></h5>
+			<form action="search/" method="GET" role="search">
+				<input  name="q"  class="form-control" value="{{currentQueryParameters.q}}">
+				<input style="display:none" name="fq" value="{{currentQueryParameters.fq}}">
+				<input name="limit" style="display:none" ng-if="currentQueryParameters.limit" value="{{currentQueryParameters.limit}}">
+				<input name="offset" style="display:none" ng-if="currentQueryParameters.offset" value="{{currentQueryParameters.offset}}">
+
+				<button class="btn btn-default" style="display:none;" type="submit">Submit</button>
+
+			</form>
+
+			<h5 class="text-muted uppercase"><b>Filter</b></h5>
 			<ul class="list-unstyled facet" ng-repeat="facet in searchresults.facets">
 				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet" ng-class="{ 'active': openfacet }"><b>{{facet.name | i18n }}</b></button>
 				<li ng-click="searchCtrl.addFacet(facet.name, facetValue.value)"  ng-repeat="facetValue in facet.values" ng-show="openfacet">

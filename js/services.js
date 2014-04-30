@@ -8,7 +8,7 @@ angular.module('arachne.services', [])
 
 			//PRIVATE
 				function parseUrlFQ (fqParam) {
-					if(!fqParam) return;
+					if(!fqParam) return [];
 					var facets = [];
 					fqParam = fqParam.split(/\"\,/);
 					for (var i = fqParam.length - 1; i >= 0; i--) {
@@ -109,7 +109,7 @@ angular.module('arachne.services', [])
 						if (queryParams) {
 							this.setCurrentQueryParameters(queryParams);
 						} else {
-							if($location.$$search.fq) this.setActiveFacets($location.$$search.fq);
+							this.setActiveFacets($location.$$search.fq);
 							this.setCurrentQueryParameters($location.$$search);
 						}
 						return arachneDataService.query(_currentQueryParameters);
@@ -137,7 +137,7 @@ angular.module('arachne.services', [])
 							angular.copy(queryParams,_currentQueryParameters);
 						}
 					},
-					setActiveFacets : function (facetsParam) {
+					setActiveFacets : function () {
 						angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
 					},
 					
@@ -452,6 +452,7 @@ angular.module('arachne.services', [])
 				return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
 			},
 			updateBookmark: function(bm, id, successMethod, errorMethod) {
+				console.log(bm);
 				return arachneDataService.updateBookmark({ "id": id}, bm, successMethod,errorMethod);
 			},
 			createBookmark : function(bm, id, successMethod, errorMethod) {
