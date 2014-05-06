@@ -54,7 +54,7 @@
 	</div>
 
 	<div ng-if="bmStatus == 403" class="col-md-12 text-right alert alert-info">
-			Für Notizen und Lesezeichen, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
+		Für Notizen und Lesezeichen, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 	</div>
 	<div class="col-md-7" ng-if="bmStatus == 0 || bmStatus == 404">
 		<div class="page-header">
@@ -76,7 +76,7 @@
 						</div>
 
 
-		    			<div class="col-md-2 col-xs-2" style="max-height:100px" ng-if="bookmark.thumbnailId">
+		    			<div class="col-md-2 col-xs-2" ng-if="bookmark.thumbnailId">
 							<a href="entity/{{bookmark.entityId}}/image/{{ bookmark.thumbnailId }}">
 								<img width="100%" ng-src="{{dataserviceUri}}/arachnedataservice/image/thumbnail/{{ bookmark.thumbnailId }}"/>
 							</a>

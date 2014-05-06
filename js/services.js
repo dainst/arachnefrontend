@@ -274,7 +274,6 @@ angular.module('arachne.services', [])
 	)
 	.factory('sessionService', ['$resource', '$cookieStore', 'arachneSettings', function($resource, $cookieStore, arachneSettings){
 		
-		var _currentUser = $cookieStore.get('user') || {};
 
 		var arachneDataService = $resource('', { }, {
 			login: {
@@ -296,6 +295,15 @@ angular.module('arachne.services', [])
 			}
 		});
 
+		function getUserFromStorage () {
+			return {
+				'username' : localStorage.getItem('username'),
+				'firstname' : localStorage.getItem('firstname'),
+				'lastname' : localStorage.getItem('lastname'),
+				'sid' : localStorage.getItem('sid'),
+			}
+		};
+
 		function changeUser (userFromServer) {
 			
 			// Expiration is set to 60mins.
@@ -304,6 +312,11 @@ angular.module('arachne.services', [])
 				// date.setTime(date.getTime()+10000);
 				// var _expires = date.toUTCString();
 				// var _offset = -date.getTimezoneOffset()/60;
+
+			localStorage.setItem('username', userFromServer.userAdministration.username);
+			localStorage.setItem('lastname', userFromServer.userAdministration.lastname);
+			localStorage.setItem('firstname', userFromServer.userAdministration.firstname);
+			localStorage.setItem('sid', userFromServer.sid);
 
 			angular.extend(_currentUser, {
 				username : userFromServer.userAdministration.username,
@@ -315,17 +328,18 @@ angular.module('arachne.services', [])
 			// Expiration is set to 'session' by using expires=''
 			// document.cookie = 'user='+JSON.stringify(_currentUser)+';timezone='+_offset+';expires='+_expires+';path=/';
 		};
+
 		function removeCookie () {
+			localStorage.clear();
 			// angular.copy({},_currentUser);
 			// document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/"; 
 		};
+		
+		var _currentUser = getUserFromStorage() || {};
 
 		return {
 			user : _currentUser,
 
-			getUserInfo : function () {
-				return arachneDataService.getUserInfo();
-			},
 			login : function(loginData, successMethod, errorMethod) {
 				arachneDataService.login(loginData, function (response) {
 					changeUser(response);

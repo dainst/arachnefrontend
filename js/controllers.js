@@ -393,11 +393,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 			$scope.bookmarksLists.push(NoteService.createBookmarksList(list, 
 				function(response){
-					console.log("creating BookmarksList" + response);
+					// console.log("creating BookmarksList" + response);
 					$scope.refreshBookmarkLists();
 				},
 				function(response){
-					console.log("Error creating BookmarksList" + response.status);
+					// console.log("Error creating BookmarksList" + response.status);
 					$scope.bmStatus = status;
 				}));
 		}
@@ -405,10 +405,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.deleteBookmarksList = function(id){
 			NoteService.deleteBookmarksList(id,
 				function(data){
-					console.log("deleted List" + data);
+					// console.log("deleted List" + data);
 					$scope.refreshBookmarkLists();
 				}, function(status){
-					console.log("error deleting list" + status);
+					// console.log("error deleting list" + status);
 					$scope.bmStatus = status;
 				});
 			
