@@ -133,7 +133,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				// console.log("deleted Bookmark" + data);
 				$scope.getBookmarkStatus();
 			}, function(status){
-				console.log("error deleting Bookmark" + status);
+				// console.log("error deleting Bookmark" + status);
 				getBookmarkStatus();
 			});	
 		}
@@ -169,7 +169,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				}
 				
 			}, function(status){
-				console.log(status)
+				// console.log(status)
 			});
 			
 		}
@@ -260,7 +260,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.getBookmarkInfo = function(){
 			NoteService.getBookmarkInfo($scope.bookmarksLists,
 				function(data){
-					console.log("Bookmark Info erhalten");
+					// console.log("Bookmark Info erhalten");
 					for(var x in $scope.bookmarksLists){						//durchlaue Bookmarks
 						for(var y in $scope.bookmarksLists[x].bookmarks){
 							for(var z in data.entities){						//sortiere entity infos in die bookmarks ein
@@ -273,7 +273,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 						}
 					}
 				}, function(status){
-						console.log("getboomarkInfo error:" + status);
+					console.log("getboomarkInfo error:" + status);
 				}
 			);
 		}
@@ -284,7 +284,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					$scope.bookmarksLists = data;
 					$scope.bookmarksLists.notEmpty = true;
 					$scope.bmStatus = 0;
-					console.log("BookmarksList erhalten");
+					// console.log("BookmarksList erhalten");
 					$scope.getBookmarkInfo();
 				}, function(status){
 					if(status == 404)
@@ -309,12 +309,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 			NoteService.deleteBookmark(bookmark.id,
 				function(data){
-					console.log("deleted Bookmark" + data);
-					console.log(data);
+					// console.log("deleted Bookmark" + data);
+					// console.log(data);
 					$scope.refreshBookmarkLists();
 				}, function(response){
-					console.log("error deleting Bookmark" + response.status);
-					console.log(response);
+					// console.log("error deleting Bookmark" + response.status);
+					// console.log(response);
 				});
 		}
 
