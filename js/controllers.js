@@ -73,7 +73,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
 		} else {
 			$scope.searchresults = arachneSearch.persistentSearch();
-			console.log($scope.currentQueryParameters)
+
 			$scope.setResultIndex = function (resultIndex) {
 				arachneSearch.setResultIndex(resultIndex);
 			}
@@ -204,7 +204,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
-		console.log($scope.specialNavigations);
+
 		$scope.context = arachneSearch.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
 

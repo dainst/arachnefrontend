@@ -172,6 +172,8 @@ angular.module('arachne.services', [])
 						} else {
 							hash.fq = facetName + ':"' + facetValue + '"';
 						}
+						delete(hash.offset);
+						delete(hash.limit);
 
 						$location.search(hash);
 					},
@@ -190,6 +192,9 @@ angular.module('arachne.services', [])
 						var hash = $location.$$search;
 						hash.fq = facets;
 
+						delete(hash.offset);
+						delete(hash.limit);
+
 						$location.search(hash);
 					},
 
@@ -202,9 +207,7 @@ angular.module('arachne.services', [])
 						}
 						return arachneDataService.queryWithMarkers(_currentQueryParameters);
 					}
-				}
-
-			
+				}			
 		}])
 
 	.factory('arachneEntity',
