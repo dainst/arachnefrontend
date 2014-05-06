@@ -39,12 +39,12 @@
 		</div>
 		<div class="modal-body">
 			<div class="form-group">
-				<input type="commentary" class="form-control" ng-model="commentary" placeholder="commentary">
+				<textarea type="commentaryCash" class="form-control" ng-model="commentaryCash"></textarea>
 			</div>
 		</div>
 		<div class="modal-footer">
-            	<button class="btn btn-primary" ng-click="$close(commentary)">OK</button>
-            	<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+			<button class="btn btn-primary" ng-click="$close(commentaryCash)">OK</button>
+            <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>            	
         </div>
 	</script> 
 
@@ -68,7 +68,7 @@
 	    			
 					<div class="row-fluid">
 						<div class="btn-group pull-right">
-	    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmark.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+	    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmark.id,bookmark.commentary)"><span class="glyphicon glyphicon-pencil"></span></button>
 	    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
 						</div>
 

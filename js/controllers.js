@@ -227,7 +227,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	$scope.selected.commentary = "";
 	$scope.bookmarkError = 0;
 
-	NoteService.getBookmarksList(
+	NoteService.getBookmarksLists(
 			function(data){
 				$scope.bookmarkError = 0;
 				$scope.items = data;
@@ -298,17 +298,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			);
 		}
 
-		$scope.updateBookmarkModal= function(id){
+		$scope.updateBookmarkModal= function(id, commentary){
+			$scope.commentaryCash = commentary;
 			var modalInstance = $modal.open({
-				templateUrl: 'updateBookmarkModal.html'
+				templateUrl: 'updateBookmarkModal.html',
+				scope: $scope
 			});	
 
-			modalInstance.close = function(commentary){
-				if(commentary == undefined || commentary == ""){
+			modalInstance.close = function(commentaryCash){
+				if(commentaryCash == undefined || commentaryCash == ""){
 					alert("Kommentar setzen!")
 				}else{
 					modalInstance.dismiss();
-					$scope.updateBookmark(id, commentary);
+					$scope.updateBookmark(id, commentaryCash);
 				}
 			}
 		}
