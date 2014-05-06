@@ -279,26 +279,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.refreshBookmarkLists = function(){
-			NoteService.getBookmarksList(
-				function(data){
-					$scope.bookmarksLists = data;
-					$scope.bookmarksLists.notEmpty = true;
+			$scope.bookmarksLists = NoteService.getBookmarksLists(
+				function(){
 					$scope.bmStatus = 0;
-					// console.log("BookmarksList erhalten");
 					$scope.getBookmarkInfo();
-				}, function(status){
-					if(status == 404)
-					{
-						$scope.bookmarksLists = [];
-						$scope.bmStatus = 404;
-					}
-					else if(status == 403)
-					{
-						$scope.bookmarksLists = [];
-						$scope.bmStatus = 403;
-					}
-					else
-						console.log("unknown error");
 				}
 			);
 		}
@@ -309,13 +293,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 			NoteService.deleteBookmark(bookmark.id,
 				function(data){
-					// console.log("deleted Bookmark" + data);
-					// console.log(data);
 					$scope.refreshBookmarkLists();
-				}, function(response){
-					// console.log("error deleting Bookmark" + response.status);
-					// console.log(response);
-				});
+				}
+			);
 		}
 
 		$scope.updateBookmarkModal= function(id){
