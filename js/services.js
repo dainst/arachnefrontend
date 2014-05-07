@@ -211,8 +211,8 @@ angular.module('arachne.services', [])
 		}])
 
 	.factory('arachneEntity',
-		['$resource', 'arachneSettings',
-			function($resource, arachneSettings) {
+		['$resource', 'arachneSettings', 'sessionService',
+			function($resource, arachneSettings, sessionService) {
 
 			  // PERSISTENT OBJECTS, PRIVATE, USE GETTERS AND SETTERS
 				var _currentEntity = {};
@@ -378,7 +378,7 @@ angular.module('arachne.services', [])
 
 	var nightUrl = "nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice"
 		
-		var checkEntity  = function(entityID, successMethod, errorMethod){
+		var checkEntity  = function(entityID, errorMethod){
 			var response = [];
 			$http({method: 'GET', url: arachneSettings.dataserviceUri + '/bookmarklist'}).success(
 				function(data){
@@ -392,8 +392,8 @@ angular.module('arachne.services', [])
 						}
 					}
 					successMethod(entityBookmark);
-				}).error(function(status){
-					errorMethod(status);
+				}).error(function(data, status, headers, config){
+					errorMethod({'status': status});
 				});	
 		};
 
@@ -466,8 +466,8 @@ angular.module('arachne.services', [])
 					return arachneDataService.getBookmarkInfo(hash, successMethod, errorMethod);
 				};
 			},
-			checkEntity : function(entityID, successMethod, errorMethod){
-				return checkEntity(entityID, successMethod, errorMethod);
+			checkEntity : function(entityID){
+				return checkEntity({id: entityID}, catchError);
 			},
 			getBookmarksLists : function(successMethod){
 				return arachneDataService.getBookmarksLists({},successMethod, catchError);
@@ -485,7 +485,6 @@ angular.module('arachne.services', [])
 				return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
 			},
 			updateBookmark: function(bm, id, successMethod, errorMethod) {
-				console.log(bm);
 				return arachneDataService.updateBookmark({ "id": id}, bm, successMethod,errorMethod);
 			},
 			createBookmark : function(bm, id, successMethod, errorMethod) {

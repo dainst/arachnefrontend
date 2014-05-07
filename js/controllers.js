@@ -113,19 +113,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 		
 		$scope.getBookmarkStatus = function(){
-				NoteService.checkEntity($routeParams.id, function(data){;
-				if(data.length == 0){
-					$scope.bookmark = {};
-					$scope.isBookmark = false;
-				}
-				else{
-					$scope.isBookmark = true;
-					$scope.bookmark = data;
-				}
-				
-			}, function(status){
-				console.log(status)
-			});
+			$scope.bookmark = NoteService.checkEntity($routeParams.id);
 		}
 		$scope.deleteBookmark = function(){
 			NoteService.deleteBookmark($scope.bookmark.id,
