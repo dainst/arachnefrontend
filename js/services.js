@@ -172,6 +172,8 @@ angular.module('arachne.services', [])
 						} else {
 							hash.fq = facetName + ':"' + facetValue + '"';
 						}
+						delete(hash.offset);
+						delete(hash.limit);
 
 						$location.search(hash);
 					},
@@ -190,6 +192,9 @@ angular.module('arachne.services', [])
 						var hash = $location.$$search;
 						hash.fq = facets;
 
+						delete(hash.offset);
+						delete(hash.limit);
+
 						$location.search(hash);
 					},
 
@@ -202,9 +207,7 @@ angular.module('arachne.services', [])
 						}
 						return arachneDataService.queryWithMarkers(_currentQueryParameters);
 					}
-				}
-
-			
+				}			
 		}])
 
 	.factory('arachneEntity',
@@ -269,9 +272,8 @@ angular.module('arachne.services', [])
 			}
 		]
 	)
-	.factory('sessionService', ['$resource', '$cookieStore', 'arachneSettings', function($resource, $cookieStore, arachneSettings){
+	.factory('sessionService', ['$resource', 'arachneSettings', function($resource, arachneSettings){
 		
-		var _currentUser = $cookieStore.get('user') || {};
 
 		var arachneDataService = $resource('', { }, {
 			login: {
@@ -293,6 +295,15 @@ angular.module('arachne.services', [])
 			}
 		});
 
+		function getUserFromStorage () {
+			return {
+				'username' : localStorage.getItem('username'),
+				'firstname' : localStorage.getItem('firstname'),
+				'lastname' : localStorage.getItem('lastname'),
+				'sid' : localStorage.getItem('sid'),
+			}
+		};
+
 		function changeUser (userFromServer) {
 			
 			// Expiration is set to 60mins.
@@ -301,6 +312,11 @@ angular.module('arachne.services', [])
 				// date.setTime(date.getTime()+10000);
 				// var _expires = date.toUTCString();
 				// var _offset = -date.getTimezoneOffset()/60;
+
+			localStorage.setItem('username', userFromServer.userAdministration.username);
+			localStorage.setItem('lastname', userFromServer.userAdministration.lastname);
+			localStorage.setItem('firstname', userFromServer.userAdministration.firstname);
+			localStorage.setItem('sid', userFromServer.sid);
 
 			angular.extend(_currentUser, {
 				username : userFromServer.userAdministration.username,
@@ -312,28 +328,33 @@ angular.module('arachne.services', [])
 			// Expiration is set to 'session' by using expires=''
 			// document.cookie = 'user='+JSON.stringify(_currentUser)+';timezone='+_offset+';expires='+_expires+';path=/';
 		};
-		function removeCookie () {
+
+		function removeUser () {
+			localStorage.clear();
+			angular.copy({},_currentUser);
 			// angular.copy({},_currentUser);
 			// document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/"; 
 		};
+		
+		var _currentUser = getUserFromStorage() || {};
 
 		return {
 			user : _currentUser,
 
-			getUserInfo : function () {
-				return arachneDataService.getUserInfo();
-			},
 			login : function(loginData, successMethod, errorMethod) {
 				arachneDataService.login(loginData, function (response) {
 					changeUser(response);
 					successMethod(response);
 				}, errorMethod);
 			},
+			removeUser : function () {
+				removeUser();
+			},
 			logout : function (successMethod) {
 				arachneDataService.logout(
 					{sid : _currentUser.sid},
 					function () {
-						removeCookie();
+						removeUser();
 						successMethod();
 					});
 			}
@@ -353,7 +374,7 @@ angular.module('arachne.services', [])
 			};
 		return factory;
 	}])
-.factory('NoteService', ['$resource', 'arachneSettings', '$http', function($resource, arachneSettings, $http){
+.factory('NoteService', ['$resource', 'arachneSettings', 'sessionService', '$http', function($resource, arachneSettings, sessionService, $http){
 
 	var nightUrl = "nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice"
 		
@@ -374,6 +395,12 @@ angular.module('arachne.services', [])
 				}).error(function(status){
 					errorMethod(status);
 				});	
+		};
+
+		var catchError = function(errorReponse) {
+			if (errorReponse.status == 403) {
+				sessionService.removeUser();
+			};
 		};
 
 		var arachneDataService = $resource('', { }, {
@@ -423,6 +450,7 @@ angular.module('arachne.services', [])
 		});
 
 		return{
+			
 			getBookmarkInfo : function(bookmarksLists, successMethod, errorMethod){	
 				var hash = new Object();
 				var entityIDs = new Array();
@@ -432,15 +460,17 @@ angular.module('arachne.services', [])
 						entityIDs.push(bookmarksLists[x].bookmarks[y].arachneEntityId);					
 					}
 				}
-				hash.q = "entityId:(" + entityIDs.join(" OR ") + ")";
-
-				return arachneDataService.getBookmarkInfo(hash, successMethod, errorMethod);
+				//only do this if there are any bookmarks
+				if (entityIDs.length) {
+					hash.q = "entityId:(" + entityIDs.join(" OR ") + ")";
+					return arachneDataService.getBookmarkInfo(hash, successMethod, errorMethod);
+				};
 			},
 			checkEntity : function(entityID, successMethod, errorMethod){
 				return checkEntity(entityID, successMethod, errorMethod);
 			},
-			getBookmarksList : function(successMethod, errorMethod){
-				return arachneDataService.getBookmarksLists({}, successMethod, errorMethod);
+			getBookmarksLists : function(successMethod){
+				return arachneDataService.getBookmarksLists({},successMethod, catchError);
 			},
 			createBookmarksList : function(listData, successMethod, errorMethod) {
 				return arachneDataService.createBookmarksList(listData, successMethod, errorMethod);
@@ -449,7 +479,7 @@ angular.module('arachne.services', [])
 				return arachneDataService.deleteBookmarksList({ "id": id}, successMethod,errorMethod);
 			},
 			deleteBookmark : function(id, successMethod, errorMethod){
-				return arachneDataService.deleteBookmark({ "id": id}, successMethod,errorMethod);
+				return arachneDataService.deleteBookmark({ "id": id}, successMethod, catchError);
 			},
 			getBookmark : function(id, successMethod, errorMethod){
 				return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);

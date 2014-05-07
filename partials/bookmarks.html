@@ -39,24 +39,21 @@
 		</div>
 		<div class="modal-body">
 			<div class="form-group">
-				<input type="commentary" class="form-control" ng-model="commentary" placeholder="commentary">
+				<textarea type="commentaryCash" class="form-control" ng-model="commentaryCash"></textarea>
 			</div>
 		</div>
 		<div class="modal-footer">
-            	<button class="btn btn-primary" ng-click="$close(commentary)">OK</button>
-            	<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+			<button class="btn btn-primary" ng-click="$close(commentaryCash)">OK</button>
+            <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>            	
         </div>
 	</script> 
 
 	<!--################################################ SITE #####################################################################-->
-	<div ng-if="bmStatus == 404">
-		<p>keine Liste vorhanden, bitte eine erstellen!</p>
-	</div>
 
-	<div ng-if="bmStatus == 403" class="col-md-12 text-right alert alert-info">
-			Für Notizen und Lesezeichen, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
+	<div  ng-if="!user.username" class="col-md-12 text-right alert alert-info">
+		Für Notizen und Lesezeichen, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 	</div>
-	<div class="col-md-6" ng-if="bmStatus == 0 || bmStatus == 404">
+	<div class="col-md-7" ng-if="user.username">
 		<div class="page-header">
 			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksListModal()">Neue Liste anlegen</button>
 			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Notizen & Lesezeichen</h3>
@@ -68,25 +65,34 @@
 	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksListModal(bookmarksList.id, bookmarksList.name)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
 	    	</accordion-heading>
 	    		<div ng-repeat="bookmark in bookmarksList.bookmarks"class="list-group-item clearfix">
-	    			<div class="pull-left" ng-if="bookmark.thumbnailId">
-						<a href="entity/{{bookmark.entityId}}/image/{{ bookmark.thumbnailId }}"><img  class="img-thumbnail" width="50" height="50" ng-src="{{dataserviceUri}}/arachnedataservice/image/height/{{ bookmark.thumbnailId }}?height=50"></img></a>
-					</div>
-					<div class="pull-left" ng-if="!bookmark.thumbnailId">
-						<img  class="img-thumbnail" width="50" height="50" ng-src="img/imagePlaceholder.png"></img></a>
-					</div>
-					<a href="entity/{{ bookmark.arachneEntityId }}" class="title" >{{ bookmark.title }} </br></a>
-					{{ bookmark.commentary }}
-					<div class="btn-group pull-right">
-    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmark.id)"><span class="glyphicon glyphicon-pencil"></span></button>
-    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
+	    			
+					<div class="row-fluid">
+						<div class="btn-group pull-right">
+	    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmark.id,bookmark.commentary)"><span class="glyphicon glyphicon-pencil"></span></button>
+	    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
+						</div>
 
+
+		    			<div class="col-md-2 col-xs-2" ng-if="bookmark.thumbnailId">
+							<a href="entity/{{bookmark.entityId}}/image/{{ bookmark.thumbnailId }}">
+								<img width="100%" ng-src="{{dataserviceUri}}/arachnedataservice/image/thumbnail/{{ bookmark.thumbnailId }}"/>
+							</a>
+						</div>
+						<div class="pull-left" ng-if="!bookmark.thumbnailId">
+							<img  class="img-thumbnail" width="50" height="50" ng-src="img/imagePlaceholder.png"></img></a>
+						</div>
+						<div class="col-md-8">
+							<a href="entity/{{ bookmark.arachneEntityId }}" class="title small" >{{ bookmark.title }}</a><br>
+							<b>Notiz:</b> {{ bookmark.commentary }}
+						</div>
 					</div>
+					
   				</div>
 	    	</accordion-group>
 	  	</accordion>
 	  	
   	</div>
-  	<div class="col-md-5 col-md-offset-1" ng-if="bmStatus == 0 || bmStatus == 404">
+  	<div class="col-md-5"  ng-if="user.username">
 		<div class="page-header">
 			<button class="btn btn-danger pull-right" ng-click="bookmarksController.logout()">Abmelden &nbsp; <span class="glyphicon glyphicon-log-out"></span></button>
 			<h3>Ihr Profil</h3>
