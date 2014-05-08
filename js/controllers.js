@@ -118,10 +118,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.deleteBookmark = function(){
 			NoteService.deleteBookmark($scope.bookmark.id,
 			function(data){
-				// console.log("deleted Bookmark" + data);
 				$scope.getBookmarkStatus();
 			}, function(status){
-				// console.log("error deleting Bookmark" + status);
 				getBookmarkStatus();
 			});	
 		}
@@ -146,6 +144,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 						});
 		      		});
 				} else {
+					// TODO
+					//console.log("keine BM-List vorhanden");
+					// hier muss im Backend eigentlich kein 404 sondern ein leerer Array zurückgegeben werden, wenn nichts vorhanden ist,
+					// um diesen Fall hier abzuarbeiten
+					// Backend Issue wurde geschrieben
+					
 					$scope.bookmark = data;
 					$scope.isBookmark = true;
 				}
@@ -226,7 +230,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ($scope, $modal, arachneEntity, sessionService, NoteService){
 
 		$scope.bookmarksLists = [];
-		$scope.bmStatus = 0;
 		$scope.user = sessionService.user;
 
 		this.logout = function () {
@@ -238,7 +241,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.getBookmarkInfo = function(){
 			NoteService.getBookmarkInfo($scope.bookmarksLists,
 				function(data){
-					// console.log("Bookmark Info erhalten");
 					for(var x in $scope.bookmarksLists){						//durchlaue Bookmarks
 						for(var y in $scope.bookmarksLists[x].bookmarks){
 							for(var z in data.entities){						//sortiere entity infos in die bookmarks ein
@@ -250,8 +252,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 							}
 						}
 					}
-				}, function(status){
-					console.log("getboomarkInfo error:" + status);
 				}
 			);
 		}
@@ -259,7 +259,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.refreshBookmarkLists = function(){
 			$scope.bookmarksLists = NoteService.getBookmarksLists(
 				function(){
-					$scope.bmStatus = 0;
 					$scope.getBookmarkInfo();
 				}
 			);
@@ -286,7 +285,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			modalInstance.close = function(commentaryCash){
 				if(commentaryCash == undefined || commentaryCash == ""){
 					alert("Kommentar setzen!")
-				}else{
+				} else {
 					modalInstance.dismiss();
 					$scope.updateBookmark(id, commentaryCash);
 				}

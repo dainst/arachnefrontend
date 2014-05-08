@@ -449,9 +449,8 @@ angular.module('arachne.services', [])
 			}
 		});
 
-		return{
-			
-			getBookmarkInfo : function(bookmarksLists, successMethod, errorMethod){	
+		return {
+			getBookmarkInfo : function(bookmarksLists, successMethod){	
 				var hash = new Object();
 				var entityIDs = new Array();
 				
@@ -463,7 +462,7 @@ angular.module('arachne.services', [])
 				//only do this if there are any bookmarks
 				if (entityIDs.length) {
 					hash.q = "entityId:(" + entityIDs.join(" OR ") + ")";
-					return arachneDataService.getBookmarkInfo(hash, successMethod, errorMethod);
+					return arachneDataService.getBookmarkInfo(hash, successMethod, catchError);
 				};
 			},
 			checkEntity : function(entityID, successMethod){
