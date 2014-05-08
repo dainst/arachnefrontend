@@ -113,19 +113,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 		
 		$scope.getBookmarkStatus = function(){
-				NoteService.checkEntity($routeParams.id, function(data){;
-				if(data.length == 0){
-					$scope.bookmark = {};
-					$scope.isBookmark = false;
-				}
-				else{
-					$scope.isBookmark = true;
-					$scope.bookmark = data;
-				}
-				
-			}, function(status){
-				console.log(status)
-			});
+			$scope.bookmark = NoteService.checkEntity($routeParams.id, null);
 		}
 		$scope.deleteBookmark = function(){
 			NoteService.deleteBookmark($scope.bookmark.id,
@@ -138,7 +126,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});	
 		}
 		$scope.createBookmarkModal = function(){
-			NoteService.checkEntity($routeParams.id, function(data){;
+			NoteService.checkEntity($routeParams.id, function(data){
 				if(data.length == 0){
 					var modalInstance = $modal.open({
 						templateUrl: 'createBookmark.html',
@@ -153,25 +141,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 							arachneEntityId : $routeParams.id,
 							commentary : selectedList.commentary
 						}
-						//console.log("tryin create bookmark");
 						NoteService.createBookmark(bm, selectedList.item.id, function(data){
-							// console.log("bookmark erstellt");
 							$scope.getBookmarkStatus();
-						}, function(status){
-							console.log(status);
 						});
 		      		});
-				}
-				else{
-					// console.log("allready bookmarked!!");
+				} else {
 					$scope.bookmark = data;
 					$scope.isBookmark = true;
 				}
-				
-			}, function(status){
-				// console.log(status)
 			});
-			
 		}
 	  // TODO Abstract Sections-Template and Logic to seperate unit - for reuse 
 	  // LOGIC for sections-iteration

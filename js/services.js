@@ -211,8 +211,8 @@ angular.module('arachne.services', [])
 		}])
 
 	.factory('arachneEntity',
-		['$resource', 'arachneSettings',
-			function($resource, arachneSettings) {
+		['$resource', 'arachneSettings', 'sessionService',
+			function($resource, arachneSettings, sessionService) {
 
 			  // PERSISTENT OBJECTS, PRIVATE, USE GETTERS AND SETTERS
 				var _currentEntity = {};
@@ -391,9 +391,11 @@ angular.module('arachne.services', [])
 								entityBookmark = response[x].bookmarks[y];
 						}
 					}
-					successMethod(entityBookmark);
-				}).error(function(status){
-					errorMethod(status);
+					if (successMethod) {
+						successMethod(entityBookmark);
+					};
+				}).error(function(data, status, headers, config){
+					errorMethod({'status': status});
 				});	
 		};
 
@@ -466,8 +468,8 @@ angular.module('arachne.services', [])
 					return arachneDataService.getBookmarkInfo(hash, successMethod, errorMethod);
 				};
 			},
-			checkEntity : function(entityID, successMethod, errorMethod){
-				return checkEntity(entityID, successMethod, errorMethod);
+			checkEntity : function(entityID, successMethod){
+				return checkEntity({id: entityID}, successMethod, catchError);
 			},
 			getBookmarksLists : function(successMethod){
 				return arachneDataService.getBookmarksLists({},successMethod, catchError);
@@ -485,7 +487,6 @@ angular.module('arachne.services', [])
 				return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
 			},
 			updateBookmark: function(bm, id, successMethod, errorMethod) {
-				console.log(bm);
 				return arachneDataService.updateBookmark({ "id": id}, bm, successMethod,errorMethod);
 			},
 			createBookmark : function(bm, id, successMethod, errorMethod) {

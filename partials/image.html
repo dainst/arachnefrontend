@@ -36,7 +36,7 @@
 <div ng-controller="EntityImgCtrl as entityImgCtrl">
 	<div class="row fullscreenrow">	
         <div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
-			Für die Vollansicht von Bildern, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
+			Für die Vollansicht von Bildern, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 		</div>
 		<!-- Using ng-init with a method for evoking something after user logs in -->
 		<div ng-if="user.username" ng-init="entityImgCtrl.loadImageProperties();"></div>
