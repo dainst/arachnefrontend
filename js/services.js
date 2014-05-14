@@ -376,26 +376,26 @@ angular.module('arachne.services', [])
 	}])
 .factory('NoteService', ['$resource', 'arachneSettings', 'sessionService', '$http', function($resource, arachneSettings, sessionService, $http){
 		
-		var checkEntity  = function(entityID, successMethod, errorMethod){
-			var response = [];
-			$http({method: 'GET', url: arachneSettings.dataserviceUri + '/bookmarklist'}).success(
-				function(data){
-					response = data;
-					var entityBookmark = [];
+		// var getBookmarkForEntityId  = function(entityID, catchError){
+		// 	var response = [];
+		// 	console.log("getBookmarkForEntityId");
+		// 	$http({method: 'GET', url: arachneSettings.dataserviceUri + '/bookmarklist'}).success(
+		// 		function(data){
+		// 			console.log(entityID);
+		// 			response = data;
+		// 			var entityBookmark = {};
 
-					for(var x in response){
-						for(var y in response[x].bookmarks){
-							if(response[x].bookmarks[y].arachneEntityId == entityID)
-								entityBookmark = response[x].bookmarks[y];
-						}
-					}
-					if (successMethod) {
-						successMethod(entityBookmark);
-					};
-				}).error(function(data, status, headers, config){
-					errorMethod({'status': status});
-				});	
-		};
+		// 			for(var x in response){
+		// 				for(var y in response[x].bookmarks){
+		// 					if(response[x].bookmarks[y].arachneEntityId == entityID)
+		// 						entityBookmark = response[x].bookmarks[y];
+		// 				}
+		// 			}
+		// 			return (entityBookmark);
+		// 		}).error(function(data, status, headers, config){ 
+		// 			catchError({"status" : status});
+		// 		});	
+		// };
 
 		var catchError = function(errorReponse) {
 			if (errorReponse.status == 403) {
@@ -465,8 +465,19 @@ angular.module('arachne.services', [])
 					return arachneDataService.getBookmarkInfo(hash, successMethod, catchError);
 				};
 			},
-			checkEntity : function(entityID, successMethod){
-				return checkEntity({id: entityID}, successMethod, catchError);
+			queryBookmarListsForEntityId : function(entityID){
+				//suche Bookmarks für die Entity ID in dem alle anderen rausgeschmissen werden
+				return arachneDataService.getBookmarksLists({}, function(lists){
+
+					for(var list in lists){
+						for(var bookmark in lists[list].bookmarks){
+							if(lists[list].bookmarks[bookmark].arachneEntityId != entityID)
+							 	delte(lists[list].bookmarks[bookmark]);
+						}
+					}
+				});
+
+				
 			},
 			getBookmarksLists : function(successMethod){
 				return arachneDataService.getBookmarksLists({},successMethod, catchError);
@@ -477,7 +488,7 @@ angular.module('arachne.services', [])
 			deleteBookmarksList : function(id, successMethod, errorMethod){
 				return arachneDataService.deleteBookmarksList({ "id": id}, successMethod,errorMethod);
 			},
-			deleteBookmark : function(id, successMethod, errorMethod){
+			deleteBookmark : function(id, successMethod){
 				return arachneDataService.deleteBookmark({ "id": id}, successMethod, catchError);
 			},
 			getBookmark : function(id, successMethod, errorMethod){

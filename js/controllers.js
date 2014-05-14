@@ -111,49 +111,45 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				qHash.resultIndex = arachneSearch.getResultIndex();
 			$location.url("entity/" + $scope.previousEntitySearch.entities[0].entityId).search(qHash);
 		}
-		
-		$scope.getBookmarkStatus = function(){
-			$scope.bookmark = NoteService.checkEntity($routeParams.id, null);
+
+		$scope.queryBookmarListsForEntityId = function(){
+			$scope.bookmarklists = NoteService.queryBookmarListsForEntityId($routeParams.id);
 		}
-		$scope.deleteBookmark = function(){
-			NoteService.deleteBookmark($scope.bookmark.id,
+
+
+		$scope.deleteBookmark = function(bookmarkId){
+			NoteService.deleteBookmark(bookmarkId,
 			function(data){
-				$scope.getBookmarkStatus();
-			}, function(status){
-				getBookmarkStatus();
+				$scope.queryBookmarListsForEntityId();
 			});	
 		}
 		$scope.createBookmarkModal = function(){
-			NoteService.checkEntity($routeParams.id, function(data){
-				if(data.length == 0){
-					var modalInstance = $modal.open({
-						templateUrl: 'createBookmark.html',
-						controller: 'createBookmarkCtrl',
-		      		});
+			NoteService.getBookmarksLists(
+				function(data){
+					if(data.length == 0){
+						console.log(" keine liste vorhanden");	
+					}else{
+						var modalInstance = $modal.open({
+							templateUrl: 'createBookmark.html',
+							controller: 'createBookmarkCtrl',
+			      		});
 
-		      		modalInstance.result.then(function (selectedList) { 
-		      			if(selectedList.commentary == undefined || selectedList.commentary == "")
-		      				selectedList.commentary = "no comment set";
+			      		modalInstance.result.then(function (selectedList) { 
+			      			if(selectedList.commentary == undefined || selectedList.commentary == "")
+			      				selectedList.commentary = "no comment set";
 
-		      			var bm = {
-							arachneEntityId : $routeParams.id,
-							commentary : selectedList.commentary
-						}
-						NoteService.createBookmark(bm, selectedList.item.id, function(data){
-							$scope.getBookmarkStatus();
-						});
-		      		});
-				} else {
-					// TODO
-					//console.log("keine BM-List vorhanden");
-					// hier muss im Backend eigentlich kein 404 sondern ein leerer Array zurückgegeben werden, wenn nichts vorhanden ist,
-					// um diesen Fall hier abzuarbeiten
-					// Backend Issue wurde geschrieben
-					
-					$scope.bookmark = data;
-					$scope.isBookmark = true;
+			      			var bm = {
+								arachneEntityId : $routeParams.id,
+								commentary : selectedList.commentary
+							}
+							NoteService.createBookmark(bm, selectedList.item.id, function(data){
+								$scope.queryBookmarListsForEntityId();
+							});
+			      		});
+			      	}
 				}
-			});
+			);
+			
 		}
 	  // TODO Abstract Sections-Template and Logic to seperate unit - for reuse 
 	  // LOGIC for sections-iteration
@@ -267,12 +263,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.refreshBookmarkLists();
 		
 		$scope.deleteBookmark = function(bookmark){
-			
 			NoteService.deleteBookmark(bookmark.id,
 				function(data){
 					$scope.refreshBookmarkLists();
-				}
-			);
+				});
 		}
 
 		$scope.updateBookmarkModal= function(id, commentary){
