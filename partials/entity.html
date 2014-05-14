@@ -12,40 +12,6 @@
 		<ul ng-repeat="section in section.content" ng-include="'section_template.html'"></ul>
 	</div>
 </script>
-<script type="text/ng-template" id="createBookmark.html">
-	<div ng-if="bookmarkError == 404">
-		<alert type="danger" close="$dismiss()">Bitte unter Bookmarks erst eine Liste erstellen</alert>
-	</div>
-	<div ng-if="bookmarkError == 403">
-		<alert type="danger" close="$dismiss()">Bitte erst einloggen</alert>
-	</div>
-	<div ng-if="bookmarkError == 0">
-		<div class="modal-header">
-			<h4 class="modal-title"><img src="img/arachnelogo.png" style="height: 36px; opacity: 0.43; width: 36px;"></img>Neue Bookmark anlegen:
-			</h4>
-		</div>
-		<div class="modal-body">
-				<div class="btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						{{ selected.item.name }} <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-							<li ng-repeat="item in items">
-								<a ng-click="selected.item = item">{{ item.name }}</a>
-							</li>
-						</ul>
-				</div>
-			<div class="form-group">
-			<div><p></br></p></div>
-				<textarea type="commentary" class="form-control" ng-model="selected.commentary" placeholder="commentary"></textarea>
-			</div>
-		</div>
-		<div class="modal-footer">
-					<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
-					<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
-			</div>
-	</div>
-</script>
 <div class="row"  ng-controller="EntityCtrl as entityCtrl">
 	<div ng-hide="entity.entityId" class="loading"></div>
 	<div class="col-md-2" style="padding-top:10px">
