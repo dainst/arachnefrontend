@@ -4,26 +4,30 @@
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('MenuCtrl',
-	[ '$scope', '$modal', 'sessionService',
-	function ($scope,  $modal, sessionService){
+	[ '$scope', '$modal', 'sessionService', 
+		function ($scope,  $modal, sessionService){
 		$scope.user = sessionService.user;
 
 		$scope.openLoginModal = function () {
 			var modalInstance = $modal.open({
-				templateUrl: 'loginForm.html',
-				controller: 'LoginCtrl'	
-			});				    
+				templateUrl: 'partials/Modals/loginForm.html',
+				controller: 'LoginCtrl'
+			});			
+			console.log("open complete");	    
 		};
 	}
 	]
 	)
 .controller('LoginCtrl',
-	['$scope', '$modalInstance', 'sessionService', 'md5Filter', '$timeout',
-	function($scope, $modalInstance, sessionService, md5Filter, $timeout){
+	['$scope', '$modalInstance', 'sessionService', 'md5Filter', '$timeout', '$modal',
+	function($scope, $modalInstance, sessionService, md5Filter, $timeout, $modal){
+
 		$scope.loginData = {};
 		$scope.user = sessionService.user;
 		$scope.loginerror = false;
+
 		$scope.login = function () {
+			console.log("login");
 			sessionService.login(
 				{
 					user: $scope.loginData.user,
@@ -45,14 +49,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	                $timeout(resetLoginerror, 2000);
 	            });
 		};
-
 		$scope.cancel = function () {
 			$modalInstance.dismiss();
-		};	
+		};
+		console.log("loginCtrl complete");
 	
-	}
-	]
-	)
+	}])
 .controller('SearchCtrl',
 	['arachneSearch', '$scope', '$route', 
 	function ( arachneSearch, $scope, $route) {
@@ -124,13 +126,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});	
 		}
 		$scope.createBookmarkModal = function(){
+
 			NoteService.getBookmarksLists(
 				function(data){
 					if(data.length == 0){
 						console.log(" keine liste vorhanden");	
 					}else{
 						var modalInstance = $modal.open({
-							templateUrl: 'createBookmark.html',
+							templateUrl: 'partials/Modals/createBookmark.html',
 							controller: 'createBookmarkCtrl',
 			      		});
 
@@ -272,7 +275,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.updateBookmarkModal= function(id, commentary){
 			$scope.commentaryCash = commentary;
 			var modalInstance = $modal.open({
-				templateUrl: 'updateBookmarkModal.html',
+				templateUrl: 'partials/Modals/updateBookmarkModal.html',
 				scope: $scope
 			});	
 
@@ -312,7 +315,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var name = name;
 			
 			var modalInstance = $modal.open({
-				templateUrl: 'deleteBookmarksList.html'
+				templateUrl: 'partials/Modals/deleteBookmarksList.html'
 			});	
 			modalInstance.close = function(){
 				modalInstance.dismiss();
@@ -322,7 +325,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.createBookmarksListModal = function(){
 			var modalInstance = $modal.open({
-				templateUrl: 'createBookmarksList.html'
+				templateUrl: 'partials/Modals/createBookmarksList.html'
 			});	
 
 			modalInstance.close = function(name, commentary){
@@ -403,7 +406,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 			}
 			var modalInstance = $modal.open({
-				templateUrl: 'metainfos.html',
+				templateUrl: 'partials/Modals/metainfos.html',
 				scope: $scope
 			});	
 			modalInstance.close = function(){
