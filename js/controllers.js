@@ -60,6 +60,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ( arachneSearch, $scope, $route) {
 		var currentTemplateURL = $route.current.templateUrl;
 
+		$scope.bla = {"bla":"blub"}
+
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
 
@@ -73,6 +75,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
+		} else if(currentTemplateURL == 'partials/entity.html') {
+			$scope.entities = arachneSearch.getContextualEntities({id : $route.current.params.id, fq: 'facet_kategorie:' + 'Einzelobjekte'})
 		} else {
 			$scope.searchresults = arachneSearch.persistentSearch();
 
@@ -96,7 +100,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.serverUri = arachneSettings.serverUri;
 		
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
-			if (!facetValue.entities) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.value});
+			if(facetValue.count > 20) {
+				var modalInstance = $modal.open({
+					templateUrl: 'partials/Modals/searchModal.html',
+					controller: 'SearchCtrl',
+					size: 'lg'
+	      		});
+			} else {
+				if (!facetValue.entities) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.value});
+			}
 		}
 		this.goToResults = function () {
 			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
@@ -209,21 +221,21 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	$scope.bookmarkError = 0;
 
 	NoteService.getBookmarksLists(
-			function(data){
-				$scope.bookmarkError = 0;
-				$scope.items = data;
-				$scope.selected = {
-    				item: $scope.items[0]
-  				};
-  				$scope.selected.commentary = "";
-			}, function(status){
-				if(status == 404)
-					$scope.bookmarkError = status;
-				else if(status == 403)
-					$scope.bookmarkError = status;
-				else
-					console.log("unknown error");
-		});
+		function(data){
+			$scope.bookmarkError = 0;
+			$scope.items = data;
+			$scope.selected = {
+				item: $scope.items[0]
+			};
+			$scope.selected.commentary = "";
+		}, function(status){
+			if(status == 404)
+				$scope.bookmarkError = status;
+			else if(status == 403)
+				$scope.bookmarkError = status;
+			else
+				console.log("unknown error");
+	});
 }])
 .controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService',
 	function ($scope, $modal, arachneEntity, sessionService, NoteService){
@@ -328,7 +340,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				templateUrl: 'partials/Modals/createBookmarksList.html'
 			});	
 
-			modalInstance.close = function(name, commentary = ""){
+			modalInstance.close = function(name, commentary){
+				commentary = typeof commentary !== 'undefined' ? commentary : "";
 				if(name == undefined || name == "") {
 					alert("Bitte Titel eintragen.")							
 				} else {
