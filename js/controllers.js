@@ -328,13 +328,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				templateUrl: 'partials/Modals/createBookmarksList.html'
 			});	
 
-			modalInstance.close = function(name, commentary){
-				if(name == undefined || name == "")
-				{
-					alert("Name setzen!")							
-				}else if(commentary == undefined || commentary == ""){
-					alert("Kommentar setzen!")
-				}else{
+			modalInstance.close = function(name, commentary = ""){
+				if(name == undefined || name == "") {
+					alert("Bitte Titel eintragen.")							
+				} else {
 					modalInstance.dismiss();
 					$scope.createBookmarksList(name, commentary, []);
 				}

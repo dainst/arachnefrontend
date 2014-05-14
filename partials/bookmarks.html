@@ -13,11 +13,13 @@
 		</div>
 		<accordion class="accordion-with-list" ng-repeat="bookmarksList in bookmarksLists" >
 			<accordion-group  is-open="false">
-	    	<accordion-heading>
-	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksListModal(bookmarksList.id, bookmarksList.name)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
-	    	</accordion-heading>
-	    		<div ng-repeat="bookmark in bookmarksList.bookmarks"class="list-group-item clearfix">
-	    			
+		    	<accordion-heading>
+		    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksListModal(bookmarksList.id, bookmarksList.name)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
+		    	</accordion-heading>
+		    	<div ng-if="bookmarksList.bookmarks.length == 0"  class="list-group-item clearfix">
+		    		In dieser Liste sind noch keine Noitzen vorhanen.
+		    	</div>
+	    		<div ng-repeat="bookmark in bookmarksList.bookmarks" class="list-group-item clearfix">
 					<div class="row-fluid">
 						<div class="btn-group pull-right">
 	    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmark.id,bookmark.commentary)"><span class="glyphicon glyphicon-pencil"></span></button>
