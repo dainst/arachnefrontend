@@ -143,7 +143,7 @@
 		</div>
 
 		<accordion class="accordion-with-list" close-others="true">
-			<accordion-group is-open="false" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)" ng-switch="facetValue.value == 'marbilder' || facetValue.value == 'buchseite'">
+			<accordion-group is-open="false" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)" ng-switch="facetValue.value == 'buchseite'">
 				<accordion-heading>
 					<span class="capitalized">{{facetValue.value}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
 				</accordion-heading>
