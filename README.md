@@ -21,6 +21,11 @@ The string `try_files $uri $uri/ /index.html =404;` means that now all non-exist
 ```
 
 ---
+## Dependencies
+* Leaflet JS, including markercluster plugin
+* Angular-UI with Bootstrap http://angular-ui.github.io/bootstrap/
+
+---
 
 ####app.js
 
