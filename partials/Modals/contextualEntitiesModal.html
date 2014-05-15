@@ -6,16 +6,16 @@
 <div class="modal-body">
 	<div ng-repeat="entity in entities">
 		<div ng-if=" $index % 4 == 0" imagesrow class="imagesrow clearfix">
-			<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index].entityId}}" imageid="{{entities[$index].thumbnailId}}" link="entity/{{entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
+			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index].entityId}}" imageid="{{entities[$index].thumbnailId}}" link="entity/{{entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
 				<p><small>{{ entities[$index].title }}</small></p>
 			</div>
-			<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index+1].entityId}}"   imageid="{{entities[$index+1].thumbnailId}}" link="entity/{{entities[$index+1].entityId}}" ng-click="setResultIndex(offset + $index+1)">
+			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index+1].entityId}}"   imageid="{{entities[$index+1].thumbnailId}}" link="entity/{{entities[$index+1].entityId}}" ng-click="setResultIndex(offset + $index+1)">
 				<p><small>{{ entities[$index+1].title }}</small></p>
 			</div>
-			<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index+2].entityId}}"   imageid="{{entities[$index+2].thumbnailId}}" link="entity/{{entities[$index+2].entityId}}" ng-click="setResultIndex(offset + $index+2)">
+			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index+2].entityId}}"   imageid="{{entities[$index+2].thumbnailId}}" link="entity/{{entities[$index+2].entityId}}" ng-click="setResultIndex(offset + $index+2)">
 				<p><small>{{ entities[$index+2].title }}</small></p>
 			</div>
-			<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index+3].entityId}}"   imageid="{{entities[$index+3].thumbnailId}}" link="entity/{{entities[$index+3].entityId}}" ng-click="setResultIndex(offset + $index+3)">
+			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index+3].entityId}}"   imageid="{{entities[$index+3].thumbnailId}}" link="entity/{{entities[$index+3].entityId}}" ng-click="setResultIndex(offset + $index+3)">
 				<p><small>{{ entities[$index+3].title }}</small></p>
 			</div>
 	
