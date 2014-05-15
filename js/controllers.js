@@ -137,31 +137,54 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				$scope.queryBookmarListsForEntityId();
 			});	
 		}
-		$scope.createBookmarkModal = function(){
 
+		$scope.createBookmarkModal = function(){
+			var modalInstance = $modal.open({
+				templateUrl: 'partials/Modals/createBookmark.html',
+				controller: 'createBookmarkCtrl',
+      		});
+
+      		modalInstance.result.then(function (selectedList) { 
+      			if(selectedList.commentary == undefined || selectedList.commentary == "")
+      				selectedList.commentary = "no comment set";
+
+      			var bm = {
+					arachneEntityId : $routeParams.id,
+					commentary : selectedList.commentary
+				}
+				NoteService.createBookmark(bm, selectedList.item.id, function(data){
+					$scope.queryBookmarListsForEntityId();
+				});
+      		});
+		}
+		$scope.createBookmark = function(){
 			NoteService.getBookmarksLists(
 				function(data){
 					if(data.length == 0){
-						console.log(" keine liste vorhanden");	
-					}else{
 						var modalInstance = $modal.open({
-							templateUrl: 'partials/Modals/createBookmark.html',
-							controller: 'createBookmarkCtrl',
-			      		});
+							templateUrl: 'partials/Modals/createBookmarksList.html'
+						});	
 
-			      		modalInstance.result.then(function (selectedList) { 
-			      			if(selectedList.commentary == undefined || selectedList.commentary == "")
-			      				selectedList.commentary = "no comment set";
-
-			      			var bm = {
-								arachneEntityId : $routeParams.id,
-								commentary : selectedList.commentary
+						modalInstance.close = function(name, commentary){
+							commentary = typeof commentary !== 'undefined' ? commentary : "";
+							if(name == undefined || name == "") {
+								alert("Bitte Titel eintragen.")							
+							} else {
+								modalInstance.dismiss();
+								var list = new Object();
+								list.name = name;
+								list.commentary = commentary;
+								list.bookmarks = [];
+								NoteService.createBookmarksList(list,
+									function(data){
+										$scope.createBookmarkModal();
+									});
 							}
-							NoteService.createBookmark(bm, selectedList.item.id, function(data){
-								$scope.queryBookmarListsForEntityId();
-							});
-			      		});
-			      	}
+						}
+					}
+					
+					if(data.length >= 1)
+						$scope.createBookmarkModal();
 				}
 			);
 			
