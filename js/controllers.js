@@ -60,8 +60,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ( arachneSearch, $scope, $route) {
 		var currentTemplateURL = $route.current.templateUrl;
 
-		$scope.bla = {"bla":"blub"}
-
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
 
@@ -76,7 +74,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
 		} else if(currentTemplateURL == 'partials/entity.html') {
-			$scope.entities = arachneSearch.getContextualEntities({id : $route.current.params.id, fq: 'facet_kategorie:' + 'Einzelobjekte'})
+			$scope.entities = arachneSearch.getContextualEntities({id : $route.current.params.id, fq: 'facet_kategorie:' + $scope.categoryFacetValueForContext.value })
 		} else {
 			$scope.searchresults = arachneSearch.persistentSearch();
 
@@ -100,11 +98,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.serverUri = arachneSettings.serverUri;
 		
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
-			if(facetValue.count > 20) {
+			$scope.categoryFacetValueForContext = facetValue;
+			if(facetValue.count > 15) {
 				var modalInstance = $modal.open({
-					templateUrl: 'partials/Modals/searchModal.html',
+					templateUrl: 'partials/Modals/contextualEntitiesModal.html',
 					controller: 'SearchCtrl',
-					size: 'lg'
+					size: 'lg',
+					scope : $scope
 	      		});
 			} else {
 				if (!facetValue.entities) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.value});
