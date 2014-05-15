@@ -1,9 +1,11 @@
 <div class="modal-header">
 	<h4 class="modal-title">
 		{{categoryFacetValueForContext.value}} <b class="text-info">verknüpft mit</b> {{entity.title}}
+		<button class="btn btn-primary pull-right">Gesamten Kontext anzeigen</button>
 	</h4>
 </div>
 <div class="modal-body">
+	<span ng-if="!entities.length">lädt...</span>
 	<div ng-repeat="entity in entities">
 		<div ng-if=" $index % 4 == 0" imagesrow class="imagesrow clearfix">
 			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index].entityId}}" imageid="{{entities[$index].thumbnailId}}" link="entity/{{entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
