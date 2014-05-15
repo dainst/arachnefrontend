@@ -12,7 +12,7 @@
 			Keine Liste vorhanden. Legen Sie doch eine an.
 		</div>
 		<accordion class="accordion-with-list" ng-repeat="bookmarksList in bookmarksLists" >
-			<accordion-group  is-open="false">
+			<accordion-group>
 		    	<accordion-heading>
 	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksListModal(bookmarksList.id, bookmarksList.name)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
 		    	</accordion-heading>

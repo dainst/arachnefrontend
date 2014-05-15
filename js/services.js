@@ -468,11 +468,11 @@ angular.module('arachne.services', [])
 			queryBookmarListsForEntityId : function(entityID){
 				//suche Bookmarks für die Entity ID in dem alle anderen rausgeschmissen werden
 				return arachneDataService.getBookmarksLists({}, function(lists){
-
-					for(var list in lists){
-						for(var bookmark in lists[list].bookmarks){
-							if(lists[list].bookmarks[bookmark].arachneEntityId != entityID)
-							 	delte(lists[list].bookmarks[bookmark]);
+					for(var listIndex = lists.length-1; listIndex >= 0 ; listIndex--) {
+						for(var bookmarkIndex = lists[listIndex].bookmarks.length-1; bookmarkIndex >= 0 ; bookmarkIndex--) {
+							if(lists[listIndex].bookmarks[bookmarkIndex].arachneEntityId != entityID) {
+							 	lists[listIndex].bookmarks.splice(bookmarkIndex,1);
+							 }
 						}
 					}
 				});
