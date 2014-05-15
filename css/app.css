@@ -9,6 +9,15 @@ body {
   text-transform: capitalize;
 }
 
+.modal-title {
+  height:36px;
+  background-image: url("../img/arachnelogo.png");
+  background-repeat: no-repeat;
+  background-size:  36px 36px;
+  padding-left: 46px;
+  line-height: 36px;
+}
+
 .btn-startsite-tab {
   border:none;
   background: none;
