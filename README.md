@@ -1,9 +1,10 @@
 
 # Arachne 4 Frontend
 
-### nginx config/installation (for html5 mode)
----
-#### nginx-site config
+## Deployment
+#### ...on nginx (incl. html5 mode)
+
+##### nginx-site config
 ```
 server {
         listen   80;
@@ -15,22 +16,26 @@ server {
 The string `try_files $uri $uri/ /index.html =404;` means that now all non-existent url will be forwarded to index.html file, but without rewriting url in the browser address bar.
 
 ---
-#### index.html (into header) 
+##### index.html (into header) 
 ```
 <base href="/">
 ```
+
+---
+
+##### app.js
+
+select the right backend url in arachneSettings-object
+
 
 ---
 ## Dependencies
 * Leaflet JS, including markercluster plugin
 * Angular-UI with Bootstrap http://angular-ui.github.io/bootstrap/
 
----
 
-####app.js
 
-select the right backend url in arachneSettings-object
-
+# Modules and Structure
 ---
 ## Bookmarks
 ## Entity-Bookmark:
@@ -44,11 +49,7 @@ select the right backend url in arachneSettings-object
 * Bookmark-Liste editieren 
 * Einzelne Bookmarks Editieren & löschen
 
-## Depencies
- * leaflet -> http://tombatossals.github.io/angular-leaflet-directive/#!/
-
-
-##Index.html
+## Index.html
  * Fügt Bootstrap ein
  * startet AngularJS  `ng-app="myApp"`
  * Fügt die navbar ein
