@@ -10,7 +10,6 @@ body {
 }
 
 .modal-title {
-  height:36px;
   background-image: url("../img/arachnelogo.png");
   background-repeat: no-repeat;
   background-size:  36px 36px;
