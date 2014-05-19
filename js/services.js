@@ -69,20 +69,22 @@ angular.module('arachne.services', [])
 							var data = JSON.parse(data);
 							data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
 							data.markers = new L.MarkerClusterGroup();
-
-							// title += value.link + "'>Objekte zu diesem Ort anzeigen</a>"
-							// title = title.replace('#simpleBrowsing', '#search')
 							
-							for(var entry in data.facets.facet_geo)
-							{
-								var num =0;
-								if (data.facets.facet_geo.hasOwnProperty(entry)) 
-									num = data.facets.facet_geo[entry];
-								var coordsString = entry.substring(entry.indexOf("[", 1)+1, entry.length - 1);
+							var facet_geo = {}
+							for (var i = data.facets.length - 1; i >= 0; i--) {
+								if(data.facets[i].name === "facet_geo") {
+									facet_geo = data.facets[i];
+									break;
+								}
+							};
+
+							for (var i = facet_geo.values.length - 1; i >= 0; i--) {
+								var facetValue = facet_geo.values[i];
+								var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
 								var coords = coordsString.split(',');
-								var title = "<b>" + entry.substring(0, entry.indexOf("[", 1)-1) + "</b><br/>";
-								title += "Einträge, <b>insgeamt</b>: " + num + "<br>";
-								title += "<a href='search?q=*&fq=facet_geo:\"" + entry +  "\"'>Diese Einträge anzeigen</a>";
+								var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)-1) + "</b><br/>";
+									title += "Einträge, <b>insgeamt</b>: " + facetValue.count + "<br>";
+									title += "<a href='search?q=*&fq=facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 
 								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
 								marker.bindPopup(title);
@@ -375,27 +377,6 @@ angular.module('arachne.services', [])
 		return factory;
 	}])
 .factory('NoteService', ['$resource', 'arachneSettings', 'sessionService', '$http', function($resource, arachneSettings, sessionService, $http){
-		
-		// var getBookmarkForEntityId  = function(entityID, catchError){
-		// 	var response = [];
-		// 	console.log("getBookmarkForEntityId");
-		// 	$http({method: 'GET', url: arachneSettings.dataserviceUri + '/bookmarklist'}).success(
-		// 		function(data){
-		// 			console.log(entityID);
-		// 			response = data;
-		// 			var entityBookmark = {};
-
-		// 			for(var x in response){
-		// 				for(var y in response[x].bookmarks){
-		// 					if(response[x].bookmarks[y].arachneEntityId == entityID)
-		// 						entityBookmark = response[x].bookmarks[y];
-		// 				}
-		// 			}
-		// 			return (entityBookmark);
-		// 		}).error(function(data, status, headers, config){ 
-		// 			catchError({"status" : status});
-		// 		});	
-		// };
 
 		var catchError = function(errorReponse) {
 			if (errorReponse.status == 403) {

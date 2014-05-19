@@ -99,7 +99,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			$scope.categoryFacetValueForContext = facetValue;
-			if(facetValue.count > 15) {
+			console.log(facetValue.value)
+			if(facetValue.count > 15 || facetValue.value === "Buchseiten") {
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/Modals/contextualEntitiesModal.html',
 					controller: 'SearchCtrl',
