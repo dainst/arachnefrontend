@@ -242,6 +242,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	$scope.selected = {};
 	$scope.selected.commentary = "";
 	$scope.bookmarkError = 0;
+	console.log("habe die Liste!");
 
 	NoteService.getBookmarksLists(
 		function(data){
