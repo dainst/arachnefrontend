@@ -1,27 +1,27 @@
 <div class="modal-header">
-			<h4 class="modal-title">Neue Bookmark anlegen:
-			</h4>
-		</div>
-		<div class="modal-body">
-			Wählen sie die Liste:<br>
-				<div class="btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						{{ selected.item.name }} <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-						<li ng-repeat="item in items">
-							<a ng-click="selected.item = item">{{ item.name }}</a>
-						</li>
-					</ul>
-				</div>
-			<div class="form-group">
-			<div><p><br></p></div>
-			Geben sie einen Kommentar ein:
-				<textarea type="commentary" class="form-control" ng-model="selected.commentary" placeholder="commentary"></textarea>
+	<h4 class="modal-title">Neue Bookmark anlegen:
+	</h4>
+</div>
+<div class="modal-body">
+	<div>Wählen sie die Liste:<br></div>
+		<div class="btn-group"  is-open="status.isopen">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				{{ selected.item.name }} <span class="caret"></span>
+			</button>
 			</div>
-		</div>
-		<div class="modal-footer">
-					<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
-					<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
-			</div>
-	</div>
+			<ul class="dropdown-menu" role="menu">
+				<li ng-repeat="item in items">
+					<a ng-click="selected.item = item">{{ item.name }}</a>
+				</li>
+			</ul>
+		
+	<div class="form-group">
+	<div><p><br></p></div>
+	Geben sie einen Kommentar ein:
+		<textarea type="commentary" class="form-control" ng-model="selected.commentary" placeholder="commentary"></textarea>
+	</div> 
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
+	<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+</div>

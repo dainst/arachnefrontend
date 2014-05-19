@@ -249,12 +249,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			console.log("habe die Liste!");
 			$scope.bookmarkError = 0;
 			$scope.items = data;
+			console.log($scope.items);
 			$scope.selected = {
 				item: $scope.items[0]
 			};
 			$scope.selected.commentary = "";
 		}, function(status){
-			
 				console.log("unknown error");
 	});
 }])
