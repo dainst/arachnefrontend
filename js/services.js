@@ -34,33 +34,7 @@ angular.module('arachne.services', [])
 							return data;
 						}
 					},
-					context :  {
-						//in transformReponse an Array gets build, so an array should be the aspected result
-						isArray: true,
-						url : arachneSettings.dataserviceUri + '/contexts/:id',
-						method: 'GET',
-						transformResponse : function (data) {
-							var facets = JSON.parse(data).facets;
-							var categoryFacet = {};
-							for (var i = facets.length - 1; i >= 0; i--) {
-								if(facets[i].name == "facet_kategorie") {
-									categoryFacet = facets[i];
-									break;
-								}
-							};
-							
-							return categoryFacet.values;
-						}
-					},
-					contextEntities : {
-						isArray: true,
-						url : arachneSettings.dataserviceUri + '/contexts/:id',
-						method: 'GET',
-						transformResponse : function (data) {
-							return JSON.parse(data).entities;
-						}
 
-					},
 					queryWithMarkers : {
 						url : arachneSettings.dataserviceUri + '/search',
 						isArray: false,
@@ -120,12 +94,7 @@ angular.module('arachne.services', [])
 					search : function (queryParams, successMethod) {
 						return arachneDataService.query(queryParams, successMethod);
 					},
-					getContext : function (queryParams) {
-						return arachneDataService.context(queryParams);
-					},
-					getContextualEntities : function (queryParams) {
-						return arachneDataService.contextEntities(queryParams);
-					},
+					
 					
 				  
 				  //SETTERS FOR VARIABLES
@@ -218,6 +187,8 @@ angular.module('arachne.services', [])
 
 			  // PERSISTENT OBJECTS, PRIVATE, USE GETTERS AND SETTERS
 				var _currentEntity = {};
+				var _activeContextFacets  = [];
+
 			  //SERVERCONNECTION (PRIVATE)
 				var arachneDataService = $resource('', { }, {
 					get : {
@@ -225,6 +196,35 @@ angular.module('arachne.services', [])
 						isArray : false,
 						method: 'GET'
 					},
+					context :  {
+						//in transformReponse an Array gets build, so an array should be the aspected result
+						isArray: true,
+						url : arachneSettings.dataserviceUri + '/contexts/:id',
+						method: 'GET',
+						transformResponse : function (data) {
+							var facets = JSON.parse(data).facets;
+							var categoryFacet = {};
+							for (var i = facets.length - 1; i >= 0; i--) {
+								if(facets[i].name == "facet_kategorie") {
+									categoryFacet = facets[i];
+									break;
+								}
+							};
+							
+							return categoryFacet.values;
+						}
+					},
+					contextEntities : {
+						isArray: false,
+						url : arachneSettings.dataserviceUri + '/contexts/:id',
+						method: 'GET',
+						transformResponse : function (data) {
+							return JSON.parse(data);
+						}
+
+					},
+				//TODO
+					// Replace contextEntities with addFacets method that adds other facets after the category facet
 					getSpecialNavigations : {
 						url: arachneSettings.dataserviceUri + '/specialNavigationsService?type=entity&id=:id',
 						isArray : false,
@@ -269,6 +269,12 @@ angular.module('arachne.services', [])
 					},
 					getSpecialNavigations : function(entityId) {
 						return arachneDataService.getSpecialNavigations({id:entityId});
+					},
+					getContext : function (queryParams) {
+						return arachneDataService.context(queryParams);
+					},
+					getContextualEntities : function (queryParams) {
+						return arachneDataService.contextEntities(queryParams);
 					}
 				}
 			}

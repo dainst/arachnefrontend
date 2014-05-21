@@ -1,24 +1,41 @@
 <div class="modal-header">
 	<h4 class="modal-title">
-		{{categoryFacetValueForContext.value}} <b class="text-info">verknüpft mit</b> {{entity.title}}
-		<button class="btn btn-primary pull-right">Filter</button>
+		<b>{{searchresults.size}}</b> {{categoryFacetValueForContext.value}} <b class="text-info">verknüpft mit</b> {{entity.title}}
+		<button class="btn btn-primary pull-right" ng-click="showFilters = true" ng-hide="showFilters">Filter</button>
+		
 	</h4>
 </div>
 <div class="modal-body">
-	<span ng-if="!entities.length">lädt...</span>
-	<div ng-repeat="entity in entities">
+	<span ng-if="!searchresults.entities.length">lädt...</span>
+	{{selectedFacet}}
+	<div ng-show="showFilters" align="center">
+		<select ng-model="selectedFacet">
+			<option value="none">Bitte Filter wählen</option>
+			<option value="{{facet.name}}" ng-repeat="facet in searchresults.facets" >{{facet.name | i18n }}</option>
+		</select>
+
+		<select ng-repeat="facet in searchresults.facets" ng-model="selectedFacetValue" ng-show="facet.name == selectedFacet" ng-change="addFacetToContext(selectedFacet,selectedFacetValue)">
+			<option value="{{facetValue.value}}" ng-repeat="facetValue in facet.values">
+				{{facetValue.value}} ({{facetValue.count}})
+			</option>
+		</select>
+
+		<hr>
+	</div>
+
+	<div ng-repeat="entity in searchresults.entities">
 		<div ng-if=" $index % 4 == 0" imagesrow class="imagesrow clearfix">
-			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index].entityId}}" imageid="{{entities[$index].thumbnailId}}" link="entity/{{entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
-				<p><small>{{ entities[$index].title }}</small></p>
+			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index].entityId}}" imageid="{{searchresults.entities[$index].thumbnailId}}" link="entity/{{searchresults.entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
+				<p><small>{{ searchresults.entities[$index].title }}</small></p>
 			</div>
-			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index+1].entityId}}"   imageid="{{entities[$index+1].thumbnailId}}" link="entity/{{entities[$index+1].entityId}}" ng-click="setResultIndex(offset + $index+1)">
-				<p><small>{{ entities[$index+1].title }}</small></p>
+			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+1].entityId}}"   imageid="{{searchresults.entities[$index+1].thumbnailId}}" link="entity/{{searchresults.entities[$index+1].entityId}}" ng-click="setResultIndex(offset + $index+1)">
+				<p><small>{{ searchresults.entities[$index+1].title }}</small></p>
 			</div>
-			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index+2].entityId}}"   imageid="{{entities[$index+2].thumbnailId}}" link="entity/{{entities[$index+2].entityId}}" ng-click="setResultIndex(offset + $index+2)">
-				<p><small>{{ entities[$index+2].title }}</small></p>
+			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+2].entityId}}"   imageid="{{searchresults.entities[$index+2].thumbnailId}}" link="entity/{{searchresults.entities[$index+2].entityId}}" ng-click="setResultIndex(offset + $index+2)">
+				<p><small>{{ searchresults.entities[$index+2].title }}</small></p>
 			</div>
-			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{entities[$index+3].entityId}}"   imageid="{{entities[$index+3].thumbnailId}}" link="entity/{{entities[$index+3].entityId}}" ng-click="setResultIndex(offset + $index+3)">
-				<p><small>{{ entities[$index+3].title }}</small></p>
+			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+3].entityId}}"   imageid="{{searchresults.entities[$index+3].thumbnailId}}" link="entity/{{searchresults.entities[$index+3].entityId}}" ng-click="setResultIndex(offset + $index+3)">
+				<p><small>{{ searchresults.entities[$index+3].title }}</small></p>
 			</div>
 	
 		</div>
