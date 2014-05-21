@@ -24,6 +24,7 @@
 		<div ng-if="entity"  style="opacity:0.8; position:absolute; right:10px; top: 60px;">
 			<a class="btn btn-primary btn-xs" href="entity/{{entity.entityId}}"><span class="glyphicon glyphicon-arrow-left"></span> {{entity.title}}</a>
 			<btn class="btn btn-default btn-xs" ng-click="entityImgCtrl.openModalForImageEntity()">Bild-Metadaten</btn>
+			<a href="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/{{entityId}}" download="{{entityId}}.jpg"><btn class="btn btn-default btn-xs">Download</btn></a>
 		</div>
 
 		<ul class="pager" ng-if="entity.images" ng-init="entityImgCtrl.setNextAndPreviousImages()" style="opacity:0.8; position:absolute; bottom:10px; left:50%">

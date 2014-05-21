@@ -1,0 +1,12 @@
+	<li ng-if="section.value">
+		<div ng-switch="isArray(section.value)">
+			<span ng-switch-when="false" ng-bind-html="section.value"></span>
+			<ul ng-switch-when="true">
+				<li style="list-style:disc" ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></li>
+			</ul>
+		</div>
+	</li>
+	<div ng-if="!section.value">
+		<b>{{section.label}}</b>
+		<ul ng-repeat="section in section.content" ng-include="'section_template.html'"></ul>
+	</div>
