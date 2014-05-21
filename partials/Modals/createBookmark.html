@@ -4,17 +4,18 @@
 </div>
 <div class="modal-body">
 	<div>Wählen sie die Liste:<br></div>
-		<div class="btn-group"  is-open="status.isopen">
+		{{ isopen }}
+		<div class="btn-group" dropdown>
 			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 				{{ selected.item.name }} <span class="caret"></span>
 			</button>
-			</div>
-			<ul class="dropdown-menu" role="menu">
-				<li ng-repeat="item in items">
-					<a ng-click="selected.item = item">{{ item.name }}</a>
+			<ul class="dropdown-menu" role="menu" >
+				<li ng-repeat="item in items" >
+					<a ng-click="selected.item = item" dropdown-toggle>{{ item.name }}</a>
 				</li>
 			</ul>
-		
+		</div>
+
 	<div class="form-group">
 	<div><p><br></p></div>
 	Geben sie einen Kommentar ein:
