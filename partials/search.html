@@ -2,7 +2,7 @@
 	<div ng-hide="searchresults.size >= 0" class="loading"></div>
 	<div ng-if="searchresults.size == 0">Keine Ergebnisse gefunden</div>
 
-	<div class="col-md-2"ng-if="searchresults.size">
+	<div class="col-md-2 col-sm-3"ng-if="searchresults.size">
 		<div>
 			<small ng-if="searchresults.size" class="text-muted">Insgesamt <b>{{ searchresults.size }}</b> Ergebnisse<br> auf <b>{{numPages}}</b> Seiten</small>
 		</div>
@@ -29,7 +29,7 @@
 		</small>
 	</div>
 
-	<div class="col-md-10" ng-switch="listStyle" ng-init="offset = currentQueryParameters.offset? currentQueryParameters.offset : 0" ng-if="searchresults.size">
+	<div class="col-md-10 col-sm-9" ng-switch="listStyle" ng-init="offset = currentQueryParameters.offset? currentQueryParameters.offset : 0" ng-if="searchresults.size">
 		<div style="margin-bottom:20px">
 
 
