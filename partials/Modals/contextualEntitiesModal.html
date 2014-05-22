@@ -1,28 +1,31 @@
 <div class="modal-header">
 	<h4 class="modal-title">
-		<b>{{searchresults.size}}</b> {{categoryFacetValueForContext.value}} <b class="text-info">verknüpft mit</b> {{entity.title}}
-		<button class="btn btn-primary pull-right" ng-click="showFilters = true" ng-hide="showFilters">Filter</button>
+
+
+		
+	
+		<b class="text-info">Kontext für</b> {{entity.title}}
+		<button class="btn btn-primary pull-right" ng-click="showFilters = true" ng-hide="showFilters || !searchresults.entities.length">Filter</button>
 		
 	</h4>
 </div>
 <div class="modal-body">
 	<span ng-if="!searchresults.entities.length">lädt...</span>
-	{{selectedFacet}}
-	<div ng-show="showFilters" align="center">
-		<select ng-model="selectedFacet">
-			<option value="none">Bitte Filter wählen</option>
-			<option value="{{facet.name}}" ng-repeat="facet in searchresults.facets" >{{facet.name | i18n }}</option>
-		</select>
+	<ol class="breadcrumb" ng-if="searchresults.entities.length">
+		<li>{{entity.title}}</li>
+		<li ng-repeat="facet in activeContextFacets">{{facet.value}}</li>
+		<li ng-show="showFilters" class="small">
+			<select ng-model="selectedFacet">
+				<option value="">- Bitte Filter wählen -</option>
+				<option value="{{facet.name}}" ng-repeat="facet in searchresults.facets" >{{facet.name | i18n }}  ({{facet.values.length}} Werte)</option>
+			</select>
 
-		<select ng-repeat="facet in searchresults.facets" ng-model="selectedFacetValue" ng-show="facet.name == selectedFacet" ng-change="addFacetToContext(selectedFacet,selectedFacetValue)">
-			<option value="{{facetValue.value}}" ng-repeat="facetValue in facet.values">
-				{{facetValue.value}} ({{facetValue.count}})
-			</option>
-		</select>
-
-		<hr>
-	</div>
-
+			<select ng-repeat="facet in searchresults.facets" ng-model="selectedFacetValue" ng-show="facet.name == selectedFacet" ng-change="addFacetToContext(selectedFacet,selectedFacetValue)">
+				<option value="">- Bitte Wert wählen -</option>
+				<option value="{{facetValue.value}}" ng-repeat="facetValue in facet.values">{{facetValue.value}} ({{facetValue.count}})</option>
+			</select>
+		</li>
+	</ol>
 	<div ng-repeat="entity in searchresults.entities">
 		<div ng-if=" $index % 4 == 0" imagesrow class="imagesrow clearfix">
 			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index].entityId}}" imageid="{{searchresults.entities[$index].thumbnailId}}" link="entity/{{searchresults.entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">

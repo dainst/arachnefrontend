@@ -217,14 +217,8 @@ angular.module('arachne.services', [])
 					contextEntities : {
 						isArray: false,
 						url : arachneSettings.dataserviceUri + '/contexts/:id',
-						method: 'GET',
-						transformResponse : function (data) {
-							return JSON.parse(data);
-						}
-
+						method: 'GET'
 					},
-				//TODO
-					// Replace contextEntities with addFacets method that adds other facets after the category facet
 					getSpecialNavigations : {
 						url: arachneSettings.dataserviceUri + '/specialNavigationsService?type=entity&id=:id',
 						isArray : false,
@@ -255,6 +249,9 @@ angular.module('arachne.services', [])
 
 			  // PUBLIC
 				return {
+					getActiveContextFacets : function () {
+						return _activeContextFacets;
+					},
 					getEntityById : function(entityId) {
 						if (_currentEntity.entityId == entityId) {
 							//Caching!
@@ -273,7 +270,16 @@ angular.module('arachne.services', [])
 					getContext : function (queryParams) {
 						return arachneDataService.context(queryParams);
 					},
-					getContextualEntities : function (queryParams) {
+					getContextualEntitiesByAddingFacet : function (facetName, facetValue) {
+						// Check if facet is already added
+						for (var i = _activeContextFacets.length - 1; i >= 0; i--) {
+							if (_activeContextFacets[i].name == facetName) return;
+						};
+						// Add facet
+						_activeContextFacets.push({name: facetName, value: facetValue});
+						var queryParams = { id : _currentEntity.entityId };
+
+						queryParams.fq = _activeContextFacets.map(function(facet){return facet.name + ":" + facet.value}).join(',')
 						return arachneDataService.contextEntities(queryParams);
 					}
 				}

@@ -91,12 +91,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('ContextCtrl',
 	['arachneEntity','$scope',  
 		function (arachneEntity, $scope) {
-			$scope.searchresults = arachneEntity.getContextualEntities({id : $scope.$parent.entity.entityId, fq: 'facet_kategorie:' + $scope.categoryFacetValueForContext.value });
+			$scope.activeContextFacets = arachneEntity.getActiveContextFacets();
+			$scope.searchresults = arachneEntity.getContextualEntitiesByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
 			$scope.addFacetToContext = function (facetName, facetValue){
-				$scope.selectedFacet = 'none';
-				// $scope.selectedFacetValue = '';
-				// $scope.contextFacets.push( facetName + ":" + facetValue ); 
-				// $scope.searchresults = arachneSearch.getContextualEntities({id : $route.current.params.id, fq: $scope.contextFacets.join(',') });
+				$scope.selectedFacet = '';
+				$scope.searchresults = arachneEntity.getContextualEntitiesByAddingFacet(facetName, facetValue);
 			}
 		}
 	]
@@ -118,7 +117,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					scope : $scope
 	      		});
 			} else {
-				if (!facetValue.entities) facetValue.entities = arachneEntity.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.value});
+				if (!facetValue.entities) facetValue.entities = arachneEntity.getContextualEntitiesByAddingFacet('facet_kategorie', facetValue.value);
 			}
 		}
 		this.goToResults = function () {
