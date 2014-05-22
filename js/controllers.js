@@ -89,14 +89,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ]
 )
 .controller('ContextCtrl',
-	['arachneEntity','$scope',  
+	['arachneEntity','$scope', 
 		function (arachneEntity, $scope) {
 			$scope.activeContextFacets = arachneEntity.getActiveContextFacets();
-			$scope.searchresults = arachneEntity.getContextualEntitiesByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
+			$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
 			$scope.addFacetToContext = function (facetName, facetValue){
 				$scope.selectedFacet = '';
-				$scope.searchresults = arachneEntity.getContextualEntitiesByAddingFacet(facetName, facetValue);
+				$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet(facetName, facetValue);
 			}
+			
 		}
 	]
 )
@@ -117,7 +118,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					scope : $scope
 	      		});
 			} else {
-				if (!facetValue.entities) facetValue.entities = arachneEntity.getContextualEntitiesByAddingFacet('facet_kategorie', facetValue.value);
+				if (!facetValue.entities) facetValue.entities = arachneEntity.getContextualEntitiesByAddingCategoryFacetValue(facetValue.value);
 			}
 		}
 		this.goToResults = function () {

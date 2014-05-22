@@ -215,6 +215,14 @@ angular.module('arachne.services', [])
 						}
 					},
 					contextEntities : {
+						isArray: true,
+						url : arachneSettings.dataserviceUri + '/contexts/:id',
+						method: 'GET',
+						transformResponse : function (data) {
+							return JSON.parse(data).entities;
+						}
+					},
+					contextQuery : {
 						isArray: false,
 						url : arachneSettings.dataserviceUri + '/contexts/:id',
 						method: 'GET'
@@ -270,7 +278,10 @@ angular.module('arachne.services', [])
 					getContext : function (queryParams) {
 						return arachneDataService.context(queryParams);
 					},
-					getContextualEntitiesByAddingFacet : function (facetName, facetValue) {
+					getContextualEntitiesByAddingCategoryFacetValue : function (facetValue) {
+						return arachneDataService.contextEntities({id: _currentEntity.entityId, fq: 'facet_kategorie:' + facetValue});
+					},
+					getContextualQueryByAddingFacet : function (facetName, facetValue) {
 						// Check if facet is already added
 						for (var i = _activeContextFacets.length - 1; i >= 0; i--) {
 							if (_activeContextFacets[i].name == facetName) return;
@@ -280,7 +291,10 @@ angular.module('arachne.services', [])
 						var queryParams = { id : _currentEntity.entityId };
 
 						queryParams.fq = _activeContextFacets.map(function(facet){return facet.name + ":" + facet.value}).join(',')
-						return arachneDataService.contextEntities(queryParams);
+						return arachneDataService.contextQuery(queryParams);
+					},
+					resetContextFacets : function () {
+						_activeContextFacets = [];
 					}
 				}
 			}

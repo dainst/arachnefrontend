@@ -13,7 +13,7 @@
 	<span ng-if="!searchresults.entities.length">lädt...</span>
 	<ol class="breadcrumb" ng-if="searchresults.entities.length">
 		<li>{{entity.title}}</li>
-		<li ng-repeat="facet in activeContextFacets">{{facet.value}}</li>
+		<li ng-repeat="facet in activeContextFacets" class="small">{{facet.value}}</li>
 		<li ng-show="showFilters" class="small">
 			<select ng-model="selectedFacet">
 				<option value="">- Bitte Filter wählen -</option>
@@ -45,5 +45,5 @@
 	</div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="$dismiss()">OK</button>
+    <button class="btn btn-primary" ng-click="$close()">OK</button>
 </div>
