@@ -1,46 +1,50 @@
 <div class="modal-header">
 	<h4 class="modal-title">
 
-
-		
-	
 		<b class="text-info">Kontext für</b> {{entity.title}}
 		<button class="btn btn-primary pull-right" ng-click="showFilters = true" ng-hide="showFilters || !searchresults.entities.length">Filter</button>
 		
 	</h4>
 </div>
-<div class="modal-body">
+<div class="breadcrumb" ng-if="searchresults.entities.length">
+	<button class="btn btn-xs btn-primary" style="margin-right:2px; margin-top: 3px;"><b>Kontext</b></button>
+	<span ng-repeat="facet in activeContextFacets">
+		<span class="glyphicon glyphicon-arrow-right" style="top:4px"></span>
+		<button class="btn btn-xs btn-default linethrough-hover" ng-click="removeContextFacet(facet)" style="margin-right:2px; margin-top: 3px;"><i> {{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button>
+	</span>
+</div>
+<div class="modal-body row">
 	<span ng-if="!searchresults.entities.length">lädt...</span>
-	<ol class="breadcrumb" ng-if="searchresults.entities.length">
-		<li>{{entity.title}}</li>
-		<li ng-repeat="facet in activeContextFacets" class="small">{{facet.value}}</li>
-		<li ng-show="showFilters" class="small">
-			<select ng-model="selectedFacet">
-				<option value="">- Bitte Filter wählen -</option>
-				<option value="{{facet.name}}" ng-repeat="facet in searchresults.facets" >{{facet.name | i18n }}  ({{facet.values.length}} Werte)</option>
-			</select>
-
-			<select ng-repeat="facet in searchresults.facets" ng-model="selectedFacetValue" ng-show="facet.name == selectedFacet" ng-change="addFacetToContext(selectedFacet,selectedFacetValue)">
-				<option value="">- Bitte Wert wählen -</option>
-				<option value="{{facetValue.value}}" ng-repeat="facetValue in facet.values">{{facetValue.value}} ({{facetValue.count}})</option>
-			</select>
-		</li>
-	</ol>
-	<div ng-repeat="entity in searchresults.entities">
-		<div ng-if=" $index % 4 == 0" imagesrow class="imagesrow clearfix">
-			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index].entityId}}" imageid="{{searchresults.entities[$index].thumbnailId}}" link="entity/{{searchresults.entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
-				<p><small>{{ searchresults.entities[$index].title }}</small></p>
-			</div>
-			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+1].entityId}}"   imageid="{{searchresults.entities[$index+1].thumbnailId}}" link="entity/{{searchresults.entities[$index+1].entityId}}" ng-click="setResultIndex(offset + $index+1)">
-				<p><small>{{ searchresults.entities[$index+1].title }}</small></p>
-			</div>
-			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+2].entityId}}"   imageid="{{searchresults.entities[$index+2].thumbnailId}}" link="entity/{{searchresults.entities[$index+2].entityId}}" ng-click="setResultIndex(offset + $index+2)">
-				<p><small>{{ searchresults.entities[$index+2].title }}</small></p>
-			</div>
-			<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+3].entityId}}"   imageid="{{searchresults.entities[$index+3].thumbnailId}}" link="entity/{{searchresults.entities[$index+3].entityId}}" ng-click="setResultIndex(offset + $index+3)">
-				<p><small>{{ searchresults.entities[$index+3].title }}</small></p>
-			</div>
 	
+
+	<div ng-show="showFilters" class="small col-md-3" style="border-right: 1px solid #E5E5E5">
+		<h5 class="text-muted uppercase"><b>Filter</b></h5>
+		<ul class="list-unstyled facet" ng-repeat="facet in searchresults.facets">
+			<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet" ng-class="{ 'active': openfacet }"><b>{{facet.name | i18n }}</b></button>
+			<li ng-click="addFacetToContext(facet.name, facetValue.value)"  ng-repeat="facetValue in facet.values" ng-show="openfacet || facet.name=='facet_hasImage' ">
+				<b class="pull-right text-muted">{{facetValue.count}}</b>{{facetValue.value}}
+			</li>
+		</ul>
+
+	</div>
+
+	<div class="col-md-12" ng-class="{ 'col-md-9': showFilters }">
+		<div ng-repeat="entity in searchresults.entities">
+			<div ng-if=" $index % 4 == 0" imagesrow class="imagesrow clearfix">
+				<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index].entityId}}" imageid="{{searchresults.entities[$index].thumbnailId}}" link="entity/{{searchresults.entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
+					<p><small>{{ searchresults.entities[$index].title }}</small></p>
+				</div>
+				<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+1].entityId}}"   imageid="{{searchresults.entities[$index+1].thumbnailId}}" link="entity/{{searchresults.entities[$index+1].entityId}}" ng-click="setResultIndex(offset + $index+1)">
+					<p><small>{{ searchresults.entities[$index+1].title }}</small></p>
+				</div>
+				<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+2].entityId}}"   imageid="{{searchresults.entities[$index+2].thumbnailId}}" link="entity/{{searchresults.entities[$index+2].entityId}}" ng-click="setResultIndex(offset + $index+2)">
+					<p><small>{{ searchresults.entities[$index+2].title }}</small></p>
+				</div>
+				<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+3].entityId}}"   imageid="{{searchresults.entities[$index+3].thumbnailId}}" link="entity/{{searchresults.entities[$index+3].entityId}}" ng-click="setResultIndex(offset + $index+3)">
+					<p><small>{{ searchresults.entities[$index+3].title }}</small></p>
+				</div>
+		
+			</div>
 		</div>
 	</div>
 </div>

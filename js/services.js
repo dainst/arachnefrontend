@@ -255,6 +255,13 @@ angular.module('arachne.services', [])
 					}
 				});
 
+				function serializeParamsAndReturnContextSearch () {
+					var queryParams = { id : _currentEntity.entityId };
+					queryParams.fq = _activeContextFacets.map(function(facet){return facet.name + ":" + facet.value}).join(',')
+
+					return arachneDataService.contextQuery(queryParams);
+				};
+
 			  // PUBLIC
 				return {
 					getActiveContextFacets : function () {
@@ -279,19 +286,31 @@ angular.module('arachne.services', [])
 						return arachneDataService.context(queryParams);
 					},
 					getContextualEntitiesByAddingCategoryFacetValue : function (facetValue) {
+						// important to note: this method doesnt use _activeFacets!
 						return arachneDataService.contextEntities({id: _currentEntity.entityId, fq: 'facet_kategorie:' + facetValue});
 					},
 					getContextualQueryByAddingFacet : function (facetName, facetValue) {
+
 						// Check if facet is already added
 						for (var i = _activeContextFacets.length - 1; i >= 0; i--) {
 							if (_activeContextFacets[i].name == facetName) return;
 						};
 						// Add facet
 						_activeContextFacets.push({name: facetName, value: facetValue});
-						var queryParams = { id : _currentEntity.entityId };
+						
+						return serializeParamsAndReturnContextSearch();
+					},
+					getContextualQueryByRemovingFacet : function (facet) {
+						//remove Facet
+						for (var i = _activeContextFacets.length - 1; i >= 0; i--) {
+							if (_activeContextFacets[i].name == facet.name) {
+								_activeContextFacets.splice(i,1);
+							}
+						};
+						
+						
+						return serializeParamsAndReturnContextSearch()
 
-						queryParams.fq = _activeContextFacets.map(function(facet){return facet.name + ":" + facet.value}).join(',')
-						return arachneDataService.contextQuery(queryParams);
 					},
 					resetContextFacets : function () {
 						_activeContextFacets = [];

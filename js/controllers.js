@@ -94,10 +94,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.activeContextFacets = arachneEntity.getActiveContextFacets();
 			$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
 			$scope.addFacetToContext = function (facetName, facetValue){
-				$scope.selectedFacet = '';
 				$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet(facetName, facetValue);
 			}
-			
+			$scope.removeContextFacet = function (facet){
+				$scope.searchresults = arachneEntity.getContextualQueryByRemovingFacet(facet);
+			}
 		}
 	]
 )
@@ -118,6 +119,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					scope : $scope
 	      		});
 			} else {
+				// important to note: getContextualEntitiesByAddingCategoryFacetValue doesnt use _activeFacets!
+				// _activeFacets is only for the context modal
 				if (!facetValue.entities) facetValue.entities = arachneEntity.getContextualEntitiesByAddingCategoryFacetValue(facetValue.value);
 			}
 		}
