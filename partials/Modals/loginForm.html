@@ -12,6 +12,6 @@
 			<div class="form-group">
 				<input type="password" class="form-control" id="exampleInputPassword2" ng-model="loginData.password" placeholder="Passwort">
 			</div>
-			<button class="btn btn-primary" type="submit">Anmelden</button>
+			<button ng-if="loginData.password !== '' && loginData.password !== NULL && loginData.user !== '' && loginData.user !== NULL " class="btn btn-primary" type="submit">Anmelden</button>
 		</form>
 	</div>
