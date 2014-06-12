@@ -42,8 +42,32 @@ angular.module('arachne.services', [])
 						transformResponse : function (data) {
 							var data = JSON.parse(data);
 							data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
-							data.markers = new L.MarkerClusterGroup();
-							
+							data.markers = new L.MarkerClusterGroup(
+								{
+								    iconCreateFunction: function(cluster) {
+
+
+								        var markers = cluster.getAllChildMarkers();
+										var entityCount = 0;
+										for (var i = 0; i < markers.length; i++) {
+											entityCount += markers[i].options.entityCount;
+										}
+
+										var childCount = cluster.getChildCount();
+
+										var c = ' marker-cluster-';
+										if (childCount < 10) {
+											c += 'small';
+										} else if (childCount < 100) {
+											c += 'medium';
+										} else {
+											c += 'large';
+										}
+
+										return new L.DivIcon({ html: '<div><span>' + entityCount+ ' at ' + childCount + ' Places</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+								    }
+								}
+							);
 							var facet_geo = {}
 							for (var i = data.facets.length - 1; i >= 0; i--) {
 								if(data.facets[i].name === "facet_geo") {
@@ -58,9 +82,9 @@ angular.module('arachne.services', [])
 								var coords = coordsString.split(',');
 								var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)-1) + "</b><br/>";
 									title += "Einträge, <b>insgeamt</b>: " + facetValue.count + "<br>";
-									title += "<a href='search?q=*&fq=facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+									title += "<a href='search?q=*&fq="+$location.$$search.fq+",facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 
-								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
+								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title, entityCount : facetValue.count });
 								marker.bindPopup(title);
 								data.markers.addLayer(marker);
 							}

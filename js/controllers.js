@@ -483,7 +483,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				imageId : 424501,
 				title : "Bauwerke",
 				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
-				customlink : "category/?q=*&fq=facet_kategorie:bauwerk&fl=1500"
+				customlink : "category/?q=*&fq=facet_kategorie:Bauwerke&fl=1500"
 			},
 			{
 				imageId : 1933196,
