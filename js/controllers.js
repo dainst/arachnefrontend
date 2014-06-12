@@ -156,6 +156,43 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.bookmarklists = NoteService.queryBookmarListsForEntityId($routeParams.id);
 		}
 
+		$scope.updateBookmarkModal= function(id, commentary){
+			$scope.commentaryCash = commentary;
+			var modalInstance = $modal.open({
+				templateUrl: 'partials/Modals/updateBookmarkModal.html',
+				scope: $scope
+			});	
+
+			modalInstance.close = function(commentaryCash){
+				if(commentaryCash == undefined || commentaryCash == ""){
+					alert("Kommentar setzen!")
+				} else {
+					modalInstance.dismiss();
+					$scope.updateBookmark(id, commentaryCash);
+				}
+			}
+		}
+
+		$scope.updateBookmark = function(id, commentary){
+			var bm = new Object();
+
+			NoteService.getBookmark(id,
+				function(data){
+					bm = data;
+					bm.commentary = commentary;
+
+					NoteService.updateBookmark(bm, id, function(data){
+							console.log("updated bookmark");
+
+						},function(status){
+							console.log("update failed" + status);
+						});
+
+					$scope.queryBookmarListsForEntityId();
+				}, function(status){
+					console.log("error getting Bookmark" + status);
+				});	
+		}
 
 		$scope.deleteBookmark = function(bookmarkId){
 			NoteService.deleteBookmark(bookmarkId,

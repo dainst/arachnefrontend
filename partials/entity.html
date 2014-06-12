@@ -72,7 +72,16 @@
 			<div ng-repeat="bookmarklist in bookmarklists">
 				<div ng-repeat="bookmark in bookmarklist.bookmarks" class="panel panel-warning">
 					<div class="panel-heading">
-						{{ bookmarklist.name }}:<button type="button"  ng-click="deleteBookmark(bookmark.id)" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						{{ bookmarklist.name }}: 
+						<div class="btn-group pull-right">
+							<button class="btn btn-sm"  ng-click="updateBookmarkModal(bookmark.id, bookmark.commentary)" data-dismiss="alert" >
+								<span class="glyphicon glyphicon-pencil"></span>
+							</button>
+							<button class="btn btn-sm"  ng-click="deleteBookmark(bookmark.id)" class="close" data-dismiss="alert" >
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+							
+						</div>
 					</div>
 					<div class="panel-body small">
 						{{ bookmark.commentary }}<br>
