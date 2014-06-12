@@ -40,7 +40,7 @@
 							
 					    	<input type="number" size="4" ng-model="resultIndex" style="width:50%" class="form-control input-sm">
 					    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = resultIndex" ng-show="resultIndex!=oldResultIndex">
-					        	<button class="btn btn-default btn-sm" type="button">springe</button>
+					        	<button ng-click="entityCtrl.goToResultNr(resultIndex)" class="btn btn-default btn-sm" type="button">springe</button>
 					    	</span>
 					    </div>
 					</form>
@@ -92,14 +92,22 @@
 			</h2>
 		</div>
 		<div class="row">
-			<div class="col-md-4">
-				<b>Arachne-ID:</b> {{ entity.entityId }}
+			<div class="col-md-3">
+				<b>Entity-ID:</b> {{ entity.entityId }}
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<b>Seriennummer:</b> {{ entity.internalId }}
 			</div>
-			<div class="col-md-4">
-				<button ng-show="!permaLink" type="button" class="btn btn-default btn-xs pull-right" ng-click="permaLink=true">Perma-Link anzeigen</button><div ng-show="permaLink"><b>Perma-Link:</b><br>{{ serverUri }}/entity/{{entity.entityId}}</div>
+			<div class="col-md-3">
+				<b>Kategorie:</b> {{ entity.type }}
+			</div>
+			<div class="col-md-3">
+				<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs pull-right">Perma-Link anzeigen</button>
+			</div>
+		</div>
+		<div class="row" ng-hide="!permaLink">
+			<div class="col-md-12">
+				<b>Perma-Link: </b>{{ serverUri }}/entity/{{entity.entityId}}
 			</div>
 		</div>
 		  

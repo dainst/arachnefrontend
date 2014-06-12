@@ -42,7 +42,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	                
 	            },
 	            function(error) {
-	                $scope.loginerror = true;
+	                $scope.loginerror = true;	               
 	                var resetLoginerror = function () {
 	                	$scope.loginerror = false;
 	                };
@@ -126,6 +126,18 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 		this.goToResults = function () {
 			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
+		}
+		this.goToResultNr = function(number) {
+			console.log($scope.resultIndex);
+			console.log($scope.nextEntitySearch.size);
+			console.log(number);
+
+			/*if((number > 0) && (number!=$scope.resultIndex) && (number < $scope.nextEntitySearch.size)){
+				arachneSearch.setResultIndex(number)
+				var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
+					qHash.resultIndex = arachneSearch.getResultIndex();
+				$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search(qHash);
+			}*/
 		}
 		this.goToNextResult = function () {
 			arachneSearch.setResultIndex($scope.resultIndex+1);
@@ -473,7 +485,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 
-		$scope.screenHeight = window.outerHeight-480;
+		angular.element(document).ready(function () {
+        	$scope.screenHeight = window.outerHeight-480;
+			$scope.screenHeight += "px";
+    	});
+		
 		$scope.selection = 'search';
 		var hash = new Object();
 		hash.q = "*";

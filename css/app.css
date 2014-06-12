@@ -123,6 +123,7 @@ body {
   -webkit-animation: spin 1.5s linear infinite;
   animation: spin 1.5s linear infinite;
 }
+
 @-webkit-keyframes spin{
   0%{-webkit-transform: rotate(0deg);}
   100%{-webkit-transform: rotate(720deg);}
@@ -134,12 +135,14 @@ body {
 
 /* OVERWRITING MARKER CLUSTER STYLING FOR LEAFLET PLUGIN MARKERCLUSTER */
 
+
 .marker-cluster div {
     width: 32px;
     height: 32px;
     margin-left: 4px;
     margin-top: 4px;
 }
+
 .marker-cluster span {
   line-height:11px;
   font-size:11px;

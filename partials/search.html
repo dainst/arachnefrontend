@@ -1,6 +1,20 @@
 <div class="row" ng-controller="SearchCtrl as searchCtrl">
 	<div ng-hide="searchresults.size >= 0" class="loading"></div>
-	<div ng-if="searchresults.size == 0">Keine Ergebnisse gefunden</div>
+	<div ng-if="searchresults.size == 0">
+		<div class="row" style=" height:{{screenHeight}}px;">
+			<div class="col-md-4 col-md-offset-4 text-center">
+				Keine Ergebnisse zu <b>"{{currentQueryParameters.q}}"</b> gefunden. Suche erneut starten ?<hr/>
+				<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px"><img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png"> arachne <br></h1>
+				<h5 style="opacity: 0.57;" ng-show="search.size">  {{ search.size }} Einträge</h5>
+				<form class="input-group form-inline" role="search" method="GET" action="search/" >
+					<input type="text" ng-model="q" name="q" class="form-control" placeholder="Suche">
+					<span class="input-group-btn">
+						<button type="submit" class="btn btn-default" type="button">Suchen</button>
+					</span>
+				</form>
+			</div>
+		</div>
+	</div>
 
 	<div class="col-md-2 col-sm-3" ng-if="searchresults.size">
 		<div>
@@ -12,8 +26,7 @@
 				<input  name="q"  class="form-control" value="{{currentQueryParameters.q}}">
 				<input style="display:none" name="fq" value="{{currentQueryParameters.fq}}">
 				<input name="limit" style="display:none" ng-if="currentQueryParameters.limit" value="{{currentQueryParameters.limit}}">
-				<input name="offset" style="display:none" ng-if="currentQueryParameters.offset" value="{{currentQueryParameters.offset}}">
-
+				<input name="offset" style="display:none" ng-if="currentQueryParameters.offset" value="{{currentQueryParameters.offset}}">‚
 				<button class="btn btn-default" style="display:none;" type="submit">Submit</button>
 
 			</form>
@@ -55,19 +68,19 @@
 			<div ng-repeat="entity in searchresults.entities">
 				<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow clearfix">
 					<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index].entityId}}" imageid="{{searchresults.entities[$index].thumbnailId}}" link="entity/{{searchresults.entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
-						<p><small>{{ searchresults.entities[$index].title }}</small></p>
+						<p style="height: 55px; overflow: hidden;"><small>{{ searchresults.entities[$index].title }}</small></p>
 					</div>
 					<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+1].entityId}}"   imageid="{{searchresults.entities[$index+1].thumbnailId}}" link="entity/{{searchresults.entities[$index+1].entityId}}" ng-click="setResultIndex(offset + $index+1)">
-						<p><small>{{ searchresults.entities[$index+1].title }}</small></p>
+						<p style="height: 55px; overflow: hidden;"><small>{{ searchresults.entities[$index+1].title }}</small></p>
 					</div>
 					<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+2].entityId}}"   imageid="{{searchresults.entities[$index+2].thumbnailId}}" link="entity/{{searchresults.entities[$index+2].entityId}}" ng-click="setResultIndex(offset + $index+2)">
-						<p><small>{{ searchresults.entities[$index+2].title }}</small></p>
+						<p style="height: 55px; overflow: hidden;"><small>{{ searchresults.entities[$index+2].title }}</small></p>
 					</div>
 					<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+3].entityId}}"   imageid="{{searchresults.entities[$index+3].thumbnailId}}" link="entity/{{searchresults.entities[$index+3].entityId}}" ng-click="setResultIndex(offset + $index+3)">
-						<p><small>{{ searchresults.entities[$index+3].title }}</small></p>
+						<p style="height: 55px; overflow: hidden;"><small>{{ searchresults.entities[$index+3].title }}</small></p>
 					</div>
 					<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+4].entityId}}"   imageid="{{searchresults.entities[$index+4].thumbnailId}}" link="entity/{{searchresults.entities[$index+4].entityId}}" ng-click="setResultIndex(offset + $index+4)">
-						<p><small>{{ searchresults.entities[$index+4].title }}</small></p>
+						<p style="height: 55px; overflow: hidden;"><small>{{ searchresults.entities[$index+4].title }}</small></p>
 					</div>
 				</div>
 			</div>
