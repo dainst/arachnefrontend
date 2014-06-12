@@ -94,6 +94,9 @@ angular.module('arachne.directives', []).
 	.directive('map', function() {
     return {
         restrict: 'A',
+        scope: {
+        	markers: '=',
+        },
         link: function(scope) 
         {
 			var map = L.map('map').setView([40, -10], 3);
@@ -103,8 +106,11 @@ angular.module('arachne.directives', []).
 		    });
 		    map.addLayer(layer);			
         	L.Icon.Default.imagePath = 'img';
-        	var markers = scope.searchresults.markers;	 
-	        map.addLayer(markers);   
+        	//var markers = scope.searchresults.markers;
+        	if(scope.markers.length != 0)
+        	{
+	        	map.addLayer(scope.markers);
+	        }  
         }
     };
 	})	
