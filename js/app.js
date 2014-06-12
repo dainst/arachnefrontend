@@ -27,5 +27,6 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 }]).constant('arachneSettings', {
 		dataserviceUri : "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice",
 		// dataserviceUri : "http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice"
-		serverUri : "http://crazyhorse.archaeologie.uni-koeln.de/~obensch/frontend"
+		serverUri : "http://crazyhorse.archaeologie.uni-koeln.de/arachne4"
+		//serverUri : "http://nighthorse01.dai-cloud.uni-koeln.de"
 });

@@ -99,7 +99,12 @@
 				<b>Seriennummer:</b> {{ entity.internalId }}
 			</div>
 			<div class="col-md-4">
-				<button ng-show="!permaLink" type="button" class="btn btn-default btn-xs pull-right" ng-click="permaLink=true">Perma-Link anzeigen</button><div ng-show="permaLink"><b>Perma-Link:</b><br>{{ serverUri }}/entity/{{entity.entityId}}</div>
+				<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs pull-right">Perma-Link anzeigen</button>
+			</div>
+		</div>
+		<div class="row" ng-hide="!permaLink">
+			<div class="col-md-12">
+				<b>Perma-Link: </b>{{ serverUri }}/entity/{{entity.entityId}}
 			</div>
 		</div>
 		  
