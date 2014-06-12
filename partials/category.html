@@ -1,7 +1,7 @@
 <div ng-controller="SearchCtrl as searchCtrl">
 	<div class="row fullscreenrow">
    		<div ng-hide="searchresults.markers" class="loading"></div>
-        <div ng-if="searchresults.markers" class="col-md-12 halfscreenMap" map id="map"></div>
+        <div ng-if="searchresults.markers" markers="searchresults.markers" class="col-md-12 halfscreenMap" map id="map"></div>
 
 	</div>
 	<div class="row" ng-if="searchresults.markers">
