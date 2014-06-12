@@ -2,32 +2,56 @@
 
 /* Directives */
 angular.module('arachne.directives', []).
-	directive('imagesrow', function() {
+	directive('imagesrow', function($window) {
 		return {
 			restrict: 'A',
-			link: function (scope, elem, attrs) {
-				var images = (angular.element(elem).find('img'));
-				var counter = images.length
-				var listener = function () {
-					counter--;
-					if (counter==0) {
-						var scalingPercentage = 0, imagesWidth = 0;
-						for (var i = images.length - 1; i >= 0; i--) {
-							// 4 is padding of image
-							imagesWidth += images[i].width;
-						};
-						// 30 is padding of container
-						scalingPercentage = (elem.parent()[0].clientWidth-30) / (imagesWidth / 100);
-						for (var i = images.length - 1; i >= 0; i--) {
-							var newWidth =  (images[i].width/101)*scalingPercentage;
-							images[i].width = newWidth;
-							images[i].style.display = 'block';
-							images[i].parentNode.parentNode.style.width = newWidth + "px";
-							images[i].removeEventListener("load", listener, false);
+			link: function (scope, element, attrs) {
 
-						};
+				var width 				= element[0].clientWidth;
+				var images 				= element[0].getElementsByTagName('img');
+				var imagesLeftToLoad 	= images.length;
+
+
+				var listener = function () {
+					if(imagesLeftToLoad != 0) imagesLeftToLoad--;
+
+					// BREAK if there are any images left to be loaded
+					if (imagesLeftToLoad != 0) return;
+
+					var scalingPercentage = 0, imagesWidth = 0;
+					for (var i = images.length - 1; i >= 0; i--) {
+						// 4 is padding of image
+						imagesWidth += images[i].width;
 					};
+					// 30 is padding of container
+					scalingPercentage = (element.parent()[0].clientWidth-30) / (imagesWidth / 100);
+					for (var i = images.length - 1; i >= 0; i--) {
+						var newWidth =  (images[i].width/101)*scalingPercentage;
+						images[i].width = newWidth;
+						images[i].style.display = 'block';
+						images[i].parentNode.parentNode.style.width = newWidth + "px";
+						images[i].removeEventListener("load", listener, false);
+
+					};
+					
 				};
+				
+
+				// watching for element resizing
+				// important for context modal, where the filter comes in from the side and resizes the content
+				scope.$watch(function(){
+					if(element[0].clientWidth != width) {
+						width = element[0].clientWidth;
+						listener()		
+					}
+				});
+
+				// watching for window resizing
+				// important for the restults
+				angular.element($window).bind('resize', function() {
+					listener()
+				});
+				
 
 				for (var i = images.length - 1; i >= 0; i--) {
 					images[i].addEventListener(

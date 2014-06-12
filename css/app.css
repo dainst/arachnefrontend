@@ -133,4 +133,16 @@ body {
   100%{transform: rotate(720deg);}
 }
 
+/* OVERWRITING MARKER CLUSTER STYLING FOR LEAFLET PLUGIN MARKERCLUSTER */
+
+.marker-cluster div {
+    width: 32px;
+    height: 32px;
+    margin-left: 4px;
+    margin-top: 4px;
+}
+.marker-cluster span {
+  line-height:11px;
+  font-size:11px;
+}
 

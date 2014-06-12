@@ -34,33 +34,7 @@ angular.module('arachne.services', [])
 							return data;
 						}
 					},
-					context :  {
-						//in transformReponse an Array gets build, so an array should be the aspected result
-						isArray: true,
-						url : arachneSettings.dataserviceUri + '/contexts/:id',
-						method: 'GET',
-						transformResponse : function (data) {
-							var facets = JSON.parse(data).facets;
-							var categoryFacet = {};
-							for (var i = facets.length - 1; i >= 0; i--) {
-								if(facets[i].name == "facet_kategorie") {
-									categoryFacet = facets[i];
-									break;
-								}
-							};
-							
-							return categoryFacet.values;
-						}
-					},
-					contextEntities : {
-						isArray: true,
-						url : arachneSettings.dataserviceUri + '/contexts/:id',
-						method: 'GET',
-						transformResponse : function (data) {
-							return JSON.parse(data).entities;
-						}
 
-					},
 					queryWithMarkers : {
 						url : arachneSettings.dataserviceUri + '/search',
 						isArray: false,
@@ -68,8 +42,32 @@ angular.module('arachne.services', [])
 						transformResponse : function (data) {
 							var data = JSON.parse(data);
 							data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
-							data.markers = new L.MarkerClusterGroup();
-							
+							data.markers = new L.MarkerClusterGroup(
+								{
+								    iconCreateFunction: function(cluster) {
+
+
+								        var markers = cluster.getAllChildMarkers();
+										var entityCount = 0;
+										for (var i = 0; i < markers.length; i++) {
+											entityCount += markers[i].options.entityCount;
+										}
+
+										var childCount = cluster.getChildCount();
+
+										var c = ' marker-cluster-';
+										if (childCount < 10) {
+											c += 'small';
+										} else if (childCount < 100) {
+											c += 'medium';
+										} else {
+											c += 'large';
+										}
+
+										return new L.DivIcon({ html: '<div><span>' + entityCount+ ' at ' + childCount + ' Places</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+								    }
+								}
+							);
 							var facet_geo = {}
 							for (var i = data.facets.length - 1; i >= 0; i--) {
 								if(data.facets[i].name === "facet_geo") {
@@ -84,9 +82,9 @@ angular.module('arachne.services', [])
 								var coords = coordsString.split(',');
 								var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)-1) + "</b><br/>";
 									title += "Einträge, <b>insgeamt</b>: " + facetValue.count + "<br>";
-									title += "<a href='search?q=*&fq=facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+									title += "<a href='search?q=*&fq="+$location.$$search.fq+",facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 
-								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title });
+								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title, entityCount : facetValue.count });
 								marker.bindPopup(title);
 								data.markers.addLayer(marker);
 							}
@@ -120,12 +118,7 @@ angular.module('arachne.services', [])
 					search : function (queryParams, successMethod) {
 						return arachneDataService.query(queryParams, successMethod);
 					},
-					getContext : function (queryParams) {
-						return arachneDataService.context(queryParams);
-					},
-					getContextualEntities : function (queryParams) {
-						return arachneDataService.contextEntities(queryParams);
-					},
+					
 					
 				  
 				  //SETTERS FOR VARIABLES
@@ -218,11 +211,44 @@ angular.module('arachne.services', [])
 
 			  // PERSISTENT OBJECTS, PRIVATE, USE GETTERS AND SETTERS
 				var _currentEntity = {};
+				var _activeContextFacets  = [];
+
 			  //SERVERCONNECTION (PRIVATE)
 				var arachneDataService = $resource('', { }, {
 					get : {
 						url: arachneSettings.dataserviceUri + '/entity/:id',
 						isArray : false,
+						method: 'GET'
+					},
+					context :  {
+						//in transformReponse an Array gets build, so an array should be the aspected result
+						isArray: true,
+						url : arachneSettings.dataserviceUri + '/contexts/:id',
+						method: 'GET',
+						transformResponse : function (data) {
+							var facets = JSON.parse(data).facets;
+							var categoryFacet = {};
+							for (var i = facets.length - 1; i >= 0; i--) {
+								if(facets[i].name == "facet_kategorie") {
+									categoryFacet = facets[i];
+									break;
+								}
+							};
+							
+							return categoryFacet.values;
+						}
+					},
+					contextEntities : {
+						isArray: true,
+						url : arachneSettings.dataserviceUri + '/contexts/:id',
+						method: 'GET',
+						transformResponse : function (data) {
+							return JSON.parse(data).entities;
+						}
+					},
+					contextQuery : {
+						isArray: false,
+						url : arachneSettings.dataserviceUri + '/contexts/:id',
 						method: 'GET'
 					},
 					getSpecialNavigations : {
@@ -253,8 +279,18 @@ angular.module('arachne.services', [])
 					}
 				});
 
+				function serializeParamsAndReturnContextSearch () {
+					var queryParams = { id : _currentEntity.entityId };
+					queryParams.fq = _activeContextFacets.map(function(facet){return facet.name + ":" + facet.value}).join(',')
+
+					return arachneDataService.contextQuery(queryParams);
+				};
+
 			  // PUBLIC
 				return {
+					getActiveContextFacets : function () {
+						return _activeContextFacets;
+					},
 					getEntityById : function(entityId) {
 						if (_currentEntity.entityId == entityId) {
 							//Caching!
@@ -269,6 +305,39 @@ angular.module('arachne.services', [])
 					},
 					getSpecialNavigations : function(entityId) {
 						return arachneDataService.getSpecialNavigations({id:entityId});
+					},
+					getContext : function (queryParams) {
+						return arachneDataService.context(queryParams);
+					},
+					getContextualEntitiesByAddingCategoryFacetValue : function (facetValue) {
+						// important to note: this method doesnt use _activeFacets!
+						return arachneDataService.contextEntities({id: _currentEntity.entityId, fq: 'facet_kategorie:' + facetValue});
+					},
+					getContextualQueryByAddingFacet : function (facetName, facetValue) {
+
+						// Check if facet is already added
+						for (var i = _activeContextFacets.length - 1; i >= 0; i--) {
+							if (_activeContextFacets[i].name == facetName) return;
+						};
+						// Add facet
+						_activeContextFacets.push({name: facetName, value: facetValue});
+						
+						return serializeParamsAndReturnContextSearch();
+					},
+					getContextualQueryByRemovingFacet : function (facet) {
+						//remove Facet
+						for (var i = _activeContextFacets.length - 1; i >= 0; i--) {
+							if (_activeContextFacets[i].name == facet.name) {
+								_activeContextFacets.splice(i,1);
+							}
+						};
+						
+						
+						return serializeParamsAndReturnContextSearch()
+
+					},
+					resetContextFacets : function () {
+						_activeContextFacets = [];
 					}
 				}
 			}

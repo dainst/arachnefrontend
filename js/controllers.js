@@ -73,8 +73,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
-		} else if(currentTemplateURL == 'partials/entity.html') {
-			$scope.entities = arachneSearch.getContextualEntities({id : $route.current.params.id, fq: 'facet_kategorie:' + $scope.categoryFacetValueForContext.value })
 		} else {
 			$scope.searchresults = arachneSearch.persistentSearch();
 
@@ -90,6 +88,20 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 }
 ]
 )
+.controller('ContextCtrl',
+	['arachneEntity','$scope', 
+		function (arachneEntity, $scope) {
+			$scope.activeContextFacets = arachneEntity.getActiveContextFacets();
+			$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
+			$scope.addFacetToContext = function (facetName, facetValue){
+				$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet(facetName, facetValue);
+			}
+			$scope.removeContextFacet = function (facet){
+				$scope.searchresults = arachneEntity.getContextualQueryByRemovingFacet(facet);
+			}
+		}
+	]
+)
 .controller('EntityCtrl',
 	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'sessionService',
 	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, sessionService ) {
@@ -98,17 +110,18 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.serverUri = arachneSettings.serverUri;
 		
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
-			$scope.categoryFacetValueForContext = facetValue;
-			console.log(facetValue.value)
-			if(facetValue.count > 15 || facetValue.value === "Buchseiten") {
+			$scope.categoryFacetValueForContext =  facetValue;
+			if(facetValue.count > 15) {
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/Modals/contextualEntitiesModal.html',
-					controller: 'SearchCtrl',
+					controller: 'ContextCtrl',
 					size: 'lg',
 					scope : $scope
 	      		});
 			} else {
-				if (!facetValue.entities) facetValue.entities = arachneSearch.getContextualEntities({id :$routeParams.id, fq: 'facet_kategorie:' + facetValue.value});
+				// important to note: getContextualEntitiesByAddingCategoryFacetValue doesnt use _activeFacets!
+				// _activeFacets is only for the context modal
+				if (!facetValue.entities) facetValue.entities = arachneEntity.getContextualEntitiesByAddingCategoryFacetValue(facetValue.value);
 			}
 		}
 		this.goToResults = function () {
@@ -234,7 +247,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
 
-		$scope.context = arachneSearch.getContext({id:$routeParams.id});
+		$scope.context = arachneEntity.getContext({id:$routeParams.id});
 		$scope.isBookmark = false;
 
 		if($scope.resultIndex != null) {
@@ -486,7 +499,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				imageId : 424501,
 				title : "Bauwerke",
 				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
-				customlink : "category/?q=*&fq=facet_kategorie:bauwerk&fl=1500"
+				customlink : "category/?q=*&fq=facet_kategorie:Bauwerke&fl=1500"
 			},
 			{
 				imageId : 1933196,
