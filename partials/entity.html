@@ -92,13 +92,16 @@
 			</h2>
 		</div>
 		<div class="row">
-			<div class="col-md-4">
-				<b>Arachne-ID:</b> {{ entity.entityId }}
+			<div class="col-md-3">
+				<b>Entity-ID:</b> {{ entity.entityId }}
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<b>Seriennummer:</b> {{ entity.internalId }}
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-3">
+				<b>Kategorie:</b> {{ entity.type }}
+			</div>
+			<div class="col-md-3">
 				<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs pull-right">Perma-Link anzeigen</button>
 			</div>
 		</div>
