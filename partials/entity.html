@@ -40,7 +40,7 @@
 							
 					    	<input type="number" size="4" ng-model="resultIndex" style="width:50%" class="form-control input-sm">
 					    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = resultIndex" ng-show="resultIndex!=oldResultIndex">
-					        	<button class="btn btn-default btn-sm" type="button">springe</button>
+					        	<button ng-click="entityCtrl.goToResultNr(resultIndex)" class="btn btn-default btn-sm" type="button">springe</button>
 					    	</span>
 					    </div>
 					</form>

@@ -7,12 +7,15 @@
 					<button type="button" class="btn btn-default btn-sm btn-startsite-tab" ng-class="{ 'active': selection == 'search' || selection == undefined }" ng-click="selection='search'">{{ "msg_search" | i18n }}</button>
 				</div>
 				<div class="btn-group">
+					<a href="javascript:document.getElementById('categories_container').scrollIntoView(true);"><button type="button" class="btn btn-default btn-sm btn-startsite-tab">Kategorien</button></a>
+				</div>
+				<div class="btn-group">
 					<button type="button" class="btn btn-default btn-sm btn-startsite-tab"  ng-class="{ 'active': selection == 'news' || selection == undefined }" ng-click="selection='news'; newsController.loadNews()">News</button>
 				</div>
-
 				<div class="btn-group">
 					<button type="button" class="btn btn-default btn-sm btn-startsite-tab"  ng-class="{ 'active': selection == 'projects' || selection == undefined }" ng-click="selection='projects'; newsController.loadTeaser()">Projekte</button>
 				</div>
+				
 				<!--<div class="btn-group">
 					<button type="button" class="btn btn-default btn-sm btn-startsite-tab" ng-class="{ 'active': selection == 'youtube' || selection == undefined }" ng-click="selection='youtube'">Screencast</button>
 				</div>-->
@@ -22,7 +25,7 @@
 
 	<div ng-switch on="selection">
 		<div ng-switch-when="search" style="padding-top:80px;">
-			<div class="row" style=" height:{{screenHeight}}px;">
+			<div class="row" ng-style="{'height':screenHeight}" ><!-- style=" height:{{screenHeight}}px;" -->
 				<div class="col-md-4 col-md-offset-4 text-center">
 					<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px"><img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png"> arachne <br></h1>
 					<h5 style="opacity: 0.57;" ng-show="search.size">  {{ search.size }} Einträge</h5>
@@ -66,8 +69,8 @@
 		</div>
 		<div ng-switch-when="projects">
 			<div class="row">
-				<accordion class="col-md-10 col-md-offset-1" close-others="true">
-					<accordion-group ng-repeat="project in projectList" heading="{{project.title}}" is-open="false">
+				<accordion class="col-md-10 col-md-offset-1" close-others="false">
+					<accordion-group ng-repeat="project in projectList" heading="{{project.title}}" is-open="true">
 						<div class="col-md-4">
 							<img class="img-responsive" ng-src="{{project.images[0]}}"></img>
 						</div>
