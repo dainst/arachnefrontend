@@ -63,6 +63,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
 
+
+
 		this.addFacet = function (facetName, facetValue) {
 			arachneSearch.addFacet(facetName, facetValue);	
 		}
@@ -108,7 +110,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.user = sessionService.user;
 		$scope.serverUri = arachneSettings.serverUri;
-		console.log(arachneEntity);
+		
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			$scope.categoryFacetValueForContext =  facetValue;
 			if(facetValue.count > 15) {

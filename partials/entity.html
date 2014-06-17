@@ -93,32 +93,35 @@
 		</div>
 		<div class="row">
 			<div class="col-md-3">
-				<b>Entity-ID:</b> {{ entity.entityId }}
+				<b>Arachne-ID:</b> {{ entity.entityId }}
 			</div>
 			<div class="col-md-3">
 				<b>Seriennummer:</b> {{ entity.internalId }}
 			</div>
 			<div class="col-md-3">
-				<b>Kategorie:</b> {{ entity.type }}
+				<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs pull-right">Perma-Link anzeigen</button>
 			</div>
 			<div class="col-md-3">
-				<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs pull-right">Perma-Link anzeigen</button>
+				<button ng-click="showMap=!showMap" class="btn btn-default btn-xs pull-right">Map anzeigen</button>
 			</div>
 		</div>
 		<div class="row" ng-hide="!permaLink">
 			<div class="col-md-12">
 				<b>Perma-Link: </b>{{ serverUri }}/entity/{{entity.entityId}}
 			</div>
+		</div>	
+		<div class="row" ng-hide="!showMap">
+			<div class="col-md-12">
+				<div ng-if="entity.title" entities="[entity]" style="height:300px; width:600px" map id="map"></div>
+			</div>
 		</div>
-
-		<div class="col-md-12 fullscreenMap" map id="map"></div>
 		  
 		<hr/>
 		<div class="sections" ng-repeat="section in entity.sections.content" ng-include="'section_template.html'"></div>
 		<div ng-if="entity.additionalContent.ocrText">
 			<div class="page-header"><h4>OCR Text-Analyse</h4></div>
 			<ul>{{entity.additionalContent.ocrText}}</ul>
-		</div>
+		</div>s
 		<div ng-if="specialNavigations.specialNavigationElements" class="page-header">
 			<h4>Andere Ansichten dieses Datensatzes</h4>
 		</div>
@@ -165,4 +168,5 @@
 				</accordion-group>
 		</accordion>
 	</div>
+	
 </div>

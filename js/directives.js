@@ -91,29 +91,99 @@ angular.module('arachne.directives', []).
     		}
   		}
 	}])
-	.directive('map', function() {
+	.directive('map', ['$location', function($location) {
     return {
         restrict: 'A',
         scope: {
-        	markers: '=',
+        	searchresults: '=',
+        	entities: '=',
         },
         link: function(scope) 
-        {
-			var map = L.map('map').setView([40, -10], 3);
+        {	
+        	var map = L.map('map').setView([40, -10], 3);
 
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 		        maxZoom: 18
 		    });
 		    map.addLayer(layer);			
         	L.Icon.Default.imagePath = 'img';
-        	//var markers = scope.searchresults.markers;
-        	if(scope.markers.length != 0)
+
+			var createMarkers = function(facet_geoValues){
+				var markerClusterGroup = new L.MarkerClusterGroup(
+				{
+				    iconCreateFunction: function(cluster) {
+
+				        var markers = cluster.getAllChildMarkers();
+						var entityCount = 0;
+						for (var i = 0; i < markers.length; i++) {
+							entityCount += markers[i].options.entityCount;
+						}
+
+						var childCount = cluster.getChildCount();
+
+						var c = ' marker-cluster-';
+						if (childCount < 10) {
+							c += 'small';
+						} else if (childCount < 100) {
+							c += 'medium';
+						} else {
+							c += 'large';
+						}
+
+						return new L.DivIcon({ html: '<div><span>' + entityCount+ ' at ' + childCount + ' Places</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+				    }
+				});
+
+				for (var i = facet_geoValues.length - 1; i >= 0; i--) {
+
+					var facetValue = facet_geoValues[i];
+					var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
+					var coords = coordsString.split(',');
+					var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)-1) + "</b><br/>";
+					title += "Einträge, <b>insgeamt</b>: " + facetValue.count + "<br>";
+					if($location.$$search.fq)
+						title += "<a href='search?q=*&fq="+$location.$$search.fq+",facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+					else
+						title += "<a href='search?q=*&fq=facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+					
+					var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title, entityCount : facetValue.count });
+					marker.bindPopup(title);
+					markerClusterGroup.addLayer(marker);
+				}
+				if(facet_geoValues.length == 1)
+				{
+					var facetValue = facet_geoValues[0];
+					var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
+					var coords = coordsString.split(',');
+					map.setView(coords, 6);
+				}
+
+				map.addLayer(markerClusterGroup);
+				map.invalidateSize();
+			}
+
+			if(scope.searchresults)
         	{
-	        	map.addLayer(scope.markers);
-	        }  
+        		for (var i = scope.searchresults.facets.length - 1; i >= 0; i--) {
+					if(scope.searchresults.facets[i].name === "facet_geo") {
+						console.log(scope.searchresults.facets[i].values);
+						createMarkers(scope.searchresults.facets[i].values);
+						break;
+					}
+				};
+        	}
+        	if(scope.entities)
+        	{
+        		var facet_geo = Array();
+        		for (var i = scope.entities.length - 1; i >= 0; i--) {
+
+        			facet_geo.push({value: scope.entities[i].facet_geo[0], count: 1});
+        		}
+        		createMarkers(facet_geo);
+        	}      	
         }
     };
-	})	
+	}])	
 	.directive('zoomifyimg', ['arachneSettings', function(arachneSettings) {
     	return {
 	        restrict: 'A',
