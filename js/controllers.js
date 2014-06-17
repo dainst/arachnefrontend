@@ -13,7 +13,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				templateUrl: 'partials/Modals/loginForm.html',
 				controller: 'LoginCtrl'
 			});			
-			console.log("open complete");	    
+			//console.log("open complete");	    
 		};
 	}
 	]
@@ -27,7 +27,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.loginerror = false;
 
 		$scope.login = function () {
-			console.log("login");
+			//console.log("login");
 			sessionService.login(
 				{
 					user: $scope.loginData.user,
@@ -52,7 +52,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.cancel = function () {
 			$modalInstance.dismiss();
 		};
-		console.log("loginCtrl complete");
 	
 	}])
 .controller('SearchCtrl',
@@ -115,7 +114,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/Modals/contextualEntitiesModal.html',
 					controller: 'ContextCtrl',
-					//backdrop : 'static', 
 					size: 'lg',
 					scope : $scope
 	      		});
@@ -134,9 +132,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
 		}
 		this.goToResultNr = function(number) {
-			console.log($scope.resultIndex);
-			console.log($scope.nextEntitySearch.size);
-			console.log(number);
 
 			/*if((number > 0) && (number!=$scope.resultIndex) && (number < $scope.nextEntitySearch.size)){
 				arachneSearch.setResultIndex(number)
@@ -188,15 +183,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					bm.commentary = commentary;
 
 					NoteService.updateBookmark(bm, id, function(data){
-							console.log("updated bookmark");
-
+							//updated BM,... what happens then?
 						},function(status){
-							console.log("update failed" + status);
+							//failed to update BM,... implementation needed
 						});
 
 					$scope.queryBookmarListsForEntityId();
 				}, function(status){
-					console.log("error getting Bookmark" + status);
+					//console.log("error getting Bookmark" + status);
 				});	
 		}
 
@@ -314,17 +308,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	NoteService.getBookmarksLists(
 		function(data){
-			console.log("habe die Liste!");
+			//console.log("habe die Liste!");
 			$scope.bookmarkError = 0;
 			$scope.items = data;
-			console.log($scope.items);
+			//console.log($scope.items);
 			$scope.selected = {
 				item: $scope.items[0]
 			};
 			$scope.selected.commentary = "";
 		}, function(status){
-				console.log("unknown error");
-	});
+				//console.log("unknown error");
+		});
 }])
 .controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService',
 	function ($scope, $modal, arachneEntity, sessionService, NoteService){
@@ -399,15 +393,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					bm.commentary = commentary;
 
 					NoteService.updateBookmark(bm, id, function(data){
-							console.log("updated bookmark");
+							//console.log("updated bookmark");
 
 						},function(status){
-							console.log("update failed" + status);
+							//console.log("update failed" + status);
 						});
 
 					$scope.refreshBookmarkLists();
 				}, function(status){
-					console.log("error getting Bookmark" + status);
+					//console.log("error getting Bookmark" + status);
 				});	
 		}
 
