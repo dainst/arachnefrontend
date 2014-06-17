@@ -528,7 +528,7 @@ angular.module('arachne.services', [])
 							 }
 						}
 					}
-				});
+				}, catchError);
 
 				
 			},
