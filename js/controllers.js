@@ -89,8 +89,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ]
 )
 .controller('ContextCtrl',
-	['arachneEntity','$scope', 
-		function (arachneEntity, $scope) {
+	['arachneEntity','$scope', '$modalInstance', 
+		function (arachneEntity, $scope, $modalInstance) {
 			$scope.activeContextFacets = arachneEntity.getActiveContextFacets();
 			$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
 			$scope.addFacetToContext = function (facetName, facetValue){
@@ -108,15 +108,21 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.user = sessionService.user;
 		$scope.serverUri = arachneSettings.serverUri;
-		console.log(arachneEntity);
+
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			$scope.categoryFacetValueForContext =  facetValue;
 			if(facetValue.count > 15) {
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/Modals/contextualEntitiesModal.html',
 					controller: 'ContextCtrl',
+					//backdrop : 'static', 
 					size: 'lg',
 					scope : $scope
+	      		});
+
+				// die facetten müssen zurückgesetzt werden wenn das Kontext-Modal geschlossen wird, damit die nächste Kontext-Suche wieder von vorne beginnen kann
+	      		modalInstance.result.finally(function(){
+	      			arachneEntity.resetActiveContextFacets();
 	      		});
 			} else {
 				// important to note: getContextualEntitiesByAddingCategoryFacetValue doesnt use _activeFacets!

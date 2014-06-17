@@ -288,6 +288,9 @@ angular.module('arachne.services', [])
 
 			  // PUBLIC
 				return {
+					resetActiveContextFacets : function() {
+						_activeContextFacets = [];
+					},
 					getActiveContextFacets : function () {
 						return _activeContextFacets;
 					},
