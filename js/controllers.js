@@ -13,7 +13,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				templateUrl: 'partials/Modals/loginForm.html',
 				controller: 'LoginCtrl'
 			});			
-			console.log("open complete");	    
+			//console.log("open complete");	    
 		};
 	}
 	]
@@ -27,7 +27,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.loginerror = false;
 
 		$scope.login = function () {
-			console.log("login");
+			//console.log("login");
 			sessionService.login(
 				{
 					user: $scope.loginData.user,
@@ -52,7 +52,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.cancel = function () {
 			$modalInstance.dismiss();
 		};
-		console.log("loginCtrl complete");
 	
 	}])
 .controller('SearchCtrl',
@@ -91,8 +90,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ]
 )
 .controller('ContextCtrl',
-	['arachneEntity','$scope', 
-		function (arachneEntity, $scope) {
+	['arachneEntity','$scope', '$modalInstance', 
+		function (arachneEntity, $scope, $modalInstance) {
 			$scope.activeContextFacets = arachneEntity.getActiveContextFacets();
 			$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
 			$scope.addFacetToContext = function (facetName, facetValue){
@@ -110,7 +109,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.user = sessionService.user;
 		$scope.serverUri = arachneSettings.serverUri;
-		
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			$scope.categoryFacetValueForContext =  facetValue;
 			if(facetValue.count > 15) {
@@ -119,6 +117,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					controller: 'ContextCtrl',
 					size: 'lg',
 					scope : $scope
+	      		});
+
+				// die facetten müssen zurückgesetzt werden wenn das Kontext-Modal geschlossen wird, damit die nächste Kontext-Suche wieder von vorne beginnen kann
+	      		modalInstance.result.finally(function(){
+	      			arachneEntity.resetActiveContextFacets();
 	      		});
 			} else {
 				// important to note: getContextualEntitiesByAddingCategoryFacetValue doesnt use _activeFacets!
@@ -130,9 +133,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
 		}
 		this.goToResultNr = function(number) {
-			console.log($scope.resultIndex);
-			console.log($scope.nextEntitySearch.size);
-			console.log(number);
 
 			/*if((number > 0) && (number!=$scope.resultIndex) && (number < $scope.nextEntitySearch.size)){
 				arachneSearch.setResultIndex(number)
@@ -158,6 +158,42 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.bookmarklists = NoteService.queryBookmarListsForEntityId($routeParams.id);
 		}
 
+		$scope.updateBookmarkModal= function(id, commentary){
+			$scope.commentaryCash = commentary;
+			var modalInstance = $modal.open({
+				templateUrl: 'partials/Modals/updateBookmarkModal.html',
+				scope: $scope
+			});	
+
+			modalInstance.close = function(commentaryCash){
+				if(commentaryCash == undefined || commentaryCash == ""){
+					alert("Kommentar setzen!")
+				} else {
+					modalInstance.dismiss();
+					$scope.updateBookmark(id, commentaryCash);
+				}
+			}
+		}
+
+		$scope.updateBookmark = function(id, commentary){
+			var bm = new Object();
+
+			NoteService.getBookmark(id,
+				function(data){
+					bm = data;
+					bm.commentary = commentary;
+
+					NoteService.updateBookmark(bm, id, function(data){
+							//updated BM,... what happens then?
+						},function(status){
+							//failed to update BM,... implementation needed
+						});
+
+					$scope.queryBookmarListsForEntityId();
+				}, function(status){
+					//console.log("error getting Bookmark" + status);
+				});	
+		}
 
 		$scope.deleteBookmark = function(bookmarkId){
 			NoteService.deleteBookmark(bookmarkId,
@@ -273,17 +309,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	NoteService.getBookmarksLists(
 		function(data){
-			console.log("habe die Liste!");
+			//console.log("habe die Liste!");
 			$scope.bookmarkError = 0;
 			$scope.items = data;
-			console.log($scope.items);
+			//console.log($scope.items);
 			$scope.selected = {
 				item: $scope.items[0]
 			};
 			$scope.selected.commentary = "";
 		}, function(status){
-				console.log("unknown error");
-	});
+				//console.log("unknown error");
+		});
 }])
 .controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService',
 	function ($scope, $modal, arachneEntity, sessionService, NoteService){
@@ -358,15 +394,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					bm.commentary = commentary;
 
 					NoteService.updateBookmark(bm, id, function(data){
-							console.log("updated bookmark");
+							//console.log("updated bookmark");
 
 						},function(status){
-							console.log("update failed" + status);
+							//console.log("update failed" + status);
 						});
 
 					$scope.refreshBookmarkLists();
 				}, function(status){
-					console.log("error getting Bookmark" + status);
+					//console.log("error getting Bookmark" + status);
 				});	
 		}
 
