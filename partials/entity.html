@@ -128,50 +128,65 @@
 			<div class="page-header"><h4>OCR Text-Analyse</h4></div>
 			<ul>{{entity.additionalContent.ocrText}}</ul>
 		</div>
-		<div ng-if="specialNavigations.specialNavigationElements" class="page-header">
-			<h4>Andere Ansichten dieses Datensatzes</h4>
-		</div>
-		<a ng-repeat="navigation in specialNavigations.specialNavigationElements" href="{{ navigation.link }}"type="button" class="btn btn-info btn-sm">{{ navigation.title}} </a>
+		
 	</div>
 	<div class="col-md-4" ng-show="entity.entityId">
-
-		<div ng-if="entity.thumbnailId">
-			<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
-		</div>
-		<div ng-if="entity.images.length > 0">
-			<h3 class="text-justify" ng-init="showConnectedImages=false">
-				<button class="btn btn-default btn-sm btn-default btn-block" ng-click="showConnectedImages = true"  ng-hide="showConnectedImages == true || entity.images.length < 2"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})</span></button>
-			</h3>
-			<div ng-if="showConnectedImages == true">
-				<div class="page-header">
-					<h3>{{ 'Verbundene Bilder' | i18n }}</h3>
+		<div class="row">
+			<div class="col-md-12">
+				<div ng-if="entity.thumbnailId">
+					<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
 				</div>
+				<div ng-if="entity.images.length > 0">
+					<h3 class="text-justify" ng-init="showConnectedImages=false">
+						<button class="btn btn-default btn-sm btn-default btn-block" ng-click="showConnectedImages = true"  ng-hide="showConnectedImages == true || entity.images.length < 2"><span class="glyphicon glyphicon-chevron-down"></span> </span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})</span></button>
+					</h3>
+					<div ng-if="showConnectedImages == true">
+						<div class="page-header">
+							<h3>{{ 'Verbundene Bilder' | i18n }}</h3>
+						</div>
 
-				<div ng-if="entity.images.length" ng-repeat="image in entity.images">
-					<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
-						<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index]}}" imageid="{{entity.images[$index].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index].imageId}}" ></div>
-						<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+1]}}" imageid="{{entity.images[$index+1].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+1].imageId}}" ></div>
-						<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+2]}}" imageid="{{entity.images[$index+2].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+2].imageId}}" ></div>
+						<div ng-if="entity.images.length" ng-repeat="image in entity.images">
+							<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
+								<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index]}}" imageid="{{entity.images[$index].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index].imageId}}" ></div>
+								<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+1]}}" imageid="{{entity.images[$index+1].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+1].imageId}}" ></div>
+								<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+2]}}" imageid="{{entity.images[$index+2].imageId}}" link="entity/{{entity.entityId}}/image/{{entity.images[$index+2].imageId}}" ></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		<div class="page-header">
-			<h3>{{ 'msg_relatedObjects' | i18n }}</h3>
-		</div>
 
-		<accordion class="accordion-with-list" close-others="true">
-			<accordion-group is-open="" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)">
-				<accordion-heading>
-					<span class="capitalized">{{facetValue.value}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
-				</accordion-heading>
-				<div>
-					<a class="list-group-item" href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
-						{{entity.title}}
-					</a>
+		<div class="row"  ng-if="specialNavigations.specialNavigationElements">
+			<div class="col-md-12">
+				<div class="page-header">
+					<h3>Andere Ansichten</h3>			
 				</div>
-				</accordion-group>
-		</accordion>
+				<div class="btn-group">
+					<a ng-repeat="navigation in specialNavigations.specialNavigationElements" href="{{ navigation.link }}" type="button" class="btn btn-info btn-sm">{{ navigation.title}} </a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="page-header">
+					<h3>{{ 'msg_relatedObjects' | i18n }}</h3>
+				</div>
+
+				<accordion class="accordion-with-list" close-others="true">
+					<accordion-group is-open="" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)">
+						<accordion-heading>
+							<span class="capitalized">{{facetValue.value}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
+						</accordion-heading>
+						<div>
+							<a class="list-group-item" href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
+								{{entity.title}}
+							</a>
+						</div>
+						</accordion-group>
+				</accordion>
+			</div>
+		</div>
 	</div>
 </div>
