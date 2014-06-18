@@ -110,18 +110,18 @@
 			<div class="col-md-3">
 				<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs pull-right">Perma-Link anzeigen</button>
 			</div>
-			<div class="col-md-3">
-				<button ng-click="showMap=!showMap" class="btn btn-default btn-xs pull-right">Map anzeigen</button>
+			<div class="col-md-3" > <!-- ng-if="entity.facet_geo"-->
+				<button ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs pull-right">Map anzeigen</button>
 			</div>
 		</div>
 		<div class="row" ng-hide="!permaLink">
 			<div class="col-md-12">
-				<b>Perma-Link: </b>{{ serverUri }}/entity/{{entity.entityId}}
+				<b>Perma-Link: </b>{{ serverUri }}/entitsy/{{entity.entityId}}
 			</div>
 		</div>	
-		<div class="row" ng-hide="!showMap">
+		<div class="row" ng-if="karteAnzeigen">
 			<div class="col-md-12">
-				<div ng-if="entity.title" entities="[entity]" style="height:300px; width:600px" map id="map"></div>
+				<div ng-if="entity.title" entities="[entity]" style="height:300px" map id="map"></div>
 			</div>
 		</div>		  
 		<hr/>
