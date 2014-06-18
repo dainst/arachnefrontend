@@ -61,7 +61,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
-		
+
 
 
 		this.addFacet = function (facetName, facetValue) {
@@ -510,6 +510,24 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				modalInstance.dismiss();
 			}
 		}
+		$scope.requestFullscreen = function () {
+			var element = document.getElementById('theimage');
+			// Find the right method, call on correct element
+			
+			  if(element.requestFullscreen) {
+			    element.requestFullscreen();
+			  } else if(element.mozRequestFullScreen) {
+			    element.mozRequestFullScreen();
+			  } else if(element.webkitRequestFullscreen) {
+			    element.webkitRequestFullscreen();
+			  } else if(element.msRequestFullscreen) {
+			    element.msRequestFullscreen();
+			  }
+			
+
+		}
+		
+
 	  // LOGIC for sections-iteration
 	  // TODO Abstract Sections-Template and Logic to seperate unit - for reuse 
 		$scope.isArray = function(value) {
