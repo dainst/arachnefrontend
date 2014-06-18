@@ -74,7 +74,7 @@
 					<div class="panel-heading">
 						{{ bookmarklist.name }}: 
 						<div class="btn-group pull-right">
-							<button class="btn btn-sm"  ng-click="updateBookmarkModal(bookmark.id, bookmark.commentary)" data-dismiss="alert" >
+							<button class="btn btn-sm"  ng-click="updateBookmarkModal(bookmark)" data-dismiss="alert" >
 								<span class="glyphicon glyphicon-pencil"></span>
 							</button>
 							<button class="btn btn-sm"  ng-click="deleteBookmark(bookmark.id)" class="close" data-dismiss="alert" >
@@ -102,7 +102,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-3">
-				<b>Arachne-ID:</b> {{ entity.entityId }}
+				<b>Entity-ID:</b> {{ entity.entityId }}
 			</div>
 			<div class="col-md-3">
 				<b>Seriennummer:</b> {{ entity.internalId }}

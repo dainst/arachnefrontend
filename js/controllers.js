@@ -158,8 +158,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.bookmarklists = NoteService.queryBookmarListsForEntityId($routeParams.id);
 		}
 
-		$scope.updateBookmarkModal= function(id, commentary){
-			$scope.commentaryCash = commentary;
+		$scope.updateBookmarkModal= function(bookmark){
+			$scope.commentaryCash = bookmark.commentary;
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/updateBookmarkModal.html',
 				scope: $scope
@@ -170,7 +170,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					alert("Kommentar setzen!")
 				} else {
 					modalInstance.dismiss();
-					$scope.updateBookmark(id, commentaryCash);
+					$scope.updateBookmark(bookmark.id, commentaryCash);
 				}
 			}
 		}
