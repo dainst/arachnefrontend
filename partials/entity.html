@@ -110,7 +110,7 @@
 			<div class="col-md-3">
 				<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs pull-right">Perma-Link anzeigen</button>
 			</div>
-			<div class="col-md-3" > <!-- ng-if="entity.facet_geo"-->
+			<div class="col-md-3" ng-hide="!entity.facet_geo"> 
 				<button ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs pull-right">Map anzeigen</button>
 			</div>
 		</div>
