@@ -106,12 +106,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('EntityCtrl',
 	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'sessionService',
 	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, sessionService ) {
-
 		$scope.user = sessionService.user;
 		$scope.serverUri = arachneSettings.serverUri;
+
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			$scope.categoryFacetValueForContext =  facetValue;
-			if(facetValue.count > 15) {
+			if((facetValue.count > 15) || (facetValue.value == "Buchseiten")) {
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/Modals/contextualEntitiesModal.html',
 					controller: 'ContextCtrl',
@@ -283,9 +283,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.resultIndex = arachneSearch.getResultIndex();
 
 		$scope.entity = arachneEntity.getEntityById($routeParams.id);
+		console.log(arachneEntity.getEntityById($routeParams.id));
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
 
 		$scope.context = arachneEntity.getContext({id:$routeParams.id});
+		console.log(arachneEntity.getContext({id:$routeParams.id}));
+
 		$scope.isBookmark = false;
 
 		if($scope.resultIndex != null) {

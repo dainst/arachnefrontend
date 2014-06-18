@@ -100,6 +100,7 @@ angular.module('arachne.directives', []).
         },
         link: function(scope) 
         {	
+        	
         	var map = L.map('map').setView([40, -10], 3);
 
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

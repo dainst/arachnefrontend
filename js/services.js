@@ -42,7 +42,7 @@ angular.module('arachne.services', [])
 						transformResponse : function (data) {
 							var data = JSON.parse(data);
 							data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
-							data.markers = new L.MarkerClusterGroup(
+							/*data.markers = new L.MarkerClusterGroup(
 								{
 								    iconCreateFunction: function(cluster) {
 
@@ -89,7 +89,7 @@ angular.module('arachne.services', [])
 								data.markers.addLayer(marker);
 							}
 							return data;
-						}
+						}*/
 
 					}
 				});
