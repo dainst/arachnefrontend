@@ -176,7 +176,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="page-header">
-					<h3>{{ 'msg_relatedObjects' | i18n }}</h3>
+					<h3>Verknüpfte Objekte</h3>
 				</div>
 
 				<accordion class="accordion-with-list" close-others="true">
@@ -185,6 +185,7 @@
 							<span class="capitalized">{{facetValue.value}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
 						</accordion-heading>
 						<div>
+							<span class="list-group-item" ng-hide="facetValue.entities.length || facetValue.count > 15 ">Lädt... </span>
 							<a class="list-group-item" href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
 								{{entity.title}}
 							</a>
