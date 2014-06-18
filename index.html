@@ -6,7 +6,7 @@
 
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 
-	<base href="/~obensch/frontend/">
+	<base href="/~fabian/frontend/">
 
 	<link rel="stylesheet" href="css/MarkerCluster.css">
 	<link rel="stylesheet" href="css/MarkerCluster.Default.css">
@@ -28,11 +28,12 @@
 <body>
 
 	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:white; opacity:0.89" role="navigation" ng-controller="MenuCtrl">
-		<div class="col-md-2" style="padding-left:0px">
-			<img class="pull-left" src="img/arachnelogo.png" style="height: 36px; margin-left: 30px; margin-top: 8px; width: 36px;"></img>
-			<a class="navbar-brand" href="#" style="font-weight:300; font-size:20px;">arachne <span class="text-primary" style="font-size:12px; ">beta</span></a>
+		<div class="col-md-2" style="padding-left:0px; position:relative">
+			<img class="pull-left" src="img/arachnelogo.png" style="height: 36px; margin-left: 16px; margin-top: 8px; width: 36px;"></img>
+			<a class="navbar-brand" href="#" style="font-weight:300; font-size:20px; padding-right:0px;">arachne </a>
+			<div class="text-primary" style="font-size:12px; position:absolute; top:5px; left: 110px;">beta</div>
 		</div>
-		<div class="navbar-header">
+		<div class="navbar-header" ng-init="isCollapsed = true">
 			<button class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" type="button">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
