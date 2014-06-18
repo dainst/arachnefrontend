@@ -87,9 +87,9 @@ angular.module('arachne.services', [])
 								var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title, entityCount : facetValue.count });
 								marker.bindPopup(title);
 								data.markers.addLayer(marker);
-							}
+							}*/
 							return data;
-						}*/
+						}
 
 					}
 				});
