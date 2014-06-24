@@ -283,11 +283,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.resultIndex = arachneSearch.getResultIndex();
 
 		$scope.entity = arachneEntity.getEntityById($routeParams.id);
-		console.log(arachneEntity.getEntityById($routeParams.id));
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
 
 		$scope.context = arachneEntity.getContext({id:$routeParams.id});
-		console.log(arachneEntity.getContext({id:$routeParams.id}));
+
 
 		$scope.isBookmark = false;
 
@@ -469,39 +468,53 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 }])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'sessionService', 'arachneEntity', '$modal', 'arachneSettings',
 	function ($routeParams, $scope, sessionService, arachneEntity, $modal, arachneSettings) {
+
 		if($routeParams.entityId) {
 			$scope.previousImage = null;
 		}
 		$scope.user = sessionService.user;
-		$scope.entityId = $routeParams.imageId;
+		$scope.imageIndex = 0;
 		$scope.dataserviceUri = arachneSettings.dataserviceUri;
 
 
 	  //GALLERY METHODS
 		this.loadImageProperties = function () {
-			$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.entityId});
+			$scope.imageId = $scope.entity.images[$scope.imageIndex].imageId
+			$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.imageId});
 		}
 		this.setNextAndPreviousImages = function () {
-			var currentImageIndex = -1;
-			for (var i = $scope.entity.images.length - 1; i >= 0; i--) {
-				if($scope.entity.images[i].imageId == $scope.entityId) currentImageIndex = i;
-			};
-			$scope.nextImage = ($scope.entity.images[currentImageIndex+1])? $scope.entity.images[currentImageIndex+1] : null;
-			$scope.previousImage = ($scope.entity.images[currentImageIndex-1])? $scope.entity.images[currentImageIndex-1] : null;
-
+			// var currentImageIndex = -1;
+			// for (var i = $scope.entity.images.length - 1; i >= 0; i--) {
+			// 	if($scope.entity.images[i].imageId == $scope.entityId) $scope.imageIndex = i;
+			// };
+			$scope.nextImage = ($scope.entity.images[$scope.imageIndex+1])? $scope.entity.images[$scope.imageIndex+1] : null;
+			$scope.previousImage = ($scope.entity.images[$scope.imageIndex-1])? $scope.entity.images[$scope.imageIndex-1] : null;
 		}
+
 		this.loadEntityForGallery = function () {
+
 			if ($routeParams.entityId) {
 				$scope.entity = arachneEntity.getEntityById($routeParams.entityId);
 			};
 		}
+		this.showNextImage = function () {
+			$scope.imageIndex++;
+			this.loadImageProperties();
+			this.setNextAndPreviousImages();
+
+		}
+		this.showPreviousImage = function () {
+			$scope.imageIndex--;
+			this.loadImageProperties();
+			this.setNextAndPreviousImages();
+
+		}
 	  //METAINFO
 		this.getImageEntityForMetainfos = function () {
 			if(!$scope.imageEntity) {
-				$scope.imageEntity = arachneEntity.getEntityById($routeParams.imageId);
-			} else {
+				$scope.imageEntity = arachneEntity.getEntityById($scope.imageId);
+			} 
 
-			}
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/metainfos.html',
 				scope: $scope

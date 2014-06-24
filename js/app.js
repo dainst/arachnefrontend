@@ -20,7 +20,7 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/', {templateUrl: 'partials/startSite.html'})
 		.when('/bookmarks', {templateUrl: 'partials/bookmarks.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
-		.when('/entity/:entityId/image/:imageId', {templateUrl: 'partials/image.html'})
+		.when('/entity/:entityId/images', {templateUrl: 'partials/image.html'})
 		.when('/search/:params?', {templateUrl: 'partials/search.html'})
 		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
 		.when('/map', {templateUrl: 'partials/map.html'});
