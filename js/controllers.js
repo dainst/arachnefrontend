@@ -567,7 +567,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			this.getImageEntityForMetainfos();
 		}
 		if($routeParams.showingInitialImagesGrid == "true") $scope.toggleImageGrid();
-		if($routeParams.imageIndex) $scope.imageIndex = $routeParams.imageIndex;
+		if($routeParams.imageIndex) {
+			$scope.imageIndex = parseInt($routeParams.imageIndex);
+		}
 
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
