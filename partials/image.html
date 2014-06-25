@@ -13,8 +13,23 @@
 	</ul>
 </script>
 
-<div ng-controller="EntityImgCtrl as entityImgCtrl" id="theimage" >
-	<div class="row fullscreenrow">	
+<div ng-controller="EntityImgCtrl as entityImgCtrl" id="theimage">
+	<div class="row fullscreenrow">
+
+		<div ng-if="showingImagesGrid">
+			<div ng-if="entity.images.length" ng-repeat="image in entity.images">
+				<div ng-if=" $index % 7 == 0" imagesrow class="imagesrow clearfix" style="cursor:pointer">
+					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index]}}" imageid="{{entity.images[$index].imageId}}" ng-click="entityImgCtrl.setImageIndex($index)"></div>
+					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+1]}}" imageid="{{entity.images[$index+1].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+1)"></div>
+					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+2]}}" imageid="{{entity.images[$index+2].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+2)"></div>
+					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+3]}}" imageid="{{entity.images[$index+3].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+3)"></div>
+					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+4]}}" imageid="{{entity.images[$index+4].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+4)"></div>
+					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+5]}}" imageid="{{entity.images[$index+4].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+5)"></div>
+					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+6]}}" imageid="{{entity.images[$index+4].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+6)"></div>
+				</div>
+			</div>
+		</div>
+
         <div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
 			Für die Vollansicht von Bildern, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 		</div>
@@ -22,23 +37,26 @@
 		<div ng-if="user.username" ng-init="entityImgCtrl.loadEntityForGallery();"></div>
 		<div ng-if="entity.type">
 			<div ng-init="entityImgCtrl.loadImageProperties();"></div>
-			<div ng-if="imageProperties.width" style="height:100%" zoomifyimg entityid="{{imageId}}" imageProperties="{{imageProperties}}" zoomifyHeight="{{imageProperties.height}}" zoomifiyTilesize="{{imageProperties.tilesize}}" ></div>
+			<div ng-if="imageProperties.width" ng-hide="showingImagesGrid" style="height:100%" zoomifyimg entityid="{{imageId}}" imageProperties="{{imageProperties}}" zoomifyHeight="{{imageProperties.height}}" zoomifiyTilesize="{{imageProperties.tilesize}}" ></div>
 		</div>
-		<div ng-if="entity" class="btn-group-vertical"  style="opacity:0.8; position:absolute; right:10px; top: 60px;">
-			<a class="btn btn-primary btn-sm" href="entity/{{entity.entityId}}"><span class="glyphicon glyphicon-arrow-left"></span> <i>Zurück </i> <div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">{{entity.title}}</div> </a>
+		<div ng-if="entity" ng-hide="showingImagesGrid" class="btn-group-vertical" style="opacity:0.8; position:absolute; right:10px; top: 60px;">
+			<a class="btn btn-primary btn-sm" href="entity/{{entity.entityId}}"><span class="glyphicon glyphicon-remove"></span> <i> zurück zu</i><div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">{{entity.title}}</div> </a>
 			<a class="btn btn-default btn-sm" href="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/{{entityId}}" download="{{entityId}}.jpg"><btn ><i class="glyphicon glyphicon-download-alt"></i> Download</a>
 			<button class="btn btn-default btn-sm" ng-click="entityImgCtrl.openModalForImageEntity()">Bild-Metadaten</button>
 			<button class="btn btn-default btn-sm" ng-click="requestFullscreen()"><span class="glyphicon glyphicon-fullscreen"></span> Vollbild</button>
+			<button class="btn btn-default btn-sm " ng-click="toggleImageGrid()"  ><span class="glyphicon glyphicon-th"></span> Alle Bilder ({{entity.images.length}})</button>
 		</div>
+		<button ng-show="showingImagesGrid" style="opacity:0.8; position:fixed; right:10px; top: 60px;" class="btn btn-primary btn-sm " ng-click="toggleImageGrid()"  ><span class="glyphicon glyphicon-remove"></span> Übersicht schließen</button>
 
-		<div ng-if="entity.images" ng-init="entityImgCtrl.setNextAndPreviousImages()" style="opacity:0.8; position:absolute; bottom:10px; left:50%; margin-left:-60px">
+
+		<div ng-hide="showingImagesGrid" ng-if="entity.images" ng-init="entityImgCtrl.setNextAndPreviousImages()" style="opacity:0.8; position:absolute; bottom:10px; left:50%; margin-left:-80px">
 			<button ng-if="!previousImage" ng-click="entityImgCtrl.showPreviousImage()" class="btn btn-link disabled" style="font-size:30px"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
 			<button ng-if="previousImage" ng-click="entityImgCtrl.showPreviousImage()" class="btn btn-link" style="font-size:30px"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
 
-			<span class="badge" style="margin-top:2px">{{imageIndex+1}}/{{entity.images.length}}</span>
+			<button class="btn btn-primary btn-sm" ng-click="toggleImageGrid()" class="badge"><span class="glyphicon glyphicon-th"></span> {{imageIndex+1}}/{{entity.images.length}}</button>
+
 			<button ng-if="!nextImage" ng-click="entityImgCtrl.showNextImage()" class="btn btn-link disabled" style="font-size:30px"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
 			<button ng-if="nextImage" ng-click="entityImgCtrl.showNextImage()" class="btn btn-link" style="font-size:30px"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
 		</div>
-
 	</div>
 </div>
