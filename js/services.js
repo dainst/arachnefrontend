@@ -206,8 +206,8 @@ angular.module('arachne.services', [])
 		}])
 
 	.factory('arachneEntity',
-		['$resource', 'arachneSettings', 'sessionService',
-			function($resource, arachneSettings, sessionService) {
+		['$resource', 'arachneSettings',
+			function($resource, arachneSettings) {
 
 			  // PERSISTENT OBJECTS, PRIVATE, USE GETTERS AND SETTERS
 				var _currentEntity = {};
@@ -261,20 +261,22 @@ angular.module('arachne.services', [])
 						isArray : false,
 						method: 'GET',
 						transformResponse : function (data) {
-							var properties = {};
-							if (window.DOMParser) {
-								var parser = new DOMParser();
-								properties = parser.parseFromString(data,"text/xml");
-							} else {
-								properties = new ActiveXObject("Microsoft.XMLDOM");
-								properties.async=false;
-								properties.loadXML(data);
+							if(data) {
+								var properties = {};
+								if (window.DOMParser) {
+									var parser = new DOMParser();
+									properties = parser.parseFromString(data,"text/xml");
+								} else {
+									properties = new ActiveXObject("Microsoft.XMLDOM");
+									properties.async=false;
+									properties.loadXML(data);
+								}
+								return {
+									width : properties.firstChild.getAttribute('WIDTH'),
+									height : properties.firstChild.getAttribute('HEIGHT'),
+									tilesize : properties.firstChild.getAttribute('TILESIZE')
+								};
 							}
-							return {
-								width : properties.firstChild.getAttribute('WIDTH'),
-								height : properties.firstChild.getAttribute('HEIGHT'),
-								tilesize : properties.firstChild.getAttribute('TILESIZE')
-							};
 						}
 					}
 				});
@@ -285,6 +287,14 @@ angular.module('arachne.services', [])
 
 					return arachneDataService.contextQuery(queryParams);
 				};
+
+				var catchError = function(errorReponse) {
+					if (errorReponse.status == 403) {
+						sessionService.removeUser();
+					};
+				};
+
+			
 
 			  // PUBLIC
 				return {
