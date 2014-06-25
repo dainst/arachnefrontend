@@ -75,14 +75,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
 		} else {
-			$scope.currentPage = 0;
 			$scope.searchresults = arachneSearch.persistentSearch();
 
 			$scope.setResultIndex = function (resultIndex) {
 				arachneSearch.setResultIndex(resultIndex);
 			}
 			$scope.onSelectPage = function () {
-				arachneSearch.goToPage($scope.currentPage);
+				arachneSearch.goToPage($scope.searchresults.page);
 			}
 		}
 

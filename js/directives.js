@@ -323,7 +323,6 @@ angular.module('arachne.directives', []).
 		    		width: scope.imageProperties.width,
 		    		height: scope.imageProperties.height,
 		    		tileSize : scope.imageProperties.tilesize,
-		    		errorTileUrl : "img/imagePlaceholder.png",
 		    		tolerance: 0.8
 				}).addTo(map);
 
