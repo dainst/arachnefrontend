@@ -88,11 +88,15 @@ angular.module('arachne.directives', []).
     			if(attrs.isPlaceholderIfEmpty == "") {
     				newElement = '<span style="display:none"><img src="img/imagePlaceholder.png"></span>';
  				} else {
-	       			if(attrs.imageid) {
-	       				newElement = '<a href="'+attrs.link+'"><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
-	       			} else {
-	       				newElement = '<a href="'+attrs.link+'"><img src="img/imagePlaceholder.png"></a>';
-	       			}
+ 					if (attrs.link) {
+		       			if(attrs.imageid) {
+		       				newElement = '<a href="'+attrs.link+'"><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
+		       			} else {
+		       				newElement = '<a href="'+attrs.link+'"><img src="img/imagePlaceholder.png"></a>';
+		       			}
+		       		} else {
+		       			newElement = '<span><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></span>';
+		       		}
 	       		}
        			element.prepend(angular.element(newElement));
     		}

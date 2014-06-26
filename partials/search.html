@@ -94,7 +94,7 @@
 	</div>	
 
 	<p align="center" ng-show="searchresults.size">
-			<pagination ng-model="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="{{ 'msg_back' | i18n }}" next-text="{{ 'msg_next' | i18n }}" boundary-links="true" first-text="&laquo;" last-text="&raquo;" ng-change="onSelectPage()" num-pages="numPages"></pagination>
+			<pagination ng-model="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="zurück" next-text="weiter" boundary-links="true" first-text="&laquo;" last-text="&raquo;" ng-change="onSelectPage()" num-pages="numPages"></pagination>
 		</p>
 
 </div>

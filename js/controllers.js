@@ -80,9 +80,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.setResultIndex = function (resultIndex) {
 				arachneSearch.setResultIndex(resultIndex);
 			}
-			$scope.onSelectPage = function (p) {
-				$scope.currentPage = p;
-				arachneSearch.goToPage(p);
+			$scope.onSelectPage = function () {
+				arachneSearch.goToPage($scope.searchresults.page);
 			}
 		}
 
@@ -369,7 +368,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.user = sessionService.user;
 		$scope.imageIndex = 0;
 		$scope.dataserviceUri = arachneSettings.dataserviceUri;
+		$scope.showingImagesGrid = false;
+		
 
+		$scope.toggleImageGrid = function () {
+			$scope.showingImagesGrid = !$scope.showingImagesGrid;
+		}
+
+		this.setImageIndex = function(newIndex) {
+			$scope.imageIndex = newIndex;
+			this.loadImageProperties();
+			this.setNextAndPreviousImages();
+			$scope.showingImagesGrid = false;
+		}
 
 	  //GALLERY METHODS
 		this.loadImageProperties = function () {
@@ -447,7 +458,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	  // TODO-END
 		this.openModalForImageEntity = function () {
 			this.getImageEntityForMetainfos();
-		}	
+		}
+		if($routeParams.showingInitialImagesGrid == "true") $scope.toggleImageGrid();
+		if($routeParams.imageIndex) {
+			$scope.imageIndex = parseInt($routeParams.imageIndex);
+		}
+
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
 
