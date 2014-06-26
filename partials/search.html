@@ -66,6 +66,7 @@
 		<div id="tiledImagesContainer" ng-switch-default="tiles">
 			
 			<div ng-repeat="entity in searchresults.entities">
+
 				<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow clearfix">
 					<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index].entityId}}" imageid="{{searchresults.entities[$index].thumbnailId}}" link="entity/{{searchresults.entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
 						<p style="height: 55px; overflow: hidden;"><small>{{ searchresults.entities[$index].title }}</small></p>

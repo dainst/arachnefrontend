@@ -247,9 +247,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				//console.log("unknown error");
 		});
 }])
-.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance, test ){
-		console.log(test);
-	 $scope.commentaryCash = test;
+.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance, commentaryCash ){
+	 $scope.commentaryCash = commentaryCash;
 }])
 .controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService',
 	function ($scope, $modal, arachneEntity, sessionService, NoteService){
@@ -296,10 +295,42 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				});
 		}
 
-		$scope.updateBookmark = function(bookmark){
-			NoteService.updateBookmark(bookmark, function(data){
-				$scope.refreshBookmarkLists();
-			});
+		$scope.updateBookmarkModal= function(id, commentary){
+			$scope.commentaryCash = commentary;
+			var modalInstance = $modal.open({
+				templateUrl: 'partials/Modals/updateBookmarkModal.html',
+				scope: $scope
+			});	
+
+			modalInstance.close = function(commentaryCash){
+				if(commentaryCash == undefined || commentaryCash == ""){
+					alert("Kommentar setzen!")
+				} else {
+					modalInstance.dismiss();
+					$scope.updateBookmark(id, commentaryCash);
+				}
+			}
+		}
+
+		$scope.updateBookmark = function(id, commentary){
+			var bm = new Object();
+
+			NoteService.getBookmark(id,
+				function(data){
+					bm = data;
+					bm.commentary = commentary;
+
+					NoteService.updateBookmark(bm, id, function(data){
+							//console.log("updated bookmark");
+
+						},function(status){
+							//console.log("update failed" + status);
+						});
+
+					$scope.refreshBookmarkLists();
+				}, function(status){
+					//console.log("error getting Bookmark" + status);
+				});	
 		}
 
 		$scope.deleteBookmarksListModal = function(id, name){

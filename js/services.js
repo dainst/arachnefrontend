@@ -448,7 +448,7 @@ angular.module('arachne.services', [])
 			};
 		return factory;
 	}])
-.factory('NoteService', ['$resource', 'arachneSettings', 'sessionService', '$http', function($resource, arachneSettings, sessionService, $http){
+.factory('NoteService', ['$resource', 'arachneSettings', 'sessionService', '$http', '$modal', function($resource, arachneSettings, sessionService, $http, $modal){
 
 		var catchError = function(errorReponse) {
 			if (errorReponse.status == 403) {
@@ -547,11 +547,89 @@ angular.module('arachne.services', [])
 			getBookmark : function(id, successMethod, errorMethod){
 				return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
 			},
-			updateBookmark: function(bm, id, successMethod, errorMethod) {
-				return arachneDataService.updateBookmark({ "id": id}, bm, successMethod,errorMethod);
+			updateBookmark: function(bookmark, successMethod, errorMethod) {
+				var comment = bookmark.commentary;
+				console.log(comment);
+				var modalInstance = $modal.open({
+					templateUrl: 'partials/Modals/updateBookmarkModal.html',
+					controller: 'updateBookmarkCtrl',
+					resolve:  {
+				        test: function () { return comment }
+				      }
+				});	
+
+				modalInstance.close = function(commentaryCash){
+					if(commentaryCash == undefined || commentaryCash == ""){
+						alert("Kommentar setzen!")
+					} else {
+						modalInstance.dismiss();
+						var bm = new Object();
+						bm = bookmark;
+						bm.commentary = commentaryCash;
+
+						return arachneDataService.updateBookmark({ "id": bookmark.id}, bm, successMethod,errorMethod);
+					}
+				}
 			},
-			createBookmark : function(bm, id, successMethod, errorMethod) {
-				return arachneDataService.createBookmark({"id": id}, bm, successMethod,errorMethod);
+			createBookmark : function(rid, successMethod, errorMethod) {
+				arachneDataService.getBookmarksLists(
+					function(data){
+						if(data.length == 0){
+							var modalInstance = $modal.open({
+								templateUrl: 'partials/Modals/createBookmarksList.html'
+							});	
+
+							modalInstance.close = function(name, commentary){
+								commentary = typeof commentary !== 'undefined' ? commentary : "";
+								if(name == undefined || name == "") {
+									alert("Bitte Titel eintragen.")							
+								} else {
+									modalInstance.dismiss();
+									var list = new Object();
+									list.name = name;
+									list.commentary = commentary;
+									list.bookmarks = [];
+									arachneDataService.createBookmarksList(list,
+										function(data){
+											var modalInstance = $modal.open({
+												templateUrl: 'partials/Modals/createBookmark.html',
+												controller: 'createBookmarkCtrl'
+							      			});
+
+							      			modalInstance.result.then(function (selectedList) { 
+							      				if(selectedList.commentary == undefined || selectedList.commentary == "")
+							      					selectedList.commentary = "no comment set";
+
+							      				var bm = {
+													arachneEntityId : rid,
+													commentary : selectedList.commentary
+												}
+												return arachneDataService.createBookmark({"id": selectedList.item.id}, bm, successMethod,errorMethod);
+							      			});
+										});
+								}
+							}
+						}
+						
+						if(data.length >= 1){
+							var modalInstance = $modal.open({
+								templateUrl: 'partials/Modals/createBookmark.html',
+								controller: 'createBookmarkCtrl'
+			      			});
+
+			      			modalInstance.result.then(function (selectedList) { 
+			      				if(selectedList.commentary == undefined || selectedList.commentary == "")
+			      					selectedList.commentary = "no comment set";
+
+			      				var bm = {
+									arachneEntityId : rid,
+									commentary : selectedList.commentary
+								}
+								return arachneDataService.createBookmark({"id": selectedList.item.id}, bm, successMethod,errorMethod);
+			      			});
+			      		}
+					}
+				);				
 			}
 		}
 	}]);

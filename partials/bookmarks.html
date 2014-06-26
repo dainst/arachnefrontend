@@ -22,7 +22,7 @@
 	    		<div ng-repeat="bookmark in bookmarksList.bookmarks" class="list-group-item clearfix">
 					<div class="row-fluid">
 						<div class="btn-group pull-right">
-	    					<button type="button" class="btn btn-sm " ng-click="updateBookmarkModal(bookmark.id,bookmark.commentary)"><span class="glyphicon glyphicon-pencil"></span></button>
+	    					<button type="button" class="btn btn-sm " ng-click="updateBookmark(bookmark)"><span class="glyphicon glyphicon-pencil"></span></button>
 	    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
 						</div>
 		    			<div class="col-md-2 col-xs-2" ng-if="bookmark.thumbnailId">

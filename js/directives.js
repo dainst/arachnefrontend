@@ -25,13 +25,20 @@ angular.module('arachne.directives', []).
 					};
 					// 30 is padding of container
 					scalingPercentage = (element.parent()[0].clientWidth-30) / (imagesWidth / 100);
-					for (var i = images.length - 1; i >= 0; i--) {
-						var newWidth =  (images[i].width/101)*scalingPercentage;
-						images[i].width = newWidth;
-						images[i].style.display = 'block';
-						images[i].parentNode.parentNode.style.width = newWidth + "px";
-						images[i].removeEventListener("load", listener, false);
 
+					for (var i = images.length - 1; i >= 0; i--) {
+						if(scalingPercentage > 120) {
+							var newWidth =  (images[i].width/101)*120;
+							var newOuterWidth =  (images[i].width/101)*scalingPercentage;
+							images[i].parentNode.parentNode.style.width = newOuterWidth + "px";
+							images[i].width = newWidth;
+						} else {
+							var newWidth =  (images[i].width/101)*scalingPercentage;
+							images[i].parentNode.parentNode.style.width = newWidth + "px";
+							images[i].width = newWidth;
+						}
+						images[i].style.display = 'block';
+						images[i].removeEventListener("load", listener, false);
 					};
 					
 				};

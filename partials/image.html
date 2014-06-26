@@ -13,26 +13,32 @@
 	</ul>
 </script>
 
-<div ng-controller="EntityImgCtrl as entityImgCtrl">
+<div ng-controller="EntityImgCtrl as entityImgCtrl" id="theimage" >
 	<div class="row fullscreenrow">	
         <div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
 			Für die Vollansicht von Bildern, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 		</div>
 		<!-- Using ng-init with a method for evoking something after user logs in -->
-		<div ng-if="user.username" ng-init="entityImgCtrl.loadImageProperties();"></div>
-		<div ng-if="imageProperties.width" style="height:100%" zoomifyimg entityid="{{entityId}}" imageProperties="{{imageProperties}}" zoomifyHeight="{{imageProperties.height}}" zoomifiyTilesize="{{imageProperties.tilesize}}" ng-init="entityImgCtrl.loadEntityForGallery()"></div>
-		<div ng-if="entity"  style="opacity:0.8; position:absolute; right:10px; top: 60px;">
-			<a class="btn btn-primary btn-xs" href="entity/{{entity.entityId}}"><span class="glyphicon glyphicon-arrow-left"></span> {{entity.title}}</a>
-			<btn class="btn btn-default btn-xs" ng-click="entityImgCtrl.openModalForImageEntity()">Bild-Metadaten</btn>
-			<a href="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/{{entityId}}" download="{{entityId}}.jpg"><btn class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-download-alt"></i> Download</btn></a>
+		<div ng-if="user.username" ng-init="entityImgCtrl.loadEntityForGallery();"></div>
+		<div ng-if="entity.type">
+			<div ng-init="entityImgCtrl.loadImageProperties();"></div>
+			<div ng-if="imageProperties.width" style="height:100%" zoomifyimg entityid="{{imageId}}" imageProperties="{{imageProperties}}" zoomifyHeight="{{imageProperties.height}}" zoomifiyTilesize="{{imageProperties.tilesize}}" ></div>
+		</div>
+		<div ng-if="entity" class="btn-group-vertical"  style="opacity:0.8; position:absolute; right:10px; top: 60px;">
+			<a class="btn btn-primary btn-sm" href="entity/{{entity.entityId}}"><span class="glyphicon glyphicon-arrow-left"></span> <i>Zurück </i> <div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">{{entity.title}}</div> </a>
+			<a class="btn btn-default btn-sm" href="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/{{entityId}}" download="{{entityId}}.jpg"><btn ><i class="glyphicon glyphicon-download-alt"></i> Download</a>
+			<button class="btn btn-default btn-sm" ng-click="entityImgCtrl.openModalForImageEntity()">Bild-Metadaten</button>
+			<button class="btn btn-default btn-sm" ng-click="requestFullscreen()"><span class="glyphicon glyphicon-fullscreen"></span> Vollbild</button>
 		</div>
 
-		<ul class="pager" ng-if="entity.images" ng-init="entityImgCtrl.setNextAndPreviousImages()" style="opacity:0.8; position:absolute; bottom:10px; left:50%">
-			<li class="previous disabled" ng-if="!previousImage"><span class="glyphicon glyphicon-chevron-left"></span></li>
-			<li class="previous"  ng-if="previousImage"><a href="entity/{{entity.entityId}}/image/{{previousImage.imageId}}" ><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-			<li class="next disabled" ng-if="!nextImage"><span class="glyphicon glyphicon-chevron-right"></span></li>
-			<li class="next" ng-if="nextImage"><a href="entity/{{entity.entityId}}/image/{{nextImage.imageId}}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-		</ul>
+		<div ng-if="entity.images" ng-init="entityImgCtrl.setNextAndPreviousImages()" style="opacity:0.8; position:absolute; bottom:10px; left:50%; margin-left:-60px">
+			<button ng-if="!previousImage" ng-click="entityImgCtrl.showPreviousImage()" class="btn btn-link disabled" style="font-size:30px"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+			<button ng-if="previousImage" ng-click="entityImgCtrl.showPreviousImage()" class="btn btn-link" style="font-size:30px"><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+
+			<span class="badge" style="margin-top:2px">{{imageIndex+1}}/{{entity.images.length}}</span>
+			<button ng-if="!nextImage" ng-click="entityImgCtrl.showNextImage()" class="btn btn-link disabled" style="font-size:30px"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+			<button ng-if="nextImage" ng-click="entityImgCtrl.showNextImage()" class="btn btn-link" style="font-size:30px"><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+		</div>
 
 	</div>
 </div>

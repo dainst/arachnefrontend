@@ -74,7 +74,7 @@
 					<div class="panel-heading">
 						{{ bookmarklist.name }}: 
 						<div class="btn-group pull-right">
-							<button class="btn btn-sm"  ng-click="updateBookmarkModal(bookmark)" data-dismiss="alert" >
+							<button class="btn btn-sm"  ng-click="updateBookmark(bookmark)" data-dismiss="alert" >
 								<span class="glyphicon glyphicon-pencil"></span>
 							</button>
 							<button class="btn btn-sm"  ng-click="deleteBookmark(bookmark.id)" class="close" data-dismiss="alert" >
@@ -139,7 +139,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div ng-if="entity.thumbnailId">
-					<a href="entity/{{entity.entityId}}/image/{{ entity.thumbnailId }}"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
+					<a href="entity/{{entity.entityId}}/images"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
 				</div>
 				<div ng-if="entity.images.length > 0">
 					<h3 class="text-justify" ng-init="showConnectedImages=false">
@@ -176,7 +176,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="page-header">
-					<h3>{{ 'msg_relatedObjects' | i18n }}</h3>
+					<h3>Verknüpfte Objekte</h3>
 				</div>
 
 				<accordion class="accordion-with-list" close-others="true">
@@ -185,6 +185,7 @@
 							<span class="capitalized">{{facetValue.value}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
 						</accordion-heading>
 						<div>
+							<span class="list-group-item" ng-hide="facetValue.entities.length || facetValue.count > 15 ">Lädt... </span>
 							<a class="list-group-item" href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
 								{{entity.title}}
 							</a>
