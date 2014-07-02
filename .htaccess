@@ -4,5 +4,5 @@
     RewriteBase /
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*) /~cbensch/frontend/
+    RewriteRule ^(.*) /~fabian/frontend/
 </IfModule>

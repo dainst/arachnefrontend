@@ -130,10 +130,8 @@
 			<div class="page-header"><h4>OCR Text-Analyse</h4></div>
 			<ul>{{entity.additionalContent.ocrText}}</ul>
 		</div>
-		<div ng-if="specialNavigations.specialNavigationElements" class="page-header">
-			<h4>Andere Ansichten dieses Datensatzes</h4>
-		</div>
-		<a ng-repeat="navigation in specialNavigations.specialNavigationElements" href="{{ navigation.link }}"type="button" class="btn btn-info btn-sm">{{ navigation.title}} </a>
+		
+		
 	</div>
 	<div class="col-md-4" ng-show="entity.entityId">
 		<div class="row">
