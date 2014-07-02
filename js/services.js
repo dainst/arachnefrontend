@@ -580,27 +580,30 @@ angular.module('arachne.services', [])
 			getBookmark : function(id, successMethod, errorMethod){
 				return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
 			},
-			updateBookmark: function(bookmark, successMethod, errorMethod) {
-				var comment = bookmark.commentary;
-				console.log(comment);
+			updateBookmark: function(bookmark, successMethod, errorMethod) {	
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/Modals/updateBookmarkModal.html',
 					controller: 'updateBookmarkCtrl',
-					resolve:  {
-				        test: function () { return comment }
-				      }
-				});	
+					resolve: {
+				        'bookmark': function () {
+				            return bookmark;
+				        }
+					}
+				});
 
-				modalInstance.close = function(commentaryCash){
-					if(commentaryCash == undefined || commentaryCash == ""){
+				modalInstance.close = function(commentary){
+					if(commentary == undefined || commentary == ""){
 						alert("Kommentar setzen!")
 					} else {
 						modalInstance.dismiss();
-						var bm = new Object();
-						bm = bookmark;
-						bm.commentary = commentaryCash;
-
-						return arachneDataService.updateBookmark({ "id": bookmark.id}, bm, successMethod,errorMethod);
+						// Achtung, im bookmark-Objekt sind noch Attribute, wie title oder thumbnailId hinzugefügt worden.
+						// Hier duerfen aber nur die drei attribute id, arachneEntityId, commenatry übergeben werden, sonst nimmt es das Backend nicht an
+						return arachneDataService.updateBookmark(
+							{"id":bookmark.id},
+							{"id":bookmark.id, "arachneEntityId":bookmark.arachneEntityId, "commentary": commentary},
+							successMethod,
+							errorMethod
+						);
 					}
 				}
 			},

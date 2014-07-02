@@ -13,7 +13,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				templateUrl: 'partials/Modals/loginForm.html',
 				controller: 'LoginCtrl'
 			});			
-			//console.log("open complete");	    
 		};
 	}
 	]
@@ -21,7 +20,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('LoginCtrl',
 	['$scope', '$modalInstance', 'sessionService', 'md5Filter', '$timeout', '$modal',
 	function($scope, $modalInstance, sessionService, md5Filter, $timeout, $modal){
-
 		$scope.loginData = {};
 		$scope.user = sessionService.user;
 		$scope.loginerror = false;
@@ -246,9 +244,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				//console.log("unknown error");
 		});
 }])
-.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance, test ){
-		console.log(test);
-	 $scope.commentaryCash = test;
+.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', 'bookmark', function($scope, $modalInstance, NoteService, bookmark) {
+	  $scope.bookmark = bookmark;
 }])
 .controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService',
 	function ($scope, $modal, arachneEntity, sessionService, NoteService){
