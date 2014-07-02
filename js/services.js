@@ -545,11 +545,34 @@ angular.module('arachne.services', [])
 			getBookmarksLists : function(successMethod){
 				return arachneDataService.getBookmarksLists({},successMethod, catchError);
 			},
-			createBookmarksList : function(listData, successMethod, errorMethod) {
-				return arachneDataService.createBookmarksList(listData, successMethod, errorMethod);
+			createBookmarksList : function(successMethod, errorMethod) {
+				var modalInstance = $modal.open({
+					templateUrl: 'partials/Modals/createBookmarksList.html'
+				});	
+
+				modalInstance.close = function(name, commentary){
+					commentary = typeof commentary !== 'undefined' ? commentary : "";
+					if(name == undefined || name == "") {
+						alert("Bitte Titel eintragen.")							
+					} else {
+						modalInstance.dismiss();
+						var list = new Object();
+						list.name = name;
+						list.commentary = commentary;
+						list.bookmarks = bookmarks;
+						return arachneDataService.createBookmarksList(list, successMethod, errorMethod);
+					}
+				}
 			},
 			deleteBookmarksList : function(id, successMethod, errorMethod){
-				return arachneDataService.deleteBookmarksList({ "id": id}, successMethod,errorMethod);
+				var id = id;			
+				var modalInstance = $modal.open({
+					templateUrl: 'partials/Modals/deleteBookmarksList.html'
+				});	
+				modalInstance.close = function(){
+					modalInstance.dismiss();
+					return arachneDataService.deleteBookmarksList({ "id": id}, successMethod,errorMethod);
+				}
 			},
 			deleteBookmark : function(id, successMethod){
 				return arachneDataService.deleteBookmark({ "id": id}, successMethod, catchError);

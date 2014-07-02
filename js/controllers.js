@@ -301,49 +301,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 		}
 
-		$scope.deleteBookmarksListModal = function(id, name){
-			var id = id;
-			var name = name;
-			
-			var modalInstance = $modal.open({
-				templateUrl: 'partials/Modals/deleteBookmarksList.html'
-			});	
-			modalInstance.close = function(){
-				modalInstance.dismiss();
-				$scope.deleteBookmarksList(id);
-			}
-		}
-
-		$scope.createBookmarksListModal = function(){
-			var modalInstance = $modal.open({
-				templateUrl: 'partials/Modals/createBookmarksList.html'
-			});	
-
-			modalInstance.close = function(name, commentary){
-				commentary = typeof commentary !== 'undefined' ? commentary : "";
-				if(name == undefined || name == "") {
-					alert("Bitte Titel eintragen.")							
-				} else {
-					modalInstance.dismiss();
-					$scope.createBookmarksList(name, commentary, []);
-				}
-			}
-		}
-
-		$scope.createBookmarksList = function(name, commentary, bookmarks){
-			var list = new Object();
-			list.name = name;
-			list.commentary = commentary;
-			list.bookmarks = bookmarks;
-
-			$scope.bookmarksLists.push(NoteService.createBookmarksList(list, 
+		$scope.createBookmarksList = function(){
+			$scope.bookmarksLists.push(NoteService.createBookmarksList(
 				function(response){
 					// console.log("creating BookmarksList" + response);
 					$scope.refreshBookmarkLists();
-				},
-				function(response){
-					// console.log("Error creating BookmarksList" + response.status);
-					$scope.bmStatus = status;
 				}));
 		}
 
@@ -352,9 +314,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				function(data){
 					// console.log("deleted List" + data);
 					$scope.refreshBookmarkLists();
-				}, function(status){
-					// console.log("error deleting list" + status);
-					$scope.bmStatus = status;
 				});
 			
 		}

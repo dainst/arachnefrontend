@@ -4,7 +4,7 @@
 	</div>
 	<div class="col-md-7" ng-if="user.username">
 		<div class="page-header">
-			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksListModal()">Neue Liste anlegen</button>
+			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksList()">Neue Liste anlegen</button>
 			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Notizen & Lesezeichen</h3>
 
 		</div>
@@ -14,7 +14,7 @@
 		<accordion class="accordion-with-list" ng-repeat="bookmarksList in bookmarksLists" >
 			<accordion-group>
 		    	<accordion-heading>
-	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksListModal(bookmarksList.id, bookmarksList.name)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
+	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksList(bookmarksList.id)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
 		    	</accordion-heading>
 		    	<div ng-if="bookmarksList.bookmarks.length == 0"  class="list-group-item clearfix">
 		    		In dieser Liste sind noch keine Noitzen vorhanen.
