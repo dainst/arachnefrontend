@@ -78,54 +78,148 @@ angular.module('arachne.directives', []).
 	// - arachneimagerequest
 	// - arachneimageheight
 	.directive('arachneimagerequest', ['arachneSettings', function(arachneSettings) {
-  		return {
-  			restrict: 'A',
+		return {
+			restrict: 'A',
 
-    		link: function(scope, element, attrs) {
-    			var newElement = '';
-    			//DIRTY workaround for iterations on things that does not exsist, maybe
-    			// handle tiles without data
-    			if(attrs.isPlaceholderIfEmpty == "") {
-    				newElement = '<span style="display:none"><img src="img/imagePlaceholder.png"></span>';
- 				} else {
- 					if (attrs.link) {
-		       			if(attrs.imageid) {
-		       				newElement = '<a href="'+attrs.link+'"><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
-		       			} else {
-		       				newElement = '<a href="'+attrs.link+'"><img src="img/imagePlaceholder.png"></a>';
-		       			}
-		       		} else {
-		       			newElement = '<span><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></span>';
-		       		}
-	       		}
-       			element.prepend(angular.element(newElement));
-    		}
-  		}
+
+
+			link: function(scope, element, attrs) {
+				var newElement = '';
+				//DIRTY workaround for iterations on things that does not exsist, maybe
+				// handle tiles without data
+				if(attrs.isPlaceholderIfEmpty == "") {
+					newElement = '<span style="display:none"><img src="img/imagePlaceholder.png"></span>';
+				} else {
+					if (attrs.link) {
+						if(attrs.imageid) {
+							newElement = '<a href="'+attrs.link+'"><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
+						} else {
+							newElement = '<a href="'+attrs.link+'"><img src="img/imagePlaceholder.png"></a>';
+						}
+					} else {
+						newElement = '<span><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></span>';
+					}
+				}
+				element.prepend(angular.element(newElement));
+			}
+		}
 	}])
+
+
+
+	.directive('threedimensional', ['$window', '$q', function ($window, $q) {
+		return {
+		
+			restrict: 'A',
+			
+			link: function (scope, element, attrs) { // function content is optional
+				// in this example, it shows how and when the promises are resolved
+				var load_script = function() {
+					var paths = [
+						"lib/3d/three.js/three.min.js",
+						"lib/3d/three.js/Detector.js",
+						"lib/3d/three.js/controls/ArachneTrackballControls.js",
+						"lib/3d/three.js/controls/ArachneFirstPersonControls.js",
+						"lib/3d/three.js/loaders/ArachneOBJLoader.js",
+						"lib/3d/three.js/loaders/ArachneMTLLoader.js",        
+						"lib/3d/three.js/loaders/ArachneOBJMTLLoader.js",
+						"lib/3d/three.js/loaders/ArachneSTLLoader.js",
+						//"lib/3d/three.js/Stats.js",        
+						"lib/3d/threex/THREEx.screenshot.js",
+						"lib/3d/threex/THREEx.FullScreen.js",
+						//"lib/3d/libs/heartcode-canvasloader-min.js",
+						//"lib/3d/libs/dat.gui.min.js",
+						"lib/3d/viewer.js"
+					];
+
+					var pathsCount = paths.length
+					var loadingIndex = 0;
+
+					var listener = function () {
+						loadingIndex++;
+						if(loadingIndex<pathsCount) {
+							var scriptTag = document.createElement('script'); // use global document since Angular's $document is weak
+							scriptTag.src = paths[loadingIndex];
+							document.body.appendChild(scriptTag);
+
+							scriptTag.addEventListener('load', listener, false);
+						} else {
+							initialize();
+						}
+					}
+
+					var newScriptTag = document.createElement('script'); // use global document since Angular's $document is weak
+					newScriptTag.src = paths[loadingIndex];
+					document.body.appendChild(newScriptTag);
+					newScriptTag.addEventListener('load', listener, false);
+				};
+				
+				var lazyLoadApi = function(key) {
+
+					var deferred = $q.defer();
+					$window.initialize = function () {
+						deferred.resolve();
+					};
+					// thanks to Emil Stenström: http://friendlybit.com/js/lazy-loading-asyncronous-javascript/
+					if ($window.attachEvent) {
+						$window.attachEvent('onload', load_script);
+					} else {
+						if (document.readyState === "complete") {
+							load_script();
+						} else {
+							$window.addEventListener('load', load_script, false);
+						}
+						
+					}
+
+					return deferred.promise;
+				};
+
+
+				if ($window.THREE) {
+					console.log('lazyloading-libs: libs ALREADY loaded');
+					init();
+				} else {
+					lazyLoadApi().then(function () {
+						console.log('lazyloading-libs: promise resolved');
+						if ($window.THREE) {
+							console.log('lazyloading-libs:  loaded');
+						} else {
+							console.log('lazyloading-libs:  not loaded');
+						}
+					}, function () {
+						console.log('lazyloading-libs: promise rejected');
+					});
+				}
+			}
+		}
+	}])
+
+
 	.directive('map', ['$location', function($location) {
-    return {
-        restrict: 'A',
-        scope: {
-        	searchresults: '=',
-        	entities: '=',
-        },
-        link: function(scope) 
-        {	
-        	
-        	var map = L.map('map').setView([40, -10], 3);
+	return {
+		restrict: 'A',
+		scope: {
+			searchresults: '=',
+			entities: '=',
+		},
+		link: function(scope) 
+		{	
+			
+			var map = L.map('map').setView([40, -10], 3);
 
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-		        maxZoom: 18
-		    });
-		    map.addLayer(layer);			
-        	L.Icon.Default.imagePath = 'img';
+				maxZoom: 18
+			});
+			map.addLayer(layer);			
+			L.Icon.Default.imagePath = 'img';
 
 			var createMarkers = function(facet_geoValues){
 				var markerClusterGroup = new L.MarkerClusterGroup(
 				{
-				    iconCreateFunction: function(cluster) {
+					iconCreateFunction: function(cluster) {
 
-				        var markers = cluster.getAllChildMarkers();
+						var markers = cluster.getAllChildMarkers();
 						var entityCount = 0;
 						for (var i = 0; i < markers.length; i++) {
 							entityCount += markers[i].options.entityCount;
@@ -143,7 +237,7 @@ angular.module('arachne.directives', []).
 						}
 
 						return new L.DivIcon({ html: '<div><span>' + entityCount+ ' at ' + childCount + ' Places</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
-				    }
+					}
 				});
 
 				for (var i = facet_geoValues.length - 1; i >= 0; i--) {
@@ -175,32 +269,31 @@ angular.module('arachne.directives', []).
 			}
 
 			if(scope.searchresults)
-        	{
-        		for (var i = scope.searchresults.facets.length - 1; i >= 0; i--) {
+			{
+				for (var i = scope.searchresults.facets.length - 1; i >= 0; i--) {
 					if(scope.searchresults.facets[i].name === "facet_geo") {
-						console.log(scope.searchresults.facets[i].values);
 						createMarkers(scope.searchresults.facets[i].values);
 						break;
 					}
 				};
-        	}
-        	if(scope.entities)
-        	{
-        		var facet_geo = Array();
-        		for (var i = scope.entities.length - 1; i >= 0; i--) {
+			}
+			if(scope.entities)
+			{
+				var facet_geo = Array();
+				for (var i = scope.entities.length - 1; i >= 0; i--) {
 
-        			facet_geo.push({value: scope.entities[i].facet_geo[0], count: 1});
-        		}
-        		createMarkers(facet_geo);
-        	}      	
-        }
-    };
+					facet_geo.push({value: scope.entities[i].facet_geo[0], count: 1});
+				}
+				createMarkers(facet_geo);
+			}      	
+		}
+	};
 	}])	
 	.directive('zoomifyimg', ['arachneSettings', function(arachneSettings) {
-    	return {
-	        restrict: 'A',
-	        link: function(scope, element, attrs) 
-	        {
+		return {
+			restrict: 'A',
+			link: function(scope, element, attrs) 
+			{
 				/*
 				 * L.TileLayer.Zoomify display Zoomify tiles with Leaflet
 				 */
@@ -213,23 +306,23 @@ angular.module('arachne.directives', []).
 						options = L.setOptions(this, options);
 						this._entityId = entityId;
 
-				    	var imageSize = L.point(options.width, options.height),
-					    	tileSize = options.tileSize;
+						var imageSize = L.point(options.width, options.height),
+							tileSize = options.tileSize;
 
-				    	this._imageSize = [imageSize];
-				    	this._gridSize = [this._getGridSize(imageSize)];
+						this._imageSize = [imageSize];
+						this._gridSize = [this._getGridSize(imageSize)];
 
-				        while (parseInt(imageSize.x) > tileSize || parseInt(imageSize.y) > tileSize) {
-				        	imageSize = imageSize.divideBy(2).floor();
-				        	this._imageSize.push(imageSize);
-				        	this._gridSize.push(this._getGridSize(imageSize));
-				        }
+						while (parseInt(imageSize.x) > tileSize || parseInt(imageSize.y) > tileSize) {
+							imageSize = imageSize.divideBy(2).floor();
+							this._imageSize.push(imageSize);
+							this._gridSize.push(this._getGridSize(imageSize));
+						}
 
 						this._imageSize.reverse();
 						this._gridSize.reverse();
 
-				        this.options.maxZoom = this._gridSize.length - 1;
-				        var southWest = map.unproject([0, options.height], this.options.maxZoom);
+						this.options.maxZoom = this._gridSize.length - 1;
+						var southWest = map.unproject([0, options.height], this.options.maxZoom);
 						var northEast = map.unproject([options.width, 0], this.options.maxZoom);
 						map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
@@ -310,7 +403,7 @@ angular.module('arachne.directives', []).
 						}	
 
 						num += tilePoint.y * this._gridSize[zoom].x + tilePoint.x;
-				      	return Math.floor(num / 256);
+						return Math.floor(num / 256);
 					}
 
 				});
@@ -320,12 +413,12 @@ angular.module('arachne.directives', []).
 				};
 				var map = L.map(element[0]).setView([0,0], 0);
 				L.tileLayer.zoomify(attrs.entityid, {
-		    		width: scope.imageProperties.width,
-		    		height: scope.imageProperties.height,
-		    		tileSize : scope.imageProperties.tilesize,
-		    		tolerance: 0.8
+					width: scope.imageProperties.width,
+					height: scope.imageProperties.height,
+					tileSize : scope.imageProperties.tilesize,
+					tolerance: 0.8
 				}).addTo(map);
 
-	        }
-    	};
+			}
+		};
 	}]);

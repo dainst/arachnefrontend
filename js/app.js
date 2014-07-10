@@ -23,7 +23,8 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/entity/:entityId/images', {templateUrl: 'partials/image.html'})
 		.when('/search/:params?', {templateUrl: 'partials/search.html'})
 		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
-		.when('/map', {templateUrl: 'partials/map.html'});
+		.when('/map', {templateUrl: 'partials/map.html'})
+		.when('/3d', {templateUrl: 'partials/3d.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri : "http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice",
 		// dataserviceUri : "http://nighthorse01.dai-cloud.uni-koeln.de/arachnedataservice"
