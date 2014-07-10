@@ -467,7 +467,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				imageId : 230879,
 				title : "Bücher",
 				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
-				customlink : "category/?q=*&fq=facet_kategorie:buch&fl=1500"
+				customlink : "category/?q=*&fq=facet_kategorie:Bücher&fl=1500"
 			},
 			{
 				imageId : 433041,
