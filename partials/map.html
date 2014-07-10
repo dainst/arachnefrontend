@@ -3,8 +3,9 @@
 
 		<div ng-hide="searchresults.markers" class="loading"></div>
 
-        <div ng-if="searchresults.markers" id="mapNavigation" class="col-md-2 well well-sm" style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:9999;">
-        	<div class="alert alert-info"><small><b>Hinweis:</b>  Die Kreise auf dieser Karte zählen die darunterliegenden, <b>relevanten</b> Orte. <b>Annäherungen:</b> Für genaue Ergebnisse bitte die normale Suche nutzen. </small></div>
+        <div ng-show="searchresults.facets" id="mapNavigation" class="col-md-2 well well-sm" style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:9999;">
+        	
+
     		<a href="search/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}" type="button" class="btn btn-primary btn btn-block">Ausgewählte Objekte &nbsp; <i class="glyphicon glyphicon-arrow-right"> </i></a>
     		<div style="margin-top:10px;">
 				<small ng-if="searchresults.size" class="text-muted">
