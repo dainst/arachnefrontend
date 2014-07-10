@@ -5,7 +5,7 @@
         <div ng-if="searchresults.size" searchresults="searchresults" class="col-md-12 halfscreenMap" map id="map"></div>
 
 	</div>
-	<div class="row" ng-if="searchresults.markers">
+	<div class="row" ng-show="searchresults.facets">
 		<div class="col-md-6 col-md-offset-1">
 			<div class="page-header">
 				<h2 ng-repeat="facet in activeFacets" ng-if="facet.name == 'facet_kategorie'" class="capitalized">{{ facet.value }} <small> Arachne-Kategorie</small></h2>
@@ -13,7 +13,7 @@
 			</div>
 			
 			<accordion class="accordion-with-list" close-others="oneAtATime">
-				<accordion-group heading="{{facet.name | i18n }}" is-open="false"  ng-if="facet.name!='facet_geo'" ng-repeat="facet in searchresults.facets" >
+				<accordion-group heading="{{facet.name | i18n }}" ng-if="facet.name!='facet_geo'" ng-repeat="facet in searchresults.facets" >
 					<a class="list-group-item"  ng-click="searchCtrl.addFacet(facet.name, facetValue.value)"  ng-repeat="facetValue in facet.values">
 						<span class="badge">{{facetValue.count}}</span>
 						{{facetValue.value}}
