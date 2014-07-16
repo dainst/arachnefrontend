@@ -11,16 +11,27 @@ angular.module('arachne.directives', []).
 				var images 				= element[0].getElementsByTagName('img');
 				var imagesLeftToLoad 	= images.length;
 
+				var errorListener = function () {
+					console.warn("loading error -- Bild konnte nicht geladen werden. Pfad: " + this.src);
+					this.src="img/imagePlaceholder.png";
+				}
 
 				var listener = function () {
+
 					if(imagesLeftToLoad != 0) imagesLeftToLoad--;
+					
 
 					// BREAK if there are any images left to be loaded
 					if (imagesLeftToLoad != 0) return;
 
 					var scalingPercentage = 0, imagesWidth = 0;
 					for (var i = images.length - 1; i >= 0; i--) {
-						// 4 is padding of image
+
+						if(images[i].naturalWidth == 0) {
+							console.warn("naturalWidth  -- Bild hatte eine naturalWidth von 0. Pfad: " + images[i].src);
+							images[i].src="img/imagePlaceholder.png";
+						}
+
 						imagesWidth += images[i].width;
 					};
 					// 30 is padding of container
@@ -28,6 +39,8 @@ angular.module('arachne.directives', []).
 
 					for (var i = images.length - 1; i >= 0; i--) {
 						if(scalingPercentage > 120) {
+							// 4px is padding of image
+
 							var newWidth =  (images[i].width/101)*120;
 							var newOuterWidth =  (images[i].width/101)*scalingPercentage;
 							images[i].parentNode.parentNode.style.width = newOuterWidth + "px";
@@ -39,6 +52,7 @@ angular.module('arachne.directives', []).
 						}
 						images[i].style.display = 'block';
 						images[i].removeEventListener("load", listener, false);
+						images[i].removeEventListener("error", listener, false);
 					};
 					
 				};
@@ -64,6 +78,10 @@ angular.module('arachne.directives', []).
 					images[i].addEventListener(
 						"load",
 						listener,
+						false);
+					images[i].addEventListener(
+						"error",
+						errorListener,
 						false);
 					
 				}

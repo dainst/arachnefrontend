@@ -6,7 +6,10 @@
 
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 	
-	<base href="/~fabian/frontend/">
+	<base id="baseLink" href="">
+	<script type="text/javascript">
+		document.getElementById('baseLink').href = document.location.pathname;
+	</script>
 
 	<link rel="stylesheet" href="css/MarkerCluster.css">
 	<link rel="stylesheet" href="css/MarkerCluster.Default.css">
