@@ -26,6 +26,6 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/map', {templateUrl: 'partials/map.html'})
 		.when('/3d', {templateUrl: 'partials/3d.html'});
 }]).constant('arachneSettings', {
-		dataserviceUri : "http://" + document.location.host + "/arachnedataservice",
+		dataserviceUri : "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href")
 });
