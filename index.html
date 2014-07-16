@@ -8,7 +8,16 @@
 	
 	<base id="baseLink" href="">
 	<script type="text/javascript">
-		document.getElementById('baseLink').href = document.location.pathname;
+		var basepath = document.location.pathname;
+
+		basepath = basepath.split('bookmarks')[0];
+		basepath = basepath.split('entity')[0];
+		basepath = basepath.split('search')[0];
+		basepath = basepath.split('category')[0];
+		basepath = basepath.split('map')[0];
+		basepath = basepath.split('3d')[0];
+
+		document.getElementById('baseLink').href = basepath;
 	</script>
 
 	<link rel="stylesheet" href="css/MarkerCluster.css">

@@ -3,7 +3,7 @@
     RewriteEngine On
     RewriteBase /
 
-    ## documentation -> http://www.zeilenwechsel.de/it/articles/8/Using-mod_rewrite-in-.htaccess-files-without-knowing-the-RewriteBase.html
+    ## http://www.zeilenwechsel.de/it/articles/8/Using-mod_rewrite-in-.htaccess-files-without-knowing-the-RewriteBase.html
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond $1#%{REQUEST_URI} ([^#]*)#(.*)\1$
 	RewriteRule ^(.*)$ %2index.html [QSA,L]
