@@ -247,12 +247,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('updateBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', 'bookmark', function($scope, $modalInstance, NoteService, bookmark) {
 	  $scope.bookmark = bookmark;
 }])
-.controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService',
-	function ($scope, $modal, arachneEntity, sessionService, NoteService){
+.controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService','arachneSettings',
+	function ($scope, $modal, arachneEntity, sessionService, NoteService, arachneSettings){
 
 		$scope.bookmarksLists = [];
 		$scope.user = sessionService.user;
-
+		$scope.dataserviceUri = arachneSettings.dataserviceUri;
 		this.logout = function () {
 			sessionService.logout(function () {
 				window.location.href = '';

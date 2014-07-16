@@ -12,7 +12,7 @@
 			Keine Liste vorhanden. Legen Sie doch eine an.
 		</div>
 		<accordion class="accordion-with-list" ng-repeat="bookmarksList in bookmarksLists" >
-			<accordion-group>
+			<accordion-group is-open="true">
 		    	<accordion-heading>
 	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksList(bookmarksList.id)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
 		    	</accordion-heading>
@@ -25,13 +25,11 @@
 	    					<button type="button" class="btn btn-sm " ng-click="updateBookmark(bookmark)"><span class="glyphicon glyphicon-pencil"></span></button>
 	    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
 						</div>
-		    			<div class="col-md-2 col-xs-2" ng-if="bookmark.thumbnailId">
-							<a href="entity/{{ bookmark.arachneEntityId }}/image/{{ bookmark.thumbnailId }}">
-								<img width="100%" ng-src="{{dataserviceUri}}/arachnedataservice/image/thumbnail/{{ bookmark.thumbnailId }}"/>
+		    			<div class="col-md-2 col-xs-2">
+							<a ng-if="bookmark.thumbnailId" href="entity/{{ bookmark.arachneEntityId }}">
+								<img class="img-thumbnail" width="100%" ng-src="{{dataserviceUri}}/image/thumbnail/{{ bookmark.thumbnailId }}"/>
 							</a>
-						</div>
-						<div class="pull-left" ng-if="!bookmark.thumbnailId">
-							<img  class="img-thumbnail" width="50" height="50" ng-src="img/imagePlaceholder.png"></img></a>
+							<img ng-if="!bookmark.thumbnailId" class="img-thumbnail" width="50" height="50" ng-src="img/imagePlaceholder.png"></img></a>
 						</div>
 						<div class="col-md-8">
 							<a href="entity/{{ bookmark.arachneEntityId }}" class="title small" >{{ bookmark.title }}</a><br>

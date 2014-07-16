@@ -41,7 +41,7 @@
 		</div>
 		<div ng-if="entity" ng-hide="showingImagesGrid" class="btn-group-vertical" style="opacity:0.8; position:absolute; right:10px; top: 60px;">
 			<a class="btn btn-primary btn-sm" href="entity/{{entity.entityId}}"><span class="glyphicon glyphicon-remove"></span> <i> zurück zu</i><div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">{{entity.title}}</div> </a>
-			<a class="btn btn-default btn-sm" href="http://crazyhorse.archaeologie.uni-koeln.de/arachnedataservice/image/{{entityId}}" download="{{entityId}}.jpg"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
+			<a class="btn btn-default btn-sm" href="http://crazyhorse.archaeologie.uni-koeln.de/data/image/{{entityId}}" download="{{entityId}}.jpg"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
 			<button class="btn btn-default btn-sm" ng-click="entityImgCtrl.openModalForImageEntity()">Bild-Metadaten</button>
 			<button class="btn btn-default btn-sm" ng-click="requestFullscreen()"><span class="glyphicon glyphicon-fullscreen"></span> Vollbild</button>
 			<button class="btn btn-default btn-sm " ng-click="toggleImageGrid()" ng-if="entity.images.length > 1" ><span class="glyphicon glyphicon-th"></span> Alle Bilder ({{entity.images.length}})</button>
