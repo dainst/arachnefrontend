@@ -32,7 +32,7 @@
 			</form>
 
 			<h5 class="text-muted uppercase"><b>Filter</b></h5>
-			<ul class="list-unstyled facet" ng-repeat="facet in searchresults.facets">
+			<ul class="list-unstyled facet" ng-repeat="facet in searchresults.facets" ng-if="facet.name != 'facet_geo'">
 				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet" ng-class="{ 'active': openfacet }"><b>{{facet.name | i18n }}</b></button>
 				<li ng-click="searchCtrl.addFacet(facet.name, facetValue.value)"  ng-repeat="facetValue in facet.values" ng-show="openfacet || facet.name=='facet_hasImage' ">
 					<b class="pull-right text-muted">{{facetValue.count}}</b>{{facetValue.value}}
