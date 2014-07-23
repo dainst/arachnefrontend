@@ -13,56 +13,86 @@
 	</div>
 </script>
 
-<div class="row"  ng-controller="EntityCtrl as entityCtrl">
+<div class="row" style="margin-top:0px;"  ng-controller="EntityCtrl as entityCtrl">
 	<div ng-hide="entity.entityId" class="loading"></div>
-	<div class="col-md-2" style="padding-top:10px">
+	<div class="col-md-3">
+		<div class="page-header">
+			<h2>&nbsp;<br><small>&nbsp;</small></h2>
+		</div>
 
 <!-- CURRENT QUERY STATUS -->
 		<div ng-if="currentQueryParameters.q">
 			<div class="page-header">
-				<h5 class="text-muted uppercase"><strong>Suche</strong></h5>
+				<h5 class="text-muted uppercase"><strong>Navigation durch Suchergebnisse</strong></h5>
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					Letzte Suche <button ng-click="entityCtrl.goToResults()" class="btn btn-xs pull-right btn-default">anzeigen</button>
+					Aktuelle Suche <button ng-click="entityCtrl.goToResults()" class="btn btn-xs pull-right btn-primary">anzeigen</button>
 				</div>
-				<div class="panel-body" style="overflow:hidden">
-					<div class="text-muted uppercase small"><b>Suchbegriff</b></div>
-					{{currentQueryParameters.q}}
+				<ul class="list-group" style="overflow:hidden">
+					<li class="list-group-item">
+						<b class="text-muted uppercase small">Suchbegriff</b><br>
+						{{currentQueryParameters.q}}
+					</li>
 
-					<div class="text-muted uppercase small"><br><b>Ergebnisse insgesamt</b></div>
-					{{nextEntitySearch.size}}
+					<li class="list-group-item">
+						<b class="text-muted uppercase small">Ergebnisse insgesamt</b><br>
+						{{nextEntitySearch.size}}
+					</li>
 
-					<div class="text-muted uppercase small"><br><b>Ergebnisnummer</b></div>
+					<li class="list-group-item" >
+						<b class="text-muted uppercase small">Ergebnisnummer</b>
+						<form class="form-inline" role="form">
 
-					<form class="form-inline" role="form">
-						<div class="input-group" style="width:100%">
-							
-					    	<input type="number" size="4" ng-model="resultIndex" style="width:50%" class="form-control input-sm">
-					    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = resultIndex" ng-show="resultIndex!=oldResultIndex">
-					        	<button ng-click="entityCtrl.goToResultNr(resultIndex)" class="btn btn-default btn-sm" type="button">springe</button>
-					    	</span>
-					    </div>
-					</form>
+							<div class="input-group">
+								
+						    	<input type="number" size="4" ng-model="resultIndex" style="width:50%" class="form-control input-sm">
+						    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = resultIndex" >
+						        	<button ng-click="entityCtrl.goToResultNr(resultIndex)" class="btn btn-default btn-sm" ng-class="{ 'disabled' : resultIndex==oldResultIndex }" type="button">springe</button>
+						    	</span>
+						    </div>
+
+						</form>
+					</li>
+
+					<li ng-if="activeFacets.length" class="list-group-item">
+						<b class="text-muted uppercase small">Facetten</b>
+						<ul>
+							<li ng-repeat="facet in activeFacets"><small><i>{{facet.name | i18n}}</i><b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b></small></li>
+						</ul>
+					</li>
+
+					<a href="" class="list-group-item" ng-click="entityCtrl.goToPreviousResult()">
+						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-up" style="color:black" ></span> &nbsp; vorheriges Ergebnis</b><br>
+						<small>{{previousEntitySearch.entities[0].title}}</small>
+					</a>
+					<li class="list-group-item" style="background: #f5f5f5;">
+						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-minus" style="color:black" ></span> &nbsp; aktuelles Ergebnis</b><br>
+						<small>{{entity.title}}</small>
+					</li>
+					<a class="list-group-item" href="" ng-click="entityCtrl.goToNextResult()" >
+						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-down" style="color:black" ></span> &nbsp; nächstes Ergebnis</b><br>
+						<small>{{previousEntitySearch.entities[0].title}}</small>
+					</a>
 
 
-					<ul ng-if="activeFacets.length" class="list-unstyled" style="margin-top:10px">
-						<small class="text-muted uppercase"><strong>Facetten</strong></small>
-						<li ng-repeat="facet in activeFacets"><small><i>{{facet.name | i18n}}</i><b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b></small></li>
-					</ul>
-				</div>
+
+					
+				</ul>
 			</div>
 		</div>
 
 <!-- RESULT NAVIGATION -->
-		<div class="btn-group-vertical btn-block" ng-if="previousEntitySearch.entities[0] || nextEntitySearch.entities[0]">
+		<!-- <div class="btn-group-vertical btn-block" ng-if="previousEntitySearch.entities[0] || nextEntitySearch.entities[0]">
 				<button ng-click="entityCtrl.goToPreviousResult()" class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="previousEntitySearch.entities[0]">
 				<span class="glyphicon glyphicon-arrow-up" ></span> &nbsp; <small>{{previousEntitySearch.entities[0].title}}</small>
 			</button>
 				<button ng-click="entityCtrl.goToNextResult()"  class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="nextEntitySearch.entities[0]">
 				<span class="glyphicon glyphicon-arrow-down" ></span> &nbsp; <small>{{nextEntitySearch.entities[0].title}}</small>
 			</button>
-		</div>
+		</div> -->
+
+
 
 <!-- NOTES -->
 		<div ng-if="user.username" ng-init="queryBookmarListsForEntityId()">
@@ -93,7 +123,7 @@
 		</div>
 
 	</div>
-	<div class="col-md-6" ng-show="entity.entityId">
+	<div class="col-md-6" ng-show="entity.entityId" style="background-color: #F8F8F8;">
 		<div class="page-header">
 			<h2>
 				{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type }}</span><br>
@@ -133,7 +163,11 @@
 		
 		
 	</div>
-	<div class="col-md-4" ng-show="entity.entityId">
+	<div class="col-md-3" style="background-color: #fcfcfc;" ng-show="entity.entityId">
+		<div class="page-header">
+			<h2>&nbsp;<br><small>&nbsp;</small></h2>
+		</div>
+
 		<div class="row">
 			<div class="col-md-12">
 				<div ng-if="entity.thumbnailId">

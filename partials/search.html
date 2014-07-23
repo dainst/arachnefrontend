@@ -43,17 +43,20 @@
 	</div>
 
 	<div class="col-md-10 col-sm-9" ng-switch="listStyle" ng-init="offset = currentQueryParameters.offset? currentQueryParameters.offset : 0" ng-if="searchresults.size">
-		<div style="margin-bottom:20px">
+		<div style="margin-bottom:30px">
+			
+
+			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px; margin-top:4px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button>
 
 
-			<button class="btn btn-xs linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px"><i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b></button> 	
 			<div class="btn-group pull-right">
 				<button class="btn btn-sm btn-primary" ng-click="listStyle = 'list'" ng-class="{ 'active': listStyle == 'list' }"><span class="glyphicon glyphicon-align-justify"></span> Liste</button>
 				<a href="map/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}&fl=2000" class="btn btn-sm btn-primary" ng-class="{ 'active': listStyle == 'map' }"><span class="glyphicon glyphicon-map-marker"></span> Karte (Geo-Ergebnisse)</a>
 				<button class="btn btn-sm btn-primary" ng-click="listStyle = 'tiles'" ng-class="{ 'active': listStyle == 'tiles' || listStyle == undefined }"><span class="glyphicon glyphicon-picture"></span> Kacheln</button>
 			</div>
 		</div>
-		<br><br>
+
+
 
 		<table class="table table-condensed table-hover" ng-switch-when="list">
 			<tr ng-repeat="entity in searchresults.entities" class="small"	>
@@ -94,7 +97,7 @@
 	</div>	
 
 	<p align="center" ng-show="searchresults.size">
-			<pagination ng-model="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="zurück" next-text="weiter" boundary-links="true" first-text="&laquo;" last-text="&raquo;" ng-change="onSelectPage()" num-pages="numPages"></pagination>
-		</p>
+		<pagination ng-model="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="zurück" next-text="weiter" boundary-links="true" first-text="&laquo;" last-text="&raquo;" ng-change="onSelectPage()" num-pages="numPages"></pagination>
+	</p>
 
 </div>

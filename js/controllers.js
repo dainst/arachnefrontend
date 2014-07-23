@@ -130,13 +130,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
 		}
 		this.goToResultNr = function(number) {
-
-			/*if((number > 0) && (number!=$scope.resultIndex) && (number < $scope.nextEntitySearch.size)){
+			if((number > 0) && (number!=$scope.resultIndex) && (number < $scope.nextEntitySearch.size)){
 				arachneSearch.setResultIndex(number)
 				var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
 					qHash.resultIndex = arachneSearch.getResultIndex();
 				$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search(qHash);
-			}*/
+			}
 		}
 		this.goToNextResult = function () {
 			arachneSearch.setResultIndex($scope.resultIndex+1);
