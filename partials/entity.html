@@ -15,7 +15,7 @@
 
 <div class="row" style="margin-top:0px;"  ng-controller="EntityCtrl as entityCtrl">
 	<div ng-hide="entity.entityId" class="loading"></div>
-	<div class="col-md-3">
+	<div class="col-md-3" style="background-color:#fbfbfb; height:100%">
 		<div class="page-header">
 			<h2>&nbsp;<br><small>&nbsp;</small></h2>
 		</div>
@@ -123,7 +123,7 @@
 		</div>
 
 	</div>
-	<div class="col-md-6" ng-show="entity.entityId" style="background-color: #F8F8F8;">
+	<div class="col-md-6" ng-show="entity.entityId">
 		<div class="page-header">
 			<h2>
 				{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type }}</span><br>
@@ -163,7 +163,7 @@
 		
 		
 	</div>
-	<div class="col-md-3" style="background-color: #fcfcfc;" ng-show="entity.entityId">
+	<div class="col-md-3" ng-show="entity.entityId">
 		<div class="page-header">
 			<h2>&nbsp;<br><small>&nbsp;</small></h2>
 		</div>
