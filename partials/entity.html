@@ -62,7 +62,7 @@
 						</ul>
 					</li>
 
-					<a href="" class="list-group-item" ng-click="entityCtrl.goToPreviousResult()">
+					<a href="" class="list-group-item" ng-show="previousEntitySearch.entities.length" ng-click="entityCtrl.goToPreviousResult()">
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-up" style="color:black" ></span> &nbsp; vorheriges Ergebnis</b><br>
 						<small>{{previousEntitySearch.entities[0].title}}</small>
 					</a>
@@ -70,7 +70,7 @@
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-minus" style="color:black" ></span> &nbsp; aktuelles Ergebnis</b><br>
 						<small>{{entity.title}}</small>
 					</li>
-					<a class="list-group-item" href="" ng-click="entityCtrl.goToNextResult()" >
+					<a class="list-group-item" href="" ng-show="previousEntitySearch.entities.length" ng-click="entityCtrl.goToNextResult()" >
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-down" style="color:black" ></span> &nbsp; nächstes Ergebnis</b><br>
 						<small>{{previousEntitySearch.entities[0].title}}</small>
 					</a>
