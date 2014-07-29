@@ -46,9 +46,9 @@
 
 							<div class="input-group">
 								
-						    	<input type="number" size="4" ng-model="resultIndex" style="width:50%" class="form-control input-sm">
-						    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = resultIndex" >
-						        	<button ng-click="entityCtrl.goToResultNr(resultIndex)" class="btn btn-default btn-sm" ng-class="{ 'disabled' : resultIndex==oldResultIndex }" type="button">springe</button>
+						    	<input type="number" size="4" ng-model="currentQueryParameters.resultIndex" style="width:50%" class="form-control input-sm">
+						    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = currentQueryParameters.resultIndex" >
+						        	<button ng-click="entityCtrl.goToResultNr(currentQueryParameters.resultIndex)" class="btn btn-default btn-sm" ng-class="{ 'disabled' : currentQueryParameters.resultIndex==oldResultIndex }" type="button">springe</button>
 						    	</span>
 						    </div>
 
@@ -67,12 +67,11 @@
 						<small>{{previousEntitySearch.entities[0].title}}</small>
 					</a>
 					<li class="list-group-item" style="background: #f5f5f5;">
-						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-minus" style="color:black" ></span> &nbsp; aktuelles Ergebnis</b><br>
-						<small>{{entity.title}}</small>
+						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-minus" style="color:black" ></span> &nbsp; aktuelles Ergebnis</b>
 					</li>
-					<a class="list-group-item" href="" ng-show="previousEntitySearch.entities.length" ng-click="entityCtrl.goToNextResult()" >
+					<a class="list-group-item" href="" ng-show="nextEntitySearch.entities.length" ng-click="entityCtrl.goToNextResult()" >
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-down" style="color:black" ></span> &nbsp; nächstes Ergebnis</b><br>
-						<small>{{previousEntitySearch.entities[0].title}}</small>
+						<small>{{nextEntitySearch.entities[0].title}}</small>
 					</a>
 
 

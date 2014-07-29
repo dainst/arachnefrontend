@@ -130,24 +130,28 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
 		}
 		this.goToResultNr = function(number) {
-			if((number > 0) && (number!=$scope.resultIndex) && (number < $scope.nextEntitySearch.size)){
-				arachneSearch.setResultIndex(number)
-				var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
-					qHash.resultIndex = arachneSearch.getResultIndex();
-				$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search(qHash);
+			if((number > 0) /*&& (number!=$scope.currentQueryParameters.resultIndex) */ && (number < $scope.nextEntitySearch.size)){
+				//arachneSearch.setResultIndex(number)
+				// var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
+				// 	qHash.resultIndex = arachneSearch.getResultIndex();
+				$scope.currentQueryParameters.resultIndex = number;
+				$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search($scope.currentQueryParameters);
 			}
 		}
 		this.goToNextResult = function () {
-			arachneSearch.setResultIndex($scope.resultIndex+1);
-			var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
-				qHash.resultIndex = arachneSearch.getResultIndex();
-			$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search(qHash);
+			// arachneSearch.setResultIndex($scope.resultIndex+1);
+			// var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
+			// 	qHash.resultIndex = arachneSearch.getResultIndex();
+			$scope.currentQueryParameters.resultIndex += 1;
+			$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search($scope.currentQueryParameters);
 		}
 		this.goToPreviousResult = function () {
-			arachneSearch.setResultIndex($scope.resultIndex-1);
-			var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
-				qHash.resultIndex = arachneSearch.getResultIndex();
-			$location.url("entity/" + $scope.previousEntitySearch.entities[0].entityId).search(qHash);
+			// arachneSearch.setResultIndex($scope.resultIndex-1);
+			// var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
+			// 	qHash.resultIndex = arachneSearch.getResultIndex();
+
+			$scope.currentQueryParameters.resultIndex -= 1;
+			$location.url("entity/" + $scope.previousEntitySearch.entities[0].entityId).search($scope.currentQueryParameters);
 		}
 
 		$scope.queryBookmarListsForEntityId = function(){
@@ -186,21 +190,23 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	  // RECONSTRUCT SEARCH-SESSION IF THERE IS ONE IN THE URL-PARAMETERS
 		if($location.$$search.q) {
 			var qHash = $location.$$search
-			if(qHash.fq) {
-				arachneSearch.setActiveFacets(qHash.fq);
-			}
-			if (qHash.resultIndex) {
-				arachneSearch.setResultIndex(qHash.resultIndex);
-			}
-			delete qHash.resultIndex;
-			arachneSearch.setCurrentQueryParameters(qHash);
+			// if(qHash.fq) {
+			// 	arachneSearch.setActiveFacets(qHash.fq);
+			// }
+			// if (qHash.resultIndex) {
+			// 	arachneSearch.setResultIndex(qHash.resultIndex);
+			// }
+			// delete qHash.resultIndex;
+			// arachneSearch.setCurrentQueryParameters(qHash);
+			$scope.currentQueryParameters = qHash
+			$scope.currentQueryParameters.resultIndex = parseInt(qHash.resultIndex);
 		}
 
 		$scope.dataserviceUri = arachneSettings.dataserviceUri;
 		
-		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
+		//$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
 		$scope.activeFacets = arachneSearch.getActiveFacets();
-		$scope.resultIndex = arachneSearch.getResultIndex();
+		//$scope.resultIndex = arachneSearch.getResultIndex();
 
 		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
@@ -209,15 +215,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 
 		$scope.isBookmark = false;
-
-		if($scope.resultIndex != null) {
-			var queryhash = angular.copy(arachneSearch.getCurrentQueryParameters());
+		if($scope.currentQueryParameters && $scope.currentQueryParameters.resultIndex != null) {
+			var queryhash = {};
+			queryhash.q = $scope.currentQueryParameters.q;
+			queryhash.resultIndex = $scope.currentQueryParameters.resultIndex;
+			queryhash.fq = $scope.currentQueryParameters.fq;
 			queryhash.limit = 1;
-			queryhash.offset = $scope.resultIndex+1;
+			queryhash.offset = $scope.currentQueryParameters.resultIndex+1;
 			
 			$scope.nextEntitySearch = arachneSearch.search(queryhash);
 			
-			queryhash.offset = $scope.resultIndex-1;
+			queryhash.offset = $scope.currentQueryParameters.resultIndex-1;
 			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
 		}
 }])

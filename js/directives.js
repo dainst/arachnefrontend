@@ -79,6 +79,8 @@ angular.module('arachne.directives', []).
 						"load",
 						listener,
 						false);
+					//images[i].setAttribute('onload',listener())
+					// images[i].onload = listener();
 					images[i].addEventListener(
 						"error",
 						errorListener,
@@ -110,9 +112,9 @@ angular.module('arachne.directives', []).
 				} else {
 					if (attrs.link) {
 						if(attrs.imageid) {
-							newElement = '<a href="'+attrs.link+'"><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
+							newElement = '<a href=\''+attrs.link+'\'><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
 						} else {
-							newElement = '<a href="'+attrs.link+'"><img src="img/imagePlaceholder.png"></a>';
+							newElement = '<a href=\''+attrs.link+'\'><img src="img/imagePlaceholder.png"></a>';
 						}
 					} else {
 						newElement = '<span><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></span>';
