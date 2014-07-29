@@ -409,14 +409,7 @@ angular.module('arachne.services', [])
 			};
 		return factory;
 	}])
-	.factory('teaserFactory', ['$http', 'arachneSettings', function($http, arachneSettings){
-		var factory = {};
-		factory.getTeaser = function() {
-				return $http.get( arachneSettings.dataserviceUri + '/teasers/de');
-			};
-		return factory;
-	}])
-.factory('NoteService', ['$resource', 'arachneSettings', 'sessionService', '$http', '$modal', function($resource, arachneSettings, sessionService, $http, $modal){
+	.factory('NoteService', ['$resource', 'arachneSettings', 'sessionService', '$http', '$modal', function($resource, arachneSettings, sessionService, $http, $modal){
 
 		var catchError = function(errorReponse) {
 			if (errorReponse.status == 403) {
