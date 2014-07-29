@@ -82,7 +82,7 @@
 					<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+3].entityId}}"   imageid="{{searchresults.entities[$index+3].thumbnailId}}" link='entity/{{searchresults.entities[$index+3].entityId}}?q={{currentQueryParameters.q}}&resultIndex={{$index+3}}&fq={{currentQueryParameters.fq}}' ng-click="setResultIndex(offset + $index+3)">
 						<p style="height: 55px; overflow: hidden;"><small>{{ searchresults.entities[$index+3].title }}</small></p>
 					</div>
-					<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+4].entityId}}"   imageid="{{searchresults.entities[$index+4].thumbnailId}}" link="entity/{{searchresults.entities[$index+4].entityId}}" ng-click="setResultIndex(offset + $index+4)">
+					<div arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+4].entityId}}"   imageid="{{searchresults.entities[$index+4].thumbnailId}}" link="entity/{{searchresults.entities[$index+4].entityId}}?q={{currentQueryParameters.q}}&resultIndex={{$index+3}}&fq={{currentQueryParameters.fq}}" ng-click="setResultIndex(offset + $index+4)">
 						<p style="height: 55px; overflow: hidden;"><small>{{ searchresults.entities[$index+4].title }}</small></p>
 					</div>
 				</div>

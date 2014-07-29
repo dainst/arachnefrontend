@@ -129,15 +129,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		this.goToResults = function () {
 			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
 		}
-		this.goToResultNr = function(number) {
-			if((number > 0) /*&& (number!=$scope.currentQueryParameters.resultIndex) */ && (number < $scope.nextEntitySearch.size)){
-				//arachneSearch.setResultIndex(number)
-				// var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
-				// 	qHash.resultIndex = arachneSearch.getResultIndex();
-				$scope.currentQueryParameters.resultIndex = number;
-				$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search($scope.currentQueryParameters);
-			}
-		}
+		// this.goToResultNr = function(number) {
+		// 	if((number > 0) /*&& (number!=$scope.currentQueryParameters.resultIndex) */ && (number < $scope.nextEntitySearch.size)){
+		// 		//arachneSearch.setResultIndex(number)
+		// 		// var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
+		// 		// 	qHash.resultIndex = arachneSearch.getResultIndex();
+		// 		$scope.currentQueryParameters.resultIndex = number;
+		// 		$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search($scope.currentQueryParameters);
+		// 	}
+		// }
 		this.goToNextResult = function () {
 			// arachneSearch.setResultIndex($scope.resultIndex+1);
 			// var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
@@ -190,23 +190,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	  // RECONSTRUCT SEARCH-SESSION IF THERE IS ONE IN THE URL-PARAMETERS
 		if($location.$$search.q) {
 			var qHash = $location.$$search
-			// if(qHash.fq) {
-			// 	arachneSearch.setActiveFacets(qHash.fq);
-			// }
-			// if (qHash.resultIndex) {
-			// 	arachneSearch.setResultIndex(qHash.resultIndex);
-			// }
-			// delete qHash.resultIndex;
-			// arachneSearch.setCurrentQueryParameters(qHash);
+
 			$scope.currentQueryParameters = qHash
 			$scope.currentQueryParameters.resultIndex = parseInt(qHash.resultIndex);
 		}
 
 		$scope.dataserviceUri = arachneSettings.dataserviceUri;
 		
-		//$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
+
 		$scope.activeFacets = arachneSearch.getActiveFacets();
-		//$scope.resultIndex = arachneSearch.getResultIndex();
+
 
 		$scope.entity = arachneEntity.getEntityById($routeParams.id);
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
@@ -428,7 +421,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 }])
-.controller('NewsController', ['$scope', 'newsFactory', 'teaserFactory', 'arachneSearch', function ($scope, newsFactory, teaserFactory, arachneSearch) {
+.controller('NewsController', ['$scope', 'newsFactory', 'arachneSearch', function ($scope, newsFactory, arachneSearch) {
 
 		angular.element(document).ready(function () {
         	$scope.screenHeight = window.outerHeight-480;

@@ -38,6 +38,13 @@ body {
 .sections li {
   list-style:none;
 }
+
+.sections .section-list-item a:before {
+  content: "\e164 ";
+  margin-right: 4px;
+  font: 10px 'Glyphicons Halflings';
+}
+
 .facet {
 	margin-top: 14px;
 }

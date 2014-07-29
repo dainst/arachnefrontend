@@ -3,7 +3,7 @@
 		<div ng-switch="isArray(section.value)">
 			<span ng-switch-when="false" ng-bind-html="section.value"></span>
 			<ul ng-switch-when="true">
-				<li style="list-style:disc" ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></li>
+				<li style="list-style:disc;" class="section-list-item" ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></li>
 			</ul>
 		</div>
 	</li>
@@ -42,16 +42,17 @@
 
 					<li class="list-group-item" >
 						<b class="text-muted uppercase small">Ergebnisnummer</b>
-						<form class="form-inline" role="form">
 
+						<form class="form-inline" action="{{ 'entity/' + entity.entityId }}" method="GET" role="search">
+							<input style="display:none" name="q"  class="form-control" value="{{currentQueryParameters.q}}">
+							<input style="display:none" name="fq" value="{{currentQueryParameters.fq}}">
+							<input style="display:none" id="resultIndexInput" name="resultIndex" value="{{currentQueryParameters.resultIndex}}">
 							<div class="input-group">
-								
-						    	<input type="number" size="4" ng-model="currentQueryParameters.resultIndex" style="width:50%" class="form-control input-sm">
+						    	<input type="number" size="4" id="humanizedResultIndex" onchange="document.getElementById('resultIndexInput').value = this.value-1" value="{{currentQueryParameters.resultIndex+1}}" style="width:50%" class="form-control input-sm">
 						    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = currentQueryParameters.resultIndex" >
-						        	<button ng-click="entityCtrl.goToResultNr(currentQueryParameters.resultIndex)" class="btn btn-default btn-sm" ng-class="{ 'disabled' : currentQueryParameters.resultIndex==oldResultIndex }" type="button">springe</button>
+						        	<button type="submit" class="btn btn-default btn-sm" ng-class="{ 'disabled' : currentQueryParameters.resultIndex==oldResultIndex }" type="button">springe</button>
 						    	</span>
 						    </div>
-
 						</form>
 					</li>
 
@@ -62,14 +63,14 @@
 						</ul>
 					</li>
 
-					<a href="" class="list-group-item" ng-show="previousEntitySearch.entities.length" ng-click="entityCtrl.goToPreviousResult()">
+					<a style="height:66px; overflow:hidden" href="" class="list-group-item" ng-show="previousEntitySearch.entities.length" ng-click="entityCtrl.goToPreviousResult()">
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-up" style="color:black" ></span> &nbsp; vorheriges Ergebnis</b><br>
 						<small>{{previousEntitySearch.entities[0].title}}</small>
 					</a>
 					<li class="list-group-item" style="background: #f5f5f5;">
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-minus" style="color:black" ></span> &nbsp; aktuelles Ergebnis</b>
 					</li>
-					<a class="list-group-item" href="" ng-show="nextEntitySearch.entities.length" ng-click="entityCtrl.goToNextResult()" >
+					<a style="height:66px; overflow:hidden" class="list-group-item" href="" ng-show="nextEntitySearch.entities.length" ng-click="entityCtrl.goToNextResult()" >
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-down" style="color:black" ></span> &nbsp; nächstes Ergebnis</b><br>
 						<small>{{nextEntitySearch.entities[0].title}}</small>
 					</a>
