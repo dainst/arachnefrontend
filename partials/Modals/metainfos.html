@@ -4,7 +4,7 @@
 		</h4>
 	</div>
 	<div class="modal-body">
-		<img  class="img-thumbnail pull-right" ng-src="{{dataserviceUri}}/image/thumbnail/{{ imageEntity.thumbnailId }}"></img><br>
+		<img  class="img-thumbnail pull-right" ng-src="{{dataserviceUri}}/image/thumbnail/{{imageId}}"><br>
 		<div ng-repeat="section in imageEntity.sections.content" ng-include="'section_template.html'"></div>
 	</div>
 	<div class="modal-footer">
