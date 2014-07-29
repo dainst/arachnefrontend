@@ -94,6 +94,9 @@ body {
 .accordion-with-list .panel-body {
   padding: 0px;
 }
+.accordion-with-list .panel {
+  cursor: pointer;
+}
 .accordion-with-list .list-group-item {
   border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px; cursor:pointer;
 }
