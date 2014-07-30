@@ -432,6 +432,39 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		var hash = new Object();
 		hash.q = "*";
 
+		$scope.categorySub = [
+			{
+				title : "Reproduktionen",
+				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				customlink : "category/?q=*&fq=facet_kategorie:Reproduktionen&fl=1500"
+			},
+			{
+				title : "Typus",
+				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				customlink : "category/?q=*&fq=facet_kategorie:Typen&fl=1500"
+			},
+			{
+				title : "Einzelmotive",
+				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				customlink : "category/?q=*&fq=facet_kategorie:Einzelmotive&fl=1500"
+			},
+			{
+				title : "Mehrteilige-Denkmäler",
+				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				customlink : "category/?q=*&fq=facet_kategorie:Mehrteilige Denkmäler&fl=1500"
+			},
+			{
+				title : "Inschriften",
+				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				customlink : "category/?q=*&fq=facet_kategorie:Inschriften&fl=1500"
+			},
+			{
+				title : "Buchseiten",
+				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				customlink : "category/?q=*&fq=facet_kategorie:Buchseiten&fl=1500"
+			}
+			];
+
 		$scope.categoryStarts = [
 			{
 				imageId : 424501,
@@ -443,53 +476,50 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				imageId : 1933196,
 				title : "Bauwerksteile",
 				description :'Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.',
-				customlink : "category/?q=*&fq=facet_kategorie:bauwerksteil&fl=1500"
+				customlink : "category/?q=*&fq=facet_kategorie:Bauwerksteile&fl=1500"
 			},
 			{
 				imageId : 158019,
 				title : "Objekte",
 				description :'Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.',
-				customlink : "category/?q=*&fq=facet_kategorie:objekt&fl=1500"
+				customlink : "category/?q=*&fq=facet_kategorie:Einzelobjekte&fl=1500"
 			},
 			{
 				imageId : 1922705,
 				title : "Szenen",
 				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
-				customlink : "category/?q=*&fq=facet_kategorie:relief&fl=1500"
+				customlink : "category/?q=*&fq=facet_kategorie:Szenen&fl=1500"
 			},
 			{
 				imageId : 46777,
-				title : "Marbilder",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
-				customlink : "category/?q=*&fq=facet_kategorie:marbilder&fl=1500"
+				title : "Bilder",
+				description :'Hier haben Sie die Möglichkeit gezielt nach Bildern und bildspezifischen Informationen (z.B. Fotografen ...) zu suchen. Diese Suche erfasst alle Bildbestände in Arachne.',
+				customlink : "category/?q=*&fq=facet_kategorie:Bilder&fl=1500"
 			},
 			{
 				imageId : 230879,
 				title : "Bücher",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
+				description :'Bücherbestände der Arachne.',
 				customlink : "category/?q=*&fq=facet_kategorie:Bücher&fl=1500"
 			},
 			{
 				imageId : 433041,
 				title : "Sammlungen",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
-				customlink : "category/?q=*&fq=facet_kategorie:sammlungen&fl=1500"
+				description :'Privat- und Museumssammlungen, die in Gebäuden residieren und Objekte bzw. mehrteilige Denkmäler oder deren Reproduktionen und Rezeptionen enthalten können.',
+				customlink : "category/?q=*&fq=facet_kategorie:Sammlungen&fl=1500"
 			},
 			{
 				imageId : 3099823,
 				title : "Topographien",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
-				customlink : "category/?q=*&fq=facet_kategorie:topografie&fl=1500"
+				description :'Übergeordnete Kontexte, die untergeordnete topographische Einheiten, Gebäude oder Objekte der realen Welt inkorporieren. Von Bauwerken abgegrenzt werden topographische Einheiten, wenn mehr als ein Bauwerk vorhanden ist - konstitutiv sind Bauwerke für topographische Einheiten jedoch nicht.',
+				customlink : "category/?q=*&fq=facet_kategorie:Topographien&fl=1500"
 			},
 			{
 				imageId : 251347,
 				title : "Rezeptionen",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
-				customlink : "category/?q=*&fq=facet_kategorie:rezeption&fl=1500"
+				description :'Spezifische Wahrnehmungen antiker Objekte in bestimmten neuzeitlichen Rezeptionsquellen.',
+				customlink : "category/?q=*&fq=facet_kategorie:Rezeptionen&fl=1500"
 			}
-
-
-
 		];
 
 		$scope.search = arachneSearch.search(hash);
