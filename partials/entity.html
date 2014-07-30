@@ -37,7 +37,7 @@
 
 					<li class="list-group-item">
 						<b class="text-muted uppercase small">Ergebnisse insgesamt</b><br>
-						{{nextEntitySearch.size}}
+						{{nextEntitySearch.size}} &nbsp;
 					</li>
 
 					<li class="list-group-item" >
@@ -49,8 +49,8 @@
 							<input style="display:none" id="resultIndexInput" name="resultIndex" value="{{currentQueryParameters.resultIndex}}">
 							<div class="input-group">
 						    	<input type="number" size="4" id="humanizedResultIndex" onchange="document.getElementById('resultIndexInput').value = this.value-1" value="{{currentQueryParameters.resultIndex+1}}" style="width:50%" class="form-control input-sm">
-						    	<span class="input-group-btn" style="display:block" ng-init="oldResultIndex = currentQueryParameters.resultIndex" >
-						        	<button type="submit" class="btn btn-default btn-sm" ng-class="{ 'disabled' : currentQueryParameters.resultIndex==oldResultIndex }" type="button">springe</button>
+						    	<span class="input-group-btn" style="display:block">
+						    		<button type="submit" class="btn btn-default btn-sm" type="button">springe</button>
 						    	</span>
 						    </div>
 						</form>
