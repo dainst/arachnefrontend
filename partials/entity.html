@@ -141,9 +141,9 @@
 				<b>Seriennummer:</b> {{ entity.internalId }}
 			</div>
 			<div class="col-md-3">
-				<div class="btn-group">
+				<div class="btn-group" >
 					<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs">Perma-Link</button>
-					<button ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">Karte</button>
+					<button  ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">Karte</button>
 				</div>
 			</div>
 		</div>
@@ -156,7 +156,7 @@
 		<div class="row" ng-if="karteAnzeigen">
 			<div class="col-md-12">
 				<hr>
-				<div ng-if="entity.title" entities="[entity]" style="height:300px" map id="map"></div>
+				<div  entities="[entity]" style="height:300px" locationFacetName="{{entity.facet_fundort ? 'facet_fundort' : 'facet_aufbewahrungsort'}}"  map id="map"></div>
 			</div>
 		</div>		  
 		<hr/>

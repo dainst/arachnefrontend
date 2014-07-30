@@ -223,19 +223,13 @@ angular.module('arachne.directives', []).
 			searchresults: '=',
 			entities: '=',
 		},
-		link: function(scope) 
+		link: function(scope, element, attrs) 
 		{	
 			
-			var map = L.map('map').setView([40, -10], 3);
 
-			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-				maxZoom: 18
-			});
-			map.addLayer(layer);			
-			L.Icon.Default.imagePath = 'img';
-
-			var createMarkers = function(facet_geoValues){
-				var markerClusterGroup = new L.MarkerClusterGroup(
+			var createMarkers = function(facet_values){
+				console.log("createMarkers")
+				markerClusterGroup = new L.MarkerClusterGroup(
 				{
 					iconCreateFunction: function(cluster) {
 
@@ -260,9 +254,9 @@ angular.module('arachne.directives', []).
 					}
 				});
 
-				for (var i = facet_geoValues.length - 1; i >= 0; i--) {
+				for (var i = facet_values.length - 1; i >= 0; i--) {
 
-					var facetValue = facet_geoValues[i];
+					var facetValue = facet_values[i];
 					var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
 					var coords = coordsString.split(',');
 					var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)-1) + "</b><br/>";
@@ -270,15 +264,15 @@ angular.module('arachne.directives', []).
 					if($location.$$search.fq)
 						title += "<a href='search?q=*&fq="+$location.$$search.fq+",facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 					else
-						title += "<a href='search?q=*&fq=facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+						title += "<a href='search?q=*&fq="+locationFacetName+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 					
 					var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title, entityCount : facetValue.count });
 					marker.bindPopup(title);
 					markerClusterGroup.addLayer(marker);
 				}
-				if(facet_geoValues.length == 1)
+				if(facet_values.length == 1)
 				{
-					var facetValue = facet_geoValues[0];
+					var facetValue = facet_values[0];
 					var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
 					var coords = coordsString.split(',');
 					map.setView(coords, 6);
@@ -288,24 +282,63 @@ angular.module('arachne.directives', []).
 				map.invalidateSize();
 			}
 
-			if(scope.searchresults)
-			{
-				for (var i = scope.searchresults.facets.length - 1; i >= 0; i--) {
-					if(scope.searchresults.facets[i].name === "facet_fundort") {
-						createMarkers(scope.searchresults.facets[i].values);
-						break;
-					}
-				};
-			}
-			if(scope.entities)
-			{
-				var facet_geo = Array();
-				for (var i = scope.entities.length - 1; i >= 0; i--) {
 
-					facet_geo.push({value: scope.entities[i].facet_geo[0], count: 1});
+			var selectFacetsAndCreateMarkers = function () {
+
+				if(scope.searchresults)
+				{
+					for (var i = scope.searchresults.facets.length - 1; i >= 0; i--) {
+						if(scope.searchresults.facets[i].name === locationFacetName) {
+							createMarkers(scope.searchresults.facets[i].values);
+							break;
+						}
+					};
 				}
-				createMarkers(facet_geo);
-			}      	
+
+				
+				if(scope.entities)
+				{
+					var facet_geo = Array();
+					for (var i = scope.entities.length - 1; i >= 0; i--) {
+
+						facet_geo.push({value: scope.entities[i][locationFacetName][0], count: 1});
+					}
+					createMarkers(facet_geo);
+				}
+			}
+
+
+
+			// ist es die facette fundort oder aufbewahrungsort?
+			console.log(element.attr('locationFacetName'))
+			var locationFacetName = 'facet_fundort';
+			var map = L.map('map').setView([40, -10], 3);
+
+			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
+			var markerClusterGroup = null;
+
+			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				maxZoom: 18
+			});
+			map.addLayer(layer);			
+			L.Icon.Default.imagePath = 'img';
+
+			// der user kann den typ der orts-facette ändern! Watch for it baby
+			scope.$watch(
+				function() {
+					return element.attr('locationFacetName');
+				},
+				function(newValue){
+					if(newValue != locationFacetName) {
+						locationFacetName = newValue;
+						map.removeLayer(markerClusterGroup);
+						selectFacetsAndCreateMarkers();
+					}
+				}
+			);
+
+			selectFacetsAndCreateMarkers();
+
 		}
 	};
 	}])	

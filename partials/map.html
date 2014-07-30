@@ -1,7 +1,6 @@
 <div ng-controller="SearchCtrl as searchCtrl">
 	<div class="row fullscreenrow">
 
-		<div ng-hide="searchresults.markers" class="loading"></div>
 
         <div ng-show="searchresults.facets" id="mapNavigation" class="col-md-2 well well-sm" style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:9999;">
         	
@@ -12,6 +11,17 @@
 					Insgesamt <b>{{ searchresults.size }}</b> Ergebnisse.
 				</small>
 
+			</div>
+			<div>
+				<h6 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h6>
+				<div class="btn-group btn-group-justified" ng-init="locationFacetName = 'facet_fundort'">
+					<div class="btn-group">
+						<button class="btn btn-default" ng-click="locationFacetName = 'facet_fundort'" ng-class="{'active': locationFacetName == 'facet_fundort'}" role="button">Fundort</button>
+					</div>
+					<div class="btn-group">
+						<button class="btn btn-default" ng-click="locationFacetName = 'facet_aufbewahrungsort'" ng-class="{'active': locationFacetName == 'facet_aufbewahrungsort'}"  role="button">Aufbewahrungsort</button>
+					</div>
+				</div>
 			</div>
 			<div ng-if="currentQueryParameters.q">
 				<h6 class="text-muted uppercase"><strong>Suchbegriff</strong></h6>
@@ -36,9 +46,11 @@
 			</small>
     	</div>
 
-        <div ng-if="searchresults.size" searchresults="searchresults" class="col-md-12 fullscreenMap" map id="map">
+        <div ng-if="searchresults.size" searchresults="searchresults" locationFacetName="{{locationFacetName}}" class="col-md-12 fullscreenMap" map id="map">
         	
         </div>
+		<div ng-hide="searchresults.size" class="loading"></div>
+
 	</div>
 
 </div>
