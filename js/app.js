@@ -24,7 +24,8 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/search/:params?', {templateUrl: 'partials/search.html'})
 		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
 		.when('/map', {templateUrl: 'partials/map.html'})
-		.when('/3d', {templateUrl: 'partials/3d.html'});
+		.when('/3d', {templateUrl: 'partials/3d.html'})
+		.when('/impressum', {templateUrl: 'partials/impressum.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri : "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href")
