@@ -15,17 +15,6 @@ server {
 
 The string `try_files $uri $uri/ /index.html =404;` means that now all non-existent url will be forwarded to index.html file, but without rewriting url in the browser address bar.
 
----
-##### index.html (into header) 
-```
-<base href="/">
-```
-
----
-
-##### app.js
-
-select the right backend url in arachneSettings-object
 
 
 ---
