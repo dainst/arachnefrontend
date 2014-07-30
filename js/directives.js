@@ -291,7 +291,7 @@ angular.module('arachne.directives', []).
 			if(scope.searchresults)
 			{
 				for (var i = scope.searchresults.facets.length - 1; i >= 0; i--) {
-					if(scope.searchresults.facets[i].name === "facet_geo") {
+					if(scope.searchresults.facets[i].name === "facet_fundort") {
 						createMarkers(scope.searchresults.facets[i].values);
 						break;
 					}
