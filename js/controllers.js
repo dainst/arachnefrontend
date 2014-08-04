@@ -53,14 +53,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}])
 .controller('SearchCtrl',
-	['arachneSearch', '$scope', '$route', 
-	function ( arachneSearch, $scope, $route) {
+	['arachneSearch', '$scope', '$route', 'arachneSettings',
+	function ( arachneSearch, $scope, $route, arachneSettings) {
 		var currentTemplateURL = $route.current.templateUrl;
 
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
-
-
 
 		this.addFacet = function (facetName, facetValue) {
 			arachneSearch.addFacet(facetName, facetValue);	
@@ -82,6 +80,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				arachneSearch.goToPage($scope.searchresults.page);
 			}
 		}
+
+		$scope.$watch('searchresults.facets', function() {
+			angular.forEach($scope.searchresults.facets, function(facet, index) {
+				console.log(facet.name, arachneSettings.openFacets.indexOf(facet.name));
+				if (arachneSettings.openFacets.indexOf(facet.name) != -1) {
+					facet.open = true;
+				} else {
+					facet.open = false;
+				}
+			});
+		});
 
 }
 ]

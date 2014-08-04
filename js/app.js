@@ -29,5 +29,6 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/impressum', {templateUrl: 'partials/impressum.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri : "http://" + document.location.host + "/data",
-		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href")
+		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
+		openFacets : ["facet_image", "facet_kategorie"]
 });

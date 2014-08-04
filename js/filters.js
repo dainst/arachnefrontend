@@ -4,6 +4,15 @@
 
 angular.module('arachne.filters', [])
 
+	.filter('stripCoords', function() {
+		return function(value) {
+			if (value.indexOf("[") != -1 && value.charAt(value.length-1) == "]") {
+				return value.substr(0, value.indexOf("[")-1);
+			} else {
+				return value;
+			}
+		}
+	})
 	.filter('i18n', ['$window', function( $window) {
 	    return function (input) {
 	    	var trans = $window.translations[input];

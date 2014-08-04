@@ -32,13 +32,33 @@
 			</form>
 
 			<h5 class="text-muted uppercase"><b>Filter</b></h5>
+
+			<div class="panel panel-default facet" ng-repeat="facet in searchresults.facets"
+					ng-if="facet.name != 'facet_geo'">
+				<div class="panel-heading" ng-click="facet.open = !facet.open">
+					<h5 class="panel-title">
+						<span class="glyphicon glyphicon-collapse-down" ng-hide="facet.open"></span>
+						<span class="glyphicon glyphicon-collapse-up" ng-show="facet.open"></span>	
+						{{facet.name | i18n }}
+					</h5>
+				</div>
+				<ul class="list-unstyled facet"	ng-show="facet.open">
+					<li ng-click="searchCtrl.addFacet(facet.name, facetValue.value)"
+							ng-repeat="facetValue in facet.values">
+						<b class="pull-right text-muted">{{facetValue.count | number}}</b>
+						{{facetValue.value | stripCoords}}
+					</li>
+				</ul>
+			</div>
+
+			<!--
 			<ul class="list-unstyled facet" ng-repeat="facet in searchresults.facets" ng-if="facet.name != 'facet_geo'">
 				<button class="btn btn-xs btn-default" ng-click="openfacet =! openfacet" ng-class="{ 'active': openfacet }"><b>{{facet.name | i18n }}</b></button>
 				<li ng-click="searchCtrl.addFacet(facet.name, facetValue.value)"  ng-repeat="facetValue in facet.values" ng-show="openfacet || facet.name=='facet_hasImage' ">
 					<b class="pull-right text-muted">{{facetValue.count}}</b>{{facetValue.value}}
 				</li>
 			</ul>
-
+			-->
 		</small>
 	</div>
 

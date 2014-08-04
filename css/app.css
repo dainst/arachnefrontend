@@ -45,8 +45,17 @@ body {
   font: 10px 'Glyphicons Halflings';
 }
 
-.facet {
-	margin-top: 14px;
+.facet.panel {
+  margin-bottom: 10px;
+}
+.facet .panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.facet ul {
+	margin-top: 5px;
+  margin-bottom: 5px;
 }
 .facet li {
 	cursor: pointer;
