@@ -5,6 +5,7 @@ body {
 	/*background-color: #F8F8F8;*/
 	font-family: 'Open Sans', sans-serif;
 }
+
 .capitalized {
   text-transform: capitalize;
 }
@@ -50,8 +51,8 @@ body {
 }
 .facet .panel-title {
   font-size: 12px;
-  font-weight: 700;
   cursor: pointer;
+  color: #428bca;
 }
 .facet ul {
 	margin-top: 5px;
@@ -60,19 +61,23 @@ body {
 .facet li {
 	cursor: pointer;
 	overflow: hidden;
-	margin-top: 3px;
-	border-radius: 5px;
-	padding: 4px 6px;
+	padding: 3px 7px;
 
 }
 .facet li:hover {
-	background-color: #eaeaea;
+	background-color: #428bca;
+  color: white;
+}
+.facet li:hover .text-muted {
+  color: white;
 }
 
 .linethrough-hover:hover {
 	text-decoration: line-through;
   cursor: pointer;
+  color: white;
 }
+
 .uppercase {
 	text-transform: uppercase;
 }
