@@ -55,14 +55,13 @@ body {
   color: #428bca;
 }
 .facet ul {
-	margin-top: 5px;
-  margin-bottom: 5px;
+	margin: 0px;
 }
 .facet li {
 	cursor: pointer;
 	overflow: hidden;
-	padding: 3px 7px;
-
+  margin: 3px 0px;
+	padding: 3px 6px;
 }
 .facet li:hover {
 	background-color: #428bca;
