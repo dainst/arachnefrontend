@@ -9,7 +9,7 @@
 	</li>
 	<div ng-if="!section.value">
 		<b>{{section.label}}</b>
-		<ul ng-repeat="section in section.content" ng-include="'section_template.html'"></ul>
+		<ul ng-repeat="section in (section.content || section.contextEntity)" ng-include="'section_template.html'"></ul>
 	</div>
 </script>
 
