@@ -189,7 +189,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	  // TODO Abstract Sections-Template and Logic to seperate unit - for reuse 
 	  // LOGIC for sections-iteration
 		$scope.isArray = function(value) {
-			return angular.isArray(value);
+			if(angular.isArray(value)) {
+				if(value.length == 1) return false;
+				return true;
+			}
+			return false;
 		}
 		$scope.typeOf = function(input) {
 			var result = typeof input;
