@@ -437,8 +437,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('NewsController', ['$scope', 'newsFactory', 'arachneSearch', function ($scope, newsFactory, arachneSearch) {
 
 		angular.element(document).ready(function () {
-        	$scope.screenHeight = window.outerHeight-480;
-			$scope.screenHeight += "px";
+        	//$scope.screenHeight = window.outerHeight-480;
+			//$scope.screenHeight += "px";
     	});
 		
 		$scope.selection = 'search';
