@@ -83,7 +83,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.$watch('searchresults.facets', function() {
 			angular.forEach($scope.searchresults.facets, function(facet, index) {
-				console.log(facet.name, arachneSettings.openFacets.indexOf(facet.name));
 				if (arachneSettings.openFacets.indexOf(facet.name) != -1) {
 					facet.open = true;
 				} else {
@@ -436,11 +435,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'arachneSearch', function ($scope, newsFactory, arachneSearch) {
 
-		angular.element(document).ready(function () {
-        	//$scope.screenHeight = window.outerHeight-480;
-			//$scope.screenHeight += "px";
-    	});
-		
 		$scope.selection = 'search';
 		var hash = new Object();
 		hash.q = "*";
