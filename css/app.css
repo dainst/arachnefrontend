@@ -38,14 +38,47 @@ body {
 .fullscreenrow {
   margin-top: 0px;
 }
+
+.sections {
+  font-size: 13px;
+}
 .sections li {
   list-style:none;
 }
+.sections li > b {
+  font-size: 1.2em;
+  padding-top: 5px;
+}
+.sections li li > b {
+  font-size: 1.1em;
+}
+.sections li li li > b {
+  font-size: 1em;
+}
+.sections hr {
+  border: 0;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+.sections div.section-item {
+  padding-top: 2px;
+  padding-bottom: 6px;
+}
 
-.sections .section-list-item a:before {
+.sections a:after {
   content: "\e164 ";
-  margin-right: 4px;
+  margin-left: 4px;
   font: 10px 'Glyphicons Halflings';
+}
+
+.sections a {
+  color: inherit;
+  border-bottom: 1px dotted lightgrey;
+}
+
+.sections a:hover {
+  border-bottom: 1px solid black;
+  text-decoration: none;
 }
 
 .facet.panel {
