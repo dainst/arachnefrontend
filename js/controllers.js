@@ -53,8 +53,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}])
 .controller('SearchCtrl',
-	['arachneSearch', '$scope', '$route', 'arachneSettings',
-	function ( arachneSearch, $scope, $route, arachneSettings) {
+	['arachneSearch', '$scope', '$route', /*'arachneSettings',*/
+	function ( arachneSearch, $scope, $route) {
 		var currentTemplateURL = $route.current.templateUrl;
 
 		$scope.activeFacets = arachneSearch.getActiveFacets();
@@ -80,17 +80,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				arachneSearch.goToPage($scope.searchresults.page);
 			}
 		}
-
-		$scope.$watch('searchresults.facets', function() {
-			angular.forEach($scope.searchresults.facets, function(facet, index) {
-				if (arachneSettings.openFacets.indexOf(facet.name) != -1) {
-					facet.open = true;
-				} else {
-					facet.open = false;
-				}
-			});
-		});
-
 }
 ]
 )

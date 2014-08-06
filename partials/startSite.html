@@ -14,10 +14,10 @@
 		</div>
 	</div>
 	<div class="row" style="background-color:white" id="categories_container">
-		<div  style="width: 80%; max-width:1000px; margin: 150px auto;">
-			<h1 style="font-weight:300; margin:100px 0px 50px; text-align:center">
+		<div  style="width: 80%; max-width:1000px; margin: 170px auto;">
+			<h2 style="font-weight:300; margin:100px 0px 50px; text-align:center">
 				<a href="javascript:document.getElementById('categories_container').scrollIntoView(true);" style="outline: none;">Kategorien in Arachne</a> <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;">
-			</h1>
+			</h2>
 			<div ng-repeat="start in categoryStarts">
 				<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
 					<div class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index].imageId}}" link="{{categoryStarts[$index].customlink}}">

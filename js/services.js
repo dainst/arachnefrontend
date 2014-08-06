@@ -31,6 +31,14 @@ angular.module('arachne.services', [])
 						transformResponse : function (data) {
 							var data = JSON.parse(data);
 							data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
+							angular.forEach(data.facets, function(facet, index) {
+								if (arachneSettings.openFacets.indexOf(facet.name) != -1) {
+									facet.open = true;
+								} else {
+									facet.open = false;
+								}
+							});
+
 							return data;
 						}
 					},
