@@ -223,6 +223,7 @@ angular.module('arachne.directives', []).
 		scope: {
 			searchresults: '=',
 			entities: '=',
+			locationfacetname: '='
 		},
 		link: function(scope, element, attrs) 
 		{	
@@ -269,11 +270,11 @@ angular.module('arachne.directives', []).
 						if($location.$$search.fq) {
 							title += "<a href='search?q=*&fq="+$location.$$search.fq+",facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 						} else {
-							title += "<a href='search?q=*&fq="+locationFacetName+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+							title += "<a href='search?q=*&fq="+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 						}
 					// Popup-Title auf Karte für einzelnen Datensatz
 					} else {
-						var locationFacetNameHumanized = locationFacetName.split('_')[1];
+						var locationFacetNameHumanized = scope.locationfacetname.split('_')[1];
 						locationFacetNameHumanized = locationFacetNameHumanized.charAt(0).toUpperCase() + locationFacetNameHumanized.slice(1);
 						title = '<h4 class="text-info centered">' + locationFacetNameHumanized +  '</h4>' + title;
 					}
@@ -302,7 +303,7 @@ angular.module('arachne.directives', []).
 				if(scope.searchresults)
 				{
 					for (var i = scope.searchresults.facets.length - 1; i >= 0; i--) {
-						if(scope.searchresults.facets[i].name === locationFacetName) {
+						if(scope.searchresults.facets[i].name === scope.locationfacetname) {
 							createMarkers(scope.searchresults.facets[i].values);
 							break;
 						}
@@ -315,7 +316,7 @@ angular.module('arachne.directives', []).
 					var facet_geo = Array();
 					for (var i = scope.entities.length - 1; i >= 0; i--) {
 
-						facet_geo.push({value: scope.entities[i][locationFacetName][0], count: 1});
+						facet_geo.push({value: scope.entities[i][scope.locationfacetname][0], count: 1});
 					}
 					createMarkers(facet_geo);
 				}
@@ -323,9 +324,9 @@ angular.module('arachne.directives', []).
 
 
 
-			// ist es die facette fundort oder aufbewahrungsort?
-			var locationFacetName = element.attr('locationFacetName')? element.attr('locationFacetName'): 'facet_fundort';
+
 			
+			console.log(scope.locationfacetname)
 			var map = L.map('map').setView([40, -10], 3);
 
 			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
@@ -340,11 +341,11 @@ angular.module('arachne.directives', []).
 			// der user kann den typ der orts-facette ändern! Watch for it baby
 			scope.$watch(
 				function() {
-					return element.attr('locationFacetName');
+					return scope.locationfacetname;
 				},
 				function(newValue){
-					if(newValue != locationFacetName) {
-						locationFacetName = newValue;
+					if(newValue != scope.locationfacetname) {
+						scope.locationfacetname = newValue;
 						map.removeLayer(markerClusterGroup);
 						selectFacetsAndCreateMarkers();
 					}

@@ -28,6 +28,8 @@ body {
   background: none;
   box-shadow: none;
   border-bottom: 2px solid rgb(66,139,202);
+  color:rgb(66,139,202);
+  
 }
 
 .row {
