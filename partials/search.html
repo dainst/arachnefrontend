@@ -45,11 +45,11 @@
 			<h5 class="text-muted uppercase"><b>Filter</b></h5>
 			<div class="panel panel-default facet" ng-repeat="facet in searchresults.facets"
 					ng-if="facet.name != 'facet_geo'">
-				<div class="panel-heading" ng-click="facet.open = !facet.open">
+				<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
 					<h5 class="panel-title">
-						<span class="glyphicon glyphicon-collapse-down" ng-hide="facet.open"></span>
-						<span class="glyphicon glyphicon-collapse-up" ng-show="facet.open"></span>	
-						{{facet.name | i18n }}
+						<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+						<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>	
+						&nbsp;{{facet.name | i18n }}
 					</h5>
 				</div>
 				<ul class="list-unstyled facet"	ng-show="facet.open">
