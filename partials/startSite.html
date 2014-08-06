@@ -1,6 +1,6 @@
 <div ng-controller="NewsController as newsController">
 
-	<div class="row" ng-style="{'height':screenHeight}" ><!-- style=" height:{{screenHeight}}px;" -->
+	<div class="row" ng-style="{'height':screenHeight}" style="margin-top: 100px;" ><!-- style=" height:{{screenHeight}}px;" -->
 		<div class="col-md-4 col-md-offset-4 text-center">
 			<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px"><img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png"> arachne<span class="text-primary" style="font-size:20px; "> beta</span> <br></h1>
 			<h5 style="opacity: 0.57;" ng-show="search.size">  {{ search.size | number}} Einträge</h5>
@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<div class="row" style="background-color:white" id="categories_container">
-		<div  style="width: 80%; max-width:1000px; margin: 100px auto;">
+		<div  style="width: 80%; max-width:1000px; margin: 150px auto;">
 			<h1 style="font-weight:300; margin:100px 0px 50px; text-align:center">
 				<a href="javascript:document.getElementById('categories_container').scrollIntoView(true);" style="outline: none;">Kategorien in Arachne</a> <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;">
 			</h1>
