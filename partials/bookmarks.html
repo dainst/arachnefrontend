@@ -4,21 +4,28 @@
 	</div>
 	<div class="col-md-7" ng-if="user.username">
 		<div class="page-header">
-			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksList()">Neue Liste anlegen</button>
+			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksList()">Neue Sammlung anlegen</button>
 			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Notizen & Lesezeichen</h3>
 
 		</div>
 		<div ng-if="bookmarksLists.length == 0">
-			Keine Liste vorhanden. Legen Sie doch eine an.
+			Keine Sammlung vorhanden. Legen Sie doch eine an.
 		</div>
 		<accordion class="accordion-with-list" ng-repeat="bookmarksList in bookmarksLists" >
-			<accordion-group is-open="true">
+			<accordion-group >
 		    	<accordion-heading>
-	    			{{ bookmarksList.name }}<small> {{ bookmarksList.commentary }} </small> <button type="button" class="btn btn-xs btn-link" ng-click="deleteBookmarksList(bookmarksList.id)">löschen</button><span class="badge pull-right">{{bookmarksList.bookmarks.length}}</span>
+	    			{{ bookmarksList.name }}<span class="badge pull-right">Einträge: {{bookmarksList.bookmarks.length}}</span>
 		    	</accordion-heading>
-		    	<div ng-if="bookmarksList.bookmarks.length == 0"  class="list-group-item clearfix">
-		    		In dieser Liste sind noch keine Noitzen vorhanen.
+
+		    	<div class="list-group-item">
+		    		<button type="button" class="btn btn-xs btn-default pull-right" ng-click="deleteBookmarksList(bookmarksList.id)">Sammlung löschen &nbsp;<span class="glyphicon glyphicon-trash"></span></button>
+		    		{{ bookmarksList.commentary }}
 		    	</div>
+
+		    	<div ng-if="bookmarksList.bookmarks.length == 0"  class="list-group-item clearfix">
+		    		In dieser Sammlung sind noch keine Einträge oder Notizen vorhanden.
+		    	</div>
+
 	    		<div ng-repeat="bookmark in bookmarksList.bookmarks" class="list-group-item clearfix">
 					<div class="row-fluid">
 						<div class="btn-group pull-right">
