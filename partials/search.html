@@ -29,7 +29,6 @@
 				<input name="limit" style="display:none" ng-if="currentQueryParameters.limit" value="0">
 				<input name="offset" style="display:none" ng-if="currentQueryParameters.offset" value="0">
 				<button class="btn btn-default" style="display:none;" type="submit">Submit</button>
-
 			</form>
 
 			<div ng-if="activeFacets.length">
@@ -42,8 +41,6 @@
 					<b style="text-transform:capitalize;">{{facet.value}}</b>
 				</button>
 			</div>
-
-
 
 			<h5 class="text-muted uppercase"><b>Filter</b></h5>
 			<div class="panel panel-default facet" ng-repeat="facet in searchresults.facets"
