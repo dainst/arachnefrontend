@@ -45,9 +45,13 @@ body {
 .sections li {
   list-style:none;
 }
+.sections li b {
+  margin-top: 6px;
+  margin-bottom: 2px;
+  display: block;
+}
 .sections li > b {
   font-size: 1.2em;
-  padding-top: 5px;
 }
 .sections li li > b {
   font-size: 1.1em;
@@ -57,12 +61,12 @@ body {
 }
 .sections hr {
   border: 0;
-  margin-top: 6px;
+  margin-top: 4px;
   margin-bottom: 2px;
 }
 .sections div.section-item {
   padding-top: 2px;
-  padding-bottom: 6px;
+  padding-bottom: 4px;
 }
 
 .sections a:after {
