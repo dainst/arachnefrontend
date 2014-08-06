@@ -1,14 +1,20 @@
 <script type="text/ng-template" id="section_template.html">
+
+
+
+	<li ng-if="!section.value" ng-class="{'thumbnail' : section.contextEntity}">
+		<b>{{section.label}}</b>
+		<ul ng-repeat="section in (section.content || section.contextEntity)" ng-include="'section_template.html'"></ul>
+	</li>
+
 	<li ng-if="section.value" ng-switch="isArray(section.value)">
 		<span ng-switch-when="false" ng-bind-html="section.value"></span>
 		<ul ng-switch-when="true">
 			<li style="list-style:disc;" class="section-list-item" ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></li>
 		</ul>
 	</li>
-	<div ng-if="!section.value" ng-class="{'thumbnail' : section.contextEntity}">
-		<b>{{section.label}}</b>
-		<ul ng-repeat="section in (section.content || section.contextEntity)" ng-include="'section_template.html'"></ul>
-	</div>
+
+
 </script>
 
 <div class="row" style="margin-top:0px;"  ng-controller="EntityCtrl as entityCtrl">
@@ -139,9 +145,9 @@
 				<b>Seriennummer:</b> {{ entity.internalId }}
 			</div>
 			<div class="col-md-3">
-				<div class="btn-group" >
+				<div class="btn-group">
 					<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs">Perma-Link</button>
-					<button  ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">Karte</button>
+					<button ng-if="(entity.facet_fundort || entity.aufbewahrungsort)" ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">Karte</button>
 				</div>
 			</div>
 		</div>
@@ -151,7 +157,7 @@
 				<b>Perma-Link: </b>{{ serverUri }}entity/{{entity.entityId}}
 			</div>
 		</div>	
-		<div class="row" ng-if="karteAnzeigen">
+		<div class="row" ng-show="karteAnzeigen">
 			<div class="col-md-12">
 				<hr>
 				<div  entities="[entity]" style="height:300px" locationFacetName="{{entity.facet_fundort ? 'facet_fundort' : 'facet_aufbewahrungsort'}}"  map id="map"></div>

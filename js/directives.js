@@ -11,7 +11,8 @@ angular.module('arachne.directives', []).
 				var images 				= element[0].getElementsByTagName('img');
 				var imagesLeftToLoad 	= images.length;
 
-				var errorListener = function () {
+				var errorListener = function (e) {
+					console.log(e)
 					console.warn("loading error -- Bild konnte nicht geladen werden. Pfad: " + this.src);
 					this.src="img/imagePlaceholder.png";
 				}
@@ -226,7 +227,7 @@ angular.module('arachne.directives', []).
 		link: function(scope, element, attrs) 
 		{	
 			
-
+			console.log("map init");
 			var createMarkers = function(facet_values){
 				console.log("createMarkers")
 				markerClusterGroup = new L.MarkerClusterGroup(

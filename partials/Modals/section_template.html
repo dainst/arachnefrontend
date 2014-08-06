@@ -1,10 +1,11 @@
+	<li ng-if="!section.value" ng-class="{'thumbnail' : section.contextEntity}">
+		<b>{{section.label}}</b>
+		<ul ng-repeat="section in (section.content || section.contextEntity)" ng-include="'section_template.html'"></ul>
+	</li>
+
 	<li ng-if="section.value" ng-switch="isArray(section.value)">
 		<span ng-switch-when="false" ng-bind-html="section.value"></span>
 		<ul ng-switch-when="true">
 			<li style="list-style:disc;" class="section-list-item" ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></li>
 		</ul>
 	</li>
-	<div ng-if="!section.value" ng-class="{'thumbnail' : section.contextEntity}">
-		<b>{{section.label}}</b>
-		<ul ng-repeat="section in (section.content || section.contextEntity)" ng-include="'section_template.html'"></ul>
-	</div>
