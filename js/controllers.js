@@ -83,7 +83,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.$watch('searchresults.facets', function() {
 			angular.forEach($scope.searchresults.facets, function(facet, index) {
-				console.log(facet.name, arachneSettings.openFacets.indexOf(facet.name));
 				if (arachneSettings.openFacets.indexOf(facet.name) != -1) {
 					facet.open = true;
 				} else {

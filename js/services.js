@@ -89,9 +89,9 @@ angular.module('arachne.services', [])
 						}
 					},
 					setActiveFacets : function () {
-						if ( typeof $location.$$search.fq !== 'undefined' && $location.$$search.fq != "") {
+						// if ( typeof $location.$$search.fq != 'undefined' && $location.$$search.fq != "") {
 							angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
-						};
+						// }
 					},
 					
 				  //GETTERS FOR VARIABLES
