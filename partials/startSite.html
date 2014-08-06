@@ -1,85 +1,57 @@
 <div ng-controller="NewsController as newsController">
 
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4" style="margin-top:20px">
-			<div class="btn-group btn-group-justified">
-				<div class="btn-group">
-					<button type="button" class="btn btn-default btn-sm btn-startsite-tab" ng-class="{ 'active': selection == 'search' || selection == undefined }" ng-click="selection='search'">Suche</button>
-				</div>
-				<div class="btn-group"  ng-click="selection='categories';">
-					<a href="javascript:document.getElementById('categories_container').scrollIntoView(true);"><button type="button" class="btn btn-default btn-sm btn-startsite-tab">Kategorien</button></a>
-				</div>
-				<div class="btn-group">
-					<button type="button" class="btn btn-default btn-sm btn-startsite-tab"  ng-class="{ 'active': selection == 'news' || selection == undefined }" ng-click="selection='news'; newsController.loadNews()">News</button>
-				</div>
-			</div>
+	<div class="row" ng-style="{'height':screenHeight}" ><!-- style=" height:{{screenHeight}}px;" -->
+		<div class="col-md-4 col-md-offset-4 text-center">
+			<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px"><img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png"> arachne<span class="text-primary" style="font-size:20px; "> beta</span> <br></h1>
+			<h5 style="opacity: 0.57;" ng-show="search.size">  {{ search.size | number}} Einträge</h5>
+			<form class="input-group form-inline" role="search" method="GET" action="search/" >
+				<input type="text" ng-model="q" name="q" class="form-control" placeholder="Suche">
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-default" type="button">Suchen</button>
+				</span>
+			</form>
+			<h5><span class="glyphicon glyphicon-map-marker text-primary"></span> <a href="map?q=*&fl=2000" style="outline: none;">Fund- und Aufbewahrungsorte</a></h5>
 		</div>
 	</div>
-
-	<div ng-switch="selection">
-		<div  ng-switch-default style="padding-top:80px;">
-			<div class="row" ng-style="{'height':screenHeight}" ><!-- style=" height:{{screenHeight}}px;" -->
-				<div class="col-md-4 col-md-offset-4 text-center">
-					<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px"><img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png"> arachne<span class="text-primary" style="font-size:20px; "> beta</span> <br></h1>
-					<h5 style="opacity: 0.57;" ng-show="search.size">  {{ search.size | number}} Einträge</h5>
-					<form class="input-group form-inline" role="search" method="GET" action="search/" >
-						<input type="text" ng-model="q" name="q" class="form-control" placeholder="Suche">
-						<span class="input-group-btn">
-							<button type="submit" class="btn btn-default" type="button">Suchen</button>
+	<div class="row" style="background-color:white" id="categories_container">
+		<div  style="width: 80%; max-width:1000px; margin: 100px auto;">
+			<h1 style="font-weight:300; margin:100px 0px 50px; text-align:center">
+				<a href="javascript:document.getElementById('categories_container').scrollIntoView(true);" style="outline: none;">Kategorien in Arachne</a> <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;">
+			</h1>
+			<div ng-repeat="start in categoryStarts">
+				<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
+					<div class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index].imageId}}" link="{{categoryStarts[$index].customlink}}">
+						<span>
+							<b>{{categoryStarts[$index].title}}</b><br>
+							<small><a href="{{categoryStarts[$index].customlink}}" style="color:white">{{categoryStarts[$index].description}}</a></small>
 						</span>
-					</form>
-					<h5><span class="glyphicon glyphicon-map-marker text-primary"></span> <a href="map?q=*&fl=2000" style="outline: none;">Fund- und Aufbewahrungsorte</a></h5>
-				</div>
-			</div>
-			<div class="row" style="background-color:white" id="categories_container">
-				<div  style="width: 80%; max-width:1000px; margin: 100px auto;">
-					<h1 style="font-weight:300; margin:100px 0px 50px; text-align:center">
-
-						<a href="javascript:document.getElementById('categories_container').scrollIntoView(true);" style="outline: none;">Kategorien in Arachne</a> <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;">
-					</h1>
-					<div ng-repeat="start in categoryStarts">
-						<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
-							<div class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index].imageId}}" link="{{categoryStarts[$index].customlink}}">
-								<span>
-									<b>{{categoryStarts[$index].title}}</b><br>
-									<small><a href="{{categoryStarts[$index].customlink}}" style="color:white">{{categoryStarts[$index].description}}</a></small>
-								</span>
-							</div>
-							<div  class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index+1].imageId}}" link="{{categoryStarts[$index+1].customlink}}">
-								<span>
-									<b>{{categoryStarts[$index+1].title}}</b><br>
-									<small ><a href="{{categoryStarts[$index+1].customlink}}" style="color:white">{{categoryStarts[$index+1].description}}</a></small>
-								</span>
-							</div>
-							<div  class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index+2].imageId}}" link="{{categoryStarts[$index+2].customlink}}">
-								<span >
-									<b>{{categoryStarts[$index+2].title}}</b><br>
-									<small><a href="{{categoryStarts[$index+2].customlink}}" style="color:white">{{categoryStarts[$index+2].description}}</a></small>
-								</span>
-							</div>
-						</div>
-
 					</div>
-					<div class="col-md-4 col-md-offset-4 text-center">
-						<h3>weitere Kategorien:</h3>
-						<div ng-repeat="subCat in categorySub" class="list-group">
-							<a href="{{subCat.customlink}}"  class="list-group-item" >{{subCat.title}}</a>
-						</div>
+					<div  class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index+1].imageId}}" link="{{categoryStarts[$index+1].customlink}}">
+						<span>
+							<b>{{categoryStarts[$index+1].title}}</b><br>
+							<small ><a href="{{categoryStarts[$index+1].customlink}}" style="color:white">{{categoryStarts[$index+1].description}}</a></small>
+						</span>
+					</div>
+					<div  class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index+2].imageId}}" link="{{categoryStarts[$index+2].customlink}}">
+						<span >
+							<b>{{categoryStarts[$index+2].title}}</b><br>
+							<small><a href="{{categoryStarts[$index+2].customlink}}" style="color:white">{{categoryStarts[$index+2].description}}</a></small>
+						</span>
 					</div>
 				</div>
+
 			</div>
-		</div>
-		<div ng-switch-when="news">
-			<div class="col-md-8 col-md-offset-2">
-				<h2>Aktuelles</h2>
-				<div  ng-repeat="news in newsList">
-					<h4>{{ news.title }}</h4>
-					<div ng-bind-html="news.body"></div>
+			<div class="row text-center">
+				<h3>weitere Kategorien:</h3>
+			</div>
+				<!--<-->
+			<div class="row" style="padding-right: 35px;">
+				<div class="col-md-4" ng-repeat="subCat in categorySub"  class="list-group" >
+					<a href="{{subCat.customlink}}"  class="list-group-item text-center" style="margin-top: 10px;">{{subCat.title}}</a>
 				</div>
 			</div>
 		</div>
 	</div>
-
 
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3 text-center" style=" margin-top: 30px; margin-bottom:30px">
