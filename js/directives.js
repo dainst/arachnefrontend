@@ -299,7 +299,6 @@ angular.module('arachne.directives', []).
 
 
 			var selectFacetsAndCreateMarkers = function () {
-
 				if(scope.searchresults)
 				{
 					for (var i = scope.searchresults.facets.length - 1; i >= 0; i--) {
@@ -323,10 +322,6 @@ angular.module('arachne.directives', []).
 			}
 
 
-
-
-			
-			console.log(scope.locationfacetname)
 			var map = L.map('map').setView([40, -10], 3);
 
 			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
@@ -343,8 +338,8 @@ angular.module('arachne.directives', []).
 				function() {
 					return scope.locationfacetname;
 				},
-				function(newValue){
-					if(newValue != scope.locationfacetname) {
+				function(newValue, oldValue){
+					if(newValue != oldValue) {
 						scope.locationfacetname = newValue;
 						map.removeLayer(markerClusterGroup);
 						selectFacetsAndCreateMarkers();
