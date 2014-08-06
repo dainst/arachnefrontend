@@ -144,8 +144,8 @@
 			<div class="col-md-3">
 				
 				<div class="btn-group">
-					<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs">Perma-Link</button>
-					<button ng-show="entity.facet_aufbewahrungsort || entity.facet_fundort" ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">Karte</button>
+					<button ng-click="permaLink=!permaLink" class="btn btn-default btn-sm">Perma-Link</button>
+					<button ng-show="entity.facet_aufbewahrungsort || entity.facet_fundort" ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-sm">Karte</button>
 				</div>
 			</div>
 		</div>
@@ -158,8 +158,8 @@
 		<div class="row" ng-if="karteAnzeigen">
 			<div class="col-md-12">
 				<hr>
-				<div ng-if="entity.facet_fundort"  entities="[entity]" style="height:300px" locationFacetName="facet_fundort"  map id="map"></div>
-				<div ng-if="entity.facet_aufbewahrungsort"  entities="[entity]" style="height:300px" locationFacetName="facet_aufbewahrungsort"  map id="map"></div>
+				<div ng-if="entity.facet_fundort" entities="[entity]" style="height:300px" locationfacetname="locationfacetname = 'facet_fundort'"  map id="map"></div>
+				<div ng-if="entity.facet_aufbewahrungsort" entities="[entity]" style="height:300px" locationfacetname="locationfacetname = 'facet_aufbewahrungsort'"  map id="map"></div>
 			</div>
 		</div>		  
 		<hr/>

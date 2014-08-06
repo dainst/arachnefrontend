@@ -255,7 +255,16 @@ angular.module('arachne.directives', []).
 					}
 				});
 
+
+
 				var facet_values_count = facet_values.length;
+				
+				// dirty hack: wenn nur ein marker da ist brauchen wir eine referenz um später sein popup zu öffnen
+				// (!) todo: wenn du ein marker gemacht werden soll (also bei einzelnen Datensätzen) dann sollte kein clustering benutzt werden. 
+				if(facet_values_count == 1) {
+					var singleMarker = {};
+				}
+
 				for (var i = facet_values_count - 1; i >= 0; i--) {
 
 					var facetValue = facet_values[i];
@@ -282,6 +291,11 @@ angular.module('arachne.directives', []).
 					var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title, entityCount : facetValue.count });
 					marker.bindPopup(title);
 					markerClusterGroup.addLayer(marker);
+
+					// dirty hack, referenz auf marker wenn es für einen einzelnen DS ist
+					if(facet_values_count == 1) {
+						singleMarker = marker;
+					}
 				}
 
 				// karte auf marker fixieren, wenn es nur ein marker (also wahrscheinlich einzeldatensatz) ist
@@ -295,6 +309,12 @@ angular.module('arachne.directives', []).
 				map.addLayer(markerClusterGroup);
 
 				map.invalidateSize();
+
+				// dirty hack, referenz auf marker wenn es für einen einzelnen DS ist
+				// pop up öffnen
+				if(facet_values_count == 1) {
+					singleMarker.openPopup();
+				}
 			}
 
 
@@ -314,7 +334,6 @@ angular.module('arachne.directives', []).
 				{
 					var facet_geo = Array();
 					for (var i = scope.entities.length - 1; i >= 0; i--) {
-
 						facet_geo.push({value: scope.entities[i][scope.locationfacetname][0], count: 1});
 					}
 					createMarkers(facet_geo);
@@ -332,7 +351,6 @@ angular.module('arachne.directives', []).
 			});
 			map.addLayer(layer);			
 			L.Icon.Default.imagePath = 'img';
-
 			// der user kann den typ der orts-facette ändern! Watch for it baby
 			scope.$watch(
 				function() {
