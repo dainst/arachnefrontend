@@ -515,10 +515,11 @@ angular.module('arachne.services', [])
 						alert("Bitte Titel eintragen.")							
 					} else {
 						modalInstance.dismiss();
-						var list = new Object();
-						list.name = name;
-						list.commentary = commentary;
-						list.bookmarks = bookmarks;
+						var list = {
+							'name' : name,
+							'commentary' : commentary,
+							'bookmarks' : []
+						}
 						return arachneDataService.createBookmarksList(list, successMethod, errorMethod);
 					}
 				}
