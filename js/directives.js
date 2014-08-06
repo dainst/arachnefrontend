@@ -227,9 +227,8 @@ angular.module('arachne.directives', []).
 		link: function(scope, element, attrs) 
 		{	
 			
-			console.log("map init");
 			var createMarkers = function(facet_values){
-				console.log("createMarkers")
+
 				markerClusterGroup = new L.MarkerClusterGroup(
 				{
 					iconCreateFunction: function(cluster) {
@@ -255,31 +254,45 @@ angular.module('arachne.directives', []).
 					}
 				});
 
-				for (var i = facet_values.length - 1; i >= 0; i--) {
+				var facet_values_count = facet_values.length;
+				for (var i = facet_values_count - 1; i >= 0; i--) {
 
 					var facetValue = facet_values[i];
+
 					var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
 					var coords = coordsString.split(',');
 					var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)-1) + "</b><br/>";
-					title += "Einträge, <b>insgeamt</b>: " + facetValue.count + "<br>";
-					if($location.$$search.fq)
-						title += "<a href='search?q=*&fq="+$location.$$search.fq+",facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
-					else
-						title += "<a href='search?q=*&fq="+locationFacetName+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+					// Popup-Title auf Karte für Suchergebnis
+					if (facet_values_count > 1) {
+					
+						title += "Einträge, <b>insgeamt</b>: " + facetValue.count + "<br>";
+						if($location.$$search.fq) {
+							title += "<a href='search?q=*&fq="+$location.$$search.fq+",facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+						} else {
+							title += "<a href='search?q=*&fq="+locationFacetName+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+						}
+					// Popup-Title auf Karte für einzelnen Datensatz
+					} else {
+						var locationFacetNameHumanized = locationFacetName.split('_')[1];
+						locationFacetNameHumanized = locationFacetNameHumanized.charAt(0).toUpperCase() + locationFacetNameHumanized.slice(1);
+						title = '<h4 class="text-info centered">' + locationFacetNameHumanized +  '</h4>' + title;
+					}
 					
 					var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title, entityCount : facetValue.count });
 					marker.bindPopup(title);
 					markerClusterGroup.addLayer(marker);
 				}
-				if(facet_values.length == 1)
-				{
+
+				// karte auf marker fixieren, wenn es nur ein marker (also wahrscheinlich einzeldatensatz) ist
+				if(facet_values_count == 1) {
 					var facetValue = facet_values[0];
 					var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
 					var coords = coordsString.split(',');
 					map.setView(coords, 6);
+					
 				}
-
 				map.addLayer(markerClusterGroup);
+
 				map.invalidateSize();
 			}
 
@@ -311,8 +324,8 @@ angular.module('arachne.directives', []).
 
 
 			// ist es die facette fundort oder aufbewahrungsort?
-			console.log(element.attr('locationFacetName'))
-			var locationFacetName = 'facet_fundort';
+			var locationFacetName = element.attr('locationFacetName')? element.attr('locationFacetName'): 'facet_fundort';
+			
 			var map = L.map('map').setView([40, -10], 3);
 
 			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
