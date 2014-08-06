@@ -2,7 +2,7 @@
 	<div class="row fullscreenrow">
 		<div ng-hide="searchresults.markers" class="loading"></div>
 
-        <div ng-if="searchresults.size" searchresults="searchresults" class="col-md-12 halfscreenMap" map id="map"></div>
+        <div ng-if="searchresults.size" locationfacetname="locationfacetname"  searchresults="searchresults" class="col-md-12 halfscreenMap" map id="map"></div>
 
 	</div>
 	<div class="row" ng-show="searchresults.facets">
@@ -25,9 +25,17 @@
 		<div class="col-md-3 col-md-offset-1 well well-sm" style="margin-top:-40px">
 			
 			<a href="search/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}" type="button" class="btn btn-primary btn-lg btn-block">Ausgewählte Objekte &nbsp; <i class="glyphicon glyphicon-arrow-right"> </i></a>
-			
+			<h6 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h6>
+				<div class="btn-group btn-group-justified" ng-init="locationfacetname = 'facet_fundort'">
+					<div class="btn-group">
+						<button class="btn btn-default" ng-click="locationfacetname = 'facet_fundort'" ng-class="{'active': locationfacetname == 'facet_fundort'}" role="button"><small>Fundort</small></button>
+					</div>
+					<div class="btn-group">
+						<button class="btn btn-default" ng-click="locationfacetname = 'facet_aufbewahrungsort'" ng-class="{'active': locationfacetname == 'facet_aufbewahrungsort'}"  role="button"><small>Aufbewahrungsort</small></button>
+					</div>
+				</div>
 			<hr>
-			<h4>Aktive Filter <small> Anlicken zum entfernen.</small></h4>
+			<h6 class="text-muted uppercase"><b>Anlicken zum entfernen</b></h6>
 			<ul class="list-group">
 				<li class="list-group-item linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px">
 					<i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b> <i class="glyphicon glyphicon-remove-circle pull-right"></i>
