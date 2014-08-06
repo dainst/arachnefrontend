@@ -31,6 +31,14 @@ angular.module('arachne.services', [])
 						transformResponse : function (data) {
 							var data = JSON.parse(data);
 							data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
+							angular.forEach(data.facets, function(facet, index) {
+								if (arachneSettings.openFacets.indexOf(facet.name) != -1) {
+									facet.open = true;
+								} else {
+									facet.open = false;
+								}
+							});
+
 							return data;
 						}
 					},
@@ -89,9 +97,9 @@ angular.module('arachne.services', [])
 						}
 					},
 					setActiveFacets : function () {
-						if ( typeof $location.$$search.fq !== 'undefined' && $location.$$search.fq != "") {
+						// if ( typeof $location.$$search.fq != 'undefined' && $location.$$search.fq != "") {
 							angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
-						};
+						// }
 					},
 					
 				  //GETTERS FOR VARIABLES

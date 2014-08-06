@@ -109,7 +109,6 @@ body {
 .linethrough-hover:hover {
 	text-decoration: line-through;
   cursor: pointer;
-  color: white;
 }
 
 .uppercase {
