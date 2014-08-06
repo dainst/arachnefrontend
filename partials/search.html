@@ -37,14 +37,13 @@
 							style="margin:5px 3px;"
 							ng-click="searchCtrl.removeFacet(facet)"
 							ng-repeat="facet in activeFacets">
-					<i>{{facet.name | i18n}}</i>
+					<i>{{facet.name | i18n}}</i><br>
 					<b style="text-transform:capitalize;">{{facet.value}}</b>
 				</button>
 			</div>
 
 			<h5 class="text-muted uppercase"><b>Filter</b></h5>
-			<div class="panel panel-default facet" ng-repeat="facet in searchresults.facets"
-					ng-if="facet.name != 'facet_geo'">
+			<div class="panel panel-default facet" ng-repeat="facet in searchresults.facets">
 				<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
 					<h5 class="panel-title">
 						<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>

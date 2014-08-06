@@ -268,7 +268,7 @@ angular.module('arachne.directives', []).
 					
 						title += "Einträge, <b>insgeamt</b>: " + facetValue.count + "<br>";
 						if($location.$$search.fq) {
-							title += "<a href='search?q=*&fq="+$location.$$search.fq+",facet_geo:\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
+							title += "<a href='search?q=*&fq="+$location.$$search.fq+","+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 						} else {
 							title += "<a href='search?q=*&fq="+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 						}
