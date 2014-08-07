@@ -119,6 +119,35 @@ body {
 	text-transform: uppercase;
 }
 
+.grid-image-row div.grid-image {
+  float: left;
+  margin: 3px;
+}
+.grid-image .panel-body {
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  position:relative;
+  background-color: e3e3e3;
+  overflow: hidden;
+}
+.grid-image .panel-body img {
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin:auto;
+}
+.grid-image .panel-footer {
+  padding: 5px;
+  height: 55px;
+  overflow: hidden;
+}
+.grid-image h5 {
+  margin: 0;
+}
+
 .imagesrow div {
   float:left;
   overflow: hidden;

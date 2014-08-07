@@ -33,45 +33,85 @@ angular.module('arachne.directives', []).
 							images[i].src="img/imagePlaceholder.png";
 						}
 
-						imagesWidth += images[i].width;
-					};
-					// 30 is padding of container
-					scalingPercentage = (element.parent()[0].clientWidth-30) / (imagesWidth / 100);
+						var realWidth = getRealWidth(images, i);
 
-					for (var i = images.length - 1; i >= 0; i--) {
-						if(scalingPercentage > 120) {
-							// 4px is padding of image
-
-							var newWidth =  (images[i].width/101)*120;
-							var newOuterWidth =  (images[i].width/101)*scalingPercentage;
-							images[i].parentNode.parentNode.style.width = newOuterWidth + "px";
-							images[i].width = newWidth;
+						if (realWidth <= 300) {
+							imagesWidth += 300;
 						} else {
-							var newWidth =  (images[i].width/101)*scalingPercentage;
-							images[i].parentNode.parentNode.style.width = newWidth + "px";
-							images[i].width = newWidth;
+							imagesWidth += realWidth;
 						}
+
+					};
+					// 40 is padding of container
+					scalingPercentage = (element.parent()[0].clientWidth-40) / (imagesWidth / 100);
+
+					var maxHeight = 0;
+					for (var i = images.length - 1; i >= 0; i--) {
+						
+						var realWidth = getRealWidth(images, i);
+						var realHeight = getRealHeight(images, i);
+
+						var newWidth = (realWidth/101) * scalingPercentage;
+						var newHeight = (realHeight/101) * scalingPercentage;
+						if (newHeight > maxHeight) maxHeight = newHeight;
+						var divWidth = newWidth;
+						// Kasten sollte nicht schmaler als hoch werden
+						if (images[i].width <= 300) {
+							divWidth = (300/101) * scalingPercentage;
+						}
+						images[i].parentNode.parentNode.parentNode.style.width = divWidth + "px";
+						images[i].width = newWidth;
+
 						images[i].style.display = 'block';
 						images[i].removeEventListener("load", listener, false);
 						images[i].removeEventListener("error", listener, false);
+
 					};
 					
+					for (var i = images.length - 1; i >= 0; i--) {
+						images[i].parentNode.parentNode.style.height = newHeight + "px";
+						angular.element(images[i].parentNode.parentNode.parentNode).removeClass('invisible');
+					};
+
 				};
-				
+
+				var getRealWidth = function(images, i) {
+					// use original width (important for resizing)
+					var realWidth;
+					if (element.data("original-width")[i]) {
+						realWidth = element.data("original-width")[i];
+					} else {
+						realWidth = images[i].width;
+						element.data("original-width")[i] = realWidth;
+					}
+					return realWidth;
+				};
+
+				var getRealHeight = function(images, i) {
+					// use original height (important for resizing)
+					var realHeight;
+					if (element.data("original-height")[i]) {
+						realHeight = element.data("original-height")[i];
+					} else {
+						realHeight = images[i].height;
+						element.data("original-height")[i] = realHeight;
+					}
+					return realHeight;
+				};			
 
 				// watching for element resizing
 				// important for context modal, where the filter comes in from the side and resizes the content
 				scope.$watch(function(){
 					if(element[0].clientWidth != width) {
 						width = element[0].clientWidth;
-						listener()		
+						listener();
 					}
 				});
 
 				// watching for window resizing
 				// important for the restults
 				angular.element($window).bind('resize', function() {
-					listener()
+					listener();
 				});
 				
 
@@ -85,9 +125,11 @@ angular.module('arachne.directives', []).
 					images[i].addEventListener(
 						"error",
 						errorListener,
-						false);
-					
+						false);	
 				}
+				element.data("original-width",[]);
+				element.data("original-height",[]);
+
 			}
 		}
 
@@ -102,26 +144,56 @@ angular.module('arachne.directives', []).
 		return {
 			restrict: 'A',
 
-
-
 			link: function(scope, element, attrs) {
-				var newElement = '';
+				
+				element.addClass('panel panel-default grid-image invisible');
+
+				var body = document.createElement('div');
+				body.setAttribute('class','panel-body');
+				element.append(body);
+				
+				var a;
+				if (attrs.link) {
+					a = document.createElement('a');
+					a.setAttribute('href', attrs.link);
+				} else {
+					a = document.createElement('span');
+				}
+				body.appendChild(a);
+
+				var img = document.createElement('img');
+				var src;
 				//DIRTY workaround for iterations on things that does not exsist, maybe
 				// handle tiles without data
 				if(attrs.isPlaceholderIfEmpty == "") {
-					newElement = '<span style="display:none"><img src="img/imagePlaceholder.png"></span>';
+					src = "img/imagePlaceholder.png";
+				} else if(attrs.imageid) {
+					src = arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight;
 				} else {
-					if (attrs.link) {
-						if(attrs.imageid) {
-							newElement = '<a href=\''+attrs.link+'\'><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></a>';
-						} else {
-							newElement = '<a href=\''+attrs.link+'\'><img src="img/imagePlaceholder.png"></a>';
-						}
-					} else {
-						newElement = '<span><img src="'+arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight + '"></span>';
-					}
+					src = "img/imagePlaceholder.png";
 				}
-				element.prepend(angular.element(newElement));
+				img.setAttribute('src',src);
+				a.appendChild(img);
+
+				var footer = document.createElement('div');
+				footer.setAttribute('class','panel-footer');
+				if(attrs.imageTitle) {
+					var h = document.createElement('h5');
+					h.textContent = attrs.imageTitle;
+					footer.appendChild(h);
+					if(attrs.imageSubtitle) {
+						h.appendChild(document.createElement('br'));
+						var small = document.createElement('small');
+						small.textContent = attrs.imageSubtitle;
+						h.appendChild(small);
+					}
+				} else {
+					var i = document.createElement('i');
+					i.textContent = 'keine Beschreibung vorhanden';
+					footer.appendChild(i);
+				}
+				element.append(footer);
+
 			}
 		}
 	}])
