@@ -3,7 +3,10 @@
 	<div class="row" ng-style="{'height':screenHeight}" style="margin-top: 100px;" ><!-- style=" height:{{screenHeight}}px;" -->
 		<div class="col-md-4 col-md-offset-4 text-center">
 			<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px"><img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png"> arachne<span class="text-primary" style="font-size:20px; "> beta</span> <br></h1>
-			<h5 style="opacity: 0.57;" ng-show="search.size">  {{ search.size | number}} Einträge</h5>
+			<h5 style="opacity: 0.57;">
+				<span ng-bind="search.size | number"></span>&nbsp;
+				<span ng-show="search.size">Einträge</span>
+			</h5>
 			<form class="input-group form-inline" role="search" method="GET" action="search/" >
 				<input type="text" ng-model="q" name="q" class="form-control" placeholder="Suche">
 				<span class="input-group-btn">
