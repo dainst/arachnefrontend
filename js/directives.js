@@ -18,7 +18,6 @@ angular.module('arachne.directives', []).
 				}
 
 				var listener = function () {
-
 					if(imagesLeftToLoad != 0) imagesLeftToLoad--;
 					
 

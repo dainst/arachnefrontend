@@ -254,11 +254,13 @@ angular.module('arachne.services', [])
 					return arachneDataService.contextQuery(queryParams);
 				};
 
-				var catchError = function(errorReponse) {
-					if (errorReponse.status == 403) {
+				var catchError = function(response) {
+					if (response.status == 403) {
 						sessionService.removeUser();
 					};
+					_currentEntity.error = response.status;
 				};
+
 
 			
 
@@ -270,12 +272,12 @@ angular.module('arachne.services', [])
 					getActiveContextFacets : function () {
 						return _activeContextFacets;
 					},
-					getEntityById : function(entityId) {
+					getEntityById : function(entityId, successMethod) {
 						if (_currentEntity.entityId == entityId) {
 							//Caching!
 							return _currentEntity;
 						} else {
-							_currentEntity = arachneDataService.get({id:entityId});
+							_currentEntity = arachneDataService.get({id:entityId},successMethod,catchError);
 							return _currentEntity;
 						}
 					},

@@ -31,4 +31,9 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		dataserviceUri : "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie"]
-});
+}).run(['$rootScope', function($rootScope) {
+    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+    	// resetting the default page title for controller changes
+    	document.title = "Arachne"
+    });
+}]);

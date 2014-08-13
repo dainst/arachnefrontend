@@ -99,7 +99,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 )
 .controller('EntityCtrl',
 	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'sessionService',
-	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, sessionService ) {
+	function ($routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, sessionService ) {
 		$scope.user = sessionService.user;
 		$scope.serverUri = arachneSettings.serverUri;
 
@@ -202,11 +202,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 
 
-		$scope.entity = arachneEntity.getEntityById($routeParams.id);
+		$scope.entity = arachneEntity.getEntityById($routeParams.id, function (){
+			document.title = $scope.entity.title + " | Arachne";
+		});
+
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
 
 		$scope.context = arachneEntity.getContext({id:$routeParams.id});
-
 
 		$scope.isBookmark = false;
 		if($scope.currentQueryParameters && $scope.currentQueryParameters.resultIndex != null) {
@@ -423,7 +425,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 }])
 .controller('NewsController', ['$scope', 'newsFactory', 'arachneSearch', function ($scope, newsFactory, arachneSearch) {
-
 		$scope.selection = 'search';
 		var hash = new Object();
 		hash.q = "*";
