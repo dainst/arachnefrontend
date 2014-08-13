@@ -12,13 +12,24 @@
 			Keine Sammlung vorhanden. Legen Sie doch eine an.
 		</div>
 		<accordion class="accordion-with-list" ng-repeat="bookmarksList in bookmarksLists" >
+
 			<accordion-group >
+
+
 		    	<accordion-heading>
-	    			{{ bookmarksList.name }}<span class="badge pull-right">Einträge: {{bookmarksList.bookmarks.length}}</span>
+		    		<div class="btn-group pull-right">
+		    			<button type="button" class="btn btn-xs btn-default " ng-click="editBookmarksList(bookmarksList); $event.stopPropagation()"><span class="glyphicon glyphicon-pencil"></span>&nbsp; bearbeiten</button>
+		    			<button type="button" class="btn btn-xs btn-default " ng-click="deleteBookmarksList(bookmarksList.id); $event.stopPropagation()"><span class="glyphicon glyphicon-trash"></span>&nbsp; löschen</button>
+		    		</div>
+	    			
+	    			{{ bookmarksList.name }}
+
 		    	</accordion-heading>
 
 		    	<div class="list-group-item">
-		    		<button type="button" class="btn btn-xs btn-default pull-right" ng-click="deleteBookmarksList(bookmarksList.id)">Sammlung löschen &nbsp;<span class="glyphicon glyphicon-trash"></span></button>
+		    		
+
+		    		<small>Zu dieser Sammlung:</small><br>
 		    		{{ bookmarksList.commentary }}
 		    	</div>
 
@@ -46,6 +57,7 @@
 					
   				</div>
 	    	</accordion-group>
+
 	  	</accordion>
 	  	
   	</div>

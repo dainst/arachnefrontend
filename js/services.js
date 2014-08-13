@@ -439,6 +439,12 @@ angular.module('arachne.services', [])
 				method: 'POST',
 				headers: {'Content-Type': 'application/json'}
 			},
+			updateBookmarksList: {
+				url :  arachneSettings.dataserviceUri + '/bookmarklist/:id',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'}
+			},
 			getBookmarksLists : {
 				url : arachneSettings.dataserviceUri + '/bookmarklist',
 				isArray: true,
@@ -536,6 +542,27 @@ angular.module('arachne.services', [])
 					return arachneDataService.deleteBookmarksList({ "id": id}, successMethod,errorMethod);
 				}
 			},
+			updateBookmarksList : function (bookmarkList, successMethod, errorMethod) {
+				var modalInstance = $modal.open({
+					templateUrl: 'partials/Modals/editBookmarksList.html',
+					controller : function ($scope) { $scope.bookmarkList = bookmarkList },
+					resolve: {
+				        'bookmarkList': function () {
+				            return bookmarkList;
+				        }
+					}
+				});
+
+				modalInstance.close = function(){
+					bookmarkList.commentary = typeof bookmarkList.commentary !== 'undefined' ? bookmarkList.commentary : "";
+					if(bookmarkList.name == undefined || bookmarkList.name == "") {
+						alert("Bitte Titel eintragen.")							
+					} else {
+						modalInstance.dismiss();
+						return arachneDataService.updateBookmarksList({"id":bookmarkList.id}, bookmarkList, successMethod, errorMethod);
+					}
+				}
+			},
 			deleteBookmark : function(id, successMethod){
 				return arachneDataService.deleteBookmark({ "id": id}, successMethod, catchError);
 			},
@@ -545,7 +572,7 @@ angular.module('arachne.services', [])
 			updateBookmark: function(bookmark, successMethod, errorMethod) {	
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/Modals/updateBookmarkModal.html',
-					controller: 'updateBookmarkCtrl',
+					controller: function ($scope) { $scope.bookmark = bookmark },
 					resolve: {
 				        'bookmark': function () {
 				            return bookmark;

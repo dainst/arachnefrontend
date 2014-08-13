@@ -249,9 +249,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				//console.log("unknown error");
 		});
 }])
-.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', 'bookmark', function($scope, $modalInstance, NoteService, bookmark) {
-	  $scope.bookmark = bookmark;
-}])
 .controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService','arachneSettings',
 	function ($scope, $modal, arachneEntity, sessionService, NoteService, arachneSettings){
 
@@ -308,7 +305,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				function(response){
 					// console.log("creating BookmarksList" + response);
 					$scope.refreshBookmarkLists();
-				}));
+				}
+			));
 		}
 
 		$scope.deleteBookmarksList = function(id){
@@ -316,8 +314,20 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				function(data){
 					// console.log("deleted List" + data);
 					$scope.refreshBookmarkLists();
-				});
+				}
+			);
 			
+		}
+
+		$scope.editBookmarksList = function (bookmarkList) {
+			NoteService.updateBookmarksList(bookmarkList,
+				function(data){
+					$scope.refreshBookmarkLists();
+				},
+				function() {
+					alert("Es hat ein Fehler gegeben. Bitte Seite neuladen.");
+				}
+			);
 		}
 }])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'sessionService', 'arachneEntity', '$modal', 'arachneSettings',
