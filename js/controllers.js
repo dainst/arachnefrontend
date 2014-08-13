@@ -14,9 +14,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				controller: 'LoginCtrl'
 			});			
 		};
-	}
-	]
-	)
+	}])
 .controller('LoginCtrl',
 	['$scope', '$modalInstance', 'sessionService', 'md5Filter', '$timeout', '$modal',
 	function($scope, $modalInstance, sessionService, md5Filter, $timeout, $modal){
@@ -80,9 +78,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				arachneSearch.goToPage($scope.searchresults.page);
 			}
 		}
-}
-]
-)
+}])
 .controller('ContextCtrl',
 	['arachneEntity','$scope', '$modalInstance', 
 		function (arachneEntity, $scope, $modalInstance) {
