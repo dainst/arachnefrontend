@@ -542,24 +542,30 @@ angular.module('arachne.services', [])
 					return arachneDataService.deleteBookmarksList({ "id": id}, successMethod,errorMethod);
 				}
 			},
-			updateBookmarksList : function (bookmarkList, successMethod, errorMethod) {
+			updateBookmarksList : function (bookmarksList, successMethod, errorMethod) {
+				// alle informationen aus der bookmarksList entfernen, die der server nicht mag
+				for (var i = bookmarksList.bookmarks.length - 1; i >= 0; i--) {
+					delete bookmarksList.bookmarks[i].title;
+					delete bookmarksList.bookmarks[i].thumbnailId;
+				};
+
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/Modals/editBookmarksList.html',
-					controller : function ($scope) { $scope.bookmarkList = bookmarkList },
+					controller : function ($scope) { $scope.bookmarksList = bookmarksList },
 					resolve: {
-				        'bookmarkList': function () {
-				            return bookmarkList;
+				        'bookmarksList': function () {
+				            return bookmarksList;
 				        }
 					}
 				});
 
 				modalInstance.close = function(){
-					bookmarkList.commentary = typeof bookmarkList.commentary !== 'undefined' ? bookmarkList.commentary : "";
-					if(bookmarkList.name == undefined || bookmarkList.name == "") {
+					bookmarksList.commentary = typeof bookmarksList.commentary !== 'undefined' ? bookmarksList.commentary : "";
+					if(bookmarksList.name == undefined || bookmarksList.name == "") {
 						alert("Bitte Titel eintragen.")							
 					} else {
 						modalInstance.dismiss();
-						return arachneDataService.updateBookmarksList({"id":bookmarkList.id}, bookmarkList, successMethod, errorMethod);
+						return arachneDataService.updateBookmarksList({"id":bookmarksList.id}, bookmarksList, successMethod, errorMethod);
 					}
 				}
 			},
