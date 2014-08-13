@@ -183,23 +183,9 @@
 					<a href="entity/{{entity.entityId}}/images"><img  class="img-thumbnail" ng-src="{{dataserviceUri}}/image/height/{{ entity.thumbnailId }}?height=300"></img></a>
 				</div>
 				<div ng-if="entity.images.length > 0">
-					<h3 class="text-justify" ng-init="showConnectedImages=false">
-						<button class="btn btn-default btn-sm btn-default btn-block" ng-click="showConnectedImages = true"  ng-hide="showConnectedImages == true || entity.images.length < 2 || entity.images.length > 8"><span class="glyphicon glyphicon-chevron-down"></span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}}) </button>
-						<a href="entity/{{entity.entityId}}/images?showingInitialImagesGrid=true" class="btn btn-default btn-sm btn-default btn-block" ng-show="entity.images.length > 8"><span class="glyphicon glyphicon-chevron-down"></span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}}) </a>
+					<h3 class="text-justify">
+						<a href="entity/{{entity.entityId}}/images?showingInitialImagesGrid=true" class="btn btn-default btn-sm btn-default btn-block" ng-show="entity.images.length > 1"><span class="glyphicon glyphicon-chevron-down"></span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}}) </a>
 					</h3>
-					<div ng-if="showConnectedImages == true">
-						<div class="page-header">
-							<h3>{{ 'Verbundene Bilder' | i18n }}</h3>
-						</div>
-
-						<div ng-if="entity.images.length" ng-repeat="image in entity.images">
-							<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
-								<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index]}}" imageid="{{entity.images[$index].imageId}}" link="entity/{{entity.entityId}}/images?imageIndex={{$index}}" ></div>
-								<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+1]}}" imageid="{{entity.images[$index+1].imageId}}" link="entity/{{entity.entityId}}/images?imageIndex={{$index+1}}" ></div>
-								<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+2]}}" imageid="{{entity.images[$index+2].imageId}}" link="entity/{{entity.entityId}}/images?imageIndex={{$index+2}}" ></div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
