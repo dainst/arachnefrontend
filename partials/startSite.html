@@ -21,11 +21,32 @@
 			<h2 style="font-weight:300; margin:100px 0px 50px; text-align:center">
 				<a href="javascript:document.getElementById('categories_container').scrollIntoView(true);" style="outline: none;">Kategorien in Arachne</a> <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;">
 			</h2>
-			<div ng-repeat="start in categoryStarts">
-				<div ng-if=" $index % 3 == 0" imagesrow class="grid-image-row clearfix">
-					<div class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index].imageId}}" link="{{categoryStarts[$index].customlink}}" image-subtitle="{{categoryStarts[$index].description}}" image-title="{{categoryStarts[$index].title}}"></div>
-					<div  class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index+1].imageId}}" link="{{categoryStarts[$index+1].customlink}}" image-subtitle="{{categoryStarts[$index+1].description}}" image-title="{{categoryStarts[$index+1].title}}"></div>
-					<div  class="startSiteCategoryStarter" arachneImageRequest="height" arachneImageHeight="300" imageId="{{categoryStarts[$index+2].imageId}}" link="{{categoryStarts[$index+2].customlink}}" image-subtitle="{{categoryStarts[$index+2].description}}" image-title="{{categoryStarts[$index+2].title}}"></div>
+			<div ng-repeat="start in categoryStarts" class="categoryStarters">
+				<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
+					<div arachneImageRequest="height"
+						arachneImageHeight="300"
+						imageId="{{categoryStarts[$index].imageId}}"
+						link="{{categoryStarts[$index].customlink}}"
+						image-title="{{categoryStarts[$index].title}}"
+						image-subtitle="{{categoryStarts[$index].description}}"
+						>
+					</div>
+					<div arachneImageRequest="height"
+						arachneImageHeight="300"
+						imageId="{{categoryStarts[$index+1].imageId}}"
+						link="{{categoryStarts[$index+1].customlink}}"
+						image-title="{{categoryStarts[$index+1].title}}"
+						image-subtitle="{{categoryStarts[$index+1].description}}"
+						>
+					</div>
+					<div arachneImageRequest="height"
+						arachneImageHeight="300"
+						imageId="{{categoryStarts[$index+2].imageId}}"
+						link="{{categoryStarts[$index+2].customlink}}"
+						image-title="{{categoryStarts[$index+2].title}}"
+						image-subtitle="{{categoryStarts[$index+2].description}}"
+						>
+					</div>
 				</div>
 
 			</div>
@@ -48,7 +69,7 @@
 				<img src="img/Siegel-DAI.gif" height="80px"></img>
 			</p>
 			<!--<img src="http://arachne.uni-koeln.de/template/images/cc.gif"></img>-->
-			<p class="small">Copyright Arachne © 2014 | <a href="impressum">Impressum</a> | <a href="datenschutz">Datenschutz</a> | Fehlermeldungen bitte an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a></p>
+			<p class="small">Copyright Arachne © 2014 | <a href="impressum">Impressum</a> | Fehlermeldungen bitte an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a></p>
 		</div>
 		<!--<div class="col-md-3" style="text-align:left;"><small>Universität zu Köln<br>Archäologisches Institut<br>Albertus Magnus Platz<br>D-50923 Köln</small></div>
 		

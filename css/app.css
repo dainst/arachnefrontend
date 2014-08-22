@@ -6,6 +6,10 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
+
+
+
+
 .capitalized {
   text-transform: capitalize;
 }
@@ -119,55 +123,50 @@ body {
 	text-transform: uppercase;
 }
 
-.grid-image-row div.grid-image {
-  float: left;
-  margin: 3px;
-}
-.grid-image .panel-body {
-  padding: 0;
-  text-align: center;
-  vertical-align: middle;
-  position:relative;
-  background-color: e3e3e3;
-  overflow: hidden;
-}
-.grid-image .panel-body img {
-  position:absolute;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
-  margin:auto;
-}
-.grid-image .panel-footer {
-  padding: 5px;
-  height: 55px;
-  overflow: hidden;
-}
-.grid-image h5 {
-  margin: 0;
-}
-
-.imagesrow div {
+.imagesrow .image-tile {
+  display:block;
   float:left;
   overflow: hidden;
-  padding: 2px 4px;
+  padding: 2px 8px 2px 0px;
   bottom:0px;
   position: relative;
 }
-.imagesrow img {
-  display:none;
+.imagesrow .imageWrapper {
+  position: relative;
+  background-color: #e2e2e2;
+  overflow: hidden;
 }
-.imagesrow p {
-  height: 50px;
+.imagesrow .imageWrapper img {
+  position: absolute;
+  bottom: 0px;
+}
+
+.image-tile a p {
+  height: 70px;
+  overflow: hidden;
   padding: 5px 2px 2px 2px;
   line-height: 13px;
 }
-
-.startSiteCategoryStarter span {display:none;position:absolute; bottom:2px; left:2px; right:0px; padding:10px; background:rgba(0,0,0,0.7); color: white;}
-.startSiteCategoryStarter:hover span {
-  display: block;
+.image-tile a:hover {
+  text-decoration: none;
 }
+
+.magnifier {
+    border-radius: 75px;
+    height: 150px;
+    overflow: hidden;
+    position: fixed;
+    visibility: hidden;
+    width: 150px;
+    z-index: 2;
+    pointer-events:none;
+}
+.categoryStarters .image-tile a p {
+  height:auto;
+  overflow: visible;
+
+}
+
 .imagePlaceholder {
   content:url("../img/arachnelogo.png");
 }

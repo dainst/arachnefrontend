@@ -15,103 +15,108 @@ angular.module('arachne.directives', []).
 					console.log(e)
 					console.warn("loading error -- Bild konnte nicht geladen werden. Pfad: " + this.src);
 					this.src="img/imagePlaceholder.png";
+					this.setAttribute('placeholder','true');
 				}
 
 				var listener = function () {
+
 					if(imagesLeftToLoad != 0) imagesLeftToLoad--;
 					
 
 					// BREAK if there are any images left to be loaded
 					if (imagesLeftToLoad != 0) return;
 
-					var scalingPercentage = 0, imagesWidth = 0;
+					var scalingFactor = 0, imagesWidth = 0;
 					for (var i = images.length - 1; i >= 0; i--) {
 
 						if(images[i].naturalWidth == 0) {
 							console.warn("naturalWidth  -- Bild hatte eine naturalWidth von 0. Pfad: " + images[i].src);
 							images[i].src="img/imagePlaceholder.png";
+							images[i].setAttribute('placeholder','true');
+
 						}
 
-						var realWidth = getRealWidth(images, i);
-
-						if (realWidth <= 300) {
-							imagesWidth += 300;
-						} else {
-							imagesWidth += realWidth;
-						}
+						
+						imagesWidth += images[i].naturalWidth;
 
 					};
-					// 40 is padding of container
-					scalingPercentage = (element.parent()[0].clientWidth-40) / (imagesWidth / 100);
+
+
 
 					var maxHeight = 0;
+
+
+					scalingFactor = (element.parent()[0].clientWidth-10) / imagesWidth;
+					
+					
+
 					for (var i = images.length - 1; i >= 0; i--) {
-						
-						var realWidth = getRealWidth(images, i);
-						var realHeight = getRealHeight(images, i);
 
-						var newWidth = (realWidth/101) * scalingPercentage;
-						var newHeight = (realHeight/101) * scalingPercentage;
-						if (newHeight > maxHeight) maxHeight = newHeight;
-						var divWidth = newWidth;
-						// Kasten sollte nicht schmaler als hoch werden
-						if (images[i].width <= 300) {
-							divWidth = (300/101) * scalingPercentage;
+						var newWidth, newHeight;
+						if(scalingFactor > 1.15) {
+
+
+							newWidth =  images[i].width*1.15;
+							newHeight = images[i].height*1.15;
+
+
+							var newOuterWidth = (images[i].width) * scalingFactor;
+														
+
+							images[i].parentNode.parentNode.parentNode.style.width = newOuterWidth + "px";
+
+							images[i].width = newWidth;
+						} else {
+							newWidth =  (images[i].naturalWidth) * scalingFactor;
+							newHeight = (images[i].naturalHeight) * scalingFactor;
+
+							images[i].parentNode.parentNode.parentNode.style.width = newWidth + "px";
+							images[i].width = newWidth;
+
+							
 						}
-						images[i].parentNode.parentNode.parentNode.style.width = divWidth + "px";
-						images[i].width = newWidth;
 
-						images[i].style.display = 'block';
+						// if(images[i].getAttribute('width-extended-to')) {
+						// 	images[i].parentNode.parentNode.parentNode.style.width = images[i].getAttribute('width-extended-to')-8 + "px";
+						// }
+
+
+						if (newHeight > maxHeight) maxHeight = newHeight;
+						
+
 						images[i].removeEventListener("load", listener, false);
 						images[i].removeEventListener("error", listener, false);
+						// angular.element(images[i].parentNode.parentNode.parentNode.parentNode).removeClass('invisible');
 
+					};
+
+
+
+
+					for (var i = images.length - 1; i >= 0; i--) {
+						images[i].parentNode.style.height = maxHeight + "px";
+						angular.element(images[i].parentNode.parentNode.parentNode.parentNode).removeClass('invisible');
 					};
 					
-					for (var i = images.length - 1; i >= 0; i--) {
-						images[i].parentNode.parentNode.style.height = newHeight + "px";
-						angular.element(images[i].parentNode.parentNode.parentNode).removeClass('invisible');
-					};
-
 				};
-
-				var getRealWidth = function(images, i) {
-					// use original width (important for resizing)
-					var realWidth;
-					if (element.data("original-width")[i]) {
-						realWidth = element.data("original-width")[i];
-					} else {
-						realWidth = images[i].width;
-						element.data("original-width")[i] = realWidth;
-					}
-					return realWidth;
-				};
-
-				var getRealHeight = function(images, i) {
-					// use original height (important for resizing)
-					var realHeight;
-					if (element.data("original-height")[i]) {
-						realHeight = element.data("original-height")[i];
-					} else {
-						realHeight = images[i].height;
-						element.data("original-height")[i] = realHeight;
-					}
-					return realHeight;
-				};			
 
 				// watching for element resizing
 				// important for context modal, where the filter comes in from the side and resizes the content
 				scope.$watch(function(){
 					if(element[0].clientWidth != width) {
 						width = element[0].clientWidth;
-						listener();
+						listener()		
 					}
 				});
+
 
 				// watching for window resizing
 				// important for the restults
 				angular.element($window).bind('resize', function() {
-					listener();
+					listener()
 				});
+
+
 				
 
 				for (var i = images.length - 1; i >= 0; i--) {
@@ -124,11 +129,9 @@ angular.module('arachne.directives', []).
 					images[i].addEventListener(
 						"error",
 						errorListener,
-						false);	
+						false);
+					
 				}
-				element.data("original-width",[]);
-				element.data("original-height",[]);
-
 			}
 		}
 
@@ -136,19 +139,23 @@ angular.module('arachne.directives', []).
 	// Parameters:
 	// + imageId
 	// + link
-	// + placeholderIfEmpty
+	// + magnifier {boolean}
 	// - arachneimagerequest
 	// - arachneimageheight
-	.directive('arachneimagerequest', ['arachneSettings', function(arachneSettings) {
+
+	/*****
+	** TO DO Parameter that siwtches between zoom or not
+	*/
+	.directive('arachneimagerequest', ['arachneSettings', '$compile', function(arachneSettings, $compile) {
 		return {
 			restrict: 'A',
 
 			link: function(scope, element, attrs) {
-				
-				element.addClass('panel panel-default grid-image invisible');
+				element.addClass('invisible');
 
 				var body = document.createElement('div');
-				body.setAttribute('class','panel-body');
+				body.setAttribute('class','image-tile');
+
 				element.append(body);
 				
 				var a;
@@ -161,37 +168,60 @@ angular.module('arachne.directives', []).
 				body.appendChild(a);
 
 				var img = document.createElement('img');
+				
+				
+				
+				var imageWrapper = document.createElement('div');
+				imageWrapper.setAttribute('class','imageWrapper');
+
 				var src;
-				//DIRTY workaround for iterations on things that does not exsist, maybe
-				// handle tiles without data
-				if(attrs.isPlaceholderIfEmpty == "") {
-					src = "img/imagePlaceholder.png";
-				} else if(attrs.imageid) {
+
+				if(attrs.imageid) {
 					src = arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight;
 				} else {
 					src = "img/imagePlaceholder.png";
-				}
-				img.setAttribute('src',src);
-				a.appendChild(img);
+					img.setAttribute('placeholder','true');
 
-				var footer = document.createElement('div');
-				footer.setAttribute('class','panel-footer');
-				if(attrs.imageTitle) {
-					var h = document.createElement('h5');
-					h.textContent = attrs.imageTitle;
-					footer.appendChild(h);
-					if(attrs.imageSubtitle) {
-						h.appendChild(document.createElement('br'));
-						var small = document.createElement('small');
-						small.textContent = attrs.imageSubtitle;
-						h.appendChild(small);
-					}
-				} else {
-					var i = document.createElement('i');
-					i.textContent = 'keine Beschreibung vorhanden';
-					footer.appendChild(i);
 				}
-				element.append(footer);
+
+				// for magnifier on mouse effects
+				if(attrs.magnifier) {
+
+					img.setAttribute('largeImage', arachneSettings.dataserviceUri+'/image/' + attrs.imageid );
+					img.setAttribute('ng-mouseenter','searchCtrl.startTimer($event)');
+					img.setAttribute('ng-mouseleave', 'searchCtrl.endTimer($event)');
+					$compile(img)(scope);
+				}
+
+				img.setAttribute('src',src);
+
+				imageWrapper.appendChild(img);
+				a.appendChild(imageWrapper);
+				
+
+
+				if(attrs.imageTitle) {
+					var footer = document.createElement('p');
+
+					if(attrs.imageTitle == "") {
+						var i = document.createElement('small');
+						i.textContent = 'keine Beschreibung vorhanden';
+						i.setAttribute('class','text-muted');
+						footer.appendChild(i);
+					} else {
+						var titleWrapper = document.createElement('small');
+						titleWrapper.textContent = attrs.imageTitle;
+						footer.appendChild(titleWrapper);
+						if(attrs.imageSubtitle) {
+							footer.appendChild(document.createElement('br'));
+							var subtitleWrapper = document.createElement('small');
+							subtitleWrapper.setAttribute('class','text-muted');
+							subtitleWrapper.textContent = attrs.imageSubtitle;
+							footer.appendChild(subtitleWrapper);
+						}
+					}
+					a.appendChild(footer);
+				}
 
 			}
 		}
