@@ -41,7 +41,7 @@
 						{{nextEntitySearch.size}} &nbsp;
 					</li>
 
-					<li class="list-group-item" >
+					<li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
 						<b class="text-muted uppercase small">Ergebnisnummer</b>
 
 						<form class="form-inline" action="{{ 'entity/' + entity.entityId }}" method="GET" role="search">
@@ -68,7 +68,7 @@
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-up" style="color:black" ></span> &nbsp; vorheriges Ergebnis</b><br>
 						<small>{{previousEntitySearch.entities[0].title}}</small>
 					</a>
-					<li class="list-group-item" style="background: #f5f5f5;">
+					<li class="list-group-item" style="background: #f5f5f5;" ng-hide="nextEntitySearch.size < 2" >
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-minus" style="color:black" ></span> &nbsp; aktuelles Ergebnis</b>
 					</li>
 					<a style="height:66px; overflow:hidden" class="list-group-item" href="" ng-show="nextEntitySearch.entities.length" ng-click="entityCtrl.goToNextResult()" >

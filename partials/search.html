@@ -47,8 +47,8 @@
 				</button>
 			</div>
 
-			<h5 class="text-muted uppercase"><b>Filter</b></h5>
-			<div class="panel panel-default facet" ng-repeat="facet in searchresults.facets">
+			<h5 class="text-muted uppercase" ng-hide="searchresults.size < 2"><b>Filter</b></h5>
+			<div class="panel panel-default facet" ng-repeat="facet in searchresults.facets" ng-hide="searchresults.size < 2">
 				<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
 					<h5 class="panel-title">
 						<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
@@ -149,6 +149,12 @@
 
 				<!-- Listendarstellung -->
 				<table class="table table-condensed table-hover" ng-switch-when="list">
+					<tr>
+						<td class="col-md-1">ID</td>
+						<td class="col-md-1">Typ</td>
+						<td class="col-md-8">Titel</td>
+						<td class="col-md-2">Subtitle</td>
+					</tr>	
 					<tr ng-repeat="entity in searchresults.entities" class="small"	>
 						<td class="col-md-1">{{entity.entityId}}</td>
 						<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="searchCtrl.addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
