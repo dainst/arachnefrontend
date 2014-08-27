@@ -27,7 +27,8 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
 		.when('/map', {templateUrl: 'partials/map.html'})
 		.when('/3d', {templateUrl: 'partials/3d.html'})
 		.when('/impressum', {templateUrl: 'partials/impressum.html'})
-		.when('/datenschutz', {templateUrl: 'partials/datenschutz.html'});
+		.when('/datenschutz', {templateUrl: 'partials/datenschutz.html'})
+		.when('/allCategories', {templateUrl: 'partials/allCategories.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri : "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),

@@ -159,6 +159,7 @@
 					</div>
 				</div>
 
+<<<<<<< HEAD
 				<!-- Listendarstellung -->
 				<table class="table table-condensed table-hover" ng-switch-when="list">
 					<tr>
@@ -176,6 +177,8 @@
 				</table>
 
 				<!-- Kartendarstellung -->
+=======
+>>>>>>> cac1be9bf1f831454692f9de616062eb4a546ead
 				<div ng-switch-when="map">
 					<div ng-hide="searchresults.markers" class="loading"></div>
 					<div ng-if="searchresults.markers" class="col-md-12" map id="map"></div>
