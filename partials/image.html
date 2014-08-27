@@ -17,7 +17,7 @@
 	<div class="row fullscreenrow">
 
 		<div ng-if="showingImagesGrid">
-			<div ng-if="entity.images.length" ng-repeat="image in entity.images">
+			<div style="margin-left:16px;" ng-if="entity.images.length" ng-repeat="image in entity.images">
 				<div ng-if=" $index % 7 == 0" imagesrow class="imagesrow clearfix" style="cursor:pointer">
 					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index]}}" imageid="{{entity.images[$index].imageId}}" ng-click="entityImgCtrl.setImageIndex($index)"></div>
 					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+1]}}" imageid="{{entity.images[$index+1].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+1)"></div>
