@@ -97,16 +97,6 @@
 
 		<div class="row">
 			<div class="col-md-12">
-
-				<table class="table table-condensed table-hover" ng-switch-when="list">
-					<tr ng-repeat="entity in searchresults.entities" class="small"	>
-						<td class="col-md-1">{{entity.entityId}}</td>
-						<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="searchCtrl.addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
-						<td class="col-md-8"><b><a href="entity/{{entity.entityId}}" ng-click="setResultIndex(offset + $index)">{{entity.title}}</a></b></td>
-						<td class="col-md-2">{{entity.subtitle}}</td>
-					</tr>
-				</table>
-
 				<div id="tiledImagesContainer" ng-switch-default="tiles">
 					<div ng-repeat="entity in searchresults.entities">
 						<div ng-if=" $index % 5 == 0" imagesrow class="imagesrow clearfix">
@@ -160,7 +150,8 @@
 				</div>
 
 				<!-- Listendarstellung -->
-				<table class="table table-condensed table-hover" ng-switch-when="list">
+				<div  ng-switch-when="list">
+					<table class="table table-condensed table-hover">
 					<tr>
 						<td class="col-md-1">ID</td>
 						<td class="col-md-1">Typ</td>
@@ -173,7 +164,8 @@
 						<td class="col-md-8"><b><a href="entity/{{entity.entityId}}" ng-click="setResultIndex(offset + $index)">{{entity.title}}</a></b></td>
 						<td class="col-md-2">{{entity.subtitle}}</td>
 					</tr>
-				</table>
+					</table>
+				</div>
 
 				<!-- Kartendarstellung -->
 				<div ng-switch-when="map">
