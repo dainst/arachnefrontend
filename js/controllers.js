@@ -440,32 +440,32 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.categorySub = [
 			{
 				title : "Reproduktionen",
-				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				description :'Reproduktionen',
 				customlink : "category/?q=*&fq=facet_kategorie:Reproduktionen&fl=1500"
 			},
 			{
 				title : "Typus",
-				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				description :'Typus',
 				customlink : "category/?q=*&fq=facet_kategorie:Typen&fl=1500"
 			},
 			{
 				title : "Einzelmotive",
-				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				description :'Einzelmotive',
 				customlink : "category/?q=*&fq=facet_kategorie:Einzelmotive&fl=1500"
 			},
 			{
 				title : "Mehrteilige-Denkmäler",
-				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				description :'Mehrteilige-Denkmäler',
 				customlink : "category/?q=*&fq=facet_kategorie:Mehrteilige Denkmäler&fl=1500"
 			},
 			{
 				title : "Inschriften",
-				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				description :'Inschriften',
 				customlink : "category/?q=*&fq=facet_kategorie:Inschriften&fl=1500"
 			},
 			{
 				title : "Buchseiten",
-				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
+				description :'Buchseiten',
 				customlink : "category/?q=*&fq=facet_kategorie:Buchseiten&fl=1500"
 			}
 			];

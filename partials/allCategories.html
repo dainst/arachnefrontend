@@ -1,0 +1,54 @@
+<div ng-controller="NewsController as newsController">
+	
+	<div class="row text-center">
+		<h3>Alle Kategorien:</h3>
+	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-6" ng-repeat="start in categoryStarts"  class="list-group" style="height:220px;">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+					    <h3 class="panel-title">{{categoryStarts[$index].title}}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row" >
+							<div class="col-md-3">
+								<img style="height:70px;" src="{{dataserviceUri}}/data/image/thumbnail/{{categoryStarts[$index].imageId}}"></img>
+							</div>
+							<div class="col-md-9">
+								<a href="{{categoryStarts[$index].customlink}}">{{categoryStarts[$index].description}}</a>
+							</div>
+					   </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6" ng-repeat="subCat in categorySub" class="list-group" style="height:220px;">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+					    <h3 class="panel-title">{{subCat.title}}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-3">
+								<img style="height:70px;" src="img/imagePlaceholder.png"></img>
+							</div>
+							<div class="col-md-9">
+								<a href="{{subCat.customlink}}">{{subCat.description}}
+							</div>
+					   </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 text-center" style=" margin-top: 30px; margin-bottom:30px">
+			<p>
+				<img src="img/siegel_unikoeln.gif" height="80px"></img>
+				<img src="img/Siegel-DAI.gif" height="80px"></img>
+			</p>
+			<p class="small">Copyright Arachne © 2014 | <a href="impressum">Impressum</a> | <a href="datenschutz">Datenschutz</a> | Fehlermeldungen bitte an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a></p>
+		</div>
+	</div>
+</div>
