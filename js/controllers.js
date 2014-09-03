@@ -563,7 +563,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			},
 			{
 				title : "Typen",
-				description :'Typus',
+				description :'Typen',
 				customlink : "category/?q=*&fq=facet_kategorie:Typen&fl=1500"
 			},
 			{

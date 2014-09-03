@@ -8,12 +8,12 @@
 			<div class="col-md-6" ng-repeat="start in categoryStarts"  class="list-group" style="height:220px;">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-					    <h3 class="panel-title">{{categoryStarts[$index].title}}</h3>
+					    <a href="{{categoryStarts[$index].customlink}}"><h3 class="panel-title">{{categoryStarts[$index].title}}</h3></a>
 					</div>
 					<div class="panel-body">
 						<div class="row" >
 							<div class="col-md-3">
-								<img style="height:70px;" src="{{dataserviceUri}}/data/image/thumbnail/{{categoryStarts[$index].imageId}}"></img>
+								<a href="{{categoryStarts[$index].customlink}}"><img style="height:70px;" src="{{dataserviceUri}}/data/image/thumbnail/{{categoryStarts[$index].imageId}}"></img></a>
 							</div>
 							<div class="col-md-9">
 								<a href="{{categoryStarts[$index].customlink}}">{{categoryStarts[$index].description}}</a>
@@ -25,15 +25,15 @@
 			<div class="col-md-6" ng-repeat="subCat in categorySub" class="list-group" style="height:220px;">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-					    <h3 class="panel-title">{{subCat.title}}</h3>
+					   <a href="{{subCat.customlink}}"> <h3 class="panel-title">{{subCat.title}}</h3></a>
 					</div>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-3">
-								<img style="height:70px;" src="img/imagePlaceholder.png"></img>
+								<a href="{{subCat.customlink}}"><img style="height:70px;" src="img/imagePlaceholder.png"></img></a>
 							</div>
 							<div class="col-md-9">
-								<a href="{{subCat.customlink}}">{{subCat.description}}
+								<a href="{{subCat.customlink}}">{{subCat.description}}</a>
 							</div>
 					   </div>
 					</div>
