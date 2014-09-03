@@ -546,8 +546,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 }])
-.controller('NewsController', ['$scope', 'newsFactory', 'arachneSearch', function ($scope, newsFactory, arachneSearch) {
+.controller('NewsController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', function ($scope, newsFactory, arachneSearch, $location, $anchorScroll) {
 
+		$location.hash("start");
+		$anchorScroll();
+		$location.search("#start","");
 		$scope.selection = 'search';
 		var hash = new Object();
 		hash.q = "*";
@@ -559,7 +562,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				customlink : "category/?q=*&fq=facet_kategorie:Reproduktionen&fl=1500"
 			},
 			{
-				title : "Typus",
+				title : "Typen",
 				description :'Typus',
 				customlink : "category/?q=*&fq=facet_kategorie:Typen&fl=1500"
 			},
