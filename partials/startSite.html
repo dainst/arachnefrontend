@@ -21,30 +21,30 @@
 			<h2 style="font-weight:300; margin:100px 0px 50px; text-align:center">
 				<a href="javascript:document.getElementById('categories_container').scrollIntoView(true);" style="outline: none;">Kategorien in Arachne</a> <span class="glyphicon glyphicon-chevron-down" style="margin-left:10px;opacity:0.3;top:7px;">
 			</h2>
-			<div ng-repeat="start in categoryStarts.categoryStart" class="categoryStarters">
+			<div ng-repeat="start in category.categoryStart" class="categoryStarters">
 				<div ng-if=" $index % 3 == 0" imagesrow class="imagesrow clearfix">
 					<div arachneImageRequest="height"
 						arachneImageHeight="300"
-						imageId="{{categoryStarts.categoryStart[$index].imageId}}"
-						link="{{categoryStarts.categoryStart[$index].customlink}}"
-						image-title="{{categoryStarts.categoryStart[$index].title}}"
-						image-subtitle="{{categoryStarts.categoryStart[$index].description}}"
+						imageId="{{category.categoryStart[$index].imageId}}"
+						link="{{category.categoryStart[$index].customlink}}"
+						image-title="{{category.categoryStart[$index].title}}"
+						image-subtitle="{{category.categoryStart[$index].description}}"
 						>
 					</div>
 					<div arachneImageRequest="height"
 						arachneImageHeight="300"
-						imageId="{{categoryStarts.categoryStart[$index+1].imageId}}"
-						link="{{categoryStarts.categoryStart[$index+1].customlink}}"
-						image-title="{{categoryStarts.categoryStart[$index+1].title}}"
-						image-subtitle="{{categoryStarts.categoryStart[$index+1].description}}"
+						imageId="{{category.categoryStart[$index+1].imageId}}"
+						link="{{category.categoryStart[$index+1].customlink}}"
+						image-title="{{category.categoryStart[$index+1].title}}"
+						image-subtitle="{{category.categoryStart[$index+1].description}}"
 						>
 					</div>
 					<div arachneImageRequest="height"
 						arachneImageHeight="300"
-						imageId="{{categoryStarts.categoryStart[$index+2].imageId}}"
-						link="{{categoryStarts.categoryStart[$index+2].customlink}}"
-						image-title="{{categoryStarts.categoryStart[$index+2].title}}"
-						image-subtitle="{{categoryStarts.categoryStart[$index+2].description}}"
+						imageId="{{category.categoryStart[$index+2].imageId}}"
+						link="{{category.categoryStart[$index+2].customlink}}"
+						image-title="{{category.categoryStart[$index+2].title}}"
+						image-subtitle="{{category.categoryStart[$index+2].description}}"
 						>
 					</div>
 				</div>

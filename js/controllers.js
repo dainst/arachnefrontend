@@ -547,8 +547,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 }])
 .controller('StartSiteController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http', function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
-		$http.get('partials/categoryStarts.json').success (function(data){
-            $scope.categoryStarts = data; 
+		$http.get('partials/category.json').success (function(data){
+            $scope.category = data; 
         });
 
 		$scope.newsList = null;
@@ -568,12 +568,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		var hash = new Object();
 		hash.q = "*";
 
-		$http.get('partials/categoryStarts.json').success (function(data){
-            $scope.categoryStarts = data; 
-        });
-		
-
-		$http.get('partials/categorySub.json').success (function(data){
-            $scope.categorySub = data; 
+		$http.get('partials/category.json').success (function(data){
+            $scope.category = data; 
         });
 }]);
