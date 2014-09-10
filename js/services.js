@@ -255,14 +255,9 @@ angular.module('arachne.services', [])
 				};
 
 				var catchError = function(response) {
-					if (response.status == 403) {
-						sessionService.removeUser();
-					};
 					_currentEntity.error = response.status;
 				};
 
-
-			
 
 			  // PUBLIC
 				return {
@@ -273,11 +268,13 @@ angular.module('arachne.services', [])
 						return _activeContextFacets;
 					},
 					getEntityById : function(entityId, successMethod) {
+						successMethod = successMethod || function () {};
+						
 						if (_currentEntity.entityId == entityId) {
 							//Caching!
 							return _currentEntity;
 						} else {
-							_currentEntity = arachneDataService.get({id:entityId},successMethod,catchError);
+							_currentEntity = arachneDataService.get({id:entityId},successMethod, catchError);
 							return _currentEntity;
 						}
 					},
