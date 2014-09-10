@@ -1,0 +1,35 @@
+{
+	"subCate":
+	[
+		 {
+			"title" : "Reproduktionen",
+			"description" :"Reproduktionen",
+			"customlink" : "category/?q=*&fq=facet_kategorie:Reproduktionen&fl=1500"
+		},
+		{
+			"title" : "Typen",
+			"description" :"Typen",
+			"customlink" : "category/?q=*&fq=facet_kategorie:Typen&fl=1500"
+		},
+		 {
+			"title" : "Einzelmotive",
+			"description" :"Einzelmotive",
+			"customlink" : "category/?q=*&fq=facet_kategorie:Einzelmotive&fl=1500"
+		},
+		 {
+			"title" : "Mehrteilige-Denkmäler",
+			"description" :"Mehrteilige-Denkmäler",
+			"customlink" : "category/?q=*&fq=facet_kategorie:Mehrteilige Denkmäler&fl=1500"
+		},
+		 {
+			"title" : "Inschriften",
+			"description" :"Inschriften",
+			"customlink" : "category/?q=*&fq=facet_kategorie:Inschriften&fl=1500"
+		},
+		{
+			"title" : "Buchseiten",
+			"description" :"Buchseiten",
+			"customlink" : "category/?q=*&fq=facet_kategorie:Buchseiten&fl=1500"
+		}
+	]
+}

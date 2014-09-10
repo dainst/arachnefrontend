@@ -1,28 +1,28 @@
-<div ng-controller="NewsController as newsController" autoscroll="true">
+<div ng-controller="AllCategoriesController as allCategoriesController" autoscroll="true">
 	
 	<div class="row text-center">
 		<a id="start"><h3>Alle Kategorien:</h3></a>
 	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			<div class="col-md-6" ng-repeat="start in categoryStarts"  class="list-group" style="height:220px;">
+			<div class="col-md-6" ng-repeat="start in categoryStarts.categoryStart"  class="list-group" style="height:220px;">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-					    <a href="{{categoryStarts[$index].customlink}}"><h3 class="panel-title">{{categoryStarts[$index].title}}</h3></a>
+					    <a href="{{categoryStarts.categoryStart[$index].customlink}}"><h3 class="panel-title">{{categoryStarts.categoryStart[$index].title}}</h3></a>
 					</div>
 					<div class="panel-body">
 						<div class="row" >
 							<div class="col-md-3">
-								<a href="{{categoryStarts[$index].customlink}}"><img style="height:70px;" src="{{dataserviceUri}}/data/image/thumbnail/{{categoryStarts[$index].imageId}}"></img></a>
+								<a href="{{categoryStarts.categoryStart[$index].customlink}}"><img style="height:70px;" src="{{dataserviceUri}}/data/image/thumbnail/{{categoryStarts.categoryStart[$index].imageId}}"></img></a>
 							</div>
 							<div class="col-md-9">
-								<a href="{{categoryStarts[$index].customlink}}">{{categoryStarts[$index].description}}</a>
+								<a href="{{categoryStarts.categoryStart[$index].customlink}}">{{categoryStarts.categoryStart[$index].description}}</a>
 							</div>
 					   </div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6" ng-repeat="subCat in categorySub" class="list-group" style="height:220px;">
+			<div class="col-md-6" ng-repeat="subCat in categorySub.subCate" class="list-group" style="height:220px;">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 					   <a href="{{subCat.customlink}}"> <h3 class="panel-title">{{subCat.title}}</h3></a>

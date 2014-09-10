@@ -546,106 +546,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 }])
-.controller('NewsController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', function ($scope, newsFactory, arachneSearch, $location, $anchorScroll) {
-
-		$location.hash("start");
-		$anchorScroll();
-		$location.search("#start","");
-		$scope.selection = 'search';
-		var hash = new Object();
-		hash.q = "*";
-
-		$scope.categorySub = [
-			{
-				title : "Reproduktionen",
-				description :'Reproduktionen',
-				customlink : "category/?q=*&fq=facet_kategorie:Reproduktionen&fl=1500"
-			},
-			{
-				title : "Typen",
-				description :'Typen',
-				customlink : "category/?q=*&fq=facet_kategorie:Typen&fl=1500"
-			},
-			{
-				title : "Einzelmotive",
-				description :'Einzelmotive',
-				customlink : "category/?q=*&fq=facet_kategorie:Einzelmotive&fl=1500"
-			},
-			{
-				title : "Mehrteilige-Denkmäler",
-				description :'Mehrteilige-Denkmäler',
-				customlink : "category/?q=*&fq=facet_kategorie:Mehrteilige Denkmäler&fl=1500"
-			},
-			{
-				title : "Inschriften",
-				description :'Inschriften',
-				customlink : "category/?q=*&fq=facet_kategorie:Inschriften&fl=1500"
-			},
-			{
-				title : "Buchseiten",
-				description :'Buchseiten',
-				customlink : "category/?q=*&fq=facet_kategorie:Buchseiten&fl=1500"
-			}
-			];
-
-		$scope.categoryStarts = [
-			{
-				imageId : 424501,
-				title : "Bauwerke",
-				description :'Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.',
-				customlink : "category/?q=*&fq=facet_kategorie:Bauwerke&fl=1500"
-			},
-			{
-				imageId : 1933196,
-				title : "Bauwerksteile",
-				description :'Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.',
-				customlink : "category/?q=*&fq=facet_kategorie:Bauwerksteile&fl=1500"
-			},
-			{
-				imageId : 158019,
-				title : "Objekte",
-				description :'Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.',
-				customlink : "category/?q=*&fq=facet_kategorie:Einzelobjekte&fl=1500"
-			},
-			{
-				imageId : 1922705,
-				title : "Szenen",
-				description :'Thematisch oder formal in sich geschlossene Sektion einer Figurenfolge, die sich im Kontext eines Trägermediums befindet.',
-				customlink : "category/?q=*&fq=facet_kategorie:Szenen&fl=1500"
-			},
-			{
-				imageId : 46777,
-				title : "Bilder",
-				description :'Hier haben Sie die Möglichkeit gezielt nach Bildern und bildspezifischen Informationen (z.B. Fotografen ...) zu suchen. Diese Suche erfasst alle Bildbestände in Arachne.',
-				customlink : "category/?q=*&fq=facet_kategorie:Bilder&fl=1500"
-			},
-			{
-				imageId : 230879,
-				title : "Bücher",
-				description :'Bücherbestände der Arachne.',
-				customlink : "category/?q=*&fq=facet_kategorie:Bücher&fl=1500"
-			},
-			{
-				imageId : 433041,
-				title : "Sammlungen",
-				description :'Privat- und Museumssammlungen, die in Gebäuden residieren und Objekte bzw. mehrteilige Denkmäler oder deren Reproduktionen und Rezeptionen enthalten können.',
-				customlink : "category/?q=*&fq=facet_kategorie:Sammlungen&fl=1500"
-			},
-			{
-				imageId : 3099823,
-				title : "Topographien",
-				description :'Übergeordnete Kontexte, die untergeordnete topographische Einheiten, Gebäude oder Objekte der realen Welt inkorporieren. Von Bauwerken abgegrenzt werden topographische Einheiten, wenn mehr als ein Bauwerk vorhanden ist - konstitutiv sind Bauwerke für topographische Einheiten jedoch nicht.',
-				customlink : "category/?q=*&fq=facet_kategorie:Topographien&fl=1500"
-			},
-			{
-				imageId : 251347,
-				title : "Rezeptionen",
-				description :'Spezifische Wahrnehmungen antiker Objekte in bestimmten neuzeitlichen Rezeptionsquellen.',
-				customlink : "category/?q=*&fq=facet_kategorie:Rezeptionen&fl=1500"
-			}
-		];
-
-		$scope.search = arachneSearch.search(hash);
+.controller('StartSiteController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http', function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
+		$http.get('partials/categoryStarts.json').success (function(data){
+            $scope.categoryStarts = data; 
+        });
 
 		$scope.newsList = null;
 		$scope.projectList = null;
@@ -654,4 +558,22 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if($scope.newsList == null)
 				newsFactory.getNews().success(function(data) { $scope.newsList = data;})
 		}
+}])
+.controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http', function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
+
+		$location.hash("start");
+		$anchorScroll();
+		$location.search("#start","");
+		$scope.selection = 'search';
+		var hash = new Object();
+		hash.q = "*";
+
+		$http.get('partials/categoryStarts.json').success (function(data){
+            $scope.categoryStarts = data; 
+        });
+		
+
+		$http.get('partials/categorySub.json').success (function(data){
+            $scope.categorySub = data; 
+        });
 }]);
