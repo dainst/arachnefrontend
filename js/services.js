@@ -349,10 +349,10 @@ angular.module('arachne.services', [])
 
 		function getUserFromStorage () {
 			return {
-				'username' : localStorage.getItem('username'),
-				'firstname' : localStorage.getItem('firstname'),
-				'lastname' : localStorage.getItem('lastname'),
-				'sid' : localStorage.getItem('sid'),
+				'username' : sessionStorage.getItem('username'),
+				'firstname' : sessionStorage.getItem('firstname'),
+				'lastname' : sessionStorage.getItem('lastname'),
+				'sid' : sessionStorage.getItem('sid'),
 			}
 		};
 
@@ -365,10 +365,10 @@ angular.module('arachne.services', [])
 				// var _expires = date.toUTCString();
 				// var _offset = -date.getTimezoneOffset()/60;
 
-			localStorage.setItem('username', userFromServer.userAdministration.username);
-			localStorage.setItem('lastname', userFromServer.userAdministration.lastname);
-			localStorage.setItem('firstname', userFromServer.userAdministration.firstname);
-			localStorage.setItem('sid', userFromServer.sid);
+			sessionStorage.setItem('username', userFromServer.userAdministration.username);
+			sessionStorage.setItem('lastname', userFromServer.userAdministration.lastname);
+			sessionStorage.setItem('firstname', userFromServer.userAdministration.firstname);
+			sessionStorage.setItem('sid', userFromServer.sid);
 
 			angular.extend(_currentUser, {
 				username : userFromServer.userAdministration.username,
@@ -382,7 +382,7 @@ angular.module('arachne.services', [])
 		};
 
 		function removeUser () {
-			localStorage.clear();
+			sessionStorage.clear();
 			angular.copy({},_currentUser);
 			// angular.copy({},_currentUser);
 			// document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/"; 
