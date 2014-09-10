@@ -151,76 +151,84 @@ angular.module('arachne.directives', []).
 			restrict: 'A',
 
 			link: function(scope, element, attrs) {
+
+				// * * * * BASIC STRUCTURE OF IMAGE TILE
 				element.addClass('invisible');
 
 				var body = document.createElement('div');
 				body.setAttribute('class','image-tile');
-
 				element.append(body);
-				
-				var a;
-				if (attrs.link) {
-					a = document.createElement('a');
-					a.setAttribute('href', attrs.link);
-				} else {
-					a = document.createElement('span');
-				}
-				body.appendChild(a);
 
 				var img = document.createElement('img');
-				
-				
-				
 				var imageWrapper = document.createElement('div');
 				imageWrapper.setAttribute('class','imageWrapper');
-
-				var src;
-
-				if(attrs.imageid) {
-					src = arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight;
-				} else {
-					src = "img/imagePlaceholder.png";
-					img.setAttribute('placeholder','true');
-
-				}
-
-				// for magnifier on mouse effects
-				if(attrs.magnifier) {
-
-					img.setAttribute('largeImage', arachneSettings.dataserviceUri+'/image/' + attrs.imageid );
-					img.setAttribute('ng-mouseenter','searchCtrl.startTimer($event)');
-					img.setAttribute('ng-mouseleave', 'searchCtrl.endTimer($event)');
-					$compile(img)(scope);
-				}
-
-				img.setAttribute('src',src);
-
 				imageWrapper.appendChild(img);
-				a.appendChild(imageWrapper);
-				
 
 
-				if(attrs.imageTitle) {
-					var footer = document.createElement('p');
+				// * * * * IMAGE, TITLES AND LINK
 
-					if(attrs.imageTitle == "") {
-						var i = document.createElement('small');
-						i.textContent = 'keine Beschreibung vorhanden';
-						i.setAttribute('class','text-muted');
-						footer.appendChild(i);
+				// if no entity is given:
+				// uses an invisible placeholder to form the grid, which keeps the number of columns and a reasonable width of tiles for existing etities
+				// than break the process
+				if(attrs.isPlaceholderIfEmpty == "") {
+					img.setAttribute('placeholder','true');
+					img.setAttribute('src',"img/imagePlaceholder.png");
+					body.appendChild(imageWrapper);
+
+				} else {
+				// link generation if entitiy is given
+					var a;
+					if (attrs.link) {
+						a = document.createElement('a');
+						a.setAttribute('href', attrs.link);
 					} else {
-						var titleWrapper = document.createElement('small');
-						titleWrapper.textContent = attrs.imageTitle;
-						footer.appendChild(titleWrapper);
-						if(attrs.imageSubtitle) {
-							footer.appendChild(document.createElement('br'));
-							var subtitleWrapper = document.createElement('small');
-							subtitleWrapper.setAttribute('class','text-muted');
-							subtitleWrapper.textContent = attrs.imageSubtitle;
-							footer.appendChild(subtitleWrapper);
-						}
+						a = document.createElement('span');
 					}
-					a.appendChild(footer);
+					body.appendChild(a);
+					var src;
+
+					if(attrs.imageid) {
+						src = arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight;
+					} else {
+						src = "img/imagePlaceholder.png";
+						img.setAttribute('placeholder','true');
+					}
+
+					// for magnifier on mouse effects
+					if(attrs.magnifier) {
+
+						img.setAttribute('largeImage', arachneSettings.dataserviceUri+'/image/' + attrs.imageid );
+						img.setAttribute('ng-mouseenter','searchCtrl.startTimer($event)');
+						img.setAttribute('ng-mouseleave', 'searchCtrl.endTimer($event)');
+						$compile(img)(scope);
+					}
+
+					img.setAttribute('src',src);
+					a.appendChild(imageWrapper);
+					
+
+					if(attrs.imageTitle) {
+						var footer = document.createElement('p');
+
+						if(attrs.imageTitle == "") {
+							var i = document.createElement('small');
+							i.textContent = 'keine Beschreibung vorhanden';
+							i.setAttribute('class','text-muted');
+							footer.appendChild(i);
+						} else {
+							var titleWrapper = document.createElement('small');
+							titleWrapper.textContent = attrs.imageTitle;
+							footer.appendChild(titleWrapper);
+							if(attrs.imageSubtitle) {
+								footer.appendChild(document.createElement('br'));
+								var subtitleWrapper = document.createElement('small');
+								subtitleWrapper.setAttribute('class','text-muted');
+								subtitleWrapper.textContent = attrs.imageSubtitle;
+								footer.appendChild(subtitleWrapper);
+							}
+						}
+						a.appendChild(footer);
+					}
 				}
 
 			}
