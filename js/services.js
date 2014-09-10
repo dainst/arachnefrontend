@@ -477,7 +477,8 @@ angular.module('arachne.services', [])
 		});
 
 		return {
-			getBookmarkInfo : function(bookmarksLists, successMethod){	
+			getBookmarkInfo : function(bookmarksLists, successMethod){
+				successMethod = successMethod || function () {};
 				var hash = new Object();
 				var entityIDs = new Array();
 				
@@ -507,6 +508,7 @@ angular.module('arachne.services', [])
 				
 			},
 			getBookmarksLists : function(successMethod){
+				successMethod = successMethod || function () {};
 				return arachneDataService.getBookmarksLists({},successMethod, catchError);
 			},
 			createBookmarksList : function(successMethod, errorMethod) {
@@ -567,6 +569,7 @@ angular.module('arachne.services', [])
 				}
 			},
 			deleteBookmark : function(id, successMethod){
+				successMethod = successMethod || function () {};
 				return arachneDataService.deleteBookmark({ "id": id}, successMethod, catchError);
 			},
 			getBookmark : function(id, successMethod, errorMethod){
