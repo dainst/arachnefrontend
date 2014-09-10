@@ -546,7 +546,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 }])
-.controller('StartSiteController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http', function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
+.controller('StartSiteController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
+	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
 		$http.get('partials/category.json').success (function(data){
             $scope.category = data; 
         });
@@ -558,17 +559,41 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if($scope.newsList == null)
 				newsFactory.getNews().success(function(data) { $scope.newsList = data;})
 		}
-}])
-.controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http', function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
+	}
+])
+.controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
+	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
 
-		$location.hash("start");
-		$anchorScroll();
-		$location.search("#start","");
-		$scope.selection = 'search';
-		var hash = new Object();
-		hash.q = "*";
+			$location.hash("start");
+			$anchorScroll();
+			$location.search("#start","");
+			$scope.selection = 'search';
+			var hash = new Object();
+			hash.q = "*";
 
-		$http.get('partials/category.json').success (function(data){
-            $scope.category = data; 
-        });
-}]);
+			$http.get('partials/category.json').success (function(data){
+	            $scope.category = data; 
+	        });
+		}
+])
+.controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal',
+	function ($scope, $location, $http, $modal) {
+		this.showInfo = function () {
+		
+			if(!$scope.metainfos) {
+				$http.get("http://" + document.location.host + "/data/model/" + $location.$$search.id + "?meta=true" ).success (function(data){
+					$scope.metainfos = data;
+				});
+			}
+
+			var modalInstance = $modal.open({
+				templateUrl: 'partials/Modals/3dInfoModal.html',
+				scope: $scope
+			});	
+			modalInstance.close = function(){
+				modalInstance.dismiss();
+			}
+		
+		}
+	}
+]);

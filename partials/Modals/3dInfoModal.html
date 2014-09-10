@@ -1,0 +1,42 @@
+<div class="modal-header">
+	<h4 class="modal-title">	
+		{{metainfos.title}}
+	</h4>
+</div>
+<div class="modal-body">
+	<dl class="dl-horizontal">
+		<dt>Titel</dt> <dd>{{metainfos.title}}</dd>
+		<dt>Modeller</dt> <dd>{{metainfos.modeller}}</dd>
+	    <dt>License</dt><dd> {{metainfos.license}}</dd>
+		<dt>File format</dt> <dd>{{metainfos.format}} </dd>
+	</dl>
+</div>
+<hr style="margin:0px">
+<div class="modal-body">
+
+	<b>Flugsteuerung: </b>
+	<table class="table table-condensed" style="font-size:12px;">
+		<tr><td>Mouse pointer</td><td>=</td><td>Look</td></tr>
+        <tr><td>Left mouse button/W/Up</td><td>=</td><td>Move forward</td></tr>
+        <tr><td>Right mouse button/S/Down</td><td>=</td><td>Move backward</td></tr>
+        <tr><td>A/Left</td><td>=</td><td>Strafe left</td></tr>
+        <tr><td>D/Right</td><td>=</td><td>Strafe right</td></tr>
+        <tr><td>R</td><td>=</td><td>Fly up</td></tr>
+        <tr><td>F</td><td>=</td><td>Fly down</td></tr>
+        <tr><td>Q</td><td>=</td><td>Freeze/Unfreeze camera</td></tr>
+	</table>
+
+
+
+	<b>Trackball-Steuerung: </b>
+
+	<table class="table table-condensed" style="font-size:12px;">
+		<tr><td>Left mouse button</td><td>=</td><td>Move camera</td></tr>
+        <tr><td>Right mouse button</td><td>=</td><td>Move camera target</td></tr>
+        <tr><td>Mouse wheel/Middle mouse button</td><td>=</td><td>Zoom</td></tr>
+	</table>
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
+</div>
