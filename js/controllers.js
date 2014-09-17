@@ -423,6 +423,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 		}
 
+		$scope.updateBookmarksList = function(listId){
+			var bookmarksList;
+			NoteService.getBookmarksList(listId, function(data){
+				bookmarksList = data;
+				NoteService.updateBookmarksList(bookmarksList, function(data){
+					$scope.refreshBookmarkLists();
+				});
+			});
+		}
+
 		$scope.createBookmarksList = function(){
 			$scope.bookmarksLists.push(NoteService.createBookmarksList(
 				function(response){

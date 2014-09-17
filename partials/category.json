@@ -60,22 +60,22 @@
 	[
 		 {
 			"title" : "Reproduktionen",
-			"description" :"Reproduktionen",
+			"description" :"'Dreidimensionale Objekte der realen Welt, die überwiegend antike Skulpturen oder Gebäude wiedergeben, andererseits auch Stichwerke. Ihrerseits können Reproduktionen zu mehrteiligen Denkmälern, Gebäuden, topographischen Einheiten oder Sammlungen gehören bzw. Ausdruck von Rezeptionen sein.",
 			"customlink" : "category/?q=*&fq=facet_kategorie:Reproduktionen&fl=1500"
 		},
 		{
 			"title" : "Typen",
-			"description" :"Typen",
+			"description" :"Kontextualisierung von Skulpturen (=Einzelobjekten) nach künstlerischen Bildnistypen und -schemata (Griechische Idealplastik, griechisches und römisches Portrait).",
 			"customlink" : "category/?q=*&fq=facet_kategorie:Typen&fl=1500"
 		},
 		 {
 			"title" : "Einzelmotive",
-			"description" :"Einzelmotive",
+			"description" :"Figuren oder Gegenstände, die sich meist im Kontext von Szenen befinden.",
 			"customlink" : "category/?q=*&fq=facet_kategorie:Einzelmotive&fl=1500"
 		},
 		 {
 			"title" : "Mehrteilige-Denkmäler",
-			"description" :"Mehrteilige-Denkmäler",
+			"description" :"Alle Arten von Konfigurationen, die keine Gebäude sind: also antike Statuengruppen, nachantike Pasticci, Giebelkopmpositionen, modern getrennte Skulpturen, aber auch Fundgruppen oder Hortfunde; Sarkophage ; Bestattung/Grabinventar. Ferner Sammelaufnahmen mit vielen Kleinfunden, die nicht einzeln als Einzelobjekte angelegt wurden.",
 			"customlink" : "category/?q=*&fq=facet_kategorie:Mehrteilige Denkmäler&fl=1500"
 		},
 		 {

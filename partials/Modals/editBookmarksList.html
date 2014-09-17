@@ -5,14 +5,14 @@
 <div class="modal-body">
 	Name der Sammlung:
 	<div class="form-group">
-		<input type="name" class="form-control" ng-model="bookmarkList.name" placeholder="Name">
+		<input type="name" class="form-control" ng-model="bookmarksList.name" placeholder="Name">
 	</div>
 	Kommentar:
 	<div class="form-group">
-		<input type="commentary" class="form-control" ng-model="bookmarkList.commentary" placeholder="Kommentar">
+		<input type="commentary" class="form-control" ng-model="bookmarksList.commentary" placeholder="Kommentar">
 	</div>
 </div>
 <div class="modal-footer">
-    	<button class="btn btn-primary" ng-click="$close(name, commentary)">OK</button>
+    	<button class="btn btn-primary" ng-click="$close(bookmarksList.name, commentary)">OK</button>
     	<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
 </div>

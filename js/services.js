@@ -442,6 +442,11 @@ angular.module('arachne.services', [])
 				method: 'POST',
 				headers: {'Content-Type': 'application/json'}
 			},
+			getBookmarksList : {
+				url: arachneSettings.dataserviceUri + '/bookmarklist/:id',
+				isArray: false,
+				method: 'GET'
+			},
 			getBookmarksLists : {
 				url : arachneSettings.dataserviceUri + '/bookmarklist',
 				isArray: true,
@@ -507,6 +512,9 @@ angular.module('arachne.services', [])
 
 				
 			},
+			getBookmarksList : function(id, successMethod, errorMethod){
+				return arachneDataService.getBookmarksList({ "id": id}, successMethod,errorMethod);
+			},
 			getBookmarksLists : function(successMethod){
 				successMethod = successMethod || function () {};
 				return arachneDataService.getBookmarksLists({},successMethod, catchError);
@@ -542,12 +550,6 @@ angular.module('arachne.services', [])
 				}
 			},
 			updateBookmarksList : function (bookmarksList, successMethod, errorMethod) {
-				// alle informationen aus der bookmarksList entfernen, die der server nicht mag
-				for (var i = bookmarksList.bookmarks.length - 1; i >= 0; i--) {
-					delete bookmarksList.bookmarks[i].title;
-					delete bookmarksList.bookmarks[i].thumbnailId;
-				};
-
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/Modals/editBookmarksList.html',
 					controller : function ($scope) { $scope.bookmarksList = bookmarksList },
@@ -558,10 +560,9 @@ angular.module('arachne.services', [])
 					}
 				});
 
-				modalInstance.close = function(){
-					bookmarksList.commentary = typeof bookmarksList.commentary !== 'undefined' ? bookmarksList.commentary : "";
-					if(bookmarksList.name == undefined || bookmarksList.name == "") {
-						alert("Bitte Titel eintragen.")							
+				modalInstance.close = function(name,commentary){
+					if(bookmarksList.name == undefined || bookmarksList.name == ""){
+						alert("Bitte Titel eintragen.");						
 					} else {
 						modalInstance.dismiss();
 						return arachneDataService.updateBookmarksList({"id":bookmarksList.id}, bookmarksList, successMethod, errorMethod);
