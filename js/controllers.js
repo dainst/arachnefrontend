@@ -331,7 +331,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.entity = arachneEntity.getEntityById($routeParams.id, function (){
 			document.title = $scope.entity.title + " | Arachne";	
 		});
-		
+
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
 
 		$scope.context = arachneEntity.getContext({id:$routeParams.id});
@@ -398,6 +398,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 								if($scope.bookmarksLists[x].bookmarks[y].arachneEntityId == data.entities[z].entityId)
 								{
 									$scope.bookmarksLists[x].bookmarks[y].title = data.entities[z].title;
+									$scope.bookmarksLists[x].bookmarks[y].type = data.entities[z].type;
 									$scope.bookmarksLists[x].bookmarks[y].thumbnailId = data.entities[z].thumbnailId;
 								}
 							}
