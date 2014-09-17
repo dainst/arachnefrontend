@@ -107,7 +107,8 @@
 									image-title="{{searchresults.entities[$index].title}}"
 									subtitle="{{ searchresults.entities[$index].subtitle }}"
 									ng-click="setResultIndex(offset + $index)"
-									magnifier="true">
+									magnifier="true"
+									category="{{ searchresults.entities[$index].type }}">
 							</div>
 							<div arachneImageRequest="height" arachneImageHeight="300"
 									is-placeholder-if-empty="{{searchresults.entities[$index+1].entityId}}"
@@ -116,7 +117,8 @@
 									image-title="{{searchresults.entities[$index+1].title}}"
 									image-subtitle="{{ searchresults.entities[$index+1].subtitle }}"
 									ng-click="setResultIndex(offset + $index+1)"
-									magnifier="true">
+									magnifier="true"
+									category="{{ searchresults.entities[$index+1].type }}">
 							</div>
 							<div arachneImageRequest="height" arachneImageHeight="300"
 									is-placeholder-if-empty="{{searchresults.entities[$index+2].entityId}}"
@@ -125,7 +127,8 @@
 									image-title="{{searchresults.entities[$index+2].title}}"
 									image-subtitle="{{ searchresults.entities[$index+2].subtitle }}"
 									ng-click="setResultIndex(offset + $index+2)"
-									magnifier="true">
+									magnifier="true"
+									category="{{ searchresults.entities[$index+2].type }}">
 							</div>
 							<div arachneImageRequest="height" arachneImageHeight="300"
 									is-placeholder-if-empty="{{searchresults.entities[$index+3].entityId}}"
@@ -134,7 +137,8 @@
 									image-title="{{searchresults.entities[$index+3].title}}"
 									image-subtitle="{{ searchresults.entities[$index+3].subtitle }}"
 									ng-click="setResultIndex(offset + $index+3)"
-									magnifier="true">
+									magnifier="true"
+									category="{{ searchresults.entities[$index+3].type }}">
 							</div>
 							<div arachneImageRequest="height" arachneImageHeight="300"
 									is-placeholder-if-empty="{{searchresults.entities[$index+4].entityId}}"
@@ -143,7 +147,8 @@
 									image-title="{{searchresults.entities[$index+4].title}}"
 									image-subtitle="{{ searchresults.entities[$index+4].subtitle }}"
 									ng-click="setResultIndex(offset + $index+4)"
-									magnifier="true">
+									magnifier="true"
+									category="{{ searchresults.entities[$index+4].type }}">
 							</div>
 						</div>
 					</div>
