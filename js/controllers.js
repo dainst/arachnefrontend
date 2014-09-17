@@ -197,6 +197,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		} else {
 			$scope.searchresults = arachneSearch.persistentSearch();
 
+			document.title = "Suche: " + $scope.currentQueryParameters.q.replace(/\+/g,' ') + " | Arachne";
+
 			$scope.setResultIndex = function (resultIndex) {
 				arachneSearch.setResultIndex(resultIndex);
 			}
@@ -326,7 +328,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 
 
-		$scope.entity = arachneEntity.getEntityById($routeParams.id);
+		$scope.entity = arachneEntity.getEntityById($routeParams.id, function (){
+			document.title = $scope.entity.title + " | Arachne";	
+		});
+		
 		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
 
 		$scope.context = arachneEntity.getContext({id:$routeParams.id});
