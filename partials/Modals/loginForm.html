@@ -5,7 +5,7 @@
 	<div class="modal-body">
 		<p class="alert alert-success" ng-if="user.username">Erfolgreich angemeldet. Nutzer: {{ user.username }}</p>
 		<p class="alert alert-warning" ng-if="loginerror == true">Die Anmeldung ist fehlgeschlagen. Versuchen Sie es erneut!</p>
-		<form ng-if="!user.username" class="form-inline" role="form" ng-submit="login()">
+		<form ng-if="!user.username" class="form-inline" role="form" ng-submit="login()" autofillfix>
 			<div class="form-group">
 				<input type="username" class="form-control" id="exampleInputEmail2" ng-model="loginData.user" placeholder="Benutzername">
 			</div>

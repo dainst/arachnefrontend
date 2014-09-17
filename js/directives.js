@@ -143,9 +143,6 @@ angular.module('arachne.directives', []).
 	// - arachneimagerequest
 	// - arachneimageheight
 
-	/*****
-	** TO DO Parameter that siwtches between zoom or not
-	*/
 	.directive('arachneimagerequest', ['arachneSettings', '$compile', function(arachneSettings, $compile) {
 		return {
 			restrict: 'A',
@@ -205,30 +202,27 @@ angular.module('arachne.directives', []).
 
 					img.setAttribute('src',src);
 					a.appendChild(imageWrapper);
+						
+					var footer = document.createElement('p');
 					
-
-					if(attrs.imageTitle) {
-						var footer = document.createElement('p');
-
-						if(attrs.imageTitle == "") {
-							var i = document.createElement('small');
-							i.textContent = 'keine Beschreibung vorhanden';
-							i.setAttribute('class','text-muted');
-							footer.appendChild(i);
-						} else {
-							var titleWrapper = document.createElement('small');
-							titleWrapper.textContent = attrs.imageTitle;
-							footer.appendChild(titleWrapper);
-							if(attrs.imageSubtitle) {
-								footer.appendChild(document.createElement('br'));
-								var subtitleWrapper = document.createElement('small');
-								subtitleWrapper.setAttribute('class','text-muted');
-								subtitleWrapper.textContent = attrs.imageSubtitle;
-								footer.appendChild(subtitleWrapper);
-							}
-						}
-						a.appendChild(footer);
+				
+					var titleWrapper = document.createElement('small');
+					if(attrs.imageTitle == "") {
+						titleWrapper.textContent = "Objekt der Kat.  " +  attrs.category;
+					} else {
+						titleWrapper.textContent = attrs.imageTitle;
 					}
+					footer.appendChild(titleWrapper);
+					if(attrs.imageSubtitle) {
+						footer.appendChild(document.createElement('br'));
+						var subtitleWrapper = document.createElement('small');
+						subtitleWrapper.setAttribute('class','text-muted');
+						subtitleWrapper.textContent = attrs.imageSubtitle;
+						footer.appendChild(subtitleWrapper);
+					}
+					
+					a.appendChild(footer);
+					
 				}
 
 			}
@@ -611,4 +605,28 @@ angular.module('arachne.directives', []).
 
 			}
 		};
-	}]);
+	}])
+	.directive('autofillfix', ['$timeout', function ($timeout) {
+			return {
+				link: function(scope, elem, attrs) {
+					// Fixes Chrome bug: https://groups.google.com/forum/#!topic/angular/6NlucSskQjY
+					elem.prop('method', 'POST');
+
+					// Fix autofill issues where Angular doesn't know about autofilled inputs
+					if(attrs.ngSubmit) {
+						$timeout(function() {
+
+							elem.unbind('submit').bind('submit', function (e) {
+								e.preventDefault();
+								var arr = elem.find('input');
+								if (arr.length > 0) {
+									arr.triggerHandler('input').triggerHandler('change').triggerHandler('keydown');
+									scope.$apply(attrs.ngSubmit);
+								}
+							});
+						}, 0);
+					}
+				}
+			};
+ 		}]
+ 	);

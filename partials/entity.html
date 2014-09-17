@@ -67,6 +67,8 @@
 					<a style="height:66px; overflow:hidden" href="" class="list-group-item" ng-show="previousEntitySearch.entities.length" ng-click="entityCtrl.goToPreviousResult()">
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-up" style="color:black" ></span> &nbsp; vorheriges Ergebnis</b><br>
 						<small>{{previousEntitySearch.entities[0].title}}</small>
+						<small ng-if="previousEntitySearch.entities[0].title.length==0">Objekt der Kat.: {{previousEntitySearch.entities[0].type}}<br>{{previousEntitySearch.entities[0].subtitle}}</small>
+						
 					</a>
 					<li class="list-group-item" style="background: #f5f5f5;" ng-hide="nextEntitySearch.size < 2" >
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-minus" style="color:black" ></span> &nbsp; aktuelles Ergebnis</b>
@@ -74,6 +76,7 @@
 					<a style="height:66px; overflow:hidden" class="list-group-item" href="" ng-show="nextEntitySearch.entities.length" ng-click="entityCtrl.goToNextResult()" >
 						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-down" style="color:black" ></span> &nbsp; nächstes Ergebnis</b><br>
 						<small>{{nextEntitySearch.entities[0].title}}</small>
+						<small ng-if="nextEntitySearch.entities[0].title.length==0">Objekt der Kat.: {{nextEntitySearch.entities[0].type}}<br>{{nextEntitySearch.entities[0].subtitle}}</small>
 					</a>
 
 
