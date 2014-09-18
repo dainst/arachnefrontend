@@ -564,12 +564,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 }])
 .controller('StartSiteController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
 	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
+
+		$scope.selection = 'search';
+		var hash = new Object();
+		hash.q = "*";
+
 		$http.get('partials/category.json').success (function(data){
             $scope.category = data; 
         });
 
 		$scope.newsList = null;
 		$scope.projectList = null;
+
+		$scope.search = arachneSearch.search(hash);
 
 		this.loadNews = function(){
 			if($scope.newsList == null)
@@ -579,10 +586,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ])
 .controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
 	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
+
+		$scope.selection = 'search';
+		var hash = new Object();
+		hash.q = "*";
 		
 			$http.get('partials/category.json').success (function(data){
 	            $scope.category = data; 
 	        });
+
+	       $scope.search = arachneSearch.search(hash); 
 		}
 ])
 .controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal',
