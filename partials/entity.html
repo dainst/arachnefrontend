@@ -145,10 +145,10 @@
 			</div>
 			<div class="col-md-3">
 				
-				<div class="btn-group">
-					<button ng-click="permaLink=!permaLink" class="btn btn-default btn-xs">Perma-Link <span ng-hide="permaLink" class="glyphicon glyphicon-resize-full"></span><span ng-hide="!permaLink" class="glyphicon glyphicon-resize-small"></span></button>
-					<button ng-show="entity.facet_aufbewahrungsort || entity.facet_fundort" ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">Karte
-					 <span ng-hide="karteAnzeigen" class="glyphicon glyphicon-resize-full"></span><span ng-hide="!karteAnzeigen" class="glyphicon glyphicon-resize-small"></span></button>
+				<div class="btn-group-vertical">
+					<button style="text-align:left" ng-click="permaLink=!permaLink" class="btn btn-default btn-xs"><span ng-hide="permaLink" class="glyphicon glyphicon-resize-full"></span><span ng-hide="!permaLink" class="glyphicon glyphicon-resize-small"></span> &nbsp;Perma-Link </button>
+					<button style="text-align:left" ng-show="entity.facet_aufbewahrungsort || entity.facet_fundort" ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs"><span ng-hide="karteAnzeigen" class="glyphicon glyphicon-resize-full"></span><span ng-hide="!karteAnzeigen" class="glyphicon glyphicon-resize-small"></span> &nbsp;Karte
+					</button>
 				</div>
 			</div>
 		</div>
