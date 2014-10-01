@@ -16,7 +16,7 @@
 <div class="row" style="margin-top:0px;"  ng-controller="EntityCtrl as entityCtrl">
 	<div ng-hide="entity.entityId || entity.error" class="loading"></div>
 	<div class="alert alert-danger" ng-if="entity.error" >{{ entity.error | errorMessage }}</div>
-	<div class="col-md-3" style="background-color:#fbfbfb; height:100%">
+	<div class="col-md-3" ng-if="currentQueryParameters.q">
 		<div class="page-header">
 			<h2>&nbsp;<br><small>&nbsp;</small></h2>
 		</div>
@@ -80,21 +80,7 @@
 					</a>
 				</ul>
 			</div>
-			<div ng-hide="currentQueryParameters.q">
-				<p> Keine vorherige Suche vorhanden!</p>
-			</div>
 		</div>
-
-<!-- RESULT NAVIGATION -->
-		<!-- <div class="btn-group-vertical btn-block" ng-if="previousEntitySearch.entities[0] || nextEntitySearch.entities[0]">
-				<button ng-click="entityCtrl.goToPreviousResult()" class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="previousEntitySearch.entities[0]">
-				<span class="glyphicon glyphicon-arrow-up" ></span> &nbsp; <small>{{previousEntitySearch.entities[0].title}}</small>
-			</button>
-				<button ng-click="entityCtrl.goToNextResult()"  class="btn btn-default" style="text-align:left; overflow:hidden;" ng-if="nextEntitySearch.entities[0]">
-				<span class="glyphicon glyphicon-arrow-down" ></span> &nbsp; <small>{{nextEntitySearch.entities[0].title}}</small>
-			</button>
-		</div> -->
-
 
 
 <!-- NOTES -->
@@ -126,7 +112,7 @@
 		</div>
 
 	</div>
-	<div class="col-md-6" ng-show="entity.entityId">
+	<div  ng-class="{'col-md-offset-2 col-md-5' : !currentQueryParameters.q }" class="col-md-6"  ng-show="entity.entityId">
 		<div class="page-header">
 			<h2>
 				{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type }}</span><br>
