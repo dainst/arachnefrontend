@@ -22,11 +22,11 @@
 		</div>
 
 <!-- CURRENT QUERY STATUS -->
-		<div ng-if="currentQueryParameters.q">
+		<div >
 			<div class="page-header">
 				<h5 class="text-muted uppercase"><strong>Navigation durch Suchergebnisse</strong></h5>
 			</div>
-			<div class="panel panel-default">
+			<div ng-if="currentQueryParameters.q" class="panel panel-default">
 				<div class="panel-heading">
 					Aktuelle Suche <button ng-click="entityCtrl.goToResults()" class="btn btn-xs pull-right btn-primary">anzeigen</button>
 				</div>
@@ -78,11 +78,10 @@
 						<small>{{nextEntitySearch.entities[0].title}}</small>
 						<small ng-if="nextEntitySearch.entities[0].title.length==0">Objekt der Kat.: {{nextEntitySearch.entities[0].type}}<br>{{nextEntitySearch.entities[0].subtitle}}</small>
 					</a>
-
-
-
-					
 				</ul>
+			</div>
+			<div ng-hide="currentQueryParameters.q">
+				<p> Keine vorherige Suche vorhanden!</p>
 			</div>
 		</div>
 

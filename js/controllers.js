@@ -314,6 +314,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			return result;
 		}
 
+		
+
 	  // RECONSTRUCT SEARCH-SESSION IF THERE IS ONE IN THE URL-PARAMETERS
 		if($location.$$search.q) {
 			var qHash = $location.$$search
