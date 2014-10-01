@@ -4,10 +4,13 @@
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('MenuCtrl',
-	[ '$scope', '$modal', 'sessionService', 
-		function ($scope,  $modal, sessionService){
+	[ '$scope', '$modal', 'sessionService', '$location',
+		function ($scope,  $modal, sessionService, $location){
 		$scope.user = sessionService.user;
 
+		$scope.currentPath = $location.$$path;
+
+		//$scope.currentPath = $route.current.originalPath;
 		$scope.openLoginModal = function () {
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/loginForm.html',
