@@ -586,16 +586,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ])
 .controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
 	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
-
-		$scope.selection = 'search';
-		var hash = new Object();
-		hash.q = "*";
 		
 			$http.get('partials/category.json').success (function(data){
 	            $scope.category = data; 
 	        });
-
-	       $scope.search = arachneSearch.search(hash); 
 		}
 ])
 .controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal',
