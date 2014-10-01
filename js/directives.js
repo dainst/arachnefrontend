@@ -377,19 +377,21 @@ angular.module('arachne.directives', []).
 					var coords = coordsString.split(',');
 					var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)-1) + "</b><br/>";
 					// Popup-Title auf Karte für Suchergebnis
-					if (facet_values_count > 1) {
+					if (facetValue.count > 1) {
 					
-						title += "Einträge, <b>insgeamt</b>: " + facetValue.count + "<br>";
+						title += "Einträge, <b>insgesamt</b>: " + facetValue.count + "<br>";
 						if($location.$$search.fq) {
 							title += "<a href='search?q=*&fq="+$location.$$search.fq+","+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 						} else {
 							title += "<a href='search?q=*&fq="+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 						}
+
 					// Popup-Title auf Karte für einzelnen Datensatz
 					} else {
 						var locationFacetNameHumanized = scope.locationfacetname.split('_')[1];
 						locationFacetNameHumanized = locationFacetNameHumanized.charAt(0).toUpperCase() + locationFacetNameHumanized.slice(1);
 						title = '<h4 class="text-info centered">' + locationFacetNameHumanized +  '</h4>' + title;
+						title += "<a href='search?q=*&fq="+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diesen Eintrag anzeigen</a>";
 					}
 					
 					var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: title, entityCount : facetValue.count });
@@ -453,7 +455,20 @@ angular.module('arachne.directives', []).
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 				maxZoom: 18
 			});
-			map.addLayer(layer);			
+			map.addLayer(layer);	
+			/*map.on('mousemove', function(e) {
+				var point = e.containerPoint;
+				var size = map.getSize();
+				console.log(e.containerPoint + " " + size + " " + e.latlng)
+				if(point.x < 10){
+					map.panTo(e.latlng);
+				}
+				if(point.y < 10){
+					map.panTo(e.latlng);
+				}
+
+				console.log(point.x + " " + size.x);
+			});	*/
 			L.Icon.Default.imagePath = 'img';
 			// der user kann den typ der orts-facette ändern! Watch for it baby
 			scope.$watch(
