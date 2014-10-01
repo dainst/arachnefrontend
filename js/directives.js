@@ -2,6 +2,7 @@
 
 /* Directives */
 angular.module('arachne.directives', []).
+
 	directive('imagesrow', function($window) {
 		return {
 			restrict: 'A',

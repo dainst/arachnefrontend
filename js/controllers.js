@@ -202,7 +202,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.setResultIndex = function (resultIndex) {
 				arachneSearch.setResultIndex(resultIndex);
 			}
-			$scope.onSelectPage = function () {
+			$scope.onSelectPage = function () {				
 				arachneSearch.goToPage($scope.searchresults.page);
 			}
 		}
