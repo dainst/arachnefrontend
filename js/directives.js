@@ -136,7 +136,7 @@ angular.module('arachne.directives', []).
 	directive('arImagegridCell', ['$sce', function($sce) {
 		return {
 			scope: {
-				href: '@', img: '=', title: '@', subtitle: '@', imgUri: '@',
+				href: '@', img: '=', entityTitle: '@', entitySubtitle: '@', imgUri: '@',
 				cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@'
 			},
 			templateUrl: 'partials/ar-imagegrid-cell.html'
