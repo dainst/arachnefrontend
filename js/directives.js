@@ -9,7 +9,8 @@ angular.module('arachne.directives', []).
 				entities: '=',
 				columns: '@',
 				offset: '=',
-				margin: '@'
+				margin: '@',
+				currentQuery: '='
 			},
 			templateUrl: 'partials/ar-imagegrid.html',
 			
@@ -31,7 +32,8 @@ angular.module('arachne.directives', []).
 						var entity = scope.entities[index];
 						scope.grid[i][k] = {
 							entity: entity,
-							href: 'entity/' + entity.entityId + "?resultIndex=" + (scope.offset + index),
+							href: 'entity/' + entity.entityId + "?resultIndex=" + (scope.offset + index)
+								+ "&q=" + scope.currentQuery.q + "&fq=" + scope.currentQuery.fq,
 							width: 200,
 							height: 200,
 							complete: false,
