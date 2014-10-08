@@ -7,9 +7,25 @@ body {
   overflow-y: scroll; /* always show scrollbar */
 }
 
+.ar-imagegrid-cell-title {
+  background: #ffffff;
+  height: auto;
+  padding: 2px 4px;
+  overflow: hidden;
+  height: 37px;
+}
 
+.ar-imagegrid-cell-link:hover {
+  box-shadow: 0 0 10px #888888;
+  z-index: 1;
+  position: absolute;
+  text-decoration: none;
+}
 
-
+.ar-imagegrid-cell-link:hover .ar-imagegrid-cell-title {
+  width: inherit;
+  height: auto;
+}
 
 .capitalized {
   text-transform: capitalize;
