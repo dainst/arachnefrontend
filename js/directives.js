@@ -3,6 +3,144 @@
 /* Directives */
 angular.module('arachne.directives', []).
 
+	directive('arImagegrid', ['arachneSettings', '$http', '$sce', '$window', function(arachneSettings, $http, $sce, $window) {
+		return {
+			scope: {
+				entities: '=',
+				columns: '@',
+				offset: '=',
+				margin: '@'
+			},
+			templateUrl: 'partials/ar-imagegrid.html',
+			
+			link: function(scope, element, attrs) {
+
+				scope.complete = false;
+
+				var placeholder = new Image();
+				placeholder.src = 'img/imagePlaceholder.png';
+
+				var columns = scope.columns;
+				var rows = Math.ceil(scope.entities.length / columns);
+				scope.grid = new Array(rows);
+				for (var i = 0; i < rows; i++) {
+					scope.grid[i] = new Array(columns);
+					for (var k = 0; k < columns; k++) {
+						if (i*columns+k >= scope.entities.length) break;
+						var index = i * columns + k;
+						var entity = scope.entities[index];
+						scope.grid[i][k] = {
+							entity: entity,
+							href: 'entity/' + entity.entityId + "?resultIndex=" + (scope.offset + index),
+							width: 200,
+							height: 200,
+							complete: false,
+							row: scope.grid[i]
+						}
+						scope.grid[i].complete = false;
+						if (typeof entity.thumbnailId != 'undefined') {
+							scope.grid[i][k].imgUri = arachneSettings.dataserviceUri + "/image/height/" + entity.thumbnailId + "?height=300";
+						} else {
+							scope.grid[i][k].imgUri = placeholder.src;
+						}
+						loadImage(scope.grid[i][k]);
+					}
+				}
+
+				// TODO: Is Ajax really necessary? Maybe setting src is sufficient ...
+				function loadImage(cell) {
+        			cell.img = new Image();
+					cell.img.addEventListener("load", function() {
+						// custom event handlers need to be wrapped in $apply
+						scope.$apply(function() {
+							cell.complete = true;
+							resizeRow(cell.row);
+						});
+					});
+					cell.img.addEventListener("error", function() {
+						scope.$apply(function() {
+							cell.complete = true;
+							cell.img = placeholder;
+							resizeRow(cell.row);
+						});
+					});
+        			cell.img.src = cell.imgUri;
+				}
+
+				function resizeRow(row) {
+
+					// only resize if every cell in the row is complete
+					for (var i=0; i < row.length; i++) {
+						if(!row[i].complete) return;
+					}
+
+					row.complete = true;
+					for (var i = 0; i < scope.grid.length; i++) {
+						if (!scope.grid[i].complete) break;
+						scope.complete = true;
+					}
+
+					var imagesWidth = 0;
+					var maxHeight = 0;
+
+					for (var i=0; i < row.length; i++) {
+						imagesWidth += row[i].img.naturalWidth;
+					}
+
+					var totalWidth = element[0].clientWidth - 1;
+					totalWidth -= columns * scope.margin * 2;
+					// fill rows with fewer columns
+					if (row.length < columns) {
+						imagesWidth += (columns - row.length) * (totalWidth / columns)
+					}
+					var scalingFactor = totalWidth / imagesWidth;
+
+					for (var i=0; i < row.length; i++) {
+						row[i].width = row[i].img.naturalWidth * scalingFactor;
+						if (scalingFactor > 1) {
+							row[i].imgWidth = row[i].img.naturalWidth;
+						} else {
+							row[i].imgWidth = row[i].width;
+						}
+						var height = row[i].img.naturalHeight * scalingFactor;
+						if (height > maxHeight) maxHeight = height;
+					}
+
+					for (var i=0; i < row.length; i++) {
+						if (scalingFactor > 1) {
+							row[i].height = row[i].img.naturalHeight;
+						} else {
+							row[i].height = maxHeight;
+						}
+					}
+
+				}
+
+				angular.element($window).bind('resize', function() {
+					scope.$apply(function() {
+						scope.complete = false;
+						for (var i = 0; i < scope.grid.length; i++) {
+							var row = scope.grid[i];
+							row.complete = false;
+							resizeRow(row);
+						}
+					});
+				});
+			
+			}
+		}
+	}]).
+
+	directive('arImagegridCell', ['$sce', function($sce) {
+		return {
+			scope: {
+				href: '@', img: '=', title: '@', subtitle: '@', imgUri: '@',
+				cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@'
+			},
+			templateUrl: 'partials/ar-imagegrid-cell.html'
+		}
+	}]).
+
 	directive('imagesrow', function($window) {
 		return {
 			restrict: 'A',

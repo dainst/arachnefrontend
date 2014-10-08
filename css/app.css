@@ -4,6 +4,7 @@ body {
 	margin-top: 50px;
 	/*background-color: #F8F8F8;*/
 	font-family: 'Open Sans', sans-serif;
+  overflow-y: scroll; /* always show scrollbar */
 }
 
 

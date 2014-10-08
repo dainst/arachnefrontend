@@ -12,10 +12,12 @@ angular.module('arachne',
 	'arachne.directives',
 	'arachne.controllers',
 	]).
-config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
 
 	
 	$locationProvider.html5Mode(true);
+
+	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|blob):/)
 
 	$routeProvider
 		.when('/', {templateUrl: 'partials/startSite.html'})
