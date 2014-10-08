@@ -1,0 +1,11 @@
+<div style="width: {{cellWidth}}px; display:inline-block; float:left; margin: {{cellMargin}}px; overflow: hidden;">
+	<a href="{{href}}">
+		<div style="height: {{cellHeight}}px; background-color: #e3e3e3; text-align:center;">
+			<span style="display: inline-block; height: 100%; vertical-align: middle;"></span><img style="vertical-align:middle;" ng-src="{{img.src}}" width="{{imgWidth}}">
+		</div>
+		<p>
+			{{title}}
+			<small class="text-muted" ng-show="subtitle">{{subtitle}}</small>
+		</p>
+	</a>
+</div>

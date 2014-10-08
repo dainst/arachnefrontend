@@ -1,0 +1,18 @@
+<div>
+	<div ng-repeat="row in grid">
+		<div ar-imagegrid-cell ng-show="row.complete" ng-repeat="cell in row"
+			href="{{cell.href}}"
+			img="cell.img"
+			img-uri="{{cell.imgUri}}"
+			cell-width="{{cell.width}}"
+			img-width="{{cell.imgWidth}}"
+			cell-height="{{cell.height}}"
+			cell-margin="{{margin}}"
+			title="{{cell.entity.title}}" subtitle="{{cell.entity.subtitle}}" >
+		</div>
+		<div style="clear:both"></div>
+	</div>
+	<div ng-hide="complete" style="height: 100px">
+		<div class="loading" style="position: static; vertical-align:middle; margin-top: 100px;"></div>
+	</div>
+</div>
