@@ -1,75 +1,39 @@
 'use strict';
 
 /* Directives */
-angular.module('arachne.directives', []).
+angular.module('arachne.directives', [])
 
-	directive('arImagegrid', ['arachneSettings', '$http', '$sce', '$window', function(arachneSettings, $http, $sce, $window) {
+	.directive('arImagegrid', ['arachneSettings', '$http', '$sce', '$window', function(arachneSettings, $http, $sce, $window) {
 		return {
 			scope: {
-				entities: '=',
+				cells: '=',
 				columns: '@',
-				offset: '=',
-				margin: '@',
-				currentQuery: '='
+				margin: '@'
 			},
 			templateUrl: 'partials/ar-imagegrid.html',
 			
 			link: function(scope, element, attrs) {
 
-				scope.complete = false;
-
-				var placeholder = new Image();
-				placeholder.src = 'img/imagePlaceholder.png';
-
-				var columns = scope.columns;
-				var rows = Math.ceil(scope.entities.length / columns);
-				scope.grid = new Array(rows);
-				for (var i = 0; i < rows; i++) {
-					scope.grid[i] = new Array(columns);
-					for (var k = 0; k < columns; k++) {
-						if (i*columns+k >= scope.entities.length) break;
-						var index = i * columns + k;
-						var entity = scope.entities[index];
-						scope.grid[i][k] = {
-							entity: entity,
-							href: 'entity/' + entity.entityId + "?resultIndex=" + (scope.offset + index)
-								+ "&q=" + scope.currentQuery.q + "&fq=" + scope.currentQuery.fq,
-							width: 200,
-							height: 200,
-							complete: false,
-							row: scope.grid[i]
-						}
-						scope.grid[i].complete = false;
-						if (typeof entity.thumbnailId != 'undefined') {
-							scope.grid[i][k].imgUri = arachneSettings.dataserviceUri + "/image/height/" + entity.thumbnailId + "?height=300";
-						} else {
-							scope.grid[i][k].imgUri = placeholder.src;
-						}
-						loadImage(scope.grid[i][k]);
-					}
-				}
-
-				// TODO: Is Ajax really necessary? Maybe setting src is sufficient ...
-				function loadImage(cell) {
+				scope.loadImage = function(cell) {
         			cell.img = new Image();
 					cell.img.addEventListener("load", function() {
 						// custom event handlers need to be wrapped in $apply
 						scope.$apply(function() {
 							cell.complete = true;
-							resizeRow(cell.row);
+							scope.resizeRow(cell.row);
 						});
 					});
 					cell.img.addEventListener("error", function() {
 						scope.$apply(function() {
 							cell.complete = true;
-							cell.img = placeholder;
-							resizeRow(cell.row);
+							cell.img = scope.placeholder;
+							scope.resizeRow(cell.row);
 						});
 					});
         			cell.img.src = cell.imgUri;
-				}
+				};
 
-				function resizeRow(row) {
+				scope.resizeRow = function(row) {
 
 					// only resize if every cell in the row is complete
 					for (var i=0; i < row.length; i++) {
@@ -89,6 +53,7 @@ angular.module('arachne.directives', []).
 						imagesWidth += row[i].img.naturalWidth;
 					}
 
+					var columns = scope.columns;
 					var totalWidth = element[0].clientWidth - 1;
 					totalWidth -= columns * scope.margin * 2;
 					// fill rows with fewer columns
@@ -116,7 +81,7 @@ angular.module('arachne.directives', []).
 						}
 					}
 
-				}
+				};
 
 				angular.element($window).bind('resize', function() {
 					scope.$apply(function() {
@@ -124,253 +89,57 @@ angular.module('arachne.directives', []).
 						for (var i = 0; i < scope.grid.length; i++) {
 							var row = scope.grid[i];
 							row.complete = false;
-							resizeRow(row);
+							scope.resizeRow(row);
 						}
 					});
+				});
+
+			},
+
+			controller: function($scope) {
+
+				$scope.placeholder = new Image();
+				$scope.placeholder.src = 'img/imagePlaceholder.png';
+				$scope.complete = false;
+
+				$scope.$watch('cells', function(newCells, oldCells) {
+
+					if (typeof newCells == 'undefined' || !newCells) return;
+
+					var columns = $scope.columns;
+					var rows = Math.ceil($scope.cells.length / columns);
+					$scope.grid = new Array(rows);
+					for (var i = 0; i < rows; i++) {
+						$scope.grid[i] = new Array(columns);
+						for (var k = 0; k < columns; k++) {
+							if (i*columns+k >= $scope.cells.length) break;
+							var index = i * columns + k;
+							var cell = $scope.cells[index];
+							$scope.grid[i][k] = cell;
+							cell.row = $scope.grid[i];
+							$scope.grid[i].complete = false;
+							if (typeof cell.imgUri == 'undefined') {
+								cell.imgUri = $scope.placeholder.src;
+							}
+							$scope.loadImage(cell);
+						}
+					}
+					
 				});
 			
 			}
 		}
-	}]).
+	}])
 
-	directive('arImagegridCell', ['$sce', function($sce) {
+	.directive('arImagegridCell', ['$sce', function($sce) {
 		return {
 			scope: {
-				href: '@', img: '=', entityTitle: '@', entitySubtitle: '@', imgUri: '@',
+				href: '@', img: '=', cellTitle: '@', cellSubtitle: '@', imgUri: '@',
 				cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@'
 			},
 			templateUrl: 'partials/ar-imagegrid-cell.html'
 		}
-	}]).
-
-	directive('imagesrow', function($window) {
-		return {
-			restrict: 'A',
-			link: function (scope, element, attrs) {
-
-				var width 				= element[0].clientWidth;
-				var images 				= element[0].getElementsByTagName('img');
-				var imagesLeftToLoad 	= images.length;
-
-				var errorListener = function (e) {
-					console.log(e)
-					console.warn("loading error -- Bild konnte nicht geladen werden. Pfad: " + this.src);
-					this.src="img/imagePlaceholder.png";
-					this.setAttribute('placeholder','true');
-				}
-
-				var listener = function () {
-
-					if(imagesLeftToLoad != 0) imagesLeftToLoad--;
-					
-
-					// BREAK if there are any images left to be loaded
-					if (imagesLeftToLoad != 0) return;
-
-					var scalingFactor = 0, imagesWidth = 0;
-					for (var i = images.length - 1; i >= 0; i--) {
-
-						if(images[i].naturalWidth == 0) {
-							console.warn("naturalWidth  -- Bild hatte eine naturalWidth von 0. Pfad: " + images[i].src);
-							images[i].src="img/imagePlaceholder.png";
-							images[i].setAttribute('placeholder','true');
-
-						}
-
-						
-						imagesWidth += images[i].naturalWidth;
-
-					};
-
-
-
-					var maxHeight = 0;
-
-
-					scalingFactor = (element.parent()[0].clientWidth-10) / imagesWidth;
-					
-					
-
-					for (var i = images.length - 1; i >= 0; i--) {
-
-						var newWidth, newHeight;
-						if(scalingFactor > 1.15) {
-
-
-							newWidth =  images[i].width*1.15;
-							newHeight = images[i].height*1.15;
-
-
-							var newOuterWidth = (images[i].width) * scalingFactor;
-														
-
-							images[i].parentNode.parentNode.parentNode.style.width = newOuterWidth + "px";
-
-							images[i].width = newWidth;
-						} else {
-							newWidth =  (images[i].naturalWidth) * scalingFactor;
-							newHeight = (images[i].naturalHeight) * scalingFactor;
-
-							images[i].parentNode.parentNode.parentNode.style.width = newWidth + "px";
-							images[i].width = newWidth;
-
-							
-						}
-
-						// if(images[i].getAttribute('width-extended-to')) {
-						// 	images[i].parentNode.parentNode.parentNode.style.width = images[i].getAttribute('width-extended-to')-8 + "px";
-						// }
-
-
-						if (newHeight > maxHeight) maxHeight = newHeight;
-						
-
-						images[i].removeEventListener("load", listener, false);
-						images[i].removeEventListener("error", listener, false);
-						// angular.element(images[i].parentNode.parentNode.parentNode.parentNode).removeClass('invisible');
-
-					};
-
-
-
-
-					for (var i = images.length - 1; i >= 0; i--) {
-						images[i].parentNode.style.height = maxHeight + "px";
-						angular.element(images[i].parentNode.parentNode.parentNode.parentNode).removeClass('invisible');
-					};
-					
-				};
-
-				// watching for element resizing
-				// important for context modal, where the filter comes in from the side and resizes the content
-				scope.$watch(function(){
-					if(element[0].clientWidth != width) {
-						width = element[0].clientWidth;
-						listener()		
-					}
-				});
-
-
-				// watching for window resizing
-				// important for the restults
-				angular.element($window).bind('resize', function() {
-					listener()
-				});
-
-
-				
-
-				for (var i = images.length - 1; i >= 0; i--) {
-					images[i].addEventListener(
-						"load",
-						listener,
-						false);
-					//images[i].setAttribute('onload',listener())
-					// images[i].onload = listener();
-					images[i].addEventListener(
-						"error",
-						errorListener,
-						false);
-					
-				}
-			}
-		}
-
-	})
-	// Parameters:
-	// + imageId
-	// + link
-	// + magnifier {boolean}
-	// - arachneimagerequest
-	// - arachneimageheight
-
-	.directive('arachneimagerequest', ['arachneSettings', '$compile', function(arachneSettings, $compile) {
-		return {
-			restrict: 'A',
-
-			link: function(scope, element, attrs) {
-
-				// * * * * BASIC STRUCTURE OF IMAGE TILE
-				element.addClass('invisible');
-
-				var body = document.createElement('div');
-				body.setAttribute('class','image-tile');
-				element.append(body);
-
-				var img = document.createElement('img');
-				var imageWrapper = document.createElement('div');
-				imageWrapper.setAttribute('class','imageWrapper');
-				imageWrapper.appendChild(img);
-
-
-				// * * * * IMAGE, TITLES AND LINK
-
-				// if no entity is given:
-				// uses an invisible placeholder to form the grid, which keeps the number of columns and a reasonable width of tiles for existing etities
-				// than break the process
-				if(attrs.isPlaceholderIfEmpty == "") {
-					img.setAttribute('placeholder','true');
-					img.setAttribute('src',"img/imagePlaceholder.png");
-					body.appendChild(imageWrapper);
-
-				} else {
-				// link generation if entitiy is given
-					var a;
-					if (attrs.link) {
-						a = document.createElement('a');
-						a.setAttribute('href', attrs.link);
-					} else {
-						a = document.createElement('span');
-					}
-					body.appendChild(a);
-					var src;
-
-					if(attrs.imageid) {
-						src = arachneSettings.dataserviceUri+'/image/'+attrs.arachneimagerequest+'/'  + attrs.imageid + '?'  + attrs.arachneimagerequest + '=' + attrs.arachneimageheight;
-					} else {
-						src = "img/imagePlaceholder.png";
-						img.setAttribute('placeholder','true');
-					}
-
-					// for magnifier on mouse effects
-					if(attrs.magnifier) {
-
-						img.setAttribute('largeImage', arachneSettings.dataserviceUri+'/image/' + attrs.imageid );
-						img.setAttribute('ng-mouseenter','searchCtrl.startTimer($event)');
-						img.setAttribute('ng-mouseleave', 'searchCtrl.endTimer($event)');
-						$compile(img)(scope);
-					}
-
-					img.setAttribute('src',src);
-					a.appendChild(imageWrapper);
-						
-					var footer = document.createElement('p');
-					
-				
-					var titleWrapper = document.createElement('small');
-					if(attrs.imageTitle == "") {
-						titleWrapper.textContent = "Objekt der Kat.  " +  attrs.category;
-					} else {
-						titleWrapper.textContent = attrs.imageTitle;
-					}
-					footer.appendChild(titleWrapper);
-					if(attrs.imageSubtitle) {
-						footer.appendChild(document.createElement('br'));
-						var subtitleWrapper = document.createElement('small');
-						subtitleWrapper.setAttribute('class','text-muted');
-						subtitleWrapper.textContent = attrs.imageSubtitle;
-						footer.appendChild(subtitleWrapper);
-					}
-					
-					a.appendChild(footer);
-					
-				}
-
-			}
-		}
 	}])
-
-
 
 	.directive('threedimensional', ['$window', '$q', function ($window, $q) {
 		return {

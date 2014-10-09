@@ -31,23 +31,14 @@
 	</div>
 
 	<div class="col-md-12" ng-class="{ 'col-md-9': showFilters }">
-		<div ng-repeat="entity in searchresults.entities">
-			<div ng-if=" $index % 4 == 0" imagesrow class="imagesrow clearfix">
-				<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index].entityId}}" imageid="{{searchresults.entities[$index].thumbnailId}}" link="entity/{{searchresults.entities[$index].entityId}}" ng-click="setResultIndex(offset + $index)">
-					<p><small>{{ searchresults.entities[$index].title }}</small></p>
-				</div>
-				<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+1].entityId}}"   imageid="{{searchresults.entities[$index+1].thumbnailId}}" link="entity/{{searchresults.entities[$index+1].entityId}}" ng-click="setResultIndex(offset + $index+1)">
-					<p><small>{{ searchresults.entities[$index+1].title }}</small></p>
-				</div>
-				<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+2].entityId}}"   imageid="{{searchresults.entities[$index+2].thumbnailId}}" link="entity/{{searchresults.entities[$index+2].entityId}}" ng-click="setResultIndex(offset + $index+2)">
-					<p><small>{{ searchresults.entities[$index+2].title }}</small></p>
-				</div>
-				<div ng-click="$dismiss()" arachneImageRequest="height" arachneImageHeight="300"  is-placeholder-if-empty="{{searchresults.entities[$index+3].entityId}}"   imageid="{{searchresults.entities[$index+3].thumbnailId}}" link="entity/{{searchresults.entities[$index+3].entityId}}" ng-click="setResultIndex(offset + $index+3)">
-					<p><small>{{ searchresults.entities[$index+3].title }}</small></p>
-				</div>
 		
-			</div>
+		<div ar-imagegrid
+			cells="searchresults.entities | cellsFromEntities:searchresults.offset"
+			columns="4"
+			margin="4">
+			
 		</div>
+
 	</div>
 </div>
 <div class="modal-footer">

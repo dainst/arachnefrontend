@@ -17,7 +17,7 @@ body {
 
 .ar-imagegrid-cell-link:hover {
   box-shadow: 0 0 10px #888888;
-  z-index: 1;
+  z-index: 2000;
   position: absolute;
   text-decoration: none;
 }

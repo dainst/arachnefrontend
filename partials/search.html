@@ -100,14 +100,12 @@
 				
 				<!-- Griddarstellung -->
 				<div ar-imagegrid
-					entities="searchresults.entities"
+					cells="searchresults.entities | cellsFromEntities:searchresults.offset:currentQueryParameters"
 					columns="5"
 					margin="4"
-					offset="searchresults.offset"
-					current-query="currentQueryParameters"
 					ng-switch-default="tiles">
 					
-				</div ar-imagegrid>
+				</div>
 
 				<!-- Listendarstellung -->
 				<div ng-switch-when="list">

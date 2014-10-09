@@ -2,91 +2,91 @@
 	"categoryStart":
 	[
 		{
-			"imageId" : 424501,
+			"imgUri": "/data/image/height/424501?height=300",
 			"title" : "Bauwerke",
-			"description" :"Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Bauwerke&fl=1500"
+			"subtitle" :"Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.",
+			"href" : "category/?q=*&fq=facet_kategorie:Bauwerke&fl=1500"
 		},
 		{
-			"imageId" : 1933196,
+			"imgUri": "/data/image/height/1933196?height=300",
 			"title" : "Bauwerksteile",
-			"description" :"Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Bauwerksteile&fl=1500"
+			"subtitle" :"Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.",
+			"href" : "category/?q=*&fq=facet_kategorie:Bauwerksteile&fl=1500"
 		},
 		{
-			"imageId" : 158019,
+			"imgUri": "/data/image/height/158019?height=300",
 			"title" : "Objekte",
-			"description" :"Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Einzelobjekte&fl=1500"
+			"subtitle" :"Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.",
+			"href" : "category/?q=*&fq=facet_kategorie:Einzelobjekte&fl=1500"
 		},
 		{
-			"imageId" : 1922705,
+			"imgUri": "/data/image/height/1922705?height=300",
 			"title" : "Szenen",
-			"description" :"Thematisch oder formal in sich geschlossene Figurengruppe.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Szenen&fl=1500"
+			"subtitle" :"Thematisch oder formal in sich geschlossene Figurengruppe.",
+			"href" : "category/?q=*&fq=facet_kategorie:Szenen&fl=1500"
 		},
 		{
-			"imageId" : 46777,
+			"imgUri": "/data/image/height/46777?height=300",
 			"title" : "Bilder",
-			"description" :"Hier haben Sie die Möglichkeit gezielt nach Bildern und bildspezifischen Informationen (z.B. Fotografen ...) zu suchen. Diese Suche erfasst alle Bildbestände in Arachne.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Bilder&fl=1500"
+			"subtitle" :"Hier haben Sie die Möglichkeit gezielt nach Bildern und bildspezifischen Informationen (z.B. Fotografen ...) zu suchen. Diese Suche erfasst alle Bildbestände in Arachne.",
+			"href" : "category/?q=*&fq=facet_kategorie:Bilder&fl=1500"
 		},
 		{
-			"imageId" : 230879,
+			"imgUri": "/data/image/height/230879?height=300",
 			"title" : "Bücher",
-			"description" :"Digitalisierte Bücher des 16. bis frühen 20. Jahrhunderts, Archivalien, Korrespondenzen, Notizbücher, Mappen mit zusammengehörigen Zeichnungen oder Karten.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Bücher&fl=1500"
+			"subtitle" :"Digitalisierte Bücher des 16. bis frühen 20. Jahrhunderts, Archivalien, Korrespondenzen, Notizbücher, Mappen mit zusammengehörigen Zeichnungen oder Karten.",
+			"href" : "category/?q=*&fq=facet_kategorie:Bücher&fl=1500"
 		},
 		{
-			"imageId" : 433041,
+			"imgUri": "/data/image/height/433041?height=300",
 			"title" : "Sammlungen",
-			"description" :"Privat- und Museumssammlungen, die in Gebäuden residieren und Objekte bzw. mehrteilige Denkmäler oder deren Reproduktionen und Rezeptionen enthalten können.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Sammlungen&fl=1500"
+			"subtitle" :"Privat- und Museumssammlungen, die in Gebäuden residieren und Objekte bzw. mehrteilige Denkmäler oder deren Reproduktionen und Rezeptionen enthalten können.",
+			"href" : "category/?q=*&fq=facet_kategorie:Sammlungen&fl=1500"
 		},
 		{
-			"imageId" : 3099823,
+			"imgUri": "/data/image/height/3099823?height=300",
 			"title" : "Topographien",
-			"description" :"Übergeordnete Kontexte, die untergeordnete Einheiten von Gebäuden, Landschaften, Städten, etc. vereinen.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Topographien&fl=1500"
+			"subtitle" :"Übergeordnete Kontexte, die untergeordnete Einheiten von Gebäuden, Landschaften, Städten, etc. vereinen.",
+			"href" : "category/?q=*&fq=facet_kategorie:Topographien&fl=1500"
 		},
 		{
-			"imageId" : 251347,
+			"imgUri": "/data/image/height/251347?height=300",
 			"title" : "Rezeptionen",
-			"description" :"Spezifische Wahrnehmungen antiker Objekte in bestimmten neuzeitlichen Rezeptionsquellen.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Rezeptionen&fl=1500"
+			"subtitle" :"Spezifische Wahrnehmungen antiker Objekte in bestimmten neuzeitlichen Rezeptionsquellen.",
+			"href" : "category/?q=*&fq=facet_kategorie:Rezeptionen&fl=1500"
 		}
 	],
 	"subCategories":
 	[
 		 {
 			"title" : "Reproduktionen",
-			"description" :"'Dreidimensionale Objekte der realen Welt, die überwiegend antike Skulpturen oder Gebäude wiedergeben, andererseits auch Stichwerke. Ihrerseits können Reproduktionen zu mehrteiligen Denkmälern, Gebäuden, topographischen Einheiten oder Sammlungen gehören bzw. Ausdruck von Rezeptionen sein.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Reproduktionen&fl=1500"
+			"subtitle" :"'Dreidimensionale Objekte der realen Welt, die überwiegend antike Skulpturen oder Gebäude wiedergeben, andererseits auch Stichwerke. Ihrerseits können Reproduktionen zu mehrteiligen Denkmälern, Gebäuden, topographischen Einheiten oder Sammlungen gehören bzw. Ausdruck von Rezeptionen sein.",
+			"href" : "category/?q=*&fq=facet_kategorie:Reproduktionen&fl=1500"
 		},
 		{
 			"title" : "Typen",
-			"description" :"Kontextualisierung von Skulpturen (=Einzelobjekten) nach künstlerischen Bildnistypen und -schemata (Griechische Idealplastik, griechisches und römisches Portrait).",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Typen&fl=1500"
+			"subtitle" :"Kontextualisierung von Skulpturen (=Einzelobjekten) nach künstlerischen Bildnistypen und -schemata (Griechische Idealplastik, griechisches und römisches Portrait).",
+			"href" : "category/?q=*&fq=facet_kategorie:Typen&fl=1500"
 		},
 		 {
 			"title" : "Einzelmotive",
-			"description" :"Figuren oder Gegenstände, die sich meist im Kontext von Szenen befinden.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Einzelmotive&fl=1500"
+			"subtitle" :"Figuren oder Gegenstände, die sich meist im Kontext von Szenen befinden.",
+			"href" : "category/?q=*&fq=facet_kategorie:Einzelmotive&fl=1500"
 		},
 		 {
 			"title" : "Mehrteilige-Denkmäler",
-			"description" :"Alle Arten von Konfigurationen, die keine Gebäude sind: also antike Statuengruppen, nachantike Pasticci, Giebelkopmpositionen, modern getrennte Skulpturen, aber auch Fundgruppen oder Hortfunde; Sarkophage ; Bestattung/Grabinventar. Ferner Sammelaufnahmen mit vielen Kleinfunden, die nicht einzeln als Einzelobjekte angelegt wurden.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Mehrteilige Denkmäler&fl=1500"
+			"subtitle" :"Alle Arten von Konfigurationen, die keine Gebäude sind: also antike Statuengruppen, nachantike Pasticci, Giebelkopmpositionen, modern getrennte Skulpturen, aber auch Fundgruppen oder Hortfunde; Sarkophage ; Bestattung/Grabinventar. Ferner Sammelaufnahmen mit vielen Kleinfunden, die nicht einzeln als Einzelobjekte angelegt wurden.",
+			"href" : "category/?q=*&fq=facet_kategorie:Mehrteilige Denkmäler&fl=1500"
 		},
 		 {
 			"title" : "Inschriften",
-			"description" :"Inschriftentexte, die sich auf Trägern wie Einzelobjekten oder Bauwerken befinden.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Inschriften&fl=1500"
+			"subtitle" :"Inschriftentexte, die sich auf Trägern wie Einzelobjekten oder Bauwerken befinden.",
+			"href" : "category/?q=*&fq=facet_kategorie:Inschriften&fl=1500"
 		},
 		{
 			"title" : "Buchseiten",
-			"description" :"Einzelseiten aus Büchern, Nachlässen, Mappen, etc.",
-			"customlink" : "category/?q=*&fq=facet_kategorie:Buchseiten&fl=1500"
+			"subtitle" :"Einzelseiten aus Büchern, Nachlässen, Mappen, etc.",
+			"href" : "category/?q=*&fq=facet_kategorie:Buchseiten&fl=1500"
 		}
 	]
 }	

@@ -1,14 +1,15 @@
 <div>
 	<div ng-repeat="row in grid">
 		<div ar-imagegrid-cell ng-show="row.complete" ng-repeat="cell in row"
-			href="{{cell.href}}"
 			img="cell.img"
 			img-uri="{{cell.imgUri}}"
-			cell-width="{{cell.width}}"
 			img-width="{{cell.imgWidth}}"
+			href="{{cell.href}}"
+			cell-width="{{cell.width}}"
 			cell-height="{{cell.height}}"
 			cell-margin="{{margin}}"
-			entity-title="{{cell.entity.title}}" entity-subtitle="{{cell.entity.subtitle}}" >
+			cell-title="{{cell.title}}"
+			cell-subtitle="{{cell.subtitle}}" >
 		</div>
 		<div style="clear:both"></div>
 	</div>
