@@ -5,7 +5,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			<div class="col-md-6" ng-repeat="start in category.categoryStart"  class="list-group" style="height:220px;">
+			<div class="col-md-12" ng-repeat="start in category.categoryStart"  class="list-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 					    <a href="{{category.categoryStart[$index].href}}"><h3 class="panel-title">{{category.categoryStart[$index].title}}</h3></a>
@@ -22,7 +22,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6" ng-repeat="subCat in category.subCategories" class="list-group" style="height:220px;">
+			<div class="col-md-12" ng-repeat="subCat in category.subCategories" class="list-group" style="height:220px;">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 					   <a href="{{subCat.href}}"> <h3 class="panel-title">{{subCat.title}}</h3></a>
