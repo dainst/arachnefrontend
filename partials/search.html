@@ -23,7 +23,10 @@
 	<!-- Linke Spalte -->
 	<div class="col-md-2 col-sm-3" ng-if="searchresults.size">
 		<div>
-			<small ng-if="searchresults.size" class="text-muted">Insgesamt <b>{{ searchresults.size }}</b> Ergebnisse<br> auf <b>{{numPages}}</b> Seiten</small>
+			<small ng-if="searchresults.size" class="text-muted">
+				Insgesamt <b>{{ searchresults.size }}</b> Ergebnisse
+				<span ng-show="numPages > 1"><br> auf <b>{{numPages}}</b> Seiten</span>
+			</small>
 		</div>
 		<small>
 
