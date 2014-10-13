@@ -63,11 +63,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
 
-		this.addFacet = function (facetName, facetValue) {
+		$scope.addFacet = function (facetName, facetValue) {
 			arachneSearch.addFacet(facetName, facetValue);	
 		}
 
-		this.removeFacet = function (facet) {
+		$scope.removeFacet = function (facet) {
 			arachneSearch.removeFacet(facet);
 		}
 

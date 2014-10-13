@@ -39,16 +39,7 @@
 				<button class="btn btn-default" style="display:none;" type="submit">Submit</button>
 			</form>
 
-			<div ng-if="activeFacets.length">
-				<h5  class="text-muted uppercase"><b>Aktive Filter</b></h5>
-				<button class="btn btn-sm btn-block btn-primary linethrough-hover"
-							style="margin:5px 3px;"
-							ng-click="searchCtrl.removeFacet(facet)"
-							ng-repeat="facet in activeFacets">
-					<i>{{facet.name | i18n}}</i><br>
-					<b style="text-transform:capitalize;">{{facet.value}}</b>
-				</button>
-			</div>
+			<div ar-active-facets></div>
 
 			<h5 class="text-muted uppercase" ng-hide="searchresults.size < 2"><b>Filter</b></h5>
 			<div class="panel panel-default facet" ng-repeat="facet in searchresults.facets" ng-hide="searchresults.size < 2">
@@ -60,7 +51,7 @@
 					</h5>
 				</div>
 				<ul class="list-unstyled facet"	ng-show="facet.open">
-					<li ng-click="searchCtrl.addFacet(facet.name, facetValue.value)"
+					<li ng-click="addFacet(facet.name, facetValue.value)"
 							ng-repeat="facetValue in facet.values">
 						<b class="pull-right text-muted">{{facetValue.count | number}}</b>
 						{{facetValue.value | stripCoords}}

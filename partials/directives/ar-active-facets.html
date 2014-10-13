@@ -1,0 +1,10 @@
+<div ng-if="activeFacets.length">
+	<h5 class="text-muted uppercase"><b>Aktive Filter</b></h5>
+	<button class="btn btn-sm btn-block btn-primary linethrough-hover"
+				style="margin:5px 3px;"
+				ng-click="removeFacet(facet)"
+				ng-repeat="facet in activeFacets">
+		<i>{{facet.name | i18n}}</i><br>
+		<b style="text-transform:capitalize;">{{facet.value}}</b>
+	</button>
+</div>

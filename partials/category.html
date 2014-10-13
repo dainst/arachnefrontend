@@ -36,12 +36,9 @@
 					</div>
 				</div>
 			<hr>
-			<h6 class="text-muted uppercase"><b>Anlicken zum entfernen</b></h6>
-			<ul class="list-group">
-				<li class="list-group-item linethrough-hover" ng-click="searchCtrl.removeFacet(facet)" ng-repeat="facet in activeFacets" style="margin-right:2px">
-					<i>{{facet.name | i18n}}</i> <b style="text-transform:capitalize;">{{facet.value}}</b> <i class="glyphicon glyphicon-remove-circle pull-right"></i>
-				</li>
-			</ul>
+
+			<div ar-active-facets></div>
+			
 			<hr>
 			<h4 class="pull-left">Ergebnisse in Arachne</h4>
 			<h2 class="pull-right">{{searchresults.size}}</h2>

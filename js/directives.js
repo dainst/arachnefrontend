@@ -141,6 +141,12 @@ angular.module('arachne.directives', [])
 		}
 	}])
 
+	.directive('arActiveFacets', function() {
+		return {
+			templateUrl: 'partials/directives/ar-active-facets.html'
+		}
+	})
+
 	.directive('threedimensional', ['$window', '$q', function ($window, $q) {
 		return {
 		
