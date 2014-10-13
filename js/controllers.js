@@ -450,7 +450,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		var hash = new Object();
 		hash.q = "*";
 
-		$http.get('partials/category.json').success (function(data){
+		$http.get('config/category.json').success (function(data){
             $scope.category = data; 
         });
 
