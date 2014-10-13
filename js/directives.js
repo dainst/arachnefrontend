@@ -10,7 +10,7 @@ angular.module('arachne.directives', [])
 				columns: '@',
 				margin: '@'
 			},
-			templateUrl: 'partials/ar-imagegrid.html',
+			templateUrl: 'partials/directives/ar-imagegrid.html',
 			
 			link: function(scope, element, attrs) {
 
@@ -137,7 +137,7 @@ angular.module('arachne.directives', [])
 				href: '@', img: '=', cellTitle: '@', cellSubtitle: '@', imgUri: '@',
 				cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@'
 			},
-			templateUrl: 'partials/ar-imagegrid-cell.html'
+			templateUrl: 'partials/directives/ar-imagegrid-cell.html'
 		}
 	}])
 
