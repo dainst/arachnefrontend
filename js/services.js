@@ -13,7 +13,6 @@ angular.module('arachne.services', [])
 					fqParam = fqParam.split(/\"\,/);
 					for (var i = fqParam.length - 1; i >= 0; i--) {
 						var facetNameAndVal = fqParam[i].replace(/"/g,'').split(':');
-
 						facets.push({
 							name: facetNameAndVal[0],
 							value: facetNameAndVal[1]
@@ -97,9 +96,8 @@ angular.module('arachne.services', [])
 						}
 					},
 					setActiveFacets : function () {
-						// if ( typeof $location.$$search.fq != 'undefined' && $location.$$search.fq != "") {
-							angular.copy(parseUrlFQ($location.$$search.fq), _activeFacets );
-						// }
+						angular.copy(parseUrlFQ($location.search().fq), _activeFacets );
+						console.log(_activeFacets);
 					},
 					
 				  //GETTERS FOR VARIABLES
@@ -115,7 +113,7 @@ angular.module('arachne.services', [])
 					
 
 					goToPage : function (page) {
-						var hash = $location.$$search;
+						var hash = $location.search();
 						if (!hash.limit) hash.limit = 50; //_defaultLimit;
 						hash.offset = hash.limit*(page-1);
 						$location.search(hash);
@@ -126,7 +124,7 @@ angular.module('arachne.services', [])
 							if (_activeFacets[i].name == facetName) return;
 						};
 
-						var hash = $location.$$search;
+						var hash = $location.search();
 
 						if (hash.fq) {
 							hash.fq += "," + facetName + ':"' + facetValue + '"';
@@ -150,7 +148,7 @@ angular.module('arachne.services', [])
 							return facet.name + ':"' + facet.value + '"';
 						}).join(",");
 
-						var hash = $location.$$search;
+						var hash = $location.search();
 						hash.fq = facets;
 
 						delete(hash.offset);
@@ -162,9 +160,9 @@ angular.module('arachne.services', [])
 					persistentSearchWithMarkers : function(queryParams){
 						if (queryParams) {
 							this.setCurrentQueryParameters(queryParams);
-						} else {
-							if($location.$$search.fq) this.setActiveFacets($location.$$search.fq);
-							this.setCurrentQueryParameters($location.$$search);
+						} else {							
+							this.setActiveFacets($location.search().fq);
+							this.setCurrentQueryParameters($location.search());
 						}
 						return arachneDataService.queryWithMarkers(_currentQueryParameters);
 					}

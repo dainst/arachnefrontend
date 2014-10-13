@@ -14,7 +14,7 @@
 			
 			<accordion class="accordion-with-list" close-others="oneAtATime">
 				<accordion-group heading="{{facet.name | i18n }}" ng-repeat="facet in searchresults.facets" >
-					<a class="list-group-item"  ng-click="searchCtrl.addFacet(facet.name, facetValue.value)"
+					<a class="list-group-item"  ng-click="addFacet(facet.name, facetValue.value)"
 							ng-repeat="facetValue in facet.values">
 						<span class="badge">{{facetValue.count}}</span>
 						{{facetValue.value}}
@@ -38,7 +38,7 @@
 			<hr>
 
 			<div ar-active-facets></div>
-			
+
 			<hr>
 			<h4 class="pull-left">Ergebnisse in Arachne</h4>
 			<h2 class="pull-right">{{searchresults.size}}</h2>

@@ -85,7 +85,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				arachneSearch.goToPage($scope.searchresults.page);
 			}
 		}
-}
+	}
 ]
 )
 .controller('ContextCtrl',
@@ -196,8 +196,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		
 
 	  // RECONSTRUCT SEARCH-SESSION IF THERE IS ONE IN THE URL-PARAMETERS
-		if($location.$$search.q) {
-			var qHash = $location.$$search
+		if($location.search().q) {
+			var qHash = $location.search()
 
 			$scope.currentQueryParameters = qHash
 			$scope.currentQueryParameters.resultIndex = parseInt(qHash.resultIndex);
@@ -478,7 +478,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		this.showInfo = function () {
 		
 			if(!$scope.metainfos) {
-				$http.get("http://" + document.location.host + "/data/model/" + $location.$$search.id + "?meta=true" ).success (function(data){
+				$http.get("http://" + document.location.host + "/data/model/" + $location.search().id + "?meta=true" ).success (function(data){
 					$scope.metainfos = data;
 				});
 			}

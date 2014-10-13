@@ -361,7 +361,6 @@ angular.module('arachne.directives', [])
 				}
 			}
 
-			console.log(element.attr('id'))
 			var map = L.map(element.attr('id')).setView([40, -10], 3);
 
 			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
