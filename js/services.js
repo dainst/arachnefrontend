@@ -71,8 +71,8 @@ angular.module('arachne.services', [])
 						if (queryParams) {
 							this.setCurrentQueryParameters(queryParams);
 						} else {
-							this.setActiveFacets($location.$$search.fq);
-							this.setCurrentQueryParameters($location.$$search);
+							this.setActiveFacets($location.search().fq);
+							this.setCurrentQueryParameters($location.search());
 						}
 						return arachneDataService.query(_currentQueryParameters);
 					},
