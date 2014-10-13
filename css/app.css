@@ -197,7 +197,7 @@ body {
 .accordion-with-list .panel-body {
   padding: 0px;
 }
-.accordion-with-list .panel {
+.accordion-with-list .panel-title a {
   cursor: pointer;
 }
 .accordion-with-list .list-group-item {
