@@ -1,43 +1,18 @@
 <div ng-controller="AllCategoriesController as allCategoriesController" autoscroll="true">
-	
-	<div class="row text-center">
-		<h3>Alle Kategorien:</h3>
-	</div>
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="col-md-12" ng-repeat="start in category.categoryStart"  class="list-group">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-					    <a href="{{category.categoryStart[$index].href}}"><h3 class="panel-title">{{category.categoryStart[$index].title}}</h3></a>
-					</div>
-					<div class="panel-body">
-						<div class="row" >
-							<div class="col-md-3">
-								<a href="{{category.categoryStart[$index].href}}"><img style="height:70px;" src="{{category.categoryStart[$index].imgUri}}"></img></a>
-							</div>
-							<div class="col-md-9">
-								<a href="{{category.categoryStart[$index].href}}">{{category.categoryStart[$index].subtitle}}</a>
-							</div>
-					   </div>
-					</div>
-				</div>
+	<div class="row" style="background-color:white" id="categories_container">
+		<div  style="width: 80%; max-width:900px; margin: 170px auto; margin-top: 0px;">
+			<h2 style="font-weight:300; margin:0px 0px 50px; text-align:center">
+				<a href="allCategories" style="outline: none;">Alle Kategorien in Arachne:</a>
+			</h2>
+			<div ar-imagegrid
+				cells="category.categoryStart"
+				columns="3"
+				margin="4">					
 			</div>
-			<div class="col-md-12" ng-repeat="subCat in category.subCategories" class="list-group" >
-				<div class="panel panel-default">
-					<div class="panel-heading">
-					   <a href="{{subCat.href}}"> <h3 class="panel-title">{{subCat.title}}</h3></a>
-					</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-3">
-								<a href="{{subCat.href}}"><img style="height:70px;" src="img/subCategories/{{subCat.title}}.jpeg"></img></a>
-							</div>
-							<div class="col-md-9">
-								<a href="{{subCat.href}}">{{subCat.subtitle}}</a>
-							</div>
-					   </div>
-					</div>
-				</div>
+			<div ar-imagegrid
+				cells="category.subCategories"
+				columns="3"
+				margin="4">					
 			</div>
 		</div>
 	</div>
