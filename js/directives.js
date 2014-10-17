@@ -290,13 +290,17 @@ angular.module('arachne.directives', [])
 
 					var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
 					var coords = coordsString.split(',');
-					var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)-1) + "</b><br/>";
-					var text = facetValue.value.substring(0, facetValue.value.indexOf("[", 1)-1) + " ";
+					var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)) + "</b><br/>";
+					var text = facetValue.value.substring(0, facetValue.value.indexOf("[", 1)) + " ";
 					// Popup-Title auf Karte für Suchergebnis
 					if (facetValue.count > 1) {
 					
-						title += "Einträge, <b>insgesamt</b>: " + facetValue.count + "<br>";
-						text += "Einträge, insgesamt: " + facetValue.count;
+						var locationFacetNameHumanized = scope.locationfacetname.split('_')[1];
+						locationFacetNameHumanized = locationFacetNameHumanized.charAt(0).toUpperCase() + locationFacetNameHumanized.slice(1);
+						title = '<h4 class="text-info centered">' + locationFacetNameHumanized +  '</h4>' + title;
+						title += "Insgesamt " + facetValue.count + " Einträge<br>";
+						text = locationFacetNameHumanized  +": " + text;
+						text += "Insgesamt " + facetValue.count + " Einträge ";
 						if($location.$$search.fq) {
 							title += "<a href='search?q=*&fq="+$location.$$search.fq+","+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
 						} else {
