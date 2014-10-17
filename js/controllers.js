@@ -62,6 +62,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
+		$scope.listStyle = 'tiles';
+		if($scope.currentQueryParameters.view)
+			$scope.listStyle = $scope.currentQueryParameters.view;
 
 		$scope.addFacet = function (facetName, facetValue) {
 			arachneSearch.addFacet(facetName, facetValue);	
@@ -81,8 +84,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.setResultIndex = function (resultIndex) {
 				arachneSearch.setResultIndex(resultIndex);
 			}
-			$scope.onSelectPage = function () {				
-				arachneSearch.goToPage($scope.searchresults.page);
+			$scope.onSelectPage = function (view) {				
+				arachneSearch.goToPage($scope.searchresults.page, view);
 			}
 		}
 	}
@@ -230,7 +233,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.nextEntitySearch = arachneSearch.search(queryhash);
 			
 			queryhash.offset = $scope.currentQueryParameters.resultIndex-1;
-			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
+			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearchon(queryhash);
 		}
 }])
 .controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', function($scope, $modalInstance, NoteService){
