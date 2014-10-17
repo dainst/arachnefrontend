@@ -13,10 +13,12 @@ angular.module('arachne.services', [])
 					fqParam = fqParam.split(/\"\,/);
 					for (var i = fqParam.length - 1; i >= 0; i--) {
 						var facetNameAndVal = fqParam[i].replace(/"/g,'').split(':');
-						facets.push({
-							name: facetNameAndVal[0],
-							value: facetNameAndVal[1]
-						});
+						
+							facets.push({
+								name: facetNameAndVal[0],
+								value: facetNameAndVal[1]
+							});
+						
 					};
 					return facets;
 				};
@@ -90,6 +92,7 @@ angular.module('arachne.services', [])
 						if(_currentQueryParameters != queryParams) {
 							if(queryParams.offset) queryParams.offset = parseInt(queryParams.offset);
 							if(queryParams.limit) queryParams.limit = parseInt(queryParams.limit);
+							if(queryParams.view) queryParams.view = queryParams.view;
 							if(queryParams.offset==0) delete queryParams.offset;
 							if(queryParams.limit==0) delete queryParams.limit;
 							angular.copy(queryParams,_currentQueryParameters);
@@ -97,7 +100,7 @@ angular.module('arachne.services', [])
 					},
 					setActiveFacets : function () {
 						angular.copy(parseUrlFQ($location.search().fq), _activeFacets );
-						console.log(_activeFacets);
+						//console.log(_activeFacets);
 					},
 					
 				  //GETTERS FOR VARIABLES
@@ -112,10 +115,11 @@ angular.module('arachne.services', [])
 					},
 					
 
-					goToPage : function (page) {
+					goToPage : function (page, view) {
 						var hash = $location.search();
 						if (!hash.limit) hash.limit = 50; //_defaultLimit;
 						hash.offset = hash.limit*(page-1);
+						hash.view = view;
 						$location.search(hash);
 					},
 					addFacet : function (facetName, facetValue) {
@@ -131,9 +135,10 @@ angular.module('arachne.services', [])
 						} else {
 							hash.fq = facetName + ':"' + facetValue + '"';
 						}
+
 						delete(hash.offset);
 						delete(hash.limit);
-
+						
 						$location.search(hash);
 					},
 

@@ -36,6 +36,7 @@
 				<input style="display:none" name="fq" value="{{currentQueryParameters.fq}}">
 				<input name="limit" style="display:none" ng-if="currentQueryParameters.limit" value="0">
 				<input name="offset" style="display:none" ng-if="currentQueryParameters.offset" value="0">
+				<input name="view" style="display:none" ng-if="currentQueryParameters.view" value="kachel">
 				<button class="btn btn-default" style="display:none;" type="submit">Submit</button>
 			</form>
 
@@ -70,12 +71,12 @@
 		<div align="center" class="row">
 			<div class="col-md-12">
 				<div class="btn-group ">
-					<button class="btn btn-sm btn-startsite-tab" ng-click="listStyle = 'tiles'"
-							ng-class="{ 'active': listStyle == 'tiles' || listStyle == undefined }">
+					<button class="btn btn-sm btn-startsite-tab" ng-click="listStyle = 'tiles'; currentQueryParameters.view='tiles'; onSelectPage('tiles')"
+							ng-class="{ 'active': listStyle == 'tiles' }">
 						<span class="glyphicon glyphicon-picture"></span>
 						Kacheln
 					</button>
-					<button class="btn btn-sm btn-startsite-tab" ng-click="listStyle = 'list'"
+					<button class="btn btn-sm btn-startsite-tab" ng-click="listStyle = 'list'; currentQueryParameters.view='list'; onSelectPage('list')"
 							ng-class="{ 'active': listStyle == 'list' }">
 						<span class="glyphicon glyphicon-align-justify"></span>
 						Liste
@@ -88,6 +89,9 @@
 				</div>
 			</div>
 		</div>
+		<p align="center" ng-show="searchresults.size">
+			<pagination ng-model="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="zurück" next-text="weiter" boundary-links="true" first-		text="&laquo;" last-text="&raquo;" ng-change="onSelectPage(currentQueryParameters.view)" num-pages="numPages"></pagination>
+		</p>
 
 		<div class="row">
 			<div class="col-md-12">
@@ -138,7 +142,7 @@
 	</div>	
 
 	<p align="center" ng-show="searchresults.size">
-		<pagination ng-model="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="zurück" next-text="weiter" boundary-links="true" first-text="&laquo;" last-text="&raquo;" ng-change="onSelectPage()" num-pages="numPages"></pagination>
+		<pagination ng-model="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="zurück" next-text="weiter" boundary-links="true" first-text="&laquo;" last-text="&raquo;" ng-change="onSelectPage(currentQueryParameters.view)" num-pages="numPages"></pagination>
 	</p>
 
 </div>
