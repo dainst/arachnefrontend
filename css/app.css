@@ -239,6 +239,14 @@ body {
   100%{transform: rotate(720deg);}
 }
 
+.form-control.ng-invalid.ng-dirty {
+  border-color: #a94442;
+}
+
+.form-control.ng-valid.ng-dirty {
+  border-color: #3c763d;
+}
+
 /* OVERWRITING MARKER CLUSTER STYLING FOR LEAFLET PLUGIN MARKERCLUSTER */
 
 

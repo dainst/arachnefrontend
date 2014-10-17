@@ -493,4 +493,28 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		
 		}
 	}
+])
+.controller('RegisterCtrl', ['$scope', '$http', '$filter', 'arachneSettings',
+	function ($scope, $http, $filter, arachneSettings) {
+
+		$scope.user = {};
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			if ($scope.password && $scope.passwordValidation) {
+				$scope.user.password = $filter('md5')($scope.password);
+				$scope.user.passwordValidation = $filter('md5')($scope.passwordValidation);
+			}
+			$http.post(arachneSettings.dataserviceUri + "/user/register", $scope.user, {
+				"headers": { "Content-Type": "application/json" }
+			}).success(function(data) {
+				$scope.error = "";
+				$scope.success = true;
+			}).error(function(data) {
+				$scope.error = data.message;
+			});
+		}
+
+	}
 ]);

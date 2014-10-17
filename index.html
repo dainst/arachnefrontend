@@ -85,18 +85,12 @@
 				</li>
 			</ul> -->
 
-			<ul class="nav navbar-nav navbar-right" style="padding-right:30px;">
-				<li ng-if="user.username">
-					<a href="bookmarks"><span class="glyphicon glyphicon-user"></span> &nbsp;{{user.username}}</a>
-				</li>
-				<li>
-					<button ng-if="!user.username" type="button" class="btn btn-default navbar-btn" ng-click="openLoginModal()">Anmelden</button>
-
-					<a href="bookmarks" ng-if="user.username" type="button"><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"></span>Notizen & Lesezeichen</a>
-				</li>
-
-				
-			</ul>
+			<div class="btn-group btn-group-sm pull-right" style="margin-top:2px; padding-right:10px;">
+				<a href="bookmarks" class="btn btn-default navbar-btn" ng-if="user.username"><span class="glyphicon glyphicon-user"></span> &nbsp;{{user.username}}</a>
+				<a ng-if="!user.username" type="button" class="btn btn-primary navbar-btn" ng-click="openLoginModal()"><span class="glyphicon glyphicon-log-in"></span> &nbsp;Anmelden</a>
+				<a ng-if="!user.username" class="btn btn-default navbar-btn" href="register">Registrieren</a>
+				<a href="bookmarks" class="btn btn-default navbar-btn" ng-if="user.username" type="button"><span style="color: rgb(66,139,202)" class="glyphicon glyphicon-inbox"></span> &nbsp;Notizen & Lesezeichen</a>				
+			</div>
 
 		</div>
 	</nav>

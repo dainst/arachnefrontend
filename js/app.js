@@ -30,7 +30,8 @@ config(['$routeProvider', '$locationProvider', '$compileProvider', function($rou
 		.when('/3d', {templateUrl: 'partials/3d.html'})
 		.when('/impressum', {templateUrl: 'partials/impressum.html'})
 		.when('/datenschutz', {templateUrl: 'partials/datenschutz.html'})
-		.when('/allCategories', {templateUrl: 'partials/allCategories.html'});
+		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
+		.when('/register', {templateUrl: 'partials/register.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri : "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
