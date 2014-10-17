@@ -468,7 +468,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
 	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
 		
-			$http.get('partials/category.json').success (function(data){
+			$http.get('config/category.json').success (function(data){
 	            $scope.category = data; 
 	        });
 		}
