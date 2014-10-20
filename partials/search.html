@@ -7,17 +7,9 @@
 
 	<!-- Meldung für leeres Suchergebnis -->
 	<div ng-if="searchresults.size == 0">
-		<div class="row" style=" height:{{screenHeight}}px;">
+		<div class="row">
 			<div class="col-md-4 col-md-offset-4 text-center">
-				Keine Ergebnisse zu <b>"{{currentQueryParameters.q}}"</b> gefunden. Suche erneut starten?<hr/>
-				<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px"><img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png"> arachne <br></h1>
-				<h5 style="opacity: 0.57;" ng-show="search.size">  {{ search.size }} Einträge</h5>
-				<form class="input-group form-inline" role="search" method="GET" action="search/" >
-					<input type="text" ng-model="q" name="q" class="form-control" placeholder="Suche">
-					<span class="input-group-btn">
-						<button type="submit" class="btn btn-default" type="button">Suchen</button>
-					</span>
-				</form>
+				Keine Ergebnisse zu <b>"{{currentQueryParameters.q}}"</b> gefunden.
 			</div>
 		</div>
 	</div>
