@@ -131,9 +131,19 @@
 			</div>
 			<div class="col-md-3">
 				
-				<div class="btn-group-vertical">
-					<button style="text-align:left" ng-click="permaLink=!permaLink" class="btn btn-default btn-xs"><span ng-hide="permaLink" class="glyphicon glyphicon-resize-full"></span><span ng-hide="!permaLink" class="glyphicon glyphicon-resize-small"></span> &nbsp;Perma-Link </button>
-					<button style="text-align:left" ng-show="entity.facet_aufbewahrungsort || entity.facet_fundort" ng-init="karteAnzeigen=false" ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs"><span ng-hide="karteAnzeigen" class="glyphicon glyphicon-resize-full"></span><span ng-hide="!karteAnzeigen" class="glyphicon glyphicon-resize-small"></span> &nbsp;Karte
+				<div class="btn-group-vertical pull-right">
+					<button style="text-align:left"
+							ng-click="permaLink=!permaLink"
+							ng-class="{'active':permaLink}"
+							class="btn btn-default btn-xs">
+						<span class="glyphicon glyphicon-link"></span>
+						&nbsp;Perma-Link
+					</button>
+					<button style="text-align:left"
+							ng-show="entity.facet_aufbewahrungsort || entity.facet_fundort"ng-init="karteAnzeigen=false"
+							ng-class="{'active':karteAnzeigen}"
+							ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">
+						<span class="glyphicon glyphicon-map-marker"></span> &nbsp;Karte
 					</button>
 				</div>
 			</div>
