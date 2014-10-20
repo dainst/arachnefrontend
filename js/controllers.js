@@ -449,21 +449,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 }])
-.controller('StartSiteController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
-	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
+.controller('StartSiteController', ['$scope', '$http', 'arachneSettings',
+	function ($scope, $http, arachneSettings) {
 
-		$scope.selection = 'search';
-		var hash = new Object();
-		hash.q = "*";
-
-		$http.get('config/category.json').success (function(data){
+		$http.get('config/category.json').success(function(data){
             $scope.category = data; 
         });
 
-		$scope.newsList = null;
-		$scope.projectList = null;
-
-		$scope.search = arachneSearch.search(hash);
+		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
+			$scope.entityCount = data.entityCount;
+		});
 
 		this.loadNews = function(){
 			if($scope.newsList == null)

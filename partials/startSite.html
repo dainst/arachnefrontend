@@ -4,8 +4,8 @@
 		<div class="col-md-6 col-md-offset-3 text-center" style="position: absolute; top:50%; height:262px; margin-top:-131px; min-width:358px;">
 			<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px;"><img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png"> arachne<span class="text-primary" style="font-size:20px;"> beta</span> <br></h1>
 			<h5 style="opacity: 0.57;">
-				<span ng-bind="search.size | number"></span>&nbsp;
-				<span ng-show="search.size">Einträge</span>
+				<span ng-bind="entityCount | number"></span>&nbsp;
+				<span ng-show="entityCount">Einträge</span>
 			</h5>
 			<form class="input-group form-inline" role="search" method="GET" action="search/"  >
 				<input type="text" ng-model="q" name="q" class="form-control" autofocus placeholder="Suche"></input>
