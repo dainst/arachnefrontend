@@ -85,7 +85,7 @@
 				</li>
 			</ul> -->
 
-			<div class="btn-group btn-group-sm pull-right" style="margin-top:2px; padding-right:10px;">
+			<div ng-cloak class="btn-group btn-group-sm pull-right" style="margin-top:2px; padding-right:10px;">
 				<a href="bookmarks" class="btn btn-default navbar-btn" ng-if="user.username"><span class="glyphicon glyphicon-user"></span> &nbsp;{{user.username}}</a>
 				<a ng-if="!user.username" type="button" class="btn btn-primary navbar-btn" ng-click="openLoginModal()"><span class="glyphicon glyphicon-log-in"></span> &nbsp;Anmelden</a>
 				<a ng-if="!user.username" class="btn btn-default navbar-btn" href="register">Registrieren</a>
@@ -98,10 +98,13 @@
 
 	<div class="container-fluid">
 
-		<div ng-view></div>
+		<div style="min-height:90%">
+			<div ng-cloak ng-view></div>
+		</div>
 
+		<hr>
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3 text-center" style=" margin-top: 30px; margin-bottom:30px">
+			<div class="col-md-6 col-md-offset-3 text-center">
 				<p>
 					<img src="img/siegel_unikoeln.gif" height="80px"></img>
 					<img src="img/Siegel-DAI.gif" height="80px"></img>

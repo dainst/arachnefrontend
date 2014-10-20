@@ -1,7 +1,9 @@
 <div class="row" ng-controller="SearchCtrl as searchCtrl">
 	
 	<!-- Loading-Icon -->
-	<div ng-hide="searchresults.size >= 0" class="loading"></div>
+	<div ng-hide="searchresults.size >= 0">
+		<div class="loading"></div>
+	</div>
 
 	<!-- Meldung für leeres Suchergebnis -->
 	<div ng-if="searchresults.size == 0">
