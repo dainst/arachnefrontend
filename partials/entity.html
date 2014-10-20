@@ -13,7 +13,7 @@
 	</li>
 
 </script>
-<div class="row" style="margin-top:0px;"  ng-controller="EntityCtrl as entityCtrl">
+<div ng-cloak class="row" style="margin-top:0px;"  ng-controller="EntityCtrl as entityCtrl">
 	<div ng-hide="entity.entityId || entity.error" class="loading"></div>
 	<div class="alert alert-danger" ng-if="entity.error" >{{ entity.error | errorMessage }}</div>
 	<div class="col-md-3" ng-if="currentQueryParameters.q">

@@ -233,7 +233,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.nextEntitySearch = arachneSearch.search(queryhash);
 			
 			queryhash.offset = $scope.currentQueryParameters.resultIndex-1;
-			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearchon(queryhash);
+			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
 		}
 }])
 .controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', function($scope, $modalInstance, NoteService){
