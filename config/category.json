@@ -32,10 +32,10 @@
 			"href" : "category/?q=*&fq=facet_kategorie:\"Bilder\"&fl=1500"
 		},
 		{
-			"imgUri": "img/categories/buecher_sw.jpeg",
-			"title" : "Bücher",
-			"subtitle" :"Digitalisierte Bücher des 16. bis frühen 20. Jahrhunderts, Archivalien, Korrespondenzen, Notizbücher, Mappen mit zusammengehörigen Zeichnungen oder Karten.",
-			"href" : "category/?q=*&fq=facet_kategorie:\"Bücher\"&fl=1500"
+			"imgUri": "img/categories/typen_sw.jpg",
+			"title" : "Typen",
+			"subtitle" :"Kontextualisierung von Skulpturen (=Einzelobjekten) nach künstlerischen Bildnistypen und -schemata (Griechische Idealplastik, griechisches und römisches Portrait).",
+			"href" : "category/?q=*&fq=facet_kategorie:\"Typen\"&fl=1500"
 		},
 		{
 			"imgUri": "img/categories/sammlungen_sw.jpg",
@@ -64,12 +64,6 @@
 			"subtitle" :"'Dreidimensionale Objekte der realen Welt, die überwiegend antike Skulpturen oder Gebäude wiedergeben, andererseits auch Stichwerke. Ihrerseits können Reproduktionen zu mehrteiligen Denkmälern, Gebäuden, topographischen Einheiten oder Sammlungen gehören bzw. Ausdruck von Rezeptionen sein.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Reproduktionen\"&fl=1500"
 		},
-		{
-			"imgUri": "img/categories/typus_sw.jpg",
-			"title" : "Typen",
-			"subtitle" :"Kontextualisierung von Skulpturen (=Einzelobjekten) nach künstlerischen Bildnistypen und -schemata (Griechische Idealplastik, griechisches und römisches Portrait).",
-			"href" : "category/?q=*&fq=facet_kategorie:\"Typen\"&fl=1500"
-		},
 		 {
 		 	"imgUri": "img/categories/einzelmotive.jpg",
 			"title" : "Einzelmotive",
@@ -87,6 +81,12 @@
 			"title" : "Inschriften",
 			"subtitle" :"Inschriftentexte, die sich auf Trägern wie Einzelobjekten oder Bauwerken befinden.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Inschriften\"&fl=1500"
+		},
+		{
+			"imgUri": "img/categories/buecher_sw.jpeg",
+			"title" : "Bücher",
+			"subtitle" :"Digitalisierte Bücher des 16. bis frühen 20. Jahrhunderts, Archivalien, Korrespondenzen, Notizbücher, Mappen mit zusammengehörigen Zeichnungen oder Karten.",
+			"href" : "category/?q=*&fq=facet_kategorie:\"Bücher\"&fl=1500"
 		},
 		{
 			"imgUri": "img/categories/Buchseiten_sw.jpeg",
