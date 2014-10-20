@@ -12,6 +12,8 @@ body {
   height: auto;
   padding: 2px 4px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   height: 37px;
 }
 
@@ -25,6 +27,7 @@ body {
 .ar-imagegrid-cell-link:hover .ar-imagegrid-cell-title {
   width: inherit;
   height: auto;
+  white-space: normal;
 }
 
 .capitalized {
