@@ -9,6 +9,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.user = sessionService.user;
 
 		$scope.currentPath = $location.$$path;
+		$scope.$on("$locationChangeSuccess", function() {			
+			$scope.currentPath = $location.$$path;
+		});
 
 		//$scope.currentPath = $route.current.originalPath;
 		$scope.openLoginModal = function () {
