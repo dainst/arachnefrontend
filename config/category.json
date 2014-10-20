@@ -2,13 +2,13 @@
 	"categoryStart":
 	[
 		{
-			"imgUri": "img/categories/bauwerke.jpg",
+			"imgUri": "img/categories/bauwerke_sw.jpg",
 			"title" : "Bauwerke",
 			"subtitle" :"Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Bauwerke\"&fl=1500"
 		},
 		{
-			"imgUri": "img/categories/bauwerksteile.jpg",
+			"imgUri": "img/categories/bauwerksteile_sw.jpg",
 			"title" : "Bauwerksteile",
 			"subtitle" :"Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Bauwerksteile\"&fl=1500"
@@ -38,19 +38,19 @@
 			"href" : "category/?q=*&fq=facet_kategorie:\"Bücher\"&fl=1500"
 		},
 		{
-			"imgUri": "img/categories/sammlungen.jpg",
+			"imgUri": "img/categories/sammlungen_sw.jpg",
 			"title" : "Sammlungen",
 			"subtitle" :"Privat- und Museumssammlungen, die in Gebäuden residieren und Objekte bzw. mehrteilige Denkmäler oder deren Reproduktionen und Rezeptionen enthalten können.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Sammlungen\"&fl=1500"
 		},
 		{
-			"imgUri": "img/categories/topographie.jpg",
+			"imgUri": "img/categories/topographie_sw.jpg",
 			"title" : "Topographien",
 			"subtitle" :"Übergeordnete Kontexte, die untergeordnete Einheiten von Gebäuden, Landschaften, Städten, etc. vereinen.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Topographien\"&fl=1500"
 		},
 		{
-			"imgUri": "img/categories/rezeptionen.jpg",
+			"imgUri": "img/categories/rezeptionen_sw.jpg",
 			"title" : "Rezeptionen",
 			"subtitle" :"Spezifische Wahrnehmungen antiker Objekte in bestimmten neuzeitlichen Rezeptionsquellen.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Rezeptionen\"&fl=1500"
@@ -65,7 +65,7 @@
 			"href" : "category/?q=*&fq=facet_kategorie:\"Reproduktionen\"&fl=1500"
 		},
 		{
-			"imgUri": "img/categories/typus.jpg",
+			"imgUri": "img/categories/typus_sw.jpg",
 			"title" : "Typen",
 			"subtitle" :"Kontextualisierung von Skulpturen (=Einzelobjekten) nach künstlerischen Bildnistypen und -schemata (Griechische Idealplastik, griechisches und römisches Portrait).",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Typen\"&fl=1500"
