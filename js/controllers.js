@@ -3,10 +3,10 @@
 /* Controllers */
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
-.controller('MenuCtrl',
-	[ '$scope', '$modal', 'sessionService', '$location',
-		function ($scope,  $modal, sessionService, $location){
-		$scope.user = sessionService.user;
+.controller('MenuCtrl',	[ '$scope', '$modal', 'authService', '$location',
+	function ($scope,  $modal, authService, $location, $route) {
+
+		$scope.user = authService.getUser();
 
 		$scope.currentPath = $location.$$path;
 		$scope.$on("$locationChangeSuccess", function() {			
@@ -14,52 +14,51 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		});
 
 		//$scope.currentPath = $route.current.originalPath;
-		$scope.openLoginModal = function () {
+		$scope.openLoginModal = function() {
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/loginForm.html',
 				controller: 'LoginCtrl'
-			});			
+			});
+			modalInstance.result.then(function(user) {
+				$scope.user = user;
+			});
 		};
+
+		$scope.logout = function() {
+			authService.clearCredentials();
+			$scope.user = authService.getUser();
+			$location.url('/');
+		}
+
 	}
-	]
-	)
-.controller('LoginCtrl',
-	['$scope', '$modalInstance', 'sessionService', 'md5Filter', '$timeout', '$modal',
-	function($scope, $modalInstance, sessionService, md5Filter, $timeout, $modal){
+])
+.controller('LoginCtrl', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal',
+	function($scope, $modalInstance, authService, $timeout, $modal){
+		
 		$scope.loginData = {};
-		$scope.user = sessionService.user;
 		$scope.loginerror = false;
 
-		$scope.login = function () {
-			//console.log("login");
-			sessionService.login(
-				{
-					user: $scope.loginData.user,
-					password: md5Filter($scope.loginData.password)
-				},
-	            function(response) {
-	            	$scope.loginerror = false;
-	            	var closeModal = function () {
-	            		$modalInstance.dismiss();
-	            	}
-	                $timeout(closeModal, 1200);
-	                
-	            },
-	            function(error) {
-	                $scope.loginerror = true;	               
-	                var resetLoginerror = function () {
-	                	$scope.loginerror = false;
-	                };
-	                $timeout(resetLoginerror, 2000);
-	            });
+		$scope.login = function() {
+
+			authService.setCredentials($scope.loginData.user, $scope.loginData.password, function(response) {
+				$scope.loginerror = false;
+				var closeModal = function () {
+            		$modalInstance.close(authService.getUser());
+            	}
+                $timeout(closeModal, 500);
+			}, function(response) {
+				$scope.loginerror = true;
+			});
+
 		};
+
 		$scope.cancel = function () {
 			$modalInstance.dismiss();
 		};
 	
-	}])
-.controller('SearchCtrl',
-	['arachneSearch', '$scope', '$route', '$timeout', /*'arachneSettings',*/
+	}
+])
+.controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', /*'arachneSettings',*/
 	function ( arachneSearch, $scope, $route, $timeout) {
 		var currentTemplateURL = $route.current.templateUrl;
 
@@ -92,26 +91,22 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			}
 		}
 	}
-]
-)
-.controller('ContextCtrl',
-	['arachneEntity','$scope', '$modalInstance', 
-		function (arachneEntity, $scope, $modalInstance) {
-			$scope.activeContextFacets = arachneEntity.getActiveContextFacets();
-			$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
-			$scope.addFacetToContext = function (facetName, facetValue){
-				$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet(facetName, facetValue);
-			}
-			$scope.removeContextFacet = function (facet){
-				$scope.searchresults = arachneEntity.getContextualQueryByRemovingFacet(facet);
-			}
+])
+.controller('ContextCtrl',	['arachneEntity','$scope', '$modalInstance', 
+	function (arachneEntity, $scope, $modalInstance) {
+		$scope.activeContextFacets = arachneEntity.getActiveContextFacets();
+		$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
+		$scope.addFacetToContext = function (facetName, facetValue){
+			$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet(facetName, facetValue);
 		}
-	]
-)
-.controller('EntityCtrl',
-	['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'sessionService',
-	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, sessionService ) {
-		$scope.user = sessionService.user;
+		$scope.removeContextFacet = function (facet){
+			$scope.searchresults = arachneEntity.getContextualQueryByRemovingFacet(facet);
+		}
+	}
+])
+.controller('EntityCtrl', ['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'authService',
+	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, authService ) {
+		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
 
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
@@ -238,43 +233,45 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			queryhash.offset = $scope.currentQueryParameters.resultIndex-1;
 			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
 		}
-}])
-.controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', function($scope, $modalInstance, NoteService){
+	}
+])
+.controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', 
+	function($scope, $modalInstance, NoteService) {
 	
-	$scope.items = [];
-	$scope.hasBookmarkList = false;
-	$scope.selected = {};
-	$scope.selected.commentary = "";
-	$scope.bookmarkError = 0;
+		$scope.items = [];
+		$scope.hasBookmarkList = false;
+		$scope.selected = {};
+		$scope.selected.commentary = "";
+		$scope.bookmarkError = 0;
 
-	NoteService.getBookmarksLists(
-		function(data){
-			//console.log("habe die Liste!");
-			$scope.bookmarkError = 0;
-			$scope.items = data;
-			//console.log($scope.items);
-			$scope.selected = {
-				item: $scope.items[0]
-			};
-			$scope.selected.commentary = "";
-		}, function(status){
-				//console.log("unknown error");
-		});
-}])
-.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', 'bookmark', function($scope, $modalInstance, NoteService, bookmark) {
+		NoteService.getBookmarksLists(
+			function(data){
+				//console.log("habe die Liste!");
+				$scope.bookmarkError = 0;
+				$scope.items = data;
+				//console.log($scope.items);
+				$scope.selected = {
+					item: $scope.items[0]
+				};
+				$scope.selected.commentary = "";
+			}, function(status){
+					//console.log("unknown error");
+			}
+		);
+
+	}
+])
+.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', 'bookmark',
+	function($scope, $modalInstance, NoteService, bookmark) {
 	  $scope.bookmark = bookmark;
-}])
-.controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'sessionService', 'NoteService','arachneSettings',
-	function ($scope, $modal, arachneEntity, sessionService, NoteService, arachneSettings){
+	}
+])
+.controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'authService', 'NoteService','arachneSettings',
+	function ($scope, $modal, arachneEntity, authService, NoteService, arachneSettings){
 
 		$scope.bookmarksLists = [];
-		$scope.user = sessionService.user;
+		$scope.user = authService.getUser();
 		$scope.dataserviceUri = arachneSettings.dataserviceUri;
-		this.logout = function () {
-			sessionService.logout(function () {
-				window.location.href = '';
-			});
-		}
 
 		$scope.getBookmarkInfo = function(){
 			NoteService.getBookmarkInfo($scope.bookmarksLists,
@@ -342,14 +339,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				});
 			
 		}
-}])
-.controller('EntityImgCtrl', ['$routeParams', '$scope', 'sessionService', 'arachneEntity', '$modal', 'arachneSettings',
-	function ($routeParams, $scope, sessionService, arachneEntity, $modal, arachneSettings) {
+
+	}
+])
+.controller('EntityImgCtrl', ['$routeParams', '$scope', 'authService', 'arachneEntity', '$modal', 'arachneSettings',
+	function ($routeParams, $scope, authService, arachneEntity, $modal, arachneSettings) {
 
 		if($routeParams.entityId) {
 			$scope.previousImage = null;
 		}
-		$scope.user = sessionService.user;
+		$scope.user = authService.getUser();
 		$scope.imageIndex = 0;
 		$scope.dataserviceUri = arachneSettings.dataserviceUri;
 		$scope.showingImagesGrid = false;
@@ -448,7 +447,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.imageIndex = parseInt($routeParams.imageIndex);
 		}
 
-}])
+	}
+])
 .controller('StartSiteController', ['$scope', '$http', 'arachneSettings',
 	function ($scope, $http, arachneSettings) {
 
@@ -468,11 +468,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ])
 .controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
 	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
-		
-			$http.get('config/category.json').success (function(data){
-	            $scope.category = data; 
-	        });
-		}
+		$http.get('config/category.json').success (function(data){
+            $scope.category = data; 
+        });
+	}
 ])
 .controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal',
 	function ($scope, $location, $http, $modal) {

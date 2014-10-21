@@ -324,94 +324,46 @@ angular.module('arachne.services', [])
 			}
 		]
 	)
-	.factory('sessionService', ['$resource', 'arachneSettings', function($resource, arachneSettings){
-		
+	.factory('authService', ['$http', 'arachneSettings', '$filter', '$cookieStore',
+		function($http, arachneSettings, $filter, $cookieStore) {
 
-		var arachneDataService = $resource('', { }, {
-			login: {
-				url :  arachneSettings.dataserviceUri + '/sessions',
-				isArray: false,
-				method: 'POST',
-				headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-				transformRequest: function(obj) {
-					var str = [];
-					for(var p in obj)
-					str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-					return str.join("&");
-				}
-			},
-			logout: {
-				url : arachneSettings.dataserviceUri + '/sessions/:sid',
-				isArray: false,
-				method: 'DELETE'
-			}
-		});
+			// initialize to whatever is in the cookie, if anything
+			if ($cookieStore.get('ar-authdata')) {
+		    	$http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('ar-authdata');
+		    } else {
+		    	delete $http.defaults.headers.common['Authorization'];
+		    }
+		 
+		    return {
 
-		function getUserFromStorage () {
-			return {
-				'username' : sessionStorage.getItem('username'),
-				'firstname' : sessionStorage.getItem('firstname'),
-				'lastname' : sessionStorage.getItem('lastname'),
-				'sid' : sessionStorage.getItem('sid'),
-			}
-		};
+		        setCredentials: function (username, password, successMethod, errorMethod) {
+		            var encoded = $filter('base64')(username + ':' + $filter('md5')(password));
+		            $http.get(arachneSettings.dataserviceUri + '/', { headers: { 'Authorization': 'Basic ' + encoded } })
+		            .success(function(response) {
+		            	$http.defaults.headers.common.Authorization = 'Basic ' + encoded;
+		            	$cookieStore.put('ar-authdata', encoded);
+		            	$cookieStore.put('ar-user', { username: username });
+		            	successMethod();
+		            }).error(function(response) {
+		            	errorMethod(response);
+		            });
+		        },
 
-		function changeUser (userFromServer) {
-			
-			// Expiration is set to 60mins.
-				// var date = new Date();
-				// // date.setTime(date.getTime()+(60*60*1000));
-				// date.setTime(date.getTime()+10000);
-				// var _expires = date.toUTCString();
-				// var _offset = -date.getTimezoneOffset()/60;
+		        clearCredentials: function () {
+		            document.execCommand("ClearAuthenticationCache");
+		            $cookieStore.remove('ar-authdata');
+		            $cookieStore.remove('ar-user');
+		            delete $http.defaults.headers.common['Authorization'];
+		        },
 
-			sessionStorage.setItem('username', userFromServer.userAdministration.username);
-			sessionStorage.setItem('lastname', userFromServer.userAdministration.lastname);
-			sessionStorage.setItem('firstname', userFromServer.userAdministration.firstname);
-			sessionStorage.setItem('sid', userFromServer.sid);
+		        getUser: function() {
+		        	return $cookieStore.get('ar-user');
+		        }
 
-			angular.extend(_currentUser, {
-				username : userFromServer.userAdministration.username,
-				lastname : userFromServer.userAdministration.lastname,
-				firstname: userFromServer.userAdministration.firstname,
-				sid  : userFromServer.sid
-			});
-			// Angulars cookiestore does not handle expires-parameter after the user-object. use native cookie-method
-			// Expiration is set to 'session' by using expires=''
-			// document.cookie = 'user='+JSON.stringify(_currentUser)+';timezone='+_offset+';expires='+_expires+';path=/';
-		};
+		    };
 
-		function removeUser () {
-			sessionStorage.clear();
-			angular.copy({},_currentUser);
-			// angular.copy({},_currentUser);
-			// document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/"; 
-		};
-		
-		var _currentUser = getUserFromStorage() || {};
-
-		return {
-			user : _currentUser,
-
-			login : function(loginData, successMethod, errorMethod) {
-				arachneDataService.login(loginData, function (response) {
-					changeUser(response);
-					successMethod(response);
-				}, errorMethod);
-			},
-			removeUser : function () {
-				removeUser();
-			},
-			logout : function (successMethod) {
-				arachneDataService.logout(
-					{sid : _currentUser.sid},
-					function () {
-						removeUser();
-						successMethod();
-					});
-			}
 		}
-	}])
+	])
 	.factory('newsFactory', ['$http', 'arachneSettings', function($http, arachneSettings){
 		var factory = {};
 		factory.getNews = function() {
