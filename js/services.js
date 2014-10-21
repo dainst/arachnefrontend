@@ -371,66 +371,71 @@ angular.module('arachne.services', [])
 			};
 		return factory;
 	}])
-	.factory('NoteService', ['$resource', 'arachneSettings', '$http', '$modal',
-		function($resource, arachneSettings, $http, $modal){
+	.factory('NoteService', ['$resource', 'arachneSettings', '$http', '$modal', function($resource, arachneSettings, sessionService, $http, $modal){
 
-			var arachneDataService = $resource('', { }, {
-				getBookmarkInfo : {
-					url : arachneSettings.dataserviceUri + '/search',
-					isArray: false,
-					method: 'GET'
-				},
-				createBookmarksList: {
-					url :  arachneSettings.dataserviceUri + '/bookmarklist',
-					isArray: false,
-					method: 'POST',
-					headers: {'Content-Type': 'application/json'}
-				},
-				updateBookmarksList: {
-					url :  arachneSettings.dataserviceUri + '/bookmarklist/:id',
-					isArray: false,
-					method: 'POST',
-					headers: {'Content-Type': 'application/json'}
-				},
-				getBookmarksList : {
-					url: arachneSettings.dataserviceUri + '/bookmarklist/:id',
-					isArray: false,
-					method: 'GET'
-				},
-				getBookmarksLists : {
-					url : arachneSettings.dataserviceUri + '/bookmarklist',
-					isArray: true,
-					method: 'GET'
-				},
-				deleteBookmarksList: {
-					url : arachneSettings.dataserviceUri + '/bookmarklist/:id',
-					isArray: false,
-					method: 'DELETE'
-				},
-				deleteBookmark: {
-					url : arachneSettings.dataserviceUri + '/bookmark/:id',
-					isArray: false,
-					method: 'DELETE'
-				},
-				getBookmark: {
-					url: arachneSettings.dataserviceUri + '/bookmark/:id',
-					isArray: false,
-					method: 'GET'
-				},
-				updateBookmark: {
-					url: arachneSettings.dataserviceUri + '/bookmark/:id',
-					isArray: false,
-					method: 'POST',
-					headers: {'Content-Type': 'application/json'}
-				},
-				createBookmark: {
-					url :  arachneSettings.dataserviceUri + '/bookmarkList/:id/add',
-					isArray: false,
-					method: 'POST',
-					headers: {'Content-Type': 'application/json'}
-				}
+		var catchError = function(errorReponse) {
+			if (errorReponse.status == 403) {
+				// really?
+				authService.clearCredentials();
+			};
+		};
+
+		var arachneDataService = $resource('', { }, {
+			getBookmarkInfo : {
+				url : arachneSettings.dataserviceUri + '/search',
+				isArray: false,
+				method: 'GET'
+			},
+			createBookmarksList: {
+				url :  arachneSettings.dataserviceUri + '/bookmarklist',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'}
+			},
+			updateBookmarksList: {
+				url :  arachneSettings.dataserviceUri + '/bookmarklist/:id',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'}
+			},
+			getBookmarksList : {
+				url: arachneSettings.dataserviceUri + '/bookmarklist/:id',
+				isArray: false,
+				method: 'GET'
+			},
+			getBookmarksLists : {
+				url : arachneSettings.dataserviceUri + '/bookmarklist',
+				isArray: true,
+				method: 'GET'
+			},
+			deleteBookmarksList: {
+				url : arachneSettings.dataserviceUri + '/bookmarklist/:id',
+				isArray: false,
+				method: 'DELETE'
+			},
+			deleteBookmark: {
+				url : arachneSettings.dataserviceUri + '/bookmark/:id',
+				isArray: false,
+				method: 'DELETE'
+			},
+			getBookmark: {
+				url: arachneSettings.dataserviceUri + '/bookmark/:id',
+				isArray: false,
+				method: 'GET'
+			},
+			updateBookmark: {
+				url: arachneSettings.dataserviceUri + '/bookmark/:id',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'}
+			},
+			createBookmark: {
+				url :  arachneSettings.dataserviceUri + '/bookmarkList/:id/add',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'}
 			}
-		);
+		});
 
 		return {
 			getBookmarkInfo : function(bookmarksLists, successMethod){
