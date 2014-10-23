@@ -3,6 +3,38 @@
 /* Directives */
 angular.module('arachne.directives', [])
 
+	.directive('arImg', ['arachneSettings', '$http', function(arachneSettings, $http) {
+		return {
+			scope: {
+				imgId: '@',
+				imgWidth: '@',
+				imgHeight: '@'
+			},
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+
+				if (element[0].tagName== 'IMG') {
+					var img = element[0];
+					var imgUri = arachneSettings.dataserviceUri + "/image/";
+					if (scope.imgWidth) {
+						imgUri += "width/" + scope.imgId + "?width=" + scope.imgWidth;
+					} else {
+						imgUri += "height/" + scope.imgId + "?height=" + scope.imgHeight;
+					}
+					$http.get(imgUri, { responseType: 'arraybuffer' })
+						.success(function(data) {
+							var blob = new Blob([data]);
+            				img.src = window.URL.createObjectURL(blob);
+						}
+					);
+				} else {
+					console.log("Warning: ar-img directive used on a non img element!");
+				}
+
+			}
+		}
+	}])
+
 	.directive('arImagegrid', ['arachneSettings', '$http', '$sce', '$window', function(arachneSettings, $http, $sce, $window) {
 		return {
 			scope: {
