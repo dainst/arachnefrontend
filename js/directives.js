@@ -447,7 +447,7 @@ angular.module('arachne.directives', [])
 		}
 	};
 	}])	
-	.directive('zoomifyimg', ['arachneSettings', function(arachneSettings) {
+	.directive('zoomifyimg', ['arachneSettings', '$http', function(arachneSettings, $http) {
 		return {
 			restrict: 'A',
 			link: function(scope, element, attrs) 
@@ -456,10 +456,12 @@ angular.module('arachne.directives', [])
 				 * L.TileLayer.Zoomify display Zoomify tiles with Leaflet
 				 */
 				L.TileLayer.Zoomify = L.TileLayer.extend({
+
 					options: {
 						continuousWorld: true,
 						tolerance: 0.8
 					},
+
 					initialize: function (entityId, options) {
 						options = L.setOptions(this, options);
 						this._entityId = entityId;
@@ -485,6 +487,7 @@ angular.module('arachne.directives', [])
 						map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
 					},
+
 					onAdd: function (map) {
 						L.TileLayer.prototype.onAdd.call(this, map);
 						var mapSize = map.getSize(),
@@ -546,6 +549,28 @@ angular.module('arachne.directives', [])
 							container.appendChild(tile);
 						}
 					},
+
+					// override to use XHR instead of regular image loading
+					_loadTile: function (tile, tilePoint) {
+						tile._layer  = this;
+						tile.onload  = this._tileOnLoad;
+						tile.onerror = this._tileOnError;
+
+						this._adjustTilePoint(tilePoint);
+						var imgUri = this.getTileUrl(tilePoint);
+						$http.get(imgUri, { responseType: 'arraybuffer' })
+							.success(function(data) {
+								var blob = new Blob([data]);
+	            				tile.src = window.URL.createObjectURL(blob);
+							}
+						);
+
+						this.fire('tileloadstart', {
+							tile: tile,
+							url: tile.src
+						});
+					},
+
 					getTileUrl: function (tilePoint) {
 						return arachneSettings.dataserviceUri + '/image/zoomify/' + this._entityId + '/' + this._map.getZoom() + '-' + tilePoint.x + '-' + tilePoint.y + '.jpg';
 					},
