@@ -30,7 +30,12 @@ angular.module('arachne.directives', [])
 							scope.resizeRow(cell.row);
 						});
 					});
-        			cell.img.src = cell.imgUri;
+					$http.get(cell.imgUri, { responseType: 'arraybuffer' })
+						.success(function(data) {
+							var blob = new Blob([data]);
+            				cell.img.src = window.URL.createObjectURL(blob);
+						}
+					);
 				};
 
 				scope.resizeRow = function(row) {
