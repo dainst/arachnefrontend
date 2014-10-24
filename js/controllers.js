@@ -32,8 +32,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('LoginCtrl', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal',
-	function($scope, $modalInstance, authService, $timeout, $modal){
+.controller('LoginCtrl', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal', '$route',
+	function($scope, $modalInstance, authService, $timeout, $modal, $route){
 		
 		$scope.loginData = {};
 		$scope.loginerror = false;
@@ -44,6 +44,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				$scope.loginerror = false;
 				var closeModal = function () {
             		$modalInstance.close(authService.getUser());
+            		$route.reload();
             	}
                 $timeout(closeModal, 500);
 			}, function(response) {
