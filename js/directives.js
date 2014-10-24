@@ -23,7 +23,7 @@ angular.module('arachne.directives', [])
 					}
 					$http.get(imgUri, { responseType: 'arraybuffer' })
 						.success(function(data) {
-							var blob = new Blob([data]);
+							var blob = new Blob([data], {type: 'image/jpeg'});
             				img.src = window.URL.createObjectURL(blob);
 						}
 					);
@@ -62,9 +62,9 @@ angular.module('arachne.directives', [])
 							scope.resizeRow(cell.row);
 						});
 					});
-					$http.get(cell.imgUri, { responseType: 'arraybuffer' })
+					$http.get(cell.imgUri, { responseType: 'blob' })
 						.success(function(data) {
-							var blob = new Blob([data]);
+							var blob = new Blob([data], {type: 'image/jpeg'});
             				cell.img.src = window.URL.createObjectURL(blob);
 						}
 					);
@@ -560,7 +560,7 @@ angular.module('arachne.directives', [])
 						var imgUri = this.getTileUrl(tilePoint);
 						$http.get(imgUri, { responseType: 'arraybuffer' })
 							.success(function(data) {
-								var blob = new Blob([data]);
+								var blob = new Blob([data], {type: 'image/jpeg'});
 	            				tile.src = window.URL.createObjectURL(blob);
 							}
 						);
