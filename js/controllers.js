@@ -342,13 +342,44 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity',
-	function($routeParams, $scope, arachneEntity) {
+.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity', '$modal',
+	function($routeParams, $scope, arachneEntity, $modal) {
 
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
-		$scope.entity = arachneEntity.getEntityById($routeParams.entityId);
+		$scope.entity = arachneEntity.getEntityById($routeParams.entityId, function(data) {
+			$scope.refreshImageIndex();
+		});
 		$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.imageId});
+
+		$scope.$watch("imageId", function() {
+			$scope.refreshImageIndex();
+		});
+
+		$scope.refreshImageIndex = function() {
+			if($scope.entity.images) {
+				for (var i = 0; i < $scope.entity.images.length; i++) {
+					if ($scope.entity.images[i].imageId == $scope.imageId) {
+						$scope.imageIndex = i;
+						break;
+					}
+				}
+			}
+		};
+
+		$scope.requestFullscreen = function() {
+			var element = document.getElementById('theimage');
+			// Find the right method, call on correct element			
+			if(element.requestFullscreen) {
+			    element.requestFullscreen();
+			} else if(element.mozRequestFullScreen) {
+			    element.mozRequestFullScreen();
+			} else if(element.webkitRequestFullscreen) {
+			    element.webkitRequestFullscreen();
+			} else if(element.msRequestFullscreen) {
+			    element.msRequestFullscreen();
+			}
+		};
 
 	}
 ])

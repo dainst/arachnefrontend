@@ -1,12 +1,12 @@
 <div class="modal-header">
-		<h4 class="modal-title">	
-			{{imageEntity.title}}
-		</h4>
-	</div>
-	<div class="modal-body">
-		<img  class="img-thumbnail pull-right" ng-src="{{dataserviceUri}}/image/thumbnail/{{imageId}}"><br>
-		<div ng-repeat="section in imageEntity.sections.content" ng-include="'section_template.html'"></div>
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
-	</div>
+	<h4 class="modal-title">	
+		{{imageEntity.title}}
+	</h4>
+</div>
+<div class="modal-body">
+	<img  class="img-thumbnail pull-right" ng-src="{{dataserviceUri}}/image/thumbnail/{{imageId}}"><br>
+	<div ng-repeat="section in imageEntity.sections.content" ng-include="'section_template.html'"></div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
+</div>
