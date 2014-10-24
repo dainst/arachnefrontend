@@ -66,6 +66,15 @@ angular.module('arachne.filters', [])
 			return entities;
 		}
 	}])
+	.filter('cellsFromImages', ['arachneSettings', function(arachneSettings) {
+		return function(images, entityId) {
+			for (var i in images) {
+				images[i].href = 'entity/' + entityId + "/image/" + images[i].imageId;
+				images[i].imgUri = arachneSettings.dataserviceUri + "/image/height/" + images[i].imageId + "?height=300";
+			}
+			return images;
+		}
+	}])
 	.filter('base64', function() {
 	    var keyStr = 'ABCDEFGHIJKLMNOP' +
 	        'QRSTUVWXYZabcdef' +

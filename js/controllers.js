@@ -342,6 +342,25 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity',
+	function($routeParams, $scope, arachneEntity) {
+
+		$scope.entityId = $routeParams.entityId;
+		$scope.imageId = $routeParams.imageId;
+		$scope.entity = arachneEntity.getEntityById($routeParams.entityId);
+		$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.imageId});
+
+	}
+])
+.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'arachneEntity',
+	function($routeParams, $scope, arachneEntity) {
+
+		$scope.entityId = $routeParams.entityId;
+		$scope.imageId = $routeParams.imageId;
+		$scope.entity = arachneEntity.getEntityById($routeParams.entityId);
+
+	}
+])
 .controller('EntityImgCtrl', ['$routeParams', '$scope', 'authService', 'arachneEntity', '$modal', 'arachneSettings',
 	function ($routeParams, $scope, authService, arachneEntity, $modal, arachneSettings) {
 

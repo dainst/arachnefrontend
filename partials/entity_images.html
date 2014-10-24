@@ -1,0 +1,21 @@
+<div ng-controller="EntityImagesCtrl">
+	<div class="row fullscreenrow">
+
+		<div ar-imagegrid
+			cells="entity.images | cellsFromImages:entity.entityId"
+			columns="5"
+			margin="4">			
+		</div>
+
+		<div ng-if="entity" 
+				class="btn-group-vertical"
+				style="opacity:0.8; position:absolute; right:10px; top: 60px; z-index: 750;">
+			<a class="btn btn-default btn-sm" href="entity/{{entity.entityId}}">
+				<div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">
+					{{entity.title}}<br><i>anzeigen</i>
+				</div>
+			</a>
+		</div>
+
+	</div>
+</div>

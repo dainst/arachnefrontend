@@ -16,18 +16,12 @@
 <div ng-controller="EntityImgCtrl as entityImgCtrl" id="theimage">
 	<div class="row fullscreenrow">
 
-		<div ng-if="showingImagesGrid">
-			<div style="margin-left:16px;" ng-if="entity.images.length" ng-repeat="image in entity.images">
-				<div ng-if=" $index % 7 == 0" imagesrow class="imagesrow clearfix" style="cursor:pointer">
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index]}}" imageid="{{entity.images[$index].imageId}}" ng-click="entityImgCtrl.setImageIndex($index)"></div>
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+1]}}" imageid="{{entity.images[$index+1].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+1)"></div>
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+2]}}" imageid="{{entity.images[$index+2].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+2)"></div>
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+3]}}" imageid="{{entity.images[$index+3].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+3)"></div>
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+4]}}" imageid="{{entity.images[$index+4].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+4)"></div>
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+5]}}" imageid="{{entity.images[$index+4].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+5)"></div>
-					<div arachneImageRequest="height" arachneImageHeight="200" is-placeholder-if-empty="{{entity.images[$index+6]}}" imageid="{{entity.images[$index+4].imageId}}" ng-click="entityImgCtrl.setImageIndex($index+6)"></div>
-				</div>
-			</div>
+		<div ar-imagegrid
+			cells="entity.images | cellsFromImages:entity.entityId"
+			columns="5"
+			margin="4"
+			ng-if="showingImagesGrid">
+			
 		</div>
 
         <div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
