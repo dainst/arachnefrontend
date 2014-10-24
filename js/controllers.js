@@ -80,7 +80,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
 		} else {
-			$scope.searchresults = arachneSearch.persistentSearch();
+			arachneSearch.persistentSearch(false, function(data) {
+				$scope.searchresults = data;
+			}, function(response) {
+				$scope.searchresults = {size: 0};
+				$scope.error = true;
+			});
 
 			document.title = "Suche: " + $scope.currentQueryParameters.q.replace(/\+/g,' ') + " | Arachne";
 

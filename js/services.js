@@ -29,18 +29,22 @@ angular.module('arachne.services', [])
 						url : arachneSettings.dataserviceUri + '/search',
 						isArray: false,
 						method: 'GET',
-						transformResponse : function (data) {
-							var data = JSON.parse(data);
-							data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
-							angular.forEach(data.facets, function(facet, index) {
-								if (arachneSettings.openFacets.indexOf(facet.name) != -1) {
-									facet.open = true;
-								} else {
-									facet.open = false;
-								}
-							});
+						transformResponse : function (data, headers) {
+							try {
+								var data = JSON.parse(data);
+								data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
+								angular.forEach(data.facets, function(facet, index) {
+									if (arachneSettings.openFacets.indexOf(facet.name) != -1) {
+										facet.open = true;
+									} else {
+										facet.open = false;
+									}
+								});
 
-							return data;
+								return data;
+							} catch (e) {
+								return false;
+							}
 						}
 					},
 
@@ -68,14 +72,14 @@ angular.module('arachne.services', [])
 					
 				  //SEARCHING METHODS
 				  	// persitentSearch means that all queryParams get saved by this factory
-					persistentSearch : function (queryParams) {
+					persistentSearch : function (queryParams, successMethod, errorMethod) {
 						if (queryParams) {
 							this.setCurrentQueryParameters(queryParams);
 						} else {
 							this.setActiveFacets($location.search().fq);
 							this.setCurrentQueryParameters($location.search());
 						}
-						return arachneDataService.query(_currentQueryParameters);
+						return arachneDataService.query(_currentQueryParameters, successMethod, errorMethod);
 					},
 
 					search : function (queryParams, successMethod) {

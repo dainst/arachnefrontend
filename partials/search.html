@@ -5,6 +5,17 @@
 		<div class="loading"></div>
 	</div>
 
+	<!-- Fehlermeldungen -->
+	<div ng-show="error">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1 alert alert-warning">
+				Fehler: Suche konnte nicht ausgeführt werden.
+				Bitte wenden Sie sich an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>
+				sollte dieser Fehler häufiger auftreten.
+			</div>
+		</div>
+	</div>
+
 	<!-- Meldung für leeres Suchergebnis -->
 	<div ng-if="searchresults.size == 0">
 		<div class="row">

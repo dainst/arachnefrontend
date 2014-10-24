@@ -35,7 +35,7 @@ config(['$routeProvider', '$locationProvider', '$compileProvider', function($rou
 		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
 		.when('/register', {templateUrl: 'partials/register.html'});
 }]).constant('arachneSettings', {
-		dataserviceUri : "http://lakota.archaeologie.uni-koeln.de/data",
+		dataserviceUri : "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie"]
 }).run(['$rootScope', function($rootScope) {
