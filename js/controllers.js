@@ -342,15 +342,20 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity', '$modal',
-	function($routeParams, $scope, arachneEntity, $modal) {
+.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity', '$modal', 'authService',
+	function($routeParams, $scope, arachneEntity, $modal, authService) {
 
+		$scope.user = authService.getUser();
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
 		$scope.entity = arachneEntity.getEntityById($routeParams.entityId, function(data) {
 			$scope.refreshImageIndex();
 		});
-		$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.imageId});
+		$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.imageId}, function(data) {
+			$scope.allow = true;
+		}, function(response) {
+			$scope.allow = false;
+		});
 
 		$scope.$watch("imageId", function() {
 			$scope.refreshImageIndex();

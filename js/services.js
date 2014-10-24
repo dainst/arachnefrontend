@@ -281,8 +281,8 @@ angular.module('arachne.services', [])
 							return _currentEntity;
 						}
 					},
-					getImageProperties : function(queryParams){
-						return arachneDataService.getImageProperties(queryParams);
+					getImageProperties : function(queryParams, successMethod, errorMethod){
+						return arachneDataService.getImageProperties(queryParams, successMethod, errorMethod);
 					},
 					getSpecialNavigations : function(entityId) {
 						return arachneDataService.getSpecialNavigations({id:entityId});
