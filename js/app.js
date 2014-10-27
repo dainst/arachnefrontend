@@ -12,9 +12,8 @@ angular.module('arachne',
 	'arachne.services',
 	'arachne.directives',
 	'arachne.controllers',
-	]).
-config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
-
+	]).value('$anchorScroll', angular.noop)
+.config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
 	
 	$locationProvider.html5Mode(true);
 
