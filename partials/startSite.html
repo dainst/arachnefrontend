@@ -1,7 +1,7 @@
 <div ng-controller="StartSiteController as startSiteController">
 	<div id="top"></div>
-	<div style="height:70%; position: relative;">
-		<div class="col-md-6 col-md-offset-3 text-center" style="position: absolute; top:50%; height:262px; margin-top:-131px; min-width:358px;">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 text-center" style="margin-top: 5%; height:262px; min-width:358px;">
 			<h1 style="opacity: 0.57; font-weight: 300; font-size: 60px; margin-bottom:70px;">
 				<img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png">
 				arachne<span class="text-primary" style="font-size:20px;"> beta</span>
@@ -22,14 +22,19 @@
 		</div>
 	</div>
 	<div class="row" style="background-color:white" id="categories_container">
-		<div  style="width: 80%; max-width:900px; margin: 0px auto;">
+		<div style="width:90%; margin: 0px auto;">
 			<h2 style="font-weight:300; margin:100px 0px 50px; text-align:center">
 				<a href="allCategories" style="outline: none;">Kategorien in Arachne</a>
 			</h2>
 			<div ar-imagegrid
 				cells="category.categoryStart"
-				columns="3"
+				columns="9"
 				margin="4">					
+			</div>
+			<div class="pull-right" style="margin-top:20px;">
+				<a href="allCategories">
+					... Alle Kategorien anzeigen
+				</a>
 			</div>
 		</div>
 	</div>
