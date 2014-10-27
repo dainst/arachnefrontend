@@ -124,7 +124,7 @@
 						<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="addFacet('facet_kategorie', entity.type)"> {{singular[entity.type]}}</td>
 						<td class="col-md-8"><b><a href="entity/{{entity.entityId}}" ng-click="setResultIndex(offset + $index)">
 							<div ng-if="entity.title==''">
-								"({{singular[entity.type]}} hat keinen Titel)"
+								({{singular[entity.type]}} hat keinen Titel)
 							</div>
 							<div ng-if="entity.title!=''">
 								{{entity.title}}
