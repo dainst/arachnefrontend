@@ -59,8 +59,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
-.controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', '$filter', /*'arachneSettings',*/
-	function ( arachneSearch, $scope, $route, $timeout, $filter) {
+.controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', '$filter','singularService', /*'arachneSettings',*/
+	function ( arachneSearch, $scope, $route, $timeout, $filter, singularService) {
 
 		var currentTemplateURL = $route.current.templateUrl;
 
@@ -77,6 +77,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.removeFacet = function (facet) {
 			arachneSearch.removeFacet(facet);
 		}
+		$scope.singular = singularService.getSingular();
+
 
 		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
@@ -113,10 +115,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('EntityCtrl', ['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'authService',
-	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, authService ) {
+.controller('EntityCtrl', ['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'authService', 'singularService',
+	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, authService, singularService ) {
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
+
+		$scope.singular = singularService.getSingular();
 
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			$scope.categoryFacetValueForContext =  facetValue;

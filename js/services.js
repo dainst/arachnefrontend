@@ -376,6 +376,38 @@ angular.module('arachne.services', [])
 			};
 		return factory;
 	}])
+	.factory('singularService', ['$http', function($http ){
+		var singular = {
+			"Bauwerke": "Bauwerk", 
+			"Bauwerksteile": "Bauwerksteil",
+			"Einzelobjekte": "Einzelobjekt",
+			"Objekte": "Objekt",
+			"Bilder": "Bild",
+			"Typen": "Typus",
+			"Sammlungen": "Sammlung",
+			"Topographien": "Topographie",
+			"Rezeptionen": "Rezeption",
+		 	"Reproduktionen": "Reproduktion",
+		 	"Einzelmotive": "Einzelmotiv",
+		 	"Mehrteilige Denkmäler": "Mehrteiliges Denkmal",
+		 	"Inschriften": "Inschrift",
+			"Bücher": "Buch",
+			"Buchseiten": "Buchseite",
+			"Szenen": "Szene",
+			"Literatur": "Literatur",
+			"Orte": "Ort",
+			"Personen": "Person",
+			"Sammler":  "Sammler",
+			"Gruppierung": "Gruppierung",
+			"type_sammler": "Sammler",
+			"type_gruppierung": "Gruppierung"
+		};
+		var factory ={};
+		factory.getSingular = function() {
+			return singular;
+		}
+		return factory;
+	}])
 	.factory('NoteService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
 		function($resource, arachneSettings, $http, $modal, authService){
 
