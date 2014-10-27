@@ -88,7 +88,6 @@ angular.module('arachne.directives', [])
 
 					for (var i=0; i < row.length; i++) {
 						imagesWidth += row[i].img.naturalWidth;
-						console.log("natural: ", row[i].img.naturalWidth, " x ", row[i].img.naturalHeight);
 					}
 
 					var columns = scope.columns;
@@ -118,7 +117,6 @@ angular.module('arachne.directives', [])
 
 					for (var i=0; i < row.length; i++) {
 						row[i].height = maxHeight;
-						console.log("calculated: ", row[i].imgWidth, " x ", row[i].height);
 					}
 
 				};
