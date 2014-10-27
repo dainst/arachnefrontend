@@ -2,7 +2,7 @@
 	<div  ng-if="!user.username" class="col-md-12 text-right alert alert-info">
 		Für Notizen und Lesezeichen, bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 	</div>
-	<div class="col-md-7" ng-if="user.username">
+	<div class="col-md-8 col-md-offset-2" ng-if="user.username">
 		<div class="page-header">
 			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksList()">Neue Sammlung anlegen</button>
 			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Notizen & Lesezeichen</h3>
@@ -63,23 +63,5 @@
 	  	</accordion>
 	  	
   	</div>
-  	<div class="col-md-5"  ng-if="user.username">
-		<div class="page-header">
-			<button class="btn btn-danger pull-right" ng-click="bookmarksController.logout()">Abmelden &nbsp; <span class="glyphicon glyphicon-log-out"></span></button>
-			<h3>Ihr Profil</h3>
-		</div>
 
-		<ul class="list-group">
-			<li class="list-group-item">
-				<small class="text-muted">Nutzername</small> <span class="pull-right">{{user.username}}</span>
-			</li>
-			<li class="list-group-item">
-				<small class="text-muted">Vorname</small> <span class="pull-right">{{user.firstname}}</span>
-			</li>
-			<li class="list-group-item">
-				<small class="text-muted">Nachname</small> <span class="pull-right">{{user.lastname}}</span>
-			</li>
-		</ul>
-
-	</div>
 </div>

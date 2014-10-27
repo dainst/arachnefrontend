@@ -85,11 +85,42 @@
 				</li>
 			</ul> -->
 
-			<div ng-cloak class="btn-group btn-group-sm pull-right" style="margin-top:2px; padding-right:10px;">
-				<a href="bookmarks" class="btn btn-default navbar-btn" ng-if="user.username"><span class="glyphicon glyphicon-user"></span> &nbsp;{{user.username}}</a>
-				<a ng-if="!user.username" type="button" class="btn btn-primary navbar-btn" ng-click="openLoginModal()"><span class="glyphicon glyphicon-log-in"></span> &nbsp;Anmelden</a>
-				<a ng-if="!user.username" class="btn btn-default navbar-btn" href="register">Registrieren</a>
-				<a href="bookmarks" class="btn btn-default navbar-btn" ng-if="user.username" type="button"><span style="color: rgb(66,139,202)" class="glyphicon glyphicon-inbox"></span> &nbsp;Notizen & Lesezeichen</a>				
+			<!-- user menu if logged in -->
+			<div ng-if="user.username" dropdown is-open="status.isopen" ng-cloak
+					class="btn-group btn-group-sm pull-right"
+					style="margin-top:2px; padding-right:10px;">
+				<a href="bookmarks" class="btn btn-default navbar-btn dropdown-toggle">
+					<span class="glyphicon glyphicon-user"></span>
+					&nbsp;{{user.username}}
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu" role="menu"
+						style="margin-top:-6px; margin-right:10px;">
+			        <li>
+			        	<a href="bookmarks">
+							<span style="color: rgb(66,139,202)" class="glyphicon glyphicon-inbox"></span>
+							&nbsp;Notizen & Lesezeichen
+						</a>
+			        </li>
+			        <li class="divider"></li>
+			        <li>
+			        	<a href="#" ng-click="logout()">
+							<span class="glyphicon glyphicon-log-out"></span> &nbsp;Abmelden
+						</a>
+			        </li>
+			    </ul>
+			</div>
+
+			<!-- login and register if not logged in -->
+			<div ng-if="!user.username" ng-cloak
+					class="btn-group btn-group-sm pull-right"
+					style="margin-top:2px; padding-right:10px;">
+				<a  type="button" class="btn btn-primary navbar-btn" ng-click="openLoginModal()">
+					<span class="glyphicon glyphicon-log-in"></span> &nbsp;Anmelden
+				</a>
+				<a ng-if="!user.username" class="btn btn-default navbar-btn" href="register">
+					Registrieren
+				</a>			
 			</div>
 
 		</div>
@@ -128,6 +159,7 @@
 	<script src="lib/angular/angular-route.min.js"></script>
 	<script src="lib/angular/angular-resource.min.js"></script>
 	<script src="lib/angular/angular-sanitize.min.js"></script>
+	<script src="lib/angular/angular-cookies.min.js"></script>
 
 	<script src="js/services.js"></script>
 	<script src="js/controllers.js"></script>

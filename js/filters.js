@@ -54,7 +54,7 @@ angular.module('arachne.filters', [])
 	.filter('cellsFromEntities', ['arachneSettings', function(arachneSettings) {
 		return function(entities, offset, query) {
 			for (var i in entities) {
-				entities[i].href = 'entity/' + entities[i].entityId + "?resultIndex=" + (parseInt(offset) + i);
+				entities[i].href = 'entity/' + entities[i].entityId + "?resultIndex=" + (parseInt(offset) + parseInt(i));
 				if (typeof query != 'undefined') {
 					if (typeof query.q != 'undefined' && query.q) entities[i].href += "&q=" + query.q;
 					if (typeof query.fq != 'undefined' && query.fq) entities[i].href += "&fq=" + query.fq;
@@ -66,6 +66,54 @@ angular.module('arachne.filters', [])
 			return entities;
 		}
 	}])
+	.filter('cellsFromImages', ['arachneSettings', function(arachneSettings) {
+		return function(images, entityId) {
+			for (var i in images) {
+				images[i].href = 'entity/' + entityId + "/image/" + images[i].imageId;
+				images[i].imgUri = arachneSettings.dataserviceUri + "/image/height/" + images[i].imageId + "?height=300";
+			}
+			return images;
+		}
+	}])
+	.filter('base64', function() {
+	    var keyStr = 'ABCDEFGHIJKLMNOP' +
+	        'QRSTUVWXYZabcdef' +
+	        'ghijklmnopqrstuv' +
+	        'wxyz0123456789+/' +
+	        '=';
+	    return function (input) {
+            var output = "";
+            var chr1, chr2, chr3 = "";
+            var enc1, enc2, enc3, enc4 = "";
+            var i = 0;
+ 
+            do {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+ 
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+ 
+                if (isNaN(chr2)) {
+                    enc3 = enc4 = 64;
+                } else if (isNaN(chr3)) {
+                    enc4 = 64;
+                }
+ 
+                output = output +
+                    keyStr.charAt(enc1) +
+                    keyStr.charAt(enc2) +
+                    keyStr.charAt(enc3) +
+                    keyStr.charAt(enc4);
+                chr1 = chr2 = chr3 = "";
+                enc1 = enc2 = enc3 = enc4 = "";
+            } while (i < input.length);
+            return output;
+	    }
+	})
 	.filter('md5',function(){
 		return function (str) {
 			var xl;

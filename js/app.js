@@ -5,6 +5,7 @@ angular.module('arachne',
 	'ngRoute',
 	'ngSanitize',
 	'ngResource',
+	'ngCookies',
 	'angulartics', 
 	'angulartics.google.analytics',
 	'arachne.filters',
@@ -23,7 +24,8 @@ config(['$routeProvider', '$locationProvider', '$compileProvider', function($rou
 		.when('/', {templateUrl: 'partials/startSite.html'})
 		.when('/bookmarks', {templateUrl: 'partials/bookmarks.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
-		.when('/entity/:entityId/images', {templateUrl: 'partials/image.html'})
+		.when('/entity/:entityId/images', {templateUrl: 'partials/entity_images.html'})
+		.when('/entity/:entityId/image/:imageId', {templateUrl: 'partials/entity_image.html'})
 		.when('/search/:params?', {templateUrl: 'partials/search.html'})
 		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
 		.when('/map', {templateUrl: 'partials/map.html'})
@@ -33,7 +35,7 @@ config(['$routeProvider', '$locationProvider', '$compileProvider', function($rou
 		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
 		.when('/register', {templateUrl: 'partials/register.html'});
 }]).constant('arachneSettings', {
-		dataserviceUri : "http://" + document.location.host + "/data",
+		dataserviceUri : "http://lakota.archaeologie.uni-koeln.de/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie"]
 }).run(['$rootScope', function($rootScope) {
