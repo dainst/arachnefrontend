@@ -396,6 +396,8 @@ angular.module('arachne.services', [])
 			"Literatur": "Literatur",
 			"Orte": "Ort",
 			"Personen": "Person",
+			"Sammler":  "Sammler",
+			"Gruppierung": "Gruppierung",
 			"type_sammler": "Sammler",
 			"type_gruppierung": "Gruppierung"
 		};
