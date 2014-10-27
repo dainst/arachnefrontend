@@ -54,7 +54,7 @@ angular.module('arachne.filters', [])
 	.filter('cellsFromEntities', ['arachneSettings', function(arachneSettings) {
 		return function(entities, offset, query) {
 			for (var i in entities) {
-				entities[i].href = 'entity/' + entities[i].entityId + "?resultIndex=" + (parseInt(offset) + i);
+				entities[i].href = 'entity/' + entities[i].entityId + "?resultIndex=" + (parseInt(offset) + parseInt(i));
 				if (typeof query != 'undefined') {
 					if (typeof query.q != 'undefined' && query.q) entities[i].href += "&q=" + query.q;
 					if (typeof query.fq != 'undefined' && query.fq) entities[i].href += "&fq=" + query.fq;
