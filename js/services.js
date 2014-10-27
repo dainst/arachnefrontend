@@ -279,6 +279,7 @@ angular.module('arachne.services', [])
 						
 						if (_currentEntity.entityId == entityId) {
 							//Caching!
+							successMethod(_currentEntity);
 							return _currentEntity;
 						} else {
 							_currentEntity = arachneDataService.get({id:entityId},successMethod, catchError);

@@ -61,6 +61,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ])
 .controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', '$filter', /*'arachneSettings',*/
 	function ( arachneSearch, $scope, $route, $timeout, $filter) {
+
 		var currentTemplateURL = $route.current.templateUrl;
 
 		$scope.activeFacets = arachneSearch.getActiveFacets();
@@ -97,6 +98,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				arachneSearch.goToPage($scope.searchresults.page, view);
 			}
 		}
+		
 	}
 ])
 .controller('ContextCtrl',	['arachneEntity','$scope', '$modalInstance', 
@@ -217,7 +219,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.activeFacets = arachneSearch.getActiveFacets();
 
 
-		$scope.entity = arachneEntity.getEntityById($routeParams.id, function (){
+		arachneEntity.getEntityById($routeParams.id, function(data) {
+			$scope.entity = data;
 			document.title = $scope.entity.title + " | Arachne";	
 		});
 
@@ -349,27 +352,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity', '$modal', 'authService',
-	function($routeParams, $scope, arachneEntity, $modal, authService) {
-
-		$scope.user = authService.getUser();
-		$scope.entityId = $routeParams.entityId;
-		$scope.imageId = $routeParams.imageId;
-		$scope.entity = arachneEntity.getEntityById($routeParams.entityId, function(data) {
-			$scope.refreshImageIndex();
-		});
-		$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.imageId}, function(data) {
-			$scope.allow = true;
-		}, function(response) {
-			$scope.allow = false;
-		});
-
-		$scope.$watch("imageId", function() {
-			$scope.refreshImageIndex();
-		});
+.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity', '$modal', 'authService', 'arachneSearch', '$location',
+	function($routeParams, $scope, arachneEntity, $modal, authService, arachneSearch, $location) {
 
 		$scope.refreshImageIndex = function() {
-			if($scope.entity.images) {
+			if($scope.entity && $scope.entity.images) {
 				for (var i = 0; i < $scope.entity.images.length; i++) {
 					if ($scope.entity.images[i].imageId == $scope.imageId) {
 						$scope.imageIndex = i;
@@ -393,6 +380,23 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			}
 		};
 
+		$scope.user = authService.getUser();
+		$scope.entityId = $routeParams.entityId;
+		$scope.imageId = $routeParams.imageId;
+		arachneEntity.getEntityById($routeParams.entityId, function(data) {
+			$scope.entity = data;
+			$scope.refreshImageIndex();
+		});
+		$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.imageId}, function(data) {
+			$scope.allow = true;
+		}, function(response) {
+			$scope.allow = false;
+		});
+
+		$scope.$watch("imageId", function() {
+			$scope.refreshImageIndex();
+		});
+
 	}
 ])
 .controller('EntityImagesCtrl', ['$routeParams', '$scope', 'arachneEntity', '$filter',
@@ -400,8 +404,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
-		$scope.entity = arachneEntity.getEntityById($routeParams.entityId, function(data) {
+		arachneEntity.getEntityById($routeParams.entityId, function(data) {
 			// call to filter detached from view in order to prevent unnecessary calls
+			$scope.entity = data;
 			$scope.cells = $filter('cellsFromImages')(data.images, data.entityId);
 		});
 

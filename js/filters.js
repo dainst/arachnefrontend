@@ -71,6 +71,7 @@ angular.module('arachne.filters', [])
 			for (var i in images) {
 				images[i].href = 'entity/' + entityId + "/image/" + images[i].imageId;
 				images[i].imgUri = arachneSettings.dataserviceUri + "/image/height/" + images[i].imageId + "?height=300";
+				images[i].title = images[i].imageSubtitle;
 			}
 			return images;
 		}
