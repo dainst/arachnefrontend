@@ -112,7 +112,7 @@ angular.module('arachne.services', [])
 						return _activeFacets;
 					},
 					getCurrentQueryParameters : function () {
-						return _currentQueryParameters
+						return _currentQueryParameters;
 					},
 					getResultIndex : function () {
 						return _resultIndex;
@@ -328,7 +328,7 @@ angular.module('arachne.services', [])
 			}
 		]
 	)
-	.factory('authService', ['$http', 'arachneSettings', '$filter', '$cookieStore',
+	.factory('authService', ['$http', 'arachneSettings', '$filter', '$cookieStore', 
 		function($http, arachneSettings, $filter, $cookieStore) {
 
 			// initialize to whatever is in the cookie, if anything
@@ -375,253 +375,255 @@ angular.module('arachne.services', [])
 			};
 		return factory;
 	}])
-	.factory('NoteService', ['$resource', 'arachneSettings', '$http', '$modal', function($resource, arachneSettings, sessionService, $http, $modal){
+	.factory('NoteService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
+		function($resource, arachneSettings, $http, $modal, authService){
 
-		var catchError = function(errorReponse) {
-			if (errorReponse.status == 403) {
-				// really?
-				authService.clearCredentials();
-			};
-		};
-
-		var arachneDataService = $resource('', { }, {
-			getBookmarkInfo : {
-				url : arachneSettings.dataserviceUri + '/search',
-				isArray: false,
-				method: 'GET'
-			},
-			createBookmarksList: {
-				url :  arachneSettings.dataserviceUri + '/bookmarklist',
-				isArray: false,
-				method: 'POST',
-				headers: {'Content-Type': 'application/json'}
-			},
-			updateBookmarksList: {
-				url :  arachneSettings.dataserviceUri + '/bookmarklist/:id',
-				isArray: false,
-				method: 'POST',
-				headers: {'Content-Type': 'application/json'}
-			},
-			getBookmarksList : {
-				url: arachneSettings.dataserviceUri + '/bookmarklist/:id',
-				isArray: false,
-				method: 'GET'
-			},
-			getBookmarksLists : {
-				url : arachneSettings.dataserviceUri + '/bookmarklist',
-				isArray: true,
-				method: 'GET'
-			},
-			deleteBookmarksList: {
-				url : arachneSettings.dataserviceUri + '/bookmarklist/:id',
-				isArray: false,
-				method: 'DELETE'
-			},
-			deleteBookmark: {
-				url : arachneSettings.dataserviceUri + '/bookmark/:id',
-				isArray: false,
-				method: 'DELETE'
-			},
-			getBookmark: {
-				url: arachneSettings.dataserviceUri + '/bookmark/:id',
-				isArray: false,
-				method: 'GET'
-			},
-			updateBookmark: {
-				url: arachneSettings.dataserviceUri + '/bookmark/:id',
-				isArray: false,
-				method: 'POST',
-				headers: {'Content-Type': 'application/json'}
-			},
-			createBookmark: {
-				url :  arachneSettings.dataserviceUri + '/bookmarkList/:id/add',
-				isArray: false,
-				method: 'POST',
-				headers: {'Content-Type': 'application/json'}
-			}
-		});
-
-		return {
-			getBookmarkInfo : function(bookmarksLists, successMethod){
-				successMethod = successMethod || function () {};
-				var hash = new Object();
-				var entityIDs = new Array();
-				
-				for(var x in bookmarksLists){
-					for(var y in bookmarksLists[x].bookmarks){
-						entityIDs.push(bookmarksLists[x].bookmarks[y].arachneEntityId);					
-					}
-				}
-				//only do this if there are any bookmarks
-				if (entityIDs.length) {
-					hash.q = "entityId:(" + entityIDs.join(" OR ") + ")";
-					return arachneDataService.getBookmarkInfo(hash, successMethod, catchError);
+			var catchError = function(errorReponse) {
+				if (errorReponse.status == 403) {
+					// really?
+					authService.clearCredentials();
 				};
-			},
-			queryBookmarListsForEntityId : function(entityID){
-				//suche Bookmarks für die Entity ID in dem alle anderen rausgeschmissen werden
-				return arachneDataService.getBookmarksLists({}, function(lists){
-					for(var listIndex = lists.length-1; listIndex >= 0 ; listIndex--) {
-						for(var bookmarkIndex = lists[listIndex].bookmarks.length-1; bookmarkIndex >= 0 ; bookmarkIndex--) {
-							if(lists[listIndex].bookmarks[bookmarkIndex].arachneEntityId != entityID) {
-							 	lists[listIndex].bookmarks.splice(bookmarkIndex,1);
-							 }
+			};
+
+			var arachneDataService = $resource('', { }, {
+				getBookmarkInfo : {
+					url : arachneSettings.dataserviceUri + '/search',
+					isArray: false,
+					method: 'GET'
+				},
+				createBookmarksList: {
+					url :  arachneSettings.dataserviceUri + '/bookmarklist',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				},
+				updateBookmarksList: {
+					url :  arachneSettings.dataserviceUri + '/bookmarklist/:id',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				},
+				getBookmarksList : {
+					url: arachneSettings.dataserviceUri + '/bookmarklist/:id',
+					isArray: false,
+					method: 'GET'
+				},
+				getBookmarksLists : {
+					url : arachneSettings.dataserviceUri + '/bookmarklist',
+					isArray: true,
+					method: 'GET'
+				},
+				deleteBookmarksList: {
+					url : arachneSettings.dataserviceUri + '/bookmarklist/:id',
+					isArray: false,
+					method: 'DELETE'
+				},
+				deleteBookmark: {
+					url : arachneSettings.dataserviceUri + '/bookmark/:id',
+					isArray: false,
+					method: 'DELETE'
+				},
+				getBookmark: {
+					url: arachneSettings.dataserviceUri + '/bookmark/:id',
+					isArray: false,
+					method: 'GET'
+				},
+				updateBookmark: {
+					url: arachneSettings.dataserviceUri + '/bookmark/:id',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				},
+				createBookmark: {
+					url :  arachneSettings.dataserviceUri + '/bookmarkList/:id/add',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				}
+			});
+
+			return {
+				getBookmarkInfo : function(bookmarksLists, successMethod){
+					successMethod = successMethod || function () {};
+					var hash = new Object();
+					var entityIDs = new Array();
+					
+					for(var x in bookmarksLists){
+						for(var y in bookmarksLists[x].bookmarks){
+							entityIDs.push(bookmarksLists[x].bookmarks[y].arachneEntityId);					
 						}
 					}
-				}, catchError);
-
-				
-			},
-			getBookmarksList : function(id, successMethod, errorMethod){
-				return arachneDataService.getBookmarksList({ "id": id}, successMethod,errorMethod);
-			},
-			getBookmarksLists : function(successMethod){
-				successMethod = successMethod || function () {};
-				return arachneDataService.getBookmarksLists({},successMethod, catchError);
-			},
-			createBookmarksList : function(successMethod, errorMethod) {
-				var modalInstance = $modal.open({
-					templateUrl: 'partials/Modals/createBookmarksList.html'
-				});	
-
-				modalInstance.close = function(name, commentary){
-					commentary = typeof commentary !== 'undefined' ? commentary : "";
-					if(name == undefined || name == "") {
-						alert("Bitte Titel eintragen.")							
-					} else {
-						modalInstance.dismiss();
-						var list = {
-							'name' : name,
-							'commentary' : commentary,
-							'bookmarks' : []
-						}
-						return arachneDataService.createBookmarksList(list, successMethod, errorMethod);
-					}
-				}
-			},
-			deleteBookmarksList : function(id, successMethod, errorMethod){
-				var id = id;			
-				var modalInstance = $modal.open({
-					templateUrl: 'partials/Modals/deleteBookmarksList.html'
-				});	
-				modalInstance.close = function(){
-					modalInstance.dismiss();
-					return arachneDataService.deleteBookmarksList({ "id": id}, successMethod,errorMethod);
-				}
-			},
-			updateBookmarksList : function (bookmarksList, successMethod, errorMethod) {
-				var modalInstance = $modal.open({
-					templateUrl: 'partials/Modals/editBookmarksList.html',
-					controller : function ($scope) { $scope.bookmarksList = bookmarksList },
-					resolve: {
-				        'bookmarksList': function () {
-				            return bookmarksList;
-				        }
-					}
-				});
-
-				modalInstance.close = function(name,commentary){
-					if(bookmarksList.name == undefined || bookmarksList.name == ""){
-						alert("Bitte Titel eintragen.");						
-					} else {
-						modalInstance.dismiss();
-						return arachneDataService.updateBookmarksList({"id":bookmarksList.id}, bookmarksList, successMethod, errorMethod);
-					}
-				}
-			},
-			deleteBookmark : function(id, successMethod){
-				successMethod = successMethod || function () {};
-				return arachneDataService.deleteBookmark({ "id": id}, successMethod, catchError);
-			},
-			getBookmark : function(id, successMethod, errorMethod){
-				return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
-			},
-			updateBookmark: function(bookmark, successMethod, errorMethod) {	
-				var modalInstance = $modal.open({
-					templateUrl: 'partials/Modals/updateBookmarkModal.html',
-					controller: function ($scope) { $scope.bookmark = bookmark },
-					resolve: {
-				        'bookmark': function () {
-				            return bookmark;
-				        }
-					}
-				});
-
-				modalInstance.close = function(commentary){
-					if(commentary == undefined || commentary == ""){
-						alert("Kommentar setzen!")
-					} else {
-						modalInstance.dismiss();
-						// Achtung, im bookmark-Objekt sind noch Attribute, wie title oder thumbnailId hinzugefügt worden.
-						// Hier duerfen aber nur die drei attribute id, arachneEntityId, commenatry übergeben werden, sonst nimmt es das Backend nicht an
-						return arachneDataService.updateBookmark(
-							{"id":bookmark.id},
-							{"id":bookmark.id, "arachneEntityId":bookmark.arachneEntityId, "commentary": commentary},
-							successMethod,
-							errorMethod
-						);
-					}
-				}
-			},
-			createBookmark : function(rid, successMethod, errorMethod) {
-				arachneDataService.getBookmarksLists(
-					function(data){
-						if(data.length == 0){
-							var modalInstance = $modal.open({
-								templateUrl: 'partials/Modals/createBookmarksList.html'
-							});	
-
-							modalInstance.close = function(name, commentary){
-								commentary = typeof commentary !== 'undefined' ? commentary : "";
-								if(name == undefined || name == "") {
-									alert("Bitte Titel eintragen.")							
-								} else {
-									modalInstance.dismiss();
-									var list = new Object();
-									list.name = name;
-									list.commentary = commentary;
-									list.bookmarks = [];
-									arachneDataService.createBookmarksList(list,
-										function(data){
-											var modalInstance = $modal.open({
-												templateUrl: 'partials/Modals/createBookmark.html',
-												controller: 'createBookmarkCtrl'
-							      			});
-
-							      			modalInstance.result.then(function (selectedList) { 
-							      				if(selectedList.commentary == undefined || selectedList.commentary == "")
-							      					selectedList.commentary = "no comment set";
-
-							      				var bm = {
-													arachneEntityId : rid,
-													commentary : selectedList.commentary
-												}
-												return arachneDataService.createBookmark({"id": selectedList.item.id}, bm, successMethod,errorMethod);
-							      			});
-										});
-								}
+					//only do this if there are any bookmarks
+					if (entityIDs.length) {
+						hash.q = "entityId:(" + entityIDs.join(" OR ") + ")";
+						return arachneDataService.getBookmarkInfo(hash, successMethod, catchError);
+					};
+				},
+				queryBookmarListsForEntityId : function(entityID){
+					//suche Bookmarks für die Entity ID in dem alle anderen rausgeschmissen werden
+					return arachneDataService.getBookmarksLists({}, function(lists){
+						for(var listIndex = lists.length-1; listIndex >= 0 ; listIndex--) {
+							for(var bookmarkIndex = lists[listIndex].bookmarks.length-1; bookmarkIndex >= 0 ; bookmarkIndex--) {
+								if(lists[listIndex].bookmarks[bookmarkIndex].arachneEntityId != entityID) {
+								 	lists[listIndex].bookmarks.splice(bookmarkIndex,1);
+								 }
 							}
 						}
-						
-						if(data.length >= 1){
-							var modalInstance = $modal.open({
-								templateUrl: 'partials/Modals/createBookmark.html',
-								controller: 'createBookmarkCtrl'
-			      			});
+					}, catchError);
 
-			      			modalInstance.result.then(function (selectedList) { 
-			      				if(selectedList.commentary == undefined || selectedList.commentary == "")
-			      					selectedList.commentary = "no comment set";
+					
+				},
+				getBookmarksList : function(id, successMethod, errorMethod){
+					return arachneDataService.getBookmarksList({ "id": id}, successMethod,errorMethod);
+				},
+				getBookmarksLists : function(successMethod){
+					successMethod = successMethod || function () {};
+					return arachneDataService.getBookmarksLists({},successMethod, catchError);
+				},
+				createBookmarksList : function(successMethod, errorMethod) {
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/createBookmarksList.html'
+					});	
 
-			      				var bm = {
-									arachneEntityId : rid,
-									commentary : selectedList.commentary
-								}
-								return arachneDataService.createBookmark({"id": selectedList.item.id}, bm, successMethod,errorMethod);
-			      			});
-			      		}
+					modalInstance.close = function(name, commentary){
+						commentary = typeof commentary !== 'undefined' ? commentary : "";
+						if(name == undefined || name == "") {
+							alert("Bitte Titel eintragen.")							
+						} else {
+							modalInstance.dismiss();
+							var list = {
+								'name' : name,
+								'commentary' : commentary,
+								'bookmarks' : []
+							}
+							return arachneDataService.createBookmarksList(list, successMethod, errorMethod);
+						}
 					}
-				);				
+				},
+				deleteBookmarksList : function(id, successMethod, errorMethod){
+					var id = id;			
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/deleteBookmarksList.html'
+					});	
+					modalInstance.close = function(){
+						modalInstance.dismiss();
+						return arachneDataService.deleteBookmarksList({ "id": id}, successMethod,errorMethod);
+					}
+				},
+				updateBookmarksList : function (bookmarksList, successMethod, errorMethod) {
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/editBookmarksList.html',
+						controller : function ($scope) { $scope.bookmarksList = bookmarksList },
+						resolve: {
+					        'bookmarksList': function () {
+					            return bookmarksList;
+					        }
+						}
+					});
+
+					modalInstance.close = function(name,commentary){
+						if(bookmarksList.name == undefined || bookmarksList.name == ""){
+							alert("Bitte Titel eintragen.");						
+						} else {
+							modalInstance.dismiss();
+							return arachneDataService.updateBookmarksList({"id":bookmarksList.id}, bookmarksList, successMethod, errorMethod);
+						}
+					}
+				},
+				deleteBookmark : function(id, successMethod){
+					successMethod = successMethod || function () {};
+					return arachneDataService.deleteBookmark({ "id": id}, successMethod, catchError);
+				},
+				getBookmark : function(id, successMethod, errorMethod){
+					return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
+				},
+				updateBookmark: function(bookmark, successMethod, errorMethod) {	
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/updateBookmarkModal.html',
+						controller: function ($scope) { $scope.bookmark = bookmark },
+						resolve: {
+					        'bookmark': function () {
+					            return bookmark;
+					        }
+						}
+					});
+
+					modalInstance.close = function(commentary){
+						if(commentary == undefined || commentary == ""){
+							alert("Kommentar setzen!")
+						} else {
+							modalInstance.dismiss();
+							// Achtung, im bookmark-Objekt sind noch Attribute, wie title oder thumbnailId hinzugefügt worden.
+							// Hier duerfen aber nur die drei attribute id, arachneEntityId, commenatry übergeben werden, sonst nimmt es das Backend nicht an
+							return arachneDataService.updateBookmark(
+								{"id":bookmark.id},
+								{"id":bookmark.id, "arachneEntityId":bookmark.arachneEntityId, "commentary": commentary},
+								successMethod,
+								errorMethod
+							);
+						}
+					}
+				},
+				createBookmark : function(rid, successMethod, errorMethod) {
+					arachneDataService.getBookmarksLists(
+						function(data){
+							if(data.length == 0){
+								var modalInstance = $modal.open({
+									templateUrl: 'partials/Modals/createBookmarksList.html'
+								});	
+
+								modalInstance.close = function(name, commentary){
+									commentary = typeof commentary !== 'undefined' ? commentary : "";
+									if(name == undefined || name == "") {
+										alert("Bitte Titel eintragen.")							
+									} else {
+										modalInstance.dismiss();
+										var list = new Object();
+										list.name = name;
+										list.commentary = commentary;
+										list.bookmarks = [];
+										arachneDataService.createBookmarksList(list,
+											function(data){
+												var modalInstance = $modal.open({
+													templateUrl: 'partials/Modals/createBookmark.html',
+													controller: 'createBookmarkCtrl'
+								      			});
+
+								      			modalInstance.result.then(function (selectedList) { 
+								      				if(selectedList.commentary == undefined || selectedList.commentary == "")
+								      					selectedList.commentary = "no comment set";
+
+								      				var bm = {
+														arachneEntityId : rid,
+														commentary : selectedList.commentary
+													}
+													return arachneDataService.createBookmark({"id": selectedList.item.id}, bm, successMethod,errorMethod);
+								      			});
+											});
+									}
+								}
+							}
+							
+							if(data.length >= 1){
+								var modalInstance = $modal.open({
+									templateUrl: 'partials/Modals/createBookmark.html',
+									controller: 'createBookmarkCtrl'
+				      			});
+
+				      			modalInstance.result.then(function (selectedList) { 
+				      				if(selectedList.commentary == undefined || selectedList.commentary == "")
+				      					selectedList.commentary = "no comment set";
+
+				      				var bm = {
+										arachneEntityId : rid,
+										commentary : selectedList.commentary
+									}
+									return arachneDataService.createBookmark({"id": selectedList.item.id}, bm, successMethod,errorMethod);
+				      			});
+				      		}
+						}
+					);				
+				}
 			}
 		}
-	}]);
+	]);
