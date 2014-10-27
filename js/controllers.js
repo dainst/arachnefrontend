@@ -57,7 +57,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$modalInstance.dismiss();
 		};
 	}])
-.controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', '$filter','singularService', /*'arachneSettings',*/
+	.controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', '$filter','singularService', /*'arachneSettings',*/
 	function ( arachneSearch, $scope, $route, $timeout, $filter, singularService) {
 
 		var currentTemplateURL = $route.current.templateUrl;
