@@ -59,8 +59,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}])
 .controller('SearchCtrl',
-	['arachneSearch', '$scope', '$route', '$timeout', /*'arachneSettings',*/
-	function ( arachneSearch, $scope, $route, $timeout) {
+	['arachneSearch', '$scope', '$route', '$timeout', 'singularService', /*'arachneSettings',*/
+	function ( arachneSearch, $scope, $route, $timeout, singularService) {
 		var currentTemplateURL = $route.current.templateUrl;
 
 		$scope.activeFacets = arachneSearch.getActiveFacets();
@@ -76,6 +76,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.removeFacet = function (facet) {
 			arachneSearch.removeFacet(facet);
 		}
+		$scope.singular = singularService.getSingular();
+
 
 		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
 			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();

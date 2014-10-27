@@ -110,10 +110,10 @@
 					</tr>	
 					<tr ng-repeat="entity in searchresults.entities" class="small"	>
 						<td class="col-md-1">{{entity.entityId}}</td>
-						<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="addFacet('facet_kategorie', entity.type)">{{entity.type}}</td>
+						<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="addFacet('facet_kategorie', entity.type)"> {{singular[entity.type]}}</td>
 						<td class="col-md-8"><b><a href="entity/{{entity.entityId}}" ng-click="setResultIndex(offset + $index)">
 							<div ng-if="entity.title==''">
-								{{entity.type}} hat kein Titel.
+								"({{singular[entity.type]}} hat keinen Titel)"
 							</div>
 							<div ng-if="entity.title!=''">
 								{{entity.title}}
