@@ -59,8 +59,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
-.controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', /*'arachneSettings',*/
-	function ( arachneSearch, $scope, $route, $timeout) {
+.controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', '$filter', /*'arachneSettings',*/
+	function ( arachneSearch, $scope, $route, $timeout, $filter) {
 		var currentTemplateURL = $route.current.templateUrl;
 
 		$scope.activeFacets = arachneSearch.getActiveFacets();
@@ -82,6 +82,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		} else {
 			arachneSearch.persistentSearch(false, function(data) {
 				$scope.searchresults = data;
+				$scope.cells = $filter('cellsFromEntities')(data.entities,data.offset,$scope.currentQueryParameters);
 			}, function(response) {
 				$scope.searchresults = {size: 0};
 				$scope.error = true;
@@ -394,12 +395,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'arachneEntity',
-	function($routeParams, $scope, arachneEntity) {
+.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'arachneEntity', '$filter',
+	function($routeParams, $scope, arachneEntity, $filter) {
 
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
-		$scope.entity = arachneEntity.getEntityById($routeParams.entityId);
+		$scope.entity = arachneEntity.getEntityById($routeParams.entityId, function(data) {
+			// call to filter detached from view in order to prevent unnecessary calls
+			$scope.cells = $filter('cellsFromImages')(data.images, data.entityId);
+		});
 
 	}
 ])
