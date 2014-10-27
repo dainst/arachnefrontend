@@ -88,6 +88,7 @@ angular.module('arachne.directives', [])
 
 					for (var i=0; i < row.length; i++) {
 						imagesWidth += row[i].img.naturalWidth;
+						console.log("natural: ", row[i].img.naturalWidth, " x ", row[i].img.naturalHeight);
 					}
 
 					var columns = scope.columns;
@@ -106,16 +107,18 @@ angular.module('arachne.directives', [])
 						} else {
 							row[i].imgWidth = row[i].width;
 						}
-						var height = row[i].img.naturalHeight * scalingFactor;
+						var height;
+						if (scalingFactor > 1) {
+							height = row[i].img.naturalHeight;
+						} else {
+							height = row[i].img.naturalHeight * scalingFactor;
+						}
 						if (height > maxHeight) maxHeight = height;
 					}
 
 					for (var i=0; i < row.length; i++) {
-						if (scalingFactor > 1) {
-							row[i].height = row[i].img.naturalHeight;
-						} else {
-							row[i].height = maxHeight;
-						}
+						row[i].height = maxHeight;
+						console.log("calculated: ", row[i].imgWidth, " x ", row[i].height);
 					}
 
 				};
