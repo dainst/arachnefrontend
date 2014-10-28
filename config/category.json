@@ -72,7 +72,7 @@
 		},
 		 {
 		 	"imgUri": "img/categories/mehrteiligdenk.jpeg",
-			"title" : "Mehrteilige-Denkmäler",
+			"title" : "Mehrteilige Denkmäler",
 			"subtitle" :"Alle Arten von Konfigurationen, die keine Gebäude sind: also antike Statuengruppen, nachantike Pasticci, Giebelkopmpositionen, modern getrennte Skulpturen, aber auch Fundgruppen oder Hortfunde; Sarkophage ; Bestattung/Grabinventar. Ferner Sammelaufnahmen mit vielen Kleinfunden, die nicht einzeln als Einzelobjekte angelegt wurden.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Mehrteilige Denkmäler\"&fl=1500"
 		},
