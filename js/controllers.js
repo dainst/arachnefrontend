@@ -113,6 +113,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.removeContextFacet = function (facet){
 			$scope.searchresults = arachneEntity.getContextualQueryByRemovingFacet(facet);
 		}
+		$scope.$on("$locationChangeSuccess", function(event) {
+			$modalInstance.close();
+		});
 	}
 ])
 .controller('EntityCtrl', ['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'authService', 'singularService',
