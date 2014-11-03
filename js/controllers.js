@@ -375,6 +375,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ])
 .controller('AllCategoriesController', ['$scope', '$http',
 	function ($scope, $http) {
+
 		$http.get('config/category.json').success (function(data){
             $scope.category = data; 
         });
