@@ -54,7 +54,7 @@
 									ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
 						    	<input ng-model="resultIndexInput"
 						    			type="number" size="4"
-						    			style="width:50%" class="form-control input-sm">
+						    			min="1" max="{{resultSize}}" class="form-control input-sm">
 						    	<span class="input-group-btn" style="display:block">
 						    		<button ng-disabled="resultIndexInput < 1 || resultIndexInput > resultSize"
 						    				type="submit" class="btn btn-default btn-sm" type="button">
