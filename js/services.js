@@ -19,7 +19,6 @@ angular.module('arachne.services', [])
 				if (Object.keys($location.search()).length > 0) {
 					var newQuery = Query.fromSearch($location.search());
 					if (!angular.equals(newQuery.toFlatObject(),_currentQuery.toFlatObject())) {
-						console.log("new query");
 						_result = { entities: [] };
 					}
 					_currentQuery = newQuery;
@@ -209,7 +208,7 @@ angular.module('arachne.services', [])
 							var facetString = facetName + ":\"" + this.facets[facetName] + "\"";
 							object.fq.push(facetString);
 						}
-					} else if (['q'].indexOf(key) != -1) {
+					} else if (['q','fl'].indexOf(key) != -1) {
 						object[key] = this[key];
 					}
 				}

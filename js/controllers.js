@@ -189,7 +189,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 
+.controller('CreateBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 
 	function($scope, $modalInstance, noteService) {
 	
 		$scope.items = [];
@@ -215,7 +215,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 'bookmark',
+.controller('UpdateBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 'bookmark',
 	function($scope, $modalInstance, noteService, bookmark) {
 	  $scope.bookmark = bookmark;
 	}
@@ -371,25 +371,21 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.entityCount = data.entityCount;
 		});
 
-		this.loadNews = function(){
-			if($scope.newsList == null)
-				newsFactory.getNews().success(function(data) { $scope.newsList = data;})
-		}
 	}
 ])
-.controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
-	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
+.controller('AllCategoriesController', ['$scope', '$http',
+	function ($scope, arachneSearch, $location, $anchorScroll, $http) {
 		$http.get('config/category.json').success (function(data){
             $scope.category = data; 
         });
 	}
 ])
-.controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal',
+.controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal', 'arachneSettings',
 	function ($scope, $location, $http, $modal) {
 		this.showInfo = function () {
 		
 			if(!$scope.metainfos) {
-				$http.get("http://" + document.location.host + "/data/model/" + $location.search().id + "?meta=true" ).success (function(data){
+				$http.get(arachneSettings.dataserviceUri + "/model/" + $location.search().id + "?meta=true" ).success (function(data){
 					$scope.metainfos = data;
 				});
 			}

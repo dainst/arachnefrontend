@@ -1,21 +1,26 @@
 <div ng-controller="SearchCtrl as searchCtrl">
 	<div class="row fullscreenrow">
-		<div ng-hide="searchresults.markers" class="loading"></div>
+		<div ng-hide="resultSize" class="loading"></div>
 
-        <div ng-if="searchresults.size" locationfacetname="locationfacetname"  searchresults="searchresults" class="col-md-12 halfscreenMap" map id="map"></div>
+        <div map ng-if="resultSize"
+        		locationfacetname="locationfacetname"
+        		facets="facets"
+        		current-query="currentQuery"
+        		class="col-md-12 halfscreenMap" id="map"></div>
 
 	</div>
-	<div class="row" ng-show="searchresults.facets">
+	<div class="row" ng-show="facets">
 		<div class="col-md-6 col-md-offset-1">
 			<div class="page-header">
-				<h2 ng-repeat="facet in activeFacets" ng-if="facet.name == 'facet_kategorie'" class="capitalized">{{ facet.value }} <small> Arachne-Kategorie</small></h2>
-
+				<h2 ng-show="currentQuery.facets.facet_kategorie">{{ currentQuery.facets.facet_kategorie }}</h2>
+				<h2 ng-hide="currentQuery.facets.facet_kategorie">Alle Datensätze in Arachne</h2>
 			</div>
 			
 			<accordion class="accordion-with-list" close-others="oneAtATime">
-				<accordion-group heading="{{facet.name | i18n }}" ng-repeat="facet in searchresults.facets" >
-					<a class="list-group-item"  ng-click="addFacet(facet.name, facetValue.value)"
-							ng-repeat="facetValue in facet.values">
+				<accordion-group heading="{{facet.name | i18n }}" ng-repeat="facet in facets" >
+					<a ng-repeat="facetValue in facet.values"
+							ng-href="category/{{currentQuery.addFacet(facet.name,facetValue.value).toString()}}"
+							class="list-group-item">
 						<span class="badge">{{facetValue.count}}</span>
 						{{facetValue.value}}
 					</a>
@@ -37,11 +42,11 @@
 				</div>
 			<hr>
 
-			<div ar-active-facets></div>
+			<div ar-active-facets route="category" current-query="currentQuery"></div>
 
 			<hr>
 			<h4 class="pull-left">Ergebnisse in Arachne</h4>
-			<h2 class="pull-right">{{searchresults.size}}</h2>
+			<h2 class="pull-right">{{resultSize}}</h2>
 				
 			
 		</div>
