@@ -224,7 +224,8 @@ angular.module('arachne.services', [])
 				if (key == 'fq') {
 					if (angular.isString(search['fq'])) {
 						var facet = search['fq'].split(':');
-						newQuery.facets[facet[0]] = facet[1].substr(1,facet[1].length-2);
+						if (facet.length == 2)
+							newQuery.facets[facet[0]] = facet[1].substr(1,facet[1].length-2);
 					} else if (angular.isArray(search['fq'])) {
 						search['fq'].forEach(function(facetString) {
 							var facet = facetString.split(':');
