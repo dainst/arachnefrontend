@@ -15,7 +15,7 @@
 		},
 		{
 			"imgUri": "img/categories/objekte_sw.jpg",
-			"title" : "Objekte",
+			"title" : "Einzelobjekte",
 			"subtitle" :"Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Einzelobjekte\"&fl=1500"
 		},
