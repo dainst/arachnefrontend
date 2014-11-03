@@ -68,30 +68,35 @@
 
 	<!-- Rechte Spalte -->
 	<div ng-if="resultSize"
-			ng-switch="listStyle"
+			ng-switch="currentQuery.view"
 			class="col-md-10 col-sm-9">
 		
 		<div align="center" class="row">
 			<div class="col-md-12">
 				<div class="btn-group ">
-					<button class="btn btn-sm btn-startsite-tab" ng-click="listStyle = 'tiles'; currentQueryParameters.view='tiles'; onSelectPage('tiles')"
-							ng-class="{ 'active': listStyle == 'tiles' }">
+					<a ng-href="search/{{currentQuery.removeParam('view').toString()}}"
+							class="btn btn-sm btn-startsite-tab" style="color:#333;"
+							ng-class="{ 'active': !currentQuery.view}">
 						<span class="glyphicon glyphicon-picture"></span>
 						Kacheln
-					</button>
-					<button class="btn btn-sm btn-startsite-tab" ng-click="listStyle = 'list'; currentQueryParameters.view='list'; onSelectPage('list')"
-							ng-class="{ 'active': listStyle == 'list' }">
+					</a>
+					<a ng-href="search/{{currentQuery.setParam('view','list').toString()}}"
+							 class="btn btn-sm btn-startsite-tab" style="color:#333;"
+							ng-class="{ 'active': currentQuery.view == 'list' }">
 						<span class="glyphicon glyphicon-align-justify"></span>
 						Liste
-					</button>
+					</a>
+					<!-- vorerst ausgeblendet
 					<a href="map/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}&fl=2000"
 							class="btn btn-sm btn-startsite-tab" style="color:#333;" ng-class="{ 'active': listStyle == 'map' }">
 						<span class="glyphicon glyphicon-map-marker"></span>
 						Karte (Geo-Ergebnisse)
 					</a>
+					-->
 				</div>
 			</div>
 		</div>
+
 		<p align="center" ng-show="resultSize">
 			<pagination ng-model="$parent.currentPage"
 					total-items="resultSize"
@@ -109,15 +114,6 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				
-				<!-- Griddarstellung -->
-				<div ar-imagegrid
-					cells="cells"
-					columns="5"
-					margin="4"
-					ng-switch-default="tiles">
-					
-				</div>
 
 				<!-- Listendarstellung -->
 				<div ng-switch-when="list">
@@ -149,9 +145,32 @@
 					<div ng-hide="searchresults.markers" class="loading"></div>
 					<div ng-if="searchresults.markers" class="col-md-12" map id="map"></div>
 				</div>
+				
+				<!-- Griddarstellung -->
+				<div ar-imagegrid
+					cells="cells"
+					columns="5"
+					margin="4"
+					ng-switch-default="tiles">					
+				</div>
 
 			</div>
 		</div>
+
+		<p align="center" ng-show="resultSize">
+			<pagination ng-model="$parent.currentPage"
+					total-items="resultSize"
+					items-per-page="currentQuery.limit"
+					max-size="6"
+					previous-text="zurück"
+					next-text="weiter"
+					boundary-links="true"
+					first-text="&laquo;"
+					last-text="&raquo;"
+					ng-change="onSelectPage()"
+					num-pages="numPages">
+			</pagination>
+		</p>
 		
 	</div>
 
