@@ -374,14 +374,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 ])
 .controller('AllCategoriesController', ['$scope', '$http',
-	function ($scope, arachneSearch, $location, $anchorScroll, $http) {
+	function ($scope, $http) {
 		$http.get('config/category.json').success (function(data){
             $scope.category = data; 
         });
 	}
 ])
 .controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal', 'arachneSettings',
-	function ($scope, $location, $http, $modal) {
+	function ($scope, $location, $http, $modal, arachneSettings) {
 		this.showInfo = function () {
 		
 			if(!$scope.metainfos) {
