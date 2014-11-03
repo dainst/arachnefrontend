@@ -59,7 +59,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
-.controller('SearchController', ['$scope','searchService','singularService', '$filter', 'arachneSettings', '$location',
+.controller('SearchCtrl', ['$scope','searchService','singularService', '$filter', 'arachneSettings', '$location',
 	function($scope, searchService, singularService, $filter, arachneSettings, $location){
 
 		$scope.singular = singularService.getSingular();
@@ -96,67 +96,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', '$filter','singularService', /*'arachneSettings',*/
-	function ( arachneSearch, $scope, $route, $timeout, $filter, singularService) {
-
-		var currentTemplateURL = $route.current.templateUrl;
-
-		$scope.activeFacets = arachneSearch.getActiveFacets();
-		$scope.currentQueryParameters = arachneSearch.getCurrentQueryParameters();
-		$scope.listStyle = 'tiles';
-		if($scope.currentQueryParameters.view)
-			$scope.listStyle = $scope.currentQueryParameters.view;
-
-		$scope.addFacet = function (facetName, facetValue) {
-			arachneSearch.addFacet(facetName, facetValue);	
-		}
-
-		$scope.removeFacet = function (facet) {
-			arachneSearch.removeFacet(facet);
-		}
-		$scope.singular = singularService.getSingular();
-
-
-		if (currentTemplateURL == 'partials/category.html' || currentTemplateURL == 'partials/map.html') {
-			$scope.searchresults = arachneSearch.persistentSearchWithMarkers();
-		} else {
-			arachneSearch.persistentSearch(false, function(data) {
-				$scope.searchresults = data;
-				$scope.cells = $filter('cellsFromEntities')(data.entities,data.offset,$scope.currentQueryParameters);
-			}, function(response) {
-				$scope.searchresults = {size: 0};
-				$scope.error = true;
-			});
-
-			document.title = "Suche: " + $scope.currentQueryParameters.q.replace(/\+/g,' ') + " | Arachne";
-
-			$scope.setResultIndex = function (resultIndex) {
-				arachneSearch.setResultIndex(resultIndex);
-			}
-			$scope.onSelectPage = function (view) {				
-				arachneSearch.goToPage($scope.searchresults.page, view);
-			}
-		}
-		
-	}
-])
-.controller('ContextCtrl',	['arachneEntity','$scope', '$modalInstance', 
-	function (arachneEntity, $scope, $modalInstance) {
-		$scope.activeContextFacets = arachneEntity.getActiveContextFacets();
-		$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet('facet_kategorie', $scope.categoryFacetValueForContext.value);
-		$scope.addFacetToContext = function (facetName, facetValue){
-			$scope.searchresults = arachneEntity.getContextualQueryByAddingFacet(facetName, facetValue);
-		}
-		$scope.removeContextFacet = function (facet){
-			$scope.searchresults = arachneEntity.getContextualQueryByRemovingFacet(facet);
-		}
-		$scope.$on("$locationChangeSuccess", function(event) {
-			$modalInstance.close();
-		});
-	}
-])
-.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'arachneEntity', 'Entity', '$location','arachneSettings', 'NoteService', 'authService', 'singularService',
-	function ( $routeParams, searchService, $scope, $modal, arachneEntity, Entity, $location, arachneSettings, NoteService, authService, singularService ) {
+.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'singularService',
+	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, singularService ) {
 		
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
@@ -169,24 +110,24 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		};
 
 		$scope.queryBookmarListsForEntityId = function(){
-			$scope.bookmarklists = NoteService.queryBookmarListsForEntityId($routeParams.id);
+			$scope.bookmarklists = noteService.queryBookmarListsForEntityId($routeParams.id);
 		}
 
 		$scope.updateBookmark = function(bookmark){
-			NoteService.updateBookmark(bookmark, function(data){
+			noteService.updateBookmark(bookmark, function(data){
 				$scope.queryBookmarListsForEntityId();
 			});					
 		}
 
 		$scope.deleteBookmark = function(bookmarkId){
-			NoteService.deleteBookmark(bookmarkId,
+			noteService.deleteBookmark(bookmarkId,
 			function(data){
 				$scope.queryBookmarListsForEntityId();
 			});	
 		}
 
 		$scope.createBookmark = function(){
-			NoteService.createBookmark($routeParams.id, function(data){
+			noteService.createBookmark($routeParams.id, function(data){
 				$scope.queryBookmarListsForEntityId();
 			});			
 		}
@@ -248,8 +189,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', 
-	function($scope, $modalInstance, NoteService) {
+.controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 
+	function($scope, $modalInstance, noteService) {
 	
 		$scope.items = [];
 		$scope.hasBookmarkList = false;
@@ -257,7 +198,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.selected.commentary = "";
 		$scope.bookmarkError = 0;
 
-		NoteService.getBookmarksLists(
+		noteService.getBookmarksLists(
 			function(data){
 				//console.log("habe die Liste!");
 				$scope.bookmarkError = 0;
@@ -274,20 +215,20 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', 'bookmark',
-	function($scope, $modalInstance, NoteService, bookmark) {
+.controller('updateBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 'bookmark',
+	function($scope, $modalInstance, noteService, bookmark) {
 	  $scope.bookmark = bookmark;
 	}
 ])
-.controller('BookmarksController',[ '$scope', '$modal', 'arachneEntity', 'authService', 'NoteService','arachneSettings',
-	function ($scope, $modal, arachneEntity, authService, NoteService, arachneSettings){
+.controller('BookmarksController',[ '$scope', '$modal', 'authService', 'noteService','arachneSettings',
+	function ($scope, $modal, authService, noteService, arachneSettings){
 
 		$scope.bookmarksLists = [];
 		$scope.user = authService.getUser();
 		$scope.dataserviceUri = arachneSettings.dataserviceUri;
 
 		$scope.getBookmarkInfo = function(){
-			NoteService.getBookmarkInfo($scope.bookmarksLists,
+			noteService.getBookmarkInfo($scope.bookmarksLists,
 				function(data){
 					for(var x in $scope.bookmarksLists){						//durchlaue Bookmarks
 						for(var y in $scope.bookmarksLists[x].bookmarks){
@@ -306,7 +247,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.refreshBookmarkLists = function(){
-			$scope.bookmarksLists = NoteService.getBookmarksLists(
+			$scope.bookmarksLists = noteService.getBookmarksLists(
 				function(){ $scope.getBookmarkInfo(); }
 			);
 		}
@@ -314,30 +255,30 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.refreshBookmarkLists();
 		
 		$scope.deleteBookmark = function(bookmark){
-			NoteService.deleteBookmark(bookmark.id,
+			noteService.deleteBookmark(bookmark.id,
 				function(data){
 					$scope.refreshBookmarkLists();
 				});
 		}
 
 		$scope.updateBookmark = function(bookmark){
-			NoteService.updateBookmark(bookmark, function(data){
+			noteService.updateBookmark(bookmark, function(data){
 				$scope.refreshBookmarkLists();
 			});
 		}
 
 		$scope.updateBookmarksList = function(listId){
 			var bookmarksList;
-			NoteService.getBookmarksList(listId, function(data){
+			noteService.getBookmarksList(listId, function(data){
 				bookmarksList = data;
-				NoteService.updateBookmarksList(bookmarksList, function(data){
+				noteService.updateBookmarksList(bookmarksList, function(data){
 					$scope.refreshBookmarkLists();
 				});
 			});
 		}
 
 		$scope.createBookmarksList = function(){
-			$scope.bookmarksLists.push(NoteService.createBookmarksList(
+			$scope.bookmarksLists.push(noteService.createBookmarksList(
 				function(response){
 					// console.log("creating BookmarksList" + response);
 					$scope.refreshBookmarkLists();
@@ -345,7 +286,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.deleteBookmarksList = function(id){
-			NoteService.deleteBookmarksList(id,
+			noteService.deleteBookmarksList(id,
 				function(data){
 					// console.log("deleted List" + data);
 					$scope.refreshBookmarkLists();
@@ -355,8 +296,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity', '$modal', 'authService', 'searchService', '$location',
-	function($routeParams, $scope, arachneEntity, $modal, authService, searchService, $location) {
+.controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location',
+	function($routeParams, $scope, $modal, Entity, authService, searchService, $location) {
 
 		$scope.refreshImageIndex = function() {
 			if($scope.entity && $scope.entity.images) {
@@ -387,13 +328,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
-		arachneEntity.getEntityById($routeParams.entityId, function(data) {
+		Entity.get({id:$routeParams.entityId}, function(data) {
 			$scope.entity = data;
 			$scope.refreshImageIndex();
 		});
-		$scope.imageProperties = arachneEntity.getImageProperties({id: $scope.imageId}, function(data) {
+		Entity.imageProperties({id: $scope.imageId}, function(data) {
+			$scope.imageProperties = data;
 			$scope.allow = true;
 		}, function(response) {
+			// TODO evaluate response code
 			$scope.allow = false;
 		});
 
@@ -403,13 +346,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'arachneEntity', '$filter', 'searchService',
-	function($routeParams, $scope, arachneEntity, $filter, searchService) {
+.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService',
+	function($routeParams, $scope, Entity, $filter, searchService) {
 
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
-		arachneEntity.getEntityById($routeParams.entityId, function(data) {
+		Entity.get({id:$routeParams.entityId}, function(data) {
 			// call to filter detached from view in order to prevent unnecessary calls
 			$scope.entity = data;
 			$scope.cells = $filter('cellsFromImages')(data.images, data.entityId);

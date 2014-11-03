@@ -4,7 +4,8 @@
 angular.module('arachne.services', [])
 
 	// singleton service for search access
-	// caches query results and issues search request if GET parameters change
+	// automatically parses the query parameters in the current location
+	// and caches query results
 	.factory('searchService', ['$location', 'Entity', '$rootScope', 'Query', '$q',
 		function($location, Entity, $rootScope, Query, $q) {
 
@@ -25,6 +26,8 @@ angular.module('arachne.services', [])
 				}
 			});
 
+			// wait for other retrieve operations to be finished
+			// and retrieve a chunk from the current search result
 			function retrieveChunkDeferred(offset) {
 				if (chunkPromise) {
 					chunkPromise = chunkPromise.then(function(data) {
@@ -36,6 +39,9 @@ angular.module('arachne.services', [])
 				return chunkPromise;
 			}
 
+			// retrieve a chunk from the current search result
+			// checks if the requested chunk is cached, otherwise
+			// a new query is sent to the backend
 			function retrieveChunk(offset) {
 
 				var deferred = $q.defer();
@@ -66,6 +72,7 @@ angular.module('arachne.services', [])
 
 			return {
 
+				// get a single entity from the current result
 				getEntity: function(resultIndex) {
 
 					var deferred = $q.defer();
@@ -84,20 +91,24 @@ angular.module('arachne.services', [])
 
 				},
 
+				// get current facets
 				getFacets: function() {
 					return _result.facets;
 				},
 
+				// get current results size
 				getSize: function() {
 					return _result.size;
 				},
 
+				// get current page as defined by the query's offset
 				getCurrentPage: function() {
 					var offset = _currentQuery.offset;
 					if (angular.isUndefined(offset)) offset = 0;
 					return retrieveChunkDeferred(offset);
 				},
 
+				// get current query
 				currentQuery: function() {
 					return _currentQuery;
 				}
@@ -152,10 +163,12 @@ angular.module('arachne.services', [])
 				return newQuery;
 			},
 
+			// check if query has any particular facet filter attached
 			hasFacet: function(facetName) {
 				return (facetName in this.facets);
 			},
 
+			// check if query has any facet filters attached
 			hasFacets: function() {
 				return Object.keys(this.facets).length > 0;
 			},
@@ -252,246 +265,7 @@ angular.module('arachne.services', [])
 					},
 					imageProperties: {
 						method: 'GET',
-						url: arachneSettings.dataserviceUri + '/image/zoomify/:id/ImageProperties.xml'
-					}
-				}
-			);
-
-		}
-	])
-
-	// deprecated
-	.factory('arachneSearch', 
-		['$resource','$location', 'arachneSettings', 
-			function($resource, $location, arachneSettings) {
-
-			//PRIVATE
-				function parseUrlFQ (fqParam) {
-					if(!fqParam) return [];
-					var facets = [];
-					fqParam = fqParam.split(/\"\,/);
-					for (var i = fqParam.length - 1; i >= 0; i--) {
-						var facetNameAndVal = fqParam[i].replace(/"/g,'').split(':');
-						
-							facets.push({
-								name: facetNameAndVal[0],
-								value: facetNameAndVal[1]
-							});
-						
-					};
-					return facets;
-				};
-
-			  // Define all server connections in this angular-resource
-				var arachneDataService = $resource('', { }, {
-					query: {
-						url : arachneSettings.dataserviceUri + '/search',
-						isArray: false,
-						method: 'GET',
-						transformResponse : function (data, headers) {
-							try {
-								var data = JSON.parse(data);
-								data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
-								angular.forEach(data.facets, function(facet, index) {
-									if (arachneSettings.openFacets.indexOf(facet.name) != -1) {
-										facet.open = true;
-									} else {
-										facet.open = false;
-									}
-								});
-
-								return data;
-							} catch (e) {
-								return false;
-							}
-						}
-					},
-
-					queryWithMarkers : {
-						url : arachneSettings.dataserviceUri + '/search',
-						isArray: false,
-						method: 'GET',
-						transformResponse : function (data) {
-							var data = JSON.parse(data);
-							data.page = ((data.offset? data.offset : 0) / (data.limit? data.limit : 50))+1;
-							return data;
-						}
-
-					}
-				});
-				
-				//USE GETTERS FOR THE FOLLOWING ATTRIBUTES!
-				var _activeFacets  = [];
-				var _currentQueryParameters  = {};
-				var _resultIndex = null;
-
-				
-			 //PUBLIC
-				return {
-					
-				  //SEARCHING METHODS
-				  	// persitentSearch means that all queryParams get saved by this factory
-					persistentSearch : function (queryParams, successMethod, errorMethod) {
-						if (queryParams) {
-							this.setCurrentQueryParameters(queryParams);
-						} else {
-							this.setActiveFacets($location.search().fq);
-							this.setCurrentQueryParameters($location.search());
-						}
-						return arachneDataService.query(_currentQueryParameters, successMethod, errorMethod);
-					},
-
-					search : function (queryParams, successMethod) {
-						return arachneDataService.query(queryParams, successMethod);
-					},
-					
-					
-				  
-				  //SETTERS FOR VARIABLES
-					setResultIndex : function (resultIndex) {
-						_resultIndex = parseInt(resultIndex);
-					},
-					setCurrentQueryParameters : function (queryParams) {
-						if(_currentQueryParameters != queryParams) {
-							if(queryParams.offset) queryParams.offset = parseInt(queryParams.offset);
-							if(queryParams.limit) queryParams.limit = parseInt(queryParams.limit);
-							if(queryParams.view) queryParams.view = queryParams.view;
-							if(queryParams.offset==0) delete queryParams.offset;
-							if(queryParams.limit==0) delete queryParams.limit;
-							angular.copy(queryParams,_currentQueryParameters);
-						}
-					},
-					setActiveFacets : function () {
-						angular.copy(parseUrlFQ($location.search().fq), _activeFacets );
-						//console.log(_activeFacets);
-					},
-					
-				  //GETTERS FOR VARIABLES
-					getActiveFacets : function () {
-						return _activeFacets;
-					},
-					getCurrentQueryParameters : function () {
-						return _currentQueryParameters;
-					},
-					getResultIndex : function () {
-						return _resultIndex;
-					},
-					
-
-					goToPage : function (page, view) {
-						var hash = $location.search();
-						if (!hash.limit) hash.limit = 50; //_defaultLimit;
-						hash.offset = hash.limit*(page-1);
-						hash.view = view;
-						$location.search(hash);
-					},
-					addFacet : function (facetName, facetValue) {
-						//Check if facet is already included
-						for (var i = _activeFacets.length - 1; i >= 0; i--) {
-							if (_activeFacets[i].name == facetName) return;
-						};
-
-						var hash = $location.search();
-
-						if (hash.fq) {
-							hash.fq += "," + facetName + ':"' + facetValue + '"';
-						} else {
-							hash.fq = facetName + ':"' + facetValue + '"';
-						}
-
-						delete(hash.offset);
-						delete(hash.limit);
-						
-						$location.search(hash);
-					},
-
-					removeFacet : function (facet) {
-						for (var i = _activeFacets.length - 1; i >= 0; i--) {
-							if (_activeFacets[i].name == facet.name) {
-								_activeFacets.splice(i,1);
-							}
-						};
-						
-						var facets = _activeFacets.map(function(facet){
-							return facet.name + ':"' + facet.value + '"';
-						}).join(",");
-
-						var hash = $location.search();
-						hash.fq = facets;
-
-						delete(hash.offset);
-						delete(hash.limit);
-
-						$location.search(hash);
-					},
-
-					persistentSearchWithMarkers : function(queryParams){
-						if (queryParams) {
-							this.setCurrentQueryParameters(queryParams);
-						} else {							
-							this.setActiveFacets($location.search().fq);
-							this.setCurrentQueryParameters($location.search());
-						}
-						return arachneDataService.queryWithMarkers(_currentQueryParameters);
-					}
-				}			
-		}])
-
-	.factory('arachneEntity',
-		['$resource', 'arachneSettings',
-			function($resource, arachneSettings) {
-
-			  // PERSISTENT OBJECTS, PRIVATE, USE GETTERS AND SETTERS
-				var _currentEntity = {};
-				var _activeContextFacets  = [];
-
-			  //SERVERCONNECTION (PRIVATE)
-				var arachneDataService = $resource('', { }, {
-					get : {
-						url: arachneSettings.dataserviceUri + '/entity/:id',
-						isArray : false,
-						method: 'GET'
-					},
-					context :  {
-						//in transformReponse an Array gets build, so an array should be the aspected result
-						isArray: true,
-						url : arachneSettings.dataserviceUri + '/contexts/:id',
-						method: 'GET',
-						transformResponse : function (data) {
-							var facets = JSON.parse(data).facets;
-							var categoryFacet = {};
-							for (var i = facets.length - 1; i >= 0; i--) {
-								if(facets[i].name == "facet_kategorie") {
-									categoryFacet = facets[i];
-									break;
-								}
-							};
-							
-							return categoryFacet.values;
-						}
-					},
-					contextEntities : {
-						isArray: true,
-						url : arachneSettings.dataserviceUri + '/contexts/:id',
-						method: 'GET',
-						transformResponse : function (data) {
-							return JSON.parse(data).entities;
-						}
-					},
-					contextQuery : {
-						isArray: false,
-						url : arachneSettings.dataserviceUri + '/contexts/:id',
-						method: 'GET'
-					},
-					getSpecialNavigations : {
-						url: arachneSettings.dataserviceUri + '/specialNavigationsService?type=entity&id=:id',
-						isArray : false,
-						method: 'GET'
-					},
-					getImageProperties : {
 						url: arachneSettings.dataserviceUri + '/image/zoomify/:id/ImageProperties.xml',
-						isArray : false,
-						method: 'GET',
 						transformResponse : function (data) {
 							if(data) {
 								var properties = {};
@@ -511,83 +285,11 @@ angular.module('arachne.services', [])
 							}
 						}
 					}
-				});
-
-				function serializeParamsAndReturnContextSearch () {
-					var queryParams = { id : _currentEntity.entityId };
-					queryParams.fq = _activeContextFacets.map(function(facet){return facet.name + ":" + facet.value}).join(',')
-
-					return arachneDataService.contextQuery(queryParams);
-				};
-
-				var catchError = function(response) {
-					_currentEntity.error = response.status;
-				};
-
-
-			  // PUBLIC
-				return {
-					resetActiveContextFacets : function() {
-						_activeContextFacets = [];
-					},
-					getActiveContextFacets : function () {
-						return _activeContextFacets;
-					},
-					getEntityById : function(entityId, successMethod) {
-						successMethod = successMethod || function () {};
-						
-						if (_currentEntity.entityId == entityId) {
-							//Caching!
-							successMethod(_currentEntity);
-							return _currentEntity;
-						} else {
-							_currentEntity = arachneDataService.get({id:entityId},successMethod, catchError);
-							return _currentEntity;
-						}
-					},
-					getImageProperties : function(queryParams, successMethod, errorMethod){
-						return arachneDataService.getImageProperties(queryParams, successMethod, errorMethod);
-					},
-					getSpecialNavigations : function(entityId) {
-						return arachneDataService.getSpecialNavigations({id:entityId});
-					},
-					getContext : function (queryParams) {
-						return arachneDataService.context(queryParams);
-					},
-					getContextualEntitiesByAddingCategoryFacetValue : function (facetValue) {
-						// important to note: this method doesnt use _activeFacets!
-						return arachneDataService.contextEntities({id: _currentEntity.entityId, fq: 'facet_kategorie:' + facetValue});
-					},
-					getContextualQueryByAddingFacet : function (facetName, facetValue) {
-
-						// Check if facet is already added
-						for (var i = _activeContextFacets.length - 1; i >= 0; i--) {
-							if (_activeContextFacets[i].name == facetName) return;
-						};
-						// Add facet
-						_activeContextFacets.push({name: facetName, value: facetValue});
-						
-						return serializeParamsAndReturnContextSearch();
-					},
-					getContextualQueryByRemovingFacet : function (facet) {
-						//remove Facet
-						for (var i = _activeContextFacets.length - 1; i >= 0; i--) {
-							if (_activeContextFacets[i].name == facet.name) {
-								_activeContextFacets.splice(i,1);
-							}
-						};
-						
-						
-						return serializeParamsAndReturnContextSearch()
-
-					},
-					resetContextFacets : function () {
-						_activeContextFacets = [];
-					}
 				}
-			}
-		]
-	)
+			);
+
+		}
+	])
 
 	// singleton service for authentication, stores credentials in browser cookie
 	// if cookie is present the stored credentials get sent with every backend request
@@ -673,7 +375,7 @@ angular.module('arachne.services', [])
 		return factory;
 	}])
 
-	.factory('NoteService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
+	.factory('noteService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
 		function($resource, arachneSettings, $http, $modal, authService){
 
 			var catchError = function(errorReponse) {
