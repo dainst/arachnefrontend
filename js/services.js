@@ -261,7 +261,7 @@ angular.module('arachne.services', [])
 						method: 'GET', 
 						params: { endpoint: 'search' } 
 					},
-					context: { 
+					contexts: { 
 						method: 'GET',
 						params: { endpoint: 'contexts'} 
 					},

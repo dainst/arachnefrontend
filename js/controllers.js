@@ -155,8 +155,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		});
 	}
 ])
-.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'authService', 'singularService',
-	function ( $routeParams, searchService, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, authService, singularService ) {
+.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'arachneEntity', 'Entity', '$location','arachneSettings', 'NoteService', 'authService', 'singularService',
+	function ( $routeParams, searchService, $scope, $modal, arachneEntity, Entity, $location, arachneSettings, NoteService, authService, singularService ) {
 		
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
@@ -167,27 +167,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.go = function(path) {
 			$location.url(path);
 		};
-
-		$scope.loadFacetValueForContextEntities = function (facetValue) {
-			$scope.categoryFacetValueForContext =  facetValue;
-			if((facetValue.count > 15) || (facetValue.value == "Buchseiten")) {
-				var modalInstance = $modal.open({
-					templateUrl: 'partials/Modals/contextualEntitiesModal.html',
-					controller: 'ContextCtrl',
-					size: 'lg',
-					scope : $scope
-	      		});
-
-				// die facetten müssen zurückgesetzt werden wenn das Kontext-Modal geschlossen wird, damit die nächste Kontext-Suche wieder von vorne beginnen kann
-	      		modalInstance.result.finally(function(){
-	      			arachneEntity.resetActiveContextFacets();
-	      		});
-			} else {
-				// important to note: getContextualEntitiesByAddingCategoryFacetValue doesnt use _activeFacets!
-				// _activeFacets is only for the context modal
-				if (!facetValue.entities) facetValue.entities = arachneEntity.getContextualEntitiesByAddingCategoryFacetValue(facetValue.value);
-			}
-		}
 
 		$scope.queryBookmarListsForEntityId = function(){
 			$scope.bookmarklists = NoteService.queryBookmarListsForEntityId($routeParams.id);
@@ -212,18 +191,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});			
 		}
 
-	  // TODO Abstract Sections-Template and Logic to seperate unit - for reuse 
-	  // LOGIC for sections-iteration
+		// TODO Abstract Sections-Template and Logic to seperate unit - for reuse 
+		// LOGIC for sections-iteration
 		$scope.isArray = function(value) {
 			if(angular.isArray(value)) {
 				if(value.length == 1) return false;
 				return true;
 			}
 			return false;
-		}
-		$scope.typeOf = function(input) {
-			var result = typeof input;
-			return result;
 		}
 
 		// if no id given, but query get id from search and reload
@@ -236,14 +211,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		} else {
 			
-			arachneEntity.getEntityById($routeParams.id, function(data) {
+			Entity.get({id:$routeParams.id}, function(data) {
 				$scope.entity = data;
 				document.title = $scope.entity.title + " | Arachne";	
 			});
 
-			$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
-
-			$scope.context = arachneEntity.getContext({id:$routeParams.id});
+			Entity.contexts({id:$routeParams.id}, function(contexts) {
+				$scope.context = contexts.facets[1].values;
+			});
 
 			$scope.isBookmark = false;
 

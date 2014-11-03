@@ -232,7 +232,12 @@
 				</div>
 				<div ng-if="entity.images.length > 0">
 					<h3 class="text-justify">
-						<a href="entity/{{entity.entityId}}/images" class="btn btn-default btn-sm btn-default btn-block" ng-show="entity.images.length > 1"><span class="glyphicon glyphicon-chevron-down"></span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}}) </a>
+						<a ng-show="entity.images.length > 1"
+								ng-href="entity/{{entity.entityId}}/images"
+								class="btn btn-default btn-sm btn-default btn-block">
+							<span class="glyphicon glyphicon-chevron-down"></span>
+							&nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})
+						</a>
 					</h3>
 				</div>
 			</div>
@@ -252,22 +257,17 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="page-header">
-					<h3>Verknüpfte Objekte</h3>
+					<h3><a ng-href="search/?q=connectedEntities:{{entity.entityId}}">Verknüpfte Objekte</a></h3>
 				</div>
 
-				<accordion class="accordion-with-list" close-others="true">
-					<accordion-group is-open="" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)">
-						<accordion-heading>
-							<span class="capitalized">{{facetValue.value}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
-						</accordion-heading>
-						<div>
-							<span class="list-group-item" ng-hide="facetValue.entities.length || facetValue.count > 15 ">Lädt... </span>
-							<a class="list-group-item" href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
-								{{entity.title}}
-							</a>
-						</div>
-						</accordion-group>
-				</accordion>
+				<div class="list-group">
+					<a ng-repeat="facetValue in context"
+							ng-href="search/?q=connectedEntities:{{entity.entityId}}&fq=facet_kategorie:&quot;{{facetValue.value}}&quot;"
+							class="list-group-item">
+						<span class="badge">{{facetValue.count}}</span>
+						{{facetValue.value}}
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
