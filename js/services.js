@@ -15,7 +15,6 @@ angular.module('arachne.services', [])
 
 			// check if query changed in a way that requires a new backend call
 			$rootScope.$on("$locationChangeSuccess", function(event, newState, oldState) {
-				console.log("$locationChangeSuccess");
 				if (Object.keys($location.search()).length > 0) {
 					var newQuery = Query.fromSearch($location.search());
 					if (!angular.equals(newQuery.toFlatObject(),_currentQuery.toFlatObject())) {
@@ -27,7 +26,6 @@ angular.module('arachne.services', [])
 			});
 
 			function retrieveChunkDeferred(offset) {
-				console.log('promise 1',chunkPromise);
 				if (chunkPromise) {
 					chunkPromise = chunkPromise.then(function(data) {
 						return retrieveChunk(offset);
@@ -35,7 +33,6 @@ angular.module('arachne.services', [])
 				} else {
 					chunkPromise = retrieveChunk(offset);
 				}
-				console.log('promise 2',chunkPromise);
 				return chunkPromise;
 			}
 
@@ -46,15 +43,12 @@ angular.module('arachne.services', [])
 				// chunk is cached
 				if (!angular.isUndefined(_result.entities[offset])) {
 					var entities = _result.entities.slice(offset, offset + CHUNK_SIZE);
-					console.log("retrieveChunk cached entities", entities);
 					chunkPromise = false;
 					deferred.resolve(entities);
 					return deferred.promise;
 				// chunk needs to be retrieved
 				} else {
-					console.log("retrieveChunk current query", _currentQuery.toFlatObject());
 					var query = angular.extend({offset:offset,limit:CHUNK_SIZE},_currentQuery.toFlatObject());
-					console.log("retrieveChunk issuing query", query);
 					var entities = Entity.query(query);
 					return entities.$promise.then(function(data) {
 						_result.size = data.size;
@@ -62,7 +56,6 @@ angular.module('arachne.services', [])
 						for (var i = 0; i < data.entities.length; i++) {
 							_result.entities[parseInt(offset)+i] = data.entities[i];
 						};
-						console.log("new result", _result);
 						chunkPromise = false;
 						deferred.resolve(data.entities);
 						return deferred.promise;
@@ -75,8 +68,6 @@ angular.module('arachne.services', [])
 
 				getEntity: function(resultIndex) {
 
-					console.log("getEntity" , resultIndex);
-
 					var deferred = $q.defer();
 
 					if (resultIndex < 0) {
@@ -85,7 +76,6 @@ angular.module('arachne.services', [])
 					}
 					
 					var offset = Math.floor(resultIndex / CHUNK_SIZE) * CHUNK_SIZE;
-					console.log("getEntity offset" , offset);
 					
 					return retrieveChunkDeferred(offset).then(function(data) {
 						deferred.resolve(data[resultIndex - offset]);
@@ -103,14 +93,9 @@ angular.module('arachne.services', [])
 				},
 
 				getCurrentPage: function() {
-
 					var offset = _currentQuery.offset;
 					if (angular.isUndefined(offset)) offset = 0;
-
-					console.log("getCurrentPage", offset);
-
 					return retrieveChunkDeferred(offset);
-
 				},
 
 				currentQuery: function() {
