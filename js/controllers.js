@@ -413,6 +413,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('StartSiteController', ['$scope', '$http', 'arachneSettings',
 	function ($scope, $http, arachneSettings) {
 
+		function showIt() {
+		    window.scrollTo( 0, 0 );
+		}
+		showIt();
 		$http.get('config/category.json').success(function(data){
             $scope.category = data; 
         });
@@ -427,11 +431,24 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$anchorScroll', '$http',
-	function ($scope, newsFactory, arachneSearch, $location, $anchorScroll, $http) {
+.controller('AllCategoriesController', ['$scope', 'newsFactory', 'arachneSearch',  '$location', '$http',
+	function ($scope, newsFactory, arachneSearch, $location, $http) {
+		function showIt() {
+		   window.scrollTo( 0, 0 );
+		}
+		showIt();
+
 		$http.get('config/category.json').success (function(data){
             $scope.category = data; 
         });
+	}
+])
+.controller('TopController', ['$scope',  '$location', '$http',
+	function ($scope, $location, $http) {
+		function showIt() {
+		    window.scrollTo( 0, 0 );
+		}
+		showIt();
 	}
 ])
 .controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal',
