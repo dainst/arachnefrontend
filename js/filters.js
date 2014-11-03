@@ -52,13 +52,11 @@ angular.module('arachne.filters', [])
 		}
 	})
 	.filter('cellsFromEntities', ['arachneSettings', function(arachneSettings) {
-		return function(entities, offset, query) {
+		return function(entities, query) {
 			for (var i in entities) {
 				entities[i].href = 'entity/' + entities[i].entityId;
 				if (typeof query != 'undefined') {
-					entities[i].href += "?resultIndex=" + (parseInt(offset) + parseInt(i));
-					if (typeof query.q != 'undefined' && query.q) entities[i].href += "&q=" + query.q;
-					if (typeof query.fq != 'undefined' && query.fq) entities[i].href += "&fq=" + query.fq;
+					entities[i].href += query.setParam("resultIndex",(parseInt(query.offset) + parseInt(i))).toString();
 				}
 				if (typeof entities[i].thumbnailId != 'undefined') {
 					entities[i].imgUri = arachneSettings.dataserviceUri + "/image/height/" + entities[i].thumbnailId + "?height=300";

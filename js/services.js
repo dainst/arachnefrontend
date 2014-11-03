@@ -2,6 +2,280 @@
 
 /* Services */
 angular.module('arachne.services', [])
+
+	// singleton service for search access
+	// caches query results and issues search request if GET parameters change
+	.factory('searchService', ['$location', 'Entity', '$rootScope', 'Query', '$q',
+		function($location, Entity, $rootScope, Query, $q) {
+
+			var _currentQuery = Query.fromSearch($location.search());
+			var _result = { entities: [] };
+			var CHUNK_SIZE = 50;
+			var chunkPromise = false;
+
+			// check if query changed in a way that requires a new backend call
+			$rootScope.$on("$locationChangeSuccess", function(event, newState, oldState) {
+				console.log("$locationChangeSuccess");
+				if (Object.keys($location.search()).length > 0) {
+					var newQuery = Query.fromSearch($location.search());
+					if (!angular.equals(newQuery.toFlatObject(),_currentQuery.toFlatObject())) {
+						console.log("new query");
+						_result = { entities: [] };
+					}
+					_currentQuery = newQuery;
+				}
+			});
+
+			function retrieveChunkDeferred(offset) {
+				console.log('promise 1',chunkPromise);
+				if (chunkPromise) {
+					chunkPromise = chunkPromise.then(function(data) {
+						return retrieveChunk(offset);
+					});
+				} else {
+					chunkPromise = retrieveChunk(offset);
+				}
+				console.log('promise 2',chunkPromise);
+				return chunkPromise;
+			}
+
+			function retrieveChunk(offset) {
+
+				var deferred = $q.defer();
+
+				// chunk is cached
+				if (!angular.isUndefined(_result.entities[offset])) {
+					var entities = _result.entities.slice(offset, offset + CHUNK_SIZE);
+					console.log("retrieveChunk cached entities", entities);
+					chunkPromise = false;
+					deferred.resolve(entities);
+					return deferred.promise;
+				// chunk needs to be retrieved
+				} else {
+					console.log("retrieveChunk current query", _currentQuery.toFlatObject());
+					var query = angular.extend({offset:offset,limit:CHUNK_SIZE},_currentQuery.toFlatObject());
+					console.log("retrieveChunk issuing query", query);
+					var entities = Entity.query(query);
+					return entities.$promise.then(function(data) {
+						_result.size = data.size;
+						_result.facets = data.facets;
+						for (var i = 0; i < data.entities.length; i++) {
+							_result.entities[parseInt(offset)+i] = data.entities[i];
+						};
+						console.log("new result", _result);
+						chunkPromise = false;
+						deferred.resolve(data.entities);
+						return deferred.promise;
+					});
+				}
+
+			}
+
+			return {
+
+				getEntity: function(resultIndex) {
+
+					console.log("getEntity" , resultIndex);
+
+					var deferred = $q.defer();
+
+					if (resultIndex < 0) {
+						deferred.reject();
+						return deferred.promise;
+					}
+					
+					var offset = Math.floor(resultIndex / CHUNK_SIZE) * CHUNK_SIZE;
+					console.log("getEntity offset" , offset);
+					
+					return retrieveChunkDeferred(offset).then(function(data) {
+						deferred.resolve(data[resultIndex - offset]);
+						return deferred.promise;
+					});
+
+				},
+
+				getFacets: function() {
+					return _result.facets;
+				},
+
+				getSize: function() {
+					return _result.size;
+				},
+
+				getCurrentPage: function() {
+
+					var offset = _currentQuery.offset;
+					if (angular.isUndefined(offset)) offset = 0;
+
+					console.log("getCurrentPage", offset);
+
+					return retrieveChunkDeferred(offset);
+
+				},
+
+				currentQuery: function() {
+					return _currentQuery;
+				}
+
+			}
+
+		}
+	])
+
+	// represents a search query
+	// handles conversion between string representation for frontend URLs
+	// and flat object representation for backend requests
+	.factory('Query', function() {
+
+		function Query() {
+			this.facets = {};
+			this.offset = 0;
+			this.limit = 50;
+		}
+
+		Query.prototype = {
+
+			// constructs a new query object from this query
+			// and adds or replaces a parameter, returns the new query
+			setParam: function(key,value) {
+				var newQuery = angular.copy(this);
+				newQuery[key] = value;
+				return newQuery;
+			},
+
+			// constructs a new query object from this query
+			// and removes a parameter, returns the new query
+			removeParam: function(key) {
+				var newQuery = angular.copy(this);
+				delete newQuery[key];
+				return newQuery;
+			},
+
+			// constructs a new query object from this query
+			// and adds an additional facet, returns the new query
+			addFacet: function(facetName,facetValue) {
+				var newQuery = angular.copy(this);
+				newQuery.facets[facetName] = facetValue;
+				return newQuery;
+			},
+
+			// constructs a new query object from this query
+			// and removes a facet, returns the new query
+			removeFacet: function(facetName) {
+				var newQuery = angular.copy(this);
+				delete newQuery.facets[facetName];
+				return newQuery;
+			},
+
+			hasFacet: function(facetName) {
+				return (facetName in this.facets);
+			},
+
+			hasFacets: function() {
+				return Object.keys(this.facets).length > 0;
+			},
+
+			// returns a representation of this query as GET parameters
+			toString: function() {
+				
+				var params = [];
+				for(var key in this) {
+					if (key == 'facets') {
+						for(var facetName in this.facets) {
+							var facetString = facetName + ":\"" + this.facets[facetName] + "\"";
+							params.push("fq=" + encodeURIComponent(facetString));
+						}
+					} else if (angular.isString(this[key]) || angular.isNumber(this[key])) {
+						if(!(key == 'limit') && (this[key] || key == 'resultIndex')) {
+							params.push(key + "=" + encodeURIComponent(this[key]));
+						}
+					}
+				}
+
+				if (params.length > 0) {
+					return "?" + params.join("&");
+				} else {
+					return "";
+				}
+				
+			},
+
+			// return a representation of this query as a flat object
+			// that can be passed as a params object to $resource and $http
+			toFlatObject: function() {
+				var object = {};
+				for(var key in this) {
+					if (key == 'facets') {
+						object.fq = [];
+						for(var facetName in this.facets) {
+							var facetString = facetName + ":\"" + this.facets[facetName] + "\"";
+							object.fq.push(facetString);
+						}
+					} else if (['q'].indexOf(key) != -1) {
+						object[key] = this[key];
+					}
+				}
+				return object;
+			}
+
+		};
+
+		// factory for building query from angular search object
+		Query.fromSearch = function(search) {
+			var newQuery = new Query();
+			for(var key in search) {
+				if (key == 'fq') {
+					if (angular.isString(search['fq'])) {
+						var facet = search['fq'].split(':');
+						newQuery.facets[facet[0]] = facet[1].substr(1,facet[1].length-2);
+					} else if (angular.isArray(search['fq'])) {
+						search['fq'].forEach(function(facetString) {
+							var facet = facetString.split(':');
+							newQuery.facets[facet[0]] = facet[1].substr(1,facet[1].length-2);
+						})
+					}
+				} else {
+					newQuery[key] = search[key];
+				}
+			}
+			return newQuery;
+		}
+
+		return Query;
+
+	})
+
+	// resource interface for backend requests to entity- and search-endpoints
+	.factory('Entity', ['$resource', 'arachneSettings',
+		function($resource, arachneSettings) {
+
+			return $resource(
+				arachneSettings.dataserviceUri + "/:endpoint/:id",
+				{ id: '@entityId' },
+				{
+					get: { 
+						method: 'GET', 
+						params: { endpoint: 'entity'} 
+					},
+					query: { 
+						method: 'GET', 
+						params: { endpoint: 'search' } 
+					},
+					context: { 
+						method: 'GET',
+						params: { endpoint: 'contexts'} 
+					},
+					imageProperties: {
+						method: 'GET',
+						url: arachneSettings.dataserviceUri + '/image/zoomify/:id/ImageProperties.xml'
+					}
+				}
+			);
+
+		}
+	])
+
+	// deprecated
 	.factory('arachneSearch', 
 		['$resource','$location', 'arachneSettings', 
 			function($resource, $location, arachneSettings) {
@@ -329,6 +603,9 @@ angular.module('arachne.services', [])
 			}
 		]
 	)
+
+	// singleton service for authentication, stores credentials in browser cookie
+	// if cookie is present the stored credentials get sent with every backend request
 	.factory('authService', ['$http', 'arachneSettings', '$filter', '$cookieStore', 
 		function($http, arachneSettings, $filter, $cookieStore) {
 
@@ -369,6 +646,7 @@ angular.module('arachne.services', [])
 
 		}
 	])
+
 	.factory('newsFactory', ['$http', 'arachneSettings', function($http, arachneSettings){
 		var factory = {};
 		factory.getNews = function() {
@@ -376,6 +654,7 @@ angular.module('arachne.services', [])
 			};
 		return factory;
 	}])
+
 	.factory('singularService', ['$http', function($http ){
 		var singular = {
 			"Bauwerke": "Bauwerk", 
@@ -408,6 +687,7 @@ angular.module('arachne.services', [])
 		}
 		return factory;
 	}])
+
 	.factory('NoteService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
 		function($resource, arachneSettings, $http, $modal, authService){
 

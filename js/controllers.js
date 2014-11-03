@@ -59,6 +59,43 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
+.controller('SearchController', ['$scope','searchService','singularService', '$filter', 'arachneSettings', '$location',
+	function($scope, searchService, singularService, $filter, arachneSettings, $location){
+
+		$scope.singular = singularService.getSingular();
+
+		$scope.currentQuery = searchService.currentQuery();
+		$scope.q = angular.copy($scope.currentQuery.q);
+
+		searchService.getCurrentPage().then(function(entities) {
+			$scope.entities = entities;
+			$scope.resultSize = searchService.getSize();
+			$scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
+			$scope.facets = searchService.getFacets();
+			$scope.facets.forEach(function(facet) {
+				if(arachneSettings.openFacets.indexOf(facet.name) != -1) {
+					facet.open = true;
+				} else {
+					facet.open = false;
+				}
+			});
+			$scope.cells = $filter('cellsFromEntities')(entities,$scope.currentQuery);
+		}, function(response) {
+			$scope.resultSize = 0;
+			$scope.error = true;
+		});
+
+		$scope.go = function(path) {
+			$location.url(path);
+		};
+
+		$scope.onSelectPage = function() {
+			var newOffset = ($scope.currentPage-1) * $scope.currentQuery.limit;
+			$location.url('search/' + $scope.currentQuery.setParam('offset', newOffset).toString());
+		}
+
+	}
+])
 .controller('SearchCtrl', ['arachneSearch', '$scope', '$route', '$timeout', '$filter','singularService', /*'arachneSettings',*/
 	function ( arachneSearch, $scope, $route, $timeout, $filter, singularService) {
 
@@ -118,12 +155,18 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		});
 	}
 ])
-.controller('EntityCtrl', ['$routeParams', 'arachneSearch', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'authService', 'singularService',
-	function ( $routeParams, arachneSearch, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, authService, singularService ) {
+.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'arachneEntity', '$location','arachneSettings', 'NoteService', 'authService', 'singularService',
+	function ( $routeParams, searchService, $scope, $modal, arachneEntity, $location, arachneSettings, NoteService, authService, singularService ) {
+		
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
 
 		$scope.singular = singularService.getSingular();
+		$scope.currentQuery = searchService.currentQuery();
+
+		$scope.go = function(path) {
+			$location.url(path);
+		};
 
 		$scope.loadFacetValueForContextEntities = function (facetValue) {
 			$scope.categoryFacetValueForContext =  facetValue;
@@ -144,33 +187,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				// _activeFacets is only for the context modal
 				if (!facetValue.entities) facetValue.entities = arachneEntity.getContextualEntitiesByAddingCategoryFacetValue(facetValue.value);
 			}
-		}
-		this.goToResults = function () {
-			$location.path('search').search(arachneSearch.getCurrentQueryParameters());
-		}
-		// this.goToResultNr = function(number) {
-		// 	if((number > 0) /*&& (number!=$scope.currentQueryParameters.resultIndex) */ && (number < $scope.nextEntitySearch.size)){
-		// 		//arachneSearch.setResultIndex(number)
-		// 		// var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
-		// 		// 	qHash.resultIndex = arachneSearch.getResultIndex();
-		// 		$scope.currentQueryParameters.resultIndex = number;
-		// 		$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search($scope.currentQueryParameters);
-		// 	}
-		// }
-		this.goToNextResult = function () {
-			// arachneSearch.setResultIndex($scope.resultIndex+1);
-			// var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
-			// 	qHash.resultIndex = arachneSearch.getResultIndex();
-			$scope.currentQueryParameters.resultIndex += 1;
-			$location.url("entity/" + $scope.nextEntitySearch.entities[0].entityId).search($scope.currentQueryParameters);
-		}
-		this.goToPreviousResult = function () {
-			// arachneSearch.setResultIndex($scope.resultIndex-1);
-			// var qHash = angular.copy(arachneSearch.getCurrentQueryParameters());
-			// 	qHash.resultIndex = arachneSearch.getResultIndex();
-
-			$scope.currentQueryParameters.resultIndex -= 1;
-			$location.url("entity/" + $scope.previousEntitySearch.entities[0].entityId).search($scope.currentQueryParameters);
 		}
 
 		$scope.queryBookmarListsForEntityId = function(){
@@ -210,46 +226,51 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			return result;
 		}
 
-		
+		// if no id given, but query get id from search and reload
+		if (!$routeParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
 
-	  // RECONSTRUCT SEARCH-SESSION IF THERE IS ONE IN THE URL-PARAMETERS
-		if($location.search().q) {
-			var qHash = $location.search()
+			var resultIndex = parseInt($scope.currentQuery.resultIndex);
+			searchService.getEntity(resultIndex).then(function(entity) {
+				$location.url('entity/' + entity.entityId + $scope.currentQuery.toString());
+			});
 
-			$scope.currentQueryParameters = qHash
-			$scope.currentQueryParameters.resultIndex = parseInt(qHash.resultIndex);
+		} else {
+			
+			arachneEntity.getEntityById($routeParams.id, function(data) {
+				$scope.entity = data;
+				document.title = $scope.entity.title + " | Arachne";	
+			});
+
+			$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
+
+			$scope.context = arachneEntity.getContext({id:$routeParams.id});
+
+			$scope.isBookmark = false;
+
+			if ($scope.currentQuery.hasOwnProperty('resultIndex')) {
+				
+				$scope.resultIndex = parseInt($scope.currentQuery.resultIndex);
+				$scope.resultIndexInput = $scope.resultIndex + 1;
+				searchService.getCurrentPage().then(function(results) {
+					$scope.searchresults = results;
+					$scope.resultSize = searchService.getSize();
+				}, function(response) {
+					$scope.searchresults = {size: 0};
+					$scope.error = true;
+				});
+
+				var prevIndex = $scope.resultIndex-1;
+				$scope.prevEntity = searchService.getEntity(prevIndex).then(function(entity) {
+					$scope.prevEntity = entity;
+				}, function() { $scope.prevEntity = false; });
+				var nextIndex = $scope.resultIndex+1;
+				$scope.nextEntity = searchService.getEntity(nextIndex).then(function(entity) {
+					$scope.nextEntity = entity;
+				}, function() { $scope.prevEntity = false; });
+
+			}
 		}
 
-		$scope.dataserviceUri = arachneSettings.dataserviceUri;
-		
-
-		$scope.activeFacets = arachneSearch.getActiveFacets();
-
-
-		arachneEntity.getEntityById($routeParams.id, function(data) {
-			$scope.entity = data;
-			document.title = $scope.entity.title + " | Arachne";	
-		});
-
-		$scope.specialNavigations = arachneEntity.getSpecialNavigations($routeParams.id);
-
-		$scope.context = arachneEntity.getContext({id:$routeParams.id});
-
-
-		$scope.isBookmark = false;
-		if($scope.currentQueryParameters && $scope.currentQueryParameters.resultIndex != null) {
-			var queryhash = {};
-			queryhash.q = $scope.currentQueryParameters.q;
-			queryhash.resultIndex = $scope.currentQueryParameters.resultIndex;
-			queryhash.fq = $scope.currentQueryParameters.fq;
-			queryhash.limit = 1;
-			queryhash.offset = $scope.currentQueryParameters.resultIndex+1;
-			
-			$scope.nextEntitySearch = arachneSearch.search(queryhash);
-			
-			queryhash.offset = $scope.currentQueryParameters.resultIndex-1;
-			if(queryhash.offset >= 0) $scope.previousEntitySearch = arachneSearch.search(queryhash);
-		}
 	}
 ])
 .controller('createBookmarkCtrl', ['$scope', '$modalInstance', 'NoteService', 
@@ -359,8 +380,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity', '$modal', 'authService', 'arachneSearch', '$location',
-	function($routeParams, $scope, arachneEntity, $modal, authService, arachneSearch, $location) {
+.controller('EntityImageCtrl', ['$routeParams', '$scope', 'arachneEntity', '$modal', 'authService', 'searchService', '$location',
+	function($routeParams, $scope, arachneEntity, $modal, authService, searchService, $location) {
 
 		$scope.refreshImageIndex = function() {
 			if($scope.entity && $scope.entity.images) {
@@ -388,6 +409,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		};
 
 		$scope.user = authService.getUser();
+		$scope.currentQuery = searchService.currentQuery();
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
 		arachneEntity.getEntityById($routeParams.entityId, function(data) {
@@ -406,9 +428,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'arachneEntity', '$filter',
-	function($routeParams, $scope, arachneEntity, $filter) {
+.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'arachneEntity', '$filter', 'searchService',
+	function($routeParams, $scope, arachneEntity, $filter, searchService) {
 
+		$scope.currentQuery = searchService.currentQuery();
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
 		arachneEntity.getEntityById($routeParams.entityId, function(data) {

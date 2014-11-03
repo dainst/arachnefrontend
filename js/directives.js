@@ -181,6 +181,7 @@ angular.module('arachne.directives', [])
 
 	.directive('arActiveFacets', function() {
 		return {
+			scope: { route: '@', currentQuery: '=' },
 			templateUrl: 'partials/directives/ar-active-facets.html'
 		}
 	})
