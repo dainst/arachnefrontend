@@ -155,6 +155,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			Entity.get({id:$routeParams.id}, function(data) {
 				$scope.entity = data;
 				document.title = $scope.entity.title + " | Arachne";	
+			}, function(data) {
+				$scope.error = true;
 			});
 
 			Entity.contexts({id:$routeParams.id}, function(contexts) {
@@ -369,6 +371,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
 			$scope.entityCount = data.entityCount;
+		}).error(function(data) {
+			$scope.error = true;
 		});
 
 	}

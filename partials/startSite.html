@@ -1,4 +1,16 @@
 <div ng-controller="StartSiteController as startSiteController">
+
+	<!-- Fehlermeldungen -->
+	<div ng-show="error">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1 alert alert-warning text-center">
+				<b>Fehler</b>: Die Verbindung zum Arachne-Server konnte nicht hergestellt werden.
+				Bitte wenden Sie sich an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>
+				sollte dieser Fehler länger anhalten.
+			</div>
+		</div>
+	</div>
+
 	<div id="top"></div>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3 text-center" style="margin-top: 5%; height:262px; min-width:358px;">

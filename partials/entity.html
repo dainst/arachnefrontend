@@ -15,10 +15,21 @@
 </script>
 
 <div ng-cloak class="row" style="margin-top:0px;"  ng-controller="EntityCtrl as entityCtrl">
-	<div ng-hide="entity.entityId || entity.error" class="loading"></div>
-	<div class="alert alert-danger" ng-if="entity.error" >{{ entity.error | errorMessage }}</div>
 
-	<div class="col-md-3">
+	<!-- Fehlermeldungen -->
+	<div ng-show="error">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1 alert alert-warning text-center">
+				<b>Fehler:</b> Anfrage konnte nicht ausgeführt werden.
+				Bitte wenden Sie sich an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>
+				sollte dieser Fehler häufiger auftreten.
+			</div>
+		</div>
+	</div>
+
+	<div ng-hide="entity.entityId || error" class="loading"></div>
+
+	<div class="col-md-3" ng-show="entity.entityId">
 		<div class="page-header">
 			<h2>&nbsp;<br><small>&nbsp;</small></h2>
 		</div>
