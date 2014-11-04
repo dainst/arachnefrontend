@@ -19,8 +19,12 @@
 	<!-- Meldung für leeres Suchergebnis -->
 	<div ng-if="resultSize == 0 && !error">
 		<div class="row">
-			<div class="col-md-4 col-md-offset-4 text-center">
-				Keine Ergebnisse zu <b>"{{q}}"</b> gefunden.
+			<div class="col-md-8 col-md-offset-2 text-center">
+				Keine Ergebnisse zu <b>"{{q}}"</b>
+				<span ng-if="currentQuery.hasFacets()">
+					mit den aktuellen Filtern
+				</span>
+				gefunden.
 			</div>
 		</div>
 	</div>

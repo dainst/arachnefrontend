@@ -58,9 +58,13 @@ angular.module('arachne.services', [])
 					return entities.$promise.then(function(data) {
 						_result.size = data.size;
 						_result.facets = data.facets;
-						for (var i = 0; i < data.entities.length; i++) {
-							_result.entities[parseInt(offset)+i] = data.entities[i];
-						};
+						if (data.size == 0) { 
+							deferred.resolve([]);
+						} else {
+							for (var i = 0; i < data.entities.length; i++) {
+								_result.entities[parseInt(offset)+i] = data.entities[i];
+							}
+						}
 						chunkPromise = false;
 						deferred.resolve(data.entities);
 						return deferred.promise;
