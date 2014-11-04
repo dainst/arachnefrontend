@@ -128,17 +128,19 @@
 						<td class="col-md-8">Titel</td>
 						<td class="col-md-2">Subtitle</td>
 					</tr>	
-					<tr ng-repeat="entity in entities" class="small"	>
+					<tr ng-repeat="entity in entities" class="small">
 						<td class="col-md-1">{{entity.entityId}}</td>
-						<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="addFacet('facet_kategorie', entity.type)"> {{singular[entity.type]}}</td>
-						<td class="col-md-8"><b><a href="entity/{{entity.entityId}}" ng-click="setResultIndex(offset + $index)">
-							<div ng-if="entity.title==''">
-								({{singular[entity.type]}} hat keinen Titel)
-							</div>
-							<div ng-if="entity.title!=''">
-								{{entity.title}}
-							</div>
-						</a></b></td>
+						<td class="col-md-1">{{singular[entity.type]}}</td>
+						<td class="col-md-8">
+							<a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index).toString()}}">
+								<div ng-if="entity.title==''">
+									({{singular[entity.type]}} hat keinen Titel)
+								</div>
+								<div ng-if="entity.title!=''">
+									{{entity.title}}
+								</div>
+							</a>
+						</td>
 						<td class="col-md-2">{{entity.subtitle}}</td>
 					</tr>
 					</table>
