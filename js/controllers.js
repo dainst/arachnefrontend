@@ -357,7 +357,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		Entity.get({id:$routeParams.entityId}, function(data) {
 			// call to filter detached from view in order to prevent unnecessary calls
 			$scope.entity = data;
-			$scope.cells = $filter('cellsFromImages')(data.images, data.entityId);
+			$scope.cells = $filter('cellsFromImages')(data.images, data.entityId, $scope.currentQuery);
 		});
 
 	}
