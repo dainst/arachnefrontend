@@ -36,7 +36,10 @@
 			"title" : "Typen",
 			"subtitle" :"Kontextualisierung von Skulpturen (=Einzelobjekten) nach künstlerischen Bildnistypen und -schemata (Griechische Idealplastik, griechisches und römisches Portrait).",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Typen\"&fl=1500"
-		},
+		}
+	],
+	"subCategories":
+	[
 		{
 			"imgUri": "img/categories/sammlungen_sw.jpg",
 			"title" : "Sammlungen",
@@ -54,10 +57,7 @@
 			"title" : "Rezeptionen",
 			"subtitle" :"Spezifische Wahrnehmungen antiker Objekte in bestimmten neuzeitlichen Rezeptionsquellen.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Rezeptionen\"&fl=1500"
-		}
-	],
-	"subCategories":
-	[
+		},
 		 {
 		 	"imgUri": "img/categories/Reproduktionen.jpeg",
 			"title" : "Reproduktionen",
