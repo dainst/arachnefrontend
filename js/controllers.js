@@ -340,7 +340,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				$http.get(entityUri).success(function(data) {
 					a.download = data.title;
 					a.click();
-					$window.URL.revokeObjectURL(blobUri);
 				});
 			});
 		}
