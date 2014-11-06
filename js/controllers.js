@@ -3,15 +3,10 @@
 /* Controllers */
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
-.controller('MenuCtrl',	[ '$scope', '$modal', 'authService', '$location',
+.controller('MenuCtrl',	[ '$scope', '$modal', 'authService', '$location', '$route',
 	function ($scope,  $modal, authService, $location, $route) {
 
 		$scope.user = authService.getUser();
-
-		$scope.currentPath = $location.$$path;
-		$scope.$on("$locationChangeSuccess", function() {			
-			$scope.currentPath = $location.$$path;
-		});
 
 		//$scope.currentPath = $route.current.originalPath;
 		$scope.openLoginModal = function() {
@@ -27,7 +22,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.logout = function() {
 			authService.clearCredentials();
 			$scope.user = authService.getUser();
-			$location.url('/');
+			$route.reload();
 		}
 
 	}
