@@ -298,8 +298,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location',
-	function($routeParams, $scope, $modal, Entity, authService, searchService, $location) {
+.controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window',
+	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window) {
 
 		$scope.refreshImageIndex = function() {
 			if($scope.entity && $scope.entity.images) {
@@ -325,6 +325,25 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			    element.msRequestFullscreen();
 			}
 		};
+
+		$scope.downloadImage = function() {
+			var imgUri = arachneSettings.dataserviceUri + "/image/" + $scope.imageId;
+			var entityUri = arachneSettings.dataserviceUri + "/entity/" + $scope.imageId;
+			$http.get(imgUri, { responseType: 'blob' }).success(function(data) {
+				var document = $window.document;
+				var a = document.createElement('a');
+				document.body.appendChild(a);
+				a.style = "display:none";
+				var blob = new Blob([data], {type: 'image/jpeg'});
+				var blobUri = $window.URL.createObjectURL(blob);
+				a.href = blobUri;
+				$http.get(entityUri).success(function(data) {
+					a.download = data.title;
+					a.click();
+					$window.URL.revokeObjectURL(blobUri);
+				});
+			});
+		}
 
 		$scope.user = authService.getUser();
 		$scope.currentQuery = searchService.currentQuery();
