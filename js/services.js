@@ -212,7 +212,7 @@ angular.module('arachne.services', [])
 							var facetString = facetName + ":\"" + this.facets[facetName] + "\"";
 							object.fq.push(facetString);
 						}
-					} else if (['q','fl'].indexOf(key) != -1) {
+					} else if (['q','fl','limit'].indexOf(key) != -1) {
 						object[key] = this[key];
 					}
 				}

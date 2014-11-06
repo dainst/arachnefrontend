@@ -271,14 +271,8 @@
 					<h3><a ng-href="search/?q=connectedEntities:{{entity.entityId}}">Verknüpfte Objekte</a></h3>
 				</div>
 
-				<div class="list-group">
-					<a ng-repeat="facetValue in context"
-							ng-href="search/?q=connectedEntities:{{entity.entityId}}&fq=facet_kategorie:&quot;{{facetValue.value}}&quot;"
-							class="list-group-item">
-						<span class="badge">{{facetValue.count}}</span>
-						{{facetValue.value}}
-					</a>
-				</div>
+				<div ar-facet-browser query="contextQuery" facet-name="facet_kategorie"></div>
+
 			</div>
 		</div>
 	</div>

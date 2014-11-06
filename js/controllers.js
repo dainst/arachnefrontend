@@ -91,8 +91,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'singularService',
-	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, singularService ) {
+.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'singularService', 'Query',
+	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, singularService, Query ) {
 		
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
@@ -149,15 +149,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 			Entity.get({id:$routeParams.id}, function(data) {
 				$scope.entity = data;
-				document.title = $scope.entity.title + " | Arachne";	
+				document.title = $scope.entity.title + " | Arachne";
 			}, function(data) {
 				$scope.error = true;
 			});
-
-			Entity.contexts({id:$routeParams.id}, function(contexts) {
-				$scope.context = contexts.facets[1].values;
-			});
-
+				
+			$scope.contextQuery = new Query();
+			$scope.contextQuery.q = "connectedEntities:" + $routeParams.id;
+			$scope.contextQuery.limit = 0;
+			
 			$scope.isBookmark = false;
 
 			if ($scope.currentQuery.hasOwnProperty('resultIndex')) {

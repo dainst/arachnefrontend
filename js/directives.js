@@ -179,6 +179,42 @@ angular.module('arachne.directives', [])
 		}
 	}])
 
+	.directive('arFacetBrowser', ['Entity', '$location', function(Entity, $location) {
+		return {
+
+			scope: { query: '=', facetName: '@' },
+			templateUrl: 'partials/directives/ar-facet-browser.html',
+
+			link: function(scope, element, attrs) {
+
+				scope.entities = [];
+				scope.facetValues = [];
+				scope.facetQueries = [];
+
+				Entity.query(scope.query.toFlatObject(), function(data) {
+					for (var i = 0; i < data.facets.length; i++) {
+						if (scope.facetName == data.facets[i].name) {
+							scope.facetValues = data.facets[i].values;
+							for (var k = 0; k < scope.facetValues.length; k++) {
+								scope.facetQueries[k] = scope.query.addFacet(scope.facetName, scope.facetValues[k].value);
+							}
+						}
+					}
+				});
+
+				scope.loadEntities = function(facetValueNo) {
+					var facetQuery = scope.facetQueries[facetValueNo];
+					facetQuery.limit = 10000;
+					Entity.query(facetQuery.toFlatObject(), function(data) {
+						scope.entities[facetValueNo] = data.entities;
+					});
+				};
+
+			}
+
+		}
+	}])
+
 	.directive('arActiveFacets', function() {
 		return {
 			scope: { route: '@', currentQuery: '=' },
