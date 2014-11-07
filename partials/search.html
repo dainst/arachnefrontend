@@ -33,7 +33,7 @@
 	<div class="col-md-2 col-sm-3" ng-if="resultSize">
 		<div>
 			<small class="text-muted">
-				Insgesamt <b>{{ resultSize }}</b> Ergebnisse
+				Insgesamt <b>{{ resultSize }}</b> Ergebnis<span ng-show="resultSize > 1">se</span>
 				<span ng-show="numPages > 1"><br> auf <b>{{numPages}}</b> Seiten</span>
 			</small>
 		</div>
