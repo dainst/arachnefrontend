@@ -66,8 +66,9 @@ angular.module('arachne.directives', [])
 						.success(function(data) {
 							var blob = new Blob([data], {type: 'image/jpeg'});
             				cell.img.src = window.URL.createObjectURL(blob);
-						}
-					);
+						}).error(function(response) {
+							cell.img.src = scope.placeholder.src;
+						});
 				};
 
 				scope.resizeRow = function(row) {
