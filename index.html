@@ -104,7 +104,7 @@
 			        </li>
 			        <li class="divider"></li>
 			        <li>
-			        	<a href="#" ng-click="logout()">
+			        	<a ng-click="logout()" style="cursor:pointer;">
 							<span class="glyphicon glyphicon-log-out"></span> &nbsp;Abmelden
 						</a>
 			        </li>
@@ -129,8 +129,8 @@
 
 	<div class="container-fluid">
 
-		<div style="min-height:90%">
-			<div ng-cloak ng-view></div>
+		<div style="min-height:500px;">
+			<div ng-cloak ng-view autoscroll="true"></div>
 		</div>
 
 		<hr>

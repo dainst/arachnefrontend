@@ -66,8 +66,9 @@ angular.module('arachne.directives', [])
 						.success(function(data) {
 							var blob = new Blob([data], {type: 'image/jpeg'});
             				cell.img.src = window.URL.createObjectURL(blob);
-						}
-					);
+						}).error(function(response) {
+							cell.img.src = scope.placeholder.src;
+						});
 				};
 
 				scope.resizeRow = function(row) {
@@ -179,8 +180,45 @@ angular.module('arachne.directives', [])
 		}
 	}])
 
+	.directive('arFacetBrowser', ['Entity', '$location', function(Entity, $location) {
+		return {
+
+			scope: { query: '=', facetName: '@' },
+			templateUrl: 'partials/directives/ar-facet-browser.html',
+
+			link: function(scope, element, attrs) {
+
+				scope.entities = [];
+				scope.facetValues = [];
+				scope.facetQueries = [];
+
+				Entity.query(scope.query.toFlatObject(), function(data) {
+					for (var i = 0; i < data.facets.length; i++) {
+						if (scope.facetName == data.facets[i].name) {
+							scope.facetValues = data.facets[i].values;
+							for (var k = 0; k < scope.facetValues.length; k++) {
+								scope.facetQueries[k] = scope.query.addFacet(scope.facetName, scope.facetValues[k].value);
+							}
+						}
+					}
+				});
+
+				scope.loadEntities = function(facetValueNo) {
+					var facetQuery = scope.facetQueries[facetValueNo];
+					facetQuery.limit = 10000;
+					Entity.query(facetQuery.toFlatObject(), function(data) {
+						scope.entities[facetValueNo] = data.entities;
+					});
+				};
+
+			}
+
+		}
+	}])
+
 	.directive('arActiveFacets', function() {
 		return {
+			scope: { route: '@', currentQuery: '=' },
 			templateUrl: 'partials/directives/ar-active-facets.html'
 		}
 	})
@@ -278,8 +316,9 @@ angular.module('arachne.directives', [])
 	return {
 		restrict: 'A',
 		scope: {
-			searchresults: '=',
+			facets: '=',
 			entities: '=',
+			currentQuery: '=',
 			locationfacetname: '='
 		},
 		link: function(scope, element, attrs) 
@@ -339,11 +378,7 @@ angular.module('arachne.directives', [])
 						title += "Insgesamt " + facetValue.count + " Einträge<br>";
 						text = locationFacetNameHumanized  +": " + text;
 						text += "Insgesamt " + facetValue.count + " Einträge ";
-						if($location.$$search.fq) {
-							title += "<a href='search?q=*&fq="+$location.$$search.fq+","+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
-						} else {
-							title += "<a href='search?q=*&fq="+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diese Einträge anzeigen</a>";
-						}
+						title += "<a href='search/" + scope.currentQuery.addFacet(scope.locationfacetname,facetValue.value).toString() + "'>Diese Einträge anzeigen</a>";
 
 					// Popup-Title auf Karte für einzelnen Datensatz
 					} else {
@@ -351,7 +386,7 @@ angular.module('arachne.directives', [])
 						locationFacetNameHumanized = locationFacetNameHumanized.charAt(0).toUpperCase() + locationFacetNameHumanized.slice(1);
 						text = locationFacetNameHumanized  +": " + text;
 						title = '<h4 class="text-info centered">' + locationFacetNameHumanized +  '</h4>' + title;
-						title += "<a href='search?q=*&fq="+scope.locationfacetname+":\"" + facetValue.value +  "\"'>Diesen Eintrag anzeigen</a>";
+						title += "<a href='search/" + scope.currentQuery.addFacet(scope.locationfacetname,facetValue.value).toString() + "'>Diesen Eintrag anzeigen</a>";
 					}
 					
 					var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : facetValue.count });
@@ -385,11 +420,11 @@ angular.module('arachne.directives', [])
 
 
 			var selectFacetsAndCreateMarkers = function () {
-				if(scope.searchresults)
+				if(scope.facets)
 				{
-					for (var i = scope.searchresults.facets.length - 1; i >= 0; i--) {
-						if(scope.searchresults.facets[i].name === scope.locationfacetname) {
-							createMarkers(scope.searchresults.facets[i].values);
+					for (var i = scope.facets.length - 1; i >= 0; i--) {
+						if(scope.facets[i].name === scope.locationfacetname) {
+							createMarkers(scope.facets[i].values);
 							break;
 						}
 					};

@@ -13,71 +13,128 @@
 	</li>
 
 </script>
+
 <div ng-cloak class="row" style="margin-top:0px;"  ng-controller="EntityCtrl as entityCtrl">
-	<div ng-hide="entity.entityId || entity.error" class="loading"></div>
-	<div class="alert alert-danger" ng-if="entity.error" >{{ entity.error | errorMessage }}</div>
-	<div class="col-md-3" ng-if="currentQueryParameters.q">
+
+	<!-- Fehlermeldungen -->
+	<div ng-show="error">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1 alert alert-warning text-center">
+				<b>Fehler:</b> Anfrage konnte nicht ausgeführt werden.
+				Bitte wenden Sie sich an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>
+				sollte dieser Fehler häufiger auftreten.
+			</div>
+		</div>
+	</div>
+
+	<div ng-hide="entity.entityId || error" class="loading"></div>
+
+	<div class="col-md-3" ng-show="entity.entityId">
 		<div class="page-header">
 			<h2>&nbsp;<br><small>&nbsp;</small></h2>
 		</div>
 
 <!-- CURRENT QUERY STATUS -->
-		<div >
+		<div ng-if="resultSize">
 			<div class="page-header">
 				<h5 class="text-muted uppercase"><strong>Navigation durch Suchergebnisse</strong></h5>
 			</div>
-			<div ng-if="currentQueryParameters.q" class="panel panel-default">
+			<div ng-if="currentQuery.q" class="panel panel-default">
 				<div class="panel-heading">
-					Aktuelle Suche <button ng-click="entityCtrl.goToResults()" class="btn btn-xs pull-right btn-primary">anzeigen</button>
+					<a ng-href="search/{{currentQuery.removeParam('resultIndex').removeParam('offset').toString()}}"
+							class="btn btn-xs pull-right btn-primary">
+						<span class="glyphicon glyphicon-arrow-left"></span> zum Suchergebnis
+					</a>
+					Aktuelle Suche
 				</div>
 				<ul class="list-group" style="overflow:hidden">
 					<li class="list-group-item">
 						<b class="text-muted uppercase small">Suchbegriff</b><br>
-						{{currentQueryParameters.q}}
+						{{currentQuery.q}}
 					</li>
 
 					<li class="list-group-item">
 						<b class="text-muted uppercase small">Ergebnisse insgesamt</b><br>
-						{{nextEntitySearch.size}} &nbsp;
+						{{resultSize}} &nbsp;
 					</li>
 
 					<li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
 						<b class="text-muted uppercase small">Ergebnisnummer</b>
-
-						<form class="form-inline" action="{{ 'entity/' + entity.entityId }}" method="GET" role="search">
-							<input style="display:none" name="q"  class="form-control" value="{{currentQueryParameters.q}}">
-							<input style="display:none" name="fq" value="{{currentQueryParameters.fq}}">
-							<input style="display:none" id="resultIndexInput" name="resultIndex" value="{{currentQueryParameters.resultIndex}}">
-							<div class="input-group">
-						    	<input type="number" size="4" id="humanizedResultIndex" onchange="document.getElementById('resultIndexInput').value = this.value-1" value="{{currentQueryParameters.resultIndex+1}}" style="width:50%" class="form-control input-sm">
+						<form ng-submit="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput-1).toString())">
+							<div class="input-group"
+									ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
+						    	<input ng-model="resultIndexInput"
+						    			type="number" size="4"
+						    			min="1" max="{{resultSize}}" class="form-control input-sm">
 						    	<span class="input-group-btn" style="display:block">
-						    		<button type="submit" class="btn btn-default btn-sm" type="button">springe</button>
+						    		<button ng-disabled="resultIndexInput < 1 || resultIndexInput > resultSize"
+						    				type="submit" class="btn btn-default btn-sm" type="button">
+						    			springe
+						    		</button>
 						    	</span>
 						    </div>
 						</form>
 					</li>
 
-					<li ng-if="activeFacets.length" class="list-group-item">
+					<li ng-if="currentQuery.hasFacets()" class="list-group-item">
 						<b class="text-muted uppercase small">Facetten</b>
 						<ul>
-							<li ng-repeat="facet in activeFacets"><small><i>{{facet.name | i18n}}</i><b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b></small></li>
+							<li ng-repeat="(facetName,facetValue) in currentQuery.facets">
+								<small>
+									<i>{{facetName | i18n}}</i>
+									<b style="text-transform:capitalize;"> &nbsp; {{facetValue}}</b>
+								</small>
+							</li>
 						</ul>
 					</li>
 
-					<a style="height:66px; overflow:hidden" href="" class="list-group-item" ng-show="previousEntitySearch.entities.length" ng-click="entityCtrl.goToPreviousResult()">
-						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-up" style="color:black" ></span> &nbsp; vorheriges Ergebnis</b><br>
-						<small>{{previousEntitySearch.entities[0].title}}</small>
-						<small ng-if="previousEntitySearch.entities[0].title.length==0">Objekt der Kat.: {{previousEntitySearch.entities[0].type}}<br>{{previousEntitySearch.entities[0].subtitle}}</small>
+					<a ng-if="prevEntity"
+							ng-href="entity/{{prevEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex-1).toString()}}"
+							class="list-group-item"
+							style="height:75px; overflow:hidden">
+						<b class="text-muted uppercase small">
+							<span class="glyphicon glyphicon-chevron-up" style="color:black" ></span>
+							&nbsp; vorheriges Ergebnis
+						</b>
+						<br>
+						<small>{{prevEntity.title}}</small>
+						<small ng-if="prevEntity.title.length == 0">
+							Objekt der Kat.: {{prevEntity.type}}
+						</small>
+						<br>
+						<small class="text-muted">
+							{{prevEntity.subtitle}}
+						</small>
 						
 					</a>
-					<li class="list-group-item" style="background: #f5f5f5;" ng-hide="nextEntitySearch.size < 2" >
-						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-minus" style="color:black" ></span> &nbsp; aktuelles Ergebnis</b>
+
+					<li class="list-group-item"	style="background: #f5f5f5;">
+						<b class="text-muted uppercase small">
+							<span class="glyphicon glyphicon-minus" style="color:black" ></span>
+							&nbsp; aktuelles Ergebnis
+						</b>
 					</li>
-					<a style="height:66px; overflow:hidden" class="list-group-item" href="" ng-show="nextEntitySearch.entities.length" ng-click="entityCtrl.goToNextResult()" >
-						<b class="text-muted uppercase small"><span class="glyphicon glyphicon-chevron-down" style="color:black" ></span> &nbsp; nächstes Ergebnis</b><br>
-						<small>{{nextEntitySearch.entities[0].title}}</small>
-						<small ng-if="nextEntitySearch.entities[0].title.length==0">Objekt der Kat.: {{nextEntitySearch.entities[0].type}}<br>{{nextEntitySearch.entities[0].subtitle}}</small>
+
+					<a ng-if="nextEntity"
+							ng-href="entity/{{nextEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex+1).toString()}}"
+							class="list-group-item"
+							style="height:75px; overflow:hidden">
+						<b class="text-muted uppercase small">
+							<span class="glyphicon glyphicon-chevron-down" style="color:black" ></span>
+							&nbsp; nächstes Ergebnis
+						</b>
+						<br>
+						<small>{{nextEntity.title}}</small>
+						<small ng-if="nextEntity.title.length==0">
+							Objekt der Kat.: {{nextEntity.type}}
+						</small>
+						<br>
+						<small class="text-muted">
+							{{nextEntity.subtitle}}
+						</small>
+						
 					</a>
+
 				</ul>
 			</div>
 		</div>
@@ -112,7 +169,8 @@
 		</div>
 
 	</div>
-	<div  ng-class="{'col-md-offset-2 col-md-5' : !currentQueryParameters.q }" class="col-md-6"  ng-show="entity.entityId">
+
+	<div ng-show="entity.entityId" class="col-md-6">
 		<div class="page-header">
 			<h2>
 				{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type }}</span><br>
@@ -168,9 +226,9 @@
 			<div class="page-header"><h4>OCR Text-Analyse</h4></div>
 			<ul>{{entity.additionalContent.ocrText}}</ul>
 		</div>
-		
-		
+			
 	</div>
+
 	<div class="col-md-3" ng-show="entity.entityId">
 		<div class="page-header">
 			<h2>&nbsp;<br><small>&nbsp;</small></h2>
@@ -179,13 +237,18 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div ng-if="entity.thumbnailId" style="text-align:center;">
-					<a href="entity/{{entity.entityId}}/image/{{entity.thumbnailId}}">
+					<a href="entity/{{entity.entityId}}/image/{{entity.thumbnailId}}{{currentQuery.toString()}}">
 						<img ar-img img-id="{{entity.thumbnailId}}" img-height="300" class="img-thumbnail">
 					</a>
 				</div>
 				<div ng-if="entity.images.length > 0">
 					<h3 class="text-justify">
-						<a href="entity/{{entity.entityId}}/images" class="btn btn-default btn-sm btn-default btn-block" ng-show="entity.images.length > 1"><span class="glyphicon glyphicon-chevron-down"></span> &nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}}) </a>
+						<a ng-show="entity.images.length > 1"
+								ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}"
+								class="btn btn-default btn-sm btn-default btn-block">
+							<span class="glyphicon glyphicon-chevron-down"></span>
+							&nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})
+						</a>
 					</h3>
 				</div>
 			</div>
@@ -205,22 +268,11 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="page-header">
-					<h3>Verknüpfte Objekte</h3>
+					<h3><a ng-href="search/?q=connectedEntities:{{entity.entityId}}">Verknüpfte Objekte</a></h3>
 				</div>
 
-				<accordion class="accordion-with-list" close-others="true">
-					<accordion-group is-open="" ng-repeat="facetValue in context" ng-click="loadFacetValueForContextEntities(facetValue)">
-						<accordion-heading>
-							<span class="capitalized">{{facetValue.value}}</span> <span class="badge pull-right">{{facetValue.count}}</span>
-						</accordion-heading>
-						<div>
-							<span class="list-group-item" ng-hide="facetValue.entities.length || facetValue.count > 15 ">Lädt... </span>
-							<a class="list-group-item" href="entity/{{entity.entityId}}" ng-repeat="entity in facetValue.entities">
-								{{entity.title}}
-							</a>
-						</div>
-						</accordion-group>
-				</accordion>
+				<div ar-facet-browser query="contextQuery" facet-name="facet_kategorie"></div>
+
 			</div>
 		</div>
 	</div>

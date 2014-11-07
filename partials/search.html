@@ -1,54 +1,55 @@
-<div class="row" ng-controller="SearchCtrl as searchCtrl">
+<div class="row" ng-controller="SearchCtrl">
 	
 	<!-- Loading-Icon -->
-	<div ng-hide="searchresults.size >= 0">
+	<div ng-hide="resultSize >= 0">
 		<div class="loading"></div>
 	</div>
 
 	<!-- Fehlermeldungen -->
 	<div ng-show="error">
 		<div class="row">
-			<div class="col-md-10 col-md-offset-1 alert alert-warning">
-				Fehler: Suche konnte nicht ausgeführt werden.
-				Bitte wenden Sie sich an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>
+			<div class="col-md-10 col-md-offset-1 alert alert-warning text-center">
+				<b>Fehler:</b> Suche konnte nicht ausgeführt werden.
+				Bitte wenden Sie sich an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>,
 				sollte dieser Fehler häufiger auftreten.
 			</div>
 		</div>
 	</div>
 
 	<!-- Meldung für leeres Suchergebnis -->
-	<div ng-if="searchresults.size == 0 && !error">
+	<div ng-if="resultSize == 0 && !error">
 		<div class="row">
-			<div class="col-md-4 col-md-offset-4 text-center">
-				Keine Ergebnisse zu <b>"{{currentQueryParameters.q}}"</b> gefunden.
+			<div class="col-md-8 col-md-offset-2 text-center">
+				Keine Ergebnisse zu <b>"{{q}}"</b>
+				<span ng-if="currentQuery.hasFacets()">
+					mit den aktuellen Filtern
+				</span>
+				gefunden.
 			</div>
 		</div>
 	</div>
 
 	<!-- Linke Spalte -->
-	<div class="col-md-2 col-sm-3" ng-if="searchresults.size">
+	<div class="col-md-2 col-sm-3" ng-if="resultSize">
 		<div>
-			<small ng-if="searchresults.size" class="text-muted">
-				Insgesamt <b>{{ searchresults.size }}</b> Ergebnisse
+			<small class="text-muted">
+				Insgesamt <b>{{ resultSize }}</b> Ergebnis<span ng-show="resultSize > 1">se</span>
 				<span ng-show="numPages > 1"><br> auf <b>{{numPages}}</b> Seiten</span>
 			</small>
 		</div>
 		<small>
 
 			<h5 class="text-muted uppercase"><b>Suchbegriff</b></h5>
-			<form action="search/" method="GET" role="search">
-				<input  name="q"  class="form-control" value="{{currentQueryParameters.q}}">
-				<input style="display:none" name="fq" value="{{currentQueryParameters.fq}}">
-				<input name="limit" style="display:none" ng-if="currentQueryParameters.limit" value="0">
-				<input name="offset" style="display:none" ng-if="currentQueryParameters.offset" value="0">
-				<input name="view" style="display:none" ng-if="currentQueryParameters.view" value="kachel">
-				<button class="btn btn-default" style="display:none;" type="submit">Submit</button>
+			<form ng-submit="go('/search/' + currentQuery.setParam('q',q).toString())">
+				<input type="text" class="form-control" ng-model="q">
 			</form>
 
-			<div ar-active-facets></div>
+			<div ar-active-facets route="search" current-query="currentQuery"></div>
 
-			<h5 class="text-muted uppercase" ng-hide="searchresults.size < 2"><b>Filter</b></h5>
-			<div class="panel panel-default facet" ng-repeat="facet in searchresults.facets" ng-hide="searchresults.size < 2">
+			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>Filter</b></h5>
+			<div ng-hide="resultSize < 2"
+					ng-repeat="facet in facets"
+					class="panel panel-default facet">
 				<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
 					<h5 class="panel-title">
 						<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
@@ -57,10 +58,11 @@
 					</h5>
 				</div>
 				<ul class="list-unstyled facet"	ng-show="facet.open">
-					<li ng-click="addFacet(facet.name, facetValue.value)"
-							ng-repeat="facetValue in facet.values">
-						<b class="pull-right text-muted">{{facetValue.count | number}}</b>
-						{{facetValue.value | stripCoords}}
+					<li ng-repeat="facetValue in facet.values">
+						<a ng-href="search/{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+							<b class="pull-right text-muted">{{facetValue.count | number}}</b>
+							{{facetValue.value | stripCoords}}
+						</a>
 					</li>
 				</ul>
 			</div>
@@ -69,48 +71,56 @@
 	</div>
 
 	<!-- Rechte Spalte -->
-	<div class="col-md-10 col-sm-9" ng-switch="listStyle"
-			ng-init="offset = currentQueryParameters.offset? currentQueryParameters.offset : 0"
-			ng-if="searchresults.size">
+	<div ng-if="resultSize"
+			ng-switch="currentQuery.view"
+			class="col-md-10 col-sm-9">
 		
-		<div class="row">
-			<div align="center" class="col-md-6 col-md-offset-3">
-				<div class="btn-group">
-					<button class="btn btn-sm btn-startsite-tab" ng-click="listStyle = 'tiles'; currentQueryParameters.view='tiles'; onSelectPage('tiles')"
-							ng-class="{ 'active': listStyle == 'tiles' }">
+		<div align="center" class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="btn-group ">
+					<a ng-href="search/{{currentQuery.removeParam('view').toString()}}"
+							class="btn btn-sm btn-startsite-tab" style="color:#333;"
+							ng-class="{ 'active': !currentQuery.view}">
 						<span class="glyphicon glyphicon-picture"></span>
 						Kacheln
-					</button>
-					<button class="btn btn-sm btn-startsite-tab" ng-click="listStyle = 'list'; currentQueryParameters.view='list'; onSelectPage('list')"
-							ng-class="{ 'active': listStyle == 'list' }">
+					</a>
+					<a ng-href="search/{{currentQuery.setParam('view','list').toString()}}"
+							 class="btn btn-sm btn-startsite-tab" style="color:#333;"
+							ng-class="{ 'active': currentQuery.view == 'list' }">
 						<span class="glyphicon glyphicon-align-justify"></span>
 						Liste
-					</button>
+					</a>
+					<!-- vorerst ausgeblendet
 					<a href="map/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}&fl=2000"
 							class="btn btn-sm btn-startsite-tab" style="color:#333;" ng-class="{ 'active': listStyle == 'map' }">
 						<span class="glyphicon glyphicon-map-marker"></span>
 						Karte (Geo-Ergebnisse)
 					</a>
+					-->
 				</div>
 			</div>
 			<div align="right" class="col-md-3">
-				<p ng-show="searchresults.size">
-					<pagination class="pagination-sm" style="margin-top: 0px;" ng-model="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="zurück" next-text="weiter" boundary-links="true" first-text="&laquo;" last-text="&raquo;" ng-change="onSelectPage(currentQueryParameters.view)" num-pages="numPages"></pagination>
+				<p align="center" ng-show="resultSize">
+					<pagination ng-model="$parent.currentPage"
+						class="pagination-sm"
+						style="margin-top: 0px;"
+						total-items="resultSize"
+						items-per-page="currentQuery.limit"
+						max-size="6"
+						previous-text="zurück"
+						next-text="weiter"
+						boundary-links="true"
+						first-text="&laquo;"
+						last-text="&raquo;"
+						ng-change="onSelectPage()"
+						num-pages="numPages">
+					</pagination>
 				</p>
 			</div>		
 		</div>
 
 		<div class="row">
 			<div class="col-md-12">
-				
-				<!-- Griddarstellung -->
-				<div ar-imagegrid
-					cells="cells"
-					columns="5"
-					margin="4"
-					ng-switch-default="tiles">
-					
-				</div>
 
 				<!-- Listendarstellung -->
 				<div ng-switch-when="list">
@@ -121,17 +131,19 @@
 						<td class="col-md-8">Titel</td>
 						<td class="col-md-2">Subtitle</td>
 					</tr>	
-					<tr ng-repeat="entity in searchresults.entities" class="small"	>
+					<tr ng-repeat="entity in entities" class="small">
 						<td class="col-md-1">{{entity.entityId}}</td>
-						<td class="col-md-1" style="text-transform:capitalize; cursor:pointer;" ng-click="addFacet('facet_kategorie', entity.type)"> {{singular[entity.type]}}</td>
-						<td class="col-md-8"><b><a href="entity/{{entity.entityId}}" ng-click="setResultIndex(offset + $index)">
-							<div ng-if="entity.title==''">
-								({{singular[entity.type]}} hat keinen Titel)
-							</div>
-							<div ng-if="entity.title!=''">
-								{{entity.title}}
-							</div>
-						</a></b></td>
+						<td class="col-md-1">{{singular[entity.type]}}</td>
+						<td class="col-md-8">
+							<a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index).toString()}}">
+								<div ng-if="entity.title==''">
+									({{singular[entity.type]}} hat keinen Titel)
+								</div>
+								<div ng-if="entity.title!=''">
+									{{entity.title}}
+								</div>
+							</a>
+						</td>
 						<td class="col-md-2">{{entity.subtitle}}</td>
 					</tr>
 					</table>
@@ -142,14 +154,36 @@
 					<div ng-hide="searchresults.markers" class="loading"></div>
 					<div ng-if="searchresults.markers" class="col-md-12" map id="map"></div>
 				</div>
+				
+				<!-- Griddarstellung -->
+				<div ar-imagegrid
+					cells="cells"
+					columns="5"
+					margin="4"
+					ng-switch-default="tiles">					
+				</div>
 
 			</div>
 		</div>
-		
-		<p align="right" ng-show="searchresults.size">
-			<pagination class="pagination-sm" ng-model="searchresults.page" total-items="searchresults.size" items-per-page="searchresults.limit" max-size="6" previous-text="zurück" next-text="weiter" 	boundary-links="true" first-text="&laquo;" last-text="&raquo;" ng-change="onSelectPage(currentQueryParameters.view)" num-pages="numPages"></pagination>
+
+		<p align="right" ng-show="resultSize">
+			<pagination ng-model="$parent.currentPage"
+					class="pagination-sm"
+					total-items="resultSize"
+					items-per-page="currentQuery.limit"
+					max-size="6"
+					previous-text="zurück"
+					next-text="weiter"
+					boundary-links="true"
+					first-text="&laquo;"
+					last-text="&raquo;"
+					ng-change="onSelectPage()"
+					num-pages="numPages">
+			</pagination>
 		</p>
 
 	</div>	
+		
+	</div>
 
 </div>

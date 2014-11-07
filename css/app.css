@@ -121,7 +121,6 @@ body {
 	margin: 0px;
 }
 .facet li {
-	cursor: pointer;
 	overflow: hidden;
   margin: 3px 0px;
 	padding: 3px 6px;
@@ -129,6 +128,13 @@ body {
 .facet li:hover {
 	background-color: #428bca;
   color: white;
+}
+.facet li a {
+  color: black;
+}
+.facet li:hover a {
+  color: white;
+  text-decoration: none;
 }
 .facet li:hover .text-muted {
   color: white;
