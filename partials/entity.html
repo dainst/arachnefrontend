@@ -14,7 +14,7 @@
 
 </script>
 
-<div ng-cloak class="row" style="margin-top:0px;"  ng-controller="EntityCtrl as entityCtrl">
+<div ng-cloak class="row"  ng-controller="EntityCtrl">
 
 	<!-- Fehlermeldungen -->
 	<div ng-show="error">
@@ -30,54 +30,30 @@
 	<div ng-hide="entity.entityId || error" class="loading"></div>
 
 	<div class="col-md-3" ng-show="entity.entityId">
-		<div class="page-header">
-			<h2>&nbsp;<br><small>&nbsp;</small></h2>
-		</div>
 
-<!-- CURRENT QUERY STATUS -->
+		<!-- CURRENT QUERY STATUS -->
 		<div ng-if="resultSize">
-			<div class="page-header">
-				<h5 class="text-muted uppercase"><strong>Navigation durch Suchergebnisse</strong></h5>
-			</div>
+
+			<h5 ng-if="currentQuery.q" class="text-muted">
+				<strong class="uppercase">Aktuelle Suche</strong>
+			</h5>
+
 			<div ng-if="currentQuery.q" class="panel panel-default">
+
 				<div class="panel-heading">
+
 					<a ng-href="search/{{currentQuery.removeParam('resultIndex').removeParam('offset').toString()}}"
 							class="btn btn-xs pull-right btn-primary">
 						<span class="glyphicon glyphicon-arrow-left"></span> zum Suchergebnis
 					</a>
-					Aktuelle Suche
-				</div>
-				<ul class="list-group" style="overflow:hidden">
-					<li class="list-group-item">
+
+					<div>
 						<b class="text-muted uppercase small">Suchbegriff</b><br>
 						{{currentQuery.q}}
-					</li>
+					</div>
 
-					<li class="list-group-item">
-						<b class="text-muted uppercase small">Ergebnisse insgesamt</b><br>
-						{{resultSize}} &nbsp;
-					</li>
-
-					<li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
-						<b class="text-muted uppercase small">Ergebnisnummer</b>
-						<form ng-submit="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput-1).toString())">
-							<div class="input-group"
-									ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
-						    	<input ng-model="resultIndexInput"
-						    			type="number" size="4"
-						    			min="1" max="{{resultSize}}" class="form-control input-sm">
-						    	<span class="input-group-btn" style="display:block">
-						    		<button ng-disabled="resultIndexInput < 1 || resultIndexInput > resultSize"
-						    				type="submit" class="btn btn-default btn-sm" type="button">
-						    			springe
-						    		</button>
-						    	</span>
-						    </div>
-						</form>
-					</li>
-
-					<li ng-if="currentQuery.hasFacets()" class="list-group-item">
-						<b class="text-muted uppercase small">Facetten</b>
+					<div ng-if="currentQuery.hasFacets()">
+						<b class="text-muted uppercase small">Aktive Filter</b>
 						<ul>
 							<li ng-repeat="(facetName,facetValue) in currentQuery.facets">
 								<small>
@@ -86,65 +62,83 @@
 								</small>
 							</li>
 						</ul>
-					</li>
+					</div>
+
+				</div>
+
+				<ul class="list-group">
 
 					<a ng-if="prevEntity"
 							ng-href="entity/{{prevEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex-1).toString()}}"
 							class="list-group-item"
 							style="height:75px; overflow:hidden">
-						<b class="text-muted uppercase small">
-							<span class="glyphicon glyphicon-chevron-up" style="color:black" ></span>
-							&nbsp; vorheriges Ergebnis
-						</b>
-						<br>
-						<small>{{prevEntity.title}}</small>
-						<small ng-if="prevEntity.title.length == 0">
-							Objekt der Kat.: {{prevEntity.type}}
-						</small>
-						<br>
-						<small class="text-muted">
-							{{prevEntity.subtitle}}
-						</small>
+						<div>
+							<b class="text-muted uppercase small">
+								<span class="glyphicon glyphicon-chevron-left" style="color:black" ></span>
+								&nbsp; vorheriges Ergebnis
+							</b>
+						</div>
+						<div class="single-line">
+							<small class="single-line">{{entity.title}}</small>
+							<small ng-if="entity.title.length==0">
+								Objekt der Kat.: {{entity.type}}
+							</small>
+						</div>
+						<div class="single-line">
+							<small class="text-muted">
+								{{entity.subtitle}}
+							</small>
+						</div>
 						
 					</a>
 
-					<li class="list-group-item"	style="background: #f5f5f5;">
-						<b class="text-muted uppercase small">
-							<span class="glyphicon glyphicon-minus" style="color:black" ></span>
-							&nbsp; aktuelles Ergebnis
-						</b>
+					<li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
+						<b class="text-muted uppercase small">Angezeiger Datensatz</b>
+						<form ng-submit="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput-1).toString())">
+							<div class="input-group"
+									ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
+						    	<input ng-model="resultIndexInput"
+						    			type="number" size="4"
+						    			min="1" max="{{resultSize}}" class="form-control input-sm">
+						    	<span class="input-group-addon"><small>von</small> <strong>{{resultSize}}</strong></span>
+						    </div>
+						</form>
 					</li>
 
 					<a ng-if="nextEntity"
 							ng-href="entity/{{nextEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex+1).toString()}}"
-							class="list-group-item"
+							class="list-group-item text-right"
 							style="height:75px; overflow:hidden">
-						<b class="text-muted uppercase small">
-							<span class="glyphicon glyphicon-chevron-down" style="color:black" ></span>
-							&nbsp; nächstes Ergebnis
-						</b>
-						<br>
-						<small>{{nextEntity.title}}</small>
-						<small ng-if="nextEntity.title.length==0">
-							Objekt der Kat.: {{nextEntity.type}}
-						</small>
-						<br>
-						<small class="text-muted">
-							{{nextEntity.subtitle}}
-						</small>
+						<div>
+							<b class="text-muted uppercase small">
+								&nbsp; nächstes Ergebnis
+								<span class="glyphicon glyphicon-chevron-right" style="color:black" ></span>
+							</b>
+						</div>
+						<div class="single-line">
+							<small class="single-line">{{nextEntity.title}}</small>
+							<small ng-if="nextEntity.title.length==0">
+								Objekt der Kat.: {{nextEntity.type}}
+							</small>
+						</div>
+						<div class="single-line">
+							<small class="text-muted">
+								{{nextEntity.subtitle}}
+							</small>
+						</div>
 						
 					</a>
 
 				</ul>
+
 			</div>
+
 		</div>
+		<!-- END CURRENT QUERY STATUS -->
 
-
-<!-- NOTES -->
+		<!-- NOTES -->
 		<div ng-if="user.username" ng-init="queryBookmarListsForEntityId()">
-			<div class="page-header">
-				<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
-			</div>
+			<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
 			<div ng-repeat="bookmarklist in bookmarklists">
 				<div ng-repeat="bookmark in bookmarklist.bookmarks" class="panel panel-warning">
 					<div class="panel-heading">
@@ -164,116 +158,127 @@
 					</div>
 				</div>
 			</div>
-
-			<button type="button" class="btn btn-warning btn-sm" ng-click="createBookmark()"><span class="glyphicon glyphicon-plus"></span> Notiz als Lesezeichen</button>
+			<button type="button" class="btn btn-warning btn-sm" ng-click="createBookmark()">
+				<span class="glyphicon glyphicon-plus"></span> Notiz als Lesezeichen
+			</button>
 		</div>
+		<!-- END NOTES -->
 
 	</div>
 
-	<div ng-show="entity.entityId" class="col-md-6">
-		<div class="page-header">
-			<h2>
-				{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type }}</span><br>
-				<small>{{ entity.subtitle }}</small>
-			</h2>
-		</div>
+	<div ng-show="entity.entityId" class="col-md-9">
+
 		<div class="row">
-			<div class="col-md-3">
-				<b>Entity-ID:</b><br>{{ entity.entityId }}
-			</div>
-			<div class="col-md-3">
-				<b>Kategorie:</b><br>{{ singular[entity.type] }}
-			</div>
-			<div class="col-md-3">
-				<b>Seriennummer:</b><br>{{ entity.internalId }}
-			</div>
-			<div class="col-md-3">
-				
-				<div class="btn-group-vertical pull-right">
-					<button style="text-align:left"
-							ng-click="permaLink=!permaLink"
-							ng-class="{'active':permaLink}"
-							class="btn btn-default btn-xs">
-						<span class="glyphicon glyphicon-link"></span>
-						&nbsp;Perma-Link
-					</button>
-					<button style="text-align:left"
-							ng-show="entity.facet_aufbewahrungsort || entity.facet_fundort"ng-init="karteAnzeigen=false"
-							ng-class="{'active':karteAnzeigen}"
-							ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">
-						<span class="glyphicon glyphicon-map-marker"></span> &nbsp;Karte
-					</button>
+
+			<!-- CONTENT SECTION -->
+			<div class="col-md-8">
+
+				<h2>
+					{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type }}</span><br>
+					<small>{{ entity.subtitle }}</small>
+				</h2>
+
+				<hr>
+				<div class="row">
+					<div class="col-md-3">
+						<b>Entity-ID:</b><br>{{ entity.entityId }}
+					</div>
+					<div class="col-md-3">
+						<b>Kategorie:</b><br>{{ singular[entity.type] }}
+					</div>
+					<div class="col-md-3">
+						<b>Seriennummer:</b><br>{{ entity.internalId }}
+					</div>
+					<div class="col-md-3">
+						
+						<div class="btn-group-vertical pull-right">
+							<button style="text-align:left"
+									ng-click="permaLink=!permaLink"
+									ng-class="{'active':permaLink}"
+									class="btn btn-default btn-xs">
+								<span class="glyphicon glyphicon-link"></span>
+								&nbsp;Perma-Link
+							</button>
+							<button style="text-align:left"
+									ng-show="entity.facet_aufbewahrungsort || entity.facet_fundort"ng-init="karteAnzeigen=false"
+									ng-class="{'active':karteAnzeigen}"
+									ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">
+								<span class="glyphicon glyphicon-map-marker"></span> &nbsp;Karte
+							</button>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-		<div class="row" ng-hide="!permaLink">
-			<div class="col-md-12">
+				<div class="row" ng-hide="!permaLink">
+					<div class="col-md-12">
+						<hr>
+						<b>Perma-Link: </b><a href="{{ serverUri }}entity/{{entity.entityId}}">{{ serverUri }}entity/{{entity.entityId}}</a>
+					</div>
+				</div>	
+				<div class="row" ng-if="karteAnzeigen">
+					<div class="col-md-12">
+						<hr>
+						<div ng-if="entity.facet_fundort" entities="[entity]" style="height:300px" locationfacetname="locationfacetname = 'facet_fundort'"  map id="map1"></div>
+						<div ng-if="entity.facet_aufbewahrungsort" entities="[entity]" style="height:300px; margin-top:16px" locationfacetname="locationfacetname = 'facet_aufbewahrungsort'" map id="map2"></div>
+					</div>
+				</div>		  
 				<hr>
-				<b>Perma-Link: </b><a href="{{ serverUri }}entity/{{entity.entityId}}">{{ serverUri }}entity/{{entity.entityId}}</a>
+
+				<div class="sections"
+						ng-repeat="section in entity.sections.content"
+						ng-include="'section_template.html'">
+				</div>
+				<div ng-if="entity.additionalContent.ocrText">
+					<div class="page-header"><h4>OCR Text-Analyse</h4></div>
+					<ul>{{entity.additionalContent.ocrText}}</ul>
+				</div>
+
 			</div>
-		</div>	
-		<div class="row" ng-if="karteAnzeigen">
-			<div class="col-md-12">
-				<hr>
-				<div ng-if="entity.facet_fundort" entities="[entity]" style="height:300px" locationfacetname="locationfacetname = 'facet_fundort'"  map id="map1"></div>
-				<div ng-if="entity.facet_aufbewahrungsort" entities="[entity]" style="height:300px; margin-top:16px" locationfacetname="locationfacetname = 'facet_aufbewahrungsort'" map id="map2"></div>
+			<!-- END CONTENT SECTION -->
+
+			<!-- CONTEXT & IMAGE SECTION -->
+			<div class="col-md-4">
+
+				<div class="row">
+					<div class="col-md-12">
+						<h3 ng-if="entity.images.length > 1">Abbildungen <small>({{entity.images.length}})</small></h3>
+						<h3 ng-if="entity.images.length == 1">Abbildung</h3>
+						<div ar-imageslider ng-if="entity.images" entity="entity"></div>
+					</div>
+				</div>
+
+				<div class="row"  ng-if="specialNavigations.specialNavigationElements">
+					<div class="col-md-12">
+						<h3>Andere Ansichten</h3>
+						<div class="btn-group">
+							<a target="_blank" ng-repeat="navigation in specialNavigations.specialNavigationElements" href="{{ navigation.link }}" type="button" class="btn btn-info btn-sm">{{ navigation.title}} </a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row" ng-show="contextSize">
+					<div class="col-md-12">
+						
+						<h3>
+							<a ng-href="search/?q=connectedEntities:{{entity.entityId}}">
+								Verknüpfte Objekte
+								<small>({{contextSize}})</small>
+							</a>
+						</h3>
+
+						<div ar-facet-browser
+								query="contextQuery"
+								facet-name="facet_kategorie"
+								context-size="contextSize">
+						</div>
+
+					</div>
+				</div>
+
 			</div>
-		</div>		  
-		<hr/>
-			<div class="sections" ng-repeat="section in entity.sections.content" ng-include="'section_template.html'">
-			</div>
-		<div ng-if="entity.additionalContent.ocrText">
-			<div class="page-header"><h4>OCR Text-Analyse</h4></div>
-			<ul>{{entity.additionalContent.ocrText}}</ul>
+			<!-- END CONTEXT & IMAGE SECTION -->
+
 		</div>
 			
-	</div>
-
-	<div class="col-md-3" ng-show="entity.entityId">
-		<div class="page-header">
-			<h2>&nbsp;<br><small>&nbsp;</small></h2>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<h3 ng-if="entity.images.length > 1">Abbildungen <small>({{entity.images.length}})</small></h3>
-				<h3 ng-if="entity.images.length == 1">Abbildung</h3>
-				<div ar-imageslider ng-if="entity.images" entity="entity"></div>
-				<!--<div ng-if="entity.thumbnailId" style="text-align:center;">
-					<a href="entity/{{entity.entityId}}/image/{{entity.thumbnailId}}{{currentQuery.toString()}}">
-						<img ar-img img-id="{{entity.thumbnailId}}" img-height="300" class="img-thumbnail">
-					</a>
-				</div>
-				<div ng-if="entity.images.length > 0">
-					<h3 class="text-justify">
-						<a ng-show="entity.images.length > 1"
-								ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}"
-								class="btn btn-default btn-sm btn-default btn-block">
-							<span class="glyphicon glyphicon-chevron-down"></span>
-							&nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})
-						</a>
-					</h3>
-				</div>-->
-			</div>
-		</div>
-
-		<div class="row"  ng-if="specialNavigations.specialNavigationElements">
-			<div class="col-md-12">
-				<h3>Andere Ansichten</h3>
-				<div class="btn-group">
-					<a target="_blank" ng-repeat="navigation in specialNavigations.specialNavigationElements" href="{{ navigation.link }}" type="button" class="btn btn-info btn-sm">{{ navigation.title}} </a>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-md-12">
-				<h3><a ng-href="search/?q=connectedEntities:{{entity.entityId}}">Verknüpfte Objekte</a></h3>
-
-				<div ar-facet-browser query="contextQuery" facet-name="facet_kategorie"></div>
-
-			</div>
-		</div>
 	</div>
 	
 </div>

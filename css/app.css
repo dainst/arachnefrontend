@@ -40,6 +40,12 @@ body {
   text-decoration: none;
 }
 
+.single-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .capitalized {
   text-transform: capitalize;
 }

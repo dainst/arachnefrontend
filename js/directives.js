@@ -242,7 +242,7 @@ angular.module('arachne.directives', [])
 	.directive('arFacetBrowser', ['Entity', '$location', function(Entity, $location) {
 		return {
 
-			scope: { query: '=', facetName: '@' },
+			scope: { query: '=', facetName: '@', contextSize: '=' },
 			templateUrl: 'partials/directives/ar-facet-browser.html',
 
 			link: function(scope, element, attrs) {
@@ -252,6 +252,7 @@ angular.module('arachne.directives', [])
 				scope.facetQueries = [];
 
 				Entity.query(scope.query.toFlatObject(), function(data) {
+					scope.contextSize = data.size;
 					for (var i = 0; i < data.facets.length; i++) {
 						if (scope.facetName == data.facets[i].name) {
 							scope.facetValues = data.facets[i].values;
