@@ -30,6 +30,16 @@ body {
   white-space: normal;
 }
 
+.ar-imageslider .thumb-row a {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.ar-imageslider .thumb-row  a:hover, .ar-imageslider .thumb-row  a.active {
+  opacity: 1;
+  text-decoration: none;
+}
+
 .capitalized {
   text-transform: capitalize;
 }

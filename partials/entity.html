@@ -236,7 +236,10 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<div ng-if="entity.thumbnailId" style="text-align:center;">
+				<h3 ng-if="entity.images.length > 1">Abbildungen <small>({{entity.images.length}})</small></h3>
+				<h3 ng-if="entity.images.length == 1">Abbildung</h3>
+				<div ar-imageslider ng-if="entity.images" entity="entity"></div>
+				<!--<div ng-if="entity.thumbnailId" style="text-align:center;">
 					<a href="entity/{{entity.entityId}}/image/{{entity.thumbnailId}}{{currentQuery.toString()}}">
 						<img ar-img img-id="{{entity.thumbnailId}}" img-height="300" class="img-thumbnail">
 					</a>
@@ -250,15 +253,13 @@
 							&nbsp; {{ 'Verbundene Bilder' | i18n }} anzeigen ({{entity.images.length}})
 						</a>
 					</h3>
-				</div>
+				</div>-->
 			</div>
 		</div>
 
 		<div class="row"  ng-if="specialNavigations.specialNavigationElements">
 			<div class="col-md-12">
-				<div class="page-header">
-					<h3>Andere Ansichten</h3>			
-				</div>
+				<h3>Andere Ansichten</h3>
 				<div class="btn-group">
 					<a target="_blank" ng-repeat="navigation in specialNavigations.specialNavigationElements" href="{{ navigation.link }}" type="button" class="btn btn-info btn-sm">{{ navigation.title}} </a>
 				</div>
@@ -267,9 +268,7 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div class="page-header">
-					<h3><a ng-href="search/?q=connectedEntities:{{entity.entityId}}">Verknüpfte Objekte</a></h3>
-				</div>
+				<h3><a ng-href="search/?q=connectedEntities:{{entity.entityId}}">Verknüpfte Objekte</a></h3>
 
 				<div ar-facet-browser query="contextQuery" facet-name="facet_kategorie"></div>
 
