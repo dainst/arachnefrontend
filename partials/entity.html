@@ -78,17 +78,7 @@
 								&nbsp; vorheriges Ergebnis
 							</b>
 						</div>
-						<div class="single-line">
-							<small class="single-line">{{entity.title}}</small>
-							<small ng-if="entity.title.length==0">
-								Objekt der Kat.: {{entity.type}}
-							</small>
-						</div>
-						<div class="single-line">
-							<small class="text-muted">
-								{{entity.subtitle}}
-							</small>
-						</div>
+						<div ar-entity-title entity="prevEntity"></div>
 						
 					</a>
 
@@ -115,17 +105,7 @@
 								<span class="glyphicon glyphicon-chevron-right" style="color:black" ></span>
 							</b>
 						</div>
-						<div class="single-line">
-							<small class="single-line">{{nextEntity.title}}</small>
-							<small ng-if="nextEntity.title.length==0">
-								Objekt der Kat.: {{nextEntity.type}}
-							</small>
-						</div>
-						<div class="single-line">
-							<small class="text-muted">
-								{{nextEntity.subtitle}}
-							</small>
-						</div>
+						<div ar-entity-title entity="nextEntity"></div>
 						
 					</a>
 
@@ -144,10 +124,10 @@
 					<div class="panel-heading">
 						{{ bookmarklist.name }}: 
 						<div class="btn-group pull-right">
-							<button class="btn btn-sm"  ng-click="updateBookmark(bookmark)" data-dismiss="alert" >
+							<button class="btn btn-sm" ng-click="updateBookmark(bookmark)" data-dismiss="alert" >
 								<span class="glyphicon glyphicon-pencil"></span>
 							</button>
-							<button class="btn btn-sm"  ng-click="deleteBookmark(bookmark.id)" class="close" data-dismiss="alert" >
+							<button class="btn btn-sm" ng-click="deleteBookmark(bookmark.id)" class="close" data-dismiss="alert" >
 								<span class="glyphicon glyphicon-remove"></span>
 							</button>
 							

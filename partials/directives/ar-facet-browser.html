@@ -4,16 +4,24 @@
 			<span class="badge pull-right">{{facetValue.count}}</span>
 			{{facetValue.value}}
 		</accordion-heading>
-		<div style="max-height:400px; overflow-y: scroll;">			
+		<div>
 			<a ng-show="facetValue.count > 1"
 					ng-href="search{{facetQueries[$index].toString()}}"
 					style="cursor:pointer;"
 					class="text-center list-group-item">
 				<span class="glyphicon glyphicon-search"></span>
-				Alle Anzeigen
+				<b>Alle Anzeigen</b>
 			</a>
+		</div>
+		<div style="max-height:400px; overflow-y: auto;">
 			<a class="list-group-item" ng-repeat="entity in entities[$index]" ng-href="entity/{{entity.entityId}}{{facetQueries[$parent.$index].setParam('resultIndex',$index).toString()}}">
-				{{entity.title}}
+				<div ar-entity-title entity="entity"></div>
+			</a>
+			<a ng-show="facetValue.count > entities[$index].length"
+					ng-href="search{{facetQueries[$index].toString()}}"
+					style="cursor:pointer;"
+					class="text-center list-group-item">
+				...
 			</a>
 		</div>
 	</accordion-group>

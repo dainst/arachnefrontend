@@ -3,6 +3,13 @@
 /* Directives */
 angular.module('arachne.directives', [])
 
+	.directive('arEntityTitle', function() {
+		return {
+			scope: { entity: '=' },
+			templateUrl: 'partials/directives/ar-entity-title.html'
+		}
+	})
+
 	.directive('arImg', ['arachneSettings', '$http', function(arachneSettings, $http) {
 		return {
 			scope: {
@@ -265,7 +272,7 @@ angular.module('arachne.directives', [])
 
 				scope.loadEntities = function(facetValueNo) {
 					var facetQuery = scope.facetQueries[facetValueNo];
-					facetQuery.limit = 10000;
+					facetQuery.limit = 100;
 					Entity.query(facetQuery.toFlatObject(), function(data) {
 						scope.entities[facetValueNo] = data.entities;
 					});
