@@ -9,7 +9,6 @@ body {
 
 .ar-imagegrid-cell-title {
   background: #ffffff;
-  height: auto;
   padding: 2px 4px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -28,6 +27,22 @@ body {
   width: inherit;
   height: auto;
   white-space: normal;
+}
+
+.ar-imageslider .thumb-row a {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.ar-imageslider .thumb-row  a:hover, .ar-imageslider .thumb-row  a.active {
+  opacity: 1;
+  text-decoration: none;
+}
+
+.single-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .capitalized {
@@ -61,6 +76,7 @@ body {
 }
 .fullscreenrow {
   margin-top: 0px;
+  min-height: 100%;
 }
 
 .sections {
@@ -217,9 +233,8 @@ body {
 }
 
 .loading{
-  height:100px;
   position: absolute;
-  top: 0px;
+  top: 250px;
   bottom:0px;
   left: 0px;
   right: 0px;
@@ -230,7 +245,7 @@ body {
   display: block;
   width: 20px;
   height: 20px;
-  margin: auto;
+  margin: 0 auto;
   border-width: 1px;
   border-style: solid;
   border-color: transparent rgb(66,139,202) rgb(66,139,202) rgba(0,0,0,0);

@@ -306,8 +306,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window',
-	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window) {
+.controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope',
+	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope) {
+
+		$rootScope.hideFooter = true;
+		$scope.allow = true;
 
 		$scope.refreshImageIndex = function() {
 			if($scope.entity && $scope.entity.images) {
@@ -374,8 +377,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService',
-	function($routeParams, $scope, Entity, $filter, searchService) {
+.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope',
+	function($routeParams, $scope, Entity, $filter, searchService, $rootScope) {
+
+		$rootScope.hideFooter = true;
 
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.entityId = $routeParams.entityId;

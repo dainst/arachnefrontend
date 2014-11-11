@@ -1,0 +1,26 @@
+<div class="ar-imageslider">
+	<div ng-show="entity.images.length > 1" style="overflow: hidden; padding: 4px;" class="thumb-row panel panel-default">
+		<a ng-click="pageThumbsLeft()" style="position:absolute; font-size:1.5em; margin: 25px 0 0 3px; z-index:50;" ng-hide="offset <= 0">
+			<span class="glyphicon glyphicon-circle-arrow-left"></span>
+		</a>
+		<a ng-click="pageThumbsRight()" style="position:absolute; right:21; font-size:1.5em; margin: 25px 0 0; z-index:50;" ng-hide="offset >= max">
+			<span class="glyphicon glyphicon-circle-arrow-right"></span>
+		</a>
+		<div style="height:70px; width:auto; white-space: nowrap; transform: translateX(-{{offset}}px); transition: 0.5s ease-in-out; display:inline-block;">
+			<a ng-click="setImage($index)"
+					ng-repeat="image in entity.images"
+					ng-class="{ 'active': $index == currentImgNo }">
+				<img ar-img img-id="{{image.imageId}}"
+						img-height="70">
+			</a>
+		</div>
+	</div>
+	<div ng-if="currentImgNo >= 0" class="panel panel-default"
+			style="text-align:center; position: relative; padding: 4px;">
+		<a href="entity/{{entity.entityId}}/image/{{entity.images[currentImgNo].imageId}}{{currentQuery.toString()}}"  style="cursor:zoom-in;">
+			<img ar-img	img-id="{{entity.images[currentImgNo].imageId}}"
+					img-height="300"
+					style="max-width:100%; height:auto;">
+		</a>
+	</div>
+</div>

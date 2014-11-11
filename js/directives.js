@@ -3,6 +3,13 @@
 /* Directives */
 angular.module('arachne.directives', [])
 
+	.directive('arEntityTitle', function() {
+		return {
+			scope: { entity: '=' },
+			templateUrl: 'partials/directives/ar-entity-title.html'
+		}
+	})
+
 	.directive('arImg', ['arachneSettings', '$http', function(arachneSettings, $http) {
 		return {
 			scope: {
@@ -13,7 +20,7 @@ angular.module('arachne.directives', [])
 			restrict: 'A',
 			link: function(scope, element, attrs) {
 
-				if (element[0].tagName== 'IMG') {
+				scope.loadImg = function() {
 					var img = element[0];
 					var imgUri = arachneSettings.dataserviceUri + "/image/";
 					if (scope.imgWidth) {
@@ -27,9 +34,68 @@ angular.module('arachne.directives', [])
             				img.src = window.URL.createObjectURL(blob);
 						}
 					);
+				};
+
+				if (element[0].tagName == 'IMG') {
+					scope.loadImg();
 				} else {
 					console.log("Warning: ar-img directive used on a non img element!");
 				}
+
+				scope.$watch('imgId', function() {
+					scope.loadImg();
+				})
+
+			}
+		}
+	}])
+
+	.directive('arImageslider', [function(){
+		return {
+			scope: { entity: '=', currentQuery: '=' },
+			templateUrl: 'partials/directives/ar-imageslider.html',
+			link: function(scope, element, attrs) {
+
+				var thumbRow = angular.element(angular.element(element.children()[0]).children()[0]).children()[2];
+				var sliderRow = angular.element(element.children()[0]).children()[0];
+
+				scope.currentImgNo = 0;
+				scope.offset = 0;
+				scope.max = 50;
+
+				scope.pageThumbsLeft = function() {
+					var rowRect = sliderRow.getBoundingClientRect();
+					var offset = scope.offset - rowRect.width;
+					if (offset > 0) {
+						scope.offset = offset;
+					} else {
+						scope.offset = 0;
+					}
+				};
+
+				scope.pageThumbsRight = function() {
+					var rowRect = sliderRow.getBoundingClientRect();
+					var offset = scope.offset + rowRect.width;
+					scope.max = thumbRow.getBoundingClientRect().width - rowRect.width;
+					if (offset < scope.max) {
+						scope.offset = offset;
+					} else {
+						scope.offset = scope.max;
+					}
+				};
+
+				scope.setImage = function(imgNo) {
+					scope.currentImgNo = imgNo;
+					var rowRect = sliderRow.getBoundingClientRect();
+					var thumbEl = angular.element(thumbRow).find('img')[imgNo];
+					var thumbRect = thumbEl.getBoundingClientRect();
+					var relOffset = thumbRect.left - rowRect.left;
+					if (relOffset < 0) {
+						scope.offset += relOffset;
+					} else if (relOffset + thumbRect.width > rowRect.width) {
+						scope.offset += relOffset + thumbRect.width - rowRect.width;
+					}
+				};
 
 			}
 		}
@@ -40,7 +106,8 @@ angular.module('arachne.directives', [])
 			scope: {
 				cells: '=',
 				columns: '@',
-				margin: '@'
+				margin: '@',
+				hideTitle: '@'
 			},
 			templateUrl: 'partials/directives/ar-imagegrid.html',
 			
@@ -174,7 +241,7 @@ angular.module('arachne.directives', [])
 		return {
 			scope: {
 				href: '@', img: '=', cellTitle: '@', cellSubtitle: '@', imgUri: '@',
-				cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@'
+				cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@', hideTitle: '@'
 			},
 			templateUrl: 'partials/directives/ar-imagegrid-cell.html'
 		}
@@ -183,7 +250,7 @@ angular.module('arachne.directives', [])
 	.directive('arFacetBrowser', ['Entity', '$location', function(Entity, $location) {
 		return {
 
-			scope: { query: '=', facetName: '@' },
+			scope: { query: '=', facetName: '@', contextSize: '=' },
 			templateUrl: 'partials/directives/ar-facet-browser.html',
 
 			link: function(scope, element, attrs) {
@@ -193,6 +260,7 @@ angular.module('arachne.directives', [])
 				scope.facetQueries = [];
 
 				Entity.query(scope.query.toFlatObject(), function(data) {
+					scope.contextSize = data.size;
 					for (var i = 0; i < data.facets.length; i++) {
 						if (scope.facetName == data.facets[i].name) {
 							scope.facetValues = data.facets[i].values;
@@ -205,7 +273,7 @@ angular.module('arachne.directives', [])
 
 				scope.loadEntities = function(facetValueNo) {
 					var facetQuery = scope.facetQueries[facetValueNo];
-					facetQuery.limit = 10000;
+					facetQuery.limit = 100;
 					Entity.query(facetQuery.toFlatObject(), function(data) {
 						scope.entities[facetValueNo] = data.entities;
 					});
