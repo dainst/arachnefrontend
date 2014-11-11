@@ -8,7 +8,7 @@
 	<li ng-if="section.value" ng-switch="isArray(section.value)">
 		<span ng-switch-when="false" ng-bind-html="section.value"></span>
 		<div ng-switch-when="true">
-			<div class="section-item" ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></div>
+			<div class="section-item" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem"></div>
 		</div>
 	</li>
 
