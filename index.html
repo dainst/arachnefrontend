@@ -130,7 +130,23 @@
 	<div class="container-fluid">
 
 		<div style="min-height:500px;">
+
+			<!-- MESSAGES -->
+			<div ng-controller="MessageCtrl" ng-cloak>
+				<div class="row">
+					<div ng-repeat="(code,message) in messages"
+							ng-class="'alert-' + message.level"
+							class="col-md-10 col-md-offset-1 alert text-center">
+						<button class="close" ng-click="removeMessage(code)" class="pull-right" style="cursor:pointer;">&times;</button>
+						<b>{{message.heading}}:</b>
+						<span ng-bind-html="message.body"></span>
+					</div>
+				</div>
+			</div>
+
+			<!-- VIEWS -->
 			<div ng-cloak ng-view autoscroll="true"></div>
+
 		</div>
 
 		<div ng-hide="$root.hideFooter" class="row">

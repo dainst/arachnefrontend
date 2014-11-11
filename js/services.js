@@ -379,6 +379,45 @@ angular.module('arachne.services', [])
 		return factory;
 	}])
 
+	.factory('messageService', ['$http', function($http) {
+
+		var messageTypes;
+		$http.get('config/messageTypes.json').success(function(response) {
+			messageTypes = response;
+		});
+		var messages = {};
+
+		return {
+
+			addMessage: function(id, heading, body, level) {
+				var message = {
+					heading: heading,
+					body: body,
+					level: level
+				};
+				messages[id] = message;
+			},
+
+			addMessageForCode: function(code) {
+				if (code in messageTypes) {
+					messages[code] = messageTypes[code];
+				} else {
+					messages['default'] = messageTypes['default'];
+				}
+			},
+
+			removeMessage: function(code) {
+				delete messages[code];
+			},
+
+			getMessages: function() {
+				return messages;
+			}
+
+		}
+
+	}])
+
 	.factory('noteService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
 		function($resource, arachneSettings, $http, $modal, authService){
 

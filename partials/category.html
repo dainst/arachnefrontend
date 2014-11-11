@@ -1,6 +1,6 @@
-<div ng-controller="SearchCtrl as searchCtrl">
+<div ng-controller="SearchCtrl">
 	<div class="row fullscreenrow">
-		<div ng-hide="resultSize" class="loading"></div>
+		<div ng-hide="resultSize || error" class="loading"></div>
 
         <div map ng-if="resultSize"
         		locationfacetname="locationfacetname"
