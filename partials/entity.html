@@ -223,7 +223,11 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<h3 ng-if="entity.images.length > 1">Abbildungen <small>({{entity.images.length}})</small></h3>
+						<h3 ng-if="entity.images.length > 1">
+							<a ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}">
+								Abbildungen <small>({{entity.images.length}})</small>
+							</a>
+						</h3>
 						<h3 ng-if="entity.images.length == 1">Abbildung</h3>
 						<div ar-imageslider ng-if="entity.images" entity="entity" current-query="currentQuery"></div>
 					</div>
