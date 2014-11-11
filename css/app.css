@@ -9,7 +9,6 @@ body {
 
 .ar-imagegrid-cell-title {
   background: #ffffff;
-  height: auto;
   padding: 2px 4px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -77,6 +76,7 @@ body {
 }
 .fullscreenrow {
   margin-top: 0px;
+  height: 100%;
 }
 
 .sections {
