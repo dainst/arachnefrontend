@@ -76,7 +76,7 @@ body {
 }
 .fullscreenrow {
   margin-top: 0px;
-  height: 100%;
+  min-height: 100%;
 }
 
 .sections {
