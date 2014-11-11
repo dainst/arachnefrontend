@@ -65,6 +65,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		searchService.getCurrentPage().then(function(entities) {
 			$scope.entities = entities;
 			$scope.resultSize = searchService.getSize();
+			$scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
 			$scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
 			$scope.facets = searchService.getFacets();
 			$scope.facets.forEach(function(facet) {
@@ -84,10 +85,22 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.url(path);
 		};
 
+		$scope.previousPage = function() {
+			if ($scope.currentPage > 1)
+				$scope.currentPage -= 1;
+			$scope.onSelectPage();
+		};
+
+		$scope.nextPage = function() {
+			if ($scope.currentPage < $scope.totalPages)
+				$scope.currentPage += 1;
+			$scope.onSelectPage();
+		};
+
 		$scope.onSelectPage = function() {
 			var newOffset = ($scope.currentPage-1) * $scope.currentQuery.limit;
 			$location.url('search/' + $scope.currentQuery.setParam('offset', newOffset).toString());
-		}
+		};
 
 	}
 ])
