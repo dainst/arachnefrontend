@@ -297,6 +297,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope) {
 
 		$rootScope.hideFooter = true;
+		$scope.allow = true;
 
 		$scope.refreshImageIndex = function() {
 			if($scope.entity && $scope.entity.images) {
