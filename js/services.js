@@ -590,7 +590,7 @@ angular.module('arachne.services', [])
 											function(data){
 												var modalInstance = $modal.open({
 													templateUrl: 'partials/Modals/createBookmark.html',
-													controller: 'createBookmarkCtrl'
+													controller: 'CreateBookmarkCtrl'
 								      			});
 
 								      			modalInstance.result.then(function (selectedList) { 
@@ -611,7 +611,7 @@ angular.module('arachne.services', [])
 							if(data.length >= 1){
 								var modalInstance = $modal.open({
 									templateUrl: 'partials/Modals/createBookmark.html',
-									controller: 'createBookmarkCtrl'
+									controller: 'CreateBookmarkCtrl'
 				      			});
 
 				      			modalInstance.result.then(function (selectedList) { 

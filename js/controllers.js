@@ -117,7 +117,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.url(path);
 		};
 
-		$scope.queryBookmarListsForEntityId = function(){
+		$scope.queryBookmarkListsForEntityId = function(){
 			$scope.bookmarklists = noteService.queryBookmarListsForEntityId($routeParams.id);
 		}
 
@@ -136,7 +136,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.createBookmark = function(){
 			noteService.createBookmark($routeParams.id, function(data){
-				$scope.queryBookmarListsForEntityId();
+				$scope.queryBookmarkListsForEntityId();
 			});			
 		}
 
