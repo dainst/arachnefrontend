@@ -74,10 +74,10 @@
 	<div ng-if="resultSize"
 			ng-switch="currentQuery.view"
 			class="col-md-10 col-sm-9">
-		
-		<div align="center" class="row">
-			<div class="col-md-12">
-				<div class="btn-group ">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6" align="center">
+				<div class="btn-group">
 					<a ng-href="search/{{currentQuery.removeParam('view').toString()}}"
 							class="btn btn-sm btn-startsite-tab" style="color:#333;"
 							ng-class="{ 'active': !currentQuery.view}">
@@ -85,7 +85,7 @@
 						Kacheln
 					</a>
 					<a ng-href="search/{{currentQuery.setParam('view','list').toString()}}"
-							 class="btn btn-sm btn-startsite-tab" style="color:#333;"
+						 	class="btn btn-sm btn-startsite-tab" style="color:#333;"
 							ng-class="{ 'active': currentQuery.view == 'list' }">
 						<span class="glyphicon glyphicon-align-justify"></span>
 						Liste
@@ -99,23 +99,19 @@
 					-->
 				</div>
 			</div>
+			<div class="row" align="center">
+				<div class="col-md-12">
+					<a class="btn btn-link" ng-class="{ 'disabled': currentPage == 1 }" style="margin-top: -3px;" ng-click="previousPage()">
+						<span class="glyphicon glyphicon glyphicon-arrow-left" style="color:#333;"></span>
+					</a>
+					<small class="text-muted"><em>Seite {{currentPage}} / {{totalPages}}</em></small>
+					<a class="btn btn-link" ng-class="{ 'disabled': currentPage >= totalPages }" style="margin-top: -3px;" ng-click="nextPage()">
+						<span class="glyphicon glyphicon glyphicon-arrow-right" style="color:#333;"></span>
+					</a>			
+			</div>
+			<div class="col-md-3"></div>
 		</div>
-
-		<p align="center" ng-show="resultSize">
-			<pagination ng-model="$parent.currentPage"
-					total-items="resultSize"
-					items-per-page="currentQuery.limit"
-					max-size="6"
-					previous-text="zurück"
-					next-text="weiter"
-					boundary-links="true"
-					first-text="&laquo;"
-					last-text="&raquo;"
-					ng-change="onSelectPage()"
-					num-pages="numPages">
-			</pagination>
-		</p>
-
+		
 		<div class="row">
 			<div class="col-md-12">
 
@@ -163,20 +159,45 @@
 			</div>
 		</div>
 
-		<p align="center" ng-show="resultSize">
-			<pagination ng-model="$parent.currentPage"
-					total-items="resultSize"
-					items-per-page="currentQuery.limit"
-					max-size="6"
-					previous-text="zurück"
-					next-text="weiter"
-					boundary-links="true"
-					first-text="&laquo;"
-					last-text="&raquo;"
-					ng-change="onSelectPage()"
-					num-pages="numPages">
-			</pagination>
-		</p>
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6" align="center">
+				<div class="btn-group">
+					<a ng-href="search/{{currentQuery.removeParam('view').toString()}}"
+							class="btn btn-sm btn-startsite-tab" style="color:#333;"
+							ng-class="{ 'active': !currentQuery.view}">
+						<span class="glyphicon glyphicon-picture"></span>
+						Kacheln
+					</a>
+					<a ng-href="search/{{currentQuery.setParam('view','list').toString()}}"
+						 	class="btn btn-sm btn-startsite-tab" style="color:#333;"
+							ng-class="{ 'active': currentQuery.view == 'list' }">
+						<span class="glyphicon glyphicon-align-justify"></span>
+						Liste
+					</a>
+					<!-- vorerst ausgeblendet
+					<a href="map/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}&fl=2000"
+							class="btn btn-sm btn-startsite-tab" style="color:#333;" ng-class="{ 'active': listStyle == 'map' }">
+						<span class="glyphicon glyphicon-map-marker"></span>
+						Karte (Geo-Ergebnisse)
+					</a>
+					-->
+				</div>
+			</div>
+			<div class="row" align="center">
+				<div class="col-md-12">
+					<a class="btn btn-link" ng-class="{ 'disabled': currentPage == 1 }" style="margin-top: -3px;" ng-click="previousPage()">
+						<span class="glyphicon glyphicon glyphicon-arrow-left" style="color:#333;"></span>
+					</a>
+					<small class="text-muted"><em>Seite {{currentPage}} / {{totalPages}}</em></small>
+					<a class="btn btn-link" ng-class="{ 'disabled': currentPage >= totalPages }" style="margin-top: -3px;" ng-click="nextPage()">
+						<span class="glyphicon glyphicon glyphicon-arrow-right" style="color:#333;"></span>
+					</a>			
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+
+	</div>	
 		
 	</div>
 
