@@ -54,7 +54,7 @@ angular.module('arachne.filters', [])
 	.filter('cellsFromEntities', ['arachneSettings', 'singularService', function(arachneSettings, singularService) {
 		return function(entities, query) {
 			for (var i in entities) {
-				entities[i].title = singularService.getSingular()[entities[i].type] + ": " + entities[i].title;
+				entities[i].label = singularService.getSingular()[entities[i].type];
 				entities[i].href = 'entity/' + entities[i].entityId;
 				if (typeof query != 'undefined') {
 					entities[i].href += query.setParam("resultIndex",(parseInt(query.offset) + parseInt(i))).toString();

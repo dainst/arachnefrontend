@@ -29,6 +29,18 @@ body {
   white-space: normal;
 }
 
+.ar-imagegrid-cell-link .label {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  opacity: 0.7;
+  white-space: normal;
+}
+
+.ar-imagegrid-cell-link:hover .label {
+  opacity: 1;
+}
+
 .ar-imageslider .thumb-row a {
   opacity: 0.7;
   cursor: pointer;
