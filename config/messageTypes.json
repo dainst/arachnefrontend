@@ -1,7 +1,7 @@
 {
 	"backend_missing": {
 		"heading": "Fehler",
-		"body": "Die Verbindung zum Arachne-Server konnte nicht hergestellt werden. Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a> sollte dieser Fehler länger anhalten.",
+		"body": "Die Verbindung zum Arachne-Server konnte nicht hergestellt werden. Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, sollte dieser Fehler länger anhalten.",
 		"level": "warning"
 	},
 	"search_400": {
@@ -11,17 +11,17 @@
 	},
 	"entity_404": {
 		"heading": "Fehler",
-		"body": "Anfrage konnte nicht ausgeführt werden.<br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a> sollte dieser Fehler häufiger auftreten.",
+		"body": "Anfrage konnte nicht ausgeführt werden.<br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, sollte dieser Fehler häufiger auftreten.",
 		"level": "warning"
 	},
 	"entity_403": {
 		"heading": "Hinweis",
-		"body": "Sie besitzen nicht die notwendigen Rechte um diesen Datensatz anzuzeigen.<br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a> wenn Sie denken, dass dies ein Irrtum ist.",
+		"body": "Sie besitzen nicht die notwendigen Rechte, um diesen Datensatz anzuzeigen.<br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, wenn Sie denken, dass dies ein Irrtum ist.",
 		"level": "info"
 	},
 	"default": {
 		"heading": "Fehler",
-		"body": "Unbekannter Fehler. <br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a> sollte dieser Fehler häufiger auftreten.",
+		"body": "Unbekannter Fehler. <br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, sollte dieser Fehler häufiger auftreten.",
 		"level": "warning"
 	}
 }
