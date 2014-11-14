@@ -1,18 +1,20 @@
-<div class="modal-header">
-	<h4 class="modal-title">Neue Sammlung anlegen:
-	</h4>
-</div>
-<div class="modal-body">
-	Name der neuen Sammlung:
-	<div class="form-group">
-		<input type="name" class="form-control" ng-model="name" placeholder="Name">
+<form>
+	<div class="modal-header">
+		<h4 class="modal-title">Neue Sammlung anlegen:
+		</h4>
 	</div>
-	Kommentar:
-	<div class="form-group">
-		<input type="commentary" class="form-control" ng-model="commentary" placeholder="Kommentar">
+	<div class="modal-body">
+		Name der neuen Sammlung:
+		<div class="form-group">
+			<input autofocus type="name" class="form-control" ng-model="name" placeholder="Name">
+		</div>
+		Kommentar:
+		<div class="form-group">
+			<input type="commentary" class="form-control" ng-model="commentary" placeholder="Kommentar">
+		</div>
 	</div>
-</div>
-<div class="modal-footer">
-    	<button class="btn btn-primary" ng-click="$close(name, commentary)">OK</button>
+	<div class="modal-footer">
+    	<input class="btn btn-primary" type="submit" ng-click="$close(name, commentary)" value="OK">
     	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
-</div>
+	</div>
+</form>
