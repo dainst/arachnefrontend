@@ -26,7 +26,7 @@
 		    	</div>
 
 		    	<div ng-if="bookmarksList.bookmarks.length == 0"  class="list-group-item clearfix">
-		    		In dieser Sammlung sind noch keine Einträge oder Notizen vorhanden.
+		    		In dieser Sammlung sind noch keine Lesezeichen vorhanden.
 		    	</div>
 
 	    		<div ng-repeat="bookmark in bookmarksList.bookmarks" class="list-group-item clearfix">
@@ -45,7 +45,7 @@
 							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length > 0" class="title small" >{{ bookmark.title }}</a>
 							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length == 0" class="title small" >Objekt der Kategorie: {{ bookmark.type }}</a>
 							<br>
-							<b>Notiz:</b> {{ bookmark.commentary }}
+							<b>Kommentar:</b> {{ bookmark.commentary }}
 						</div>
 					</div>
 					
