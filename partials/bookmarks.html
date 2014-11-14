@@ -21,7 +21,7 @@
     					<button type="button" class="btn btn-sm btn-link" ng-click="updateBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-pencil"></span></button>
     					<button type="button" class="btn btn-sm btn-link" ng-click="deleteBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-trash"></span></button>
 					</div>
-		    		<small>Zu dieser Sammlung:</small><br>
+		    		<small ng-if="bookmarksList.commentary">Kommentar:</small><br>
 		    		{{ bookmarksList.commentary }}
 		    	</div>
 
@@ -42,10 +42,10 @@
 							<img ng-if="!bookmark.thumbnailId" class="img-thumbnail" width="50" height="50" ng-src="img/imagePlaceholder.png"></img></a>
 						</div>
 						<div class="col-md-8">
-							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length > 0" class="title small" >{{ bookmark.title }}</a>
-							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length == 0" class="title small" >Objekt der Kategorie: {{ bookmark.type }}</a>
-							<br>
-							<b>Kommentar:</b> {{ bookmark.commentary }}
+							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length > 0" class="title" >{{ bookmark.title }}</a>
+							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length == 0" class="title" >Objekt der Kategorie: {{ bookmark.type }}</a>
+							<br>							
+		    				<small ng-if="bookmark.commentary">Kommentar:<br></small> {{ bookmark.commentary }}
 						</div>
 					</div>
 					

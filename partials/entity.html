@@ -111,7 +111,7 @@
 			<div ng-repeat="bookmarklist in bookmarklists">
 				<div ng-repeat="bookmark in bookmarklist.bookmarks" class="panel panel-info">
 					<div class="panel-heading">
-						{{ bookmarklist.name }}: 
+						In Sammlung: <b>{{ bookmarklist.name }}</b>
 						<div class="btn-group pull-right">
 							<button class="btn btn-sm btn-link" ng-click="updateBookmark(bookmark)">
 								<span class="glyphicon glyphicon-pencil"></span>
@@ -123,7 +123,8 @@
 						</div>
 					</div>
 					<div class="panel-body small">
-						{{ bookmark.commentary }}<br>
+						<small ng-if="bookmark.commentary">Kommentar:<br></small>
+						{{ bookmark.commentary }}
 					</div>
 				</div>
 			</div>
