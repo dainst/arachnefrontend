@@ -1,28 +1,20 @@
 <div class="modal-header">
-	<h4 class="modal-title">Neue Bookmark anlegen:
-	</h4>
+	<h4 class="modal-title">Neues Lesezeichen anlegen:</h4>
 </div>
 <div class="modal-body">
-	<div>Wählen sie die Sammlung:<br></div>
-		{{ isopen }}
-		<div class="btn-group" dropdown>
-			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-				{{ selected.item.name }} <span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu" role="menu" >
-				<li ng-repeat="item in items" >
-					<a ng-click="selected.item = item" dropdown-toggle>{{ item.name }}</a>
-				</li>
-			</ul>
+	<div>
+		Sammlung:
+		<div class="btn-group">
+			<select class="form-control" ng-model="selected" ng-options="item.name for item in items">
+			</select>
 		</div>
-
+	</div>
 	<div class="form-group">
-	<div><p><br></p></div>
-	Geben sie einen Kommentar ein:
-		<textarea type="commentary" class="form-control" ng-model="selected.commentary" placeholder="commentary"></textarea>
+		Kommentar:
+		<textarea type="commentary" class="form-control" ng-model="commentary"></textarea>
 	</div> 
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
+	<button class="btn btn-primary" ng-click="$close({ 'list': selected, 'commentary': commentary})">OK</button>
 	<button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
 </div>

@@ -653,15 +653,12 @@ angular.module('arachne.services', [])
 									controller: 'CreateBookmarkCtrl'
 				      			});
 
-				      			modalInstance.result.then(function (selectedList) { 
-				      				if(selectedList.commentary == undefined || selectedList.commentary == "")
-				      					selectedList.commentary = "no comment set";
-
+				      			modalInstance.result.then(function (result) {
 				      				var bm = {
 										arachneEntityId : rid,
-										commentary : selectedList.commentary
+										commentary : result.commentary
 									}
-									return arachneDataService.createBookmark({"id": selectedList.item.id}, bm, successMethod,errorMethod);
+									return arachneDataService.createBookmark({"id": result.list.id}, bm, successMethod,errorMethod);
 				      			});
 				      		}
 						}

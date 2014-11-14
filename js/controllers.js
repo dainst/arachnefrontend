@@ -210,21 +210,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function($scope, $modalInstance, noteService, messageService) {
 	
 		$scope.items = [];
-		$scope.hasBookmarkList = false;
 		$scope.selected = {};
-		$scope.selected.commentary = "";
-		$scope.bookmarkError = 0;
+		$scope.commentary = "";
 
 		noteService.getBookmarksLists(
 			function(data){
-				//console.log("habe die Liste!");
-				$scope.bookmarkError = 0;
 				$scope.items = data;
-				//console.log($scope.items);
-				$scope.selected = {
-					item: $scope.items[0]
-				};
-				$scope.selected.commentary = "";
+				$scope.selected = $scope.items[0];
 			}, function(status){
 				messageService.addMessageForCode('note_' + response.status);
 			}
