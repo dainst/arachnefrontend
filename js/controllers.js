@@ -161,6 +161,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var resultIndex = parseInt($scope.currentQuery.resultIndex);
 			searchService.getEntity(resultIndex).then(function(entity) {
 				$location.url('entity/' + entity.entityId + $scope.currentQuery.toString());
+				$location.replace();
 			});
 
 		} else {
