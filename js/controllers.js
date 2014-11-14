@@ -286,11 +286,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.createBookmarksList = function(){
-			$scope.bookmarksLists.push(noteService.createBookmarksList(
-				function(response){
-					// console.log("creating BookmarksList" + response);
-					$scope.refreshBookmarkLists();
-				}));
+			noteService.createBookmarksList(function(response){
+				$scope.bookmarksLists.push($scope.refreshBookmarkLists());
+			});
 		}
 
 		$scope.deleteBookmarksList = function(id){
