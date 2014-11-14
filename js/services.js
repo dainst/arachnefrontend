@@ -574,8 +574,8 @@ angular.module('arachne.services', [])
 					}
 				},
 				deleteBookmark : function(id, successMethod){
-					successMethod = successMethod || function () {};
-					return arachneDataService.deleteBookmark({ "id": id}, successMethod, catchError);
+					var successMethod = successMethod || function () {};
+					return arachneDataService.deleteBookmark({ "id": id }, successMethod, catchError);
 				},
 				getBookmark : function(id, successMethod, errorMethod){
 					return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);

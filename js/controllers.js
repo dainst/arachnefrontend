@@ -129,14 +129,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.updateBookmark = function(bookmark){
 			noteService.updateBookmark(bookmark, function(data){
-				$scope.queryBookmarListsForEntityId();
+				$scope.queryBookmarkListsForEntityId();
 			});					
 		}
 
 		$scope.deleteBookmark = function(bookmarkId){
-			noteService.deleteBookmark(bookmarkId,
-			function(data){
-				$scope.queryBookmarListsForEntityId();
+			noteService.deleteBookmark(bookmarkId, function(data){
+				$scope.queryBookmarkListsForEntityId();
 			});	
 		}
 
