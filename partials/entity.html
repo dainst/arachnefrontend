@@ -79,7 +79,10 @@
 						    	<input ng-model="resultIndexInput"
 						    			type="number" size="4"
 						    			min="1" max="{{resultSize}}" class="form-control input-sm">
-						    	<span class="input-group-addon"><small>von</small> <strong>{{resultSize|number}}</strong></span>
+						    	<span ng-if="resultIndex+1 == resultIndexInput" class="input-group-addon" style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>von</small> <strong>{{resultSize|number}}</strong></span>
+						    	<span ng-hide="resultIndex+1 == resultIndexInput" class="input-group-btn">
+						    		<button class="btn btn-primary btn-sm" ng-click="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput-1).toString())">Springe</button>
+						    	</span>
 						    </div>
 						</form>
 					</li>
