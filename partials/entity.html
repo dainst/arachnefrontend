@@ -109,15 +109,15 @@
 		<div ng-if="user.username" ng-init="queryBookmarkListsForEntityId()">
 			<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
 			<div ng-repeat="bookmarklist in bookmarklists">
-				<div ng-repeat="bookmark in bookmarklist.bookmarks" class="panel panel-warning">
+				<div ng-repeat="bookmark in bookmarklist.bookmarks" class="panel panel-info">
 					<div class="panel-heading">
 						{{ bookmarklist.name }}: 
 						<div class="btn-group pull-right">
-							<button class="btn btn-sm" ng-click="updateBookmark(bookmark)" data-dismiss="alert" >
+							<button class="btn btn-sm btn-link" ng-click="updateBookmark(bookmark)">
 								<span class="glyphicon glyphicon-pencil"></span>
 							</button>
-							<button class="btn btn-sm" ng-click="deleteBookmark(bookmark.id)" class="close" data-dismiss="alert" >
-								<span class="glyphicon glyphicon-remove"></span>
+							<button class="btn btn-sm btn-link" ng-click="deleteBookmark(bookmark.id)">
+								<span class="glyphicon glyphicon-trash"></span>
 							</button>
 							
 						</div>
@@ -127,8 +127,8 @@
 					</div>
 				</div>
 			</div>
-			<button type="button" class="btn btn-warning btn-sm" ng-click="createBookmark()">
-				<span class="glyphicon glyphicon-plus"></span> Notiz als Lesezeichen
+			<button type="button" class="btn btn-default btn-sm" ng-click="createBookmark()">
+				<span class="glyphicon glyphicon-bookmark"></span> Lesezeichen anlegen
 			</button>
 		</div>
 		<!-- END NOTES -->

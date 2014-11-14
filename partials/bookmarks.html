@@ -13,22 +13,12 @@
 		</div>
 		<accordion class="accordion-with-list" ng-repeat="bookmarksList in bookmarksLists" >
 
-			<accordion-group >
-
-
-		    	<accordion-heading>
-		    		<div class="btn-group pull-right">
-		    			<button type="button" class="btn btn-xs btn-default " ng-click="updateBookmarksList(bookmarksList.id); $event.stopPropagation()"><span class="glyphicon glyphicon-pencil"></span>&nbsp; bearbeiten</button>
-		    			<button type="button" class="btn btn-xs btn-default " ng-click="deleteBookmarksList(bookmarksList.id); $event.stopPropagation()"><span class="glyphicon glyphicon-trash"></span>&nbsp; löschen</button>
-		    		</div>
-	    			
-	    			{{ bookmarksList.name }}
-
-		    	</accordion-heading>
-
+			<accordion-group heading="{{ bookmarksList.name }}">
 		    	<div class="list-group-item">
-		    		
-
+					<div class="btn-group pull-right">
+    					<button type="button" class="btn btn-sm btn-link" ng-click="updateBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+    					<button type="button" class="btn btn-sm btn-link" ng-click="deleteBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-trash"></span></button>
+					</div>
 		    		<small>Zu dieser Sammlung:</small><br>
 		    		{{ bookmarksList.commentary }}
 		    	</div>
@@ -40,8 +30,8 @@
 	    		<div ng-repeat="bookmark in bookmarksList.bookmarks" class="list-group-item clearfix">
 					<div class="row-fluid">
 						<div class="btn-group pull-right">
-	    					<button type="button" class="btn btn-sm " ng-click="updateBookmark(bookmark)"><span class="glyphicon glyphicon-pencil"></span></button>
-	    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
+	    					<button type="button" class="btn btn-sm btn-link" ng-click="updateBookmark(bookmark)"><span class="glyphicon glyphicon-pencil"></span></button>
+	    					<button type="button" class="btn btn-sm btn-link" ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
 						</div>
 		    			<div class="col-md-2 col-xs-2">
 							<a ng-if="bookmark.thumbnailId" href="entity/{{ bookmark.arachneEntityId }}">
