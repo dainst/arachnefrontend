@@ -8,7 +8,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.user = authService.getUser();
 
-		//$scope.currentPath = $route.current.originalPath;
+		$scope.currentPath = $location.path();
+		$scope.$on("$locationChangeSuccess", function() {			
+			$scope.currentPath = $location.path();
+		});
+
 		$scope.openLoginModal = function() {
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/loginForm.html',
