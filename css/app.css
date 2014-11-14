@@ -238,7 +238,7 @@ body {
   cursor: pointer;
 }
 .accordion-with-list .list-group-item {
-  border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px; cursor:pointer;
+  border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px;
 }
 #projectTeaser{
   padding-bottom: 15px;
