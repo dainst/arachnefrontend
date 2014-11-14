@@ -133,7 +133,6 @@
 
 			<!-- MESSAGES -->
 			<div ng-controller="MessageCtrl" ng-cloak>
-				<div class="row">
 					<div ng-repeat="(code,message) in messages"
 							ng-class="'alert-' + message.level"
 							class="col-md-10 col-md-offset-1 alert text-center">
@@ -141,7 +140,6 @@
 						<b>{{message.heading}}:</b>
 						<span ng-bind-html="message.body"></span>
 					</div>
-				</div>
 			</div>
 
 			<!-- VIEWS -->
