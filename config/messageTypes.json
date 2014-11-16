@@ -11,7 +11,7 @@
 	},
 	"entity_404": {
 		"heading": "Fehler",
-		"body": "Anfrage konnte nicht ausgeführt werden.<br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, sollte dieser Fehler häufiger auftreten.",
+		"body": "Die Anfrage konnte nicht ausgeführt werden.<br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, sollte dieser Fehler häufiger auftreten.",
 		"level": "warning"
 	},
 	"entity_403": {
