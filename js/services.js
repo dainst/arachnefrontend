@@ -373,6 +373,7 @@ angular.module('arachne.services', [])
 			"Personen": "Person",
 			"Sammler":  "Sammler",
 			"Gruppierung": "Gruppierung",
+			"3D-Modelle": "3D-Modell",
 			"type_sammler": "Sammler",
 			"type_gruppierung": "Gruppierung"
 		};
