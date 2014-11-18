@@ -426,8 +426,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
         });
 	}
 ])
-.controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal', 'arachneSettings',
-	function ($scope, $location, $http, $modal, arachneSettings) {
+.controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal', 'arachneSettings', '$rootScope',
+	function ($scope, $location, $http, $modal, arachneSettings, $rootScope) {
+
+		$rootScope.hideFooter = true;
+		
 		this.showInfo = function () {
 		
 			if(!$scope.metainfos) {
@@ -439,7 +442,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/3dInfoModal.html',
 				scope: $scope
-			});	
+			});
+			
 			modalInstance.close = function(){
 				modalInstance.dismiss();
 			}
