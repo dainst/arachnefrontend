@@ -267,6 +267,10 @@ angular.module('arachne.services', [])
 						method: 'GET',
 						params: { endpoint: 'contexts'} 
 					},
+					specialNavigations: {
+						method: 'GET',
+						url: arachneSettings.dataserviceUri + '/specialNavigationsService'
+					},
 					imageProperties: {
 						method: 'GET',
 						url: arachneSettings.dataserviceUri + '/image/zoomify/:id/ImageProperties.xml',

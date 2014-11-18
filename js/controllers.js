@@ -173,6 +173,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				$scope.error = true;
 				messageService.addMessageForCode("entity_"+response.status);
 			});
+
+			Entity.specialNavigations({id:$routeParams.id, type:'entity'}, function(data) {
+				$scope.specialNavigationElements = data.specialNavigationElements;
+			}, function(response) {
+				messageService.addMessageForCode("entity_"+response.status);
+			})
 				
 			$scope.contextQuery = new Query();
 			$scope.contextQuery.q = "connectedEntities:" + $routeParams.id;
