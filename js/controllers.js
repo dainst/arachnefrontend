@@ -54,13 +54,23 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
-.controller('SearchCtrl', ['$scope','searchService','singularService', '$filter', 'arachneSettings', '$location',
-	function($scope, searchService, singularService, $filter, arachneSettings, $location){
+.controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', '$http',
+	function($scope, searchService, categoryService, $filter, arachneSettings, $location, $http){
 
-		$scope.singular = singularService.getSingular();
+		$scope.singular = categoryService.getSingular();
+		$scope.categoryDB = categoryService.getCategory();
 
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
+
+		$scope.aFacet = $scope.currentQuery.facets.facet_kategorie;
+		$scope.imgUrl = $scope.categoryDB[$scope.aFacet]["imgUri"];
+		$scope.subtitle = $scope.categoryDB[$scope.aFacet]["subtitle"];
+		console.log($scope.imgUrl);
+
+		$http.get('config/category.json').success (function(data){
+            $scope.category = data; 
+        });
 
 		searchService.getCurrentPage().then(function(entities) {
 			$scope.entities = entities;
@@ -91,13 +101,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'singularService', 'Query',
-	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, singularService, Query ) {
+.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query',
+	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, categoryService, Query ) {
 		
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
 
-		$scope.singular = singularService.getSingular();
+		$scope.singular = categoryService.getSingular();
 		$scope.currentQuery = searchService.currentQuery();
 
 		$scope.go = function(path) {
@@ -375,12 +385,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('StartSiteController', ['$scope', '$http', 'arachneSettings',
-	function ($scope, $http, arachneSettings) {
-
-		$http.get('config/category.json').success(function(data){
-            $scope.category = data; 
+.controller('StartSiteController', ['$scope', '$http', 'arachneSettings', 'categoryService',
+	function ($scope, $http, arachneSettings, categoryService) {
+		
+		$http.get('config/category.json').success (function(data){
+            $scope.categoryJson = data; 
         });
+        
+		$scope.category = categoryService.getCategory();
+		console.log($scope.category);
+		console.log($scope.categoryStart);
 
 		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
 			$scope.entityCount = data.entityCount;

@@ -33,7 +33,7 @@ angular.module('arachne',
 		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
 		.when('/register', {templateUrl: 'partials/register.html'});
 }]).constant('arachneSettings', {
-		dataserviceUri: "http://" + document.location.host + "/data",
+		dataserviceUri: "http://lakota.archaeologie.uni-koeln.de/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie"]
 }).run(['$rootScope', function($rootScope) {

@@ -346,7 +346,129 @@ angular.module('arachne.services', [])
 		return factory;
 	}])
 
-	.factory('singularService', ['$http', function($http ){
+	.factory('categoryService', ['$http', function($http ){
+		var category = new Array;
+
+		category["Bauwerke"] = new Array;
+		category["Bauwerke"]["imgUri"] =  "img/categories/bauwerke_sw.jpg";
+		category["Bauwerke"]["title"] =  "Bauwerke";
+		category["Bauwerke"]["subtitle"] =  "Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.";
+		category["Bauwerke"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Bauwerke\"&fl=1500";
+		category["Bauwerke"]["singular"] =  "Bauwerk";
+		category["Bauwerke"]["prio"] =  "start";
+
+		category["Bauwerksteile"] = new Array;
+		category["Bauwerksteile"]["imgUri"] =  "img/categories/bauwerksteile_sw.jpg";
+		category["Bauwerksteile"]["title"] =  "Bauwerksteile";
+		category["Bauwerksteile"]["subtitle"] =  "Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.";
+		category["Bauwerksteile"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Bauwerksteile\"&fl=1500";
+		category["Bauwerksteile"]["singular"] =  "Bauwerksteil";
+		category["Bauwerksteile"]["prio"] =  "start";
+
+		category["Einzelobjekte"] = new Array;
+		category["Einzelobjekte"]["imgUri"] =  "img/categories/objekte_sw.jpg";
+		category["Einzelobjekte"]["title"] =  "Einzelobjekte";
+		category["Einzelobjekte"]["subtitle"] =  "Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.";
+		category["Einzelobjekte"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Einzelobjekte\"&fl=1500";
+		category["Einzelobjekte"]["singular"] =  "Einzelobjekt";
+		category["Einzelobjekte"]["prio"] =  "start";
+
+		category["Szenen"] = new Array;
+		category["Szenen"]["imgUri"] =  "img/categories/szene.jpg";
+		category["Szenen"]["title"] =  "Szenen";
+		category["Szenen"]["subtitle"] =  "Thematisch oder formal in sich geschlossene Figurengruppe.";
+		category["Szenen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Szenen\"&fl=1500";
+		category["Szenen"]["singular"] =  "Szene";
+		category["Szenen"]["prio"] =  "start";
+
+		category["Bilder"] = new Array;
+		category["Bilder"]["imgUri"] =  "img/categories/bilder.jpg";
+		category["Bilder"]["title"] =  "Bilder";
+		category["Bilder"]["subtitle"] =  "Hier haben Sie die Möglichkeit gezielt nach Bildern und bildspezifischen Informationen (z.B. Fotografen ...) zu suchen. Diese Suche erfasst alle Bildbestände in Arachne.";
+		category["Bilder"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Bilder\"&fl=1500";
+		category["Bilder"]["singular"] =  "Bild";
+		category["Bilder"]["prio"] =  "start";
+
+		category["Typen"] = new Array;
+		category["Typen"]["imgUri"] =  "img/categories/typen_sw.jpg";
+		category["Typen"]["title"] =  "Typen";
+		category["Typen"]["subtitle"] =  "Kontextualisierung von Skulpturen (=Einzelobjekten) nach künstlerischen Bildnistypen und -schemata (Griechische Idealplastik, griechisches und römisches Portrait).";
+		category["Typen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Typen\"&fl=1500";
+		category["Typen"]["singular"] =  "Typus";
+		category["Typen"]["prio"] =  "start";
+
+		category["Sammlungen"] = new Array;
+		category["Sammlungen"]["imgUri"] =  "img/categories/sammlungen_sw.jpg";
+		category["Sammlungen"]["title"] =  "Sammlungen";
+		category["Sammlungen"]["subtitle"] =  "Privat- und Museumssammlungen, die in Gebäuden residieren und Objekte bzw. mehrteilige Denkmäler oder deren Reproduktionen und Rezeptionen enthalten können.";
+		category["Sammlungen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Sammlungen\"&fl=1500";
+		category["Sammlungen"]["singular"] =  "Sammlung";
+		category["Sammlungen"]["prio"] =  "sub";
+
+		category["Topographien"] = new Array;
+		category["Topographien"]["imgUri"] =  "img/categories/topographie_sw.jpg";
+		category["Topographien"]["title"] =  "Topographien";
+		category["Topographien"]["subtitle"] =  "Übergeordnete Kontexte, die untergeordnete Einheiten von Gebäuden, Landschaften, Städten, etc. vereinen.";
+		category["Topographien"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Topographien\"&fl=1500";
+		category["Topographien"]["singular"] =  "Topographie";
+		category["Topographien"]["prio"] =  "sub";
+
+		category["Rezeptionen"] = new Array;
+		category["Rezeptionen"]["imgUri"] =  "img/categories/rezeptionen_sw.jpg";
+		category["Rezeptionen"]["title"] =  "Rezeptionen";
+		category["Rezeptionen"]["subtitle"] =  "Spezifische Wahrnehmungen antiker Objekte in bestimmten neuzeitlichen Rezeptionsquellen.";
+		category["Rezeptionen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Rezeptionen\"&fl=1500";
+		category["Rezeptionen"]["singular"] =  "Rezeption";
+		category["Rezeptionen"]["prio"] =  "sub";
+
+		category["Reproduktionen"] = new Array;
+		category["Reproduktionen"]["imgUri"] =  "img/categories/Reproduktionen.jpeg";
+		category["Reproduktionen"]["title"] =  "Reproduktionen";
+		category["Reproduktionen"]["subtitle"] =  "Dreidimensionale Objekte der realen Welt, die überwiegend antike Skulpturen oder Gebäude wiedergeben, andererseits auch Stichwerke. Ihrerseits können Reproduktionen zu mehrteiligen Denkmälern, Gebäuden, topographischen Einheiten oder Sammlungen gehören bzw. Ausdruck von Rezeptionen sein.";
+		category["Reproduktionen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Reproduktionen\"&fl=1500";
+		category["Reproduktionen"]["singular"] =  "Reproduktion";
+		category["Reproduktionen"]["prio"] =  "sub";
+
+		category["Einzelmotive"] = new Array;
+		category["Einzelmotive"]["imgUri"] =  "img/categories/einzelmotive.jpg";
+		category["Einzelmotive"]["title"] =  "Einzelmotive";
+		category["Einzelmotive"]["subtitle"] =  "Figuren oder Gegenstände, die sich meist im Kontext von Szenen befinden.";
+		category["Einzelmotive"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Einzelmotive\"&fl=1500";
+		category["Einzelmotive"]["singular"] =  "Einzelmotiv";
+		category["Einzelmotive"]["prio"] =  "sub";
+
+		category["Mehrteilige Denkmäler"] = new Array;
+		category["Mehrteilige Denkmäler"]["imgUri"] =  "img/categories/mehrteiligdenk.jpeg";
+		category["Mehrteilige Denkmäler"]["title"] =  "Mehrteilige Denkmäler";
+		category["Mehrteilige Denkmäler"]["subtitle"] =  "Alle Arten von Konfigurationen, die keine Gebäude sind: also antike Statuengruppen, nachantike Pasticci, Giebelkopmpositionen, modern getrennte Skulpturen, aber auch Fundgruppen oder Hortfunde; Sarkophage ; Bestattung/Grabinventar. Ferner Sammelaufnahmen mit vielen Kleinfunden, die nicht einzeln als Einzelobjekte angelegt wurden.";
+		category["Mehrteilige Denkmäler"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Mehrteilige Denkmäler\"&fl=1500";
+		category["Mehrteilige Denkmäler"]["singular"] =  "Mehrteiliges Denkmal";
+		category["Mehrteilige Denkmäler"]["prio"] =  "sub";
+
+		category["Inschriften"] = new Array;
+		category["Inschriften"]["imgUri"] =  "img/categories/Inschriften.jpeg";
+		category["Inschriften"]["title"] =  "Inschriften";
+		category["Inschriften"]["subtitle"] =  "Inschriftentexte, die sich auf Trägern wie Einzelobjekten oder Bauwerken befinden.";
+		category["Inschriften"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Inschriften\"&fl=1500";
+		category["Inschriften"]["singular"] =  "Inschrift";
+		category["Inschriften"]["prio"] =  "sub";
+
+		category["Bücher"] = new Array;
+		category["Bücher"]["imgUri"] =  "img/categories/buecher_sw.jpeg";
+		category["Bücher"]["title"] =  "Bücher";
+		category["Bücher"]["subtitle"] =  "Digitalisierte Bücher des 16. bis frühen 20. Jahrhunderts, Archivalien, Korrespondenzen, Notizbücher, Mappen mit zusammengehörigen Zeichnungen oder Karten.";
+		category["Bücher"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Bücher\"&fl=1500";
+		category["Bücher"]["singular"] =  "Buch";
+		category["Bücher"]["prio"] =  "sub";
+
+		category["Buchseiten"] = new Array;
+		category["Buchseiten"]["imgUri"] =  "img/categories/Buchseiten_sw.jpeg";
+		category["Buchseiten"]["title"] =  "Buchseiten";
+		category["Buchseiten"]["subtitle"] =  "Einzelseiten aus Büchern, Nachlässen, Mappen, etc.";
+		category["Buchseiten"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Buchseiten\"&fl=1500";
+		category["Buchseiten"]["singular"] =  "Buchseite";
+		category["Buchseiten"]["prio"] =  "sub";
+		
 		var singular = {
 			"Bauwerke": "Bauwerk", 
 			"Bauwerksteile": "Bauwerksteil",
@@ -373,6 +495,9 @@ angular.module('arachne.services', [])
 			"type_gruppierung": "Gruppierung"
 		};
 		var factory ={};
+		factory.getCategory = function() {
+			return category;
+		}
 		factory.getSingular = function() {
 			return singular;
 		}

@@ -1,18 +1,20 @@
 <div ng-controller="SearchCtrl as searchCtrl">
-	<div class="row fullscreenrow">
-		<div ng-hide="resultSize" class="loading"></div>
-
-        <div map ng-if="resultSize"
-        		locationfacetname="locationfacetname"
-        		facets="facets"
-        		current-query="currentQuery"
-        		class="col-md-12 halfscreenMap" id="map"></div>
-
+	<div class="col-md-offset-1">
+		<div class="row">
+			<div class="col-md-4">
+		 		<a href="{{ imgUrl }}">
+		    		<img src="{{ imgUrl }}" alt="{{ subtitle}}" class="img-responsive pull-left">
+		  		</a>
+		  	</div>
+		  	<div class="col-md-6">
+		    	<h2>{{ currentQuery.facets.facet_kategorie }}</h2>
+		    	{{ subtitle}}
+		  	</div>
+		</div>
 	</div>
 	<div class="row" ng-show="facets">
 		<div class="col-md-6 col-md-offset-1">
 			<div class="page-header">
-				<h2 ng-show="currentQuery.facets.facet_kategorie">{{ currentQuery.facets.facet_kategorie }}</h2>
 				<h2 ng-hide="currentQuery.facets.facet_kategorie">Alle Datensätze in Arachne</h2>
 			</div>
 			
