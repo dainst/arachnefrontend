@@ -61,7 +61,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
 	function($scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
 
-		$scope.categoryDB = categoryService.getCategory();
+		$scope.categoryDB = categoryService.getCategories();
 
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
@@ -126,7 +126,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
 
-		$scope.categoryDB = categoryService.getCategory();
+		$scope.categoryDB = categoryService.getCategories();
 		$scope.currentQuery = searchService.currentQuery();
 
 		$scope.go = function(path) {
@@ -420,7 +420,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
             $scope.categoryJson = data; 
         });
         
-		$scope.category = categoryService.getCategory();
+		$scope.category = categoryService.getCategories();
 
 		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
 			$scope.entityCount = data.entityCount;

@@ -51,10 +51,10 @@ angular.module('arachne.filters', [])
 			return entityCount;
 		}
 	})
-	.filter('cellsFromEntities', ['arachneSettings', 'singularService', function(arachneSettings, singularService) {
+	.filter('cellsFromEntities', ['arachneSettings', 'categoryService', function(arachneSettings, categoryService) {
 		return function(entities, query) {
 			for (var i in entities) {
-				entities[i].label = singularService.getSingular()[entities[i].type];
+				entities[i].label = categoryService.getSingular(entities[i].type);
 				entities[i].href = 'entity/' + entities[i].entityId;
 				if (typeof query != 'undefined') {
 					entities[i].href += query.setParam("resultIndex",(parseInt(query.offset) + parseInt(i))).toString();
