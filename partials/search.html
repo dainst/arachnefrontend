@@ -5,17 +5,6 @@
 		<div class="loading"></div>
 	</div>
 
-	<!-- Fehlermeldungen -->
-	<div ng-show="error">
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1 alert alert-warning text-center">
-				<b>Fehler:</b> Suche konnte nicht ausgeführt werden.
-				Bitte wenden Sie sich an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>,
-				sollte dieser Fehler häufiger auftreten.
-			</div>
-		</div>
-	</div>
-
 	<!-- Meldung für leeres Suchergebnis -->
 	<div ng-if="resultSize == 0 && !error">
 		<div class="row">
@@ -33,8 +22,8 @@
 	<div class="col-md-2 col-sm-3" ng-if="resultSize">
 		<div>
 			<small class="text-muted">
-				Insgesamt <b>{{ resultSize }}</b> Ergebnis<span ng-show="resultSize > 1">se</span>
-				<span ng-show="numPages > 1"><br> auf <b>{{numPages}}</b> Seiten</span>
+				Insgesamt <b>{{ resultSize|number }}</b> Ergebnis<span ng-show="resultSize > 1">se</span>
+				<span ng-show="numPages > 1"><br> auf <b>{{numPages|number}}</b> Seiten</span>
 			</small>
 		</div>
 		<small>
@@ -74,10 +63,10 @@
 	<div ng-if="resultSize"
 			ng-switch="currentQuery.view"
 			class="col-md-10 col-sm-9">
-		
-		<div align="center" class="row">
-			<div class="col-md-12">
-				<div class="btn-group ">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6" align="center">
+				<div class="btn-group">
 					<a ng-href="search/{{currentQuery.removeParam('view').toString()}}"
 							class="btn btn-sm btn-startsite-tab" style="color:#333;"
 							ng-class="{ 'active': !currentQuery.view}">
@@ -85,7 +74,7 @@
 						Kacheln
 					</a>
 					<a ng-href="search/{{currentQuery.setParam('view','list').toString()}}"
-							 class="btn btn-sm btn-startsite-tab" style="color:#333;"
+						 	class="btn btn-sm btn-startsite-tab" style="color:#333;"
 							ng-class="{ 'active': currentQuery.view == 'list' }">
 						<span class="glyphicon glyphicon-align-justify"></span>
 						Liste
@@ -99,57 +88,50 @@
 					-->
 				</div>
 			</div>
+			<div class="row" align="center">
+				<div class="col-md-12">
+					<a class="btn btn-link" ng-class="{ 'disabled': currentPage == 1 }" style="margin-top: -3px;" ng-click="previousPage()">
+						<span class="glyphicon glyphicon glyphicon-arrow-left" style="color:#333;"></span>
+					</a>
+					<small class="text-muted"><em>Seite {{currentPage}} / {{totalPages}}</em></small>
+					<a class="btn btn-link" ng-class="{ 'disabled': currentPage >= totalPages }" style="margin-top: -3px;" ng-click="nextPage()">
+						<span class="glyphicon glyphicon glyphicon-arrow-right" style="color:#333;"></span>
+					</a>			
+			</div>
+			<div class="col-md-3"></div>
 		</div>
-
-		<p align="center" ng-show="resultSize">
-			<pagination ng-model="$parent.currentPage"
-					total-items="resultSize"
-					items-per-page="currentQuery.limit"
-					max-size="6"
-					previous-text="zurück"
-					next-text="weiter"
-					boundary-links="true"
-					first-text="&laquo;"
-					last-text="&raquo;"
-					ng-change="onSelectPage()"
-					num-pages="numPages">
-			</pagination>
-		</p>
-
+		
 		<div class="row">
 			<div class="col-md-12">
 
 				<!-- Listendarstellung -->
 				<div ng-switch-when="list">
-					<table class="table table-condensed table-hover">
+					<table class="table table-hover">
 					<tr>
-						<td class="col-md-1">ID</td>
-						<td class="col-md-1">Typ</td>
-						<td class="col-md-8">Titel</td>
-						<td class="col-md-2">Subtitle</td>
+						<th>#</th>
+						<th>Kategorie</th>
+						<th>Titel</th>
+						<th></th>
 					</tr>	
 					<tr ng-repeat="entity in entities" class="small">
-						<td class="col-md-1">{{entity.entityId}}</td>
-						<td class="col-md-1">{{singular[entity.type]}}</td>
-						<td class="col-md-8">
+						<td>{{entity.entityId}}</td>
+						<td>{{categoryDB[entity.type]["singular"]}}</td>
+						<td>
 							<a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index).toString()}}">
 								<div ng-if="entity.title==''">
-									({{singular[entity.type]}} hat keinen Titel)
+									({{categoryDB[entity.type]["singular"]}} hat keinen Titel)
 								</div>
 								<div ng-if="entity.title!=''">
 									{{entity.title}}
 								</div>
+								<div class="text-muted">{{entity.subtitle}}</div>
 							</a>
 						</td>
-						<td class="col-md-2">{{entity.subtitle}}</td>
+						<td class="text-right">
+							<img ar-img img-id="{{entity.thumbnailId}}" img-height="40">
+						</td>
 					</tr>
 					</table>
-				</div>
-
-				<!-- Kartendarstellung -->
-				<div ng-switch-when="map">
-					<div ng-hide="searchresults.markers" class="loading"></div>
-					<div ng-if="searchresults.markers" class="col-md-12" map id="map"></div>
 				</div>
 				
 				<!-- Griddarstellung -->
@@ -163,20 +145,45 @@
 			</div>
 		</div>
 
-		<p align="center" ng-show="resultSize">
-			<pagination ng-model="$parent.currentPage"
-					total-items="resultSize"
-					items-per-page="currentQuery.limit"
-					max-size="6"
-					previous-text="zurück"
-					next-text="weiter"
-					boundary-links="true"
-					first-text="&laquo;"
-					last-text="&raquo;"
-					ng-change="onSelectPage()"
-					num-pages="numPages">
-			</pagination>
-		</p>
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6" align="center">
+				<div class="btn-group">
+					<a ng-href="search/{{currentQuery.removeParam('view').toString()}}"
+							class="btn btn-sm btn-startsite-tab" style="color:#333;"
+							ng-class="{ 'active': !currentQuery.view}">
+						<span class="glyphicon glyphicon-picture"></span>
+						Kacheln
+					</a>
+					<a ng-href="search/{{currentQuery.setParam('view','list').toString()}}"
+						 	class="btn btn-sm btn-startsite-tab" style="color:#333;"
+							ng-class="{ 'active': currentQuery.view == 'list' }">
+						<span class="glyphicon glyphicon-align-justify"></span>
+						Liste
+					</a>
+					<!-- vorerst ausgeblendet
+					<a href="map/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}&fl=2000"
+							class="btn btn-sm btn-startsite-tab" style="color:#333;" ng-class="{ 'active': listStyle == 'map' }">
+						<span class="glyphicon glyphicon-map-marker"></span>
+						Karte (Geo-Ergebnisse)
+					</a>
+					-->
+				</div>
+			</div>
+			<div class="row" align="center">
+				<div class="col-md-12">
+					<a class="btn btn-link" ng-class="{ 'disabled': currentPage == 1 }" style="margin-top: -3px;" ng-click="previousPage()">
+						<span class="glyphicon glyphicon glyphicon-arrow-left" style="color:#333;"></span>
+					</a>
+					<small class="text-muted"><em>Seite {{currentPage}} / {{totalPages}}</em></small>
+					<a class="btn btn-link" ng-class="{ 'disabled': currentPage >= totalPages }" style="margin-top: -3px;" ng-click="nextPage()">
+						<span class="glyphicon glyphicon glyphicon-arrow-right" style="color:#333;"></span>
+					</a>			
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+
+	</div>	
 		
 	</div>
 

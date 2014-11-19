@@ -8,24 +8,13 @@
 	<li ng-if="section.value" ng-switch="isArray(section.value)">
 		<span ng-switch-when="false" ng-bind-html="section.value"></span>
 		<div ng-switch-when="true">
-			<div class="section-item" ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></div>
+			<div class="section-item" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem"></div>
 		</div>
 	</li>
 
 </script>
 
 <div ng-cloak class="row"  ng-controller="EntityCtrl">
-
-	<!-- Fehlermeldungen -->
-	<div ng-show="error">
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1 alert alert-warning text-center">
-				<b>Fehler:</b> Anfrage konnte nicht ausgeführt werden.
-				Bitte wenden Sie sich an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>
-				sollte dieser Fehler häufiger auftreten.
-			</div>
-		</div>
-	</div>
 
 	<div ng-hide="entity.entityId || error" class="loading"></div>
 
@@ -90,7 +79,10 @@
 						    	<input ng-model="resultIndexInput"
 						    			type="number" size="4"
 						    			min="1" max="{{resultSize}}" class="form-control input-sm">
-						    	<span class="input-group-addon"><small>von</small> <strong>{{resultSize}}</strong></span>
+						    	<span ng-if="resultIndex+1 == resultIndexInput" class="input-group-addon" style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>von</small> <strong>{{resultSize|number}}</strong></span>
+						    	<span ng-hide="resultIndex+1 == resultIndexInput" class="input-group-btn">
+						    		<button class="btn btn-primary btn-sm" ng-click="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput-1).toString())">Springe</button>
+						    	</span>
 						    </div>
 						</form>
 					</li>
@@ -117,29 +109,30 @@
 		<!-- END CURRENT QUERY STATUS -->
 
 		<!-- NOTES -->
-		<div ng-if="user.username" ng-init="queryBookmarListsForEntityId()">
-			<h5 class="text-muted uppercase"><strong>Lesezeichen & Notiz</strong></h5>
+		<div ng-if="user.username" ng-init="queryBookmarkListsForEntityId()">
+			<h5 class="text-muted uppercase"><strong>Lesezeichen</strong></h5>
 			<div ng-repeat="bookmarklist in bookmarklists">
-				<div ng-repeat="bookmark in bookmarklist.bookmarks" class="panel panel-warning">
+				<div ng-repeat="bookmark in bookmarklist.bookmarks" class="panel panel-info">
 					<div class="panel-heading">
-						{{ bookmarklist.name }}: 
+						In Sammlung: <b>{{ bookmarklist.name }}</b>
 						<div class="btn-group pull-right">
-							<button class="btn btn-sm" ng-click="updateBookmark(bookmark)" data-dismiss="alert" >
+							<button class="btn btn-sm btn-link" ng-click="updateBookmark(bookmark)">
 								<span class="glyphicon glyphicon-pencil"></span>
 							</button>
-							<button class="btn btn-sm" ng-click="deleteBookmark(bookmark.id)" class="close" data-dismiss="alert" >
-								<span class="glyphicon glyphicon-remove"></span>
+							<button class="btn btn-sm btn-link" ng-click="deleteBookmark(bookmark.id)">
+								<span class="glyphicon glyphicon-trash"></span>
 							</button>
 							
 						</div>
 					</div>
 					<div class="panel-body small">
-						{{ bookmark.commentary }}<br>
+						<small ng-if="bookmark.commentary">Kommentar:<br></small>
+						{{ bookmark.commentary }}
 					</div>
 				</div>
 			</div>
-			<button type="button" class="btn btn-warning btn-sm" ng-click="createBookmark()">
-				<span class="glyphicon glyphicon-plus"></span> Notiz als Lesezeichen
+			<button type="button" class="btn btn-default btn-sm" ng-click="createBookmark()">
+				<span class="glyphicon glyphicon-bookmark"></span> Lesezeichen anlegen
 			</button>
 		</div>
 		<!-- END NOTES -->
@@ -164,7 +157,7 @@
 						<b>Entity-ID:</b><br>{{ entity.entityId }}
 					</div>
 					<div class="col-md-3">
-						<b>Kategorie:</b><br>{{ singular[entity.type] }}
+						<b>Kategorie:</b><br>{{ categoryDB[entity.type]["singular"] }}
 					</div>
 					<div class="col-md-3">
 						<b>Seriennummer:</b><br>{{ entity.internalId }}
@@ -223,17 +216,28 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<h3 ng-if="entity.images.length > 1">Abbildungen <small>({{entity.images.length}})</small></h3>
+						<h3 ng-if="entity.images.length > 1">
+							<a ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}">
+								Abbildungen <small>({{entity.images.length}})</small>
+							</a>
+						</h3>
 						<h3 ng-if="entity.images.length == 1">Abbildung</h3>
-						<div ar-imageslider ng-if="entity.images" entity="entity"></div>
+						<div ar-imageslider ng-if="entity.images" entity="entity" current-query="currentQuery"></div>
 					</div>
 				</div>
 
-				<div class="row" ng-if="specialNavigations.specialNavigationElements">
+				<div class="row" ng-if="specialNavigationElements">
 					<div class="col-md-12">
 						<h3>Andere Ansichten</h3>
-						<div class="btn-group">
-							<a target="_blank" ng-repeat="navigation in specialNavigations.specialNavigationElements" href="{{ navigation.link }}" type="button" class="btn btn-info btn-sm">{{ navigation.title}} </a>
+						<div class="list-group">
+							<a ng-repeat="navigation in specialNavigationElements"
+									ng-href="{{ navigation.link }}"
+									type="button"
+									class="list-group-item"
+									target="_blank">
+								<span class="glyphicon glyphicon-new-window pull-right"></span>
+								{{navigation.title}}
+							</a>
 						</div>
 					</div>
 				</div>

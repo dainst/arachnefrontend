@@ -9,14 +9,16 @@
 			cell-height="{{cell.height}}"
 			cell-margin="{{margin}}"
 			cell-title="{{cell.title}}"
-			cell-subtitle="{{cell.subtitle}}" >
+			cell-subtitle="{{cell.subtitle}}"
+			cell-label="{{cell.label}}"
+			hide-title="{{hideTitle}}">
 		</div>
 		<!-- prevent row from disappering when single cell is absolutely positioned -->
 		<div ng-if="row.length == 1"
 				class="ar-imagegrid-cell"
 				style="display:inline-block; float:left; margin: 4px;">
 			<div style="height: {{row[0].height}}px;"></div>
-			<div class="ar-imagegrid-cell-title"></div>
+			<div ng-hide="hideTitle" class="ar-imagegrid-cell-title"></div>
 		</div>
 		<div style="clear:both"></div>
 	</div>

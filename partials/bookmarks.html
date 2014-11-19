@@ -4,44 +4,36 @@
 	</div>
 	<div class="col-md-8 col-md-offset-2" ng-if="user.username">
 		<div class="page-header">
-			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksList()">Neue Sammlung anlegen</button>
-			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Notizen & Lesezeichen</h3>
+			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksList()">
+				<span class="glyphicon glyphicon-plus"></span> Neue Sammlung anlegen
+			</button>
+			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre  Lesezeichen</h3>
 
 		</div>
 		<div ng-if="bookmarksLists.length == 0">
-			Keine Sammlung vorhanden. Legen Sie doch eine an.
+			Keine Sammlung vorhanden.
 		</div>
 		<accordion class="accordion-with-list" ng-repeat="bookmarksList in bookmarksLists" >
 
-			<accordion-group >
-
-
-		    	<accordion-heading>
-		    		<div class="btn-group pull-right">
-		    			<button type="button" class="btn btn-xs btn-default " ng-click="updateBookmarksList(bookmarksList.id); $event.stopPropagation()"><span class="glyphicon glyphicon-pencil"></span>&nbsp; bearbeiten</button>
-		    			<button type="button" class="btn btn-xs btn-default " ng-click="deleteBookmarksList(bookmarksList.id); $event.stopPropagation()"><span class="glyphicon glyphicon-trash"></span>&nbsp; löschen</button>
-		    		</div>
-	    			
-	    			{{ bookmarksList.name }}
-
-		    	</accordion-heading>
-
+			<accordion-group heading="{{ bookmarksList.name }}">
 		    	<div class="list-group-item">
-		    		
-
-		    		<small>Zu dieser Sammlung:</small><br>
+					<div class="btn-group pull-right">
+    					<button type="button" class="btn btn-sm btn-link" ng-click="updateBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+    					<button type="button" class="btn btn-sm btn-link" ng-click="deleteBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-trash"></span></button>
+					</div>
+		    		<small ng-if="bookmarksList.commentary">Kommentar:</small><br>
 		    		{{ bookmarksList.commentary }}
 		    	</div>
 
 		    	<div ng-if="bookmarksList.bookmarks.length == 0"  class="list-group-item clearfix">
-		    		In dieser Sammlung sind noch keine Einträge oder Notizen vorhanden.
+		    		In dieser Sammlung sind noch keine Lesezeichen vorhanden.
 		    	</div>
 
 	    		<div ng-repeat="bookmark in bookmarksList.bookmarks" class="list-group-item clearfix">
 					<div class="row-fluid">
 						<div class="btn-group pull-right">
-	    					<button type="button" class="btn btn-sm " ng-click="updateBookmark(bookmark)"><span class="glyphicon glyphicon-pencil"></span></button>
-	    					<button type="button" class="btn btn-sm " ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
+	    					<button type="button" class="btn btn-sm btn-link" ng-click="updateBookmark(bookmark)"><span class="glyphicon glyphicon-pencil"></span></button>
+	    					<button type="button" class="btn btn-sm btn-link" ng-click="deleteBookmark(bookmark)"><span class="glyphicon glyphicon-trash"></span></button>
 						</div>
 		    			<div class="col-md-2 col-xs-2">
 							<a ng-if="bookmark.thumbnailId" href="entity/{{ bookmark.arachneEntityId }}">
@@ -50,10 +42,10 @@
 							<img ng-if="!bookmark.thumbnailId" class="img-thumbnail" width="50" height="50" ng-src="img/imagePlaceholder.png"></img></a>
 						</div>
 						<div class="col-md-8">
-							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length > 0" class="title small" >{{ bookmark.title }}</a>
-							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length == 0" class="title small" >Objekt der Kategorie: {{ bookmark.type }}</a>
-							<br>
-							<b>Notiz:</b> {{ bookmark.commentary }}
+							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length > 0" class="title" >{{ bookmark.title }}</a>
+							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length == 0" class="title" >Objekt der Kategorie: {{ bookmark.type }}</a>
+							<br>							
+		    				<small ng-if="bookmark.commentary">Kommentar:<br></small> {{ bookmark.commentary }}
 						</div>
 					</div>
 					

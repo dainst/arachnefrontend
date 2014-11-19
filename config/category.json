@@ -22,13 +22,13 @@
 		{
 			"imgUri": "img/categories/szene.jpg",
 			"title" : "Szenen",
-			"subtitle" :"Thematisch oder formal in sich geschlossene Figurengruppe.",
+			"subtitle" :"Thematisch oder formal in sich geschlossene Figurengruppen.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Szenen\"&fl=1500"
 		},
 		{
 			"imgUri": "img/categories/bilder.jpg",
 			"title" : "Bilder",
-			"subtitle" :"Hier haben Sie die Möglichkeit gezielt nach Bildern und bildspezifischen Informationen (z.B. Fotografen ...) zu suchen. Diese Suche erfasst alle Bildbestände in Arachne.",
+			"subtitle" :"Hier haben Sie die Möglichkeit, gezielt nach Bildern und bildspezifischen Informationen (z.B. Fotografen) zu suchen. Diese Suche erfasst alle Bildbestände in Arachne.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Bilder\"&fl=1500"
 		},
 		{
@@ -73,7 +73,7 @@
 		 {
 		 	"imgUri": "img/categories/mehrteiligdenk.jpeg",
 			"title" : "Mehrteilige Denkmäler",
-			"subtitle" :"Alle Arten von Konfigurationen, die keine Gebäude sind: also antike Statuengruppen, nachantike Pasticci, Giebelkopmpositionen, modern getrennte Skulpturen, aber auch Fundgruppen oder Hortfunde; Sarkophage ; Bestattung/Grabinventar. Ferner Sammelaufnahmen mit vielen Kleinfunden, die nicht einzeln als Einzelobjekte angelegt wurden.",
+			"subtitle" :"Alle Arten von Konfigurationen, die keine Gebäude sind: also antike Statuengruppen, nachantike Pasticci, Giebelkopmpositionen, modern getrennte Skulpturen, aber auch Fundgruppen oder Hortfunde; Sarkophage; Bestattung/Grabinventar. Ferner Sammelaufnahmen mit vielen Kleinfunden, die nicht einzeln als Einzelobjekte angelegt wurden.",
 			"href" : "category/?q=*&fq=facet_kategorie:\"Mehrteilige Denkmäler\"&fl=1500"
 		},
 		 {

@@ -99,7 +99,7 @@
 			        <li>
 			        	<a href="bookmarks">
 							<span style="color: rgb(66,139,202)" class="glyphicon glyphicon-inbox"></span>
-							&nbsp;Notizen & Lesezeichen
+							&nbsp;Lesezeichen verwalten
 						</a>
 			        </li>
 			        <li class="divider"></li>
@@ -130,12 +130,26 @@
 	<div class="container-fluid">
 
 		<div style="min-height:500px;">
+
+			<!-- MESSAGES -->
+			<div ng-controller="MessageCtrl" ng-cloak>
+					<div ng-repeat="(code,message) in messages"
+							ng-class="'alert-' + message.level"
+							class="col-md-10 col-md-offset-1 alert text-center">
+						<button class="close" ng-click="removeMessage(code)" class="pull-right" style="cursor:pointer;">&times;</button>
+						<b>{{message.heading}}:</b>
+						<span ng-bind-html="message.body"></span>
+					</div>
+			</div>
+
+			<!-- VIEWS -->
 			<div ng-cloak ng-view autoscroll="true"></div>
+
 		</div>
 
-		<hr>
-		<div class="row">
+		<div ng-hide="$root.hideFooter" class="row">
 			<div class="col-md-12 text-center">
+				<hr>
 				<p>
 					<img src="img/siegel_unikoeln.gif" height="80px"></img>
 					<img src="img/Siegel-DAI.gif" height="80px"></img>

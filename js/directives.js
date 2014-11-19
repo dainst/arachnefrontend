@@ -106,7 +106,8 @@ angular.module('arachne.directives', [])
 			scope: {
 				cells: '=',
 				columns: '@',
-				margin: '@'
+				margin: '@',
+				hideTitle: '@'
 			},
 			templateUrl: 'partials/directives/ar-imagegrid.html',
 			
@@ -239,8 +240,8 @@ angular.module('arachne.directives', [])
 	.directive('arImagegridCell', ['$sce', function($sce) {
 		return {
 			scope: {
-				href: '@', img: '=', cellTitle: '@', cellSubtitle: '@', imgUri: '@',
-				cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@'
+				href: '@', img: '=', cellTitle: '@', cellSubtitle: '@', cellLabel: '@', imgUri: '@',
+				cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@', hideTitle: '@'
 			},
 			templateUrl: 'partials/directives/ar-imagegrid-cell.html'
 		}

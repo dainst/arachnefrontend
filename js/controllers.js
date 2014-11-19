@@ -8,7 +8,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.user = authService.getUser();
 
-		//$scope.currentPath = $route.current.originalPath;
+		$scope.currentPath = $location.path();
+		$scope.$on("$locationChangeSuccess", function() {			
+			$scope.currentPath = $location.path();
+		});
+
 		$scope.openLoginModal = function() {
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/loginForm.html',
@@ -54,19 +58,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
-.controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', '$http',
-	function($scope, searchService, categoryService, $filter, arachneSettings, $location, $http){
+.controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
+	function($scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
 
-		$scope.singular = categoryService.getSingular();
 		$scope.categoryDB = categoryService.getCategory();
 
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
 
 		$scope.aFacet = $scope.currentQuery.facets.facet_kategorie;
-		$scope.imgUrl = $scope.categoryDB[$scope.aFacet]["imgUri"];
-		$scope.subtitle = $scope.categoryDB[$scope.aFacet]["subtitle"];
-		console.log($scope.imgUrl);
+		if(typeof $scope.aFacet != 'undefined'){
+			$scope.imgUrl = $scope.categoryDB[$scope.aFacet]["imgUri"];
+			$scope.subtitle = $scope.categoryDB[$scope.aFacet]["subtitle"];
+		}
 
 		$http.get('config/category.json').success (function(data){
             $scope.category = data; 
@@ -75,6 +79,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		searchService.getCurrentPage().then(function(entities) {
 			$scope.entities = entities;
 			$scope.resultSize = searchService.getSize();
+			$scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
 			$scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
 			$scope.facets = searchService.getFacets();
 			$scope.facets.forEach(function(facet) {
@@ -88,52 +93,65 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}, function(response) {
 			$scope.resultSize = 0;
 			$scope.error = true;
+			if (response.status == '404') messageService.addMessageForCode('backend_missing');
+			else messageService.addMessageForCode('search_' +  response.status);
 		});
 
 		$scope.go = function(path) {
 			$location.url(path);
 		};
 
+		$scope.previousPage = function() {
+			if ($scope.currentPage > 1)
+				$scope.currentPage -= 1;
+			$scope.onSelectPage();
+		};
+
+		$scope.nextPage = function() {
+			if ($scope.currentPage < $scope.totalPages)
+				$scope.currentPage += 1;
+			$scope.onSelectPage();
+		};
+
 		$scope.onSelectPage = function() {
 			var newOffset = ($scope.currentPage-1) * $scope.currentQuery.limit;
 			$location.url('search/' + $scope.currentQuery.setParam('offset', newOffset).toString());
-		}
+		};
 
 	}
 ])
-.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query',
-	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, categoryService, Query ) {
+.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query', 'messageService',
+	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, categoryService, Query, messageService) {
 		
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
 
-		$scope.singular = categoryService.getSingular();
+		$scope.categoryDB = categoryService.getCategory();
 		$scope.currentQuery = searchService.currentQuery();
 
 		$scope.go = function(path) {
 			$location.url(path);
 		};
 
-		$scope.queryBookmarListsForEntityId = function(){
+		$scope.queryBookmarkListsForEntityId = function(){
 			$scope.bookmarklists = noteService.queryBookmarListsForEntityId($routeParams.id);
 		}
 
 		$scope.updateBookmark = function(bookmark){
 			noteService.updateBookmark(bookmark, function(data){
-				$scope.queryBookmarListsForEntityId();
+				$scope.queryBookmarkListsForEntityId();
 			});					
 		}
 
 		$scope.deleteBookmark = function(bookmarkId){
-			noteService.deleteBookmark(bookmarkId,
-			function(data){
-				$scope.queryBookmarListsForEntityId();
+			noteService.deleteBookmark(bookmarkId, function(data){
+				$scope.queryBookmarkListsForEntityId();
 			});	
 		}
 
 		$scope.createBookmark = function(){
 			noteService.createBookmark($routeParams.id, function(data){
-				$scope.queryBookmarListsForEntityId();
+				$scope.queryBookmarkListsForEntityId();
 			});			
 		}
 
@@ -153,6 +171,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var resultIndex = parseInt($scope.currentQuery.resultIndex);
 			searchService.getEntity(resultIndex).then(function(entity) {
 				$location.url('entity/' + entity.entityId + $scope.currentQuery.toString());
+				$location.replace();
 			});
 
 		} else {
@@ -160,9 +179,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			Entity.get({id:$routeParams.id}, function(data) {
 				$scope.entity = data;
 				document.title = $scope.entity.title + " | Arachne";
-			}, function(data) {
+			}, function(response) {
 				$scope.error = true;
+				messageService.addMessageForCode("entity_"+response.status);
 			});
+
+			Entity.specialNavigations({id:$routeParams.id, type:'entity'}, function(data) {
+				$scope.specialNavigationElements = data.specialNavigationElements;
+			}, function(response) {
+				messageService.addMessageForCode("entity_"+response.status);
+			})
 				
 			$scope.contextQuery = new Query();
 			$scope.contextQuery.q = "connectedEntities:" + $routeParams.id;
@@ -179,7 +205,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					$scope.resultSize = searchService.getSize();
 				}, function(response) {
 					$scope.searchresults = {size: 0};
-					$scope.error = true;
+					messageService.addMessageForCode('search_' + response.status);
 				});
 
 				var prevIndex = $scope.resultIndex-1;
@@ -196,27 +222,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CreateBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 
-	function($scope, $modalInstance, noteService) {
+.controller('CreateBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 'messageService',
+	function($scope, $modalInstance, noteService, messageService) {
 	
 		$scope.items = [];
-		$scope.hasBookmarkList = false;
 		$scope.selected = {};
-		$scope.selected.commentary = "";
-		$scope.bookmarkError = 0;
+		$scope.commentary = "";
 
 		noteService.getBookmarksLists(
 			function(data){
-				//console.log("habe die Liste!");
-				$scope.bookmarkError = 0;
 				$scope.items = data;
-				//console.log($scope.items);
-				$scope.selected = {
-					item: $scope.items[0]
-				};
-				$scope.selected.commentary = "";
+				$scope.selected = $scope.items[0];
 			}, function(status){
-					//console.log("unknown error");
+				messageService.addMessageForCode('note_' + response.status);
 			}
 		);
 
@@ -285,11 +303,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.createBookmarksList = function(){
-			$scope.bookmarksLists.push(noteService.createBookmarksList(
-				function(response){
-					// console.log("creating BookmarksList" + response);
-					$scope.refreshBookmarkLists();
-				}));
+			noteService.createBookmarksList(function(response){
+				$scope.bookmarksLists.push($scope.refreshBookmarkLists());
+			});
 		}
 
 		$scope.deleteBookmarksList = function(id){
@@ -303,8 +319,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window',
-	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window) {
+.controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'messageService',
+	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, messageService) {
+
+		$rootScope.hideFooter = true;
+		$scope.allow = true;
 
 		$scope.refreshImageIndex = function() {
 			if($scope.entity && $scope.entity.images) {
@@ -356,13 +375,18 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		Entity.get({id:$routeParams.entityId}, function(data) {
 			$scope.entity = data;
 			$scope.refreshImageIndex();
+		}, function(response) {
+			messageService.addMessageForCode("entity_"+response.status);
 		});
 		Entity.imageProperties({id: $scope.imageId}, function(data) {
 			$scope.imageProperties = data;
 			$scope.allow = true;
 		}, function(response) {
-			// TODO evaluate response code
-			$scope.allow = false;
+			if (response.status == '403') {
+				$scope.allow = false;
+			} else {
+				messageService.addMessageForCode('image_' + response.status);
+			}
 		});
 
 		$scope.$watch("imageId", function() {
@@ -371,8 +395,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService',
-	function($routeParams, $scope, Entity, $filter, searchService) {
+.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'messageService',
+	function($routeParams, $scope, Entity, $filter, searchService, $rootScope, messageService) {
+
+		$rootScope.hideFooter = true;
 
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.entityId = $routeParams.entityId;
@@ -381,14 +407,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			// call to filter detached from view in order to prevent unnecessary calls
 			$scope.entity = data;
 			$scope.cells = $filter('cellsFromImages')(data.images, data.entityId, $scope.currentQuery);
+		}, function(response) {
+			messageService.addMessageForCode("entity_"+response.status);
 		});
 
 	}
 ])
-.controller('StartSiteController', ['$scope', '$http', 'arachneSettings', 'categoryService',
-	function ($scope, $http, arachneSettings, categoryService) {
-		
-		$http.get('config/category.json').success (function(data){
+.controller('StartSiteController', ['$scope', '$http', 'arachneSettings', 'messageService', 'categoryService',
+	function ($scope, $http, arachneSettings, messageService, categoryService) {
+
+		$http.get('config/category.json').success(function(data){
             $scope.categoryJson = data; 
         });
         
@@ -399,7 +427,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
 			$scope.entityCount = data.entityCount;
 		}).error(function(data) {
-			$scope.error = true;
+			messageService.addMessageForCode("backend_missing");
 		});
 
 	}
@@ -412,8 +440,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
         });
 	}
 ])
-.controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal', 'arachneSettings',
-	function ($scope, $location, $http, $modal, arachneSettings) {
+.controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal', 'arachneSettings', '$rootScope',
+	function ($scope, $location, $http, $modal, arachneSettings, $rootScope) {
+
+		$rootScope.hideFooter = true;
+		
 		this.showInfo = function () {
 		
 			if(!$scope.metainfos) {
@@ -425,7 +456,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/3dInfoModal.html',
 				scope: $scope
-			});	
+			});
+			
 			modalInstance.close = function(){
 				modalInstance.dismiss();
 			}
@@ -453,6 +485,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			}).error(function(data) {
 				$scope.error = data.message;
 			});
+		}
+
+	}
+])
+.controller('MessageCtrl', ['$scope', 'messageService',
+	function ($scope, messageService) {
+
+		$scope.messages = messageService.getMessages();
+
+		$scope.removeMessage = function(index) {
+			messageService.removeMessage(index);
 		}
 
 	}

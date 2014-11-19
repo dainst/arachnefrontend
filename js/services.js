@@ -267,6 +267,10 @@ angular.module('arachne.services', [])
 						method: 'GET',
 						params: { endpoint: 'contexts'} 
 					},
+					specialNavigations: {
+						method: 'GET',
+						url: arachneSettings.dataserviceUri + '/specialNavigationsService'
+					},
 					imageProperties: {
 						method: 'GET',
 						url: arachneSettings.dataserviceUri + '/image/zoomify/:id/ImageProperties.xml',
@@ -355,7 +359,7 @@ angular.module('arachne.services', [])
 		category["Bauwerke"]["subtitle"] =  "Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.";
 		category["Bauwerke"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Bauwerke\"&fl=1500";
 		category["Bauwerke"]["singular"] =  "Bauwerk";
-		category["Bauwerke"]["prio"] =  "start";
+		category["Bauwerke"]["status"] =  "start";
 
 		category["Bauwerksteile"] = new Array;
 		category["Bauwerksteile"]["imgUri"] =  "img/categories/bauwerksteile_sw.jpg";
@@ -363,7 +367,7 @@ angular.module('arachne.services', [])
 		category["Bauwerksteile"]["subtitle"] =  "Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.";
 		category["Bauwerksteile"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Bauwerksteile\"&fl=1500";
 		category["Bauwerksteile"]["singular"] =  "Bauwerksteil";
-		category["Bauwerksteile"]["prio"] =  "start";
+		category["Bauwerksteile"]["status"] =  "start";
 
 		category["Einzelobjekte"] = new Array;
 		category["Einzelobjekte"]["imgUri"] =  "img/categories/objekte_sw.jpg";
@@ -371,7 +375,7 @@ angular.module('arachne.services', [])
 		category["Einzelobjekte"]["subtitle"] =  "Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.";
 		category["Einzelobjekte"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Einzelobjekte\"&fl=1500";
 		category["Einzelobjekte"]["singular"] =  "Einzelobjekt";
-		category["Einzelobjekte"]["prio"] =  "start";
+		category["Einzelobjekte"]["status"] =  "start";
 
 		category["Szenen"] = new Array;
 		category["Szenen"]["imgUri"] =  "img/categories/szene.jpg";
@@ -379,7 +383,7 @@ angular.module('arachne.services', [])
 		category["Szenen"]["subtitle"] =  "Thematisch oder formal in sich geschlossene Figurengruppe.";
 		category["Szenen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Szenen\"&fl=1500";
 		category["Szenen"]["singular"] =  "Szene";
-		category["Szenen"]["prio"] =  "start";
+		category["Szenen"]["status"] =  "start";
 
 		category["Bilder"] = new Array;
 		category["Bilder"]["imgUri"] =  "img/categories/bilder.jpg";
@@ -387,7 +391,7 @@ angular.module('arachne.services', [])
 		category["Bilder"]["subtitle"] =  "Hier haben Sie die Möglichkeit gezielt nach Bildern und bildspezifischen Informationen (z.B. Fotografen ...) zu suchen. Diese Suche erfasst alle Bildbestände in Arachne.";
 		category["Bilder"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Bilder\"&fl=1500";
 		category["Bilder"]["singular"] =  "Bild";
-		category["Bilder"]["prio"] =  "start";
+		category["Bilder"]["status"] =  "start";
 
 		category["Typen"] = new Array;
 		category["Typen"]["imgUri"] =  "img/categories/typen_sw.jpg";
@@ -395,7 +399,7 @@ angular.module('arachne.services', [])
 		category["Typen"]["subtitle"] =  "Kontextualisierung von Skulpturen (=Einzelobjekten) nach künstlerischen Bildnistypen und -schemata (Griechische Idealplastik, griechisches und römisches Portrait).";
 		category["Typen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Typen\"&fl=1500";
 		category["Typen"]["singular"] =  "Typus";
-		category["Typen"]["prio"] =  "start";
+		category["Typen"]["status"] =  "start";
 
 		category["Sammlungen"] = new Array;
 		category["Sammlungen"]["imgUri"] =  "img/categories/sammlungen_sw.jpg";
@@ -403,7 +407,7 @@ angular.module('arachne.services', [])
 		category["Sammlungen"]["subtitle"] =  "Privat- und Museumssammlungen, die in Gebäuden residieren und Objekte bzw. mehrteilige Denkmäler oder deren Reproduktionen und Rezeptionen enthalten können.";
 		category["Sammlungen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Sammlungen\"&fl=1500";
 		category["Sammlungen"]["singular"] =  "Sammlung";
-		category["Sammlungen"]["prio"] =  "sub";
+		category["Sammlungen"]["status"] =  "sub";
 
 		category["Topographien"] = new Array;
 		category["Topographien"]["imgUri"] =  "img/categories/topographie_sw.jpg";
@@ -411,7 +415,7 @@ angular.module('arachne.services', [])
 		category["Topographien"]["subtitle"] =  "Übergeordnete Kontexte, die untergeordnete Einheiten von Gebäuden, Landschaften, Städten, etc. vereinen.";
 		category["Topographien"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Topographien\"&fl=1500";
 		category["Topographien"]["singular"] =  "Topographie";
-		category["Topographien"]["prio"] =  "sub";
+		category["Topographien"]["status"] =  "sub";
 
 		category["Rezeptionen"] = new Array;
 		category["Rezeptionen"]["imgUri"] =  "img/categories/rezeptionen_sw.jpg";
@@ -419,7 +423,7 @@ angular.module('arachne.services', [])
 		category["Rezeptionen"]["subtitle"] =  "Spezifische Wahrnehmungen antiker Objekte in bestimmten neuzeitlichen Rezeptionsquellen.";
 		category["Rezeptionen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Rezeptionen\"&fl=1500";
 		category["Rezeptionen"]["singular"] =  "Rezeption";
-		category["Rezeptionen"]["prio"] =  "sub";
+		category["Rezeptionen"]["status"] =  "sub";
 
 		category["Reproduktionen"] = new Array;
 		category["Reproduktionen"]["imgUri"] =  "img/categories/Reproduktionen.jpeg";
@@ -427,7 +431,7 @@ angular.module('arachne.services', [])
 		category["Reproduktionen"]["subtitle"] =  "Dreidimensionale Objekte der realen Welt, die überwiegend antike Skulpturen oder Gebäude wiedergeben, andererseits auch Stichwerke. Ihrerseits können Reproduktionen zu mehrteiligen Denkmälern, Gebäuden, topographischen Einheiten oder Sammlungen gehören bzw. Ausdruck von Rezeptionen sein.";
 		category["Reproduktionen"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Reproduktionen\"&fl=1500";
 		category["Reproduktionen"]["singular"] =  "Reproduktion";
-		category["Reproduktionen"]["prio"] =  "sub";
+		category["Reproduktionen"]["status"] =  "sub";
 
 		category["Einzelmotive"] = new Array;
 		category["Einzelmotive"]["imgUri"] =  "img/categories/einzelmotive.jpg";
@@ -435,7 +439,7 @@ angular.module('arachne.services', [])
 		category["Einzelmotive"]["subtitle"] =  "Figuren oder Gegenstände, die sich meist im Kontext von Szenen befinden.";
 		category["Einzelmotive"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Einzelmotive\"&fl=1500";
 		category["Einzelmotive"]["singular"] =  "Einzelmotiv";
-		category["Einzelmotive"]["prio"] =  "sub";
+		category["Einzelmotive"]["status"] =  "sub";
 
 		category["Mehrteilige Denkmäler"] = new Array;
 		category["Mehrteilige Denkmäler"]["imgUri"] =  "img/categories/mehrteiligdenk.jpeg";
@@ -443,7 +447,7 @@ angular.module('arachne.services', [])
 		category["Mehrteilige Denkmäler"]["subtitle"] =  "Alle Arten von Konfigurationen, die keine Gebäude sind: also antike Statuengruppen, nachantike Pasticci, Giebelkopmpositionen, modern getrennte Skulpturen, aber auch Fundgruppen oder Hortfunde; Sarkophage ; Bestattung/Grabinventar. Ferner Sammelaufnahmen mit vielen Kleinfunden, die nicht einzeln als Einzelobjekte angelegt wurden.";
 		category["Mehrteilige Denkmäler"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Mehrteilige Denkmäler\"&fl=1500";
 		category["Mehrteilige Denkmäler"]["singular"] =  "Mehrteiliges Denkmal";
-		category["Mehrteilige Denkmäler"]["prio"] =  "sub";
+		category["Mehrteilige Denkmäler"]["status"] =  "sub";
 
 		category["Inschriften"] = new Array;
 		category["Inschriften"]["imgUri"] =  "img/categories/Inschriften.jpeg";
@@ -451,7 +455,7 @@ angular.module('arachne.services', [])
 		category["Inschriften"]["subtitle"] =  "Inschriftentexte, die sich auf Trägern wie Einzelobjekten oder Bauwerken befinden.";
 		category["Inschriften"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Inschriften\"&fl=1500";
 		category["Inschriften"]["singular"] =  "Inschrift";
-		category["Inschriften"]["prio"] =  "sub";
+		category["Inschriften"]["status"] =  "sub";
 
 		category["Bücher"] = new Array;
 		category["Bücher"]["imgUri"] =  "img/categories/buecher_sw.jpeg";
@@ -459,7 +463,7 @@ angular.module('arachne.services', [])
 		category["Bücher"]["subtitle"] =  "Digitalisierte Bücher des 16. bis frühen 20. Jahrhunderts, Archivalien, Korrespondenzen, Notizbücher, Mappen mit zusammengehörigen Zeichnungen oder Karten.";
 		category["Bücher"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Bücher\"&fl=1500";
 		category["Bücher"]["singular"] =  "Buch";
-		category["Bücher"]["prio"] =  "sub";
+		category["Bücher"]["status"] =  "sub";
 
 		category["Buchseiten"] = new Array;
 		category["Buchseiten"]["imgUri"] =  "img/categories/Buchseiten_sw.jpeg";
@@ -467,41 +471,87 @@ angular.module('arachne.services', [])
 		category["Buchseiten"]["subtitle"] =  "Einzelseiten aus Büchern, Nachlässen, Mappen, etc.";
 		category["Buchseiten"]["href"] =  "category/?q=*&fq=facet_kategorie:\"Buchseiten\"&fl=1500";
 		category["Buchseiten"]["singular"] =  "Buchseite";
-		category["Buchseiten"]["prio"] =  "sub";
+		category["Buchseiten"]["status"] =  "sub";
+
+		category["Objekte"] = new Array;
+		category["Objekte"]["title"] =  "Objekte";
+		category["Objekte"]["singular"] =  "Objekt";
+		category["Objekte"]["status"] =  "none";
+
+		category["Literatur"] = new Array;
+		category["Literatur"]["title"] =  "Literatur";
+		category["Literatur"]["singular"] =  "Literatur";
+		category["Literatur"]["status"] =  "none"
+
+		category["Orte"] = new Array;
+		category["Orte"]["title"] =  "Orte";
+		category["Orte"]["singular"] =  "Ort";
+		category["Orte"]["status"] =  "none"
+
+		category["Personen"] = new Array;
+		category["Personen"]["title"] =  "Personen";
+		category["Personen"]["singular"] =  "Preson";
+		category["Personen"]["status"] =  "none"
+
+		category["Sammler"] = new Array;
+		category["Sammler"]["title"] =  "Sammler";
+		category["Sammler"]["singular"] =  "Sammler";
+		category["Sammler"]["status"] =  "none"
 		
-		var singular = {
-			"Bauwerke": "Bauwerk", 
-			"Bauwerksteile": "Bauwerksteil",
-			"Einzelobjekte": "Einzelobjekt",
-			"Objekte": "Objekt",
-			"Bilder": "Bild",
-			"Typen": "Typus",
-			"Sammlungen": "Sammlung",
-			"Topographien": "Topographie",
-			"Rezeptionen": "Rezeption",
-		 	"Reproduktionen": "Reproduktion",
-		 	"Einzelmotive": "Einzelmotiv",
-		 	"Mehrteilige Denkmäler": "Mehrteiliges Denkmal",
-		 	"Inschriften": "Inschrift",
-			"Bücher": "Buch",
-			"Buchseiten": "Buchseite",
-			"Szenen": "Szene",
-			"Literatur": "Literatur",
-			"Orte": "Ort",
-			"Personen": "Person",
-			"Sammler":  "Sammler",
-			"Gruppierung": "Gruppierung",
-			"type_sammler": "Sammler",
-			"type_gruppierung": "Gruppierung"
-		};
+		category["Gruppierung"] = new Array;
+		category["Gruppierung"]["title"] =  "Gruppierung";
+		category["Gruppierung"]["singular"] =  "Gruppierung";
+		category["Gruppierung"]["status"] =  "none"
+		
+		category["3D-Modelle"] = new Array;
+		category["3D-Modelle"]["title"] =  "3D-Modelle";
+		category["3D-Modelle"]["singular"] =  "3D-Modell";
+		category["3D-Modelle"]["status"] =  "none"
+
 		var factory ={};
 		factory.getCategory = function() {
 			return category;
 		}
-		factory.getSingular = function() {
-			return singular;
-		}
 		return factory;
+	}])
+
+	.factory('messageService', ['$http', function($http) {
+
+		var messageTypes;
+		$http.get('config/messageTypes.json').success(function(response) {
+			messageTypes = response;
+		});
+		var messages = {};
+
+		return {
+
+			addMessage: function(id, heading, body, level) {
+				var message = {
+					heading: heading,
+					body: body,
+					level: level
+				};
+				messages[id] = message;
+			},
+
+			addMessageForCode: function(code) {
+				if (code in messageTypes) {
+					messages[code] = messageTypes[code];
+				} else {
+					messages['default'] = messageTypes['default'];
+				}
+			},
+
+			removeMessage: function(code) {
+				delete messages[code];
+			},
+
+			getMessages: function() {
+				return messages;
+			}
+
+		}
+
 	}])
 
 	.factory('noteService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
@@ -660,8 +710,8 @@ angular.module('arachne.services', [])
 					}
 				},
 				deleteBookmark : function(id, successMethod){
-					successMethod = successMethod || function () {};
-					return arachneDataService.deleteBookmark({ "id": id}, successMethod, catchError);
+					var successMethod = successMethod || function () {};
+					return arachneDataService.deleteBookmark({ "id": id }, successMethod, catchError);
 				},
 				getBookmark : function(id, successMethod, errorMethod){
 					return arachneDataService.getBookmark({ "id": id}, successMethod,errorMethod);
@@ -715,7 +765,7 @@ angular.module('arachne.services', [])
 											function(data){
 												var modalInstance = $modal.open({
 													templateUrl: 'partials/Modals/createBookmark.html',
-													controller: 'createBookmarkCtrl'
+													controller: 'CreateBookmarkCtrl'
 								      			});
 
 								      			modalInstance.result.then(function (selectedList) { 
@@ -736,18 +786,15 @@ angular.module('arachne.services', [])
 							if(data.length >= 1){
 								var modalInstance = $modal.open({
 									templateUrl: 'partials/Modals/createBookmark.html',
-									controller: 'createBookmarkCtrl'
+									controller: 'CreateBookmarkCtrl'
 				      			});
 
-				      			modalInstance.result.then(function (selectedList) { 
-				      				if(selectedList.commentary == undefined || selectedList.commentary == "")
-				      					selectedList.commentary = "no comment set";
-
+				      			modalInstance.result.then(function (result) {
 				      				var bm = {
 										arachneEntityId : rid,
-										commentary : selectedList.commentary
+										commentary : result.commentary
 									}
-									return arachneDataService.createBookmark({"id": selectedList.item.id}, bm, successMethod,errorMethod);
+									return arachneDataService.createBookmark({"id": result.list.id}, bm, successMethod,errorMethod);
 				      			});
 				      		}
 						}

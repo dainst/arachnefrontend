@@ -1,17 +1,16 @@
-<div class="row fullscreenrow"  ng-controller="ThreeDimensionalController as threeDimensionalController">
+<div class="row fullscreenrow"  ng-controller="ThreeDimensionalController">
 
-		<div threedimensional id="3dcontainer" style="	visibility: hidden; position: absolute; top:0px; left:0px; right: 0px; background: linear-gradient(to top, #1e5799 0%,#7db9e8 100%);">
+		<div threedimensional id="3dcontainer" style="visibility: hidden; position: absolute; top:0px; left:0px; right: 0px; background: linear-gradient(to top, #1e5799 0%,#7db9e8 100%);">
 
 		</div>
 
 	    <div class="loading" style="display:none"></div>
 
-
 	    <div class="btn-group-vertical" id="3dControls" style="opacity:0.8; position:absolute; right:10px; top: 60px;">
 			
 			<button class="btn btn-default btn-sm" id="controlMode" value="0"><span class="glyphicon glyphicon-retweet"></span> Flug-Steuerung</button>
 
-			<button class="btn btn-info btn-sm" ng-click="threeDimensionalController.showInfo()">Hilfe und Informationen</button>
+			<button class="btn btn-info btn-sm" ng-click="showInfo()">Hilfe und Informationen</button>
 
 		</btn>
 </div>

@@ -9,7 +9,6 @@ body {
 
 .ar-imagegrid-cell-title {
   background: #ffffff;
-  height: auto;
   padding: 2px 4px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -28,6 +27,18 @@ body {
   width: inherit;
   height: auto;
   white-space: normal;
+}
+
+.ar-imagegrid-cell-link .label {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  opacity: 0.7;
+  white-space: normal;
+}
+
+.ar-imagegrid-cell-link:hover .label {
+  opacity: 1;
 }
 
 .ar-imageslider .thumb-row a {
@@ -77,6 +88,7 @@ body {
 }
 .fullscreenrow {
   margin-top: 0px;
+  min-height: 100%;
 }
 
 .sections {
@@ -226,16 +238,15 @@ body {
   cursor: pointer;
 }
 .accordion-with-list .list-group-item {
-  border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px; cursor:pointer;
+  border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px;
 }
 #projectTeaser{
   padding-bottom: 15px;
 }
 
 .loading{
-  height:100px;
   position: absolute;
-  top: 0px;
+  top: 250px;
   bottom:0px;
   left: 0px;
   right: 0px;
@@ -246,7 +257,7 @@ body {
   display: block;
   width: 20px;
   height: 20px;
-  margin: auto;
+  margin: 0 auto;
   border-width: 1px;
   border-style: solid;
   border-color: transparent rgb(66,139,202) rgb(66,139,202) rgba(0,0,0,0);

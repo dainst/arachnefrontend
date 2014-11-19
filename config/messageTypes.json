@@ -1,0 +1,27 @@
+{
+	"backend_missing": {
+		"heading": "Fehler",
+		"body": "Die Verbindung zum Arachne-Server konnte nicht hergestellt werden. Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, sollte dieser Fehler länger anhalten.",
+		"level": "warning"
+	},
+	"search_400": {
+		"heading": "Syntaxfehler",
+		"body": "Ihre Suchanfrage ist syntaktisch nicht korrekt. Die Dokumentation der Syntax finden Sie <a href='http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax'>hier</a>.",
+		"level": "info"
+	},
+	"entity_404": {
+		"heading": "Fehler",
+		"body": "Die Anfrage konnte nicht ausgeführt werden.<br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, sollte dieser Fehler häufiger auftreten.",
+		"level": "warning"
+	},
+	"entity_403": {
+		"heading": "Hinweis",
+		"body": "Sie besitzen nicht die notwendigen Rechte, um diesen Datensatz anzuzeigen.<br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, wenn Sie denken, dass dies ein Irrtum ist.",
+		"level": "info"
+	},
+	"default": {
+		"heading": "Fehler",
+		"body": "Unbekannter Fehler. <br>Bitte wenden Sie sich an <a href='mailto:arachne@uni-koeln.de'>arachne@uni-koeln.de</a>, sollte dieser Fehler häufiger auftreten.",
+		"level": "warning"
+	}
+}
