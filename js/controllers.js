@@ -421,8 +421,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
         });
         
 		$scope.category = categoryService.getCategory();
-		console.log($scope.category);
-		console.log($scope.categoryStart);
 
 		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
 			$scope.entityCount = data.entityCount;

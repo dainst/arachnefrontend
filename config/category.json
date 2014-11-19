@@ -1,4 +1,25 @@
 {
+	"Category" : {
+		"Bauwerke" : {
+			"imgUri": "img/categories/bauwerke_sw.jpg",
+			"title" : "Bauwerke",
+			"subtitle" :"Gebäude oder Monumente, die auch übergeordnete Kontexte zu einem Einzelobjekt oder einem mehrteiligen Denkmal sein können.",
+			"href" : "category/?q=*&fq=facet_kategorie:\"Bauwerke\"&fl=1500"
+		},
+		"Bauwerksteile":{
+			"imgUri": "img/categories/bauwerksteile_sw.jpg",
+			"title" : "Bauwerksteile",
+			"subtitle" :"Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume.",
+			"href" : "category/?q=*&fq=facet_kategorie:\"Bauwerksteile\"&fl=1500"
+		},
+		"Einzelobjekte":{
+			"imgUri": "img/categories/objekte_sw.jpg",
+			"title" : "Einzelobjekte",
+			"subtitle" :"Objekte der realen Welt, die keine mehrteiligen Denkmäler, Bauwerke oder Topographien sind.",
+			"href" : "category/?q=*&fq=facet_kategorie:\"Einzelobjekte\"&fl=1500"
+		}
+
+	},
 	"categoryStart":
 	[
 		{

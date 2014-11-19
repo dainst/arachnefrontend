@@ -351,6 +351,15 @@ angular.module('arachne.services', [])
 	}])
 
 	.factory('categoryService', ['$http', function($http ){
+
+		var catDB;
+
+		$http.get('config/category.json').success (function(data){
+			var cache;
+            cache = data; 
+            catDB = data.Category;
+        });
+
 		var category = new Array;
 
 		category["Bauwerke"] = new Array;
@@ -490,7 +499,7 @@ angular.module('arachne.services', [])
 
 		category["Personen"] = new Array;
 		category["Personen"]["title"] =  "Personen";
-		category["Personen"]["singular"] =  "Preson";
+		category["Personen"]["singular"] =  "Person";
 		category["Personen"]["status"] =  "none"
 
 		category["Sammler"] = new Array;
@@ -511,6 +520,9 @@ angular.module('arachne.services', [])
 		var factory ={};
 		factory.getCategory = function() {
 			return category;
+		}
+		factory.getCatDB = function() {
+			return catDB;
 		}
 		return factory;
 	}])
