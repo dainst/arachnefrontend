@@ -18,6 +18,7 @@
 			<accordion-group heading="{{ bookmarksList.name }}">
 		    	<div class="list-group-item">
 					<div class="btn-group pull-right">
+    					<a type="button" class="btn btn-sm btn-link" ng-href="search/{{bookmarksList.query.toString()}}"><span class="glyphicon glyphicon-search"></span></a>
     					<button type="button" class="btn btn-sm btn-link" ng-click="updateBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-pencil"></span></button>
     					<button type="button" class="btn btn-sm btn-link" ng-click="deleteBookmarksList(bookmarksList.id)"><span class="glyphicon glyphicon-trash"></span></button>
 					</div>
