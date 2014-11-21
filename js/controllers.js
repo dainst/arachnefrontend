@@ -271,7 +271,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 						}
 						if ($scope.bookmarksLists[x].hasOwnProperty('bookmarks')) {
 							$scope.bookmarksLists[x].query = new Query().setParam('q', "entityId:(" + entityIDs.join(" OR ") + ")");
-							$scope.bookmarksLists[x].query.label = "Lesezeichen-Sammlung '" + $scope.bookmarksLists[x].name + "'";
+							$scope.bookmarksLists[x].query.label = "Notizbuch '" + $scope.bookmarksLists[x].name + "'";
 						}
 					}
 				}
