@@ -37,9 +37,9 @@
 						</div>
 		    			<div class="col-md-2 col-xs-2">
 							<a ng-if="bookmark.thumbnailId" href="entity/{{ bookmark.arachneEntityId }}">
-								<img class="img-thumbnail" width="100%" ng-src="{{dataserviceUri}}/image/thumbnail/{{ bookmark.thumbnailId }}"/>
+								<img ar-img img-id="{{ bookmark.thumbnailId }}" img-width="100" />
 							</a>
-							<img ng-if="!bookmark.thumbnailId" class="img-thumbnail" width="50" height="50" ng-src="img/imagePlaceholder.png"></img></a>
+							<img ng-if="!bookmark.thumbnailId" width="100" height="100" ng-src="img/imagePlaceholder.png"></img></a>
 						</div>
 						<div class="col-md-8">
 							<a href="entity/{{ bookmark.arachneEntityId }}" ng-if="bookmark.title.length > 0" class="title" >{{ bookmark.title }}</a>

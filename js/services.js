@@ -650,6 +650,7 @@ angular.module('arachne.services', [])
 					//only do this if there are any bookmarks
 					if (entityIDs.length) {
 						hash.q = "entityId:(" + entityIDs.join(" OR ") + ")";
+						hash.limit = entityIDs.length;
 						return arachneDataService.getBookmarkInfo(hash, successMethod, catchError);
 					};
 				},
