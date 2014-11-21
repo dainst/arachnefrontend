@@ -191,6 +191,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			})
 				
 			$scope.contextQuery = new Query();
+			$scope.contextQuery.label = "Mit " + $routeParams.id + " verknüpfte Objekte";
 			$scope.contextQuery.q = "connectedEntities:" + $routeParams.id;
 			$scope.contextQuery.limit = 0;
 			
@@ -270,8 +271,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 						}
 						if ($scope.bookmarksLists[x].hasOwnProperty('bookmarks')) {
 							$scope.bookmarksLists[x].query = new Query().setParam('q', "entityId:(" + entityIDs.join(" OR ") + ")");
-							console.log(entityIDs);
-							console.log("q",$scope.bookmarksLists[x].query);
+							$scope.bookmarksLists[x].query.label = "Lesezeichen-Sammlung '" + $scope.bookmarksLists[x].name + "'";
 						}
 					}
 				}

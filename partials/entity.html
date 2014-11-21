@@ -37,8 +37,9 @@
 					</a>
 
 					<div>
-						<b class="text-muted uppercase small">Suchbegriff</b><br>
-						{{currentQuery.q}}
+						<b class="text-muted uppercase small">Aktuelle Suche</b><br>
+						<span ng-if="!currentQuery.label">{{currentQuery.q}}</span>
+						<i ng-if="currentQuery.label">{{currentQuery.label}}</i>
 					</div>
 
 					<div ng-if="currentQuery.hasFacets()">
@@ -246,7 +247,7 @@
 					<div class="col-md-12">
 						
 						<h3>
-							<a ng-href="search/?q=connectedEntities:{{entity.entityId}}">
+							<a ng-href="search/{{contextQuery.toString()}}">
 								Verknüpfte Objekte
 								<small>({{contextSize}})</small>
 							</a>
