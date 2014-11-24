@@ -2,10 +2,10 @@
 	<div class="row fullscreenrow">
 
 		<!-- Loading-Icon -->
-		<div ng-hide="searchresults.size >= 0" class="loading"></div>
+		<div ng-hide="resultSize >= 0" class="loading"></div>
 
 		<!-- Meldung für leeres Suchergebnis -->
-		<div ng-if="searchresults.size == 0">
+		<div ng-if="resultSize == 0">
 			<div class="row" style=" height:{{screenHeight}}px;">
 				<div class="col-md-4 col-md-offset-4 text-center">
 					Keine Ergebnisse gefunden.
@@ -13,8 +13,8 @@
 			</div>
 		</div>
 
-		<!-- Seitenleiste -->
-        <div ng-show="searchresults.facets" id="mapNavigation" class="col-md-2 well well-sm"
+		<!-- Seitenleiste  -->
+        <div ng-show="facets" id="mapNavigation" class="col-md-2 well well-sm"
         		style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:9999;">
         	<div ng-if="currentQueryParameters.fl"class="alert alert-info">
         		<b>Hinweis</b><br>
@@ -26,8 +26,8 @@
     			Ausgewählte Objekte &nbsp; <i class="glyphicon glyphicon-arrow-right"> </i>
     		</a>
     		<div style="margin-top:10px;">
-				<small ng-if="searchresults.size" class="text-muted">
-					Insgesamt <b>{{ searchresults.size }}</b> Ergebnisse.
+				<small ng-if="resultSize" class="text-muted">
+					Insgesamt <b>{{ resultSize }}</b> Ergebnisse.
 				</small>
 			</div>
 			<div>
@@ -48,9 +48,9 @@
 					</div>
 				</div>
 			</div>
-			<div ng-if="currentQueryParameters.q">
+			<div ng-if="q">
 				<h6 class="text-muted uppercase"><strong>Suchbegriff</strong></h6>
-				{{currentQueryParameters.q}}
+				{{ q }}
 			</div>
 
 			<div ng-if="activeFacets.length">
@@ -79,8 +79,7 @@
     	</div>
 
     	<!-- Karte -->
-        <div map ng-if="searchresults.size > 0" searchresults="searchresults" locationfacetname="locationfacetname"
-        		class="col-md-12 fullscreenMap" id="map">
+        <div map ng-if="resultSize > 0" facets="facets" class="col-md-12 fullscreenMap" id="map">
 
 	</div>
 

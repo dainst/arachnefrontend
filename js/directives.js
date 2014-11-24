@@ -388,128 +388,82 @@ angular.module('arachne.directives', [])
 	return {
 		restrict: 'A',
 		scope: {
-			facets: '=',
-			entities: '=',
-			currentQuery: '=',
-			locationfacetname: '='
+			facets: '='
 		},
 		link: function(scope, element, attrs) 
 		{	
-			
-			var createMarkers = function(facet_values){
-
-				markerClusterGroup = new L.MarkerClusterGroup(
-				{
-					iconCreateFunction: function(cluster) {
-
-						var markers = cluster.getAllChildMarkers();
-						var entityCount = 0;
-						for (var i = 0; i < markers.length; i++) {
-							entityCount += markers[i].options.entityCount;
-						}
-
-						var childCount = cluster.getChildCount();
-
-						var c = ' marker-cluster-';
-						if (childCount < 10) {
-							c += 'small';
-						} else if (childCount < 100) {
-							c += 'medium';
-						} else {
-							c += 'large';
-						}
-
-						return new L.DivIcon({ html: '<div><span>' + entityCount+ ' at ' + childCount + ' Places</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
-					}
-				});
-
-
-
-				var facet_values_count = facet_values.length;
-				
-				// dirty hack: wenn nur ein marker da ist brauchen wir eine referenz um später sein popup zu öffnen
-				// (!) todo: wenn du ein marker gemacht werden soll (also bei einzelnen Datensätzen) dann sollte kein clustering benutzt werden. 
-				if(facet_values_count == 1) {
-					var singleMarker = {};
-				}
-
-				for (var i = facet_values_count - 1; i >= 0; i--) {
-
-					var facetValue = facet_values[i];
-
-					var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
-					var coords = coordsString.split(',');
-					var title = "<b>" + facetValue.value.substring(0, facetValue.value.indexOf("[", 1)) + "</b><br/>";
-					var text = facetValue.value.substring(0, facetValue.value.indexOf("[", 1)) + " ";
-					// Popup-Title auf Karte für Suchergebnis
-					if (facetValue.count > 1) {
-					
-						var locationFacetNameHumanized = scope.locationfacetname.split('_')[1];
-						locationFacetNameHumanized = locationFacetNameHumanized.charAt(0).toUpperCase() + locationFacetNameHumanized.slice(1);
-						title = '<h4 class="text-info centered">' + locationFacetNameHumanized +  '</h4>' + title;
-						title += "Insgesamt " + facetValue.count + " Einträge<br>";
-						text = locationFacetNameHumanized  +": " + text;
-						text += "Insgesamt " + facetValue.count + " Einträge ";
-						title += "<a href='search/" + scope.currentQuery.addFacet(scope.locationfacetname,facetValue.value).toString() + "'>Diese Einträge anzeigen</a>";
-
-					// Popup-Title auf Karte für einzelnen Datensatz
-					} else {
-						var locationFacetNameHumanized = scope.locationfacetname.split('_')[1];
-						locationFacetNameHumanized = locationFacetNameHumanized.charAt(0).toUpperCase() + locationFacetNameHumanized.slice(1);
-						text = locationFacetNameHumanized  +": " + text;
-						title = '<h4 class="text-info centered">' + locationFacetNameHumanized +  '</h4>' + title;
-						title += "<a href='search/" + scope.currentQuery.addFacet(scope.locationfacetname,facetValue.value).toString() + "'>Diesen Eintrag anzeigen</a>";
-					}
-					
-					var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : facetValue.count });
-					marker.bindPopup(title);
-					markerClusterGroup.addLayer(marker);
-
-					// dirty hack, referenz auf marker wenn es für einen einzelnen DS ist
-					if(facet_values_count == 1) {
-						singleMarker = marker;
-					}
-				}
-
-				// karte auf marker fixieren, wenn es nur ein marker (also wahrscheinlich einzeldatensatz) ist
-				if(facet_values_count == 1) {
-					var facetValue = facet_values[0];
-					var coordsString = facetValue.value.substring(facetValue.value.indexOf("[", 1)+1, facetValue.value.length - 1);
-					var coords = coordsString.split(',');
-					map.setView(coords, 6);
-					
-				}
-				map.addLayer(markerClusterGroup);
-
-				map.invalidateSize();
-
-				// dirty hack, referenz auf marker wenn es für einen einzelnen DS ist
-				// pop up öffnen
-				if(facet_values_count == 1) {
-					singleMarker.openPopup();
-				}
-			}
-
-
+		
 			var selectFacetsAndCreateMarkers = function () {
 				if(scope.facets)
 				{
-					for (var i = scope.facets.length - 1; i >= 0; i--) {
-						if(scope.facets[i].name === scope.locationfacetname) {
-							createMarkers(scope.facets[i].values);
-							break;
-						}
-					};
-				}
+					markerClusterGroup = new L.MarkerClusterGroup(
+					{
+						iconCreateFunction: function(cluster) {
 
+							var markers = cluster.getAllChildMarkers();
+							var entityCount = 0;
+							for (var i = 0; i < markers.length; i++) {
+								entityCount += markers[i].options.entityCount;
+							}
+
+							var childCount = cluster.getChildCount();
+
+							var c = ' marker-cluster-';
+							if (childCount < 10) {
+								c += 'small';
+							} else if (childCount < 100) {
+								c += 'medium';
+							} else {
+								c += 'large';
+							}
+
+							return new L.DivIcon({ html: '<div><span>' + entityCount+ ' at ' + childCount + ' Places</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+						}
+					});
+
+					var findspot = null;
+					var depository = null;
+					for (var i =0; i < scope.facets.length; i++) {
+						if(scope.facets[i].name == "facet_aufbewahrungsort") 
+							depository = scope.facets[i];
+						if(scope.facets[i].name == "facet_fundort") 
+							findspot = scope.facets[i];
+					};
+
+					for(var i=0; i < depository.values.length; i++){
+						var item = depository.values[i].value;
+						var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
+						var coords = coordsString.split(',');
+						var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
+						var text = item.substring(0, item.indexOf("[", 1)) + " ";
+						// Popup-Title auf Karte für Suchergebnis
+						title = '<h4 class="text-info centered">Aufbewahrungsort</h4>' + title;
+						title += "Insgesamt " + depository.values[i].count + " Einträge<br>";
+						text = "Aufbewahrungsort: " + text;
+						text += "Insgesamt " + depository.values[i].count + " Einträge ";
 				
-				if(scope.entities)
-				{
-					var facet_geo = Array();
-					for (var i = scope.entities.length - 1; i >= 0; i--) {
-						facet_geo.push({value: scope.entities[i][scope.locationfacetname][0], count: 1});
+						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : depository.values[i].count });
+						marker.bindPopup(title);
+						markerClusterGroup.addLayer(marker);
 					}
-					createMarkers(facet_geo);
+					for(var i=0; i < findspot.values.length; i++){
+						var item = findspot.values[i].value;
+						var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
+						var coords = coordsString.split(',');
+						var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
+						var text = item.substring(0, item.indexOf("[", 1)) + " ";
+						// Popup-Title auf Karte für Suchergebnis
+						title = '<h4 class="text-info centered">Fundort</h4>' + title;
+						title += "Insgesamt " + findspot.values[i].count + " Einträge<br>";
+						text = "Aufbewahrungsort: " + text;
+						text += "Insgesamt " + findspot.values[i].count + " Einträge ";
+				
+						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : findspot.values[i].count });
+						marker.bindPopup(title);
+						markerClusterGroup.addLayer(marker);
+					}
+
+					map.addLayer(markerClusterGroup);
 				}
 			}
 
@@ -522,33 +476,7 @@ angular.module('arachne.directives', [])
 				maxZoom: 18
 			});
 			map.addLayer(layer);	
-			/*map.on('mousemove', function(e) {
-				var point = e.containerPoint;
-				var size = map.getSize();
-				console.log(e.containerPoint + " " + size + " " + e.latlng)
-				if(point.x < 10){
-					map.panTo(e.latlng);
-				}
-				if(point.y < 10){
-					map.panTo(e.latlng);
-				}
-
-				console.log(point.x + " " + size.x);
-			});	*/
 			L.Icon.Default.imagePath = 'img';
-			// der user kann den typ der orts-facette ändern! Watch for it baby
-			scope.$watch(
-				function() {
-					return scope.locationfacetname;
-				},
-				function(newValue, oldValue){
-					if(newValue != oldValue) {
-						scope.locationfacetname = newValue;
-						map.removeLayer(markerClusterGroup);
-						selectFacetsAndCreateMarkers();
-					}
-				}
-			);
 
 			selectFacetsAndCreateMarkers();
 
