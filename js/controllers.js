@@ -58,14 +58,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
-.controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
-	function($scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
+.controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http', '$timeout',
+	function($scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http, $timeout){
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
 
 		$scope.aFacet = $scope.currentQuery.facets.facet_kategorie;
 
-		setTimeout(function() {
+		$timeout(function() {
 			$scope.categoryDB = categoryService.getCategories();
 			if(typeof $scope.aFacet != 'undefined'){
 				$scope.imgUrl = $scope.categoryDB[$scope.aFacet]["imgUri"];
@@ -417,15 +417,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('StartSiteController', ['$scope', '$http', 'arachneSettings', 'messageService', 'categoryService',
-	function ($scope, $http, arachneSettings, messageService, categoryService) {
+.controller('StartSiteController', ['$scope', '$http', 'arachneSettings', 'messageService', 'categoryService', '$timeout',
+	function ($scope, $http, arachneSettings, messageService, categoryService, $timeout) {
 
-		$http.get('config/category.json').success(function(data){
-            $scope.categoryJson = data; 
-        });
-        
-		$scope.categoryDB = categoryService.getCategories();
-
+        $timeout(function() {
+        	$scope.categoryDB = categoryService.getCatDB();
+        }, 500);
+		
 		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
 			$scope.entityCount = data.entityCount;
 		}).error(function(data) {
@@ -434,12 +432,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('AllCategoriesController', ['$scope', '$http',
-	function ($scope, $http) {
+.controller('AllCategoriesController', ['$scope', '$http', 'categoryService', '$timeout',
+	function ($scope, $http, categoryService, $timeout) {
 
-		$http.get('config/category.json').success (function(data){
-            $scope.category = data; 
-        });
+		$timeout(function() {
+			$scope.category = categoryService.getCatDB();
+		}, 500);
 	}
 ])
 .controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal', 'arachneSettings', '$rootScope',
