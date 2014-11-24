@@ -28,10 +28,13 @@
 		</div>
 		<small>
 
-			<h5 class="text-muted uppercase"><b>Suchbegriff</b></h5>
-			<form ng-submit="go('/search/' + currentQuery.setParam('q',q).toString())">
+			<h5 class="text-muted uppercase"><b>Aktuelle Suche</b></h5>
+			<form ng-if="!currentQuery.label" ng-submit="go('/search/' + currentQuery.setParam('q',q).toString())">
 				<input type="text" class="form-control" ng-model="q">
 			</form>
+			<button ng-if="currentQuery.label" type="button" class="btn btn-sm btn-block btn-info" style="white-space:normal;" disabled="disabled">
+			    <b>{{currentQuery.label}}</b>
+			</button>
 
 			<div ar-active-facets route="search" current-query="currentQuery"></div>
 

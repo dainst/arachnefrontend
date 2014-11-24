@@ -188,6 +188,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			})
 				
 			$scope.contextQuery = new Query();
+			$scope.contextQuery.label = "Mit " + $routeParams.id + " verknüpfte Objekte";
 			$scope.contextQuery.q = "connectedEntities:" + $routeParams.id;
 			$scope.contextQuery.limit = 0;
 			
@@ -242,8 +243,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	  $scope.bookmark = bookmark;
 	}
 ])
-.controller('BookmarksController',[ '$scope', '$modal', 'authService', 'noteService','arachneSettings',
-	function ($scope, $modal, authService, noteService, arachneSettings){
+.controller('BookmarksController',[ '$scope', '$modal', 'authService', 'noteService','arachneSettings', 'Query',
+	function ($scope, $modal, authService, noteService, arachneSettings, Query){
 
 		$scope.bookmarksLists = [];
 		$scope.user = authService.getUser();
@@ -252,7 +253,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.getBookmarkInfo = function(){
 			noteService.getBookmarkInfo($scope.bookmarksLists,
 				function(data){
-					for(var x in $scope.bookmarksLists){						//durchlaue Bookmarks
+					for(var x in $scope.bookmarksLists){					//durchlaue Bookmarks
+						var entityIDs = [];
 						for(var y in $scope.bookmarksLists[x].bookmarks){
 							for(var z in data.entities){						//sortiere entity infos in die bookmarks ein
 								if($scope.bookmarksLists[x].bookmarks[y].arachneEntityId == data.entities[z].entityId)
@@ -260,8 +262,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 									$scope.bookmarksLists[x].bookmarks[y].title = data.entities[z].title;
 									$scope.bookmarksLists[x].bookmarks[y].type = data.entities[z].type;
 									$scope.bookmarksLists[x].bookmarks[y].thumbnailId = data.entities[z].thumbnailId;
+									entityIDs.push(data.entities[z].entityId);
 								}
 							}
+						}
+						if ($scope.bookmarksLists[x].hasOwnProperty('bookmarks')) {
+							$scope.bookmarksLists[x].query = new Query().setParam('q', "entityId:(" + entityIDs.join(" OR ") + ")");
+							$scope.bookmarksLists[x].query.label = "Notizbuch '" + $scope.bookmarksLists[x].name + "'";
 						}
 					}
 				}

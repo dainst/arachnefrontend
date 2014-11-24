@@ -37,8 +37,9 @@
 					</a>
 
 					<div>
-						<b class="text-muted uppercase small">Suchbegriff</b><br>
-						{{currentQuery.q}}
+						<b class="text-muted uppercase small">Aktuelle Suche</b><br>
+						<span ng-if="!currentQuery.label">{{currentQuery.q}}</span>
+						<i ng-if="currentQuery.label">{{currentQuery.label}}</i>
 					</div>
 
 					<div ng-if="currentQuery.hasFacets()">
@@ -110,11 +111,11 @@
 
 		<!-- NOTES -->
 		<div ng-if="user.username" ng-init="queryBookmarkListsForEntityId()">
-			<h5 class="text-muted uppercase"><strong>Lesezeichen</strong></h5>
+			<h5 class="text-muted uppercase"><strong>Notizen</strong></h5>
 			<div ng-repeat="bookmarklist in bookmarklists">
 				<div ng-repeat="bookmark in bookmarklist.bookmarks" class="panel panel-info">
 					<div class="panel-heading">
-						In Sammlung: <b>{{ bookmarklist.name }}</b>
+						In Notizbuch: <b>{{ bookmarklist.name }}</b>
 						<div class="btn-group pull-right">
 							<button class="btn btn-sm btn-link" ng-click="updateBookmark(bookmark)">
 								<span class="glyphicon glyphicon-pencil"></span>
@@ -132,7 +133,7 @@
 				</div>
 			</div>
 			<button type="button" class="btn btn-default btn-sm" ng-click="createBookmark()">
-				<span class="glyphicon glyphicon-bookmark"></span> Lesezeichen anlegen
+				<span class="glyphicon glyphicon-pushpin"></span> Notiz anlegen
 			</button>
 		</div>
 		<!-- END NOTES -->
@@ -246,7 +247,7 @@
 					<div class="col-md-12">
 						
 						<h3>
-							<a ng-href="search/?q=connectedEntities:{{entity.entityId}}">
+							<a ng-href="search/{{contextQuery.toString()}}">
 								Verknüpfte Objekte
 								<small>({{contextSize}})</small>
 							</a>

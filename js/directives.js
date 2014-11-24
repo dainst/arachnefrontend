@@ -32,6 +32,10 @@ angular.module('arachne.directives', [])
 						.success(function(data) {
 							var blob = new Blob([data], {type: 'image/jpeg'});
             				img.src = window.URL.createObjectURL(blob);
+						}).error(function(result) {
+							img.src = 'img/imagePlaceholder.png';
+							if (scope.imgWidth) img.width = scope.imgWidth;
+							if (scope.imgHeight) img.height = scope.imgHeight;
 						}
 					);
 				};
