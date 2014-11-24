@@ -60,10 +60,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ])
 .controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http', '$timeout',
 	function($scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http, $timeout){
+		
+		$scope.mapfacet = { depo:'true', find:'false'};
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
 
 		$scope.aFacet = $scope.currentQuery.facets.facet_kategorie;
+
 
 		$timeout(function() {
 			$scope.categoryDB = categoryService.getCategories();

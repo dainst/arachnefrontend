@@ -388,11 +388,11 @@ angular.module('arachne.directives', [])
 	return {
 		restrict: 'A',
 		scope: {
-			facets: '='
+			facets: '=',
+			mapfacet: '='
 		},
 		link: function(scope, element, attrs) 
 		{	
-		
 			var selectFacetsAndCreateMarkers = function () {
 				if(scope.facets)
 				{
@@ -430,37 +430,44 @@ angular.module('arachne.directives', [])
 							findspot = scope.facets[i];
 					};
 
-					for(var i=0; i < depository.values.length; i++){
-						var item = depository.values[i].value;
-						var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
-						var coords = coordsString.split(',');
-						var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
-						var text = item.substring(0, item.indexOf("[", 1)) + " ";
-						// Popup-Title auf Karte für Suchergebnis
-						title = '<h4 class="text-info centered">Aufbewahrungsort</h4>' + title;
-						title += "Insgesamt " + depository.values[i].count + " Einträge<br>";
-						text = "Aufbewahrungsort: " + text;
-						text += "Insgesamt " + depository.values[i].count + " Einträge ";
-				
-						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : depository.values[i].count });
-						marker.bindPopup(title);
-						markerClusterGroup.addLayer(marker);
+					if(scope.mapfacet.depo){
+						for(var i=0; i < depository.values.length; i++){
+							var item = depository.values[i].value;
+							var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
+							var coords = coordsString.split(',');
+							var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
+							var text = item.substring(0, item.indexOf("[", 1)) + " ";
+							// Popup-Title auf Karte für Suchergebnis
+							title = '<h4 class="text-info centered">Aufbewahrungsort</h4>' + title;
+							title += "Insgesamt " + depository.values[i].count + " Einträge<br>";
+							text = "Aufbewahrungsort: " + text;
+							text += "Insgesamt " + depository.values[i].count + " Einträge ";
+					
+							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : depository.values[i].count });
+							marker.bindPopup(title);
+							markerClusterGroup.addLayer(marker);
+						}
 					}
-					for(var i=0; i < findspot.values.length; i++){
-						var item = findspot.values[i].value;
-						var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
-						var coords = coordsString.split(',');
-						var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
-						var text = item.substring(0, item.indexOf("[", 1)) + " ";
-						// Popup-Title auf Karte für Suchergebnis
-						title = '<h4 class="text-info centered">Fundort</h4>' + title;
-						title += "Insgesamt " + findspot.values[i].count + " Einträge<br>";
-						text = "Aufbewahrungsort: " + text;
-						text += "Insgesamt " + findspot.values[i].count + " Einträge ";
-				
-						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : findspot.values[i].count });
-						marker.bindPopup(title);
-						markerClusterGroup.addLayer(marker);
+					if(scope.mapfacet.find){
+						for(var i=0; i < findspot.values.length; i++){
+							var item = findspot.values[i].value;
+							var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
+							var coords = coordsString.split(',');
+							var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
+							var text = item.substring(0, item.indexOf("[", 1)) + " ";
+
+							// Popup-Title auf Karte für Suchergebnis
+							title = '<h4 class="text-info centered">Fundort</h4>' + title;
+							title += "Insgesamt " + findspot.values[i].count + " Einträge<br>";
+							//title += "<a href='search/" + scope.currentQuery.addFacet("facet_fundort",facetValue.value).toString() + "'>Diese Einträge anzeigen</a>";
+
+							text = "Aufbewahrungsort: " + text;
+							text += "Insgesamt " + findspot.values[i].count + " Einträge ";
+					
+							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : findspot.values[i].count });
+							marker.bindPopup(title);
+							markerClusterGroup.addLayer(marker);
+						}
 					}
 
 					map.addLayer(markerClusterGroup);
@@ -478,8 +485,32 @@ angular.module('arachne.directives', [])
 			map.addLayer(layer);	
 			L.Icon.Default.imagePath = 'img';
 
-			selectFacetsAndCreateMarkers();
+			scope.$watch(
+				function() {
+					return scope.mapfacet.depo;
+				},
+				function(newValue, oldValue){
+					if(newValue != oldValue) {
+						scope.mapfacet.depo = newValue;
+						map.removeLayer(markerClusterGroup);
+						selectFacetsAndCreateMarkers();
+					}
+				}
+			);
+			scope.$watch(
+				function() {
+					return scope.mapfacet.find;
+				},
+				function(newValue, oldValue){
+					if(newValue != oldValue) {
+						scope.mapfacet.find = newValue;
+						map.removeLayer(markerClusterGroup);
+						selectFacetsAndCreateMarkers();
+					}
+				}
+			);
 
+			selectFacetsAndCreateMarkers();
 		}
 	};
 	}])	
