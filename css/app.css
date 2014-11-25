@@ -2,9 +2,31 @@
 
 body {
 	margin-top: 50px;
-	/*background-color: #F8F8F8;*/
 	font-family: 'Open Sans', sans-serif;
   overflow-y: scroll; /* always show scrollbar */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.3;
+}
+
+h1 { font-size: 26px; }
+h2 { font-size: 22px; }
+h3 { font-size: 19px; }
+h4 { font-size: 16px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
+
+.page-title .title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page-title .title:hover{
+  width: inherit;
+  height: auto;
+  white-space: normal;
 }
 
 .ar-imagegrid-cell-title {

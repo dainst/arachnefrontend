@@ -147,9 +147,11 @@
 			<!-- CONTENT SECTION -->
 			<div class="col-md-8">
 
-				<h2>
-					{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type }}</span><br>
-					<small>{{ entity.subtitle }}</small>
+				<h2 class="page-title">
+					<div class="title">
+						{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type}}</span>
+					</div>
+					<div class="subtitle"><small>{{ entity.subtitle }}</small></div>
 				</h2>
 
 				<hr>
