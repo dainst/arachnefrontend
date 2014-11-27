@@ -200,7 +200,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if ($scope.currentQuery.hasOwnProperty('resultIndex')) {
 				
 				$scope.resultIndex = parseInt($scope.currentQuery.resultIndex);
-				$scope.resultIndexInput = $scope.resultIndex + 1;
+				$scope.resultIndexInput = $scope.resultIndex;
 				searchService.getCurrentPage().then(function(results) {
 					$scope.searchresults = results;
 					$scope.resultSize = searchService.getSize();

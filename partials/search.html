@@ -120,7 +120,7 @@
 						<td>{{entity.entityId}}</td>
 						<td>{{categoryDB[entity.type]["singular"]}}</td>
 						<td>
-							<a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index).toString()}}">
+							<a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index+1).toString()}}">
 								<div ng-if="entity.title==''">
 									({{categoryDB[entity.type]["singular"]}} hat keinen Titel)
 								</div>

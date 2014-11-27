@@ -14,7 +14,7 @@
 			</a>
 		</div>
 		<div style="max-height:400px; overflow-y: auto;">
-			<a class="list-group-item" ng-repeat="entity in entities[$index]" ng-href="entity/{{entity.entityId}}{{facetQueries[$parent.$index].setParam('resultIndex',$index).toString()}}">
+			<a class="list-group-item" ng-repeat="entity in entities[$index]" ng-href="entity/{{entity.entityId}}{{facetQueries[$parent.$index].setParam('resultIndex',$index+1).toString()}}">
 				<div ar-entity-title entity="entity"></div>
 			</a>
 			<a ng-show="facetValue.count > entities[$index].length"

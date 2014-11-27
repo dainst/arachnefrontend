@@ -80,15 +80,16 @@ angular.module('arachne.services', [])
 
 					var deferred = $q.defer();
 
-					if (resultIndex < 0) {
+					if (resultIndex < 1) {
 						deferred.reject();
 						return deferred.promise;
 					}
 					
-					var offset = Math.floor(resultIndex / CHUNK_SIZE) * CHUNK_SIZE;
+					// resultIndex starts at 1, offset and data[] start at 0
+					var offset = Math.floor((resultIndex-1) / CHUNK_SIZE) * CHUNK_SIZE;
 					
 					return retrieveChunkDeferred(offset).then(function(data) {
-						deferred.resolve(data[resultIndex - offset]);
+						deferred.resolve(data[resultIndex-1 - offset]);
 						return deferred.promise;
 					});
 
