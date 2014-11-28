@@ -229,17 +229,17 @@
 					</div>
 				</div>
 
-				<div class="row" ng-if="specialNavigationElements">
+				<div class="row" ng-if="entity.externalLinks">
 					<div class="col-md-12">
 						<h3>Andere Ansichten</h3>
 						<div class="list-group">
-							<a ng-repeat="navigation in specialNavigationElements"
-									ng-href="{{ navigation.link }}"
+							<a ng-repeat="externalLink in entity.externalLinks"
+									ng-href="{{ externalLink.url }}"
 									type="button"
 									class="list-group-item"
 									target="_blank">
 								<span class="glyphicon glyphicon-new-window pull-right"></span>
-								{{navigation.title}}
+								{{externalLink.label}}
 							</a>
 						</div>
 					</div>
