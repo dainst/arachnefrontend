@@ -58,23 +58,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
-.controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http', '$timeout',
-	function($scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http, $timeout){
+.controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
+	function($scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
 		
-		$scope.mapfacet = { depo:'true', find:'false'};
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
 
-		$scope.aFacet = $scope.currentQuery.facets.facet_kategorie;
-
-
-		$timeout(function() {
-			$scope.categoryDB = categoryService.getCategories();
-			if(typeof $scope.aFacet != 'undefined'){
-				$scope.imgUrl = $scope.categoryDB[$scope.aFacet]["imgUri"];
-				$scope.subtitle = $scope.categoryDB[$scope.aFacet]["subtitle"];
-			}
-		}, 100);	
+		categoryService.getCategoriesAsync().then(function(categories) {
+			$scope.categories = categories;
+		});
 	
 		searchService.getCurrentPage().then(function(entities) {
 			$scope.entities = entities;
@@ -120,13 +112,37 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+.controller('CategoryCtrl', ['$scope', 'Query', 'categoryService', '$location', 'Entity',
+	function($scope, Query, categoryService, $location, Entity) {
+
+		$scope.category = $location.search().c;
+
+		categoryService.getCategoriesAsync().then(function(categories) {
+			$scope.title = categories[$scope.category].title;
+			$scope.imgUri = categories[$scope.category].imgUri;
+			$scope.subtitle = categories[$scope.category].subtitle;
+		});
+
+		$scope.currentQuery = new Query().addFacet("facet_kategorie", $scope.category);
+		$scope.currentQuery.q = "*";
+
+		Entity.query($scope.currentQuery.toFlatObject(), function(response) {
+			$scope.facets = response.facets;
+			$scope.resultSize = response.size;
+		});
+
+	}
+])
 .controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query', 'messageService',
 	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, categoryService, Query, messageService) {
 		
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
 
-		$scope.categoryDB = categoryService.getCategories();
+		categoryService.getCategoriesAsync().then(function(categories) {
+			$scope.categories = categories;
+		});
+
 		$scope.currentQuery = searchService.currentQuery();
 
 		$scope.go = function(path) {
@@ -417,9 +433,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('StartSiteController', ['$scope', '$http', 'arachneSettings', 'messageService', 'categoryService', '$timeout',
 	function ($scope, $http, arachneSettings, messageService, categoryService, $timeout) {
 
-        $timeout(function() {
-        	$scope.categoryDB = categoryService.getCatDB();
-        }, 500);
+        categoryService.getCategoriesAsync().then(function(categories) {
+			$scope.categories = [];
+			for(var key in categories) {
+				if (categories[key].status == 'start') {
+					$scope.categories.push(categories[key]);
+				}
+			}
+		});
 		
 		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
 			$scope.entityCount = data.entityCount;
@@ -432,9 +453,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('AllCategoriesController', ['$scope', '$http', 'categoryService', '$timeout',
 	function ($scope, $http, categoryService, $timeout) {
 
-		$timeout(function() {
-			$scope.category = categoryService.getCatDB();
-		}, 500);
+		categoryService.getCategoriesAsync().then(function(categories) {
+			$scope.categories = [];
+			for(var key in categories) {
+				if (categories[key].status != 'none') {
+					$scope.categories.push(categories[key]);
+				}
+			}
+		});
+
 	}
 ])
 .controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal', 'arachneSettings', '$rootScope',

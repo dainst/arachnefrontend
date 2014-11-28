@@ -1,16 +1,12 @@
 <div ng-controller="AllCategoriesController as allCategoriesController" autoscroll="true">
 	<div id="top"></div>
 	<div class="row" style="background-color:white" id="categories_container">
-		<div  style="width: 80%; max-width:900px; margin: 170px auto; margin-top: 0px;">
-			<h2 style="font-weight:300; margin:0px 0px 50px; text-align:center">Alle Kategorien in Arachne:</h2>
+		<div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
+			<h1>Alle Kategorien in Arachne</h1>
+			<hr>
 			<div ar-imagegrid
-				cells="category.categoryStart"
-				columns="3"
-				margin="4">					
-			</div>
-			<div ar-imagegrid
-				cells="category.subCategories"
-				columns="3"
+				cells="categories"
+				columns="5"
 				margin="4">					
 			</div>
 		</div>

@@ -342,7 +342,7 @@ angular.module('arachne.services', [])
 
 		}
 	])
-	.factory('newsFactory', ['$http', 'arachneSettings', function($http, arachneSettings){
+	.factory('newsFactory', ['$http', 'arachneSettings', '$timeout', function($http, arachneSettings){
 		var factory = {};
 		factory.getNews = function() {
 				return $http.get( arachneSettings.dataserviceUri + '/news/de');
@@ -352,27 +352,27 @@ angular.module('arachne.services', [])
 
 	.factory('categoryService', ['$http', function($http ){
 
-		var catDB;
-		var categories;
+		var categories = null;
 
-		$http.get('config/category.json').success (function(data){
-			var cache;
-			cache = data;
-            catDB = data;
-            categories = cache.Categories;
-        });
+		var promise = $http.get('config/category.json').then(function(response) {
+			categories = response.data;
+			return categories;
+		});
 
 		var factory = {};
+
+		factory.getCategoriesAsync = function() {
+			return promise.then(function(categories){
+				return categories;
+			});
+		};
+
 		factory.getCategories = function() {
 			return categories;
-		}
-		factory.getCatDB = function() {
-			return catDB;
-		}
-		factory.getSingular = function(category) {
-			return categories[category].singular;
-		}
+		};
+
 		return factory;
+
 	}])
 
 	.factory('messageService', ['$http', function($http) {

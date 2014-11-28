@@ -1,4 +1,4 @@
-<div ng-controller="StartSiteController as startSiteController">
+<div ng-controller="StartSiteController">
 
 	<div id="top"></div>
 	<div class="row">
@@ -24,11 +24,12 @@
 	</div>
 	<div class="row" style="background-color:white" id="categories_container">
 		<div style="width:90%; margin: 0px auto;">
-			<h2 style="font-weight:300; margin:100px 0px 50px; text-align:center">
+			<h2 style="margin:100px 0px 0px; text-align:center">
 				<a href="allCategories" style="outline: none;">Kategorien in Arachne</a>
 			</h2>
+			<hr>
 			<div ar-imagegrid
-				cells="categoryDB.categoryStart"
+				cells="categories"
 				columns="6"
 				margin="4">					
 			</div>

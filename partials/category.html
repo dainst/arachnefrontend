@@ -1,36 +1,67 @@
-<div ng-controller="SearchCtrl as searchCtrl">
-	<div class="col-md-offset-1">
-		<div class="row">
-			<div class="col-md-4">
-		 		<a href="{{ imgUrl }}">
-		    		<img src="{{ imgUrl }}" alt="{{ subtitle}}" class="img-responsive pull-left">
-		  		</a>
-		  	</div>
-		  	<div class="col-md-6">
-		    	<h2>{{ currentQuery.facets.facet_kategorie }}</h2>
-		    	{{ subtitle }}
-		    	<br><br><br>
-		    	<h4>Ergebnisse in dieser Kategorie:</h4><h2> {{resultSize | number}}</h2>
-		  	</div>
+<div class="row" ng-controller="CategoryCtrl">
+	<div class="col-md-offset-1 col-md-10 media" style="margin-top:20px;">
+		<a class="media-left" href="#">
+			<img src="{{ imgUri }}" alt="{{ title }}" class="img-responsive">
+		</a>
+		<div class="media-body" style="padding-left:15px;">
+			<h1 class="media-heading">
+				{{ title }}
+				<small>Insgesamt {{resultSize | number}} Objekte</small>
+			</h1>
+			<hr>
+			<p class="lead">{{ subtitle }}</p>
+			<p><i>Unten haben sie die Möglichkeit nach kategoriespezifischen Kriterien zu browsen.</i></p>
 		</div>
 	</div>
-	<div class="row" ng-show="facets">
-		<div class="col-md-9 col-md-offset-1">
-			<div class="page-header">
-				<h2 ng-hide="currentQuery.facets.facet_kategorie">Alle Datensätze in Arachne</h2>
-			</div>
-			
-			<accordion class="accordion-with-list" close-others="oneAtATime">
-				<accordion-group heading="{{facet.name | i18n }}" ng-repeat="facet in facets" >
-					<a ng-repeat="facetValue in facet.values"
-							ng-href="search/{{currentQuery.addFacet(facet.name,facetValue.value).toString()}}"
-							class="list-group-item">
-						<span class="badge">{{facetValue.count}}</span>
-						{{facetValue.value}}
-					</a>
-			    </accordion-group>
-			</accordion>
-			
+	<div class="col-md-offset-1 col-md-10">
+		<div class="page-header">
+			<h2 ng-hide="currentQuery.facets.facet_kategorie">Alle Datensätze in Arachne</h2>
 		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div ng-repeat="facet in facets" class="panel panel-default facet" ng-if="$index % 2 == 0">
+					<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+						<h5 class="panel-title">
+							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>	
+							&nbsp;{{facet.name | i18n }}
+						</h5>
+					</div>
+					<ul class="list-unstyled facet"	ng-show="facet.open">
+						<li ng-repeat="facetValue in facet.values">
+							<small>
+								<a ng-href="search/{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+									<b class="pull-right text-muted">{{facetValue.count | number}}</b>
+									{{facetValue.value | stripCoords}}
+								</a>
+							</small>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div ng-repeat="facet in facets" class="panel panel-default facet" ng-if="$index % 2 == 1">
+					<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+						<h5 class="panel-title">
+							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>	
+							&nbsp;{{facet.name | i18n }}
+						</h5>
+					</div>
+					<ul class="list-unstyled facet"	ng-show="facet.open">
+						<li ng-repeat="facetValue in facet.values">
+							<small>
+								<a ng-href="search/{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+									<b class="pull-right text-muted">{{facetValue.count | number}}</b>
+									{{facetValue.value | stripCoords}}
+								</a>
+							</small>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 </div>
