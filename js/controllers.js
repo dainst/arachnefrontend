@@ -133,6 +133,38 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+.controller('MapCtrl', ['$rootScope', '$scope', 'searchService', 'categoryService', '$location',
+	function($rootScope, $scope, searchService, categoryService, $location) {
+
+		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort"];
+
+		$rootScope.hideFooter = true;
+
+		$scope.currentQuery = searchService.currentQuery();
+		$scope.facetLimit = $scope.currentQuery.fl;
+		$scope.q = angular.copy($scope.currentQuery.q);
+	
+		searchService.getCurrentPage().then(function(entities) {
+			$scope.entities = entities;
+			$scope.resultSize = searchService.getSize();
+			$scope.facets = searchService.getFacets();
+			$scope.facetMap = {};
+			for (var i = 0; i < $scope.facets.length; i++)
+				$scope.facetMap[$scope.facets[i].name] = $scope.facets[i];
+			$scope.mapfacet = $scope.facetMap[$scope.mapfacetNames[0]];
+		}, function(response) {
+			$scope.resultSize = 0;
+			$scope.error = true;
+			if (response.status == '404') messageService.addMessageForCode('backend_missing');
+			else messageService.addMessageForCode('search_' +  response.status);
+		});
+
+		$scope.switchMapFacet = function(facetName) {
+			$scope.mapfacet = $scope.facetMap[facetName];
+		}
+
+	}
+])
 .controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query', 'messageService',
 	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, categoryService, Query, messageService) {
 		

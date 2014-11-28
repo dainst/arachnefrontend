@@ -1,4 +1,4 @@
-<div ng-controller="SearchCtrl as searchCtrl">
+<div ng-controller="MapCtrl">
 	<div class="row fullscreenrow">
 
 		<!-- Loading-Icon -->
@@ -16,53 +16,52 @@
 		<!-- Seitenleiste  -->
         <div ng-show="facets" id="mapNavigation" class="col-md-2 well well-sm"
         		style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:9999;">
-        	<div ng-if="currentQueryParameters.fl"class="alert alert-info">
-        		<b>Hinweis</b><br>
-        		Diese Ansicht zeigt die <b>{{currentQueryParameters.fl}} am häufigsten referenzierten Orte</b> in Arachne. Für eine genauere Auflösung benutzen Sie bitte die Filter unten.
+        	<div ng-if="facetLimit == mapfacet.values.length" class="alert alert-info">
+        		<b>Hinweis:</b>
+        		Ihre Auswahl enthält mehr Orte als auf der Karte dargestellt werden können.
         	</div>
 
     		<a href="search/?q={{currentQueryParameters.q}}&fq={{currentQueryParameters.fq}}" type="button"
-    				class="btn btn-primary btn btn-block">
-    			Ausgewählte Objekte &nbsp; <i class="glyphicon glyphicon-arrow-right"> </i>
+    				class="btn btn-primary btn-sm btn-block">
+    			Objekte in Auswahl <i class="glyphicon glyphicon-search"> </i>
     		</a>
-    		<div style="margin-top:10px;">
-				<small ng-if="resultSize" class="text-muted">
-					Insgesamt <b>{{ resultSize }}</b> Ergebnisse.
-				</small>
-			</div>
 			<div>
 				<h6 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h6>
-					<button class="btn btn-default" ng-class="{'active': mapfacet.find}" ng-click="mapfacet.find = !mapfacet.find" role="button">
-						<small>Fundort</small>
-					</button>
-					<button class="btn btn-default" ng-class="{'active': mapfacet.depo}" ng-click="mapfacet.depo = !mapfacet.depo" role="button">
-						<small>Aufbewahrungsort</small>
-					</button>
+					<div class="btn-group-vertical" style="display:block;" role="group">
+						<button class="btn btn-sm btn-default"
+								ng-repeat="mapfacetName in mapfacetNames"
+								ng-class="{'active': mapfacet.name == mapfacetName}"
+								ng-click="switchMapFacet(mapfacetName)">
+							{{ mapfacetName | i18n }}
+						</button>
+					</div>
 			</div>
 			<div ng-if="q">
 				<h6 class="text-muted uppercase"><strong>Suchbegriff</strong></h6>
 				{{ q }}
 			</div>
 
-			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>Filter</b></h5>
-			<div ng-hide="resultSize < 2" ng-repeat="facet in facets | filter:'!facet_fundort' | filter:'!facet_aufbewahrungsort'"
-					class="panel panel-default facet">
-				<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
-					<h5 class="panel-title">
-						<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
-						<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>	
-						&nbsp;{{facet.name | i18n }}
-					</h5>
+			<small>
+				<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>Filter</b></h5>
+				<div ng-hide="resultSize < 2" ng-repeat="facet in facets | filter:'!facet_fundort' | filter:'!facet_aufbewahrungsort'"
+						class="panel panel-default facet">
+					<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+						<h5 class="panel-title">
+							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>	
+							&nbsp;{{facet.name | i18n }}
+						</h5>
+					</div>
+					<ul class="list-unstyled facet"	ng-show="facet.open">
+						<li ng-repeat="facetValue in facet.values">
+							<a ng-href="map/{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+								<b class="pull-right text-muted">{{facetValue.count | number}}</b>
+								{{facetValue.value | stripCoords}}
+							</a>
+						</li>
+					</ul>
 				</div>
-				<ul class="list-unstyled facet"	ng-show="facet.open">
-					<li ng-repeat="facetValue in facet.values">
-						<a ng-href="map/{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-							<b class="pull-right text-muted">{{facetValue.count | number}}</b>
-							{{facetValue.value | stripCoords}}
-						</a>
-					</li>
-				</ul>
-			</div>
+			</small>
     	</div>
 
     	<!-- Karte -->

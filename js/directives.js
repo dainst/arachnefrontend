@@ -384,7 +384,7 @@ angular.module('arachne.directives', [])
 	}])
 
 
-	.directive('map', ['$location', function($location) {
+	.directive('map', ['$location', '$filter', function($location, $filter) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -421,50 +421,21 @@ angular.module('arachne.directives', [])
 						}
 					});
 
-					var findspot = null;
-					var depository = null;
-					for (var i =0; i < scope.facets.length; i++) {
-						if(scope.facets[i].name == "facet_aufbewahrungsort") 
-							depository = scope.facets[i];
-						if(scope.facets[i].name == "facet_fundort") 
-							findspot = scope.facets[i];
-					};
-
-					if(scope.mapfacet.depo){
-						for(var i=0; i < depository.values.length; i++){
-							var item = depository.values[i].value;
+					if(scope.mapfacet) {
+						for(var i=0; i < scope.mapfacet.values.length; i++){
+							var item = scope.mapfacet.values[i].value;
 							var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
 							var coords = coordsString.split(',');
+							var facetI18n = $filter('i18n')(scope.mapfacet.name);
 							var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
 							var text = item.substring(0, item.indexOf("[", 1)) + " ";
 							// Popup-Title auf Karte für Suchergebnis
-							title = '<h4 class="text-info centered">Aufbewahrungsort</h4>' + title;
-							title += "Insgesamt " + depository.values[i].count + " Einträge<br>";
-							text = "Aufbewahrungsort: " + text;
-							text += "Insgesamt " + depository.values[i].count + " Einträge ";
+							title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
+							title += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte<br>";
+							text = facetI18n + ": " + text;
+							text += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte ";
 					
-							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : depository.values[i].count });
-							marker.bindPopup(title);
-							markerClusterGroup.addLayer(marker);
-						}
-					}
-					if(scope.mapfacet.find){
-						for(var i=0; i < findspot.values.length; i++){
-							var item = findspot.values[i].value;
-							var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
-							var coords = coordsString.split(',');
-							var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
-							var text = item.substring(0, item.indexOf("[", 1)) + " ";
-
-							// Popup-Title auf Karte für Suchergebnis
-							title = '<h4 class="text-info centered">Fundort</h4>' + title;
-							title += "Insgesamt " + findspot.values[i].count + " Einträge<br>";
-							//title += "<a href='search/" + scope.currentQuery.addFacet("facet_fundort",facetValue.value).toString() + "'>Diese Einträge anzeigen</a>";
-
-							text = "Aufbewahrungsort: " + text;
-							text += "Insgesamt " + findspot.values[i].count + " Einträge ";
-					
-							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : findspot.values[i].count });
+							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : scope.mapfacet.values[i].count });
 							marker.bindPopup(title);
 							markerClusterGroup.addLayer(marker);
 						}
@@ -485,32 +456,15 @@ angular.module('arachne.directives', [])
 			map.addLayer(layer);	
 			L.Icon.Default.imagePath = 'img';
 
-			scope.$watch(
-				function() {
-					return scope.mapfacet.depo;
-				},
-				function(newValue, oldValue){
-					if(newValue != oldValue) {
-						scope.mapfacet.depo = newValue;
-						map.removeLayer(markerClusterGroup);
-						selectFacetsAndCreateMarkers();
-					}
+			scope.$watch('mapfacet', function(newValue, oldValue){
+				if(newValue != oldValue) {
+					map.removeLayer(markerClusterGroup);
+					selectFacetsAndCreateMarkers();
 				}
-			);
-			scope.$watch(
-				function() {
-					return scope.mapfacet.find;
-				},
-				function(newValue, oldValue){
-					if(newValue != oldValue) {
-						scope.mapfacet.find = newValue;
-						map.removeLayer(markerClusterGroup);
-						selectFacetsAndCreateMarkers();
-					}
-				}
-			);
+			});
 
 			selectFacetsAndCreateMarkers();
+
 		}
 	};
 	}])	
