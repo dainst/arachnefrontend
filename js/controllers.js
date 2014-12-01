@@ -58,8 +58,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
-.controller('SearchCtrl', ['$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
-	function($scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
+.controller('SearchCtrl', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
+	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
+
+		$rootScope.hideFooter = false;
 		
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
@@ -112,8 +114,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CategoryCtrl', ['$scope', 'Query', 'categoryService', '$location', 'Entity',
-	function($scope, Query, categoryService, $location, Entity) {
+.controller('CategoryCtrl', ['$rootScope','$scope', 'Query', 'categoryService', '$location', 'Entity',
+	function($rootScope, $scope, Query, categoryService, $location, Entity) {
+
+		$rootScope.hideFooter = false;
 
 		$scope.category = $location.search().c;
 
@@ -165,8 +169,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityCtrl', ['$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query', 'messageService',
-	function ( $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, categoryService, Query, messageService) {
+.controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query', 'messageService',
+	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, categoryService, Query, messageService) {
+
+		$rootScope.hideFooter = false;
 		
 		$scope.user = authService.getUser();
 		$scope.serverUri = arachneSettings.serverUri;
@@ -288,8 +294,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	  $scope.bookmark = bookmark;
 	}
 ])
-.controller('BookmarksController',[ '$scope', '$modal', 'authService', 'noteService','arachneSettings', 'Query',
-	function ($scope, $modal, authService, noteService, arachneSettings, Query){
+.controller('BookmarksController',['$rootScope', '$scope', '$modal', 'authService', 'noteService','arachneSettings', 'Query',
+	function ($rootScope, $scope, $modal, authService, noteService, arachneSettings, Query) {
+
+		$rootScope.hideFooter = false;
 
 		$scope.bookmarksLists = [];
 		$scope.user = authService.getUser();
@@ -462,8 +470,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('StartSiteController', ['$scope', '$http', 'arachneSettings', 'messageService', 'categoryService', '$timeout',
-	function ($scope, $http, arachneSettings, messageService, categoryService, $timeout) {
+.controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'messageService', 'categoryService', '$timeout',
+	function ($rootScope, $scope, $http, arachneSettings, messageService, categoryService, $timeout) {
+
+		$rootScope.hideFooter = false;
 
         categoryService.getCategoriesAsync().then(function(categories) {
 			$scope.categories = [];
@@ -482,8 +492,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('AllCategoriesController', ['$scope', '$http', 'categoryService', '$timeout',
-	function ($scope, $http, categoryService, $timeout) {
+.controller('AllCategoriesController', ['$rootScope', '$scope', '$http', 'categoryService', '$timeout',
+	function ($rootScope, $scope, $http, categoryService, $timeout) {
+
+		$rootScope.hideFooter = false;
 
 		categoryService.getCategoriesAsync().then(function(categories) {
 			$scope.categories = [];
@@ -521,8 +533,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('RegisterCtrl', ['$scope', '$http', '$filter', 'arachneSettings',
-	function ($scope, $http, $filter, arachneSettings) {
+.controller('RegisterCtrl', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings',
+	function ($rootScope, $scope, $http, $filter, arachneSettings) {
+
+		$rootScope.hideFooter = false;
 
 		$scope.user = {};
 		$scope.success = false;
