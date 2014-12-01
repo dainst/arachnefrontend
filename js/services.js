@@ -369,6 +369,14 @@ angular.module('arachne.services', [])
 			return categories;
 		};
 
+		factory.getSingular = function(category) {
+			if (category in categories && singular in categories[category]) {
+				return categories[category].singular;
+			} else {
+				return category;
+			}
+		}
+
 		return factory;
 
 	}])

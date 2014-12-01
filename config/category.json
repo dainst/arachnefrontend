@@ -119,11 +119,6 @@
 		"singular" : "Buchseite",
 		"status" : "sub"
 	},
-	"Objekte":{
-		"title" : "Objekte",
-		"singular" : "Objekt",
-		"status" : "none"
-	},
 	"Literatur":{
 		"title" : "Literatur",
 		"singular" : "Literatur",
@@ -144,8 +139,8 @@
 		"singular" : "Sammler",
 		"status" : "none"
 	},
-	"Gruppierung" :{
-		"title" : "Gruppierung",
+	"Gruppierungen" :{
+		"title" : "Gruppierungen",
 		"singular" : "Gruppierung",
 		"status" : "none"
 	},
