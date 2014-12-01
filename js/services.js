@@ -362,9 +362,7 @@ angular.module('arachne.services', [])
 		var factory = {};
 
 		factory.getCategoriesAsync = function() {
-			return promise.then(function(categories){
-				return categories;
-			});
+			return promise;
 		};
 
 		factory.getCategories = function() {
