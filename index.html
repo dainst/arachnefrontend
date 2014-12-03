@@ -1,24 +1,13 @@
 <html lang="en" ng-app="arachne">
 <head>
+	
+	<base id="baseLink" href="/">
+	
 	<meta charset="utf-8">
 	<title>Arachne</title>
 	<link rel="shortcut icon" href="img/arachnelogo.png">
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-	
-	<base id="baseLink" href="">
-	<script type="text/javascript">
-		var basepath = document.location.pathname;
-
-		basepath = basepath.split('bookmarks')[0];
-		basepath = basepath.split('entity')[0];
-		basepath = basepath.split('search')[0];
-		basepath = basepath.split('category')[0];
-		basepath = basepath.split('map')[0];
-		basepath = basepath.split('3d')[0];
-
-		document.getElementById('baseLink').href = basepath;
-	</script>
 
 	<link rel="stylesheet" href="css/MarkerCluster.css">
 	<link rel="stylesheet" href="css/MarkerCluster.Default.css">
