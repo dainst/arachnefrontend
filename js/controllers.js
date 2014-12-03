@@ -140,7 +140,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('MapCtrl', ['$rootScope', '$scope', 'searchService', 'categoryService', '$location',
 	function($rootScope, $scope, searchService, categoryService, $location) {
 
-		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort"];
+		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort", "facet_geo"]; //, "facet_ort"
 
 		$rootScope.hideFooter = true;
 
@@ -152,6 +152,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.entities = entities;
 			$scope.resultSize = searchService.getSize();
 			$scope.facets = searchService.getFacets();
+			console.log($scope.facets);
 			$scope.facetMap = {};
 			for (var i = 0; i < $scope.facets.length; i++)
 				$scope.facetMap[$scope.facets[i].name] = $scope.facets[i];
