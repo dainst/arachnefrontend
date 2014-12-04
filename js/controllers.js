@@ -165,7 +165,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.switchMapFacet = function(facetName) {
 			$scope.mapfacet = $scope.facetMap[facetName];
-		}
+		};
+
+		$scope.go = function(path) {
+			$location.url(path);
+		};
 
 	}
 ])

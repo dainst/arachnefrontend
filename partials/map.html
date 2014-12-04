@@ -26,7 +26,7 @@
     			Objekte in Auswahl <i class="glyphicon glyphicon-search"> </i>
     		</a>
 			<div>
-				<h6 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h6>
+				<h5 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h5>
 					<div class="btn-group-vertical" style="display:block;" role="group">
 						<button class="btn btn-sm btn-default"
 								ng-repeat="mapfacetName in mapfacetNames"
@@ -36,9 +36,11 @@
 						</button>
 					</div>
 			</div>
-			<div ng-if="q">
-				<h6 class="text-muted uppercase"><strong>Suchbegriff</strong></h6>
-				{{ q }}
+			<div>
+				<h5 class="text-muted uppercase"><b>Aktuelle Suche</b></h5>
+				<form ng-submit="go('/map/' + currentQuery.setParam('q',q).toString())">
+					<input type="text" class="form-control" ng-model="q">
+				</form>
 			</div>
 			<div ar-active-facets route="search" current-query="currentQuery"></div>
 
