@@ -390,15 +390,14 @@ angular.module('arachne.directives', [])
 		scope: {
 			facets: '=',
 			mapfacet: '=',
-			currentQueryParameters: '='
+			currentQuery: '='
 		},
-		link: function(scope, element, attrs) 
-		{	
+		link: function(scope, element, attrs) {
+
 			var selectFacetsAndCreateMarkers = function () {
-				if(scope.facets)
-				{
-					markerClusterGroup = new L.MarkerClusterGroup(
-					{
+
+				if(scope.facets) {
+					markerClusterGroup = new L.MarkerClusterGroup({
 						iconCreateFunction: function(cluster) {
 
 							var markers = cluster.getAllChildMarkers();
@@ -433,7 +432,7 @@ angular.module('arachne.directives', [])
 							// Popup-Title auf Karte für Suchergebnis
 							title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
 							title += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte<br>";
-							//title += "<a href='search/" + scope.currentQuery.addFacet(scope.locationfacetname,facetValue.value).toString() + "'>Diese Einträge anzeigen</a>";
+							title += "<a href='search/" + scope.currentQuery.addFacet(scope.mapfacet.name,item).toString() + "'>Diese Einträge anzeigen</a>";
 							text = facetI18n + ": " + text;
 							text += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte ";
 					
@@ -444,8 +443,9 @@ angular.module('arachne.directives', [])
 					}
 
 					map.addLayer(markerClusterGroup);
-				console.log(scope.currentQueryParameters);
+
 				}
+
 			}
 
 			var map = L.map(element.attr('id')).setView([40, -10], 3);
@@ -463,11 +463,6 @@ angular.module('arachne.directives', [])
 				if(newValue != oldValue) {
 					map.removeLayer(markerClusterGroup);
 					selectFacetsAndCreateMarkers();
-				}
-			});
-			scope.$watch('currentQueryParameters', function(newValue, oldValue){
-				if(newValue != oldValue) {
-					scope.currentQueryParameters = newValue;
 				}
 			});
 

@@ -152,7 +152,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.entities = entities;
 			$scope.resultSize = searchService.getSize();
 			$scope.facets = searchService.getFacets();
-			console.log($scope.facets);
 			$scope.facetMap = {};
 			for (var i = 0; i < $scope.facets.length; i++)
 				$scope.facetMap[$scope.facets[i].name] = $scope.facets[i];
