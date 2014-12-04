@@ -1,4 +1,4 @@
-<div ng-if="currentQuery.hasFacets() || currentQuery.restrict">
+<div ng-if="currentQuery.hasFacets() || (currentQuery.restrict && route == 'search')">
 	<h5 class="text-muted uppercase"><b>Aktive Filter</b></h5>
 	<a ng-if="currentQuery.restrict && route == 'search'"
 			ng-href="{{route}}/{{currentQuery.removeParam('restrict').toString()}}"
