@@ -388,7 +388,6 @@ angular.module('arachne.directives', [])
 	return {
 		restrict: 'A',
 		scope: {
-			facets: '=',
 			mapfacet: '=',
 			currentQuery: '='
 		},
@@ -396,55 +395,52 @@ angular.module('arachne.directives', [])
 
 			var selectFacetsAndCreateMarkers = function () {
 
-				if(scope.facets) {
-					markerClusterGroup = new L.MarkerClusterGroup({
-						iconCreateFunction: function(cluster) {
+				markerClusterGroup = new L.MarkerClusterGroup({
+					iconCreateFunction: function(cluster) {
 
-							var markers = cluster.getAllChildMarkers();
-							var entityCount = 0;
-							for (var i = 0; i < markers.length; i++) {
-								entityCount += markers[i].options.entityCount;
-							}
-
-							var childCount = cluster.getChildCount();
-
-							var c = ' marker-cluster-';
-							if (childCount < 10) {
-								c += 'small';
-							} else if (childCount < 100) {
-								c += 'medium';
-							} else {
-								c += 'large';
-							}
-
-							return new L.DivIcon({ html: '<div><span>' + entityCount+ ' at ' + childCount + ' Places</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+						var markers = cluster.getAllChildMarkers();
+						var entityCount = 0;
+						for (var i = 0; i < markers.length; i++) {
+							entityCount += markers[i].options.entityCount;
 						}
-					});
 
-					if(scope.mapfacet) {
-						for(var i=0; i < scope.mapfacet.values.length; i++){
-							var item = scope.mapfacet.values[i].value;
-							var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
-							var coords = coordsString.split(',');
-							var facetI18n = $filter('i18n')(scope.mapfacet.name);
-							var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
-							var text = item.substring(0, item.indexOf("[", 1)) + " ";
-							// Popup-Title auf Karte für Suchergebnis
-							title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
-							title += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte<br>";
-							title += "<a href='search/" + scope.currentQuery.addFacet(scope.mapfacet.name,item).toString() + "'>Diese Einträge anzeigen</a>";
-							text = facetI18n + ": " + text;
-							text += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte ";
-					
-							var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : scope.mapfacet.values[i].count });
-							marker.bindPopup(title);
-							markerClusterGroup.addLayer(marker);
+						var childCount = cluster.getChildCount();
+
+						var c = ' marker-cluster-';
+						if (childCount < 10) {
+							c += 'small';
+						} else if (childCount < 100) {
+							c += 'medium';
+						} else {
+							c += 'large';
 						}
+
+						return new L.DivIcon({ html: '<div><span>' + entityCount+ ' at ' + childCount + ' Places</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
 					}
+				});
 
-					map.addLayer(markerClusterGroup);
-
+				if(scope.mapfacet) {
+					for(var i=0; i < scope.mapfacet.values.length; i++){
+						var item = scope.mapfacet.values[i].value;
+						var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
+						var coords = coordsString.split(',');
+						var facetI18n = $filter('i18n')(scope.mapfacet.name);
+						var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
+						var text = item.substring(0, item.indexOf("[", 1)) + " ";
+						// Popup-Title auf Karte für Suchergebnis
+						title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
+						title += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte<br>";
+						title += "<a href='search/" + scope.currentQuery.addFacet(scope.mapfacet.name,item).toString() + "'>Diese Einträge anzeigen</a>";
+						text = facetI18n + ": " + text;
+						text += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte ";
+				
+						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : scope.mapfacet.values[i].count });
+						marker.bindPopup(title);
+						markerClusterGroup.addLayer(marker);
+					}
 				}
+
+				map.addLayer(markerClusterGroup);
 
 			}
 
@@ -458,13 +454,6 @@ angular.module('arachne.directives', [])
 			});
 			map.addLayer(layer);	
 			L.Icon.Default.imagePath = 'img';
-
-			scope.$watch('mapfacet', function(newValue, oldValue){
-				if(newValue != oldValue) {
-					map.removeLayer(markerClusterGroup);
-					selectFacetsAndCreateMarkers();
-				}
-			});
 
 			selectFacetsAndCreateMarkers();
 

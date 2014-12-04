@@ -145,17 +145,22 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$rootScope.hideFooter = true;
 
 		$scope.currentQuery = searchService.currentQuery();
+		$scope.currentQuery.limit = 0;
+		if (!$scope.currentQuery.restrict) {
+			$scope.currentQuery.restrict = $scope.mapfacetNames[0];
+		}
 		$scope.facetLimit = $scope.currentQuery.fl;
 		$scope.q = angular.copy($scope.currentQuery.q);
 	
 		searchService.getCurrentPage().then(function(entities) {
-			$scope.entities = entities;
 			$scope.resultSize = searchService.getSize();
 			$scope.facets = searchService.getFacets();
-			$scope.facetMap = {};
-			for (var i = 0; i < $scope.facets.length; i++)
-				$scope.facetMap[$scope.facets[i].name] = $scope.facets[i];
-			$scope.mapfacet = $scope.facetMap[$scope.mapfacetNames[0]];
+			for (var i = 0; i < $scope.facets.length; i++) {
+				if ($scope.facets[i].name == $scope.currentQuery.restrict) {
+					$scope.mapfacet = $scope.facets[i];
+					break;
+				}
+			}
 		}, function(response) {
 			$scope.resultSize = 0;
 			$scope.error = true;
@@ -164,7 +169,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		});
 
 		$scope.switchMapFacet = function(facetName) {
-			$scope.mapfacet = $scope.facetMap[facetName];
+			$scope.go("map/" + $scope.currentQuery.setParam("restrict", facetName).toString());
 		};
 
 		$scope.go = function(path) {

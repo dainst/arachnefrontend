@@ -61,7 +61,7 @@ angular.module('arachne.services', [])
 						if (data.size == 0) { 
 							deferred.resolve([]);
 						} else {
-							for (var i = 0; i < data.entities.length; i++) {
+							if(data.entities) for (var i = 0; i < data.entities.length; i++) {
 								_result.entities[parseInt(offset)+i] = data.entities[i];
 							}
 						}
@@ -206,6 +206,7 @@ angular.module('arachne.services', [])
 			// that can be passed as a params object to $resource and $http
 			toFlatObject: function() {
 				var object = {};
+				var queries = [];
 				for(var key in this) {
 					if (key == 'facets') {
 						object.fq = [];
@@ -213,10 +214,15 @@ angular.module('arachne.services', [])
 							var facetString = facetName + ":\"" + this.facets[facetName] + "\"";
 							object.fq.push(facetString);
 						}
-					} else if (['q','fl','limit'].indexOf(key) != -1) {
+					} else if (key == 'restrict') {
+						queries.push("_exists_:" + this[key]);
+					} else if (key == 'q') {
+						queries.push(this[key]);
+					} else if (['fl','limit'].indexOf(key) != -1) {
 						object[key] = this[key];
 					}
 				}
+				object.q = queries.join(' AND ');
 				return object;
 			}
 

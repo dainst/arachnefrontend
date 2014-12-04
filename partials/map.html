@@ -21,10 +21,20 @@
         		Ihre Auswahl enthält mehr Orte als auf der Karte dargestellt werden können.
         	</div>
 
-    		<a href="search/{{currentQuery.removeParam('fl').toString()}}" type="button"
-    				class="btn btn-primary btn-sm btn-block">
-    			Objekte in Auswahl <i class="glyphicon glyphicon-search"> </i>
-    		</a>
+        	<div style="margin-bottom:10px;">
+					Insgesamt <b>{{ resultSize|number }}</b> Objekt<span ng-show="resultSize > 1">e</span>
+					<br>an
+					<i ng-if="mapfacet.values.length >= 2000">mehr als</i>
+					<b>{{ mapfacet.values.length |number }}</b> Ort<span ng-show="mapfacet.values.length > 1">en</span>
+			</div>
+
+			<div>
+	    		<a href="search/{{currentQuery.removeParam('fl').toString()}}" type="button"
+	    				class="btn btn-primary btn-sm btn-block">
+	    			Alle Anzeigen <i class="glyphicon glyphicon-search"> </i>
+	    		</a>
+	    	</div>
+
 			<div>
 				<h5 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h5>
 					<div class="btn-group-vertical" style="display:block;" role="group">
@@ -42,7 +52,7 @@
 					<input type="text" class="form-control" ng-model="q">
 				</form>
 			</div>
-			<div ar-active-facets route="search" current-query="currentQuery"></div>
+			<div ar-active-facets route="map" current-query="currentQuery"></div>
 
 			<small>
 				<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>Filter</b></h5>
@@ -68,7 +78,7 @@
     	</div>
 
     	<!-- Karte -->
-        <div map ng-if="resultSize > 0" mapfacet="mapfacet" facets="facets" current-query="currentQuery" class="col-md-12 fullscreenMap" id="map">
+        <div map ng-if="resultSize > 0" mapfacet="mapfacet" current-query="currentQuery" class="col-md-12 fullscreenMap" id="map">
 
 	</div>
 

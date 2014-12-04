@@ -1,5 +1,12 @@
-<div ng-if="currentQuery.hasFacets()">
+<div ng-if="currentQuery.hasFacets() || currentQuery.restrict">
 	<h5 class="text-muted uppercase"><b>Aktive Filter</b></h5>
+	<a ng-if="currentQuery.restrict && route == 'search'"
+			ng-href="{{route}}/{{currentQuery.removeParam('restrict').toString()}}"
+			class="btn btn-sm btn-block btn-warning linethrough-hover"
+			style="white-space:normal;">
+		<i>Nur Objekte mit</i><br>
+	    <b style="text-transform:capitalize;">{{currentQuery.restrict | i18n}}</b>
+	</a>
 	<a ng-repeat="(facetName, facetValue) in currentQuery.facets"
 			ng-href="{{route}}/{{currentQuery.removeFacet(facetName).toString()}}"
 			class="btn btn-sm btn-block btn-primary linethrough-hover">
