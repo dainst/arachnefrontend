@@ -21,7 +21,7 @@
         		Ihre Auswahl enthält mehr Orte als auf der Karte dargestellt werden können.
         	</div>
 
-    		<a href="search/{{currentQuery.toString()}}" type="button"
+    		<a href="search/{{currentQuery.removeParam('fl').toString()}}" type="button"
     				class="btn btn-primary btn-sm btn-block">
     			Objekte in Auswahl <i class="glyphicon glyphicon-search"> </i>
     		</a>
