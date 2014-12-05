@@ -175,12 +175,6 @@
 								<span class="glyphicon glyphicon-link"></span>
 								&nbsp;Perma-Link
 							</button>
-							<button style="text-align:left"
-									ng-show="entity.facet_aufbewahrungsort || entity.facet_fundort"ng-init="karteAnzeigen=false"
-									ng-class="{'active':karteAnzeigen}"
-									ng-click="karteAnzeigen=!karteAnzeigen" class="btn btn-default btn-xs">
-								<span class="glyphicon glyphicon-map-marker"></span> &nbsp;Karte
-							</button>
 						</div>
 					</div>
 				</div>
@@ -189,14 +183,7 @@
 						<hr>
 						<b>Perma-Link: </b><a href="{{ serverUri }}entity/{{entity.entityId}}">{{ serverUri }}entity/{{entity.entityId}}</a>
 					</div>
-				</div>	
-				<div class="row" ng-if="karteAnzeigen">
-					<div class="col-md-12">
-						<hr>
-						<div ng-if="entity.facet_fundort" entities="[entity]" style="height:300px" locationfacetname="locationfacetname = 'facet_fundort'"  map id="map1"></div>
-						<div ng-if="entity.facet_aufbewahrungsort" entities="[entity]" style="height:300px; margin-top:16px" locationfacetname="locationfacetname = 'facet_aufbewahrungsort'" map id="map2"></div>
-					</div>
-				</div>		  
+				</div>	  
 				<hr>
 
 				<div ng-if="!entity.sections.content">
