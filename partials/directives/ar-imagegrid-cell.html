@@ -1,10 +1,19 @@
-<div class="ar-imagegrid-cell" style="width: {{cellWidth}}px; display:inline-block; float:left; margin: {{cellMargin}}px; overflow: hidden;">
-	<a href="{{href}}" class="ar-imagegrid-cell-link">
-		<div style="height: {{cellHeight}}px; background-color: #ddd; text-align:center; position: relative; width: {{cellWidth}}px;">
-			<span ng-if="cellLabel" class="label label-default" style="max-width:{{cellWidth-10}}px;">{{cellLabel}}</span>
+<div class="ar-imagegrid-cell"
+		ng-style="{'width':cellWidth+'px', 'margin':cellMargin+'px'}"
+		style="display:inline-block; float:left; overflow: hidden;">
+	<a ng-href="{{href}}" class="ar-imagegrid-cell-link">
+		<div ng-style="{'height':cellHeight+'px', 'width':cellWidth+'px'}"
+				style="background-color: #ddd; text-align:center; position: relative;">
+			<span ng-if="cellLabel"
+					class="label label-default"
+					ng-style="{'max-width':(cellWidth-10)+'px'};">
+				{{cellLabel}}
+			</span>
 			<span style="display: inline-block; height: 100%; vertical-align: middle;"></span><img style="vertical-align:middle;" ng-src="{{img.src}}" width="{{imgWidth}}">
 		</div>
-		<div ng-hide="hideTitle" class="ar-imagegrid-cell-title" style="width: {{cellWidth}}px;">
+		<div ng-hide="hideTitle"
+				class="ar-imagegrid-cell-title"
+				ng-style="{'width':cellWidth+'px'};">
 			<small>{{cellTitle}}</small><br/>
 			<small class="text-muted" ng-show="cellSubtitle">{{cellSubtitle}}</small>
 		</div>
