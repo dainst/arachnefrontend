@@ -116,16 +116,20 @@ h6 { font-size: 12px; }
 
 .sections {
   font-size: 13px;
+  padding-left: 20px;
 }
 .sections ul {
   padding-left: 0px;
+  margin-top: 4px;
+  margin-bottom: 2px;
 }
 .sections li {
   list-style:none;
 }
 .sections li b {
-  margin-top: 6px;
-  margin-bottom: 2px;
+  margin-top: 8px;
+  margin-bottom: -4px;
+  margin-left: -20px;
   display: block;
 }
 .sections li > b {
@@ -140,8 +144,25 @@ h6 { font-size: 12px; }
   display: inline;
   font-weight: normal;
   font-style: italic;
+  margin-left: 0px;
+  margin-right: 2px;
 }
-.sections li li li > b:after {
+.sections li li li li > b {
+  font-style: normal;
+  margin-right: 0px;
+}
+.sections li li li ul {
+  font-style: normal;
+  margint: 0px;
+}
+.sections li li li ul::before {
+  content: " – ";
+}
+.sections li li li ul:first-of-type::before, .sections li li li li ul::before {
+  content: "";
+  display: none;
+}
+.sections li li li > b::after {
   content: ': ';
 }
 .sections li li li ul {
