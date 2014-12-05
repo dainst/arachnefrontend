@@ -125,6 +125,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.title = categories[$scope.category].title;
 			$scope.imgUri = categories[$scope.category].imgUri;
 			$scope.subtitle = categories[$scope.category].subtitle;
+			$scope.mapfacet = categories[$scope.category].geoFacet;
 		});
 
 		$scope.currentQuery = new Query().addFacet("facet_kategorie", $scope.category);
