@@ -117,6 +117,9 @@ h6 { font-size: 12px; }
 .sections {
   font-size: 13px;
 }
+.sections ul {
+  padding-left: 0px;
+}
 .sections li {
   list-style:none;
 }
@@ -126,13 +129,26 @@ h6 { font-size: 12px; }
   display: block;
 }
 .sections li > b {
-  font-size: 1.2em;
+  font-size: 1.4em;
 }
 .sections li li > b {
   font-size: 1.1em;
 }
+/* deeply nested sections should display inline */
 .sections li li li > b {
   font-size: 1em;
+  display: inline;
+  font-weight: normal;
+  font-style: italic;
+}
+.sections li li li > b:after {
+  content: ': ';
+}
+.sections li li li ul {
+  display: inline;
+}
+.sections li li li li {
+  display: inline;
 }
 .sections hr {
   border: 0;

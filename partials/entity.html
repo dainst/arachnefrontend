@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="section_template.html">
 
 	<li ng-if="!section.value" ng-class="{'thumbnail' : section.contextEntity}">
-		<b>{{section.label}}</b>
+		<b ng-if="section.label">{{section.label}}</b>
 		<ul ng-repeat="section in (section.content || section.contextEntity)" ng-include="'section_template.html'"></ul>
 	</li>
 
