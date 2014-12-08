@@ -4,31 +4,28 @@
 		<!-- Loading-Icon -->
 		<div ng-hide="resultSize >= 0" class="loading"></div>
 
-		<!-- Meldung für leeres Suchergebnis -->
-		<div ng-if="resultSize == 0">
-			<div class="row" style=" height:{{screenHeight}}px;">
-				<div class="col-md-4 col-md-offset-4 text-center">
-					Keine Ergebnisse gefunden.
-				</div>
-			</div>
-		</div>
-
 		<!-- Seitenleiste  -->
-        <div ng-show="facets" id="mapNavigation" class="col-md-2 well well-sm"
+        <div id="mapNavigation" class="col-md-2 well well-sm"
         		style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:500;">
+        	
         	<div ng-if="facetLimit == mapfacet.values.length" class="alert alert-info">
         		<b>Hinweis:</b>
         		Ihre Auswahl enthält mehr Orte als auf der Karte dargestellt werden können.
         	</div>
 
-        	<div style="margin-bottom:10px;">
-					Insgesamt <b>{{ resultSize|number }}</b> Objekt<span ng-show="resultSize > 1">e</span>
-					<br>an
-					<i ng-if="mapfacet.values.length >= 2000">mehr als</i>
-					<b>{{ mapfacet.values.length |number }}</b> Ort<span ng-show="mapfacet.values.length > 1">en</span>
+			<!-- Meldung für leeres Suchergebnis -->
+			<div ng-if="resultSize == 0" class="alert alert-info">
+				Keine Orte gefunden.
 			</div>
 
-			<div>
+        	<div ng-if="resultSize > 0" style="margin-bottom:10px;">
+				Insgesamt <b>{{ resultSize|number }}</b> Objekt<span ng-show="resultSize > 1">e</span>
+				<br>an
+				<i ng-if="mapfacet.values.length >= 2000">mehr als</i>
+				<b>{{ mapfacet.values.length |number }}</b> Ort<span ng-show="mapfacet.values.length > 1">en</span>
+			</div>
+
+			<div ng-if="resultSize > 0">
 	    		<a href="search/{{currentQuery.removeParam('fl').toString()}}" type="button"
 	    				class="btn btn-primary btn-sm btn-block">
 	    			Alle Anzeigen <i class="glyphicon glyphicon-search"> </i>
@@ -78,7 +75,7 @@
     	</div>
 
     	<!-- Karte -->
-        <div map ng-if="resultSize > 0" mapfacet="mapfacet" current-query="currentQuery" class="col-md-12 fullscreenMap" id="map">
+        <div map ng-if="resultSize != null" mapfacet="mapfacet" current-query="currentQuery" class="col-md-12 fullscreenMap" id="map">
 
 	</div>
 
