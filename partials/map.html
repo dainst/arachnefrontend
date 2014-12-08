@@ -35,12 +35,12 @@
 			<div>
 				<h5 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h5>
 					<div class="btn-group-vertical" style="display:block;" role="group">
-						<button class="btn btn-sm btn-default"
+						<a class="btn btn-sm btn-default"
 								ng-repeat="mapfacetName in mapfacetNames"
 								ng-class="{'active': mapfacet.name == mapfacetName}"
-								ng-click="switchMapFacet(mapfacetName)">
+								ng-href="map{{currentQuery.setParam('restrict', mapfacetName).toString()}}">
 							{{ mapfacetName | i18n }}
-						</button>
+						</a>
 					</div>
 			</div>
 			<div>
