@@ -7,10 +7,6 @@
 				<img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png">
 				arachne<span class="text-primary" style="font-size:20px;"> beta</span>
 			</h1>
-			<h5 style="opacity: 0.57;">
-				<span ng-bind="entityCount | number"></span>&nbsp;
-				<span ng-show="entityCount">Einträge</span>
-			</h5>
 			<form class="input-group form-inline" role="search" method="GET" action="search/">
 				<input type="text" ng-model="q" name="q" class="form-control" autofocus placeholder="Suche"></input>
 				<span class="input-group-btn">
@@ -19,7 +15,23 @@
 					</button>
 				</span>
 			</form>
-			<h5><span class="glyphicon glyphicon-map-marker text-primary"></span> <a href="map?q=*&fl=2000&restrict=facet_aufbewahrungsort" style="outline: none;">Fund- und Aufbewahrungsorte</a></h5>
+			<ul class="list-inline text-muted">
+				<li ng-show="entityCount" style="opacity:.8;">
+					Insgesamt
+					<b ng-bind="entityCount | number"></b>
+					Einträge
+				</li>
+				<li>
+					<a href="search?q=*">
+						<span class="glyphicon glyphicon-search"></span> Alle Anzeigen
+					</a>
+				</li>
+				<li>
+					<a href="map?q=*&fl=2000&restrict=facet_aufbewahrungsort" style="outline: none;">
+						<span class="glyphicon glyphicon-map-marker"></span> Karte
+					</a>
+				</li>
+			</ul>
 		</div>
 	</div>
 	<div class="row" style="background-color:white" id="categories_container">

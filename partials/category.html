@@ -6,24 +6,37 @@
 		<div class="media-body" style="padding-left:15px;">
 			<h1 class="media-heading">
 				{{ title }}
-				<small>Insgesamt {{resultSize | number}} Objekte</small>
 			</h1>
 			<hr>
 			<p class="lead">{{ subtitle }}</p>
-			<p><i>Unten haben Sie die Möglichkeit, nach kategoriespezifischen Kriterien zu browsen.</i></p>
+			<form class="input-group form-inline" role="search" method="GET" action="search/">
+				<input size="50" type="text" ng-model="q" name="q" class="form-control" placeholder="Suche in dieser Kategorie"></input>
+				<input type="hidden" name="fq" value="facet_kategorie:'{{title}}'"></input>
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-default">
+						&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
+					</button>
+				</span>
+			</form>
+			<ul class="list-inline text-muted">
+				<li ng-show="resultSize">
+					Insgesamt
+					<b ng-bind="resultSize | number"></b>
+					Einträge
+				</li>
+				<li>
+					<a ng-href="search?q=*&fq=facet_kategorie:'{{title}}'">
+						<span class="glyphicon glyphicon-search"></span> Alle Anzeigen
+					</a>
+				</li>
+				<li ng-show="mapfacet">
+					<a ng-href="map?q=*&fl=2000&fq=facet_kategorie:'{{title}}'&restrict={{mapfacet}}">
+						<span class="glyphicon glyphicon-map-marker"></span> Karte
+					</a>
+				</li>
+			</ul>
 			<br>
-			<h5 ng-if="mapfacet">
-				<span class="glyphicon glyphicon-map-marker text-primary"></span>
-				<a ng-href="map?q=*&fl=2000&fq=facet_kategorie:'{{title}}'&restrict={{mapfacet}}" style="outline: none;">
-					Fund- und Aufbewahrungsorte
-				</a>
-			</h5>
-			<h5>
-				<span class="glyphicon glyphicon-search text-primary"></span>
-				<a ng-href="search?q=*&fq=facet_kategorie:'{{title}}'" style="outline: none;">
-					Alle Anzeigen
-				</a>
-			</h5>
+			<p><i>Unten haben Sie die Möglichkeit, nach kategoriespezifischen Kriterien zu browsen.</i></p>
 		</div>
 	</div>
 	<div class="col-md-offset-1 col-md-10">
