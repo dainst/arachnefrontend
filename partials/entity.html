@@ -1,6 +1,4 @@
 <script type="text/ng-template" id="section_template.html">
-	{{ section }}
-	test
 
 	<li ng-if="!section.value" ng-class="{'thumbnail' : section.contextEntity}">
 		<b ng-if="section.label">{{section.label}}</b>
@@ -191,40 +189,14 @@
 				<div ng-if="!entity.sections">
 					<em>keine weiteren Angaben eingetragen</em>
 				</div>
-				<div ng-repeat="section in entity.sections">
-						<b> {{ section.label }} </b>
-						<ul ng-repeat="content in section.content">
-							<b> {{ content.label }}</b>
-							<ul ng-repeat="subContent in content.content">
-								<b> {{ subContent.label }} </b>
-								<ul ng-repeat="subsubContent in subContent.content">
-									<b>{{ subsubContent.label }} </b>
-									<li ng-if="subsubContent.value" ng-switch="isArray(subsubContent.value)">
-										<div ng-switch-when="false" ng-bind-html="subsubContent.value | nl2br">
-										</div>
-										<div ng-switch-when="true">
-											<div class="section-item" ng-repeat="valueItem in subsubContent.value track by $index" ng-bind-html="valueItem | nl2br"></div>
-										</div>
-									</li>
-								</ul>
-								<li ng-if="subContent.value" ng-switch="isArray(subContent.value)">
-									<div ng-switch-when="false" ng-bind-html="subContent.value | nl2br">
-									</div>
-									<div ng-switch-when="true">
-										<div class="section-item" ng-repeat="valueItem in subContent.value track by $index" ng-bind-html="valueItem | nl2br"></div>
-									</div>
-								</li>
-							</ul>
-						</ul>
-				</div>
 				<div class="sections"
-							ng-repeat="section in entity.sections.content"
-							ng-include="'section_template.html'">
-					</div>
-					<div ng-if="entity.additionalContent.ocrText">
-						<div class="page-header"><h4>OCR Text-Analyse</h4></div>
-						<ul>{{entity.additionalContent.ocrText}}</ul>
-					</div>
+						ng-repeat="section in entity.sections"
+						ng-include="'section_template.html'">
+				</div>
+				<div ng-if="entity.additionalContent.ocrText">
+					<div class="page-header"><h4>OCR Text-Analyse</h4></div>
+					<ul>{{entity.additionalContent.ocrText}}</ul>
+				</div>
 
 			</div>
 			<!-- END CONTENT SECTION -->
