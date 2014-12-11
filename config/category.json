@@ -9,7 +9,7 @@
 		"geoFacet": "facet_aufbewahrungsort"
 	},
 	"Bauwerksteile": {
-		"imgUri": "img/categories/bauwerksteile_sw.jpg",
+		"imgUri": "img/categories/bauwerksteile.jpg",
 		"title": "Bauwerksteile",
 		"subtitle": "Erfassung von Untergliederungen eines Gebäudes: Geschosse, Sektionen, Räume",
 		"href": "category/?c=Bauwerksteile",
