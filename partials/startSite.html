@@ -7,7 +7,7 @@
 				<img style="height: 66px; width: 66px; margin-right: 10px" src="img/arachnelogo.png">
 				arachne<span class="text-primary" style="font-size:20px;"> beta</span>
 			</h1>
-			<form class="input-group form-inline" role="search" method="GET" action="search/">
+			<form ng-controller="SearchFormCtrl" ng-submit="search()" class="input-group form-inline" role="search" method="GET">
 				<input type="text" ng-model="q" name="q" class="form-control" autofocus placeholder="Suche"></input>
 				<span class="input-group-btn">
 					<button type="submit" class="btn btn-default">

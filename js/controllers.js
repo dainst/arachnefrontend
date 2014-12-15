@@ -58,6 +58,20 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 	}
 ])
+.controller('SearchFormCtrl', ['$scope', '$location',
+	function($scope, $location) {
+
+		$scope.search = function(fq) {
+			if ($scope.q) {
+				var url = '/search?q=' + $scope.q;
+				if (fq) url += "&fq=" + fq;
+				$scope.q = null;
+				$location.url(url);
+			}
+		}
+
+	}
+])
 .controller('SearchCtrl', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
 	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
 
