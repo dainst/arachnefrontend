@@ -76,10 +76,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
 
 		$rootScope.hideFooter = false;
-		$scope.sortableFields = arachneSettings.sortableFields;
 		
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
+
+		$scope.sortableFields = arachneSettings.sortableFields;
+		// ignore unknown sort fields
+		if (arachneSettings.sortableFields.indexOf($scope.currentQuery.sort) == -1) {
+			delete $scope.currentQuery.sort;
+		}
 
 		categoryService.getCategoriesAsync().then(function(categories) {
 			$scope.categories = categories;
