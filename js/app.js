@@ -35,7 +35,8 @@ angular.module('arachne',
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
-		openFacets : ["facet_image", "facet_kategorie"]
+		openFacets : ["facet_image", "facet_kategorie"],
+		sortableFields : ["entityId", "title", "subtitle"]
 }).run(['$rootScope', function($rootScope) {
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
     	// resetting the default page title for controller changes

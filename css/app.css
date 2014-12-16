@@ -92,18 +92,12 @@ h6 { font-size: 12px; }
   line-height: 36px;
 }
 
-.btn-startsite-tab {
-  border:none;
-  background: none;
-  border-radius: 0px;
-  border-bottom: 2px solid silver;
+.search-nav .btn-sm {
+  line-height: 1.1;
 }
-.btn-startsite-tab.active {
-  background: none;
-  box-shadow: none;
-  border-bottom: 2px solid rgb(66,139,202);
-  color:rgb(66,139,202);
-  
+
+.search-nav .input-sm {
+  height: 20px;
 }
 
 .row {

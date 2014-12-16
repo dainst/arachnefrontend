@@ -1,12 +1,18 @@
 'use strict';
 
 /* Directives */
-angular.module('arachne.directives', [])
+angular.module('arachne.directives', ['ui.bootstrap'])
 
 	.directive('arEntityTitle', function() {
 		return {
 			scope: { entity: '=' },
 			templateUrl: 'partials/directives/ar-entity-title.html'
+		}
+	})
+
+	.directive('arSearchNav', function() {
+		return {
+			templateUrl: 'partials/directives/ar-search-nav.html'
 		}
 	})
 

@@ -76,6 +76,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
 
 		$rootScope.hideFooter = false;
+		$scope.sortableFields = arachneSettings.sortableFields;
 		
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
