@@ -44,22 +44,22 @@
 			</button>
 			<ul class="dropdown-menu" role="menu">
 				<li>
-					<a ng-href="search/{{currentQuery.removeParam('sort').toString()}}">
+					<a ng-href="search/{{currentQuery.removeParam('sort').removeParam('offset').toString()}}">
 						Relevanz
 					</a>
 				</li>
 				<li ng-repeat="sortableField in sortableFields">
-					<a ng-href="search/{{currentQuery.setParam('sort',sortableField).toString()}}">
+					<a ng-href="search/{{currentQuery.setParam('sort',sortableField).removeParam('offset').toString()}}">
 						{{ sortableField | i18n }}
 					</a>
 				</li>
 			</ul>
 		</div>
-		<a ng-href="search/{{currentQuery.setParam('desc','true').toString()}}"
+		<a ng-href="search/{{currentQuery.setParam('desc','true').removeParam('offset').toString()}}"
 				ng-show="currentQuery.sort && !currentQuery.desc" type="button" class="btn btn-sm btn-default">
 			<span class="glyphicon glyphicon-sort-by-alphabet">
 		</a>
-		<a ng-href="search/{{currentQuery.removeParam('desc').toString()}}"
+		<a ng-href="search/{{currentQuery.removeParam('desc').removeParam('offset').toString()}}"
 				ng-show="currentQuery.sort && currentQuery.desc" type="button" class="btn btn-sm btn-default">
 			<span class="glyphicon glyphicon-sort-by-alphabet-alt">
 		</a>
