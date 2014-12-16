@@ -117,7 +117,8 @@ angular.module('arachne.directives', [])
 				cells: '=',
 				columns: '@',
 				margin: '@',
-				hideTitle: '@'
+				hideTitle: '@',
+				complete: '=?'
 			},
 			templateUrl: 'partials/directives/ar-imagegrid.html',
 			
@@ -193,8 +194,12 @@ angular.module('arachne.directives', [])
 
 					row.complete = true;
 					for (var i = 0; i < scope.grid.length; i++) {
-						if (!scope.grid[i].complete) break;
-						scope.complete = true;
+						if (!scope.grid[i].complete) {
+							scope.complete = false;
+							break;
+						} else {
+							scope.complete = true;
+						}
 					}
 
 				};

@@ -107,16 +107,15 @@
 					cells="cells"
 					columns="5"
 					margin="4"
+					complete="$parent.imageGridComplete"
 					ng-switch-default="tiles">					
 				</div>
 
 			</div>
-		</div>		
+		</div>
 
-		<div ar-search-nav></div>
+		<div ng-hide="!currentQuery.view && !imageGridComplete" ar-search-nav></div>
 
-	</div>	
-		
 	</div>
 
 </div>
