@@ -1,0 +1,68 @@
+<div class="row search-nav">
+
+	<div class="col-sm-4">
+		<div class="btn-group">
+			<a ng-href="search/{{currentQuery.removeParam('view').toString()}}"
+					class="btn btn-sm btn-default"
+					ng-class="{ 'active': !currentQuery.view}">
+				<span class="glyphicon glyphicon-th"></span>
+				Kacheln
+			</a>
+			<a ng-href="search/{{currentQuery.setParam('view','list').toString()}}"
+				 	class="btn btn-sm btn-default"
+					ng-class="{ 'active': currentQuery.view == 'list' }">
+				<span class="glyphicon glyphicon-th-list"></span>
+				Liste
+			</a>
+		</div>
+	</div>
+
+	<div class="col-sm-4 text-center">
+		<a ng-click="previousPage()"
+				class="btn btn-sm btn-default"
+				style="border-radius:15px"
+				ng-class="{ 'disabled': currentPage == 1 }">
+			<span aria-hidden="true">&larr;</span> Zurück
+		</a>
+		<small class="text-muted" style="padding: 0px 8px;"><b>Seite {{currentPage}} / {{totalPages}}</b></small>
+		<a ng-click="nextPage()"
+				class="btn btn-sm btn-default"
+				style="border-radius:15px"
+				ng-class="{ 'disabled': currentPage >= totalPages }"
+				style="margin-top: -3px;">
+			Vor <span aria-hidden="true">&rarr;</span>
+		</a>
+	</div>
+
+	<div class="col-sm-4 text-right">
+		<small class="text-muted">Sortierung:</small>
+		<div class="btn-group" dropdown>
+			<button type="button" class="btn btn-sm btn-default dropdown-toggle">
+				<span ng-show="currentQuery.sort">{{ currentQuery.sort | i18n }}</span>
+				<span ng-hide="currentQuery.sort">Relevanz</span>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li>
+					<a ng-href="search/{{currentQuery.removeParam('sort').toString()}}">
+						Relevanz
+					</a>
+				</li>
+				<li ng-repeat="sortableField in sortableFields">
+					<a ng-href="search/{{currentQuery.setParam('sort',sortableField).toString()}}">
+						{{ sortableField | i18n }}
+					</a>
+				</li>
+			</ul>
+		</div>
+		<a ng-href="search/{{currentQuery.setParam('desc','true').toString()}}"
+				ng-show="currentQuery.sort && !currentQuery.desc" type="button" class="btn btn-sm btn-default">
+			<span class="glyphicon glyphicon-sort-by-alphabet">
+		</a>
+		<a ng-href="search/{{currentQuery.removeParam('desc').toString()}}"
+				ng-show="currentQuery.sort && currentQuery.desc" type="button" class="btn btn-sm btn-default">
+			<span class="glyphicon glyphicon-sort-by-alphabet-alt">
+		</a>
+	</div>
+
+</div>
