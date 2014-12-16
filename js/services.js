@@ -218,7 +218,7 @@ angular.module('arachne.services', [])
 						queries.push("_exists_:" + this[key]);
 					} else if (key == 'q') {
 						queries.push(this[key]);
-					} else if (['fl','limit'].indexOf(key) != -1) {
+					} else if (['fl','limit','sort','desc'].indexOf(key) != -1) {
 						object[key] = this[key];
 					}
 				}
