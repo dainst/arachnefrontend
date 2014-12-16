@@ -155,12 +155,6 @@ angular.module('arachne.directives', [])
 						if(!row[i].complete) return;
 					}
 
-					row.complete = true;
-					for (var i = 0; i < scope.grid.length; i++) {
-						if (!scope.grid[i].complete) break;
-						scope.complete = true;
-					}
-
 					var imagesWidth = 0;
 					var maxHeight = 0;
 
@@ -195,6 +189,12 @@ angular.module('arachne.directives', [])
 
 					for (var i=0; i < row.length; i++) {
 						row[i].height = maxHeight;
+					}
+
+					row.complete = true;
+					for (var i = 0; i < scope.grid.length; i++) {
+						if (!scope.grid[i].complete) break;
+						scope.complete = true;
 					}
 
 				};
