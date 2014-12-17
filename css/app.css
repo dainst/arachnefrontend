@@ -231,50 +231,6 @@ h6 { font-size: 12px; }
 	text-transform: uppercase;
 }
 
-.imagesrow .image-tile {
-  display:block;
-  float:left;
-  overflow: hidden;
-  padding: 2px 8px 2px 0px;
-  bottom:0px;
-  position: relative;
-}
-.imagesrow .imageWrapper {
-  position: relative;
-  background-color: #e2e2e2;
-  overflow: hidden;
-}
-.imagesrow .imageWrapper img {
-  position: absolute;
-  bottom: 0px;
-}
-
-.image-tile a p {
-  height: 70px;
-  overflow: hidden;
-  padding: 5px 2px 2px 2px;
-  line-height: 13px;
-}
-.image-tile a:hover {
-  text-decoration: none;
-}
-
-.magnifier {
-    border-radius: 75px;
-    height: 150px;
-    overflow: hidden;
-    position: fixed;
-    visibility: hidden;
-    width: 150px;
-    z-index: 2;
-    pointer-events:none;
-}
-.categoryStarters .image-tile a p {
-  height:auto;
-  overflow: visible;
-
-}
-
 .imagePlaceholder {
   content:url("../img/arachnelogo.png");
 }
@@ -335,6 +291,24 @@ h6 { font-size: 12px; }
 
 .register-form .form-control.ng-valid.ng-dirty {
   border-color: #3c763d;
+}
+
+.faq h4 {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.faq p {
+  margin-left: 20px;
+}
+
+.faq p.query-example {
+  font-style: italic;
+}
+
+.faq-nav.ui-scrollfix {
+  position: fixed;
+  top: 60;
 }
 
 /* OVERWRITING MARKER CLUSTER STYLING FOR LEAFLET PLUGIN MARKERCLUSTER */

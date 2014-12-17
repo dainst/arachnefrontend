@@ -2,6 +2,7 @@
 
 angular.module('arachne',
 	['ui.bootstrap',
+	'ui.utils',
 	'ngRoute',
 	'ngSanitize',
 	'ngResource',
@@ -31,7 +32,8 @@ angular.module('arachne',
 		.when('/impressum', {templateUrl: 'partials/impressum.html'})
 		.when('/datenschutz', {templateUrl: 'partials/datenschutz.html'})
 		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
-		.when('/register', {templateUrl: 'partials/register.html'});
+		.when('/register', {templateUrl: 'partials/register.html'})
+		.when('/faq', {templateUrl: 'partials/faq.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
