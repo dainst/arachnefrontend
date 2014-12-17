@@ -14,7 +14,9 @@
 		<div ng-hide="hideTitle"
 				class="ar-imagegrid-cell-title"
 				ng-style="{'width':cellWidth+'px'};">
-			<small>{{cellTitle}}</small><br/>
+			<small>{{cellTitle}}</small>
+			<small ng-hide="cellTitle"><i>Ohne Titel</i></small>
+			<br/>
 			<small class="text-muted" ng-show="cellSubtitle">{{cellSubtitle}}</small>
 		</div>
 	</a>

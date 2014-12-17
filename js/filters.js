@@ -51,6 +51,11 @@ angular.module('arachne.filters', [])
 			return entityCount;
 		}
 	})
+	.filter('singular', ['categoryService', function(categoryService) {
+		return function(plural) {
+			return categoryService.getSingular(plural);
+		}
+	}])
 	.filter('cellsFromEntities', ['arachneSettings', 'categoryService', function(arachneSettings, categoryService) {
 		return function(entities, query) {
 			for (var i in entities) {
