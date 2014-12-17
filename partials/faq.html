@@ -1,0 +1,108 @@
+<div class="row">
+	<div class="col-md-8 col-md-offset-2" style="margin-top:20px">
+		<h1>FAQ <small>Häufig gestellte Fragen</small></h1>
+		<hr>
+	</div>
+	<div class="col-md-6 col-md-offset-2 faq" style="margin-top:20px">
+
+		<h2 id="Suche">Suche</h2>
+
+			<h4>Wie kann ich mehrere Suchbegriffe miteinander kombinieren?</h4>
+
+			<p>Wenn Sie mehrere Begriffe eingeben, werden alle Objekte gefunden, in deren Inhalt alle Suchbegriffe vorkommen. Standardmäßig werden Suchbegriffe also mit einem logischen UND verknüpft.</p>
+
+			<p class="query-example">Beispiel: <a href="search?q=Akropolis Athen">Akropolis Athen</a></p>
+
+			<h4>Wie kann ich Suchbegriffe ausschließen?</h4>
+
+			<p>Durch voranstellen eines Bindestrichs können Sie alle Objekte aus dem Suchergebnis ausschließen, die den unmittelbar darauf folgenden Suchbegriff beinhalten.</p>
+
+			<p class="query-example">Beispiel: <a href="search?q=Akropolis -Athen">Akropolis -Athen</a></p>
+
+			<h4>Wie kann ich komplexere logische Verknüpfungen in der Suchanfrage formulieren?</h4>
+
+			<p>Arachne unterstützt die logischen Operatoren AND, OR und NOT. Beachten Sie dabei die Operatorrangfolge: NOT hat Vorrang vor AND hat Vorrang vor OR. Sie können Klammern nutzen um die Rangfolge der Verkettung festzulegen.</p>
+
+			<p class="query-example">Beispiel: <a href="search?q=Herakles AND (Dionysos OR Bacchus)">Herakles AND (Dionysos OR Bacchus)</a></p>
+
+			<h4>Wie kann ich nach einer festen Phrase statt nach mehreren unverbundenen Wörtern suchen?</h4>
+
+			<p>Setzen Sie die Phrase in Anführungszeichen. Dadurch werden nur Objekte gefunden, die die Suchbegriffe in der angegebenen Reihenfolge enthalten.</p>
+
+			<p class="query-example">Beispiel: <a href="search?q=&quot;Akropolis von Athen&quot;">"Akropolis von Athen"</a></p>
+
+			<h4>Gibt es die Möglichkeit statt im gesamten Inhalt eines Objekts gezielt in einzelnen Feldern zu suchen?</h4>
+
+			<p>Ja, die durchsuchten Felder können dem Suchbegriff, getrennt von einem Doppelpunkt, voran gestellt werden.Die folgenden Felder sind momentan für Objekte aller Kategorien verfügbar:</p>
+
+			<ul>
+				<li><code>entityId</code>: Die globale, eindeutige ID eines Objekts</li>
+				<li><code>internalId</code>: Die kategorienspezifische Seriennummer</li>
+				<li><code>type</code>: Die Kategorie</li>
+				<li><code>title</code>: Der Titel</li>
+				<li><code>subtitle</code>: Der Untertitel</li>
+				<li><code>datasetGroup</code>: Die Datensatzgruppe</li>
+			</ul>
+
+			<p class="query-example">Beispiel: <a href="search?q=title:&quot;Akropolis von Athen&quot;">title:"Akropolis von Athen"</a></p>
+
+			<h4>Welche Wildcards werden unterstützt?</h4>
+
+			<p>Die Suchanfrage kann folgende Platzhalter beinhalten:</p>
+
+			<ul>
+				<li><code>?</code> steht für ein beliebiges Zeichen</li>
+				<li><code>*</code> steht für keins oder mehrere aufeinander folgende beliebige Zeichen</li>
+			</ul>
+
+			<p class="query-example">Beispiel: <a href="search?q=Akropolis*">Akropolis*</a><br/><small>(findet neben "Akropolis" auch Begriffe wie "Akropolismuseum" oder "Arkopolisberg")</small></p>
+
+			<h4>Werden reguläre Ausdrücke unterstützt?</h4>
+			<p>Ja, die Suche unterstützt die gängigen Operatoren zur Formulierung regulärer Ausdrücke. Diese müssen zwischen zwei Slashes gesetzt werden.</p>
+
+			<p class="query-example">Beispiel: <a href="search?q=/Pompe[ij">/Pompe[ij]i/</a><br/><small>(findet sowohl Ergebnisse zu “Pompeii” als auch zu “Pompeji”)</small></p>
+
+			<h4>Werden ausschließlich Objekte gefunden, die exakt den eingegebenen Suchbegriff enthalten?</h4>
+
+			<p>Nein, die Suchbegriffe werden so angepasst, dass auch ähnliche Schreibweisen gefunden werden. Zum Beispiel werden Wörter auf ihren Stamm reduziert, so dass “Kuh” auch “Kühe” findet und umgekehrt.</p>
+
+			<p>Darüber hinaus erlaubt der Operator “~" eine unscharfe Suche. Er gibt an, dass der Suchbegriff unscharf interpretiert werden soll. Das bedeutet, dass auch Begriffe gefunden werden, die eine ähnliche Schreibweise wie der angegebene Suchbegriff aufweisen.</p>
+
+			<p class="query-example">Beispiel: <a href="search?q=Pompei~">Pompei~</a><br/><small>(findet sowohl “Pompei”, als auch “Pompeji” oder “Pompeii”)</small></p>
+
+			<h4>Welche reservierten Zeichen gibt es? Wie kann ich dennoch nach ihnen suchen?</h4>
+
+			<p>Zeichen, die eine besondere Bedeutung als Operator haben können trotzdem gesucht werden, indem Sie mit einem Backslash maskiert werden.</p>
+
+			<p>Folgende Zeichen müssen maskiert werden: <code>+ - && || ! ( ) { } [ ] ^ " ~ * ? : \ /</code></p>
+
+
+		<h2 id="Suchergebnis">Suchergebnisansicht</h2>
+
+			<h4>Wonach richtet sich die Sortierung der Suchergebnisse?</h4>
+
+			<p>Standardmäßig werden Suchergebnisse in Arachne nach ihrer Relevanz sortiert. Diese richtet sich zum Einen nach der Relevanz eines Objekts in Bezug auf die Suchbegriffe. So werden bspw. Objekte weiter vorne angezeigt, wenn diese den Suchbegriff mehrfach oder im Titel enthalten. Außerdem fließt die Qualität eines Datensatzes in das Relevanzmaß mit ein. Dadurch erhalten stark kontextualisierte, umfangreich bebilderte und ausführlich beschriebene Objekte eine bessere Position im Suchergebnis erhalten.</p>
+
+			<p>Die Standardsortierung können Sie rechts über der Anzeige der Suchergebnisse verändern.</p>
+
+			<h4>Warum werden mal mehr und mal weniger Filter angeboten?</h4>
+
+			<p>Es gibt eine Reihe von Standardfiltern, die bei jeder Suche angeboten werden. Dazu gehören “Ort” und “Datierung”. Zusätzlich gibt es Filter, die es nur in bestimmten Kategorien gibt, zum Beispiel “Funktion” in der Kategorie “Objekt”. Diese Filter werden nur angezeigt, wenn beim Filter “Kategorie” die entsprechende Kategorie ausgewählt ist.</p>
+
+			<p>Bei einer konkreten Suche werden außerdem nur die Filter angezeigt, die tatsächlich helfen können, das Suchergebnis zu filtern. Wenn also zum Beispiel im Suchergebnis gar keine Treffer enthalten sind, für die ein Ort angegeben ist, wird der entsprechende Filter auch nicht angezeigt.</p>
+
+			<h4>Zeigen die Filter alle verfügbaren Werte?</h4>
+			<p>Nein. Es werden nur die für das konkrete Suchergebnis häufigsten Werte angezeigt.</p>
+
+	</div>
+	<div class="col-md-2">              
+      	<ul ui-scrollfix="+100" class="nav nav-stacked faq-nav">
+			<li><a href="faq#Suche">Suche</a></li>
+			<li><a href="faq#Suchergebnis">Suchergebnisansicht</a></li>
+		</ul>
+	</div>
+	<div class="col-md-8 col-md-offset-2">
+		<br/><br/>
+		<p>Falls Sie eine Frage haben, die Sie hier nicht finden können, schicken Sie diese bitte an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>.</p>
+	</div>
+</div>
