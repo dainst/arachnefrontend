@@ -2,13 +2,13 @@
 
 	<div class="col-sm-4">
 		<div class="btn-group">
-			<a ng-href="search/{{currentQuery.removeParam('view').toString()}}"
+			<a ng-href="search{{currentQuery.removeParam('view').toString()}}"
 					class="btn btn-sm btn-default"
 					ng-class="{ 'active': !currentQuery.view}">
 				<span class="glyphicon glyphicon-th"></span>
 				Kacheln
 			</a>
-			<a ng-href="search/{{currentQuery.setParam('view','list').toString()}}"
+			<a ng-href="search{{currentQuery.setParam('view','list').toString()}}"
 				 	class="btn btn-sm btn-default"
 					ng-class="{ 'active': currentQuery.view == 'list' }">
 				<span class="glyphicon glyphicon-th-list"></span>
@@ -44,7 +44,7 @@
 			</button>
 			<ul class="dropdown-menu" role="menu">
 				<li>
-					<a ng-href="search/{{currentQuery.removeParam('sort').removeParam('offset').toString()}}">
+					<a ng-href="search{{currentQuery.removeParam('sort').removeParam('offset').toString()}}">
 						Relevanz
 					</a>
 				</li>
@@ -55,11 +55,11 @@
 				</li>
 			</ul>
 		</div>
-		<a ng-href="search/{{currentQuery.setParam('desc','true').removeParam('offset').toString()}}"
+		<a ng-href="search{{currentQuery.setParam('desc','true').removeParam('offset').toString()}}"
 				ng-show="currentQuery.sort && !currentQuery.desc" type="button" class="btn btn-sm btn-default">
 			<span class="glyphicon glyphicon-sort-by-alphabet">
 		</a>
-		<a ng-href="search/{{currentQuery.removeParam('desc').removeParam('offset').toString()}}"
+		<a ng-href="search{{currentQuery.removeParam('desc').removeParam('offset').toString()}}"
 				ng-show="currentQuery.sort && currentQuery.desc" type="button" class="btn btn-sm btn-default">
 			<span class="glyphicon glyphicon-sort-by-alphabet-alt">
 		</a>

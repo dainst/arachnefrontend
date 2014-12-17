@@ -31,7 +31,7 @@
 
 				<div class="panel-heading">
 
-					<a ng-href="search/{{currentQuery.removeParam('resultIndex').removeParam('offset').toString()}}"
+					<a ng-href="search{{currentQuery.removeParam('resultIndex').removeParam('offset').toString()}}"
 							class="btn btn-xs pull-right btn-primary">
 						<span class="glyphicon glyphicon-arrow-left"></span> zum Suchergebnis
 					</a>
@@ -236,7 +236,7 @@
 					<div class="col-md-12">
 						
 						<h3>
-							<a ng-href="search/{{contextQuery.toString()}}">
+							<a ng-href="search{{contextQuery.toString()}}">
 								Verknüpfte Objekte
 								<small>({{contextSize}})</small>
 							</a>
