@@ -6,7 +6,7 @@
 		<a ng-click="pageThumbsRight()" style="position:absolute; right:21; font-size:1.5em; margin: 25px 0 0; z-index:50;" ng-hide="offset >= max">
 			<span class="glyphicon glyphicon-circle-arrow-right"></span>
 		</a>
-		<div ng-style="{'transform': 'translateX(-'+offset+'px)'}" style="height:70px; width:auto; white-space: nowrap; transition: 0.5s ease-in-out; display:inline-block;">
+		<div ng-style="{'transform': 'translateX(-'+offset+'px)','-webkit-transform': 'translateX(-'+offset+'px)'}" style="height:70px; width:auto; white-space: nowrap; transition: 0.5s ease-in-out; display:inline-block;">
 			<a ng-click="setImage($index)"
 					ng-repeat="image in entity.images"
 					ng-class="{ 'active': $index == currentImgNo }">
