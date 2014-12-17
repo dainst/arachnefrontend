@@ -45,7 +45,7 @@
 								ng-repeat="mapfacetName in mapfacetNames"
 								ng-class="{'active': mapfacet.name == mapfacetName}"
 								ng-href="map{{currentQuery.setParam('restrict', mapfacetName).toString()}}">
-							{{ mapfacetName | i18n }}
+							{{ mapfacetName + '_map' | i18n }}
 						</a>
 					</div>
 			</div>
