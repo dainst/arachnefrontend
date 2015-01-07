@@ -324,14 +324,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	  $scope.bookmark = bookmark;
 	}
 ])
-.controller('BookmarksController',['$rootScope', '$scope', '$modal', 'authService', 'noteService','arachneSettings', 'Query',
-	function ($rootScope, $scope, $modal, authService, noteService, arachneSettings, Query) {
+.controller('BookmarksController',['$rootScope', '$scope', '$modal', 'authService', 'noteService','arachneSettings', 'Query', '$filter',
+	function ($rootScope, $scope, $modal, authService, noteService, arachneSettings, Query, $filter) {
 
 		$rootScope.hideFooter = false;
 
 		$scope.bookmarksLists = [];
 		$scope.user = authService.getUser();
 		$scope.dataserviceUri = arachneSettings.dataserviceUri;
+
+		var orderBy = $filter('orderBy');
+		$scope.sort = 'id';
 
 		$scope.getBookmarkInfo = function(){
 			noteService.getBookmarkInfo($scope.bookmarksLists,
@@ -353,6 +356,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 							$scope.bookmarksLists[x].query = new Query().setParam('q', "entityId:(" + entityIDs.join(" OR ") + ")");
 							$scope.bookmarksLists[x].query.label = "Notizbuch '" + $scope.bookmarksLists[x].name + "'";
 						}
+						$scope.order = function(predicate, reverse){
+							$scope.bookmarksLists[x].bookmarks = orderBy($scope.bookmarksLists[x].bookmarks, predicate, reverse);
+						};
+						$scope.order($scope.sort,false);
 					}
 				}
 			);
@@ -362,6 +369,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.bookmarksLists = noteService.getBookmarksLists(
 				function(){ $scope.getBookmarkInfo(); }
 			);
+		}
+
+		$scope.sortList = function(attr){
+			$scope.sort = attr;
+			$scope.refreshBookmarkLists();
 		}
 
 		$scope.refreshBookmarkLists();

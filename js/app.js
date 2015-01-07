@@ -35,7 +35,7 @@ angular.module('arachne',
 		.when('/register', {templateUrl: 'partials/register.html'})
 		.when('/faq', {templateUrl: 'partials/faq.html'});
 }]).constant('arachneSettings', {
-		dataserviceUri: "http://" + document.location.host + "/data",
+		dataserviceUri: "http://" +  document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie"],
 		sortableFields : ["entityId", "title", "subtitle"]
