@@ -405,6 +405,83 @@ angular.module('arachne.directives', [])
 		}
 	}])
 
+	.directive('entitymap', ['$location', '$filter', function($location, $filter) {
+	return {
+		restrict: 'A',
+		scope: {
+			found:"=",
+			depo:"="
+		},
+		link: function(scope, element, attrs) {
+
+
+			var map = L.map('entitymap').setView([40, -10], 3);
+
+			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				maxZoom: 18,
+				minZoom: 3
+			});
+			
+			map.addLayer(layer);
+			map.trackResize = true;	
+			L.Icon.Default.imagePath = 'img';
+
+			var foundMarker = null;
+			var depoMarker = null;
+
+			var loadMarkers = function() {
+
+				var group = new L.featureGroup();
+
+				if(scope.found){
+					var item = scope.found[0];
+					var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
+					var coords = coordsString.split(',');
+					var facetI18n = $filter('i18n')("facet_fundort");
+					var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
+					var text = item.substring(0, item.indexOf("[", 1)) + " ";
+					// Popup-Title auf Karte für Suchergebnis
+					title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
+					text = facetI18n + ": " + text;
+					
+					foundMarker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text });
+					foundMarker.bindPopup(title);
+					map.addLayer(foundMarker);
+				}
+
+				if(scope.depo){
+					var item = scope.depo[0];
+					var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
+					var coords = coordsString.split(',');
+					var facetI18n = $filter('i18n')("facet_aufbewahrungsort");
+					var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
+					var text = item.substring(0, item.indexOf("[", 1)) + " ";
+					// Popup-Title auf Karte für Suchergebnis
+					title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
+					text = facetI18n + ": " + text;
+					
+					depoMarker = new L.marker(new L.LatLng(coords[0], coords[1]), { title: text });
+					depoMarker.bindPopup(title);
+					map.addLayer(depoMarker);
+				}
+
+				if(!scope.depo)
+					var mark = L.featureGroup([foundMarker]);
+				else if(!scope.found)
+					var mark = new L.featureGroup([depoMarker]);
+				else {
+					var mark = new L.featureGroup([foundMarker, depoMarker]);
+				}
+				map.fitBounds(mark.getBounds());
+				//map.setZoom(8);
+
+				map._onResize(); 
+			}
+			loadMarkers();
+
+		}
+	};
+	}])	
 
 	.directive('map', ['$location', '$filter', function($location, $filter) {
 	return {

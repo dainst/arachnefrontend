@@ -107,6 +107,7 @@
 			</div>
 
 		</div>
+
 		<!-- END CURRENT QUERY STATUS -->
 
 		<!-- NOTES -->
@@ -137,6 +138,10 @@
 			</button>
 		</div>
 		<!-- END NOTES -->
+		<!-- Karte -->
+    	<div ng-if="entity.facet_aufbewahrungsort || entity.facet_fundort">
+        	<div entitymap found="entity.facet_fundort" depo="entity.facet_aufbewahrungsort" id="entitymap" style="height:200px;"></div>
+    	</div>
 
 	</div>
 
