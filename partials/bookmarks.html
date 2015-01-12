@@ -5,11 +5,38 @@
 	<div class="col-md-8 col-md-offset-2" ng-if="user.username">
 		<div class="page-header">
 			<button type="button" class="btn btn-link pull-right" ng-click="createBookmarksList()">
-				<span class="glyphicon glyphicon-plus"></span> Neues Notizbuch anlegen
+				<span class="glyphicon glyphicon-plus"></span> Neues Notizbuch anlegen 
 			</button>
 			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre  Notizen</h3>
 
+			<div class="text-right">
+				<small class="text-muted">Sortierung:</small>
+				<div class="btn-group" dropdown>
+					<button type="button" class="btn btn-sm btn-default dropdown-toggle">
+						<span ng-show="sort">{{ sort }}</span>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li>
+							<a ng-click="sortList('id')">
+								Éntity-ID
+							</a>
+						</li>
+						<li>
+							<a ng-click="sortList('title')">
+								Titel
+							</a>
+						</li>
+						<li>
+							<a ng-click="sortList('subTitle')">
+								Untertitel
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
+
 		<div ng-if="bookmarksLists.length == 0">
 			Kein Notizbuch vorhanden.
 		</div>
@@ -30,7 +57,7 @@
 		    		In diesem Notizbuch sind noch keine Notizen vorhanden.
 		    	</div>
 
-	    		<div ng-repeat="bookmark in bookmarksList.bookmarks" class="list-group-item clearfix">
+	    		<div ng-repeat="bookmark in bookmarksList.bookmarks | orderBy:id " class="list-group-item clearfix">
 					<div class="row-fluid">
 						<div class="btn-group pull-right">
 	    					<button type="button" class="btn btn-sm btn-link" ng-click="updateBookmark(bookmark)"><span class="glyphicon glyphicon-pencil"></span></button>

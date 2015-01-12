@@ -36,7 +36,6 @@ angular.module('arachne',
 		.when('/faq', {templateUrl: 'partials/faq.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
-		//dataserviceUri: "http://lakota.archaeologie.uni-koeln.de/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie"],
 		sortableFields : ["entityId", "title", "subtitle"]
