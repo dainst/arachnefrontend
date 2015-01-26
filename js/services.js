@@ -431,7 +431,6 @@ angular.module('arachne.services', [])
 		}
 
 	}])
-
 	.factory('noteService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
 		function($resource, arachneSettings, $http, $modal, authService){
 
@@ -674,6 +673,267 @@ angular.module('arachne.services', [])
 										commentary : result.commentary
 									}
 									return arachneDataService.createBookmark({"id": result.list.id}, bm, successMethod,errorMethod);
+				      			});
+				      		}
+						}
+					);				
+				}
+			}
+		}
+	])
+.factory('catalogService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
+		function($resource, arachneSettings, $http, $modal, authService){
+
+			var catchError = function(errorReponse) {
+				if (errorReponse.status == 403) {
+					// really?
+					authService.clearCredentials();
+				};
+			};
+
+			var arachneDataService = $resource('', { }, {
+				getEntityInformation : {
+					url : arachneSettings.dataserviceUri + '/search',
+					isArray: false,
+					method: 'GET'
+				},
+				createCatalog: {
+					url :  arachneSettings.dataserviceUri + '/catalog',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				},
+				updateCatalog: {
+					url :  arachneSettings.dataserviceUri + '/catalog/:id',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				},
+				getCatalog : {
+					url: arachneSettings.dataserviceUri + '/catalog/:id',
+					isArray: false,
+					method: 'GET'
+				},
+				getCatalogs : {
+					url : arachneSettings.dataserviceUri + '/catalog',
+					isArray: true,
+					method: 'GET'
+				},
+				deleteCatalog: {
+					url : arachneSettings.dataserviceUri + '/catalog/:id',
+					isArray: false,
+					method: 'DELETE'
+				},
+				deleteHeading: {
+					url : arachneSettings.dataserviceUri + '/catalogheading/:id',
+					isArray: false,
+					method: 'DELETE'
+				},
+				getHeading: {
+					url: arachneSettings.dataserviceUri + '/catalogheading/:id',
+					isArray: false,
+					method: 'GET'
+				},
+				addHeading: {
+					url: arachneSettings.dataserviceUri + '/catalogheading/:id/addheading',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				},
+				createHeading: {
+					url :  arachneSettings.dataserviceUri + '/catalogheading/:id',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				},
+				deleteEntry: {
+					url : arachneSettings.dataserviceUri + '/catalogentry/:id',
+					isArray: false,
+					method: 'DELETE'
+				},
+				getEntry: {
+					url: arachneSettings.dataserviceUri + '/catalogentry/:id',
+					isArray: false,
+					method: 'GET'
+				},
+				updateEntry: {
+					url: arachneSettings.dataserviceUri + '/catalogentry/:id',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				},
+				createEntry: {
+					url :  arachneSettings.dataserviceUri + '/catalogheading/:id/addentry',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				}
+			});
+
+			return {
+				getEntityInformation : function(catalog, successMethod){
+					successMethod = successMethod || function () {};
+					var hash = new Object();
+					var entityIDs = new Array();
+					
+					
+					//only do this if there are any bookmarks
+					if (entityIDs.length) {
+						hash.q = "entityId:(" + entityIDs.join(" OR ") + ")";
+						hash.limit = entityIDs.length;
+						return arachneDataService.getEntityInformation(hash, successMethod, catchError);
+					};
+				},
+				// --- Demnaechst vom Backend geloest
+				//queryListsForEntityId : function(entityID){
+				getCatalog : function(id, successMethod, errorMethod){
+					return arachneDataService.getCatalog({ "id": id}, successMethod,errorMethod);
+				},
+				getCatalogs : function(successMethod){
+					successMethod = successMethod || function () {};
+					return arachneDataService.getCatalogs({},successMethod, catchError);
+				},
+				createCatalog : function(successMethod, errorMethod) {
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/createCatalog.html'
+					});	
+
+					modalInstance.close = function(label, text){
+						text = typeof text !== 'undefined' ? text : "";
+						if(label == undefined || label == "") {
+							alert("Bitte Titel eintragen.")							
+						} else {
+							modalInstance.dismiss();
+							var catalog = {
+								'label' : label,
+								'text' : text,
+								'public' : false,
+								'catalogHeadings' : []
+							}
+							return arachneDataService.createCatalog(catalog, successMethod, errorMethod);
+						}
+					}
+				},
+				deleteCatalog : function(id, successMethod, errorMethod){
+					var id = id;			
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/deleteCatalog.html'
+					});	
+					modalInstance.close = function(){
+						modalInstance.dismiss();
+						return arachneDataService.deleteCatalog({ "id": id}, successMethod,errorMethod);
+					}
+				},
+				updateCatalog : function (catalog, successMethod, errorMethod) {
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/editCatalog.html',
+						controller : function ($scope) { $scope.catalog = catalog },
+						resolve: {
+					        'catalog': function () {
+					            return catalog;
+					        }
+						}
+					});
+
+					modalInstance.close = function(name,commentary){
+						if(catalog.name == undefined || catalog.name == ""){
+							alert("Bitte Titel eintragen.");						
+						} else {
+							modalInstance.dismiss();
+							return arachneDataService.updateBookmarksList({"id":catalog.id}, catalog, successMethod, errorMethod);
+						}
+					}
+				},
+				deleteEntry : function(id, successMethod){
+					var successMethod = successMethod || function () {};
+					return arachneDataService.deleteEntry({ "id": id }, successMethod, catchError);
+				},
+				getEntry : function(id, successMethod, errorMethod){
+					return arachneDataService.getEntry({ "id": id}, successMethod,errorMethod);
+				},
+				updateEntry: function(entry, successMethod, errorMethod) {	
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/updateEntry.html',
+						controller: function ($scope) { $scope.entry = entry },
+						resolve: {
+					        'entry': function () {
+					            return entry;
+					        }
+						}
+					});
+
+					modalInstance.close = function(text){
+						if(text == undefined || text == ""){
+							alert("Kommentar setzen!")
+						} else {
+							modalInstance.dismiss();
+							// Achtung, im bookmark-Objekt sind noch Attribute, wie title oder thumbnailId hinzugefügt worden.
+							// Hier duerfen aber nur die drei attribute id, arachneEntityId, commenatry übergeben werden, sonst nimmt es das Backend nicht an
+							return arachneDataService.updateEntry(
+								{"id":entry.id},
+								{"id":entry.id, "arachneEntityId":entry.arachneEntityId, "label":entry.label, "text": entry.text, "path" : entry.path},
+								successMethod,
+								errorMethod
+							);
+						}
+					}
+				},
+				createEntry : function(ArachneId, successMethod, errorMethod) {
+					arachneDataService.getCatalogs(
+						function(data){
+							if(data.length == 0){
+								var modalInstance = $modal.open({
+									templateUrl: 'partials/Modals/createCatalog.html'
+								});	
+
+								modalInstance.close = function(label, text){
+									commentary = typeof text !== 'undefined' ? text : "";
+									if(label == undefined || label == "") {
+										alert("Bitte Titel eintragen.")							
+									} else {
+										modalInstance.dismiss();
+										var catalog = new Object();
+										catalog.label = label;
+										catalog.text = text;
+										catalog.catalogHeadings = [];
+										arachneDataService.createCatalog(catalog,
+											function(data){
+												var modalInstance = $modal.open({
+													templateUrl: 'partials/Modals/createEntry.html',
+													controller: 'CreateEntryCtrl'
+								      			});
+
+								      			modalInstance.result.then(function (selectedList) { 
+								      				if(selectedList.text == undefined || selectedList.text == "")
+								      					selectedList.text = "no comment set";
+
+								      				var entry = {
+														arachneEntityId : ArachneId,
+														label : selectedList.label,
+														text : selectedList.text,
+														path : selectedList.path
+													}
+													return arachneDataService.createBookmark({"id": selectedList.item.id}, entry, successMethod,errorMethod);
+								      			});
+											});
+									}
+								}
+							}
+							
+							if(data.length >= 1){
+								var modalInstance = $modal.open({
+									templateUrl: 'partials/Modals/createEntry.html',
+									controller: 'CreateEntryCtrl'
+				      			});
+
+				      			modalInstance.result.then(function (result) {
+				      				var entry = {
+										arachneEntityId : ArachneId,
+										label : result.label,
+										text : result.text,
+										path : result.path
+									}
+									return arachneDataService.createBookmark({"id": result.list.id}, entry, successMethod,errorMethod);
 				      			});
 				      		}
 						}
