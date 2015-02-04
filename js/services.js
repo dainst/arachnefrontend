@@ -393,6 +393,14 @@ angular.module('arachne.services', [])
 
 	}])
 
+	.factory('projectsFactory', function($http) { 
+    	return $http.get('con10t/menu.json');
+	})
+	
+	.factory('startprojectsFactory', function($http) { 
+    	return $http.get('con10t/front.json');
+	})
+
 	.factory('messageService', ['$http', function($http) {
 
 		var messageTypes;

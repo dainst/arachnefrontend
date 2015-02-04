@@ -512,16 +512,32 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'messageService', 'categoryService', '$timeout',
-	function ($rootScope, $scope, $http, arachneSettings, messageService, categoryService, $timeout) {
+.controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'startprojectsFactory', 'messageService', 'categoryService', '$timeout',
+	function ($rootScope, $scope, $http, arachneSettings, startprojectsFactory, messageService, categoryService, $timeout) {
 
 		$rootScope.hideFooter = false;
 
+		startprojectsFactory.success(function(projectsMenu){
+			var projslides = $scope.projslides = [];
+			for(var key in projectsMenu) {
+				projslides.push({
+					image: "con10t/frontimages/" + projectsMenu[key].id + ".jpg",
+					title: projectsMenu[key].text
+				});
+			}
+		});
+
         categoryService.getCategoriesAsync().then(function(categories) {
 			$scope.categories = [];
+			var cateslides = $scope.cateslides = [];
 			for(var key in categories) {
 				if (categories[key].status == 'start') {
 					$scope.categories.push(categories[key]);
+					cateslides.push({
+						image: categories[key].imgUri,
+						title: categories[key].title,
+						text: categories[key].subtitle
+					});
 				}
 			}
 		});
@@ -534,6 +550,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+
+.controller('ProjectsController', ['$scope', '$http', 'projectsFactory', function ($scope, $http, projectsFactory) {
+		$scope.projectsMenu = null;
+		projectsFactory.success(function(data){
+			$scope.projectsMenu = data[1].children;
+		});
+	}
+])
+
 .controller('AllCategoriesController', ['$rootScope', '$scope', '$http', 'categoryService', '$timeout',
 	function ($rootScope, $scope, $http, categoryService, $timeout) {
 

@@ -42,21 +42,51 @@
 			</ul>
 		</div>
 	</div>
-	<div class="row" style="background-color:white" id="categories_container">
-		<div style="width:90%; margin: 0px auto;">
-			<h2 style="margin:100px 0px 0px; text-align:center">
-				<a href="allCategories" style="outline: none;">Kategorien in Arachne</a>
-			</h2>
-			<hr>
-			<div ar-imagegrid
-				cells="categories"
-				columns="6"
-				margin="4">					
+	<div style="background-color:white" id="carousel_container">
+		<div class="row">
+			<div class="col-md-5 col-md-offset-1">
+				<h1 style="margin:50px 0px 0px 20px; text-align:center">
+					<a href="allCategories" style="outline: none;">Kategorien</a>
+				</h1>
 			</div>
-			<div class="pull-right" style="margin-top:20px;">
-				<a href="allCategories">
-					... Alle Kategorien anzeigen
-				</a>
+			<div class="col-md-5">
+				<h1 style="margin:50px 0px 0px 20px; text-align:center">
+					<a href="projects" style="outline: none;">Projekte</a>
+				</h1>
+			</div>
+			<hr>
+		</div>
+		<div style="height: 200px;" class="col-md-5 col-md-offset-1">
+			<carousel interval="5000">
+	  			<slide ng-repeat="slide in cateslides" active="slide.active">
+	  			  <img ng-src="{{slide.image}}" style="margin:auto; height:300px;">
+	    			<div class="carousel-caption">
+	      				<h3>{{slide.title}}</h3>
+	      				<p>{{slide.text}}</p>
+	    			</div>
+	  			</slide>
+			</carousel>
+		</div>
+		<div style="height: 200px;" class="col-md-5">
+			<carousel interval="5000">
+	  			<slide ng-repeat="slide in projslides" active="slide.active">
+	  			  <img ng-src="{{slide.image}}" style="margin:auto; height:300px;">
+	    			<div class="carousel-caption">
+	      				<p>{{slide.title}}</p>
+	    			</div>
+	  			</slide>
+			</carousel>
+		</div>
+		<div class="row">
+			<div class="col-md-5 col-md-offset-1">
+				<h2 style="margin:150px 0px 0px 20px; text-align:center">
+					<a href="allCategories"> Alle Kategorien anzeigen</a>
+				</h2>
+			</div>
+			<div class="col-md-5">
+				<h2 style="margin:150px 0px 0px 20px; text-align:center">
+					<a href="projects"> Alle Projekte anzeigen</a>
+				</h2>
 			</div>
 		</div>
 	</div>
