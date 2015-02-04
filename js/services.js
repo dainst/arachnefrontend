@@ -68,6 +68,10 @@ angular.module('arachne.services', [])
 						chunkPromise = false;
 						deferred.resolve(data.entities);
 						return deferred.promise;
+					}, function(response) {
+						chunkPromise = false;
+						deferred.reject(response);
+						return deferred.promise;
 					});
 				}
 
