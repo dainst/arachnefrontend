@@ -12,6 +12,7 @@ angular.module('arachne',
 	'arachne.filters',
 	'arachne.services',
 	'arachne.directives',
+	'arachne.widgets',
 	'arachne.controllers',
 ])
 .config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
