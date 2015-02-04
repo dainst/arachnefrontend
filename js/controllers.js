@@ -518,7 +518,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$rootScope.hideFooter = false;
 
 		startprojectsFactory.success(function(projectsMenu){
-			console.log(projectsMenu);
 			var projslides = $scope.projslides = [];
 			for(var key in projectsMenu) {
 				projslides.push({
