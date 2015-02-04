@@ -1,0 +1,19 @@
+<div ng-controller="ProjectsController as projectsController">
+	<div style="padding-top:20px;"></div>
+	<div class="panel panel-default col-md-10 col-md-offset-1">
+		<div class="panel-body">
+			<div class="panel panel-default row" ng-repeat="projectHeading in projectsMenu">
+				<div class="panel-heading">
+					<a href="projects/{{projectHeading.id}}">{{projectHeading.title.de}}</a>
+				</div>
+				<div ng-if="projectHeading.children" class="panel-body">
+					<ul class="nav nav-pills nav-stacked" ng-repeat="project in projectHeading.children">
+						<li class="col-md-offset-1">
+							<a href="projects/{{project.id}}">{{project.title.de}}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+	    </div>
+	</div>
+</div>
