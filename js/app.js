@@ -33,10 +33,13 @@ angular.module('arachne',
 		.when('/impressum', {templateUrl: 'partials/impressum.html'})
 		.when('/datenschutz', {templateUrl: 'partials/datenschutz.html'})
 		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
+		.when('/projects', {templateUrl: 'partials/projects.html'})
 		.when('/register', {templateUrl: 'partials/register.html'})
-		.when('/faq', {templateUrl: 'partials/faq.html'});
+		.when('/faq', {templateUrl: 'partials/faq.html'})
+		.when('/projects/:name', {templateUrl: function(name){ return 'con10t/de/' + name.name + '.html';}});
 }]).constant('arachneSettings', {
-		dataserviceUri: "http://lakota.archaeologie.uni-koeln.de/data",
+		dataserviceUri: "http://" + document.location.host + "/data",
+		//dataserviceUri: "http://lakota.archaeologie.uni-koeln.de/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie"],
 		sortableFields : ["entityId", "title", "subtitle"]
