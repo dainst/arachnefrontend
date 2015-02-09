@@ -512,12 +512,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'startprojectsFactory', 'messageService', 'categoryService', '$timeout',
-	function ($rootScope, $scope, $http, arachneSettings, startprojectsFactory, messageService, categoryService, $timeout) {
+.controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'con10tService', 'messageService', 'categoryService', '$timeout',
+	function ($rootScope, $scope, $http, arachneSettings, con10tService, messageService, categoryService, $timeout) {
 
 		$rootScope.hideFooter = false;
 
-		startprojectsFactory.success(function(projectsMenu){
+		con10tService.getFront().success(function(projectsMenu){
 			var projslides = $scope.projslides = [];
 			for(var key in projectsMenu) {
 				projslides.push({
@@ -551,9 +551,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 ])
 
-.controller('ProjectsController', ['$scope', '$http', 'projectsFactory', function ($scope, $http, projectsFactory) {
+.controller('ProjectsController', ['$scope', '$http', 'con10tService', function ($scope, $http, con10tService) {
 		$scope.projectsMenu = null;
-		projectsFactory.success(function(data){
+		con10tService.getMenu().success(function(data){
 			$scope.projectsMenu = data[1].children;
 		});
 	}
