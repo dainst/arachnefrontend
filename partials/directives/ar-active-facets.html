@@ -7,10 +7,10 @@
 		<i>Nur Objekte mit</i><br>
 	    <b style="text-transform:capitalize;">{{currentQuery.restrict | i18n}}</b>
 	</a>
-	<a ng-repeat="(facetName, facetValue) in currentQuery.facets"
-			ng-href="{{route}}/{{currentQuery.removeFacet(facetName).toString()}}"
+	<a ng-repeat="facet in currentQuery.facets"
+			ng-href="{{route}}/{{currentQuery.removeFacet(facet.key).toString()}}"
 			class="btn btn-sm btn-block btn-primary linethrough-hover">
-		<i>{{facetName | i18n}}</i><br>
-		<b style="text-transform:capitalize;">{{facetValue}}</b>
+		<i>{{facet.key | i18n}}</i><br>
+		<b>{{facet.value}}</b>
 	</a>
 </div>

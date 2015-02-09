@@ -97,11 +97,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
 			$scope.facets = searchService.getFacets();
 			$scope.facets.forEach(function(facet) {
-				if(arachneSettings.openFacets.indexOf(facet.name) != -1) {
-					facet.open = true;
-				} else {
-					facet.open = false;
-				}
+				facet.open = false;
+				arachneSettings.openFacets.forEach(function(openName) {
+					if (facet.name.slice(0, openName.length) == openName)
+						facet.open = true;
+				});
 			});
 			$scope.cells = $filter('cellsFromEntities')(entities,$scope.currentQuery);
 		}, function(response) {

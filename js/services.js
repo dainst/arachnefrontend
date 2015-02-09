@@ -132,7 +132,7 @@ angular.module('arachne.services', [])
 	.factory('Query', function() {
 
 		function Query() {
-			this.facets = {};
+			this.facets = [];
 			this.offset = 0;
 			this.limit = 50;
 		}
@@ -159,7 +159,7 @@ angular.module('arachne.services', [])
 			// and adds an additional facet, returns the new query
 			addFacet: function(facetName,facetValue) {
 				var newQuery = angular.copy(this);
-				newQuery.facets[facetName] = facetValue;
+				newQuery.facets.push({key:facetName, value:facetValue});
 				return newQuery;
 			},
 
@@ -167,18 +167,22 @@ angular.module('arachne.services', [])
 			// and removes a facet, returns the new query
 			removeFacet: function(facetName) {
 				var newQuery = angular.copy(this);
-				delete newQuery.facets[facetName];
+				newQuery.facets = newQuery.facets.filter(function(facet) {
+				    return facet.key !== facetName;
+				});
 				return newQuery;
 			},
 
 			// check if query has any particular facet filter attached
 			hasFacet: function(facetName) {
-				return (facetName in this.facets);
+				return this.facets.some(function(facet) {
+					facet.key == facetName;
+				});
 			},
 
 			// check if query has any facet filters attached
 			hasFacets: function() {
-				return Object.keys(this.facets).length > 0;
+				return this.facets.length > 0;
 			},
 
 			// returns a representation of this query as GET parameters
@@ -187,8 +191,8 @@ angular.module('arachne.services', [])
 				var params = [];
 				for(var key in this) {
 					if (key == 'facets') {
-						for(var facetName in this.facets) {
-							var facetString = facetName + ":\"" + this.facets[facetName] + "\"";
+						for(var i in this.facets) {
+							var facetString = this.facets[i].key + ":\"" + this.facets[i].value + "\"";
 							params.push("fq=" + encodeURIComponent(facetString));
 						}
 					} else if (angular.isString(this[key]) || angular.isNumber(this[key])) {
@@ -214,8 +218,8 @@ angular.module('arachne.services', [])
 				for(var key in this) {
 					if (key == 'facets') {
 						object.fq = [];
-						for(var facetName in this.facets) {
-							var facetString = facetName + ":\"" + this.facets[facetName] + "\"";
+						for(var i in this.facets) {
+							var facetString = this.facets[i].key + ":\"" + this.facets[i].value + "\"";
 							object.fq.push(facetString);
 						}
 					} else if (key == 'restrict') {
@@ -240,11 +244,11 @@ angular.module('arachne.services', [])
 					if (angular.isString(search['fq'])) {
 						var facet = search['fq'].split(':');
 						if (facet.length == 2)
-							newQuery.facets[facet[0]] = facet[1].substr(1,facet[1].length-2);
+							newQuery.facets.push({key:facet[0], value: facet[1].substr(1,facet[1].length-2)});
 					} else if (angular.isArray(search['fq'])) {
 						search['fq'].forEach(function(facetString) {
 							var facet = facetString.split(':');
-							newQuery.facets[facet[0]] = facet[1].substr(1,facet[1].length-2);
+							newQuery.facets.push({key:facet[0], value: facet[1].substr(1,facet[1].length-2)});
 						})
 					}
 				} else {

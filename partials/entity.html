@@ -45,10 +45,10 @@
 					<div ng-if="currentQuery.hasFacets()">
 						<b class="text-muted uppercase small">Aktive Filter</b>
 						<ul>
-							<li ng-repeat="(facetName,facetValue) in currentQuery.facets">
+							<li ng-repeat="facet in currentQuery.facets">
 								<small>
-									<i>{{facetName | i18n}}</i>
-									<b style="text-transform:capitalize;"> &nbsp; {{facetValue}}</b>
+									<i>{{facet.key | i18n}}</i>
+									<b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b>
 								</small>
 							</li>
 						</ul>
