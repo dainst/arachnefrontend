@@ -739,28 +739,6 @@ angular.module('arachne.services', [])
 					isArray: false,
 					method: 'DELETE'
 				},
-				deleteHeading: {
-					url : arachneSettings.dataserviceUri + '/catalogheading/:id',
-					isArray: false,
-					method: 'DELETE'
-				},
-				getHeading: {
-					url: arachneSettings.dataserviceUri + '/catalogheading/:id',
-					isArray: false,
-					method: 'GET'
-				},
-				addHeading: {
-					url: arachneSettings.dataserviceUri + '/catalogheading/:id/addheading',
-					isArray: false,
-					method: 'POST',
-					headers: {'Content-Type': 'application/json'}
-				},
-				createHeading: {
-					url :  arachneSettings.dataserviceUri + '/catalogheading/:id',
-					isArray: false,
-					method: 'POST',
-					headers: {'Content-Type': 'application/json'}
-				},
 				deleteEntry: {
 					url : arachneSettings.dataserviceUri + '/catalogentry/:id',
 					isArray: false,
@@ -777,8 +755,14 @@ angular.module('arachne.services', [])
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'}
 				},
-				createEntry: {
-					url :  arachneSettings.dataserviceUri + '/catalogheading/:id/addentry',
+				createCatalogEntry: {
+					url :  arachneSettings.dataserviceUri + '/catalog/:id/add',
+					isArray: false,
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'}
+				},
+				createEntryEntry: {
+					url :  arachneSettings.dataserviceUri + '/catalogentry/:id/add',
 					isArray: false,
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'}
@@ -813,14 +797,19 @@ angular.module('arachne.services', [])
 						templateUrl: 'partials/Modals/createCatalog.html'
 					});	
 
-					modalInstance.close = function(label, text){
+					modalInstance.close = function(label, text, author){
 						text = typeof text !== 'undefined' ? text : "";
+
+						if(author == undefined || author == "")
+							author = "unknown";
+
 						if(label == undefined || label == "") {
 							alert("Bitte Titel eintragen.")							
 						} else {
 							modalInstance.dismiss();
 							var catalog = {
 								'label' : label,
+								'author' : author,
 								'text' : text,
 								'public' : false,
 								'catalogHeadings' : []
@@ -850,12 +839,12 @@ angular.module('arachne.services', [])
 						}
 					});
 
-					modalInstance.close = function(name,commentary){
-						if(catalog.name == undefined || catalog.name == ""){
+					modalInstance.close = function(label, text, author){
+						if(catalog.label == undefined || catalog.label == ""){
 							alert("Bitte Titel eintragen.");						
 						} else {
 							modalInstance.dismiss();
-							return arachneDataService.updateBookmarksList({"id":catalog.id}, catalog, successMethod, errorMethod);
+							return arachneDataService.updateCatalog({"id":catalog.id}, catalog, successMethod, errorMethod);
 						}
 					}
 				},
@@ -877,7 +866,7 @@ angular.module('arachne.services', [])
 						}
 					});
 
-					modalInstance.close = function(text){
+					modalInstance.close = function(label, text){
 						if(text == undefined || text == ""){
 							alert("Kommentar setzen!")
 						} else {
@@ -893,66 +882,29 @@ angular.module('arachne.services', [])
 						}
 					}
 				},
-				createEntry : function(ArachneId, successMethod, errorMethod) {
-					arachneDataService.getCatalogs(
-						function(data){
-							if(data.length == 0){
-								var modalInstance = $modal.open({
-									templateUrl: 'partials/Modals/createCatalog.html'
-								});	
+				createEntry : function(ArachneId, CatalogId, EntryId, successMethod, errorMethod) {
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/createEntry.html'
+					});	
 
-								modalInstance.close = function(label, text){
-									commentary = typeof text !== 'undefined' ? text : "";
-									if(label == undefined || label == "") {
-										alert("Bitte Titel eintragen.")							
-									} else {
-										modalInstance.dismiss();
-										var catalog = new Object();
-										catalog.label = label;
-										catalog.text = text;
-										catalog.catalogHeadings = [];
-										arachneDataService.createCatalog(catalog,
-											function(data){
-												var modalInstance = $modal.open({
-													templateUrl: 'partials/Modals/createEntry.html',
-													controller: 'CreateEntryCtrl'
-								      			});
-
-								      			modalInstance.result.then(function (selectedList) { 
-								      				if(selectedList.text == undefined || selectedList.text == "")
-								      					selectedList.text = "no comment set";
-
-								      				var entry = {
-														arachneEntityId : ArachneId,
-														label : selectedList.label,
-														text : selectedList.text,
-														path : selectedList.path
-													}
-													return arachneDataService.createBookmark({"id": selectedList.item.id}, entry, successMethod,errorMethod);
-								      			});
-											});
-									}
-								}
+					modalInstance.close = function(label, text){
+						text = typeof text !== 'undefined' ? text : "";
+						if(label == undefined || label == "") {
+							alert("Bitte Titel eintragen.")							
+						} else {
+							modalInstance.dismiss();
+							var catalog = {
+								'arachneEntityId' : ArachneId,
+								'label' : label,
+								'text' : text,
+								'path' : ""
 							}
-							
-							if(data.length >= 1){
-								var modalInstance = $modal.open({
-									templateUrl: 'partials/Modals/createEntry.html',
-									controller: 'CreateEntryCtrl'
-				      			});
-
-				      			modalInstance.result.then(function (result) {
-				      				var entry = {
-										arachneEntityId : ArachneId,
-										label : result.label,
-										text : result.text,
-										path : result.path
-									}
-									return arachneDataService.createBookmark({"id": result.list.id}, entry, successMethod,errorMethod);
-				      			});
-				      		}
+							if(CatalogId != 0)
+								return arachneDataService.createCatalogEntry({ "id": CatalogId}, successMethod,errorMethod);
+							else
+								return arachneDataService.createEntryEntry({ "id": EntryId}, successMethod,errorMethod);
 						}
-					);				
+					}			
 				}
 			}
 		}

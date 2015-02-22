@@ -21,6 +21,7 @@ angular.module('arachne',
 
 	$routeProvider
 		.when('/', {templateUrl: 'partials/startSite.html'})
+		.when('/catalog', {templateUrl: 'partials/catalog.html'})
 		.when('/bookmarks', {templateUrl: 'partials/bookmarks.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
 		.when('/entity/:entityId/images', {templateUrl: 'partials/entity_images.html'})
@@ -36,7 +37,7 @@ angular.module('arachne',
 		.when('/faq', {templateUrl: 'partials/faq.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://lakota.archaeologie.uni-koeln.de/data",
-		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
+		serverUri : "http://lakota.archaeologie.uni-koeln.de/data" + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie"],
 		sortableFields : ["entityId", "title", "subtitle"]
 }).run(['$rootScope', function($rootScope) {

@@ -418,6 +418,75 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+.controller('CatalogController',['$rootScope', '$scope', '$modal', 'authService', 'catalogService','arachneSettings', 'Query', '$filter',
+	function ($rootScope, $scope, $modal, authService, catalogService, arachneSettings, Query, $filter) {
+
+		$rootScope.hideFooter = false;
+
+		$scope.Catalogs = [];
+		$scope.user = authService.getUser();
+		$scope.dataserviceUri = arachneSettings.dataserviceUri;
+
+		var orderBy = $filter('orderBy');
+		$scope.sort = 'id';
+
+		$scope.refreshCatalog = function(){
+			$scope.Catalogs = catalogService.getCatalogs(
+				function(){ }
+			);
+		}
+
+		$scope.sortList = function(attr){
+			$scope.sort = attr;
+			$scope.refreshCatalogs();
+		}
+
+		$scope.refreshCatalogs();
+		
+		$scope.createEntry = function(arachneId, CatalogId, EntryId){
+			catalogService.createEntry(ArachneId, CatalogId, EntryId, function(data){ 
+				$scope.refreshCatalogs();
+			});
+		}
+		$scope.deleteEntry = function(entry){
+			catalogService.deleteEntry(entry.id,
+				function(data){
+					$scope.refreshCatalogs();
+				});
+		}
+
+		$scope.updateEntry = function(entry){
+			catalogService.updateEntry(entry, function(data){
+				$scope.refreshCatalogs();
+			});
+		}
+
+		$scope.updateCatalog = function(CatalogId){
+			var Catalog;
+			catalogService.getCatalog(CatalogId, function(data){
+				Catalog = data;
+				catalogService.updateCatalog(Catalog, function(data){
+					$scope.refreshCatalogs();
+				});
+			});
+		}
+
+		$scope.createCatalog = function(){
+			catalogService.createCatalog(function(response){
+				$scope.Catalogs.push($scope.refreshCatalogs());
+			});
+		}
+
+		$scope.deleteCatalog = function(CatalogId){
+			catalogService.deleteCatalog(CatalogId,
+				function(data){
+					// console.log("deleted List" + data);
+					$scope.refreshCatalogs();
+				});
+		}
+
+	}
+])
 .controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'messageService',
 	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, messageService) {
 
