@@ -1,0 +1,90 @@
+<script type="text/ng-template" id="entity_template.html">
+	
+	<div class="row-fluid">
+		<div class="btn-group pull-right">
+			<button type="button" class="btn btn-sm btn-link" ng-click="updateEntry(entry)"><span class="glyphicon glyphicon-pencil"></span></button>
+			<button type="button" class="btn btn-sm btn-link" ng-click="deleteEntry(entry)"><span class="glyphicon glyphicon-trash"></span></button>
+		</div>
+		<div class="col-md-2 col-xs-2">
+			<img ng-if="!entry.thumbnailId" width="100" height="100" ng-src="img/imagePlaceholder.png"></img></a>
+		</div>
+		<div class="col-md-8">
+			<a href="entity/{{ entry.arachneEntityId }}" ng-if="entry.label.length > 0" class="label" >{{ entry.label }}</a>
+			<br>							
+			<small ng-if="entry.text">Text:<br></small> {{ entry.text }}
+		</div>
+	</div>
+	<button type="button" class="btn btn-link pull-right" ng-click="createEntry(1184191, 0, entry.id)">
+		<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
+	</button>
+	<div class="list-group-item clearfix" ng-repeat="entry in entry.children" ng-include="'entry_template.html'">
+	</div>	
+</script>
+<div ng-controller="CatalogController as catalogController">
+	<div  ng-if="!user.username" class="col-md-12 text-right alert alert-info">
+		Für Catalogs bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
+	</div>
+	<div class="col-md-8 col-md-offset-2" ng-if="user.username">
+		<div class="page-header">
+			<button type="button" class="btn btn-link pull-right" ng-click="createCatalog()">
+				<span class="glyphicon glyphicon-plus"></span> Neuen Catalog anlegen 
+			</button>
+			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Catalogs</h3>
+
+			<div class="text-right">
+				<small class="text-muted">Sortierung:</small>
+				<div class="btn-group" dropdown>
+					<button type="button" class="btn btn-sm btn-default dropdown-toggle">
+						<span ng-show="sort">{{ sort }}</span>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li>
+							<a ng-click="sortList('id')">
+								Éntity-ID
+							</a>
+						</li>
+						<li>
+							<a ng-click="sortList('title')">
+								Titel
+							</a>
+						</li>
+						<li>
+							<a ng-click="sortList('subTitle')">
+								Untertitel
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="Catalogs.length == 0">
+			Keine Catalogs vorhanden.
+		</div>
+		<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
+			<accordion-group heading="{{ catalog.label }}">
+		    	<div class="list-group-item">
+					<div class="btn-group pull-right">
+    					<a type="button" class="btn btn-sm btn-link" ng-href="search/{{catalog.query.toString()}}"><span class="glyphicon glyphicon-search"></span></a>
+    					<button type="button" class="btn btn-sm btn-link" ng-click="updateCatalog(catalog.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+    					<button type="button" class="btn btn-sm btn-link" ng-click="deleteCatalog(catalog.id)"><span class="glyphicon glyphicon-trash"></span></button>
+					</div>
+		    		<small ng-if="catalog.author">Author:</small><br>
+		    		{{ catalog.author }}
+		    		<small ng-if="catalog.test">Kommentar:</small><br>
+		    		{{ catalog.author }}
+		    	</div>
+				<button type="button" class="btn btn-link pull-right" ng-click="createEntry(1184191, catalog.id, 0)">
+					<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
+				</button>
+		    	<div ng-if="catalog.catalogEntries.length == 0"  class="list-group-item clearfix">
+		    		In diesem Catalog sind noch keine Entries vorhanden.
+		    	</div>
+
+		    	<div class="list-group-item clearfix" ng-repeat="entry in catalog.catalogEntries" ng-include="'entry_template.html'">
+		    	</div>
+	    	</accordion-group>
+	  	</accordion>
+  	</div>
+</div>

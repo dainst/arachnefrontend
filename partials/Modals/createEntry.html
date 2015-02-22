@@ -1,0 +1,20 @@
+<form>
+	<div class="modal-header">
+		<h4 class="modal-title">Neuen Entry anlegen:
+		</h4>
+	</div>
+	<div class="modal-body">
+		Label der neuen Entry:
+		<div class="form-group">
+			<input autofocus type="label" class="form-control" ng-model="label" placeholder="label">
+		</div>
+		Text:
+		<div class="form-group">
+			<textarea type="text" class="form-control" ng-model="text" placeholder="text"></textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+    	<input class="btn btn-primary" type="submit" ng-click="$close(label, text)" value="OK">
+    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+	</div>
+</form>
