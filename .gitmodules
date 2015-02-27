@@ -1,0 +1,3 @@
+[submodule "con10t"]
+	path = con10t
+	url = dai-softsource.uni-koeln.de:/srv/repos/git/con10t.git
