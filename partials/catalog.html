@@ -37,39 +37,12 @@
 				<span class="glyphicon glyphicon-plus"></span> Neuen Catalog anlegen 
 			</button>
 			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Catalogs</h3>
-
-			<div class="text-right">
-				<small class="text-muted">Sortierung:</small>
-				<div class="btn-group" dropdown>
-					<button type="button" class="btn btn-sm btn-default dropdown-toggle">
-						<span ng-show="sort">{{ sort }}</span>
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-						<li>
-							<a ng-click="sortList('id')">
-								Éntity-ID
-							</a>
-						</li>
-						<li>
-							<a ng-click="sortList('title')">
-								Titel
-							</a>
-						</li>
-						<li>
-							<a ng-click="sortList('subTitle')">
-								Untertitel
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
 		</div>
 
-		<div ng-if="Catalogs.length == 0">
+		<div ng-if="catalogs.length == 0">
 			Keine Catalogs vorhanden.
 		</div>
-		<accordion class="accordion-with-list" ng-repeat="catalog in Catalogs" >
+		<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
 			<accordion-group heading="{{ catalog.label }}">
 		    	<div class="list-group-item">
 					<div class="btn-group pull-right">
