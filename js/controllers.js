@@ -218,6 +218,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		};
 
 		$scope.catalogs = [];
+		$scope.catalogs = catalogService.getCatalogs();
 
 		$scope.createEntry = function(){
 			$scope.catalogs = catalogService.getCatalogs();
