@@ -1,0 +1,63 @@
+<script type="text/ng-template" id="entry_template.html">
+	
+	<accordion class="accordion-with-list col-md-10" >
+	<accordion-group heading="{{ entry.label }}">
+    	<div ng-if="entry.children.length == 0"  class="list-group-item clearfix">
+    		In diesem Entry sind noch keine Entries vorhanden.
+    		<button type="button" class="btn btn-link pull-right" ng-click="createEntry(0, entry.id)">
+				<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
+			</button>
+    	</div>
+    	<div ng-if="entry.children.length != 0" >
+	    	<div ng-repeat="entry in entry.children" ng-include="'entry_template.html'">
+	    	</div>
+	    	<button type="button" class="btn btn-link pull-right" ng-click="createEntry(0, entry.id)">
+				<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
+			</button>
+	    </div>
+	</accordion-group>
+	</accordion>
+</script>
+
+<form>
+	<div class="modal-header">
+		<h4 class="modal-title">Neuen Entry anlegen:
+		</h4>
+	</div>
+	<div class="modal-body">
+		
+		<div ng-if="catalogs.length == 0">
+			Keine Catalogs vorhanden.
+		</div>
+		<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
+			<accordion-group heading="{{ catalog.label }}">
+		    	<div ng-if="catalog.catalogEntries.length == 0" >
+		    		In diesem Catalog sind noch keine Entries vorhanden.
+		    		<button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
+						<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
+					</button>
+		    	</div>
+		    	<div class="row" ng-if="catalog.catalogEntries.length != 0">
+			    	<div class="col-md-12" ng-repeat="entry in catalog.catalogEntries" ng-include="'entry_template.html'">
+			    	</div>
+			    </div>
+			    <button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
+					<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
+				</button>
+	    	</accordion-group>
+	  	</accordion>
+
+		Label der neuen Entry:
+		<div class="form-group">
+			<input autofocus type="label" class="form-control" ng-model="label" placeholder="label">
+		</div>
+		Text:
+		<div class="form-group">
+			<textarea type="text" class="form-control" ng-model="text" placeholder="text"></textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+    	<input class="btn btn-primary" type="submit" ng-click="$close(label, text, ArachneId)" value="OK">
+    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+	</div>
+</form>
