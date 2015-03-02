@@ -8,13 +8,17 @@
 		<div class="form-group">
 			<input autofocus type="label" class="form-control" ng-model="label" placeholder="label">
 		</div>
+		ArachneId:
+		<div class="form-group">
+			<textarea type="ArachneId" class="form-control" ng-model="ArachneId" placeholder="ArachneId"></textarea>
+		</div>
 		Text:
 		<div class="form-group">
 			<textarea type="text" class="form-control" ng-model="text" placeholder="text"></textarea>
 		</div>
 	</div>
 	<div class="modal-footer">
-    	<input class="btn btn-primary" type="submit" ng-click="$close(label, text)" value="OK">
+    	<input class="btn btn-primary" type="submit" ng-click="$close(label, text, ArachneId)" value="OK">
     	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
 	</div>
 </form>

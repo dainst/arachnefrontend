@@ -430,10 +430,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		var orderBy = $filter('orderBy');
 		$scope.sort = 'id';
 
-		$scope.refreshCatalog = function(){
+		$scope.refreshCatalogs = function(){
 			$scope.Catalogs = catalogService.getCatalogs(
 				function(){ }
 			);
+			console.log($scope.Catalogs);
 		}
 
 		$scope.sortList = function(attr){
@@ -443,8 +444,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.refreshCatalogs();
 		
-		$scope.createEntry = function(arachneId, CatalogId, EntryId){
-			catalogService.createEntry(ArachneId, CatalogId, EntryId, function(data){ 
+		$scope.createEntry = function(CatalogId, EntryId){
+			catalogService.createEntry(CatalogId, EntryId, function(data){ 
 				$scope.refreshCatalogs();
 			});
 		}

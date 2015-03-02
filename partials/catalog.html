@@ -1,24 +1,30 @@
-<script type="text/ng-template" id="entity_template.html">
+<script type="text/ng-template" id="entry_template.html">
 	
-	<div class="row-fluid">
-		<div class="btn-group pull-right">
-			<button type="button" class="btn btn-sm btn-link" ng-click="updateEntry(entry)"><span class="glyphicon glyphicon-pencil"></span></button>
-			<button type="button" class="btn btn-sm btn-link" ng-click="deleteEntry(entry)"><span class="glyphicon glyphicon-trash"></span></button>
-		</div>
-		<div class="col-md-2 col-xs-2">
-			<img ng-if="!entry.thumbnailId" width="100" height="100" ng-src="img/imagePlaceholder.png"></img></a>
-		</div>
-		<div class="col-md-8">
-			<a href="entity/{{ entry.arachneEntityId }}" ng-if="entry.label.length > 0" class="label" >{{ entry.label }}</a>
-			<br>							
-			<small ng-if="entry.text">Text:<br></small> {{ entry.text }}
-		</div>
-	</div>
-	<button type="button" class="btn btn-link pull-right" ng-click="createEntry(1184191, 0, entry.id)">
-		<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
-	</button>
-	<div class="list-group-item clearfix" ng-repeat="entry in entry.children" ng-include="'entry_template.html'">
-	</div>	
+	<accordion class="accordion-with-list col-md-10" >
+	<accordion-group heading="{{ entry.label }}">
+    	<div class="list-group-item">
+			<div class="btn-group pull-right">
+				<button type="button" class="btn btn-sm btn-link" ng-click="updateEntry(entry)"><span class="glyphicon glyphicon-pencil"></span></button>
+				<button type="button" class="btn btn-sm btn-link" ng-click="deleteEntry(entry)"><span class="glyphicon glyphicon-trash"></span></button>
+			</div>
+    		<div ng-if="entry.label">Label: {{ entry.label }} </div>
+    		<small ng-if="entry.text">Kommentar: <br> {{ entry.text }}</small>
+    	</div>
+    	<div ng-if="entry.children.length == 0"  class="list-group-item clearfix">
+    		In diesem Entry sind noch keine Entries vorhanden.
+    		<button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
+				<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
+			</button>
+    	</div>
+    	<div ng-if="entry.children.length != 0" >
+	    	<div ng-repeat="entry in entry.children" ng-include="'entry_template.html'">
+	    	</div>
+	    	<button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
+				<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
+			</button>
+	    </div>
+	</accordion-group>
+	</accordion>
 </script>
 <div ng-controller="CatalogController as catalogController">
 	<div  ng-if="!user.username" class="col-md-12 text-right alert alert-info">
@@ -62,7 +68,7 @@
 		<div ng-if="Catalogs.length == 0">
 			Keine Catalogs vorhanden.
 		</div>
-		<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
+		<accordion class="accordion-with-list" ng-repeat="catalog in Catalogs" >
 			<accordion-group heading="{{ catalog.label }}">
 		    	<div class="list-group-item">
 					<div class="btn-group pull-right">
@@ -70,20 +76,23 @@
     					<button type="button" class="btn btn-sm btn-link" ng-click="updateCatalog(catalog.id)"><span class="glyphicon glyphicon-pencil"></span></button>
     					<button type="button" class="btn btn-sm btn-link" ng-click="deleteCatalog(catalog.id)"><span class="glyphicon glyphicon-trash"></span></button>
 					</div>
-		    		<small ng-if="catalog.author">Author:</small><br>
-		    		{{ catalog.author }}
-		    		<small ng-if="catalog.test">Kommentar:</small><br>
-		    		{{ catalog.author }}
+		    		<div ng-if="catalog.author">Author: {{ catalog.author }} </div>
+		    		<small ng-if="catalog.text">Kommentar: <br> {{ catalog.text }}</small>
+		    		
 		    	</div>
-				<button type="button" class="btn btn-link pull-right" ng-click="createEntry(1184191, catalog.id, 0)">
+		    	<div ng-if="catalog.catalogEntries.length == 0" >
+		    		In diesem Catalog sind noch keine Entries vorhanden.
+		    		<button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
+						<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
+					</button>
+		    	</div>
+		    	<div class="row" ng-if="catalog.catalogEntries.length != 0">
+			    	<div class="col-md-12" ng-repeat="entry in catalog.catalogEntries" ng-include="'entry_template.html'">
+			    	</div>
+			    </div>
+			    <button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
 					<span class="glyphicon glyphicon-plus"></span> Neuen Entry anlegen 
 				</button>
-		    	<div ng-if="catalog.catalogEntries.length == 0"  class="list-group-item clearfix">
-		    		In diesem Catalog sind noch keine Entries vorhanden.
-		    	</div>
-
-		    	<div class="list-group-item clearfix" ng-repeat="entry in catalog.catalogEntries" ng-include="'entry_template.html'">
-		    	</div>
 	    	</accordion-group>
 	  	</accordion>
   	</div>

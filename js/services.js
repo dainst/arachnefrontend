@@ -882,27 +882,28 @@ angular.module('arachne.services', [])
 						}
 					}
 				},
-				createEntry : function(ArachneId, CatalogId, EntryId, successMethod, errorMethod) {
+				createEntry : function(CatalogId, EntryId, successMethod, errorMethod) {
 					var modalInstance = $modal.open({
 						templateUrl: 'partials/Modals/createEntry.html'
 					});	
 
-					modalInstance.close = function(label, text){
+					modalInstance.close = function(label, text, ArachneId){
 						text = typeof text !== 'undefined' ? text : "";
 						if(label == undefined || label == "") {
 							alert("Bitte Titel eintragen.")							
 						} else {
 							modalInstance.dismiss();
-							var catalog = {
+							var entry = {
 								'arachneEntityId' : ArachneId,
 								'label' : label,
 								'text' : text,
 								'path' : ""
 							}
+							console.log(entry);
 							if(CatalogId != 0)
-								return arachneDataService.createCatalogEntry({ "id": CatalogId}, successMethod,errorMethod);
+								return arachneDataService.createCatalogEntry({ "id": CatalogId}, entry, successMethod,errorMethod);
 							else
-								return arachneDataService.createEntryEntry({ "id": EntryId}, successMethod,errorMethod);
+								return arachneDataService.createEntryEntry({ "id": EntryId}, entry, successMethod,errorMethod);
 						}
 					}			
 				}
