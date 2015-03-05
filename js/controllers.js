@@ -322,7 +322,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.updateCatalog = function(CatalogId){
 			var Catalog;
 			catalogService.getCatalog(CatalogId, function(data){
-				catalog = data;
+				Catalog = data;
+				console.log(Catalog);
 				catalogService.updateCatalog(Catalog, function(data){
 					$scope.refreshCatalogs();
 				});

@@ -590,7 +590,7 @@ angular.module('arachne.services', [])
 				},
 				updateCatalog : function (catalog, successMethod, errorMethod) {
 					var modalInstance = $modal.open({
-						templateUrl: 'partials/Modals/editCatalog.html',
+						templateUrl: 'partials/Modals/updateCatalog.html',
 						controller : function ($scope) { $scope.catalog = catalog },
 						resolve: {
 					        'catalog': function () {
