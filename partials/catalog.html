@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="entry_template.html">
 
 	<br>	
-	<accordion class="accordion-with-list col-md-11" >
+	<accordion class="accordion-with-list col-md-11 col-md-offset-1" >
 	<accordion-group heading="{{ entry.label }}">
     	<div class="list-group-item">
 			<div class="btn-group pull-right">
@@ -9,7 +9,7 @@
 				<button type="button" class="btn btn-sm btn-link" ng-click="deleteEntry(entry)"><span class="glyphicon glyphicon-trash"></span></button>
 			</div>
     		<div ng-if="entry.label">Label: {{ entry.label }} </div>
-    		<div ng-if="entry.arachneEntityId">ArachneId: {{ entry.arachneEntityId }} </div>
+    		<a ng-if="entry.arachneEntityId" href="entity/{{ entry.arachneEntityId }}">ArachneId: {{ entry.arachneEntityId }} </a><br>
     		<small ng-if="entry.text">Kommentar: <br> {{ entry.text }}</small>
     	</div>
     	<div ng-if="entry.children.length == 0"  class="list-group-item clearfix">
@@ -43,32 +43,33 @@
 		<div ng-if="catalogs.length == 0">
 			Keine Catalogs vorhanden.
 		</div>
-		<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
-			<accordion-group heading="{{ catalog.label }}">
-		    	<div class="list-group-item">
-					<div class="btn-group pull-right">
-    					<a type="button" class="btn btn-sm btn-link" ng-href="search/{{catalog.query.toString()}}"><span class="glyphicon glyphicon-search"></span></a>
-    					<button type="button" class="btn btn-sm btn-link" ng-click="updateCatalog(catalog.id)"><span class="glyphicon glyphicon-pencil"></span></button>
-    					<button type="button" class="btn btn-sm btn-link" ng-click="deleteCatalog(catalog.id)"><span class="glyphicon glyphicon-trash"></span></button>
-					</div>
-		    		<div ng-if="catalog.author">Author: {{ catalog.author }} </div>
-		    		<small ng-if="catalog.text">Kommentar: <br> {{ catalog.text }}</small>
-		    		
-		    	</div>
-		    	<div ng-if="catalog.catalogEntries.length == 0" >
-		    		In diesem Catalog sind noch keine Entries vorhanden.
-		    		<button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
+		<div class="custom">
+			<accordion class="accordion-with-list" ng-repeat="catalog in catalogs">
+				<accordion-group>
+					<accordion-heading >{{ catalog.label }}</accordion-heading>
+			    	<div class="list-group-item">
+						<div class="btn-group pull-right">
+	    					<a type="button" class="btn btn-sm btn-link" ng-href="search/{{catalog.query.toString()}}"><span class="glyphicon glyphicon-search"></span></a>
+	    					<button type="button" class="btn btn-sm btn-link" ng-click="updateCatalog(catalog.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+	    					<button type="button" class="btn btn-sm btn-link" ng-click="deleteCatalog(catalog.id)"><span class="glyphicon glyphicon-trash"></span></button>
+						</div>
+			    		<div ng-if="catalog.author">Author: {{ catalog.author }} </div>
+			    		<small ng-if="catalog.text">Kommentar: <br> {{ catalog.text }}</small>
+			    		
+			    	</div>
+			    	<div class="col-md-12" ng-if="catalog.catalogEntries.length == 0" >
+			    		<br>
+			    		In diesem Catalog sind noch keine Entries vorhanden.
+			    	</div>
+			    	<div class="row" ng-if="catalog.catalogEntries.length != 0">
+				    	<div class="col-md-12" ng-repeat="entry in catalog.catalogEntries" ng-include="'entry_template.html'">
+				    	</div>
+				    </div>
+				    <button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
 						<span class="glyphicon glyphicon-plus"></span> Neuen Entry 
 					</button>
-		    	</div>
-		    	<div class="row" ng-if="catalog.catalogEntries.length != 0">
-			    	<div class="col-md-12" ng-repeat="entry in catalog.catalogEntries" ng-include="'entry_template.html'">
-			    	</div>
-			    </div>
-			    <button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
-					<span class="glyphicon glyphicon-plus"></span> Neuen Entry 
-				</button>
-	    	</accordion-group>
-	  	</accordion>
+		    	</accordion-group>
+		  	</accordion>
+		</div>
   	</div>
 </div>
