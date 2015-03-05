@@ -631,7 +631,7 @@ angular.module('arachne.services', [])
 							alert("Kommentar setzen!")
 						} else {
 							modalInstance.dismiss();
-							// Achtung, im bookmark-Objekt sind noch Attribute, wie title oder thumbnailId hinzugefügt worden.
+							// Achtung, im Catalog-Objekt sind noch Attribute, wie title oder thumbnailId hinzugefügt worden.
 							// Hier duerfen aber nur die drei attribute id, arachneEntityId, commenatry übergeben werden, sonst nimmt es das Backend nicht an
 							return arachneDataService.updateEntry(
 								{"id":entry.id},

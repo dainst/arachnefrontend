@@ -3,11 +3,16 @@
 	</h4>
 </div>
 <div class="modal-body">
+	Label der Entry:
+	<div class="form-group">
+		<input autofocus type="label" class="form-control" ng-model="entry.label">
+	</div>
+	Entry Text:
 	<div class="form-group">
 		<textarea class="form-control" ng-model="entry.text"></textarea>
 	</div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="$close(entry.text)">OK</button>
+	<button class="btn btn-primary" ng-click="$close(entry.label, entry.text)">OK</button>
     <button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>            	
 </div>
