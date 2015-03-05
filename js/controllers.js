@@ -199,6 +199,52 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+// TODO Refactor to new MapService or existing MapCtrl
+.controller('ProjectGrakoMapCtrl', ['$rootScope', '$scope', 'searchService', 'categoryService', '$location', '$controller',
+	function($rootScope, $scope, searchService, categoryService, $location, $controller) {
+
+		angular.extend(this, $controller('MapCtrl', {$rootScope: $rootScope, $scope: $scope, searchService: searchService, categoryService: categoryService, $location: $location}));
+
+		var overlays = {
+			ba_roads: {
+				name: 'Roman Roads',
+				type: 'wms',
+				url: 'http://geoserver.dainst.org/geoserver/geonode/wms',
+				layerOptions: {
+					layers: 'geonode:ba_roads',
+					format: 'image/png',
+					transparent: true
+				}
+			},
+			syr1930: {
+				name: 'Syrien 1930',
+				type: 'wms',
+				url: 'http://geoserver.dainst.org/geoserver/geonode/wms',
+				layerOptions: {
+					layers: 'geonode:syrher_syr1930',
+					format: 'image/png',
+					transparent: true
+				}
+			}
+		}
+
+		$scope.selectedOverlays = {};
+		$scope.overlays = overlays;
+
+		$scope.toggleOverlay = function(key) {
+			console.log("toggled");
+			var selected = $scope.selectedOverlays;
+
+			if (selected[key] != undefined) {
+				selected[key] = null;
+			} else {
+				selected[key] = overlays[key];
+			}
+			console.log(selected);
+		}
+
+	}
+])
 .controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query', 'messageService',
 	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, categoryService, Query, messageService) {
 
