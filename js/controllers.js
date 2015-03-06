@@ -163,6 +163,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort", "facet_geo"]; //, "facet_ort"
 
+		$scope.overlays = {};
+		$scope.selectedOverlays = {};
+
 		$rootScope.hideFooter = true;
 
 		$scope.currentQuery = searchService.currentQuery();
@@ -197,6 +200,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.url(path);
 		};
 
+		$scope.toggleOverlay = function(key) {
+			var selected = $scope.selectedOverlays;
+			selected[key] = (selected[key]) ? null : $scope.overlays[key];
+		}
+
 	}
 ])
 // TODO Refactor to new MapService or existing MapCtrl
@@ -205,7 +213,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		angular.extend(this, $controller('MapCtrl', {$rootScope: $rootScope, $scope: $scope, searchService: searchService, categoryService: categoryService, $location: $location}));
 
-		var overlays = {
+		$scope.overlays = {
 			ba_roads: {
 				name: 'Roman Roads',
 				type: 'wms',
@@ -226,21 +234,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					transparent: true
 				}
 			}
-		}
-
-		$scope.selectedOverlays = {};
-		$scope.overlays = overlays;
-
-		$scope.toggleOverlay = function(key) {
-			console.log("toggled");
-			var selected = $scope.selectedOverlays;
-
-			if (selected[key] != undefined) {
-				selected[key] = null;
-			} else {
-				selected[key] = overlays[key];
-			}
-			console.log(selected);
 		}
 
 	}
