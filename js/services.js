@@ -538,10 +538,33 @@ angular.module('arachne.services', [])
 					console.log(ArachneId);
 					console.log(catalogs);
 
-					if(CatalogId != 0)
-						return arachneDataService.createCatalogEntry({ "id": CatalogId}, entry, successMethod,errorMethod);
-					else
-						return arachneDataService.createEntryEntry({ "id": EntryId}, entry, successMethod,errorMethod);
+					var modalInstance = $modal.open({
+						templateUrl: 'partials/Modals/createEntityEntry.html',
+						controller : function ($scope) { $scope.catalogs = catalogs },
+						resolve: {
+					        'catalogs': function () {
+					            return catalogs;
+					        }
+						}
+					});
+
+					modalInstance.close = function(label, text, catalogId, entryId){
+						if(catalog.label == undefined || catalog.label == ""){
+							alert("Bitte Label eintragen.");						
+						} else {
+							modalInstance.dismiss();
+							var entry = {
+								'arachneEntityId' : ArachneId,
+								'label' : label,
+								'text' : text,
+								'path' : ""
+							}
+							if(catalogId != 0)
+								return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
+							else
+								return arachneDataService.createEntryEntry({ "id": entryId}, entry, successMethod,errorMethod);
+						}
+					}	
 				},
 				// --- Demnaechst vom Backend geloest
 				//queryListsForEntityId : function(entityID){
