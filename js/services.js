@@ -548,7 +548,9 @@ angular.module('arachne.services', [])
 					createEntryPos.close = function(catalogId, entryId){
 						createEntryPos.dismiss();
 
+						console.log("catalog ID: ");
 						console.log(catalogId);
+						console.log("Entry ID: ");
 						console.log(entryId);
 
 						var createEntry = $modal.open({
@@ -682,28 +684,55 @@ angular.module('arachne.services', [])
 						}
 					}
 				},
-				createEntry : function(CatalogId, EntryId, successMethod, errorMethod) {
-					var createEntry = $modal.open({
-						templateUrl: 'partials/Modals/createEntry.html'
-					});	
+				createEntry : function(catalogs, ArachneId, label, successMethod, errorMethod) {
 
-					createEntry.close = function(label, text, ArachneId){
-						text = typeof text !== 'undefined' ? text : "";
-						if(label == undefined || label == "") {
-							alert("Bitte Titel eintragen.")							
-						} else {
-							createEntry.dismiss();
-							var entry = {
-								'arachneEntityId' : ArachneId,
-								'label' : label,
-								'text' : text,
-								'path' : ""
+					var createEntryPos = $modal.open({
+						templateUrl: 'partials/Modals/createEntryPos.html',
+						controller : function ($scope) { $scope.catalogs = catalogs },
+						resolve: {
+					        'catalogs': function () {
+					            return catalogs;
+					        }
+						}
+					});
+
+					createEntryPos.close = function(catalogId, entryId){
+						createEntryPos.dismiss();
+
+						console.log("catalog ID: ");
+						console.log(catalogId);
+						console.log("Entry ID: ");
+						console.log(entryId);
+
+						var createEntry = $modal.open({
+							templateUrl: 'partials/Modals/createEntry.html',
+							controller : function ($scope) { $scope.label = label },
+							resolve: {
+						        'label': function () {
+						            return label;
+						        }
 							}
-							console.log(entry);
-							if(CatalogId != 0)
-								return arachneDataService.createCatalogEntry({ "id": CatalogId}, entry, successMethod,errorMethod);
-							else
-								return arachneDataService.createEntryEntry({ "id": EntryId}, entry, successMethod,errorMethod);
+						});
+
+						createEntry.close = function(label, text){
+							text = typeof text !== 'undefined' ? text : "";
+							if(label == undefined || label == "") {
+								alert("Bitte Titel eintragen.")							
+							} else {
+								createEntry.dismiss();
+								var entry = {
+									'arachneEntityId' : ArachneId,
+									'label' : label,
+									'text' : text,
+									'path' : ""
+								}
+								console.log(entry);
+
+								if(catalogId != 0)
+									return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
+								else
+									return arachneDataService.createEntryEntry({ "id": EntryId}, entry, successMethod,errorMethod);
+							}
 						}
 					}			
 				}

@@ -286,8 +286,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CatalogController',['$rootScope', '$scope', '$modal', 'authService', 'catalogService','arachneSettings', 'Query', '$filter',
-	function ($rootScope, $scope, $modal, authService, catalogService, arachneSettings, Query, $filter) {
+.controller('CatalogController',['$rootScope', '$scope', '$modal', 'authService', 'catalogService','arachneSettings', 'Query', 'Entity', '$filter',
+	function ($rootScope, $scope, $modal, authService, catalogService, arachneSettings, Query, Entity, $filter) {
 
 		$rootScope.hideFooter = false;
 
@@ -301,10 +301,29 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.refreshCatalogs();
 		
-		$scope.createEntry = function(CatalogId, EntryId){
-			catalogService.createEntry(CatalogId, EntryId, function(data){ 
-				$scope.refreshCatalogs();
-			});
+		$scope.createEntry = function(){
+			var label;
+			var createEntryId = $modal.open({
+				templateUrl: 'partials/Modals/createEntryId.html'
+			});	
+
+			createEntryId.close = function(arachneId){
+				console.log(arachneId);
+
+				Entity.get({id:arachneId}, function(data) {
+					console.log("get funtzt");
+					$scope.entity = data;
+					label = $scope.entity.title;
+					createEntryId.dismiss();
+					catalogService.createEntry($scope.catalogs, arachneId, label, function(data){ 
+						$scope.refreshCatalogs();
+					});
+
+				}, function(response) {
+					console.log("error get Entity");
+					alert("Falsche Id!");	
+				});
+			}
 		}
 		$scope.deleteEntry = function(entry){
 			catalogService.deleteEntry(entry.id,
