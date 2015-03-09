@@ -222,7 +222,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.createEntry = function(){
 			$scope.catalogs = catalogService.getCatalogs();
-			catalogService.createEntityEntry($routeParams.id, $scope.catalogs, $scope.entity.title, function(data){
+			catalogService.createEntry($routeParams.id, $scope.catalogs, $scope.entity.title, function(data){
 			});			
 		}
 
@@ -311,11 +311,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				console.log(arachneId);
 
 				Entity.get({id:arachneId}, function(data) {
-					console.log("get funtzt");
 					$scope.entity = data;
 					label = $scope.entity.title;
 					createEntryId.dismiss();
-					catalogService.createEntry($scope.catalogs, arachneId, label, function(data){ 
+					catalogService.createEntry(arachneId, $scope.catalogs, label, function(data){ 
 						$scope.refreshCatalogs();
 					});
 

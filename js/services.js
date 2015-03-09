@@ -511,7 +511,7 @@ angular.module('arachne.services', [])
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'}
 				},
-				createEntryEntry: {
+				createEntry: {
 					url :  arachneSettings.dataserviceUri + '/catalogentry/:id/add',
 					isArray: false,
 					method: 'POST',
@@ -533,7 +533,7 @@ angular.module('arachne.services', [])
 						return arachneDataService.getEntityInformation(hash, successMethod, catchError);
 					};
 				},
-				createEntityEntry : function(ArachneId, catalogs, label, successMethod, errorMethod)
+				createEntityEntry : function(arachneId, catalogs, label, successMethod, errorMethod)
 				{
 					var createEntryPos = $modal.open({
 						templateUrl: 'partials/Modals/createEntryPos.html',
@@ -545,7 +545,7 @@ angular.module('arachne.services', [])
 						}
 					});
 
-					createEntryPos.close = function(catalogId, entryId){
+					createEntryPos.close = function(catalogId, entryId, pos){
 						createEntryPos.dismiss();
 
 						console.log("catalog ID: ");
@@ -570,16 +570,18 @@ angular.module('arachne.services', [])
 							} else {
 								createEntry.dismiss();
 								var entry = {
-									'arachneEntityId' : ArachneId,
+									'catalogId' : catalogId,
+									'parentId' : entryId,
+									'arachneEntityId' : arachneId,
 									'label' : label,
 									'text' : text,
 									'path' : ""
 								}
 								console.log(entry);
 
-								if(catalogId != 0)
-									return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
-								else
+								//if(catalogId != 0)
+								//	return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
+								//else
 									return arachneDataService.createEntryEntry({ "id": EntryId}, entry, successMethod,errorMethod);
 							}
 						}
@@ -684,7 +686,7 @@ angular.module('arachne.services', [])
 						}
 					}
 				},
-				createEntry : function(catalogs, ArachneId, label, successMethod, errorMethod) {
+				createEntry : function(arachneId, catalogs, label, successMethod, errorMethod) {
 
 					var createEntryPos = $modal.open({
 						templateUrl: 'partials/Modals/createEntryPos.html',
@@ -696,13 +698,15 @@ angular.module('arachne.services', [])
 						}
 					});
 
-					createEntryPos.close = function(catalogId, entryId){
+					createEntryPos.close = function(catalogId, entryId, pos){
 						createEntryPos.dismiss();
 
 						console.log("catalog ID: ");
 						console.log(catalogId);
 						console.log("Entry ID: ");
 						console.log(entryId);
+						console.log("Pos: ");
+						console.log(pos);
 
 						var createEntry = $modal.open({
 							templateUrl: 'partials/Modals/createEntry.html',
@@ -721,17 +725,21 @@ angular.module('arachne.services', [])
 							} else {
 								createEntry.dismiss();
 								var entry = {
-									'arachneEntityId' : ArachneId,
+									'catalogId' : catalogId,
+									'parentId' : entryId,
+									'arachneEntityId' : arachneId,
 									'label' : label,
 									'text' : text,
+									'pos' : pos,
 									'path' : ""
 								}
 								console.log(entry);
 
-								if(catalogId != 0)
-									return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
-								else
-									return arachneDataService.createEntryEntry({ "id": EntryId}, entry, successMethod,errorMethod);
+								// Entrys nur noch ueber Entries 
+								//if(catalogId != 0)
+								//	return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
+								//else
+								return arachneDataService.createEntry({ "id": EntryId}, entry, successMethod,errorMethod);
 							}
 						}
 					}			
