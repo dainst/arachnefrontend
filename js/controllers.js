@@ -222,7 +222,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.createEntry = function(){
 			$scope.catalogs = catalogService.getCatalogs();
-			catalogService.createEntityEntry($routeParams.id, $scope.catalogs, function(data){
+			catalogService.createEntityEntry($routeParams.id, $scope.catalogs, $scope.entity.title, function(data){
 			});			
 		}
 

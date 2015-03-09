@@ -533,13 +533,10 @@ angular.module('arachne.services', [])
 						return arachneDataService.getEntityInformation(hash, successMethod, catchError);
 					};
 				},
-				createEntityEntry : function(ArachneId, catalogs, successMethod, errorMethod)
+				createEntityEntry : function(ArachneId, catalogs, label, successMethod, errorMethod)
 				{
-					console.log(ArachneId);
-					console.log(catalogs);
-
-					var modalInstance = $modal.open({
-						templateUrl: 'partials/Modals/createEntityEntry.html',
+					var createEntryPos = $modal.open({
+						templateUrl: 'partials/Modals/createEntryPos.html',
 						controller : function ($scope) { $scope.catalogs = catalogs },
 						resolve: {
 					        'catalogs': function () {
@@ -548,21 +545,41 @@ angular.module('arachne.services', [])
 						}
 					});
 
-					modalInstance.close = function(label, text, catalogId, entryId){
-						if(catalog.label == undefined || catalog.label == ""){
-							alert("Bitte Label eintragen.");						
-						} else {
-							modalInstance.dismiss();
-							var entry = {
-								'arachneEntityId' : ArachneId,
-								'label' : label,
-								'text' : text,
-								'path' : ""
+					createEntryPos.close = function(catalogId, entryId){
+						createEntryPos.dismiss();
+
+						console.log(catalogId);
+						console.log(entryId);
+
+						var createEntry = $modal.open({
+							templateUrl: 'partials/Modals/createEntry.html',
+							controller : function ($scope) { $scope.label = label },
+							resolve: {
+						        'label': function () {
+						            return label;
+						        }
 							}
-							if(catalogId != 0)
-								return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
-							else
-								return arachneDataService.createEntryEntry({ "id": entryId}, entry, successMethod,errorMethod);
+						});
+
+						createEntry.close = function(label, text){
+							text = typeof text !== 'undefined' ? text : "";
+							if(label == undefined || label == "") {
+								alert("Bitte Titel eintragen.")							
+							} else {
+								createEntry.dismiss();
+								var entry = {
+									'arachneEntityId' : ArachneId,
+									'label' : label,
+									'text' : text,
+									'path' : ""
+								}
+								console.log(entry);
+
+								if(catalogId != 0)
+									return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
+								else
+									return arachneDataService.createEntryEntry({ "id": EntryId}, entry, successMethod,errorMethod);
+							}
 						}
 					}	
 				},
@@ -576,11 +593,11 @@ angular.module('arachne.services', [])
 					return arachneDataService.getCatalogs({},successMethod, catchError);
 				},
 				createCatalog : function(successMethod, errorMethod) {
-					var modalInstance = $modal.open({
+					var createCatalog = $modal.open({
 						templateUrl: 'partials/Modals/createCatalog.html'
 					});	
 
-					modalInstance.close = function(label, text, author){
+					createCatalog.close = function(label, text, author){
 						text = typeof text !== 'undefined' ? text : "";
 
 						if(author == undefined || author == "")
@@ -589,7 +606,7 @@ angular.module('arachne.services', [])
 						if(label == undefined || label == "") {
 							alert("Bitte Titel eintragen.")							
 						} else {
-							modalInstance.dismiss();
+							createCatalog.dismiss();
 							var catalog = {
 								'label' : label,
 								'author' : author,
@@ -603,16 +620,16 @@ angular.module('arachne.services', [])
 				},
 				deleteCatalog : function(id, successMethod, errorMethod){
 					var id = id;			
-					var modalInstance = $modal.open({
+					var deleteCatalog = $modal.open({
 						templateUrl: 'partials/Modals/deleteCatalog.html'
 					});	
-					modalInstance.close = function(){
-						modalInstance.dismiss();
+					deleteCatalog.close = function(){
+						deleteCatalog.dismiss();
 						return arachneDataService.deleteCatalog({ "id": id}, successMethod,errorMethod);
 					}
 				},
 				updateCatalog : function (catalog, successMethod, errorMethod) {
-					var modalInstance = $modal.open({
+					var updateCatalog = $modal.open({
 						templateUrl: 'partials/Modals/updateCatalog.html',
 						controller : function ($scope) { $scope.catalog = catalog },
 						resolve: {
@@ -622,11 +639,11 @@ angular.module('arachne.services', [])
 						}
 					});
 
-					modalInstance.close = function(label, text, author){
+					updateCatalog.close = function(label, text, author){
 						if(catalog.label == undefined || catalog.label == ""){
 							alert("Bitte Titel eintragen.");						
 						} else {
-							modalInstance.dismiss();
+							updateCatalog.dismiss();
 							return arachneDataService.updateCatalog({"id":catalog.id}, catalog, successMethod, errorMethod);
 						}
 					}
@@ -639,7 +656,7 @@ angular.module('arachne.services', [])
 					return arachneDataService.getEntry({ "id": id}, successMethod,errorMethod);
 				},
 				updateEntry: function(entry, successMethod, errorMethod) {	
-					var modalInstance = $modal.open({
+					var updateEntry = $modal.open({
 						templateUrl: 'partials/Modals/updateEntry.html',
 						controller: function ($scope) { $scope.entry = entry },
 						resolve: {
@@ -649,11 +666,11 @@ angular.module('arachne.services', [])
 						}
 					});
 
-					modalInstance.close = function(label, text){
+					updateEntry.close = function(label, text){
 						if(text == undefined || text == ""){
 							alert("Kommentar setzen!")
 						} else {
-							modalInstance.dismiss();
+							updateEntry.dismiss();
 							// Achtung, im Catalog-Objekt sind noch Attribute, wie title oder thumbnailId hinzugefügt worden.
 							// Hier duerfen aber nur die drei attribute id, arachneEntityId, commenatry übergeben werden, sonst nimmt es das Backend nicht an
 							return arachneDataService.updateEntry(
@@ -666,16 +683,16 @@ angular.module('arachne.services', [])
 					}
 				},
 				createEntry : function(CatalogId, EntryId, successMethod, errorMethod) {
-					var modalInstance = $modal.open({
+					var createEntry = $modal.open({
 						templateUrl: 'partials/Modals/createEntry.html'
 					});	
 
-					modalInstance.close = function(label, text, ArachneId){
+					createEntry.close = function(label, text, ArachneId){
 						text = typeof text !== 'undefined' ? text : "";
 						if(label == undefined || label == "") {
 							alert("Bitte Titel eintragen.")							
 						} else {
-							modalInstance.dismiss();
+							createEntry.dismiss();
 							var entry = {
 								'arachneEntityId' : ArachneId,
 								'label' : label,
