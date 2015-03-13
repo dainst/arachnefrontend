@@ -59,7 +59,7 @@
 			    	<div class="list-group-item">
 						<div class="btn-group pull-right">
 							<a type="button" class="btn btn-sm btn-link" ng-href="search/{{catalog.query.toString()}}"><span class="glyphicon glyphicon-search"></span></a>
-							<button type="button" class="btn btn-sm btn-link" ng-click="updateCatalog(catalog.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+							<button type="button" class="btn btn-sm btn-link" ng-click="updateEntry(catalog.root)"><span class="glyphicon glyphicon-pencil"></span></button>
 							<button type="button" class="btn btn-sm btn-link" ng-click="deleteCatalog(catalog.id)"><span class="glyphicon glyphicon-trash"></span></button>
 						</div>
 			    		<div ng-if="catalog.author">Author: {{ catalog.author }} </div>
