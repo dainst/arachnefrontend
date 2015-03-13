@@ -13,8 +13,7 @@ angular.module('arachne.widgets.controllers', [])
 
             var heading = {
                 target: arachneSettings.serverUri + $location.path() + "#" + headingID,
-                text: headings[i].innerHTML,
-                hierarchy: headings[i].nodeName
+                text: headings[i].innerHTML
             };
 
             $scope.toc.push(heading);

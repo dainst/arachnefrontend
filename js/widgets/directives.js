@@ -52,7 +52,7 @@ angular.module('arachne.widgets.directives', [])
     .directive('con10tToc', function() {
         return {
             restrict: 'E',
-            templateUrl: 'partials/widgets/ar-table-of-contents.html'
+            templateUrl: 'partials/widgets/con10t-toc.html'
         };
     })
 ;
