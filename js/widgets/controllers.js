@@ -18,5 +18,11 @@ angular.module('arachne.widgets.controllers', [])
 
             $scope.toc.push(heading);
         }
+
+        var tocElement = document.querySelector("con10t-toc");
+        console.log(tocElement.getAttribute('toc-heading'));
+        $scope.tocHeading = tocElement.getAttribute('toc-heading');
+
+        var contentElement = tocElement.previousSibling;
     }])
 ;

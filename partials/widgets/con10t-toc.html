@@ -1,5 +1,9 @@
 <div ng-controller="TocController">
-    <ul class='project-toc list-unstyled' ng-repeat='heading in toc'>
 
-        <a ng-href='{{heading.target}}'>{{heading.text}}</a></ul>
+        <div class="toc-heading">{{tocHeading}}</div>
+
+        <li ng-repeat='heading in toc'>
+            <a ng-href='{{heading.target}}'>{{heading.text}}</a>
+        </li>
+    </div>
 </div>
