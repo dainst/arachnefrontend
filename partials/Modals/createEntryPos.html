@@ -1,6 +1,6 @@
 <script type="text/ng-template" id="entry_template.html">
 
-	<button class="btn btn-link pull-right" type="submit" ng-click="$close(catalog.id, 0)">
+	<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.path, $index)">
     	<span class="glyphicon glyphicon-plus">
     </button>
     [{{$index}}] 
@@ -9,12 +9,12 @@
 		<accordion-group heading="{{ entry.label }}">
 	    	<div ng-if="entry.children.length == 0"  class="list-group-item clearfix">
 	    		In diesem Entry sind noch keine Entries vorhanden.
-	    		<button class="btn btn-link pull-right" type="submit" ng-click="$close(0, entry.id)"><span class="glyphicon glyphicon-plus"></span></button>
+	    		<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.id,null)"><span class="glyphicon glyphicon-plus"></span></button>
 	    	</div>
 	    	<div ng-if="entry.children.length != 0" >
 		    	<div ng-repeat="entry in entry.children" ng-include="'entry_template.html'">
 		    	</div>
-		    	<button class="btn btn-link pull-right" type="submit" ng-click="$close(0, entry.id)"><span class="glyphicon glyphicon-plus"></span></button>
+		    	<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.id,null)"><span class="glyphicon glyphicon-plus"></span></button>
 		    </div>
 		</accordion-group>
 		</accordion>
@@ -33,16 +33,16 @@
 		<div id="custom-catalog">
 			<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
 				<accordion-group>
-					<accordion-heading>{{ catalog.label }}</accordion-heading>
-			    	<div class="col-md-12" ng-if="catalog.catalogEntries.length == 0" >
+					<accordion-heading>{{ catalog.root.label }}</accordion-heading>
+			    	<div class="col-md-12" ng-if="catalog.root.children.length == 0" >
 			    		<br>
 			    		In diesem Catalog sind noch keine Entries vorhanden.
 			    	</div>
-			    	<div class="row" ng-if="catalog.catalogEntries.length != 0">
-				    	<div class="col-md-12" ng-repeat="entry in catalog.catalogEntries" ng-include="'entry_template.html'">
+			    	<div class="row" ng-if="catalog.root.children.length != 0">
+				    	<div class="col-md-12" ng-repeat="entry in catalog.root.children" ng-include="'entry_template.html'">
 				    	</div>
 				    </div>
-				    <button class="btn btn-link pull-right" type="submit" ng-click="$close(catalog.id, 0)">
+				    <button class="btn btn-link pull-right" type="submit" ng-click="$close(catalog.root.id,null)">
 				    	<span class="glyphicon glyphicon-plus">
 				    </button>
 		    	</accordion-group>

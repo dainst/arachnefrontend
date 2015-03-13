@@ -502,7 +502,7 @@ angular.module('arachne.services', [])
 				updateEntry: {
 					url: arachneSettings.dataserviceUri + '/catalogentry/:id',
 					isArray: false,
-					method: 'POST',
+					method: 'PUT',
 					headers: {'Content-Type': 'application/json'}
 				},
 				createCatalogEntry: {
@@ -533,60 +533,6 @@ angular.module('arachne.services', [])
 						return arachneDataService.getEntityInformation(hash, successMethod, catchError);
 					};
 				},
-				createEntityEntry : function(arachneId, catalogs, label, successMethod, errorMethod)
-				{
-					var createEntryPos = $modal.open({
-						templateUrl: 'partials/Modals/createEntryPos.html',
-						controller : function ($scope) { $scope.catalogs = catalogs },
-						resolve: {
-					        'catalogs': function () {
-					            return catalogs;
-					        }
-						}
-					});
-
-					createEntryPos.close = function(catalogId, entryId, pos){
-						createEntryPos.dismiss();
-
-						console.log("catalog ID: ");
-						console.log(catalogId);
-						console.log("Entry ID: ");
-						console.log(entryId);
-
-						var createEntry = $modal.open({
-							templateUrl: 'partials/Modals/createEntry.html',
-							controller : function ($scope) { $scope.label = label },
-							resolve: {
-						        'label': function () {
-						            return label;
-						        }
-							}
-						});
-
-						createEntry.close = function(label, text){
-							text = typeof text !== 'undefined' ? text : "";
-							if(label == undefined || label == "") {
-								alert("Bitte Titel eintragen.")							
-							} else {
-								createEntry.dismiss();
-								var entry = {
-									'catalogId' : catalogId,
-									'parentId' : entryId,
-									'arachneEntityId' : arachneId,
-									'label' : label,
-									'text' : text,
-									'path' : ""
-								}
-								console.log(entry);
-
-								//if(catalogId != 0)
-								//	return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
-								//else
-									return arachneDataService.createEntryEntry({ "id": EntryId}, entry, successMethod,errorMethod);
-							}
-						}
-					}	
-				},
 				// --- Demnaechst vom Backend geloest
 				//queryListsForEntityId : function(entityID){
 				getCatalog : function(id, successMethod, errorMethod){
@@ -610,13 +556,16 @@ angular.module('arachne.services', [])
 						if(label == undefined || label == "") {
 							alert("Bitte Titel eintragen.")							
 						} else {
+							var root = {
+								'label' : label,
+								'text' : text,
+								'children' : []
+							}
 							createCatalog.dismiss();
 							var catalog = {
-								'label' : label,
 								'author' : author,
-								'text' : text,
 								'public' : false,
-								'catalogHeadings' : []
+								'root' : root
 							}
 							return arachneDataService.createCatalog(catalog, successMethod, errorMethod);
 						}
@@ -698,15 +647,17 @@ angular.module('arachne.services', [])
 						}
 					});
 
-					createEntryPos.close = function(catalogId, entryId, pos){
-						createEntryPos.dismiss();
-
-						console.log("catalog ID: ");
-						console.log(catalogId);
-						console.log("Entry ID: ");
+					createEntryPos.close = function(entryId, pos){
+						if(pos != null)
+						{
+							var buffer = entryId.split("/");
+							entryId = buffer[buffer.length-2];
+						}
+						
 						console.log(entryId);
-						console.log("Pos: ");
 						console.log(pos);
+						pos  =  pos.toString();
+						createEntryPos.dismiss();
 
 						var createEntry = $modal.open({
 							templateUrl: 'partials/Modals/createEntry.html',
@@ -725,21 +676,16 @@ angular.module('arachne.services', [])
 							} else {
 								createEntry.dismiss();
 								var entry = {
-									'catalogId' : catalogId,
 									'parentId' : entryId,
 									'arachneEntityId' : arachneId,
 									'label' : label,
 									'text' : text,
-									'pos' : pos,
+									'indexParent' : pos,
 									'path' : ""
 								}
 								console.log(entry);
 
-								// Entrys nur noch ueber Entries 
-								//if(catalogId != 0)
-								//	return arachneDataService.createCatalogEntry({ "id": catalogId}, entry, successMethod,errorMethod);
-								//else
-								return arachneDataService.createEntry({ "id": EntryId}, entry, successMethod,errorMethod);
+								return arachneDataService.createEntry({ "id": entryId}, entry, successMethod,errorMethod);
 							}
 						}
 					}			

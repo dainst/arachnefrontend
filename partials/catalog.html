@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="entry_template.html">
+<script type="text/ng-template" id="entry_catalog_template.html">
 	
 	<br>	
 	<div id="custom-entry">
@@ -15,20 +15,21 @@
 		    		</div>
 		    		<div class="media-body">
 		    			<a class="media-heading" ng-if="entry.arachneEntityId" href="entity/{{ entry.arachneEntityId }}">ArachneId: {{ entry.arachneEntityId }} </a><br>
-		    			<small ng-if="entry.text">Kommentar: <br> {{ entry.text }}</small>
+		    			<small ng-if="entry.text">Kommentar: <br> {{ entry.text }}</small><br>
+		    			<small ng-if="entry.text">id: <br> {{ entry.id }}</small>
 		    		</div>
 		    	</div>
 		    </div>
 	    	<div ng-if="entry.children.length == 0"  class="list-group-item clearfix">
 	    		In diesem Entry sind noch keine Entries vorhanden.
-	    		<button type="button" class="btn btn-link pull-right" ng-click="createEntry(0, entry.id)">
+	    		<button type="button" class="btn btn-link pull-right" ng-click="createEntry(entry.id)">
 					<span class="glyphicon glyphicon-plus"></span> Neuen Entry  
 				</button>
 	    	</div>
 	    	<div ng-if="entry.children.length != 0" >
-		    	<div ng-repeat="entry in entry.children" ng-include="'entry_template.html'">
+		    	<div ng-repeat="entry in entry.children" ng-include="'entry_catalog_template.html'">
 		    	</div>
-		    	<button type="button" class="btn btn-link pull-right" ng-click="createEntry(0, entry.id)">
+		    	<button type="button" class="btn btn-link pull-right" ng-click="createEntry(entry.id)">
 					<span class="glyphicon glyphicon-plus"></span> Neuen Entry  
 				</button>
 		    </div>
@@ -54,7 +55,7 @@
 		<div id="custom-catalog">
 			<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
 				<accordion-group>
-					<accordion-heading>{{ catalog.label }}</accordion-heading>
+					<accordion-heading>{{ catalog.root.label }}</accordion-heading>
 			    	<div class="list-group-item">
 						<div class="btn-group pull-right">
 							<a type="button" class="btn btn-sm btn-link" ng-href="search/{{catalog.query.toString()}}"><span class="glyphicon glyphicon-search"></span></a>
@@ -62,18 +63,18 @@
 							<button type="button" class="btn btn-sm btn-link" ng-click="deleteCatalog(catalog.id)"><span class="glyphicon glyphicon-trash"></span></button>
 						</div>
 			    		<div ng-if="catalog.author">Author: {{ catalog.author }} </div>
-			    		<small ng-if="catalog.text">Kommentar: <br> {{ catalog.text }}</small>
+			    		<small ng-if="catalog.root.text">Kommentar: <br> {{ catalog.root.text }}</small>
 			    		
 			    	</div>
-			    	<div class="col-md-12" ng-if="catalog.catalogEntries.length == 0" >
+			    	<div class="col-md-12" ng-if="catalog.root.chidlren.length == 0" >
 			    		<br>
 			    		In diesem Catalog sind noch keine Entries vorhanden.
 			    	</div>
 			    	<div class="row" ng-if="catalog.catalogEntries.length != 0">
-				    	<div class="col-md-12" ng-repeat="entry in catalog.catalogEntries" ng-include="'entry_template.html'">
+				    	<div class="col-md-12" ng-repeat="entry in catalog.root.children" ng-include="'entry_catalog_template.html'">
 				    	</div>
 				    </div>
-				    <button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.id, 0)">
+				    <button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.root.id)">
 						<span class="glyphicon glyphicon-plus"></span> Neuen Entry 
 					</button>
 		    	</accordion-group>
