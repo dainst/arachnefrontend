@@ -27,12 +27,12 @@ h6 { font-size: 12px; }
     border-color: #337ab7;
 }
 
-#custom-Entry .panel-heading {
+#custom-entry .panel-heading {
     background-color: #f5f5f5 !important;
     color: #333;
 }
 
-#custom-Entry .panel-default {
+#custom-entry .panel-default {
     border-color: #ddd;
 }
 

@@ -39,18 +39,18 @@
 </script>
 <div ng-controller="CatalogController as catalogController">
 	<div  ng-if="!user.username" class="col-md-12 text-right alert alert-info">
-		Für Catalogs bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
+		Für Kataloge bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 	</div>
 	<div class="col-md-8 col-md-offset-2" ng-if="user.username">
 		<div class="page-header">
 			<button type="button" class="btn btn-link pull-right" ng-click="createCatalog()">
-				<span class="glyphicon glyphicon-plus"></span> Neuen Catalog 
+				<span class="glyphicon glyphicon-plus"></span> Neuen Katalog 
 			</button>
-			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Catalogs</h3>
+			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Kataloge</h3>
 		</div>
 
 		<div ng-if="catalogs.length == 0">
-			Keine Catalogs vorhanden.
+			Keine Kataloge vorhanden.
 		</div>
 		<div id="custom-catalog">
 			<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
@@ -68,7 +68,7 @@
 			    	</div>
 			    	<div class="col-md-12" ng-if="catalog.root.chidlren.length == 0" >
 			    		<br>
-			    		In diesem Catalog sind noch keine Entries vorhanden.
+			    		In diesem Katalog sind noch keine Entries vorhanden.
 			    	</div>
 			    	<div class="row" ng-if="catalog.catalogEntries.length != 0">
 				    	<div class="col-md-12" ng-repeat="entry in catalog.root.children" ng-include="'entry_catalog_template.html'">
