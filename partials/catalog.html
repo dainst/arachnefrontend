@@ -21,16 +21,16 @@
 		    	</div>
 		    </div>
 	    	<div ng-if="entry.children.length == 0"  class="list-group-item clearfix">
-	    		In diesem Entry sind noch keine Entries vorhanden.
+	    		In diesem Eintrag sind noch keine Einträge vorhanden.
 	    		<button type="button" class="btn btn-link pull-right" ng-click="createEntry(entry.id)">
-					<span class="glyphicon glyphicon-plus"></span> Neuen Entry  
+					<span class="glyphicon glyphicon-plus"></span> Neuen Eintrag  
 				</button>
 	    	</div>
 	    	<div ng-if="entry.children.length != 0" >
 		    	<div ng-repeat="entry in entry.children" ng-include="'entry_catalog_template.html'">
 		    	</div>
 		    	<button type="button" class="btn btn-link pull-right" ng-click="createEntry(entry.id)">
-					<span class="glyphicon glyphicon-plus"></span> Neuen Entry  
+					<span class="glyphicon glyphicon-plus"></span> Neuen Eintrag  
 				</button>
 		    </div>
 		</accordion-group>
@@ -68,14 +68,14 @@
 			    	</div>
 			    	<div class="col-md-12" ng-if="catalog.root.chidlren.length == 0" >
 			    		<br>
-			    		In diesem Katalog sind noch keine Entries vorhanden.
+			    		In diesem Katalog sind noch keine Einträge vorhanden.
 			    	</div>
 			    	<div class="row" ng-if="catalog.catalogEntries.length != 0">
 				    	<div class="col-md-12" ng-repeat="entry in catalog.root.children" ng-include="'entry_catalog_template.html'">
 				    	</div>
 				    </div>
 				    <button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.root.id)">
-						<span class="glyphicon glyphicon-plus"></span> Neuen Entry 
+						<span class="glyphicon glyphicon-plus"></span> Neuen Eintrag 
 					</button>
 		    	</accordion-group>
 		  	</accordion>
