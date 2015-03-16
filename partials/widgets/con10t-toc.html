@@ -1,5 +1,7 @@
 <div ng-controller="TocController">
-    <ul class='project-toc list-unstyled' ng-repeat='heading in toc'>
-
-        <a ng-href='{{heading.target}}'>{{heading.text}}</a></ul>
+        <div class="con10t-toc-heading">{{tocHeading}}</div>
+        <div class="{{heading.depth}}" ng-repeat='heading in toc'>
+            <a ng-click="scrollTo(heading.target)">{{heading.text}}</a>
+        </div>
+    </div>
 </div>
