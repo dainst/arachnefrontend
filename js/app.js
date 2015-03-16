@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('arachne',
-	['ui.bootstrap',
-	'ui.utils',
+angular.module('arachne',[
+    'ui.bootstrap',
+    'ui.utils',
 	'ngRoute',
 	'ngSanitize',
 	'ngResource',
@@ -12,8 +12,9 @@ angular.module('arachne',
 	'arachne.filters',
 	'arachne.services',
 	'arachne.directives',
-	'arachne.widgets',
 	'arachne.controllers',
+    'arachne.widgets.directives',
+    'arachne.widgets.controllers',
 ])
 .config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
 	$locationProvider.html5Mode(true);
