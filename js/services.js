@@ -289,7 +289,6 @@ angular.module('arachne.services', [])
 						interceptor: {
 							response: function(response) {
 								var data = response.data;
-								console.log(data);
 								if(data) {
 									var properties = {};
 									if (window.DOMParser) {
@@ -512,7 +511,7 @@ angular.module('arachne.services', [])
 					headers: {'Content-Type': 'application/json'}
 				},
 				createEntry: {
-					url :  arachneSettings.dataserviceUri + '/catalogentry/:id/add',
+					url :  arachneSettings.dataserviceUri + '/catalogentry',
 					isArray: false,
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'}
@@ -648,15 +647,11 @@ angular.module('arachne.services', [])
 					});
 
 					createEntryPos.close = function(entryId, pos){
-						if(pos != null)
+						if(pos != 999)
 						{
 							var buffer = entryId.split("/");
 							entryId = buffer[buffer.length-2];
 						}
-						
-						console.log(entryId);
-						console.log(pos);
-						pos  =  pos.toString();
 						createEntryPos.dismiss();
 
 						var createEntry = $modal.open({
@@ -683,9 +678,8 @@ angular.module('arachne.services', [])
 									'indexParent' : pos,
 									'path' : ""
 								}
-								console.log(entry);
 
-								return arachneDataService.createEntry({ "id": entryId}, entry, successMethod,errorMethod);
+								return arachneDataService.createEntry(entry, successMethod,errorMethod);
 							}
 						}
 					}			

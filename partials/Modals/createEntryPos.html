@@ -3,18 +3,17 @@
 	<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.path, $index)">
     	<span class="glyphicon glyphicon-plus">
     </button>
-    [{{$index}}] 
 	<div id="custom-entry">
 		<accordion class="accordion-with-list col-md-11 col-md-offset-1" >
 		<accordion-group heading="{{ entry.label }}">
 	    	<div ng-if="entry.children.length == 0"  class="list-group-item clearfix">
 	    		In diesem Eintrag sind noch keine Einträge vorhanden.
-	    		<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.id,null)"><span class="glyphicon glyphicon-plus"></span></button>
+	    		<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.id,999)"><span class="glyphicon glyphicon-plus"></span></button>
 	    	</div>
 	    	<div ng-if="entry.children.length != 0" >
 		    	<div ng-repeat="entry in entry.children" ng-include="'entry_template.html'">
 		    	</div>
-		    	<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.id,null)"><span class="glyphicon glyphicon-plus"></span></button>
+		    	<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.id,999)"><span class="glyphicon glyphicon-plus"></span></button>
 		    </div>
 		</accordion-group>
 		</accordion>
@@ -42,7 +41,7 @@
 				    	<div class="col-md-12" ng-repeat="entry in catalog.root.children" ng-include="'entry_template.html'">
 				    	</div>
 				    </div>
-				    <button class="btn btn-link pull-right" type="submit" ng-click="$close(catalog.root.id,null)">
+				    <button class="btn btn-link pull-right" type="submit" ng-click="$close(catalog.root.id, 999)">
 				    	<span class="glyphicon glyphicon-plus">
 				    </button>
 		    	</accordion-group>

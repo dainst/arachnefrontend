@@ -308,7 +308,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});	
 
 			createEntryId.close = function(arachneId){
-				console.log(arachneId);
 
 				Entity.get({id:arachneId}, function(data) {
 					$scope.entity = data;
@@ -341,7 +340,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var Catalog;
 			catalogService.getCatalog(CatalogId, function(data){
 				Catalog = data;
-				console.log(Catalog);
 				catalogService.updateCatalog(Catalog, function(data){
 					$scope.refreshCatalogs();
 				});
