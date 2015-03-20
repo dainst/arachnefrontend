@@ -488,7 +488,8 @@ angular.module('arachne.directives', [])
 		restrict: 'A',
 		scope: {
 			mapfacet: '=',
-			currentQuery: '='
+			currentQuery: '=',
+			overlays: '='
 		},
 		link: function(scope, element, attrs) {
 
@@ -548,17 +549,39 @@ angular.module('arachne.directives', [])
 			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
 			var markerClusterGroup = null;
 
+			//additional layers that have been added to the map
+			var addedOverlays = {};
+
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 				maxZoom: 18
 			});
 			map.addLayer(layer);	
 			L.Icon.Default.imagePath = 'img';
 
+			// add overlays or remove them if they already exist
+			// TODO created overlays can be cached and needn't be destroyed and recreated
+			scope.$watch('overlays', function() {
+				for (var key in addedOverlays) {
+					map.removeLayer(addedOverlays[key]);
+					delete addedOverlays[key];
+				}
+
+				for (var key in scope.overlays) {
+					var overlay = scope.overlays[key];
+
+					if (overlay && overlay.type == 'wms') {
+						var wms = L.tileLayer.wms(overlay.url, overlay.layerOptions);
+						map.addLayer(wms);
+						addedOverlays[key] = wms;
+					}
+				}
+			}, true);
+
 			selectFacetsAndCreateMarkers();
 
 		}
 	};
-	}])	
+	}])
 	.directive('zoomifyimg', ['arachneSettings', '$http', function(arachneSettings, $http) {
 		return {
 			restrict: 'A',
