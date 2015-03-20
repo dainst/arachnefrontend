@@ -1,0 +1,24 @@
+<form>
+	<div class="modal-header">
+		<h4 class="modal-title">Neuen Katalog anlegen:
+		</h4>
+	</div>
+	<div class="modal-body">
+		Überschrift des neuen Katalogs:
+		<div class="form-group">
+			<input autofocus type="label" class="form-control" ng-model="label" placeholder="Überschrift">
+		</div>
+		Autor:
+		<div class="form-group">
+			<textarea type="author" class="form-control" ng-model="author" placeholder="Autor"></textarea>
+		</div>
+		Beschreibung:
+		<div class="form-group">
+			<textarea type="text" class="form-control" ng-model="text" placeholder="Beschreibung"></textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+    	<input class="btn btn-primary" type="submit" ng-click="$close(label, text, author)" value="OK">
+    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+	</div>
+</form>

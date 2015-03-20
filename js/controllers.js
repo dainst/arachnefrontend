@@ -199,8 +199,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query', 'messageService',
-	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, noteService, authService, categoryService, Query, messageService) {
+.controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'catalogService', 'authService', 'categoryService', 'Query', 'messageService',
+	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, catalogService, authService, categoryService, Query, messageService) {
 
 		$rootScope.hideFooter = false;
 		
@@ -217,25 +217,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.url(path);
 		};
 
-		$scope.queryBookmarkListsForEntityId = function(){
-			$scope.bookmarklists = noteService.queryBookmarListsForEntityId($routeParams.id);
-		}
+		$scope.catalogs = [];
+		$scope.catalogs = catalogService.getCatalogs();
 
-		$scope.updateBookmark = function(bookmark){
-			noteService.updateBookmark(bookmark, function(data){
-				$scope.queryBookmarkListsForEntityId();
-			});					
-		}
-
-		$scope.deleteBookmark = function(bookmarkId){
-			noteService.deleteBookmark(bookmarkId, function(data){
-				$scope.queryBookmarkListsForEntityId();
-			});	
-		}
-
-		$scope.createBookmark = function(){
-			noteService.createBookmark($routeParams.id, function(data){
-				$scope.queryBookmarkListsForEntityId();
+		$scope.createEntry = function(){
+			$scope.catalogs = catalogService.getCatalogs();
+			catalogService.createEntry($routeParams.id, $scope.catalogs, $scope.entity.title, function(data){
 			});			
 		}
 
@@ -272,8 +259,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.contextQuery.label = "Mit " + $routeParams.id + " verknüpfte Objekte";
 			$scope.contextQuery.q = "connectedEntities:" + $routeParams.id;
 			$scope.contextQuery.limit = 0;
-			
-			$scope.isBookmark = false;
 
 			if ($scope.currentQuery.hasOwnProperty('resultIndex')) {
 				
@@ -301,119 +286,78 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CreateBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 'messageService',
-	function($scope, $modalInstance, noteService, messageService) {
-	
-		$scope.items = [];
-		$scope.selected = {};
-		$scope.commentary = "";
-
-		noteService.getBookmarksLists(
-			function(data){
-				$scope.items = data;
-				$scope.selected = $scope.items[0];
-			}, function(status){
-				messageService.addMessageForCode('note_' + response.status);
-			}
-		);
-
-	}
-])
-.controller('UpdateBookmarkCtrl', ['$scope', '$modalInstance', 'noteService', 'bookmark',
-	function($scope, $modalInstance, noteService, bookmark) {
-	  $scope.bookmark = bookmark;
-	}
-])
-.controller('BookmarksController',['$rootScope', '$scope', '$modal', 'authService', 'noteService','arachneSettings', 'Query', '$filter',
-	function ($rootScope, $scope, $modal, authService, noteService, arachneSettings, Query, $filter) {
+.controller('CatalogController',['$rootScope', '$scope', '$modal', 'authService', 'catalogService','arachneSettings', 'Query', 'Entity', '$filter',
+	function ($rootScope, $scope, $modal, authService, catalogService, arachneSettings, Query, Entity, $filter) {
 
 		$rootScope.hideFooter = false;
 
-		$scope.bookmarksLists = [];
+		$scope.catalogs = [];
 		$scope.user = authService.getUser();
 		$scope.dataserviceUri = arachneSettings.dataserviceUri;
 
-		var orderBy = $filter('orderBy');
-		$scope.sort = 'id';
-
-		$scope.getBookmarkInfo = function(){
-			noteService.getBookmarkInfo($scope.bookmarksLists,
-				function(data){
-					for(var x in $scope.bookmarksLists){					//durchlaue Bookmarks
-						var entityIDs = [];
-						for(var y in $scope.bookmarksLists[x].bookmarks){
-							for(var z in data.entities){						//sortiere entity infos in die bookmarks ein
-								if($scope.bookmarksLists[x].bookmarks[y].arachneEntityId == data.entities[z].entityId)
-								{
-									$scope.bookmarksLists[x].bookmarks[y].title = data.entities[z].title;
-									$scope.bookmarksLists[x].bookmarks[y].type = data.entities[z].type;
-									$scope.bookmarksLists[x].bookmarks[y].thumbnailId = data.entities[z].thumbnailId;
-									entityIDs.push(data.entities[z].entityId);
-								}
-							}
-						}
-						if ($scope.bookmarksLists[x].hasOwnProperty('bookmarks')) {
-							$scope.bookmarksLists[x].query = new Query().setParam('q', "entityId:(" + entityIDs.join(" OR ") + ")");
-							$scope.bookmarksLists[x].query.label = "Notizbuch '" + $scope.bookmarksLists[x].name + "'";
-						}
-						$scope.order = function(predicate, reverse){
-							$scope.bookmarksLists[x].bookmarks = orderBy($scope.bookmarksLists[x].bookmarks, predicate, reverse);
-						};
-						$scope.order($scope.sort,false);
-					}
-				}
-			);
+		$scope.refreshCatalogs = function(){
+			$scope.catalogs = catalogService.getCatalogs();
 		}
 
-		$scope.refreshBookmarkLists = function(){
-			$scope.bookmarksLists = noteService.getBookmarksLists(
-				function(){ $scope.getBookmarkInfo(); }
-			);
-		}
-
-		$scope.sortList = function(attr){
-			$scope.sort = attr;
-			$scope.refreshBookmarkLists();
-		}
-
-		$scope.refreshBookmarkLists();
+		$scope.refreshCatalogs();
 		
-		$scope.deleteBookmark = function(bookmark){
-			noteService.deleteBookmark(bookmark.id,
+		$scope.createEntry = function(){
+			var label;
+			var createEntryId = $modal.open({
+				templateUrl: 'partials/Modals/createEntryId.html'
+			});	
+
+			createEntryId.close = function(arachneId){
+
+				Entity.get({id:arachneId}, function(data) {
+					$scope.entity = data;
+					label = $scope.entity.title;
+					createEntryId.dismiss();
+					catalogService.createEntry(arachneId, $scope.catalogs, label, function(data){ 
+						$scope.refreshCatalogs();
+					});
+
+				}, function(response) {
+					console.log("error get Entity");
+					alert("Falsche Id!");	
+				});
+			}
+		}
+		$scope.deleteEntry = function(entry){
+			catalogService.deleteEntry(entry.id,
 				function(data){
-					$scope.refreshBookmarkLists();
+					$scope.refreshCatalogs();
 				});
 		}
 
-		$scope.updateBookmark = function(bookmark){
-			noteService.updateBookmark(bookmark, function(data){
-				$scope.refreshBookmarkLists();
+		$scope.updateEntry = function(entry){
+			catalogService.updateEntry(entry, function(data){
+				$scope.refreshCatalogs();
 			});
 		}
 
-		$scope.updateBookmarksList = function(listId){
-			var bookmarksList;
-			noteService.getBookmarksList(listId, function(data){
-				bookmarksList = data;
-				noteService.updateBookmarksList(bookmarksList, function(data){
-					$scope.refreshBookmarkLists();
+		$scope.updateCatalog = function(CatalogId){
+			var Catalog;
+			catalogService.getCatalog(CatalogId, function(data){
+				Catalog = data;
+				catalogService.updateCatalog(Catalog, function(data){
+					$scope.refreshCatalogs();
 				});
 			});
 		}
 
-		$scope.createBookmarksList = function(){
-			noteService.createBookmarksList(function(response){
-				$scope.bookmarksLists.push($scope.refreshBookmarkLists());
+		$scope.createCatalog = function(){
+			catalogService.createCatalog(function(response){
+				$scope.catalogs.push(response);
 			});
 		}
 
-		$scope.deleteBookmarksList = function(id){
-			noteService.deleteBookmarksList(id,
+		$scope.deleteCatalog = function(CatalogId){
+			catalogService.deleteCatalog(CatalogId,
 				function(data){
 					// console.log("deleted List" + data);
-					$scope.refreshBookmarkLists();
+					$scope.refreshCatalogs();
 				});
-			
 		}
 
 	}

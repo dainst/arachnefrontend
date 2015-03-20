@@ -117,30 +117,10 @@
     	</div>
 
 		<!-- NOTES -->
-		<div ng-if="user.username" ng-init="queryBookmarkListsForEntityId()">
-			<h5 class="text-muted uppercase"><strong>Notizen</strong></h5>
-			<div ng-repeat="bookmarklist in bookmarklists">
-				<div ng-repeat="bookmark in bookmarklist.bookmarks" class="panel panel-info">
-					<div class="panel-heading">
-						In Notizbuch: <b>{{ bookmarklist.name }}</b>
-						<div class="btn-group pull-right">
-							<button class="btn btn-sm btn-link" ng-click="updateBookmark(bookmark)">
-								<span class="glyphicon glyphicon-pencil"></span>
-							</button>
-							<button class="btn btn-sm btn-link" ng-click="deleteBookmark(bookmark.id)">
-								<span class="glyphicon glyphicon-trash"></span>
-							</button>
-							
-						</div>
-					</div>
-					<div class="panel-body small">
-						<small ng-if="bookmark.commentary">Kommentar:<br></small>
-						{{ bookmark.commentary }}
-					</div>
-				</div>
-			</div>
-			<button type="button" class="btn btn-default btn-sm" ng-click="createBookmark()">
-				<span class="glyphicon glyphicon-pushpin"></span> Notiz anlegen
+		<div ng-if="user.username">
+			<h5 class="text-muted uppercase"><strong>Kataloge</strong></h5>
+			<button type="button" class="btn btn-default btn-sm" ng-click="createEntry()">
+				<span class="glyphicon glyphicon-pushpin"></span> Eintrag anlegen
 			</button>
 		</div>
 		<!-- END NOTES -->

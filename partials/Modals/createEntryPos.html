@@ -1,0 +1,54 @@
+<script type="text/ng-template" id="entry_template.html">
+
+	<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.path, $index)">
+    	<span class="glyphicon glyphicon-plus">
+    </button>
+	<div id="custom-entry">
+		<accordion class="accordion-with-list col-md-11 col-md-offset-1" >
+		<accordion-group heading="{{ entry.label }}">
+	    	<div ng-if="entry.children.length == 0"  class="list-group-item clearfix">
+	    		In diesem Eintrag sind noch keine Einträge vorhanden.
+	    		<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.id,999)"><span class="glyphicon glyphicon-plus"></span></button>
+	    	</div>
+	    	<div ng-if="entry.children.length != 0" >
+		    	<div ng-repeat="entry in entry.children" ng-include="'entry_template.html'">
+		    	</div>
+		    	<button class="btn btn-link pull-right" type="submit" ng-click="$close(entry.id,999)"><span class="glyphicon glyphicon-plus"></span></button>
+		    </div>
+		</accordion-group>
+		</accordion>
+	</div>
+</script>
+<form>
+	<div class="modal-header">
+		<h4 class="modal-title">Bitte Position des Eintrags wählen:
+		</h4>
+	</div>
+	<div class="modal-body">
+		
+		<div ng-if="catalogs.length == 0">
+			Keine Kataloge vorhanden.
+		</div>
+		<div id="custom-catalog">
+			<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
+				<accordion-group>
+					<accordion-heading>{{ catalog.root.label }}</accordion-heading>
+			    	<div class="col-md-12" ng-if="catalog.root.children.length == 0" >
+			    		<br>
+			    		In diesem Katalog sind noch keine Einträge vorhanden.
+			    	</div>
+			    	<div class="row" ng-if="catalog.root.children.length != 0">
+				    	<div class="col-md-12" ng-repeat="entry in catalog.root.children" ng-include="'entry_template.html'">
+				    	</div>
+				    </div>
+				    <button class="btn btn-link pull-right" type="submit" ng-click="$close(catalog.root.id, 999)">
+				    	<span class="glyphicon glyphicon-plus">
+				    </button>
+		    	</accordion-group>
+		  	</accordion>
+	  	</div>
+	</div>
+	<div class="modal-footer">
+    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+	</div>
+</form>

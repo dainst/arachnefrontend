@@ -1,0 +1,22 @@
+<div class="modal-header">
+	<h4 class="modal-title">Katalog bearbeiten:
+	</h4>
+</div>
+<div class="modal-body">
+	Überschrift des Katalogs:
+	<div class="form-group">
+		<input type="label" class="form-control" ng-model="catalog.label" placeholder="Überschrift">
+	</div>
+	Author:
+	<div class="form-group">
+		<input type="text" class="form-control" ng-model="catalog.author" placeholder="Autor">
+	</div>
+	Beschreibung:
+	<div class="form-group">
+		<input type="text" class="form-control" ng-model="catalog.text" placeholder="Beschreibung">
+	</div>
+</div>
+<div class="modal-footer">
+    	<button class="btn btn-primary" ng-click="$close(catalog.label, text)">OK</button>
+    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+</div>

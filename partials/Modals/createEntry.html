@@ -1,0 +1,20 @@
+<form>
+	<div class="modal-header">
+		<h4 class="modal-title">Neuen Eintrag anlegen:
+		</h4>
+	</div>
+	<div class="modal-body">
+		Überschrift des neuen Eintrags:
+		<div class="form-group">
+			<input autofocus type="label" class="form-control" ng-model="label" placeholder="Überschrift">
+		</div>
+		Katalogtext:
+		<div class="form-group">
+			<textarea type="text" class="form-control" ng-model="text" placeholder="Katalogtext"></textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+    	<input class="btn btn-primary" type="submit" ng-click="$close(label, text)" value="OK">
+    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+	</div>
+</form>
