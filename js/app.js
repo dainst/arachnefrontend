@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('arachne',
-	['ui.bootstrap',
+	[
+	'ui.bootstrap',
 	'ui.utils',
 	'ngRoute',
 	'ngSanitize',
@@ -13,7 +14,7 @@ angular.module('arachne',
 	'arachne.services',
 	'arachne.directives',
 	'arachne.widgets',
-	'arachne.controllers',
+	'arachne.controllers'
 ])
 .config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
 	$locationProvider.html5Mode(true);
@@ -39,7 +40,6 @@ angular.module('arachne',
 		.when('/projects/:name', {templateUrl: function(name){ return 'con10t/de/' + name.name + '.html';}});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
-		//dataserviceUri: "http://lakota.archaeologie.uni-koeln.de/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie"],
 		sortableFields : ["entityId", "title", "subtitle"]

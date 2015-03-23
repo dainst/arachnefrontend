@@ -39,16 +39,31 @@
 	  	ga('create', 'UA-53342162-1', 'auto');
 	</script>
 
+	<script type="text/ng-template" id="field_renderer.html">
+		<div ng-if="menuItem.children">
+		<accordion>
+			<accordion-group heading="{{menuItem.title.de}}">
+				<div ng-repeat="menuItem in menuItem.children" ng-include="'field_renderer.html'"></div>
+	    	</accordion-group>
+	    </accordion>
+    	</div>
+    	<div ng-if="!menuItem.children">
+			<a href="projects/{{menuItem.id}}">{{menuItem.title.de}}</a>
+    	</div>
+	</script>
+
 </head>
-<body>
+<body ng-controller="NavBarCtrl">
 
 	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:white; opacity:0.89" role="navigation" ng-controller="MenuCtrl">
+		
 		<div class="col-md-3" style="padding-left:0px; position:relative">
 			<img class="pull-left" src="img/kleinergreif.png" style="height: 36px; margin-left: 16px; margin-top: 8px; width: 36px;"></img>
 			<img class="pull-left" src="img/arachnelogo.png" style="height: 36px; margin-left: 16px; margin-top: 8px; width: 36px;"></img>
 			<a class="navbar-brand" href="#" style="font-weight:300; font-size:20px; height:46px; margin-top: 4px;">arachne </a>
 			<div class="text-primary" style="font-size:12px; position:absolute; top:9px; left: 164px;">beta</div>
 		</div>
+
 		<div class="navbar-header" ng-init="isCollapsed = true">
 			<button class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" type="button">
 					<span class="sr-only">Toggle navigation</span>
@@ -57,7 +72,7 @@
 					<span class="icon-bar"></span>
 			</button>
 		</div>
-		<div class="collapse navbar-collapse"  collapse="isCollapsed" style="padding-left:10px">
+		<div class="collapse navbar-collapse"  collapse="isCollapsed" style="padding-left:5px">
 			
 			<form ng-controller="SearchFormCtrl"
 					ng-submit="search()"
@@ -107,10 +122,11 @@
 					Registrieren
 				</a>			
 			</div>
-
+			<ul class="nav navbar-nav pull-right" ng-repeat="item in topMenu">
+		    	<li><a href="projects/{{item.id}}">{{item.title.de}}</a></li>
+		    </ul>
 		</div>
 	</nav>
-
 
 	<div class="container-fluid">
 
@@ -126,8 +142,7 @@
 						<span ng-bind-html="message.body"></span>
 					</div>
 			</div>
-
-			<!-- VIEWS -->
+			<!-- VIEWS -->	
 			<div ng-cloak ng-view autoscroll="true"></div>
 
 		</div>
@@ -142,14 +157,16 @@
 				<p class="small">Copyright Arachne © 2014 | <a href="impressum">Impressum</a> | <a href="datenschutz">Datenschutz</a> | <a href="faq">FAQ</a> | Fehlermeldungen bitte an <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a></p>
 			</div>
 		</div>
-
 	</div>
+
 
 	<script src="lib/angular/angular.min.js"></script>
 	<script src="lib/angular/i18n/angular-locale_de-de.js"></script>
+
 	<script src="lib/ui-bootstrap-tpls-0.11.2.min.js"></script>	
 	<script src="lib/ui-utils.min.js"></script>	
-	
+
+
 	<script src="lib/leaflet.js"></script>
 	<script src="lib/leaflet.markercluster.js"></script>
 

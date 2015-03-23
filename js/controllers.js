@@ -3,6 +3,15 @@
 /* Controllers */
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
+.controller("NavBarCtrl",[ '$scope', 'con10tService', 
+	function ($scope, con10tService){
+		
+		$scope.topMenu = null;
+		con10tService.getTop().success(function(data){
+			$scope.topMenu = data;
+		});
+	}
+])
 .controller('MenuCtrl',	[ '$scope', '$modal', 'authService', '$location', '$route',
 	function ($scope,  $modal, authService, $location, $route) {
 
@@ -521,7 +530,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var projslides = $scope.projslides = [];
 			for(var key in projectsMenu) {
 				projslides.push({
-					image: "con10t/frontimages/" + projectsMenu[key].id + ".jpg",
+					image: "con10t/frontimages/" + projectsMenu[key].id + ".png",
 					title: projectsMenu[key].text
 				});
 			}
@@ -551,11 +560,24 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 ])
 
-.controller('ProjectsController', ['$scope', '$http', 'con10tService', function ($scope, $http, con10tService) {
-		$scope.projectsMenu = null;
-		con10tService.getMenu().success(function(data){
-			$scope.projectsMenu = data[1].children;
+.controller('ProjectsController', ['$scope', '$http', 'con10tService', 
+	function ($scope, $http, con10tService) {
+		$scope.projects = null;
+		$scope.layer2 = null;
+		$scope.layer3 = null;
+		
+		con10tService.getProjects().success(function(data){
+			$scope.projects = data[0].children;
+			console.log(data);
 		});
+		
+		$scope.setLayer2 = function(children){
+			$scope.layer2 = children;
+			$scope.layer3=null;
+		}
+		$scope.setLayer3 = function(children){
+			$scope.layer3 = children;
+		}
 	}
 ])
 
