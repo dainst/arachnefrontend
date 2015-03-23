@@ -1,8 +1,7 @@
 'use strict';
 
-/* Directives */
-angular.module('arachne.widgets', [])
-
+/* Widget directives */
+angular.module('arachne.widgets.directives', [])
 	.directive('con10tItem', function() {
 		return {
 			restrict: 'A',
@@ -50,4 +49,10 @@ angular.module('arachne.widgets', [])
 		}
 	})
 
+    .directive('con10tToc', function() {
+        return {
+            restrict: 'E',
+            templateUrl: 'partials/widgets/con10t-toc.html'
+        };
+    })
 ;

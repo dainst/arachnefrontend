@@ -568,7 +568,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		
 		con10tService.getProjects().success(function(data){
 			$scope.projects = data[0].children;
-			console.log(data);
 		});
 		
 		$scope.setLayer2 = function(children){
