@@ -185,6 +185,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					break;
 				}
 			}
+			$scope.loaded = true;
 		}, function(response) {
 			$scope.resultSize = 0;
 			$scope.error = true;
@@ -199,11 +200,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.go = function(path) {
 			$location.url(path);
 		};
-
-		$scope.toggleOverlay = function(key) {
-			var selected = $scope.selectedOverlays;
-			selected[key] = (selected[key]) ? null : $scope.overlays[key];
-		}
 
 	}
 ])

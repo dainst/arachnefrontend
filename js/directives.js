@@ -582,6 +582,37 @@ angular.module('arachne.directives', [])
 		}
 	};
 	}])
+
+	.directive('arMapMenu', ['$location', function($location) {
+	return {
+		restrict: 'A',
+		scope: {
+			route: '@',
+			resultSize: '=',
+			facetLimit: '=',
+			mapfacet: '=',
+			mapfacetNames: '=',
+			currentQuery: '=',
+			facets: '=',
+			overlays: '=',
+			selectedOverlays: '='
+		},
+		templateUrl: 'partials/directives/ar-map-menu.html',
+		link: function(scope, element, attrs) {
+			scope.q = scope.currentQuery.q;
+
+			scope.go = function(path) {
+				$location.url(path);
+			};
+
+			scope.toggleOverlay = function(key) {
+				var selected = scope.selectedOverlays;
+				selected[key] = (selected[key]) ? null : scope.overlays[key];
+			};
+		}
+	};
+	}])
+
 	.directive('zoomifyimg', ['arachneSettings', '$http', function(arachneSettings, $http) {
 		return {
 			restrict: 'A',
