@@ -2,7 +2,7 @@
 
 /* Widget controllers */
 angular.module('arachne.widgets.controllers', [])
-   .controller('TocController', ['$scope', "$location", "$anchorScroll", "arachneSettings", function ($scope, $location, $anchorScroll, arachneSettings) {
+   .controller('TocController', ['$scope', "$location", "$anchorScroll", function ($scope, $location, $anchorScroll) {
 
       var tocElement = document.querySelector("con10t-toc");
       $scope.tocHeading = tocElement.getAttribute('toc-heading');
@@ -34,4 +34,17 @@ angular.module('arachne.widgets.controllers', [])
          $anchorScroll();
       }
    }])
-;
+
+   .controller('CatalogController', ['$scope', "catalogService", "arachneSettings", function($scope, catalogService, arachneSettings){
+        var catalogElement = document.querySelector("con10t-catalog");
+        var slashRegex = /\//g;
+
+        $scope.catalog = catalogService.getCatalog(catalogElement.getAttribute('catalog'));
+
+        $scope.escapePath = function(path){
+            return path.replace(slashRegex, '\\/');
+        };
+
+
+        console.dir($scope.catalog);
+    }]);

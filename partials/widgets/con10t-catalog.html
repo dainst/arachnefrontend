@@ -1,0 +1,21 @@
+<div ng-controller="CatalogController">
+
+    <script type="text/ng-template" id="catalogNode">
+        <div ng-if="node.arachneEntityId != null">
+            <a ng-href="entity/{{node.arachneEntityId}}">{{ node.label }}</a>
+        </div>
+        <div ng-if="node.arachneEntityId == null">{{ node.label }}</div>
+
+        <div ng-if="node.children">
+            <a ng-href="search/?q=catalogPaths:{{escapePath(node.path)}}">Zeige alle Kinder</a>
+          <ul>
+            <li ng-repeat="node in node.children" ng-include="'catalogNode'">
+            </li>
+          </ul>
+        </div>
+        </div>
+    </script>
+
+    <div>{{catalog.author}} : {{catalog.root.label}}</div>
+    <div ng-repeat="node in catalog.root.children" ng-include="'catalogNode'"></div>
+</div>
