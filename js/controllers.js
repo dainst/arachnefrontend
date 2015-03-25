@@ -232,6 +232,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			}
 		}
 
+		var selectedOverlayKeys = $location.search().overlays;
+		if (selectedOverlayKeys) {
+			for (var i = 0; i < selectedOverlayKeys.length; i++) {
+				var key = selectedOverlayKeys[i];
+				$scope.selectedOverlays[key] = $scope.overlays[key];
+			}
+		}
+
 	}
 ])
 .controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'noteService', 'authService', 'categoryService', 'Query', 'messageService',

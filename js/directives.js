@@ -606,8 +606,17 @@ angular.module('arachne.directives', [])
 			};
 
 			scope.toggleOverlay = function(key) {
-				var selected = scope.selectedOverlays;
-				selected[key] = (selected[key]) ? null : scope.overlays[key];
+				var params = $location.search();
+				params.overlays = params.overlays || [];
+
+				var idx = params.overlays.indexOf(key)
+				if (idx > -1) {
+					params.overlays.splice(idx, 1);
+				} else {
+					params.overlays.push(key);
+				}
+
+				$location.search(params);
 			};
 		}
 	};
