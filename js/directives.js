@@ -533,7 +533,7 @@ angular.module('arachne.directives', [])
 						title += "<a href='search/" + scope.currentQuery.addFacet(scope.mapfacet.name,item).toString() + "'>Diese Einträge anzeigen</a>";
 						text = facetI18n + ": " + text;
 						text += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte ";
-				
+
 						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : scope.mapfacet.values[i].count });
 						marker.bindPopup(title);
 						markerClusterGroup.addLayer(marker);
@@ -549,36 +549,25 @@ angular.module('arachne.directives', [])
 			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
 			var markerClusterGroup = null;
 
-			//additional layers that have been added to the map
-			var addedOverlays = {};
-
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 				maxZoom: 18
 			});
-			map.addLayer(layer);	
+			map.addLayer(layer);
 			L.Icon.Default.imagePath = 'img';
 
-			// add overlays or remove them if they already exist
-			// TODO created overlays can be cached and needn't be destroyed and recreated
-			scope.$watch('overlays', function() {
-				for (var key in addedOverlays) {
-					map.removeLayer(addedOverlays[key]);
-					delete addedOverlays[key];
-				}
+			// Overlays (zur Zeit nur wms) sind in der URL als Keys angegeben
+			// und werden hier aus scope.overlays ausgewählt
+			var keys = $location.search().overlays || [];
+			for (var i = 0; i < keys.length; i++) {
+				var overlay = scope.overlays[keys[i]];
 
-				for (var key in scope.overlays) {
-					var overlay = scope.overlays[key];
-
-					if (overlay && overlay.type == 'wms') {
-						var wms = L.tileLayer.wms(overlay.url, overlay.layerOptions);
-						map.addLayer(wms);
-						addedOverlays[key] = wms;
-					}
+				if (overlay && overlay.type == 'wms') {
+					var wms = L.tileLayer.wms(overlay.url, overlay.layerOptions);
+					map.addLayer(wms);
 				}
-			}, true);
+			}
 
 			selectFacetsAndCreateMarkers();
-
 		}
 	};
 	}])
@@ -595,7 +584,6 @@ angular.module('arachne.directives', [])
 			currentQuery: '=',
 			facets: '=',
 			overlays: '=',
-			selectedOverlays: '='
 		},
 		templateUrl: 'partials/directives/ar-map-menu.html',
 		link: function(scope, element, attrs) {
@@ -607,7 +595,11 @@ angular.module('arachne.directives', [])
 
 			scope.toggleOverlay = function(key) {
 				var params = $location.search();
+
 				params.overlays = params.overlays || [];
+				if (typeof params.overlays == "string") {
+					params.overlays = [params.overlays];
+				}
 
 				var idx = params.overlays.indexOf(key)
 				if (idx > -1) {

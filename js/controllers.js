@@ -164,7 +164,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort", "facet_geo"]; //, "facet_ort"
 
 		$scope.overlays = {};
-		$scope.selectedOverlays = {};
 
 		$rootScope.hideFooter = true;
 
@@ -200,45 +199,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.go = function(path) {
 			$location.url(path);
 		};
-
-	}
-])
-// TODO Refactor to new MapService or existing MapCtrl
-.controller('ProjectGrakoMapCtrl', ['$rootScope', '$scope', 'searchService', 'categoryService', '$location', '$controller',
-	function($rootScope, $scope, searchService, categoryService, $location, $controller) {
-
-		angular.extend(this, $controller('MapCtrl', {$rootScope: $rootScope, $scope: $scope, searchService: searchService, categoryService: categoryService, $location: $location}));
-
-		$scope.overlays = {
-			ba_roads: {
-				name: 'Roman Roads',
-				type: 'wms',
-				url: 'http://geoserver.dainst.org/geoserver/geonode/wms',
-				layerOptions: {
-					layers: 'geonode:ba_roads',
-					format: 'image/png',
-					transparent: true
-				}
-			},
-			syr1930: {
-				name: 'Syrien 1930',
-				type: 'wms',
-				url: 'http://geoserver.dainst.org/geoserver/geonode/wms',
-				layerOptions: {
-					layers: 'geonode:syrher_syr1930',
-					format: 'image/png',
-					transparent: true
-				}
-			}
-		}
-
-		var selectedOverlayKeys = $location.search().overlays;
-		if (selectedOverlayKeys) {
-			for (var i = 0; i < selectedOverlayKeys.length; i++) {
-				var key = selectedOverlayKeys[i];
-				$scope.selectedOverlays[key] = $scope.overlays[key];
-			}
-		}
 
 	}
 ])
