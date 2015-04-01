@@ -151,6 +151,20 @@ angular.module('arachne.services', [])
 				return newQuery;
 			},
 
+			// return a copy of param behind key as an array,
+			// whether it actually is one or not
+			getArrayParam: function(key) {
+				var value = this[key];
+
+				if (angular.isArray(value)) {
+					return angular.copy(value);
+				} else if (value !== undefined) {
+					return [angular.copy(value)];
+				} else {
+					return null;
+				}
+			},
+
 			// constructs a new query object from this query
 			// and adds an additional facet, returns the new query
 			addFacet: function(facetName,facetValue) {

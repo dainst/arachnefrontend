@@ -551,7 +551,21 @@ angular.module('arachne.directives', [])
 				}
 			}
 
-			var map = L.map(element.attr('id')).setView([40, -10], 3);
+			var lat = scope.currentQuery.lat || 40;
+			var lng = scope.currentQuery.lng || -10;
+			var zoom = scope.currentQuery.zoom || 3;
+
+			var map = L.map(element.attr('id')).setView([lat, lng], zoom);
+
+			map.on('zoomend', function() {
+				scope.currentQuery.zoom = map.getZoom();
+			});
+
+			map.on('dragend', function() {
+				var center = map.getCenter();
+				scope.currentQuery.lat = center.lat;
+				scope.currentQuery.lng = center.lng;
+			})
 
 			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
 			var markerClusterGroup = null;
@@ -606,12 +620,8 @@ angular.module('arachne.directives', [])
 				$location.url(path);
 			};
 
-			scope.urlWithOverlay = function(key) {
-				var keys = angular.copy(scope.currentQuery.overlays) || [];
-
-				if (!angular.isArray(keys)) {
-					keys = [keys];
-				}
+			scope.toggleOverlay = function(key) {
+				var keys = scope.currentQuery.getArrayParam('overlays') || [];
 
 				var idx = keys.indexOf(key);
 				if (idx > -1) {
@@ -620,7 +630,7 @@ angular.module('arachne.directives', [])
 					keys.push(key);
 				}
 
-				return scope.currentQuery.setParam('overlays', keys).toString();
+				scope.go(scope.currentQuery.setParam('overlays', keys).toString());
 			};
 		}
 	};

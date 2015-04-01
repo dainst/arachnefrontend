@@ -8,7 +8,7 @@
             <a class="btn btn-sm btn-default"
                     ng-repeat="(key, overlay) in overlays"
                     ng-class="{'active': selectedOverlays.indexOf(key) != -1}"
-                    ng-href="{{route}}{{urlWithOverlay(key)}}">
+                    ng-click="toggleOverlay(key)">
                 {{ overlay.name }}
             </a>
         </div>
@@ -52,7 +52,7 @@
                 <a class="btn btn-sm btn-default"
                         ng-repeat="mapfacetName in mapfacetNames"
                         ng-class="{'active': mapfacet.name == mapfacetName}"
-                        ng-href="{{route}}{{currentQuery.setParam('restrict', mapfacetName).toString()}}">
+                        ng-click="go(currentQuery.setParam('restrict', mapfacetName).toString())">
                     {{ mapfacetName + '_map' | i18n }}
                 </a>
             </div>
@@ -81,7 +81,7 @@
             </div>
             <ul class="list-unstyled facet" ng-show="facet.open">
                 <li ng-repeat="facetValue in facet.values">
-                    <a ng-href="{{route}}/{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+                    <a style="cursor:pointer" ng-click="go(currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString())">
                         <b class="pull-right text-muted">{{facetValue.count | number}}</b>
                         {{facetValue.value | stripCoords}}
                     </a>
