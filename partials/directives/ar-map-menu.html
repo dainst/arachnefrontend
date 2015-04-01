@@ -7,8 +7,8 @@
         <div class="btn-group-vertical" style="display:block;" role="group">
             <a class="btn btn-sm btn-default"
                     ng-repeat="(key, overlay) in overlays"
-                    ng-class="{'active': selectedOverlays[key] != undefined}"
-                    ng-click="toggleOverlay(key)">
+                    ng-class="{'active': selectedOverlays.indexOf(key) != -1}"
+                    ng-href="{{route}}{{urlWithOverlay(key)}}">
                 {{ overlay.name }}
             </a>
         </div>

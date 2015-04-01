@@ -544,6 +544,13 @@ angular.module('arachne.directives', [])
 
 			}
 
+			var addOverlay = function(overlay) {
+				if (overlay && overlay.type == 'wms') {
+					var wms = L.tileLayer.wms(overlay.url, overlay.layerOptions);
+					map.addLayer(wms);
+				}
+			}
+
 			var map = L.map(element.attr('id')).setView([40, -10], 3);
 
 			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
@@ -558,12 +565,11 @@ angular.module('arachne.directives', [])
 			// Overlays (zur Zeit nur wms) sind in der URL als Keys angegeben
 			// und werden hier aus scope.overlays ausgewählt
 			var keys = $location.search().overlays || [];
-			for (var i = 0; i < keys.length; i++) {
-				var overlay = scope.overlays[keys[i]];
-
-				if (overlay && overlay.type == 'wms') {
-					var wms = L.tileLayer.wms(overlay.url, overlay.layerOptions);
-					map.addLayer(wms);
+			if (angular.isString(keys)) {
+				addOverlay(scope.overlays[keys])
+			} else if (angular.isArray(keys)) {
+				for (var i = 0; i < keys.length; i++) {
+					addOverlay(scope.overlays[keys[i]]);
 				}
 			}
 
@@ -576,9 +582,7 @@ angular.module('arachne.directives', [])
 	return {
 		restrict: 'A',
 		scope: {
-			route: '@',
 			resultSize: '=',
-			facetLimit: '=',
 			mapfacet: '=',
 			mapfacetNames: '=',
 			currentQuery: '=',
@@ -587,28 +591,36 @@ angular.module('arachne.directives', [])
 		},
 		templateUrl: 'partials/directives/ar-map-menu.html',
 		link: function(scope, element, attrs) {
+			scope.route = $location.path().slice(1);
+
 			scope.q = scope.currentQuery.q;
+			scope.facetLimit = scope.currentQuery.fl;
+
+			var keys = scope.currentQuery.overlays || [];
+			if (!angular.isArray(keys)) {
+				keys = [keys];
+			}
+			scope.selectedOverlays = keys;
 
 			scope.go = function(path) {
 				$location.url(path);
 			};
 
-			scope.toggleOverlay = function(key) {
-				var params = $location.search();
+			scope.urlWithOverlay = function(key) {
+				var keys = angular.copy(scope.currentQuery.overlays) || [];
 
-				params.overlays = params.overlays || [];
-				if (typeof params.overlays == "string") {
-					params.overlays = [params.overlays];
+				if (!angular.isArray(keys)) {
+					keys = [keys];
 				}
 
-				var idx = params.overlays.indexOf(key)
+				var idx = keys.indexOf(key);
 				if (idx > -1) {
-					params.overlays.splice(idx, 1);
+					keys.splice(idx, 1);
 				} else {
-					params.overlays.push(key);
+					keys.push(key);
 				}
 
-				$location.search(params);
+				return scope.currentQuery.setParam('overlays', keys).toString();
 			};
 		}
 	};

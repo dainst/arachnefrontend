@@ -178,6 +178,8 @@ angular.module('arachne.services', [])
 			},
 
 			// returns a representation of this query as GET parameters
+			// If a paramter is given as an array, mutiple GET-Paramters with
+			// the same name are constructed (conforming to $location)
 			toString: function() {
 				
 				var params = [];
@@ -191,6 +193,12 @@ angular.module('arachne.services', [])
 						if(!(key == 'limit') && (this[key] || key == 'resultIndex')) {
 							params.push(key + "=" + encodeURIComponent(this[key]));
 						}
+					} else if (angular.isArray(this[key])) {
+						for (var i = 0; i < this[key].length; i++) {
+							params.push(key + "=" + encodeURIComponent(this[key][i]));
+						}
+					} else {
+						// console.log("not handling: " + key);
 					}
 				}
 
