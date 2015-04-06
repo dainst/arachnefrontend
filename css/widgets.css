@@ -1,12 +1,10 @@
-.con10t-partial h1,h2,h3,h4,h5,h6 {
+.con10t-page h1,h2,h3,h4,h5,h6 {
     padding-top: 55px;   /* Hack:                                                                */
     margin-top:  -35px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
 }
 
-
 con10t-toc {
-    float: right;
-    margin-top: 5em;
+    display: block;
     padding: 1em;
     width: 25%;
     background-color: #f4f4f4;
@@ -45,7 +43,25 @@ con10t-toc a{
     font-size: small;
 }
 .con10t-toc-level-6 {
-
     padding-left: 5em;
     font-size:  small;
+}
+
+con10t-catalog {
+    display: block;
+    margin: 1em;
+    padding: 1em;
+    width: 25%;
+    background-color: #f4f4f4;
+    border-style: solid;
+    border-width: thin;
+    border-color: #E7E7E7;
+}
+.con10t-catalog-child {
+    border-style: solid none none none;
+    border-width: thin;
+    border-color: #E7E7E7;
+}
+.con10t-catalog-children{
+    padding-left: 2em;
 }

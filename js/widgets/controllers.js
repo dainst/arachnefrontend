@@ -3,7 +3,6 @@
 /* Widget controllers */
 angular.module('arachne.widgets.controllers', [])
    .controller('TocController', ['$scope', "$location", "$anchorScroll", function ($scope, $location, $anchorScroll) {
-
       var tocElement = document.querySelector("con10t-toc");
       $scope.tocHeading = tocElement.getAttribute('toc-heading');
 
@@ -34,17 +33,19 @@ angular.module('arachne.widgets.controllers', [])
          $anchorScroll();
       }
    }])
-
    .controller('CatalogController', ['$scope', "catalogService", "arachneSettings", function($scope, catalogService, arachneSettings){
-        var catalogElement = document.querySelector("con10t-catalog");
-        var slashRegex = /\//g;
+      var catalogElement = document.querySelector("con10t-catalog");
+      var slashRegex = /\//g;
 
-        $scope.catalog = catalogService.getCatalog(catalogElement.getAttribute('catalog'));
-
-        $scope.escapePath = function(path){
-            return path.replace(slashRegex, '\\/');
-        };
-
-
-        console.dir($scope.catalog);
+      $scope.catalog = catalogService.getCatalog(catalogElement.getAttribute('catalog'));
+      $scope.isShown = new Map();
+      $scope.escapePath = function(path){
+         return path.replace(slashRegex, '\\/');
+      };
+      $scope.toggleCollapse = function(label){
+         $scope.isShown.set(label, !($scope.isShown.get(label)));
+      };
+      $scope.checkIfShown = function(label){
+         return $scope.isShown.get(label);
+      };
     }]);

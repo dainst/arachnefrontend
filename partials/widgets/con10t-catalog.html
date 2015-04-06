@@ -1,21 +1,32 @@
 <div ng-controller="CatalogController">
 
     <script type="text/ng-template" id="catalogNode">
-        <div ng-if="node.arachneEntityId != null">
-            <a ng-href="entity/{{node.arachneEntityId}}">{{ node.label }}</a>
-        </div>
-        <div ng-if="node.arachneEntityId == null">{{ node.label }}</div>
+        <div class="con10t-catalog-child">
+            <span ng-if="node.children" >
+                <span ng-click="toggleCollapse(node.label)">
+                    <span ng-if="checkIfShown(node.label)">
+                         <span class="glyphicon glyphicon-chevron-up con10t-catalog-maginfying-glass" aria-hidden="true"></span>
+                    </span>
+                     <span ng-if="!checkIfShown(node.label)">
+                         <span class="glyphicon glyphicon-chevron-down con10t-catalog-maginfying-glass" aria-hidden="true"></span>
+                    </span>
+                </span>
+            </span>
 
-        <div ng-if="node.children">
-            <a ng-href="search/?q=catalogPaths:{{escapePath(node.path)}}">Zeige alle Kinder</a>
-          <ul>
-            <li ng-repeat="node in node.children" ng-include="'catalogNode'">
-            </li>
-          </ul>
-        </div>
+            <a ng-if="node.arachneEntityId != null" ng-href="entity/{{node.arachneEntityId}}">{{ node.label }}</a>
+            <span ng-if="node.arachneEntityId == null">{{ node.label }}</span>
+
+            <a ng-if="node.children" ng-href="search/?q=catalogPaths:{{escapePath(node.path)}}">
+                <span class="glyphicon glyphicon-search con10t-catalog-maginfying-glass" aria-hidden="true" title="How am I supposed to internationalize?"></span>
+            </a>
+
+            <div ng-if="node.children" >
+                <div collapse="!checkIfShown(node.label)" class="con10t-catalog-children">
+                    <div ng-repeat="node in node.children" ng-include="'catalogNode'"></div>
+                </div>
+            </div>
         </div>
     </script>
-
-    <div>{{catalog.author}} : {{catalog.root.label}}</div>
+    <div class="con10t-catalog-title">{{catalog.root.label}}<br/>{{catalog.author}}</div>
     <div ng-repeat="node in catalog.root.children" ng-include="'catalogNode'"></div>
 </div>
