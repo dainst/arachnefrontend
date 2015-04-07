@@ -415,8 +415,11 @@ angular.module('arachne.services', [])
 
 	.factory('con10tService', function($http) { 
 		var factory = {};
-		factory.getMenu = function() {
-    		return $http.get('con10t/menu.json');
+		factory.getTop = function() {
+    		return $http.get('con10t/top.json');
+		}
+		factory.getProjects = function() {
+    		return $http.get('con10t/projects.json');
 		}
 		factory.getFront = function() {
     		return $http.get('con10t/front.json');
