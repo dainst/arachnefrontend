@@ -483,7 +483,7 @@ angular.module('arachne.directives', [])
 	};
 	}])	
 
-	.directive('map', ['$location', '$filter', function($location, $filter) {
+	.directive('arMap', ['$location', '$filter', function($location, $filter) {
 	return {
 		restrict: 'A',
 		scope: {
