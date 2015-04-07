@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('arachne',[
-    'ui.bootstrap',
+	'ui.bootstrap',
     'ui.utils',
 	'ngRoute',
 	'ngSanitize',
