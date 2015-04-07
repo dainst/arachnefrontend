@@ -151,8 +151,8 @@ angular.module('arachne.services', [])
 				return newQuery;
 			},
 
-			// return a copy of param behind key as an array,
-			// whether it actually is one or not
+			// return a copy of param, always return an array, even
+			// if it has one or zero elements
 			getArrayParam: function(key) {
 				var value = this[key];
 
@@ -161,7 +161,7 @@ angular.module('arachne.services', [])
 				} else if (value !== undefined) {
 					return [angular.copy(value)];
 				} else {
-					return null;
+					return [];
 				}
 			},
 
@@ -211,8 +211,6 @@ angular.module('arachne.services', [])
 						for (var i = 0; i < this[key].length; i++) {
 							params.push(key + "=" + encodeURIComponent(this[key][i]));
 						}
-					} else {
-						// console.log("not handling: " + key);
 					}
 				}
 

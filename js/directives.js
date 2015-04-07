@@ -544,6 +544,8 @@ angular.module('arachne.directives', [])
 
 			}
 
+			var _overlays = {};
+
 			var addOverlay = function(overlay) {
 				if (overlay && overlay.type == 'wms') {
 					var wms = L.tileLayer.wms(overlay.url, overlay.layerOptions);
@@ -557,10 +559,12 @@ angular.module('arachne.directives', [])
 
 			var map = L.map(element.attr('id')).setView([lat, lng], zoom);
 
+			// Zoomstufe nach jedem Zoom im Query vorhalten
 			map.on('zoomend', function() {
 				scope.currentQuery.zoom = map.getZoom();
 			});
 
+			// Zentrale Kartenposition nach Verschieben im Query vorhalten
 			map.on('dragend', function() {
 				var center = map.getCenter();
 				scope.currentQuery.lat = center.lat;
@@ -576,15 +580,28 @@ angular.module('arachne.directives', [])
 			map.addLayer(layer);
 			L.Icon.Default.imagePath = 'img';
 
-			// Overlays (zur Zeit nur wms) sind in der URL als Keys angegeben
-			// und werden hier aus scope.overlays ausgewählt
-			var keys = $location.search().overlays || [];
-			if (angular.isString(keys)) {
-				addOverlay(scope.overlays[keys])
-			} else if (angular.isArray(keys)) {
-				for (var i = 0; i < keys.length; i++) {
-					addOverlay(scope.overlays[keys[i]]);
+			// overlays sind entweder in Gruppen unter overlays.groups, oder
+			// direkt in overlays
+			if (scope.overlays && scope.overlays.groups) {
+				for (var i = 0; i < scope.overlays.groups.length; i++) {
+					var group = scope.overlays.groups[i];
+
+					for (var j = 0; j < group.overlays.length; j++) {
+						var overlay = group.overlays[j];
+						_overlays[overlay.key] = overlay;
+					}
 				}
+			} else if (scope.overlays) {
+				for (var i = 0; i < scope.overlays.length; i++) {
+					var overlay = scope.overlays[i];
+					_overlays[overlay.key] = overlay;
+				}
+			}
+
+			// Die anzuzeigenden overlays sind in der URL als Keys angegeben
+			var keys = scope.currentQuery.getArrayParam('overlays');
+			for (var i = 0; i < keys.length; i++) {
+				addOverlay(_overlays[keys[i]]);
 			}
 
 			selectFacetsAndCreateMarkers();
@@ -616,12 +633,17 @@ angular.module('arachne.directives', [])
 			}
 			scope.selectedOverlays = keys;
 
+			scope.showOverlayGroupMenu = false;
+			if (scope.selectedOverlays.length > 0) {
+				scope.showOverlayGroupMenu = true;
+			}
+
 			scope.go = function(path) {
 				$location.url(path);
 			};
 
 			scope.toggleOverlay = function(key) {
-				var keys = scope.currentQuery.getArrayParam('overlays') || [];
+				var keys = scope.currentQuery.getArrayParam('overlays');
 
 				var idx = keys.indexOf(key);
 				if (idx > -1) {
@@ -632,6 +654,10 @@ angular.module('arachne.directives', [])
 
 				scope.go(scope.currentQuery.setParam('overlays', keys).toString());
 			};
+
+			scope.toggleOverlayGroupMenu = function() {
+				scope.showOverlayGroupMenu = !scope.showOverlayGroupMenu;
+			}
 		}
 	};
 	}])

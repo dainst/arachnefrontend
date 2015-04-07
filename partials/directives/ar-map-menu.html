@@ -1,19 +1,6 @@
 <div ng-if="resultSize != null" id="mapNavigation" class="col-md-2 well well-sm"
         style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:500;">
 
-    <!-- Overlays -->
-    <div ng-if="overlays">
-        <h5 class="text-muted uppercase"><strong>Overlays</strong></h5>
-        <div class="btn-group-vertical" style="display:block;" role="group">
-            <a class="btn btn-sm btn-default"
-                    ng-repeat="(key, overlay) in overlays"
-                    ng-class="{'active': selectedOverlays.indexOf(key) != -1}"
-                    ng-click="toggleOverlay(key)">
-                {{ overlay.name }}
-            </a>
-        </div>
-    </div>
-
     <h4>{{ mapfacet ? (mapfacet.name + "_plural" | i18n) : "" }}</h4>
 
     <!-- Infos zum Suchergebnis -->
@@ -38,11 +25,54 @@
     </div>
 
 
-    <div ng-if="resultSize > 0">
+    <div ng-if="resultSize > 0" style="margin-bottom:10px;">
         <a href="search/{{currentQuery.removeParam('fl').toString()}}" type="button"
                 class="btn btn-primary btn-sm btn-block">
             Objekte Anzeigen <i class="glyphicon glyphicon-search"> </i>
         </a>
+    </div>
+
+    <!-- Overlays -->
+    <div ng-if="overlays">
+        <h5 class="text-muted uppercase" style="cursor:pointer" ng-click="toggleOverlayGroupMenu()">
+            <strong>Overlays</strong>
+            <!-- <i class="glyphicon glyphicon-chevron-down pull-left" ng-hide="showOverlayGroupMenu" style="color:silver;margin-right:5px"> </i>
+            <i class="glyphicon glyphicon-chevron-up pull-left" ng-show="showOverlayGroupMenu" style="color:silver;margin-right:5px"> </i> -->
+        </h5>
+
+        <!-- Gruppen von Overlays in einem togglebaren Menü -->
+        <div ng-if="overlays.groups" class="panel panel-default" ng-click="toggleOverlayGroupMenu()" style="cursor:pointer">
+            <div class="panel-body">
+                <div ng-show="showOverlayGroupMenu">
+                    <div ng-repeat="group in overlays.groups">
+                        <h5 class="text-muted">{{group.name}}</h5>
+                        <div class="btn-group-vertical" style="display:block;" role="group">
+                            <a class="btn btn-sm btn-default"
+                                    ng-repeat="overlay in group.overlays"
+                                    ng-class="{'active': selectedOverlays.indexOf(overlay.key) != -1}"
+                                    ng-click="toggleOverlay(overlay.key)">
+                                {{ overlay.name }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="showOverlayGroupMenu" style="text-align:center">
+                    &hellip;
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste von Overlays als einzelne Buttons -->
+        <div ng-if="!overlays.groups">
+            <div class="btn-group-vertical" style="display:block;" role="group">
+                <a class="btn btn-sm btn-default"
+                        ng-repeat="overlay in overlays"
+                        ng-class="{'active': selectedOverlays.indexOf(overlay.key) != -1}"
+                        ng-click="toggleOverlay(overlay.key)">
+                    {{ overlay.name }}
+                </a>
+            </div>
+        </div>
     </div>
 
     <!-- Facetten zur Ortsangabe -->
