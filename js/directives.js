@@ -589,13 +589,10 @@ angular.module('arachne.directives', [])
 
 			// register zoom level and central map position in the Query object
 			// to always keep the current map position on reload
-			map.on('zoomend', function() {
+			map.on('moveend', function() {
 				scope.currentQuery.zoom = map.getZoom();
-			});
-			map.on('dragend', function() {
-				var center = map.getCenter();
-				scope.currentQuery.lat = center.lat;
-				scope.currentQuery.lng = center.lng;
+				scope.currentQuery.lat = map.getCenter().lat;
+				scope.currentQuery.lng = map.getCenter().lng;
 			})
 
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
