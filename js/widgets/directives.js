@@ -55,4 +55,14 @@ angular.module('arachne.widgets.directives', [])
             templateUrl: 'partials/widgets/con10t-toc.html'
         };
     })
+
+	.directive('con10tCatalogMap', function() {
+		return {
+			restrict: 'E',
+			scope: {
+				overlays: '='
+			},
+			templateUrl: 'partials/widgets/con10t-catalog-map.html'
+		};
+	})
 ;

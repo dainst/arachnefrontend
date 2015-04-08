@@ -172,8 +172,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort", "facet_geo"]; //, "facet_ort"
 
-		$scope.overlays = {};
-
 		$rootScope.hideFooter = true;
 
 		$scope.currentQuery = searchService.currentQuery();
