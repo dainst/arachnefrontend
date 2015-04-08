@@ -55,4 +55,11 @@ angular.module('arachne.widgets.directives', [])
             templateUrl: 'partials/widgets/con10t-toc.html'
         };
     })
+
+    .directive('con10tCatalog', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'partials/widgets/con10t-catalog.html'
+        };
+    })
 ;
