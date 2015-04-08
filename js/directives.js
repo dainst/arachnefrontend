@@ -530,7 +530,7 @@ angular.module('arachne.directives', [])
 						// Popup-Title auf Karte für Suchergebnis
 						title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
 						title += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte<br>";
-						title += "<a href='search/" + scope.currentQuery.addFacet(scope.mapfacet.name,item).toString() + "'>Diese Einträge anzeigen</a>";
+						title += "<a href='search/" + scope.currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).addFacet(scope.mapfacet.name,item).toString() + "'>Diese Einträge anzeigen</a>";
 						text = facetI18n + ": " + text;
 						text += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte ";
 
@@ -633,10 +633,16 @@ angular.module('arachne.directives', [])
 
 			scope.q = scope.currentQuery.q;
 			scope.facetLimit = scope.currentQuery.fl;
-			scope.selectedOverlays = scope.currentQuery.getArrayParam('overlays');
+
+			var keys = scope.currentQuery.getArrayParam('overlays');
+
+			scope.selectedOverlays = {}
+			for (var i = 0; i < keys.length; i++) {
+				scope.selectedOverlays[keys[i]] = true;
+			}
 
 			scope.showOverlayGroupMenu = false;
-			if (scope.selectedOverlays.length > 0) {
+			if (keys.length > 0) {
 				scope.showOverlayGroupMenu = true;
 			}
 

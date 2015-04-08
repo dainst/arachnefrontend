@@ -44,13 +44,11 @@
                 <div ng-show="showOverlayGroupMenu">
                     <div ng-repeat="group in overlays.groups">
                         <h5 class="text-muted">{{group.name}}</h5>
-                        <div class="btn-group-vertical" style="display:block;" role="group">
-                            <a class="btn btn-sm btn-default"
-                                    ng-repeat="overlay in group.overlays"
-                                    ng-class="{'active': selectedOverlays.indexOf(overlay.key) != -1}"
-                                    ng-click="toggleOverlay(overlay.key)">
+                        <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
+                            <label>
+                                <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
                                 {{ overlay.name }}
-                            </a>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -62,13 +60,11 @@
 
         <!-- Liste von Overlays als einzelne Buttons -->
         <div ng-if="!overlays.groups">
-            <div class="btn-group-vertical" style="display:block;" role="group">
-                <a class="btn btn-sm btn-default"
-                        ng-repeat="overlay in overlays"
-                        ng-class="{'active': selectedOverlays.indexOf(overlay.key) != -1}"
-                        ng-click="toggleOverlay(overlay.key)">
+            <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
+                <label>
+                    <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
                     {{ overlay.name }}
-                </a>
+                </label>
             </div>
         </div>
     </div>
