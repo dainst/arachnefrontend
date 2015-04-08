@@ -400,9 +400,6 @@ angular.module('arachne.services', [])
 
 	}])
 
-<<<<<<< HEAD
-	.factory('messageService', ['$http', '$location', '$rootScope', function($http, $location, $rootScope) {
-=======
 	.factory('con10tService', function($http) { 
 		var factory = {};
 		factory.getTop = function() {
@@ -417,8 +414,7 @@ angular.module('arachne.services', [])
 		return factory;
 	})
 	
-	.factory('messageService', ['$http', function($http) {
->>>>>>> con10t
+	.factory('messageService', ['$http', '$rootScope', function($http, $rootScope) {
 
 		var messageTypes;
 		$http.get('config/messageTypes.json').success(function(response) {
