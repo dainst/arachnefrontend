@@ -179,8 +179,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		if (!$scope.currentQuery.restrict) {
 			$scope.currentQuery.restrict = $scope.mapfacetNames[0];
 		}
-		$scope.q = angular.copy($scope.currentQuery.q);
-	
+
 		searchService.getCurrentPage().then(function(entities) {
 			$scope.resultSize = searchService.getSize();
 			$scope.facets = searchService.getFacets();

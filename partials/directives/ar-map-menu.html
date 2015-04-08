@@ -26,7 +26,7 @@
 
 
     <div ng-if="resultSize > 0" style="margin-bottom:10px;">
-        <a href="search/{{currentQuery.removeParam('fl').toString()}}" type="button"
+        <a href="search/{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).toString()}}" type="button"
                 class="btn btn-primary btn-sm btn-block">
             Objekte Anzeigen <i class="glyphicon glyphicon-search"> </i>
         </a>

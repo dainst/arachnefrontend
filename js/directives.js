@@ -541,17 +541,45 @@ angular.module('arachne.directives', [])
 				}
 
 				map.addLayer(markerClusterGroup);
-
 			}
 
-			var _overlays = {};
+			// gets overlays from scope, returns an object with all overlays
+			// ordered to their keys regardless of their previous order
+			var extractOverlays = function() {
+				var result = {}
+				// overlays are either grouped at scope.overlays.groups
+				if (scope.overlays && scope.overlays.groups) {
+					for (var i = 0; i < scope.overlays.groups.length; i++) {
+						var group = scope.overlays.groups[i];
 
-			var addOverlay = function(overlay) {
+						for (var j = 0; j < group.overlays.length; j++) {
+							var overlay = group.overlays[j];
+							result[overlay.key] = overlay;
+						}
+					}
+				// or just listed at scope.overlays
+				} else if (scope.overlays) {
+					for (var i = 0; i < scope.overlays.length; i++) {
+						var overlay = scope.overlays[i];
+						result[overlay.key] = overlay;
+					}
+				}
+				return result
+			}
+
+			// adds an overlay to the map
+			var addOverlay = function(map, overlay) {
 				if (overlay && overlay.type == 'wms') {
 					var wms = L.tileLayer.wms(overlay.url, overlay.layerOptions);
 					map.addLayer(wms);
 				}
 			}
+
+			// contains all usable Overlays { overlay.key: overlay }
+			var _overlays = extractOverlays();
+
+			// the layer with markers (has to be recreated when mapfacet changes)
+			var markerClusterGroup = null;
 
 			var lat = scope.currentQuery.lat || 40;
 			var lng = scope.currentQuery.lng || -10;
@@ -559,20 +587,16 @@ angular.module('arachne.directives', [])
 
 			var map = L.map(element.attr('id')).setView([lat, lng], zoom);
 
-			// Zoomstufe nach jedem Zoom im Query vorhalten
+			// register zoom level and central map position in the Query object
+			// to always keep the current map position on reload
 			map.on('zoomend', function() {
 				scope.currentQuery.zoom = map.getZoom();
 			});
-
-			// Zentrale Kartenposition nach Verschieben im Query vorhalten
 			map.on('dragend', function() {
 				var center = map.getCenter();
 				scope.currentQuery.lat = center.lat;
 				scope.currentQuery.lng = center.lng;
 			})
-
-			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
-			var markerClusterGroup = null;
 
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 				maxZoom: 18
@@ -580,28 +604,11 @@ angular.module('arachne.directives', [])
 			map.addLayer(layer);
 			L.Icon.Default.imagePath = 'img';
 
-			// overlays sind entweder in Gruppen unter overlays.groups, oder
-			// direkt in overlays
-			if (scope.overlays && scope.overlays.groups) {
-				for (var i = 0; i < scope.overlays.groups.length; i++) {
-					var group = scope.overlays.groups[i];
-
-					for (var j = 0; j < group.overlays.length; j++) {
-						var overlay = group.overlays[j];
-						_overlays[overlay.key] = overlay;
-					}
-				}
-			} else if (scope.overlays) {
-				for (var i = 0; i < scope.overlays.length; i++) {
-					var overlay = scope.overlays[i];
-					_overlays[overlay.key] = overlay;
-				}
-			}
-
-			// Die anzuzeigenden overlays sind in der URL als Keys angegeben
+			// which overlays (from _overlays) are to be created is given
+			// by their keys in the URL
 			var keys = scope.currentQuery.getArrayParam('overlays');
 			for (var i = 0; i < keys.length; i++) {
-				addOverlay(_overlays[keys[i]]);
+				addOverlay(map, _overlays[keys[i]]);
 			}
 
 			selectFacetsAndCreateMarkers();
@@ -626,12 +633,7 @@ angular.module('arachne.directives', [])
 
 			scope.q = scope.currentQuery.q;
 			scope.facetLimit = scope.currentQuery.fl;
-
-			var keys = scope.currentQuery.overlays || [];
-			if (!angular.isArray(keys)) {
-				keys = [keys];
-			}
-			scope.selectedOverlays = keys;
+			scope.selectedOverlays = scope.currentQuery.getArrayParam('overlays');
 
 			scope.showOverlayGroupMenu = false;
 			if (scope.selectedOverlays.length > 0) {

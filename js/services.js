@@ -151,6 +151,16 @@ angular.module('arachne.services', [])
 				return newQuery;
 			},
 
+			// constructs a new query object from this query
+			// and removes parameters, returns the new query
+			removeParams: function(keys) {
+				var newQuery = angular.copy(this);
+				for (var i = 0; i < keys.length; i++) {
+					delete newQuery[keys[i]];
+				}
+				return newQuery;
+			},
+
 			// return a copy of param, always return an array, even
 			// if it has one or zero elements
 			getArrayParam: function(key) {
