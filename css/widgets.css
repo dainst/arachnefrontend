@@ -5,6 +5,7 @@
 
 con10t-toc {
     display: block;
+    margin: 1px;
     padding: 1em;
     width: 25%;
     background-color: #f4f4f4;
@@ -49,13 +50,21 @@ con10t-toc a{
 
 con10t-catalog {
     display: block;
-    margin: 1em;
+    margin: 1px;
     padding: 1em;
     width: 25%;
     background-color: #f4f4f4;
     border-style: solid;
     border-width: thin;
     border-color: #E7E7E7;
+}
+.con10t-catalog-title {
+    padding-bottom: 1em;
+    font-size: large;
+}
+.con10t-catalog-author {
+    padding-bottom: 1em;
+    font-size: medium;
 }
 .con10t-catalog-child {
     border-style: solid none none none;
