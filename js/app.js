@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('arachne',
-	['ui.bootstrap',
-	'ui.utils',
+angular.module('arachne',[
+	'ui.bootstrap',
+    'ui.utils',
 	'ngRoute',
 	'ngSanitize',
 	'ngResource',
@@ -13,6 +13,8 @@ angular.module('arachne',
 	'arachne.services',
 	'arachne.directives',
 	'arachne.controllers',
+    'arachne.widgets.directives',
+    'arachne.widgets.controllers',
 ])
 .config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
 	$locationProvider.html5Mode(true);
@@ -32,10 +34,13 @@ angular.module('arachne',
 		.when('/impressum', {templateUrl: 'partials/impressum.html'})
 		.when('/datenschutz', {templateUrl: 'partials/datenschutz.html'})
 		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
+		.when('/projects', {templateUrl: 'partials/projects.html'})
 		.when('/register', {templateUrl: 'partials/register.html'})
-		.when('/faq', {templateUrl: 'partials/faq.html'});
+		.when('/faq', {templateUrl: 'partials/faq.html'})
+		.when('/projects/:name', {templateUrl: function(name){ return 'con10t/de/' + name.name + '.html';}});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://"+ document.location.host + "/data",
+		dataserviceUri: "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 		sortableFields : ["entityId", "title", "subtitle"]

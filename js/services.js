@@ -400,7 +400,25 @@ angular.module('arachne.services', [])
 
 	}])
 
+<<<<<<< HEAD
 	.factory('messageService', ['$http', '$location', '$rootScope', function($http, $location, $rootScope) {
+=======
+	.factory('con10tService', function($http) { 
+		var factory = {};
+		factory.getTop = function() {
+    		return $http.get('con10t/top.json');
+		}
+		factory.getProjects = function() {
+    		return $http.get('con10t/projects.json');
+		}
+		factory.getFront = function() {
+    		return $http.get('con10t/front.json');
+		}
+		return factory;
+	})
+	
+	.factory('messageService', ['$http', function($http) {
+>>>>>>> con10t
 
 		var messageTypes;
 		$http.get('config/messageTypes.json').success(function(response) {

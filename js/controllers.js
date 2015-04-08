@@ -3,6 +3,15 @@
 /* Controllers */
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
+.controller("NavBarCtrl",[ '$scope', 'con10tService', 
+	function ($scope, con10tService){
+		
+		$scope.topMenu = null;
+		con10tService.getTop().success(function(data){
+			$scope.topMenu = data;
+		});
+	}
+])
 .controller('MenuCtrl',	[ '$scope', '$modal', 'authService', '$location', '$route',
 	function ($scope,  $modal, authService, $location, $route) {
 
@@ -456,16 +465,32 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'messageService', 'categoryService', '$timeout',
-	function ($rootScope, $scope, $http, arachneSettings, messageService, categoryService, $timeout) {
+.controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'con10tService', 'messageService', 'categoryService', '$timeout',
+	function ($rootScope, $scope, $http, arachneSettings, con10tService, messageService, categoryService, $timeout) {
 
 		$rootScope.hideFooter = false;
 
+		con10tService.getFront().success(function(projectsMenu){
+			var projslides = $scope.projslides = [];
+			for(var key in projectsMenu) {
+				projslides.push({
+					image: "con10t/frontimages/" + projectsMenu[key].id + ".png",
+					title: projectsMenu[key].text
+				});
+			}
+		});
+
         categoryService.getCategoriesAsync().then(function(categories) {
 			$scope.categories = [];
+			var cateslides = $scope.cateslides = [];
 			for(var key in categories) {
 				if (categories[key].status == 'start') {
 					$scope.categories.push(categories[key]);
+					cateslides.push({
+						image: categories[key].imgUri,
+						title: categories[key].title,
+						text: categories[key].subtitle
+					});
 				}
 			}
 		});
@@ -478,6 +503,27 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+
+.controller('ProjectsController', ['$scope', '$http', 'con10tService', 
+	function ($scope, $http, con10tService) {
+		$scope.projects = null;
+		$scope.layer2 = null;
+		$scope.layer3 = null;
+		
+		con10tService.getProjects().success(function(data){
+			$scope.projects = data[0].children;
+		});
+		
+		$scope.setLayer2 = function(children){
+			$scope.layer2 = children;
+			$scope.layer3=null;
+		}
+		$scope.setLayer3 = function(children){
+			$scope.layer3 = children;
+		}
+	}
+])
+
 .controller('AllCategoriesController', ['$rootScope', '$scope', '$http', 'categoryService', '$timeout',
 	function ($rootScope, $scope, $http, categoryService, $timeout) {
 
