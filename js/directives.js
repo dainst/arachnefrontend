@@ -483,12 +483,13 @@ angular.module('arachne.directives', [])
 	};
 	}])	
 
-	.directive('map', ['$location', '$filter', function($location, $filter) {
+	.directive('arMap', ['$location', '$filter', function($location, $filter) {
 	return {
 		restrict: 'A',
 		scope: {
 			mapfacet: '=',
-			currentQuery: '='
+			currentQuery: '=',
+			overlays: '='
 		},
 		link: function(scope, element, attrs) {
 
@@ -532,7 +533,7 @@ angular.module('arachne.directives', [])
 						title += "<a href='search/" + scope.currentQuery.addFacet(scope.mapfacet.name,item).toString() + "'>Diese Einträge anzeigen</a>";
 						text = facetI18n + ": " + text;
 						text += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte ";
-				
+
 						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : scope.mapfacet.values[i].count });
 						marker.bindPopup(title);
 						markerClusterGroup.addLayer(marker);
@@ -540,25 +541,129 @@ angular.module('arachne.directives', [])
 				}
 
 				map.addLayer(markerClusterGroup);
-
 			}
 
-			var map = L.map(element.attr('id')).setView([40, -10], 3);
+			// gets overlays from scope, returns an object with all overlays
+			// ordered to their keys regardless of their previous order
+			var extractOverlays = function() {
+				var result = {}
+				// overlays are either grouped at scope.overlays.groups
+				if (scope.overlays && scope.overlays.groups) {
+					for (var i = 0; i < scope.overlays.groups.length; i++) {
+						var group = scope.overlays.groups[i];
 
-			//der layer mit markern (muss beim locationtype entfernt und neu erzeugt werden)
+						for (var j = 0; j < group.overlays.length; j++) {
+							var overlay = group.overlays[j];
+							result[overlay.key] = overlay;
+						}
+					}
+				// or just listed at scope.overlays
+				} else if (scope.overlays) {
+					for (var i = 0; i < scope.overlays.length; i++) {
+						var overlay = scope.overlays[i];
+						result[overlay.key] = overlay;
+					}
+				}
+				return result
+			}
+
+			// adds an overlay to the map
+			var addOverlay = function(map, overlay) {
+				if (overlay && overlay.type == 'wms') {
+					var wms = L.tileLayer.wms(overlay.url, overlay.layerOptions);
+					map.addLayer(wms);
+				}
+			}
+
+			// contains all usable Overlays { overlay.key: overlay }
+			var _overlays = extractOverlays();
+
+			// the layer with markers (has to be recreated when mapfacet changes)
 			var markerClusterGroup = null;
+
+			var lat = scope.currentQuery.lat || 40;
+			var lng = scope.currentQuery.lng || -10;
+			var zoom = scope.currentQuery.zoom || 3;
+
+			var map = L.map(element.attr('id')).setView([lat, lng], zoom);
+
+			// register zoom level and central map position in the Query object
+			// to always keep the current map position on reload
+			map.on('zoomend', function() {
+				scope.currentQuery.zoom = map.getZoom();
+			});
+			map.on('dragend', function() {
+				var center = map.getCenter();
+				scope.currentQuery.lat = center.lat;
+				scope.currentQuery.lng = center.lng;
+			})
 
 			var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 				maxZoom: 18
 			});
-			map.addLayer(layer);	
+			map.addLayer(layer);
 			L.Icon.Default.imagePath = 'img';
 
-			selectFacetsAndCreateMarkers();
+			// which overlays (from _overlays) are to be created is given
+			// by their keys in the URL
+			var keys = scope.currentQuery.getArrayParam('overlays');
+			for (var i = 0; i < keys.length; i++) {
+				addOverlay(map, _overlays[keys[i]]);
+			}
 
+			selectFacetsAndCreateMarkers();
 		}
 	};
-	}])	
+	}])
+
+	.directive('arMapMenu', ['$location', function($location) {
+	return {
+		restrict: 'A',
+		scope: {
+			resultSize: '=',
+			mapfacet: '=',
+			mapfacetNames: '=',
+			currentQuery: '=',
+			facets: '=',
+			overlays: '=',
+		},
+		templateUrl: 'partials/directives/ar-map-menu.html',
+		link: function(scope, element, attrs) {
+			scope.route = $location.path().slice(1);
+
+			scope.q = scope.currentQuery.q;
+			scope.facetLimit = scope.currentQuery.fl;
+			scope.selectedOverlays = scope.currentQuery.getArrayParam('overlays');
+
+			scope.showOverlayGroupMenu = false;
+			if (scope.selectedOverlays.length > 0) {
+				scope.showOverlayGroupMenu = true;
+			}
+
+			scope.go = function(path) {
+				$location.url(path);
+			};
+
+			scope.toggleOverlay = function(key) {
+				var keys = scope.currentQuery.getArrayParam('overlays');
+
+				var idx = keys.indexOf(key);
+				if (idx > -1) {
+					keys.splice(idx, 1);
+				} else {
+					keys.push(key);
+				}
+
+				scope.go(scope.currentQuery.setParam('overlays', keys).toString());
+			};
+
+			scope.toggleOverlayGroupMenu = function() {
+				scope.showOverlayGroupMenu = !scope.showOverlayGroupMenu;
+			}
+		}
+	};
+	}])
+
 	.directive('zoomifyimg', ['arachneSettings', '$http', function(arachneSettings, $http) {
 		return {
 			restrict: 'A',

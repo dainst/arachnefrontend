@@ -156,6 +156,30 @@ angular.module('arachne.services', [])
 			},
 
 			// constructs a new query object from this query
+			// and removes parameters, returns the new query
+			removeParams: function(keys) {
+				var newQuery = angular.copy(this);
+				for (var i = 0; i < keys.length; i++) {
+					delete newQuery[keys[i]];
+				}
+				return newQuery;
+			},
+
+			// return a copy of param, always return an array, even
+			// if it has one or zero elements
+			getArrayParam: function(key) {
+				var value = this[key];
+
+				if (angular.isArray(value)) {
+					return angular.copy(value);
+				} else if (value !== undefined) {
+					return [angular.copy(value)];
+				} else {
+					return [];
+				}
+			},
+
+			// constructs a new query object from this query
 			// and adds an additional facet, returns the new query
 			addFacet: function(facetName,facetValue) {
 				var newQuery = angular.copy(this);
@@ -186,6 +210,8 @@ angular.module('arachne.services', [])
 			},
 
 			// returns a representation of this query as GET parameters
+			// If a paramter is given as an array, mutiple GET-Paramters with
+			// the same name are constructed (conforming to $location)
 			toString: function() {
 				
 				var params = [];
@@ -198,6 +224,10 @@ angular.module('arachne.services', [])
 					} else if (angular.isString(this[key]) || angular.isNumber(this[key])) {
 						if(!(key == 'limit') && (this[key] || key == 'resultIndex')) {
 							params.push(key + "=" + encodeURIComponent(this[key]));
+						}
+					} else if (angular.isArray(this[key])) {
+						for (var i = 0; i < this[key].length; i++) {
+							params.push(key + "=" + encodeURIComponent(this[key][i]));
 						}
 					}
 				}

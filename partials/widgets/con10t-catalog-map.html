@@ -1,0 +1,23 @@
+
+<div ng-controller="MapCtrl">
+
+	<!-- Loading-Icon -->
+	<div ng-hide="resultSize >= 0" class="loading"></div>
+
+	<div ar-map-menu
+		result-size="resultSize"
+		facet-limit="facetLimit"
+		mapfacet="mapfacet"
+		mapfacet-names="mapfacetNames"
+		current-query="currentQuery"
+		facets="facets"
+		overlays="overlays">
+	</div>
+
+	<div ar-map class="col-md-12 fullscreenMap" id="map"
+		ng-if="resultSize != null"
+		mapfacet="mapfacet"
+		current-query="currentQuery"
+		overlays="overlays">
+	</div>
+</div>

@@ -1,0 +1,120 @@
+<div ng-if="resultSize != null" id="mapNavigation" class="col-md-2 well well-sm"
+        style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:500;">
+
+    <h4>{{ mapfacet ? (mapfacet.name + "_plural" | i18n) : "" }}</h4>
+
+    <!-- Infos zum Suchergebnis -->
+    <div ng-if="facetLimit && facetLimit == mapfacet.values.length" class="alert alert-info" style="padding:5px 10px; margin-bottom:10px;">
+        <small>
+            <b>Hinweis:</b>
+            Ihre Auswahl enthält mehr Orte als auf der Karte dargestellt werden können.
+        </small>
+    </div>
+
+    <div ng-if="resultSize == 0" class="alert alert-info">
+        Keine Orte gefunden.
+    </div>
+
+    <div ng-if="resultSize > 0" style="margin-bottom:10px;">
+        <small>
+        Insgesamt <b>{{ resultSize|number }}</b> Objekt<span ng-show="resultSize > 1">e</span>
+        <br>an
+        <i ng-if="mapfacet.values.length >= 2000">mehr als</i>
+        <b>{{ mapfacet.values.length |number }}</b> Ort<span ng-show="mapfacet.values.length > 1">en</span>
+    </small>
+    </div>
+
+
+    <div ng-if="resultSize > 0" style="margin-bottom:10px;">
+        <a href="search/{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).toString()}}" type="button"
+                class="btn btn-primary btn-sm btn-block">
+            Objekte Anzeigen <i class="glyphicon glyphicon-search"> </i>
+        </a>
+    </div>
+
+    <!-- Overlays -->
+    <div ng-if="overlays">
+        <h5 class="text-muted uppercase" style="cursor:pointer" ng-click="toggleOverlayGroupMenu()">
+            <strong>Overlays</strong>
+        </h5>
+
+        <!-- Gruppen von Overlays in einem togglebaren Menü -->
+        <div ng-if="overlays.groups" class="panel panel-default" ng-click="toggleOverlayGroupMenu()" style="cursor:pointer">
+            <div class="panel-body">
+                <div ng-show="showOverlayGroupMenu">
+                    <div ng-repeat="group in overlays.groups">
+                        <h5 class="text-muted">{{group.name}}</h5>
+                        <div class="btn-group-vertical" style="display:block;" role="group">
+                            <a class="btn btn-sm btn-default"
+                                    ng-repeat="overlay in group.overlays"
+                                    ng-class="{'active': selectedOverlays.indexOf(overlay.key) != -1}"
+                                    ng-click="toggleOverlay(overlay.key)">
+                                {{ overlay.name }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="showOverlayGroupMenu" style="text-align:center">
+                    &hellip;
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste von Overlays als einzelne Buttons -->
+        <div ng-if="!overlays.groups">
+            <div class="btn-group-vertical" style="display:block;" role="group">
+                <a class="btn btn-sm btn-default"
+                        ng-repeat="overlay in overlays"
+                        ng-class="{'active': selectedOverlays.indexOf(overlay.key) != -1}"
+                        ng-click="toggleOverlay(overlay.key)">
+                    {{ overlay.name }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Facetten zur Ortsangabe -->
+    <div>
+        <h5 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h5>
+            <div class="btn-group-vertical" style="display:block;" role="group">
+                <a class="btn btn-sm btn-default"
+                        ng-repeat="mapfacetName in mapfacetNames"
+                        ng-class="{'active': mapfacet.name == mapfacetName}"
+                        ng-click="go(currentQuery.setParam('restrict', mapfacetName).toString())">
+                    {{ mapfacetName + '_map' | i18n }}
+                </a>
+            </div>
+    </div>
+
+    <!-- Suchfeld -->
+    <div>
+        <h5 class="text-muted uppercase"><b>Aktuelle Suche</b></h5>
+        <form ng-submit="go('/' + route + currentQuery.setParam('q',q).toString())">
+            <input type="text" class="form-control" ng-model="q"/>
+        </form>
+    </div>
+    <div ar-active-facets route="{{route}}" current-query="currentQuery"></div>
+
+    <!-- Weitere Facetten -->
+    <small>
+        <h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>Filter</b></h5>
+        <div ng-hide="resultSize < 2" ng-repeat="facet in facets | filter:'!facet_fundort' | filter:'!facet_aufbewahrungsort' | filter:'!facet_geo' | filter:'!facet_ort'"
+                class="panel panel-default facet">
+            <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+                <h5 class="panel-title">
+                    <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+                    <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
+                    &nbsp;{{facet.name | i18n }}
+                </h5>
+            </div>
+            <ul class="list-unstyled facet" ng-show="facet.open">
+                <li ng-repeat="facetValue in facet.values">
+                    <a style="cursor:pointer" ng-click="go(currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString())">
+                        <b class="pull-right text-muted">{{facetValue.count | number}}</b>
+                        {{facetValue.value | stripCoords}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </small>
+</div>

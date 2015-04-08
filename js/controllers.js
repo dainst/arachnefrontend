@@ -179,9 +179,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		if (!$scope.currentQuery.restrict) {
 			$scope.currentQuery.restrict = $scope.mapfacetNames[0];
 		}
-		$scope.facetLimit = $scope.currentQuery.fl;
-		$scope.q = angular.copy($scope.currentQuery.q);
-	
+
 		searchService.getCurrentPage().then(function(entities) {
 			$scope.resultSize = searchService.getSize();
 			$scope.facets = searchService.getFacets();
@@ -197,14 +195,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if (response.status == '404') messageService.addMessageForCode('backend_missing');
 			else messageService.addMessageForCode('search_' +  response.status);
 		});
-
-		$scope.switchMapFacet = function(facetName) {
-			$scope.go("map/" + $scope.currentQuery.setParam("restrict", facetName).toString());
-		};
-
-		$scope.go = function(path) {
-			$location.url(path);
-		};
 
 	}
 ])

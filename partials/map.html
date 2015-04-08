@@ -4,84 +4,11 @@
 		<!-- Loading-Icon -->
 		<div ng-hide="resultSize >= 0" class="loading"></div>
 
-		<!-- Seitenleiste  -->
-        <div ng-if="resultSize != null" id="mapNavigation" class="col-md-2 well well-sm"
-        		style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:500;">
-        	
-        	<h4>{{ mapfacet.name + "_plural" | i18n }}</h4>
+		<!-- Menü -->
+		<div ar-map-menu result-size="resultSize" facet-limit="facetLimit" mapfacet="mapfacet" mapfacet-names="mapfacetNames" current-query="currentQuery" facets="facets"></div>
 
-        	<div ng-if="facetLimit == mapfacet.values.length" class="alert alert-info" style="padding:5px 10px; margin-bottom:10px;">
-        		<small>
-        			<b>Hinweis:</b>
-        			Ihre Auswahl enthält mehr Orte als auf der Karte dargestellt werden können.
-        		</small>
-        	</div>
-
-			<!-- Meldung für leeres Suchergebnis -->
-			<div ng-if="resultSize == 0" class="alert alert-info">
-				Keine Orte gefunden.
-			</div>
-
-        	<div ng-if="resultSize > 0" style="margin-bottom:10px;">
-        		<small>
-				Insgesamt <b>{{ resultSize|number }}</b> Objekt<span ng-show="resultSize > 1">e</span>
-				<br>an
-				<i ng-if="mapfacet.values.length >= 2000">mehr als</i>
-				<b>{{ mapfacet.values.length |number }}</b> Ort<span ng-show="mapfacet.values.length > 1">en</span>
-			</small>
-			</div>
-
-			<div ng-if="resultSize > 0">
-	    		<a href="search/{{currentQuery.removeParam('fl').toString()}}" type="button"
-	    				class="btn btn-primary btn-sm btn-block">
-	    			Objekte Anzeigen <i class="glyphicon glyphicon-search"> </i>
-	    		</a>
-	    	</div>
-
-			<div>
-				<h5 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h5>
-					<div class="btn-group-vertical" style="display:block;" role="group">
-						<a class="btn btn-sm btn-default"
-								ng-repeat="mapfacetName in mapfacetNames"
-								ng-class="{'active': mapfacet.name == mapfacetName}"
-								ng-href="map{{currentQuery.setParam('restrict', mapfacetName).toString()}}">
-							{{ mapfacetName + '_map' | i18n }}
-						</a>
-					</div>
-			</div>
-			<div>
-				<h5 class="text-muted uppercase"><b>Aktuelle Suche</b></h5>
-				<form ng-submit="go('/map/' + currentQuery.setParam('q',q).toString())">
-					<input type="text" class="form-control" ng-model="q">
-				</form>
-			</div>
-			<div ar-active-facets route="map" current-query="currentQuery"></div>
-
-			<small>
-				<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>Filter</b></h5>
-				<div ng-hide="resultSize < 2" ng-repeat="facet in facets | filter:'!facet_fundort' | filter:'!facet_aufbewahrungsort' | filter:'!facet_geo' | filter:'!facet_ort'"
-						class="panel panel-default facet">
-					<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
-						<h5 class="panel-title">
-							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
-							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>	
-							&nbsp;{{facet.name | i18n }}
-						</h5>
-					</div>
-					<ul class="list-unstyled facet"	ng-show="facet.open">
-						<li ng-repeat="facetValue in facet.values">
-							<a ng-href="map/{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-								<b class="pull-right text-muted">{{facetValue.count | number}}</b>
-								{{facetValue.value | stripCoords}}
-							</a>
-						</li>
-					</ul>
-				</div>
-			</small>
-    	</div>
-
-    	<!-- Karte -->
-        <div map ng-if="resultSize != null" mapfacet="mapfacet" current-query="currentQuery" class="col-md-12 fullscreenMap" id="map">
+		<!-- Karte -->
+		<div ar-map ng-if="resultSize != null" mapfacet="mapfacet" current-query="currentQuery" class="col-md-12 fullscreenMap" id="map"></div>
 
 	</div>
 
