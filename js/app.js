@@ -13,8 +13,7 @@ angular.module('arachne',[
 	'arachne.services',
 	'arachne.directives',
 	'arachne.controllers',
-    'arachne.widgets.directives',
-    'arachne.widgets.controllers',
+    'arachne.widgets.directives'
 ])
 .config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
 	$locationProvider.html5Mode(true);
