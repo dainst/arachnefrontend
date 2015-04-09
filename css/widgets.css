@@ -11,7 +11,7 @@
 .con10t-toc {
     display: inline-block;
     float: right;
-    margin: 1px;
+    margin: 10px;
     padding: 1em;
     width: 25%;
     background-color: #f4f4f4;
@@ -54,29 +54,30 @@
     font-size:  small;
 }
 
-.con10t-catalog {
-    display: block;
-    margin: 1px;
+.con10t-catalog-tree {
+    display: inline-block;
+    float: right;
+    margin: 10px;
     padding: 1em;
-    width: 25%;
+    width: 40%;
     background-color: #f4f4f4;
     border-style: solid;
     border-width: thin;
     border-color: #E7E7E7;
 }
-.con10t-catalog-title {
+.con10t-catalog-tree-title {
     padding-bottom: 1em;
     font-size: large;
 }
-.con10t-catalog-author {
+.con10t-catalog-tree-author {
     padding-bottom: 1em;
     font-size: medium;
 }
-.con10t-catalog-child {
+.con10t-catalog-tree-child {
     border-style: solid none none none;
     border-width: thin;
     border-color: #E7E7E7;
 }
-.con10t-catalog-children{
+.con10t-catalog-tree-children{
     padding-left: 2em;
 }

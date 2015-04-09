@@ -89,12 +89,35 @@ angular.module('arachne.widgets.directives', [])
 		};
 	}])
 
-	.directive('con10tCatalog', function(){
+	.directive('con10tCatalogTree', ['catalogService', function(catalogService) {
 		return {
 			restrict: 'E',
-			templateUrl: 'partials/widgets/con10t-catalog.html'
+			scope: {
+				catalogId: '@'
+			},
+			templateUrl: 'partials/widgets/con10t-catalog-tree.html',
+			link: function(scope, attrs, element) {
+
+				var slashRegex = /\//g;
+				
+				scope.catalog = catalogService.getCatalog(scope.catalogId);
+				scope.isShown = {};
+				
+				scope.escapePath = function(path){
+					return path.replace(slashRegex, '\\/');
+				};
+				
+				scope.toggleCollapse = function(label){
+					scope.isShown[label] = !scope.isShown[label];
+				};
+				
+				scope.checkIfShown = function(label){
+					return scope.isShown[label]; // at first load -> undefined, so it gets hidden but: ugly?
+				};
+
+			}
 		};
-	})
+	}])
 
 	.directive('con10tCatalogMap', function() {
 		return {
