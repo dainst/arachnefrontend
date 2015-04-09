@@ -1,24 +1,45 @@
-<div ng-controller="ProjectsController as projectsController">
-	<div class="col-md-11 col-md-offset-1" style="margin-top: 20px;">
-	<h1>Alle Projekte in Arachne</h1>
+<div ng-controller="ProjectsController as projectsController" style="width: 90%; margin: 0 5%;">
+	<h1>
+		Alle Projekte in Arachne
+		<form class="form-inline pull-right" style="margin-bottom:0">
+			<input class="form-control" type="text" placeholder="Filter" ng-model="filter">
+		</form>
+	</h1>
 	<hr>
 	<div class="row">
-		<div class="col-md-4">
-			<ul class="nav nav-list" ng-repeat="item in projects" style="padding-top:8px;">
-				<a href="project/{{item.id}}">{{item.title.de}}</a>
-				<span ng-if="item.children" class="glyphicon glyphicon-chevron-right" ng-click="setLayer2(item.children)" style="float:right;"></span>
-			</ul>
+
+		<div ng-repeat="column in columns" class="col-md-4">
+			<div ng-repeat="project in column">
+				<h3 style="margin-top:25px;">
+					<a ng-show="project.id" href="project/{{project.id}}" style="color:black;">
+						{{project.title.de}}
+					</a>
+					<span ng-hide="project.id">{{project.title.de}}</span>
+				</h3>
+				<hr style="margin-top: 0; margin-bottom:10px;">
+				<ul class="list-unstyled">
+					<li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;">
+						<span ng-hide="filter && project.title.de.toLowerCase().indexOf(filter.toLowerCase()) == -1">
+							<a ng-show="project.id" href="project/{{project.id}}">
+								{{project.title.de}}
+							</a>
+							<span ng-hide="project.id">{{project.title.de}}</span>
+						</span>
+						<ul ng-show="project.children">
+							<li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;"
+									ng-hide="filter && project.title.de.toLowerCase().indexOf(filter.toLowerCase()) == -1">
+								<a ng-show="project.id" href="project/{{project.id}}">
+									{{project.title.de}}
+								</a>
+								<span ng-hide="project.id">{{project.title.de}}</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</div>
-		<div class="col-md-4" ng-if="layer2">
-			<ul class="nav nav-list" ng-repeat="item in layer2" style="padding-top:8px;">
-				<a href="project/{{item.id}}">{{item.title.de}}</a>
-				<span ng-if="item.children" class="glyphicon glyphicon-chevron-right" ng-click="setLayer3(item.children)" style="float:right;"></span>
-			</ul>
-		</div>
-		<div class="col-md-4" ng-if="layer3">
-			<ul class="nav nav-list" ng-repeat="item in layer3" style="padding-top:8px;">
-				<a href="project/{{item.id}}">{{item.title.de}}</a>
-			</ul>
-		</div>
+
+		
+
     </div>
 </div>

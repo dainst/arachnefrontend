@@ -496,21 +496,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 .controller('ProjectsController', ['$scope', '$http', 'con10tService', 
 	function ($scope, $http, con10tService) {
-		$scope.projects = null;
-		$scope.layer2 = null;
-		$scope.layer3 = null;
+
+		$scope.columns = [];
 		
 		con10tService.getProjects().success(function(data){
 			$scope.projects = data[0].children;
+			$scope.columns[0] = $scope.projects.slice(0,3);
+			$scope.columns[1] = $scope.projects.slice(3,5);
+			$scope.columns[2] = $scope.projects.slice(5);
 		});
-		
-		$scope.setLayer2 = function(children){
-			$scope.layer2 = children;
-			$scope.layer3=null;
-		}
-		$scope.setLayer3 = function(children){
-			$scope.layer3 = children;
-		}
+
 	}
 ])
 
