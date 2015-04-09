@@ -5,19 +5,19 @@
 	<div class="row">
 		<div class="col-md-4">
 			<ul class="nav nav-list" ng-repeat="item in projects" style="padding-top:8px;">
-				<a href="projects/{{item.id}}">{{item.title.de}}</a>
+				<a href="project/{{item.id}}">{{item.title.de}}</a>
 				<span ng-if="item.children" class="glyphicon glyphicon-chevron-right" ng-click="setLayer2(item.children)" style="float:right;"></span>
 			</ul>
 		</div>
 		<div class="col-md-4" ng-if="layer2">
 			<ul class="nav nav-list" ng-repeat="item in layer2" style="padding-top:8px;">
-				<a href="projects/{{item.id}}">{{item.title.de}}</a>
+				<a href="project/{{item.id}}">{{item.title.de}}</a>
 				<span ng-if="item.children" class="glyphicon glyphicon-chevron-right" ng-click="setLayer3(item.children)" style="float:right;"></span>
 			</ul>
 		</div>
 		<div class="col-md-4" ng-if="layer3">
 			<ul class="nav nav-list" ng-repeat="item in layer3" style="padding-top:8px;">
-				<a href="projects/{{item.id}}">{{item.title.de}}</a>
+				<a href="project/{{item.id}}">{{item.title.de}}</a>
 			</ul>
 		</div>
     </div>

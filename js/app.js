@@ -36,7 +36,7 @@ angular.module('arachne',[
 		.when('/projects', {templateUrl: 'partials/projects.html'})
 		.when('/register', {templateUrl: 'partials/register.html'})
 		.when('/faq', {templateUrl: 'partials/faq.html'})
-		.when('/projects/:name', {templateUrl: function(name){ return 'con10t/de/' + name.name + '.html';}});
+		.when('/project/:name', {templateUrl: 'partials/project.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),

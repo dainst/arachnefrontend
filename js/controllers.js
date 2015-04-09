@@ -591,4 +591,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 	}
-]);
+])
+.controller('ProjectCtrl', ['$scope', '$routeParams',
+	function ($scope, $routeParams) {
+		$scope.templateUrl = 'con10t/de/' + $routeParams.name + '.html';
+	}
+])
+;
+
