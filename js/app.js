@@ -9,6 +9,7 @@ angular.module('arachne',[
 	'ngCookies',
 	'angulartics', 
 	'angulartics.google.analytics',
+	'relativePathsInPartial',
 	'arachne.filters',
 	'arachne.services',
 	'arachne.directives',
