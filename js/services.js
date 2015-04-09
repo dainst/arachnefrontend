@@ -493,7 +493,7 @@ angular.module('arachne.services', [])
 		}
 
 	}])
-.factory('catalogService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
+	.factory('catalogService', ['$resource', 'arachneSettings', '$http', '$modal', 'authService',
 		function($resource, arachneSettings, $http, $modal, authService){
 
 			var catchError = function(errorReponse) {

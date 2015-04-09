@@ -1,5 +1,5 @@
-<div ng-controller="TocController">
-    <div class="con10t-toc-heading">{{tocHeading}}</div>
+<div class="con10t-toc">
+    <div ng-show="tocHeading" class="con10t-toc-heading">{{tocHeading}}</div>
     <div class="{{heading.depth}}" ng-repeat='heading in toc'>
         <a ng-click="scrollTo(heading.target)">{{heading.text}}</a>
     </div>

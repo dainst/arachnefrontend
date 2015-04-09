@@ -1,10 +1,16 @@
-.con10t-page h1,h2,h3,h4,h5,h6 {
+.con10t-page h1,
+.con10t-page h2,
+.con10t-page h3,
+.con10t-page h4,
+.con10t-page h5,
+.con10t-page h6 {
     padding-top: 55px;   /* Hack:                                                                */
     margin-top:  -35px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
 }
 
-con10t-toc {
-    display: block;
+.con10t-toc {
+    display: inline-block;
+    float: right;
     margin: 1px;
     padding: 1em;
     width: 25%;
@@ -14,7 +20,7 @@ con10t-toc {
     border-color: #E7E7E7;
 }
 
-con10t-toc a{
+.con10t-toc a {
     cursor: pointer;
     cursor: hand;
 }
@@ -48,7 +54,7 @@ con10t-toc a{
     font-size:  small;
 }
 
-con10t-catalog {
+.con10t-catalog {
     display: block;
     margin: 1px;
     padding: 1em;
