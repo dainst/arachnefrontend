@@ -332,6 +332,19 @@ h6 { font-size: 12px; }
 .con10t-page {
   width: 80%;
   margin: 0 10%;
+  text-align: justify;
+}
+
+.con10t-page img {
+  padding: 0 15px;
+}
+
+.con10t-page img[align="right"] {
+  padding: 0 0 0 15px;
+}
+
+.con10t-page img[align="left"] {
+  padding: 0 15px 0 0;
 }
 
 /* OVERWRITING MARKER CLUSTER STYLING FOR LEAFLET PLUGIN MARKERCLUSTER */
