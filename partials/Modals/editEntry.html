@@ -1,0 +1,28 @@
+<form>
+	<div class="modal-header">
+		<h4 class="modal-title">Neuen Eintrag anlegen:
+		</h4>
+	</div>
+	<div class="modal-body">
+		Überschrift des neuen Eintrags
+		<div class="form-group">
+			<input autofocus type="label" class="form-control" ng-model="entry.label" placeholder="Überschrift">
+		</div>
+		ArachneId <small>(Optional)</small>
+		<div class="form-group">
+			<input autofocus type="arachneId" class="form-control" ng-model="entry.arachneEntityId" placeholder="Entity ID">
+		</div>
+		Katalogtext <small>(Optional)</small>
+		<div class="form-group">
+			<textarea type="text" class="form-control" ng-model="entry.text" placeholder="Katalogtext"></textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+    	<input class="btn btn-primary"
+    			type="submit"
+    			ng-click="$close(entry)"
+    			ng-class="{ disabled: !entry.label }"
+    			value="OK">
+    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+	</div>
+</form>

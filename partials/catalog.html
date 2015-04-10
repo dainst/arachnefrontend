@@ -1,84 +1,118 @@
-<script type="text/ng-template" id="entry_catalog_template.html">
+<script type="text/ng-template" id="entries_renderer.html">
 	
-	<br>	
-	<div id="custom-entry">
-		<accordion class="accordion-with-list col-md-11 col-md-offset-1" >
-		<accordion-group heading="{{ entry.label }}">
-			<div class="list-group-item">
-				<div class="btn-group pull-right">
-					<button type="button" class="btn btn-sm btn-link" ng-click="updateEntry(entry)"><span class="glyphicon glyphicon-pencil"></span></button>
-					<button type="button" class="btn btn-sm btn-link" ng-click="deleteEntry(entry)"><span class="glyphicon glyphicon-trash"></span></button>
-				</div>
-	    		<div class="media">
-	    			<div class="media-left">
-	    				<img width="100" height="100" ng-src="img/imagePlaceholder.png"></img>
-		    		</div>
-		    		<div class="media-body">
-		    			<a class="media-heading" ng-if="entry.arachneEntityId" href="entity/{{ entry.arachneEntityId }}">ArachneId: {{ entry.arachneEntityId }} </a><br>
-		    			<small ng-if="entry.text">Kommentar: <br> {{ entry.text }}</small><br>
-		    			<small ng-if="entry.text">id: <br> {{ entry.id }}</small>
-		    		</div>
-		    	</div>
-		    </div>
-	    	<div ng-if="entry.children.length == 0"  class="list-group-item clearfix">
-	    		In diesem Eintrag sind noch keine Einträge vorhanden.
-	    		<button type="button" class="btn btn-link pull-right" ng-click="createEntry(entry.id)">
-					<span class="glyphicon glyphicon-plus"></span> Neuen Eintrag  
-				</button>
-	    	</div>
-	    	<div ng-if="entry.children.length != 0" >
-		    	<div ng-repeat="entry in entry.children" ng-include="'entry_catalog_template.html'">
-		    	</div>
-		    	<button type="button" class="btn btn-link pull-right" ng-click="createEntry(entry.id)">
-					<span class="glyphicon glyphicon-plus"></span> Neuen Eintrag  
-				</button>
-		    </div>
-		</accordion-group>
-		</accordion>
+	<div class="catalog-entry">
+
+		<span ng-if="entry.children.length > 0 && entry.expanded"
+			class="glyphicon glyphicon-folder-open" style="color: grey; cursor: pointer;"
+			ng-click="entry.expanded = false"></span>
+		<span ng-if="entry.children.length > 0 && !entry.expanded"
+			class="glyphicon glyphicon-folder-close" style="color: grey; cursor: pointer;"
+			ng-click="entry.expanded = true"></span>
+		<span ng-if="!entry.children || entry.children.length == 0"
+			class="glyphicon glyphicon-file" style="color: grey;"></span>
+
+		<a ng-if="entry.arachneEntityId" ng-href="entity/{{entry.arachneEntityId}}">
+			{{entry.label}}
+		</a>
+		<span ng-if="!entry.arachneEntityId">
+			{{entry.label}}
+		</span>
+
+		<span ng-if="entry.text" class="glyphicon glyphicon-book"></span>
+		<span ng-if="entry.arachneEntityId" class="glyphicon glyphicon-link"></span>
+
+		<span ui-tree-handle class="pull-right">
+			<span class="glyphicon glyphicon-menu-hamburger" style="color: grey;"></span>
+		</span>
+		
+		<a class="edit-btn text-danger pull-right" ng-click="removeEntry(entry, $parent.$parent.entry)">
+			<span class="glyphicon glyphicon-remove-sign"></span>
+		</a>
+		<a class="edit-btn text-success pull-right" ng-click="addChild(entry)">
+			<span class="glyphicon glyphicon-plus-sign"></span>
+		</a>
+		<a class="edit-btn pull-right" ng-click="editEntry(entry)">
+			<span class="glyphicon glyphicon-edit"></span>
+		</a>
+
 	</div>
+
+	<ol ng-show="entry.expanded" ui-tree-nodes="" ng-model="entry.children">
+		<li ng-repeat="entry in entry.children" ui-tree-node ng-include="'entries_renderer.html'"></li>
+	</ol>
+
 </script>
-<div ng-controller="CatalogController as catalogController">
-	<div  ng-if="!user.username" class="col-md-12 text-right alert alert-info">
+
+<div ng-controller="CatalogCtrl">
+	<div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
 		Für Kataloge bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 	</div>
-	<div class="col-md-8 col-md-offset-2" ng-if="user.username">
+	<div class="col-md-10 col-md-offset-1" ng-if="user.username">
 		<div class="page-header">
-			<button type="button" class="btn btn-link pull-right" ng-click="createCatalog()">
-				<span class="glyphicon glyphicon-plus"></span> Neuen Katalog 
-			</button>
-			<h3><span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"> </span> Ihre Kataloge</h3>
+			<h3>
+				<span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"></span>
+				Katalogverwaltung
+			</h3>
+		</div>
+		
+		<div class="row">
+
+			<div ng-if="activeCatalog" class="col-md-10 catalog-edit">
+
+				<h3>
+					<b>{{activeCatalog.root.label}}</b> <small>Autor: {{activeCatalog.author}}</small>
+					<div class="btn-group btn-group-xs pull-right">
+						<button class="btn btn-default" ng-click="editCatalog()">
+							<span class="glyphicon glyphicon-edit"></span> Katalog bearbeiten
+						</button>
+						<button class="btn btn-default" ng-click="expandAll(activeCatalog.root)">
+							<span class="glyphicon glyphicon-folder-open"></span> Alle aufklappen
+						</button>
+						<button class="btn btn-default" ng-click="collapseAll(activeCatalog.root)">
+							<span class="glyphicon glyphicon-folder-close"></span> Alle einklappen
+						</button>
+						<button class="btn btn-default" ng-click="removeCatalog()">
+							<span class="glyphicon glyphicon-remove"></span> Katalog löschen
+						</button>
+					</div>
+				</h3>
+
+				<div ng-if="activeCatalog.root.children.length > 0" ui-tree="treeOptions">
+					<ol ui-tree-nodes="" ng-model="activeCatalog.root.children">
+						<li ng-repeat="entry in activeCatalog.root.children"
+								ui-tree-node
+								ng-include="'entries_renderer.html'">
+						</li>
+					</ol>
+				</div>
+
+				<div class="catalog-entry">
+					<a ng-click="addChild(activeCatalog.root)" style="cursor:pointer; display:block;">
+						<em><span class="glyphicon glyphicon-plus-sign"></span> Neuen Eintrag hinzufügen</em>
+					</a>
+				</div>
+
+			</div>
+
+			<div class="col-md-2">
+				<h4>Ihre Kataloge</h4>
+				<ul class="nav nav-pills nav-stacked">
+					<li ng-repeat="catalog in catalogs" ng-class="{ active: activeCatalog == catalog }">
+						<a ng-click="setActiveCatalog(catalog)" style="cursor:pointer">
+							{{catalog.root.label}}
+						</a>
+					</li>
+				</ul>
+				<div ng-if="catalogs.length == 0">
+					<em>Keine Kataloge vorhanden</em>
+				</div>
+				<br>
+				<button type="button" class="btn btn-default btn-sm" ng-click="createCatalog()">
+					<span class="glyphicon glyphicon-plus"></span> Katalog hinzufügen
+				</button>
+			</div>
+
 		</div>
 
-		<div ng-if="catalogs.length == 0">
-			Keine Kataloge vorhanden.
-		</div>
-		<div id="custom-catalog">
-			<accordion class="accordion-with-list" ng-repeat="catalog in catalogs" >
-				<accordion-group>
-					<accordion-heading>{{ catalog.root.label }}</accordion-heading>
-			    	<div class="list-group-item">
-						<div class="btn-group pull-right">
-							<a type="button" class="btn btn-sm btn-link" ng-href="search/{{catalog.query.toString()}}"><span class="glyphicon glyphicon-search"></span></a>
-							<button type="button" class="btn btn-sm btn-link" ng-click="updateEntry(catalog.root)"><span class="glyphicon glyphicon-pencil"></span></button>
-							<button type="button" class="btn btn-sm btn-link" ng-click="deleteCatalog(catalog.id)"><span class="glyphicon glyphicon-trash"></span></button>
-						</div>
-			    		<div ng-if="catalog.author">Author: {{ catalog.author }} </div>
-			    		<small ng-if="catalog.root.text">Kommentar: <br> {{ catalog.root.text }}</small>
-			    		
-			    	</div>
-			    	<div class="col-md-12" ng-if="catalog.root.chidlren.length == 0" >
-			    		<br>
-			    		In diesem Katalog sind noch keine Einträge vorhanden.
-			    	</div>
-			    	<div class="row" ng-if="catalog.catalogEntries.length != 0">
-				    	<div class="col-md-12" ng-repeat="entry in catalog.root.children" ng-include="'entry_catalog_template.html'">
-				    	</div>
-				    </div>
-				    <button type="button" class="btn btn-link pull-right" ng-click="createEntry(catalog.root.id)">
-						<span class="glyphicon glyphicon-plus"></span> Neuen Eintrag 
-					</button>
-		    	</accordion-group>
-		  	</accordion>
-	  	</div>
   	</div>
 </div>

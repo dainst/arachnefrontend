@@ -285,78 +285,137 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CatalogController',['$rootScope', '$scope', '$modal', 'authService', 'catalogService','arachneSettings', 'Query', 'Entity', '$filter',
-	function ($rootScope, $scope, $modal, authService, catalogService, arachneSettings, Query, Entity, $filter) {
-
-		$rootScope.hideFooter = false;
+.controller('CatalogCtrl',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry',
+	function ($scope, $modal, authService, Entity, Catalog, CatalogEntry) {
 
 		$scope.catalogs = [];
 		$scope.user = authService.getUser();
-		$scope.dataserviceUri = arachneSettings.dataserviceUri;
+
+		$scope.treeOptions = {
+			dropped: function(event) {
+				console.log(event);
+				updateActiveCatalog();
+			}
+		}
 
 		$scope.refreshCatalogs = function(){
-			$scope.catalogs = catalogService.getCatalogs();
+			Catalog.query(function(result) {
+				$scope.catalogs = result;
+				if (!$scope.activeCatalog) {
+					$scope.activeCatalog = $scope.catalogs[0];
+				}
+			});
 		}
 
 		$scope.refreshCatalogs();
-		
-		$scope.createEntry = function(){
-			var label;
-			var createEntryId = $modal.open({
-				templateUrl: 'partials/Modals/createEntryId.html'
-			});	
 
-			createEntryId.close = function(arachneId){
+		$scope.setActiveCatalog = function(catalog) {
+			$scope.activeCatalog = catalog;
+		}
 
-				Entity.get({id:arachneId}, function(data) {
-					$scope.entity = data;
-					label = $scope.entity.title;
-					createEntryId.dismiss();
-					catalogService.createEntry(arachneId, $scope.catalogs, label, function(data){ 
-						$scope.refreshCatalogs();
-					});
+		$scope.addChild = function(entry) {
+			if (!entry.children) {
+				entry.children = [];
+			}
+			var editEntryModal = $modal.open({
+				templateUrl: 'partials/Modals/editEntry.html'
+			});
+			editEntryModal.close = function(newEntry) {
+				entry.children.push(newEntry);
+				entry.expanded = true;
+				updateActiveCatalog();
+				editEntryModal.dismiss();
+			}			
+		}
 
-				}, function(response) {
-					console.log("error get Entity");
-					alert("Falsche Id!");	
-				});
+		$scope.removeEntry = function(entry, parent) {
+			if (parent == undefined) {
+				parent = $scope.activeCatalog.root;
+			}
+			var deleteModal = $modal.open({
+				templateUrl: 'partials/Modals/delete.html'
+			});
+			deleteModal.close = function() {
+				var index = parent.children.indexOf(entry);
+				parent.children.splice(index, 1);
+				updateActiveCatalog();
+				deleteModal.dismiss();
 			}
 		}
-		$scope.deleteEntry = function(entry){
-			catalogService.deleteEntry(entry.id,
-				function(data){
-					$scope.refreshCatalogs();
-				});
-		}
 
-		$scope.updateEntry = function(entry){
-			catalogService.updateEntry(entry, function(data){
-				$scope.refreshCatalogs();
+		$scope.editEntry = function(entry) {
+			var editEntryModal = $modal.open({
+				templateUrl: 'partials/Modals/editEntry.html',
+				controller: 'EditCatalogEntryCtrl',
+				resolve: { entry: function() { return entry } }
 			});
+			editEntryModal.close = function(newEntry) {
+				entry = newEntry;
+				updateActiveCatalog();
+				editEntryModal.dismiss();
+			}
 		}
 
-		$scope.updateCatalog = function(CatalogId){
-			var Catalog;
-			catalogService.getCatalog(CatalogId, function(data){
-				Catalog = data;
-				catalogService.updateCatalog(Catalog, function(data){
-					$scope.refreshCatalogs();
-				});
+		$scope.createCatalog = function() {
+			var editCatalogModal = $modal.open({
+				templateUrl: 'partials/Modals/editCatalog.html'
 			});
-		}
-
-		$scope.createCatalog = function(){
-			catalogService.createCatalog(function(response){
-				$scope.catalogs.push(response);
-			});
-		}
-
-		$scope.deleteCatalog = function(CatalogId){
-			catalogService.deleteCatalog(CatalogId,
-				function(data){
-					// console.log("deleted List" + data);
-					$scope.refreshCatalogs();
+			editCatalogModal.close = function(newCatalog) {
+				newCatalog.public = false;
+				Catalog.save({}, newCatalog, function(result) {
+					$scope.catalogs.push(result);
+					$scope.activeCatalog = result;
 				});
+				editCatalogModal.dismiss();
+			}
+		}
+
+		$scope.editCatalog = function() {
+			var editCatalogModal = $modal.open({
+				templateUrl: 'partials/Modals/editCatalog.html',
+				controller: 'EditCatalogCtrl',
+				resolve: { catalog: function() { return $scope.activeCatalog } }
+			});
+			editCatalogModal.close = function(newCatalog) {
+				$scope.activeCatalog = newCatalog;
+				Catalog.update({id: $scope.activeCatalog.id}, newCatalog);
+				editCatalogModal.dismiss();
+			}
+		}
+
+		$scope.removeCatalog = function() {
+			var deleteModal = $modal.open({
+				templateUrl: 'partials/Modals/delete.html'
+			});
+			deleteModal.close = function() {
+				var index = $scope.catalogs.indexOf($scope.activeCatalog);
+				$scope.catalogs.splice(index, 1);
+				Catalog.remove({id: $scope.activeCatalog.id});
+				$scope.activeCatalog = $scope.catalogs[0];
+				deleteModal.dismiss();
+			}
+		}
+
+		$scope.expandAll = function(entry) {
+			entry.expanded = true;
+			if (entry.children || entry.children.length > 0) {
+				for (var i = 0; i < entry.children.length; i++) {
+					$scope.expandAll(entry.children[i]);
+				}
+			}
+		}
+
+		$scope.collapseAll = function(entry) {
+			entry.expanded = false;
+			if (entry.children || entry.children.length > 0) {
+				for (var i = 0; i < entry.children.length; i++) {
+					$scope.collapseAll(entry.children[i]);
+				}
+			}
+		}
+
+		function updateActiveCatalog() {
+			Catalog.update({ id: $scope.activeCatalog.id }, $scope.activeCatalog);
 		}
 
 	}
@@ -592,5 +651,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.templateUrl = 'con10t/de/' + $routeParams.name + '.html';
 	}
 ])
+.controller('EditCatalogEntryCtrl',
+	function ($scope, $modalInstance, entry) {
+		$scope.entry = entry;
+	}
+)
+.controller('EditCatalogCtrl',
+	function ($scope, $modalInstance, catalog) {
+		$scope.catalog = catalog;
+	}
+)
 ;
 

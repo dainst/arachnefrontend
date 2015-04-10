@@ -10,6 +10,7 @@ angular.module('arachne',[
 	'angulartics', 
 	'angulartics.google.analytics',
 	'relativePathsInPartial',
+	'ui.tree',
 	'arachne.filters',
 	'arachne.services',
 	'arachne.directives',
