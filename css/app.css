@@ -252,10 +252,13 @@ h6 { font-size: 12px; }
 .imagePlaceholder {
   content:url("../img/arachnelogo.png");
 }
-.fullscreenMap {
+.ar-map * {
+  box-sizing: content-box;
+}
+.ar-fullscreenmap {
   height: 100%;
 }
-.halfscreenMap {
+.ar-halfscreenmap {
   height: 50%;
 }
 /* Für Filter-Seite, an den Facetten */
