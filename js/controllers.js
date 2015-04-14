@@ -198,8 +198,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'catalogService', 'authService', 'categoryService', 'Query', 'messageService',
-	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, catalogService, authService, categoryService, Query, messageService) {
+.controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
+	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messageService) {
 
 		$rootScope.hideFooter = false;
 		
@@ -216,13 +216,26 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.url(path);
 		};
 
-		$scope.catalogs = [];
-		$scope.catalogs = catalogService.getCatalogs();
+		$scope.catalogs = Catalog.query();
 
-		$scope.createEntry = function(){
-			$scope.catalogs = catalogService.getCatalogs();
-			catalogService.createEntry($routeParams.id, $scope.catalogs, $scope.entity.title, function(data){
-			});			
+		$scope.createEntry = function() {
+			// TODO: choose catalog and position
+			var catalog = $scope.catalogs[0];
+			var entry = {
+				catalogId: catalog.id,
+				parentId: catalog.root.id,
+				arachneEntityId: $scope.entity.entityId,
+				label: $scope.entity.title
+			};
+			var editEntryModal = $modal.open({
+				templateUrl: 'partials/Modals/editEntry.html',
+				controller: 'EditCatalogEntryCtrl',
+				resolve: { entry: function() { return entry } }
+			});
+			editEntryModal.close = function(newEntry) {
+				CatalogEntry.save(newEntry);
+				editEntryModal.dismiss();
+			}
 		}
 
 		// TODO Abstract Sections-Template and Logic to seperate unit - for reuse 
@@ -293,7 +306,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.treeOptions = {
 			dropped: function(event) {
-				console.log(event);
 				updateActiveCatalog();
 			}
 		}
