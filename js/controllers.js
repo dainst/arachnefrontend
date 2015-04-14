@@ -535,24 +535,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			var projslides = $scope.projslides = [];
 			for(var key in projectsMenu) {
 				projslides.push({
-					image: "con10t/frontimages/" + projectsMenu[key].id + ".png",
-					title: projectsMenu[key].text
+					image: "con10t/frontimages/" + projectsMenu[key].id + ".jpg",
+					title: projectsMenu[key].text,
+					id: projectsMenu[key].id
 				});
-			}
-		});
-
-        categoryService.getCategoriesAsync().then(function(categories) {
-			$scope.categories = [];
-			var cateslides = $scope.cateslides = [];
-			for(var key in categories) {
-				if (categories[key].status == 'start') {
-					$scope.categories.push(categories[key]);
-					cateslides.push({
-						image: categories[key].imgUri,
-						title: categories[key].title,
-						text: categories[key].subtitle
-					});
-				}
 			}
 		});
 		
