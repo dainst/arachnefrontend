@@ -1,8 +1,10 @@
 <div class="row" ng-controller="CategoryCtrl">
 	<div class="col-md-offset-1 col-md-10 media" style="margin-top:20px;">
-		<a class="media-left" href="" style="cursor:default;">
-			<img src="{{ imgUri }}" alt="{{ title }}" class="img-responsive">
-		</a>
+		<div class="media-left">
+			<a href="" style="cursor:default;">
+				<img src="{{ imgUri }}" alt="{{ title }}" class="media-object" style="max-width:420px;">
+			</a>
+		</div>
 		<div class="media-body" style="padding-left:15px;">
 			<h1 class="media-heading">
 				{{ title }}
