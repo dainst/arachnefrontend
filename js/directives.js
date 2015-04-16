@@ -623,10 +623,15 @@ angular.module('arachne.directives', [])
 			mapfacetNames: '=',
 			currentQuery: '=',
 			facets: '=',
+			facetsAllow: '=',
+			facetsDeny: '=',
 			overlays: '=',
 		},
 		templateUrl: 'partials/directives/ar-map-menu.html',
 		link: function(scope, element, attrs) {
+
+			var geofacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'facet_geogrid']
+
 			scope.route = $location.path().slice(1);
 
 			scope.q = scope.currentQuery.q;
@@ -643,6 +648,33 @@ angular.module('arachne.directives', [])
 			if (keys.length > 0) {
 				scope.showOverlayGroupMenu = true;
 			}
+
+			var facetsHidden = geofacets;
+			if (scope.facetsDeny) {
+				facetsHidden = facetsHidden.concat(scope.facetsDeny);
+			}
+
+			// determine shown facets after facets are loaded
+			scope.facetsShown = [];
+			scope.$watch('facets', function(facets) {
+				// facetsShown is either the ordered list defined in facetsAllow
+				if (facets && scope.facetsAllow) {
+					for (var i = 0; i < scope.facetsAllow.length; i++) {
+						var name = scope.facetsAllow[i];
+						var result = facets.filter(function (facet) {
+							return (facet.name == name);
+						});
+						if (result[0]) {
+							scope.facetsShown.push(result[0]);
+						}
+					}
+				// or it is scope.facets pruned by everything in facetsHidden
+				} else if(facets && facetsHidden) {
+					scope.facetsShown = facets.filter(function (facet) {
+						return (facetsHidden.indexOf(facet.name) == -1)
+					});
+				}
+			});
 
 			scope.go = function(path) {
 				$location.url(path);
