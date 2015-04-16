@@ -89,7 +89,7 @@ angular.module('arachne.widgets.directives', [])
 		};
 	}])
 
-	.directive('con10tCatalogTree', ['catalogService', function(catalogService) {
+	.directive('con10tCatalogTree', ['Catalog', function(Catalog) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -100,7 +100,7 @@ angular.module('arachne.widgets.directives', [])
 
 				var slashRegex = /\//g;
 				
-				scope.catalog = catalogService.getCatalog(scope.catalogId);
+				scope.catalog = Catalog.get({id:scope.catalogId});
 				scope.isShown = {};
 				
 				scope.escapePath = function(path){

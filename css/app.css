@@ -374,10 +374,18 @@ h6 { font-size: 12px; }
 }
 
 .catalog-edit .angular-ui-tree-placeholder {
-    background: #f0f9ff;
-    border-radius: 4px;
-    border: 1px dashed #bed2db;
-    margin: 0;
+  background: #f0f9ff;
+  border-radius: 4px;
+  border: 1px dashed #bed2db;
+  margin: 0;
+}
+
+.carousel-caption {
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 1), 0px 0px 5px rgba(0, 0, 0, 1);
+}
+
+.carousel-indicators li {
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 1);
 }
 
 /* OVERWRITING MARKER CLUSTER STYLING FOR LEAFLET PLUGIN MARKERCLUSTER */
