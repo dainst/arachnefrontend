@@ -617,6 +617,7 @@ angular.module('arachne.directives', [])
 	return {
 		restrict: 'A',
 		scope: {
+			menuTitle: '=',
 			resultSize: '=',
 			mapfacet: '=',
 			mapfacetNames: '=',
