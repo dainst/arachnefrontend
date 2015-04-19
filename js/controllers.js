@@ -217,24 +217,34 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		};
 
 		$scope.catalogs = Catalog.query();
+		var catalog = Catalog.query();
 
 		$scope.createEntry = function() {
-			// TODO: choose catalog and position
-			var catalog = $scope.catalogs[0];
-			var entry = {
-				catalogId: catalog.id,
-				parentId: catalog.root.id,
-				arachneEntityId: $scope.entity.entityId,
-				label: $scope.entity.title
-			};
-			var editEntryModal = $modal.open({
-				templateUrl: 'partials/Modals/editEntry.html',
-				controller: 'EditCatalogEntryCtrl',
-				resolve: { entry: function() { return entry } }
+		
+			console.log($scope.catalogs);
+
+			var createEntryPos = $modal.open({
+				templateUrl: 'partials/Modals/createEntryPos.html',
+				controller: function ($scope) { $scope.catalogs = catalog},
+				resolve: { catalog: function() { return catalog } }
 			});
-			editEntryModal.close = function(newEntry) {
-				CatalogEntry.save(newEntry);
-				editEntryModal.dismiss();
+			createEntryPos.close = function(catalog) {
+				var entry = {
+					catalogId: catalog.id,
+					parentId: catalog.root.id,
+					arachneEntityId: $scope.entity.entityId,
+					label: $scope.entity.title
+				};
+				var editEntryModal = $modal.open({
+					templateUrl: 'partials/Modals/editEntry.html',
+					controller: 'EditCatalogEntryCtrl',
+					resolve: { entry: function() { return entry } }
+				});
+				editEntryModal.close = function(newEntry) {
+					CatalogEntry.save(newEntry);
+					editEntryModal.dismiss();
+				}
+				createEntryPos.dismiss();
 			}
 		}
 
