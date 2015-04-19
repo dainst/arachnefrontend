@@ -220,9 +220,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		var catalog = Catalog.query();
 
 		$scope.createEntry = function() {
-		
-			console.log($scope.catalogs);
-
+			//TODO: Parse Secitons in entry.text
 			var createEntryPos = $modal.open({
 				templateUrl: 'partials/Modals/createEntryPos.html',
 				controller: function ($scope) { $scope.catalogs = catalog},
@@ -232,6 +230,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				var entry = {
 					catalogId: catalog.id,
 					parentId: catalog.root.id,
+					text: $scope.entity.sections,
 					arachneEntityId: $scope.entity.entityId,
 					label: $scope.entity.title
 				};

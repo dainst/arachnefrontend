@@ -1,6 +1,6 @@
 <script type="text/ng-template" id="entries_renderer.html">
 	
-	<div class="catalog-entry">
+	<div class="catalog-entry" ng-init="entry.show = false">
 
 		<span ng-if="entry.children.length > 0 && entry.expanded"
 			class="glyphicon glyphicon-folder-open" style="color: grey; cursor: pointer;"
@@ -18,7 +18,9 @@
 			{{entry.label}}
 		</span>
 
-		<span ng-if="entry.text" class="glyphicon glyphicon-book"></span>
+		<a class="btn" ng-click="entry.show = !entry.show">
+			<span ng-if="entry.text" class="glyphicon glyphicon-book"></span>
+		</a>
 		<span ng-if="entry.arachneEntityId" class="glyphicon glyphicon-link"></span>
 
 		<span ui-tree-handle class="pull-right">
@@ -34,6 +36,11 @@
 		<a class="edit-btn pull-right" ng-click="editEntry(entry)">
 			<span class="glyphicon glyphicon-edit"></span>
 		</a>
+
+		<span ng-if="entry.text && entry.show">
+			<br>
+			{{entry.text}}
+		</span>
 
 	</div>
 
