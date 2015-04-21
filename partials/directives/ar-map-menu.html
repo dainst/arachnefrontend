@@ -1,6 +1,10 @@
 <div ng-if="resultSize != null" id="mapNavigation" class="col-md-2 well well-sm"
         style="background-color: rgba(248, 248, 248, 0.8);position: absolute; top: 60px; bottom:10px; right: 10px; overflow-y:auto; z-index:500;">
 
+    <h2 class="text-muted uppercase" style="font-variant:small-caps" ng-show="menuTitle">
+        {{menuTitle}}
+    </h2>
+
     <h4>{{ mapfacet ? (mapfacet.name + "_plural" | i18n) : "" }}</h4>
 
     <!-- Infos zum Suchergebnis -->
@@ -89,12 +93,14 @@
             <input type="text" class="form-control" ng-model="q"/>
         </form>
     </div>
+
+    <!-- Aktive Filter (ausgewählte Facetten) -->
     <div ar-active-facets route="{{route}}" current-query="currentQuery"></div>
 
     <!-- Weitere Facetten -->
-    <small>
+    <small ng-if="resultSize > 2">
         <h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>Filter</b></h5>
-        <div ng-hide="resultSize < 2" ng-repeat="facet in facets | filter:'!facet_fundort' | filter:'!facet_aufbewahrungsort' | filter:'!facet_geo' | filter:'!facet_ort'"
+        <div ng-repeat="facet in facetsShown"
                 class="panel panel-default facet">
             <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
                 <h5 class="panel-title">

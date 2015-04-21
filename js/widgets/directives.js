@@ -123,6 +123,9 @@ angular.module('arachne.widgets.directives', [])
 		return {
 			restrict: 'E',
 			scope: {
+				menuTitle: '@',
+				facetsAllow: '=',
+				facetsDeny: '=',
 				overlays: '='
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-map.html'
