@@ -96,7 +96,7 @@ angular.module('arachne.widgets.directives', [])
 				catalogId: '@'
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-tree.html',
-			link: function(scope, attrs, element) {
+			link: function(scope) {
 
 				var slashRegex = /\//g;
 				
@@ -128,4 +128,28 @@ angular.module('arachne.widgets.directives', [])
 			templateUrl: 'partials/widgets/con10t-catalog-map.html'
 		};
 	})
+
+    .directive('con10tSearch', ['$location', '$filter', function($location, $filter) {
+        return {
+            restrict: 'E',
+            templateUrl: 'partials/widgets/con10t-search.html',
+			scope: {
+				catalogId: '@'
+			},
+			link: function(scope, element, attrs) {
+                scope.placeholder = attrs.searchPlaceholder;
+
+                if(!scope.placeholder)
+                    scope.placeholder = $filter('i18n')('ui_projectsearchplaceholder');
+
+				scope.search = function() {
+					var url = "search/?q=catalogPaths:"+scope.catalogId;
+
+                    if(scope.q != null)
+                        url += "+"+scope.q;
+                    $location.url(url);
+				}
+			}
+        };
+    }])
 ;
