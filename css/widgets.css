@@ -8,8 +8,8 @@
 }
 
 .con10t-toc-entry {
-    /* padding-top: 55px;   /* Hack:                                                                */
-    /* margin-top:  -55px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
+    padding-top: 55px;   /* Hack:                                                                */
+    margin-top:  -55px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
 }
 
 .con10t-toc a {
