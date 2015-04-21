@@ -1,23 +1,15 @@
-.con10t-page h1,
-.con10t-page h2,
-.con10t-page h3,
-.con10t-page h4,
-.con10t-page h5,
-.con10t-page h6 {
-    padding-top: 55px;   /* Hack:                                                                */
-    margin-top:  -35px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
-}
-
 .con10t-toc {
     display: inline-block;
-    float: right;
-    margin: 10px;
     padding: 1em;
-    width: 25%;
     background-color: #f4f4f4;
     border-style: solid;
     border-width: thin;
     border-color: #E7E7E7;
+}
+
+.con10t-toc-entry {
+    /* padding-top: 55px;   /* Hack:                                                                */
+    /* margin-top:  -55px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
 }
 
 .con10t-toc a {
@@ -56,10 +48,7 @@
 
 .con10t-catalog-tree {
     display: inline-block;
-    float: right;
-    margin: 10px;
     padding: 1em;
-    width: 40%;
     background-color: #f4f4f4;
     border-style: solid;
     border-width: thin;

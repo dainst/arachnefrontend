@@ -58,7 +58,9 @@ angular.module('arachne.widgets.directives', [])
 			templateUrl: 'partials/widgets/con10t-toc.html',
 			link: function(scope, element, attrs) {
 
-				var headings = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+				var headings = document.querySelectorAll("h1.con10t-toc-entry" +
+                ", h2.con10t-toc-entry, h3.con10t-toc-entry, h4.con10t-toc-entry" +
+                ", h5.con10t-toc-entry, h6.con10t-toc-entry");
 
 				scope.toc = [];
 
@@ -81,7 +83,6 @@ angular.module('arachne.widgets.directives', [])
 
 				scope.scrollTo = function(id) {
 					$location.hash(id);
-					console.log("Hash onclick: " + $location.hash());
 					$anchorScroll();
 				}
 
@@ -123,9 +124,6 @@ angular.module('arachne.widgets.directives', [])
 		return {
 			restrict: 'E',
 			scope: {
-				menuTitle: '@',
-				facetsAllow: '=',
-				facetsDeny: '=',
 				overlays: '='
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-map.html'
