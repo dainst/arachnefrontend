@@ -46,7 +46,7 @@
     font-size:  small;
 }
 
-.con10t-catalog-tree {
+con10t-catalog-tree {
     display: inline-block;
     padding: 1em;
     background-color: #f4f4f4;
@@ -69,4 +69,13 @@
 }
 .con10t-catalog-tree-children{
     padding-left: 2em;
+}
+
+.con10t-tree {
+    display: inline-block;
+    padding: 1em;
+    background-color: #f4f4f4;
+    border-style: solid;
+    border-width: thin;
+    border-color: #E7E7E7;
 }
