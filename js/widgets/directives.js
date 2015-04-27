@@ -213,33 +213,15 @@ angular.module('arachne.widgets.directives', [])
                  treeQuery.q = "*";
 
                  Entity.query(treeQuery.toFlatObject(), function(response) {
-
-                    console.dir(node);
-
-
-                    if(scope.hierarchyFacets.length > 0){
-                       for(var  i = 0; i < response.facets.length; i++){
-                          var currentResultFacet = response.facets[i];
-                          if(currentResultFacet.name == (scope.hierarchyFacets[node.depth])){
-                             for(var j = 0; j < currentResultFacet.values.length; j++)
-                             {
-                                node.children.push({name: currentResultFacet.values[j].value, depth: node.depth + 1, children:[],
-                                   facet: [currentResultFacet.name, currentResultFacet.values[j].value], parent: node});
-                             }
-                          }
-                       }
-                    }
-                    else {
-                       if(scope.wildcardFacet){
-                          for(var  i = 0; i < response.facets.length; i++){
-                             var currentResultFacet = response.facets[i];
-                             if(currentResultFacet.name.indexOf(scope.wildcardFacet) > -1){
-                                for(var j = 0; j < currentResultFacet.values.length; j++)
-                                {
-                                   node.children.push({name: currentResultFacet.values[j].value, depth: node.depth + 1, children:[],
-                                      facet: [currentResultFacet.name, currentResultFacet.values[j].value], parent: node});
-                                }
-                             }
+                    for(var  i = 0; i < response.facets.length; i++){
+                       var currentResultFacet = response.facets[i];
+                       // try to find custom hierarchy-facet or wildcard
+                       if((scope.hierarchyFacets.length > 0 && currentResultFacet.name == (scope.hierarchyFacets[node.depth]))
+                          || (scope.wildcardFacet && currentResultFacet.name.indexOf(scope.wildcardFacet) > -1)){
+                          for(var j = 0; j < currentResultFacet.values.length; j++)
+                          {
+                             node.children.push({name: currentResultFacet.values[j].value, depth: node.depth + 1, children:[],
+                                facet: [currentResultFacet.name, currentResultFacet.values[j].value], parent: node});
                           }
                        }
                     }
