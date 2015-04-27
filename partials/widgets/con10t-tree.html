@@ -1,19 +1,28 @@
 <div class="con10t-tree">
     <script type="text/ng-template" id="nodeTemplate">
-        <div class="con10t-catalog-tree-children">
-
-
-            <div>
-                {{node.name}}
-                <span ng-if="node.children.length == 0"><span></span>
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" ng-click="getNodeChildren(node)"></span>
+        <div>
+            <span ng-click="toggleCollapse(node)">
+                    <span ng-if="checkIfShown(node.name)">
+                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    </span>
+                    <span ng-if="!checkIfShown(node.name)">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    </span>
                 </span>
-                 <span ng-if="node.children.length > 0" >
+
+            {{node.name}}
+
+            <a ng-click="openFacet(node)">
+                <span class="glyphicon glyphicon-book" aria-hidden="true" title="{{'ui_showall' | i18n}}"></span>
+            </a>
+
+            <span ng-if="node.children.length > 0">
+                <div  class="con10t-catalog-tree-children" ng-if="node.children" collapse="!checkIfShown(node.name)" >
                     <div ng-repeat="node in node.children" ng-include="'nodeTemplate'"></div>
-                 </span>
-            </div>
+                </div>
+            </span>
         </div>
      </script>
-    <div ng-click="getNodeChildren(tree)">{{tree.name}}</div>
-    <div ng-repeat="node in tree.children" ng-include="'nodeTemplate'"></div>
+
+    <div ng-repeat="node in treeRoot" ng-include="'nodeTemplate'"></div>
 </div>

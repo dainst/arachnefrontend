@@ -162,7 +162,7 @@ angular.module('arachne.widgets.directives', [])
 			}
         };
     }])
-	.directive('con10tTree', ['Query', 'Entity', function(Query, Entity){
+	.directive('con10tTree', ['Query', 'Entity', '$location', function(Query, Entity, $location){
         return {
            restrict: 'E',
            templateUrl: 'partials/widgets/con10t-tree.html',
@@ -179,14 +179,15 @@ angular.module('arachne.widgets.directives', [])
                  scope.hardFacets.push(fq_facets[i].split(':'));
               }
               scope.hierarchyFacet = attrs.hierarchyFacet;
-              scope.tree = {name: scope.hardFacets[scope.hardFacets.length - 1][1], depth: 0, children:[], facet: null, parent: null};
+              scope.treeRoot = [{name: scope.hardFacets[scope.hardFacets.length - 1][1], depth: 0, children:[], facet: null, parent: null}];
+
+              scope.isShown = {};
 
               scope.getNodeChildren = function(node){
                  console.log("node: " + node.name);
                  if(node.children != 0){
                     return;
                  }
-
 
                  var treeQuery = new Query();
 
@@ -219,11 +220,10 @@ angular.module('arachne.widgets.directives', [])
                     else {
                        console.log("Todo: Defined hierarchy?");
                     }
-
-
-                    console.dir(scope.tree);
+                    scope.isShown[ node.name] = true;
                  });
-              }
+              };
+
               scope.collectAllFacets = function(node){
                  var result = [];
                  if(node.parent != null){
@@ -233,9 +233,35 @@ angular.module('arachne.widgets.directives', [])
                     return result;
                  }
                  return result;
+              };
+
+              scope.toggleCollapse = function(node){
+
+                 console.log(scope.isShown[node.name] + node.name);
+                 scope.isShown[node.name] = !scope.isShown[node.name];
+                 if(scope.isShown[node.name]){
+                    this.getNodeChildren(node)
+                 }
+              };
+              scope.checkIfShown = function(label){
+                 return scope.isShown[label]; // at first load -> undefined, so it gets hidden but: ugly?
+              };
+
+              scope.openFacet = function(node){
+                 var facets = this.collectAllFacets(node);
+
+
+                 facets = facets.concat(scope.hardFacets);
+
+                 var url = "search/?q=*";
+
+                 for(var i = 0; i < facets.length; i++){
+                    url += "&fq="+facets[i][0]+':"'+facets[i][1]+'"';
+                 }
+
+                 $location.url(url);
               }
            }
-
         }
     }])
 ;
