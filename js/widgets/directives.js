@@ -178,13 +178,22 @@ angular.module('arachne.widgets.directives', [])
               {
                  scope.hardFacets.push(fq_facets[i].split(':'));
               }
-              scope.hierarchyFacet = attrs.hierarchyFacet;
+              scope.wildcardFacet = attrs.wildcardFacet;
+              scope.hierarchyFacets  = []
+
+              if(attrs.hierarchyFacets)
+                 scope.hierarchyFacets = attrs.hierarchyFacets.split(',');
+
+              console.dir(scope.hierarchyFacets);
+
+
+
+
               scope.treeRoot = [{name: scope.hardFacets[scope.hardFacets.length - 1][1], depth: 0, children:[], facet: null, parent: null}];
 
               scope.isShown = {};
 
               scope.getNodeChildren = function(node){
-                 console.log("node: " + node.name);
                  if(node.children != 0){
                     return;
                  }
@@ -204,11 +213,14 @@ angular.module('arachne.widgets.directives', [])
                  treeQuery.q = "*";
 
                  Entity.query(treeQuery.toFlatObject(), function(response) {
-                    if(scope.hierarchyFacet){
+
+                    console.dir(node);
+
+
+                    if(scope.hierarchyFacets.length > 0){
                        for(var  i = 0; i < response.facets.length; i++){
                           var currentResultFacet = response.facets[i];
-
-                          if(currentResultFacet.name.indexOf(scope.hierarchyFacet) > -1){
+                          if(currentResultFacet.name == (scope.hierarchyFacets[node.depth])){
                              for(var j = 0; j < currentResultFacet.values.length; j++)
                              {
                                 node.children.push({name: currentResultFacet.values[j].value, depth: node.depth + 1, children:[],
@@ -218,7 +230,21 @@ angular.module('arachne.widgets.directives', [])
                        }
                     }
                     else {
-                       console.log("Todo: Defined hierarchy?");
+                       if(scope.wildcardFacet){
+                          for(var  i = 0; i < response.facets.length; i++){
+                             var currentResultFacet = response.facets[i];
+                             if(currentResultFacet.name.indexOf(scope.wildcardFacet) > -1){
+                                for(var j = 0; j < currentResultFacet.values.length; j++)
+                                {
+                                   node.children.push({name: currentResultFacet.values[j].value, depth: node.depth + 1, children:[],
+                                      facet: [currentResultFacet.name, currentResultFacet.values[j].value], parent: node});
+                                }
+                             }
+                          }
+                       }
+                    }
+                    if(node.children == 0){
+                       node.isLeaf = true;
                     }
                     scope.isShown[ node.name] = true;
                  });
@@ -227,7 +253,6 @@ angular.module('arachne.widgets.directives', [])
               scope.collectAllFacets = function(node){
                  var result = [];
                  if(node.parent != null){
-
                     result.push(node.facet);
                     result = result.concat(this.collectAllFacets(node.parent));
                     return result;
@@ -236,8 +261,6 @@ angular.module('arachne.widgets.directives', [])
               };
 
               scope.toggleCollapse = function(node){
-
-                 console.log(scope.isShown[node.name] + node.name);
                  scope.isShown[node.name] = !scope.isShown[node.name];
                  if(scope.isShown[node.name]){
                     this.getNodeChildren(node)
