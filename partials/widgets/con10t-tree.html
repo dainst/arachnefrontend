@@ -1,0 +1,19 @@
+<div class="con10t-tree">
+    <script type="text/ng-template" id="nodeTemplate">
+        <div class="con10t-catalog-tree-children">
+
+
+            <div>
+                {{node.name}}
+                <span ng-if="node.children.length == 0"><span></span>
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" ng-click="getNodeChildren(node)"></span>
+                </span>
+                 <span ng-if="node.children.length > 0" >
+                    <div ng-repeat="node in node.children" ng-include="'nodeTemplate'"></div>
+                 </span>
+            </div>
+        </div>
+     </script>
+    <div ng-click="getNodeChildren(tree)">{{tree.name}}</div>
+    <div ng-repeat="node in tree.children" ng-include="'nodeTemplate'"></div>
+</div>

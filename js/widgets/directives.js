@@ -164,89 +164,78 @@ angular.module('arachne.widgets.directives', [])
     }])
 	.directive('con10tTree', ['Query', 'Entity', function(Query, Entity){
         return {
-            restrict: 'E',
-            templateUrl: 'partials/widgets/con10t-tree.html',
-            scope: {
-                hierarchyFacets: '=',
-                recursiveFacets: '=',
-                fq: "="
-            },
-            link: function(scope) {
-            // root -> fq facetten
-                // blätter -> alle typen facet[0]
-                // blätter ->  alle typen facet[1]
-                // blätter -> ...
+           restrict: 'E',
+           templateUrl: 'partials/widgets/con10t-tree.html',
+           scope: {
+           },
+           link: function (scope, element, attrs) {
+              scope.hardFacets = [];
+              if(!attrs.fq)
+                 return;
 
-                scope.currentTree = [];
+              var fq_facets = attrs.fq.split(',');
+              for(var i = 0; i < fq_facets.length; i++)
+              {
+                 scope.hardFacets.push(fq_facets[i].split(':'));
+              }
+              scope.hierarchyFacet = attrs.hierarchyFacet;
+              scope.tree = {name: scope.hardFacets[scope.hardFacets.length - 1][1], depth: 0, children:[], facet: null, parent: null};
 
-                var previous;
-                for(var i = 0; i < scope.fq.length; i++) {
-                    var split = scope.fq[i].split(':');
+              scope.getNodeChildren = function(node){
+                 console.log("node: " + node.name);
+                 if(node.children != 0){
+                    return;
+                 }
 
-                    if (i == 0)
-                    {
-                        scope.currentTree.push({parent: null, children: [],
-                            nodeName: split[0], nodeValue: split[1], nodeDepth: 0});
+
+                 var treeQuery = new Query();
+
+                 for(var i = 0; i < scope.hardFacets.length; i++){
+                    treeQuery = treeQuery.addFacet(scope.hardFacets[i][0], scope.hardFacets[i][1]);
+                 }
+
+                 var collectedFacets = this.collectAllFacets(node);
+
+                 for(var i = 0; i < collectedFacets.length; i++){
+                    treeQuery = treeQuery.addFacet(collectedFacets[i][0], collectedFacets[i][1]);
+                 }
+
+                 treeQuery.q = "*";
+
+                 Entity.query(treeQuery.toFlatObject(), function(response) {
+                    if(scope.hierarchyFacet){
+                       for(var  i = 0; i < response.facets.length; i++){
+                          var currentResultFacet = response.facets[i];
+
+                          if(currentResultFacet.name.indexOf(scope.hierarchyFacet) > -1){
+                             for(var j = 0; j < currentResultFacet.values.length; j++)
+                             {
+                                node.children.push({name: currentResultFacet.values[j].value, depth: node.depth + 1, children:[],
+                                   facet: [currentResultFacet.name, currentResultFacet.values[j].value], parent: node});
+                             }
+                          }
+                       }
                     }
-                }
-                // node
-                    // parent
-                    // children
-                    // name
-                    // value
-                    // depth
-
-                // create query from tree
-                    // input: node
-                    // rekursiv über eltern teilfacetten zur query hinzufügen
-
-                scope.getNodeChildren = function(parentName) {
-                    var parentNode = this.getNodeByName(this.currentTree[0], parentName);
-
-                    if(parentNode.children.length != 0)
-                        return;
-
-                    var baseQuery = new Query();
-
-                    baseQuery.q = '*';
-                    baseQuery.limit = 0;
-
-                    // Collect previous facets from tree
-                    var previousFacets = this.collectAncestorsFacets(parentNode);
-                    for(var i = 0; i < previousFacets.length; i++)
-                        baseQuery = baseQuery.addFacet(previousFacets[i][0], previousFacets[i][1]);
-                    console.dir(previousFacets[0]);
-                    // Add new facet from fq-array, if there still is an unused one.
-                    if(parentNode.nodeDepth <= this.fq.length)
-                    {
-                        var split = this.fq[parentNode.nodeDepth+1].split(':');
-                        baseQuery = baseQuery.addFacet(split[0], split[1]);
-                        console.dir(split);
+                    else {
+                       console.log("Todo: Defined hierarchy?");
                     }
 
-                    console.dir(baseQuery);
 
-                    Entity.query(baseQuery, function(response){
-                        //console.dir(response);
-                    });
-                };
-                scope.getNodeByName = function(localRoot, nodeName){
-                    if(localRoot.nodeName == nodeName)
-                        return localRoot;
-                    if(localRoot.children == null || localRoot.children.length == 0)
-                        return null;
+                    console.dir(scope.tree);
+                 });
+              }
+              scope.collectAllFacets = function(node){
+                 var result = [];
+                 if(node.parent != null){
 
-                    for(var i = 0; i < localRoot.children.length; i++)
-                        return this.getNodeByName(localRoot.children[i], nodeName);
-                };
-                scope.collectAncestorsFacets = function(node)
-                {
-                    var knownFacets = [[node.nodeName,node.nodeValue]];
-                    if(node.parent != null)
-                        knownFacets = knownFacets.concat(this.collectAncestorsFacets(node.parent));
-                    return knownFacets;
-                };
-            }
-        };
+                    result.push(node.facet);
+                    result = result.concat(this.collectAllFacets(node.parent));
+                    return result;
+                 }
+                 return result;
+              }
+           }
+
+        }
     }])
 ;
