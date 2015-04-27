@@ -297,4 +297,10 @@ angular.module('arachne.filters', [])
 			var temp = wordToHex(a) + wordToHex(b) + wordToHex(c) + wordToHex(d);
 			return temp.toLowerCase();
 		}
-	});
+	})
+   .filter('escapeSlashes', function() {
+      return function(string) {
+         return string.replace(/\//g, '\\/');
+      }
+   })
+;

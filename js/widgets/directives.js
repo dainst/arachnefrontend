@@ -88,7 +88,7 @@ angular.module('arachne.widgets.directives', [])
 		};
 	}])
 
-	.directive('con10tCatalogTree', ['Catalog', function(Catalog) {
+	.directive('con10tCatalogTree', ['Catalog', '$filter', function(Catalog, $filter) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -96,14 +96,12 @@ angular.module('arachne.widgets.directives', [])
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-tree.html',
 			link: function(scope) {
-
-				var slashRegex = /\//g;
 				
 				scope.catalog = Catalog.get({id:scope.catalogId});
 				scope.isShown = {};
 				
 				scope.escapePath = function(path){
-					return path.replace(slashRegex, '\\/');
+					return $filter('escapeSlashes')(path)
 				};
 				
 				scope.toggleCollapse = function(label){
@@ -128,7 +126,7 @@ angular.module('arachne.widgets.directives', [])
 		};
 	})
 
-    .directive('con10tSearch', ['$location', '$filter', 'Query', 'Entity', function($location, $filter, Query, Entity) {
+    .directive('con10tSearch', ['$location', '$filter', function($location, $filter) {
 
         return {
             restrict: 'E',
@@ -147,7 +145,7 @@ angular.module('arachne.widgets.directives', [])
 				scope.search = function() {
               	var url = "search/?q=";
 					if(scope.catalogId != undefined && scope.catalogId != "")
-						url += "catalogPaths:"+this.escapePath(scope.catalogId)+"+";
+						url += "catalogPaths:"+$filter('escapeSlashes')(scope.catalogId)+"+";
 
                if(scope.q != null && scope.q != "")
                   url += scope.q;
@@ -161,9 +159,6 @@ angular.module('arachne.widgets.directives', [])
                }
 					$location.url(url);
 				};
-            scope.escapePath = function(path){
-               return path.replace(scope.slashRegex, '\\/');
-            };
 			}
         };
     }])
