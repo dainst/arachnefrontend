@@ -169,14 +169,14 @@ angular.module('arachne.widgets.directives', [])
            scope: {
            },
            link: function (scope, element, attrs) {
-              scope.hardFacets = [];
+              scope.staticFacets = [];
               if(!attrs.fq)
                  return;
 
               var fq_facets = attrs.fq.split(',');
               for(var i = 0; i < fq_facets.length; i++)
               {
-                 scope.hardFacets.push(fq_facets[i].split(':'));
+                 scope.staticFacets.push(fq_facets[i].split(':'));
               }
               scope.wildcardFacet = attrs.wildcardFacet;
               scope.hierarchyFacets  = []
@@ -184,13 +184,8 @@ angular.module('arachne.widgets.directives', [])
               if(attrs.hierarchyFacets)
                  scope.hierarchyFacets = attrs.hierarchyFacets.split(',');
 
-              console.dir(scope.hierarchyFacets);
-
-
-
-
-              scope.treeRoot = [{name: scope.hardFacets[scope.hardFacets.length - 1][1], depth: 0, children:[], facet: null, parent: null}];
-
+               // in the UI, the tree starts with the last provided static facet's name
+              scope.treeRoot = [{name: scope.staticFacets[scope.staticFacets.length - 1][1], depth: 0, children:[], facet: null, parent: null}];
               scope.isShown = {};
 
               scope.getNodeChildren = function(node){
@@ -200,8 +195,8 @@ angular.module('arachne.widgets.directives', [])
 
                  var treeQuery = new Query();
 
-                 for(var i = 0; i < scope.hardFacets.length; i++){
-                    treeQuery = treeQuery.addFacet(scope.hardFacets[i][0], scope.hardFacets[i][1]);
+                 for(var i = 0; i < scope.staticFacets.length; i++){
+                    treeQuery = treeQuery.addFacet(scope.staticFacets[i][0], scope.staticFacets[i][1]);
                  }
 
                  var collectedFacets = this.collectAllFacets(node);
@@ -252,11 +247,15 @@ angular.module('arachne.widgets.directives', [])
                  return scope.isShown[label]; // at first load -> undefined, so it gets hidden but: ugly?
               };
 
-              scope.openFacet = function(node){
+               scope.closeAll = function(){
+                   for(var key in scope.isShown)
+                       scope.isShown[key] = false;
+               };
+
+              scope.startFacetedSearch = function(node){
                  var facets = this.collectAllFacets(node);
 
-
-                 facets = facets.concat(scope.hardFacets);
+                 facets = facets.concat(scope.staticFacets);
 
                  var url = "search/?q=*";
 
@@ -265,7 +264,7 @@ angular.module('arachne.widgets.directives', [])
                  }
 
                  $location.url(url);
-              }
+              };
            }
         }
     }])

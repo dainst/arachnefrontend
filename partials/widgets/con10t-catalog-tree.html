@@ -1,8 +1,6 @@
-<div class="con10t-catalog-tree">
-
-    <script type="text/ng-template" id="catalogNode">
-        <div class="con10t-catalog-tree-child">
-            <span ng-if="node.children" >
+<script type="text/ng-template" id="catalogNode">
+    <div class="con10t-catalog-tree-child">
+        <span ng-if="node.children">
                 <span ng-click="toggleCollapse(node.label)">
                     <span ng-if="checkIfShown(node.label)">
                          <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
@@ -12,19 +10,18 @@
                     </span>
                 </span>
             </span>
-            <a ng-if="node.arachneEntityId != null" ng-href="entity/{{node.arachneEntityId}}">{{ node.label }}</a>
-            <span ng-if="node.arachneEntityId == null">{{ node.label }}</span>
-            <a ng-if="node.children" ng-href="search/?q=catalogPaths:{{escapePath(node.path)}}">
-                <span class="glyphicon glyphicon-book" aria-hidden="true" title="{{'ui_showall' | i18n}}"></span>
-            </a>
+        <a ng-if="node.arachneEntityId != null" ng-href="entity/{{node.arachneEntityId}}">{{ node.label }}</a>
+        <span ng-if="node.arachneEntityId == null">{{ node.label }}</span>
+        <a ng-if="node.children" ng-href="search/?q=catalogPaths:{{escapePath(node.path)}}">
+            <span class="glyphicon glyphicon-book" aria-hidden="true" title="{{'ui_showall' | i18n}}"></span>
+        </a>
 
-            <div ng-if="node.children" collapse="!checkIfShown(node.label)" class="con10t-catalog-tree-children">
-                <div ng-repeat="node in node.children" ng-include="'catalogNode'"></div>
-            </div>
+        <div ng-if="node.children" collapse="!checkIfShown(node.label)" class="con10t-catalog-tree-children">
+            <div ng-repeat="node in node.children" ng-include="'catalogNode'"></div>
         </div>
-    </script>
+    </div>
+</script>
 
-    <div class="con10t-catalog-tree-title">{{catalog.root.label}}</div>
-    <div class="con10t-catalog-tree-author">{{catalog.author}}</div>
-    <div ng-repeat="node in catalog.root.children" ng-include="'catalogNode'"></div>
-</div>
+<div class="con10t-catalog-tree-title">{{catalog.root.label}}</div>
+<div class="con10t-catalog-tree-author">{{catalog.author}}</div>
+<div ng-repeat="node in catalog.root.children" ng-include="'catalogNode'"></div>

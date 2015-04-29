@@ -1,20 +1,20 @@
-.con10t-toc {
+con10t-toc, con10t-catalog-tree, con10t-tree {
     display: inline-block;
+    text-align: left;
     padding: 1em;
     background-color: #f4f4f4;
     border-style: solid;
     border-width: thin;
     border-color: #E7E7E7;
 }
+con10t-toc, con10t-tree a,con10t-catalog-tree a {
+    cursor: pointer;
+    cursor: hand;
+}
 
 .con10t-toc-entry {
     padding-top: 55px;   /* Hack:                                                                */
     margin-top:  -55px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
-}
-
-.con10t-toc a {
-    cursor: pointer;
-    cursor: hand;
 }
 
 .con10t-toc-heading {
@@ -45,15 +45,6 @@
     padding-left: 5em;
     font-size:  small;
 }
-
-con10t-catalog-tree {
-    display: inline-block;
-    padding: 1em;
-    background-color: #f4f4f4;
-    border-style: solid;
-    border-width: thin;
-    border-color: #E7E7E7;
-}
 .con10t-catalog-tree-title {
     padding-bottom: 1em;
     font-size: large;
@@ -62,20 +53,11 @@ con10t-catalog-tree {
     padding-bottom: 1em;
     font-size: medium;
 }
-.con10t-catalog-tree-child {
+.con10t-catalog-tree-child, .con10t-tree-child {
     border-style: solid none none none;
     border-width: thin;
     border-color: #E7E7E7;
 }
-.con10t-catalog-tree-children{
+.con10t-catalog-tree-children, .con10t-tree-children{
     padding-left: 2em;
-}
-
-.con10t-tree {
-    display: inline-block;
-    padding: 1em;
-    background-color: #f4f4f4;
-    border-style: solid;
-    border-width: thin;
-    border-color: #E7E7E7;
 }
