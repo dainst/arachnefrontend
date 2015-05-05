@@ -1,0 +1,150 @@
+<div class="row">
+  <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
+    <h1>Objektdatenbank und kulturelle Archive des Archäologischen 
+      Instituts der Universität zu Köln und des Deutschen Archäologischen 
+      Instituts</h1>
+    <hr>
+  </div>
+  <div class="col-md-6 col-md-offset-2 faq" style="margin-top:20px">
+
+  <p><a href="http://de.wikipedia.org/wiki/Arachne_(Bilddatenbank)" target=
+  "_blank">Arachne</a> basiert auf den Technologien MySQL/PHP/Apache. Um
+  Arachne benutzen zu können, müssen in Ihrem Internet-Browser bestimmte
+  Einstellungen vorgenommen werden: »Cookies akzeptieren: nur von Web-Sites,
+  die ich besuche«, »JavaScript: aktivieren« sowie »Textkodierung: Unicode
+  (UTF-8)«. Zur optimalen Bilddarstellung beachten Sie bitte die Kalibration
+  von Eye One für Gamma 2.2 und nativen Weißpunkt. Unterstützt werden folgende
+  Browser: Mozilla Firefox ab Version 1.5, Microsoft Internet Explorer ab
+  Version 7 und alle WebKit-basierten Browser (Safari, Chrome, Konqueror).
+  Arachne ist die zentrale Objektdatenbank des <a href="http://www.dainst.org/"
+  target="_blank">Deutschen Archäologischen Instituts (DAI)</a> und der
+  <a href="http://archaeologie.uni-koeln.de/node/23" target=
+  "_blank">Arbeitsstelle für Digitale Archäologie</a> des Archäologischen
+  Instituts der Universität zu Köln, administriert von <a href=
+  "http://archaeologie.uni-koeln.de/node/86" target="_blank">Reinhard
+  Foertsch</a>. Arachne soll als kostenloses Werkzeug der Internetrecherche für
+  die Archäologie(n) und die Klassische Altertumswissenschaft Objekte und
+  Zustände erschließen helfen und aus Hunderttausenden von Datensätzen schnell
+  auffindbar machen. Dies gilt einerseits für den Bereich der seit langem
+  bestehenden analogen Dokumentationsbestände, die teilweise zerfallsbedroht
+  und weitestgehend unerschlossen sind: hier wird aktive digitale Erschließung
+  betrieben. Es gilt aber andererseits auch für den Bereich der zunehmend
+  überbordenden Neuproduktion digitaler Objekt- und Bilddaten: hier gilt eine
+  niedrigstschwellig vorgehende Strukturierung, die auf der Ebene
+  maschinenlesbarer Metadaten Strategien des Semantic Web verwendet. Alle
+  digitalisierten, bildlichen und textuellen Objektinformationen werden auf
+  einem mehrfach redundanten Tivoli Storage System langzeitgesichert und im
+  Kölner Storage Area Network via AFS weltweit online gehalten.</p>
+
+  <h2>Status</h2>
+
+  <p>Seit 2004 wird Arachne von einem Konsortium betrieben, dem das DAI und die
+  Arbeitsstelle für Digitale Archäologie des Archäologischen Instituts der
+  Universität zu Köln angehören. Das Ziel ist die inhaltliche und technische
+  Weiterentwicklung, Arachne ist also keine abgeschlossene Webdatenbank,
+  sondern work in progress: derzeit (November 2010) sind 5.491 Benutzer
+  angemeldet, die Zugriff auf 836.142 Scans und 250.000 Objekte haben. Die
+  Benutzung ist kostenfrei. Die Qualität ist naturgemäß unterschiedlich, je
+  nach Herkunft des Bildes und Stand der Dokumentation.</p>
+
+  <h2>Design</h2>
+
+  <p>Das Datenbankdesign von Arachne benutzt ein Weltmodell, welches von zwei
+  der einfachsten Grundvoraussetzungen in der Archäologie oder Kunstgeschichte
+  ausgeht: alle Objekte der »realen Welt« sollen auf einer sehr allgemeinen
+  Ebene vergleichbar sein und liegen in einem Kontext vor. So versucht Arachne,
+  einen der grundlegenden Fehler früherer Datenbanken zu vermeiden, welche ihre
+  Objektmodellierung rein projektorientiert vollzogen und so separate
+  Abteilungen mit immer nur einer kleinen Anzahl von Objekten erzeugten, die
+  untereinander nicht vergleichbar waren, sondern eine voneiander abgeschottete
+  Existenz führen. Alle Objekte in Arachne hingegen haben eine gemeinsame
+  Grundlage von Attributen im Objektmodell, die durch klassenspezifische
+  Attribute, zum Beispiel zur Topographie oder Architektur, erweitert werden.
+  So können die allgemeinen Attribute für Abfragen über eine große Anzahl von
+  Objekten genutzt werden, während spezielle Abfragen auch nur Objekte der
+  betreffenden Kategorie finden, die diese Attribute tragen und selbige
+  vollständig kontextualisiert darstellen.</p>
+
+  <p>Arachne wurde 1995 als FileMaker-Lösung entwickelt und profitiert seit
+  2001 von der Einrichtung eines Lehrstuhls für <a href=
+  "http://hki.uni-koeln.de/" target="_blank">Historisch-Kulturwissenschaftliche
+  Informationsverarbeitung</a> an der Universität zu Köln, dessen Studenten
+  Arachne als Testumgebung für ernsthafte, realitätsnahe Programmierprojekte
+  benutzen. Dank der signifikanten und kontinuierlichen Unterstützung durch die
+  Deutsche Forschungsgemeinschaft integriert Arachne seit 2001 auch
+  Negativarchive, die die Kölner Bestände erheblich erweitert haben. So wurden
+  die Archive der Fotografinnen Barbara Malter und Gisela Fittschen-Badura
+  digitalisiert und dokumentiert, und seit 2003 auch die Skulpturennegative des
+  Deutschen Archäologischen Instituts in Rom. Dadurch wuchs der Datenbestand um
+  40000 qualitätvolle digitale Aufnahmen antiker Skulptur, die entsprechend
+  wissenschaftlich dokumentiert wurden. Seit 2006 werden auch die
+  Glasnegativarchive der Deutschen Archäologischen Institute in Athen, Kairo
+  und Istanbul digitalisiert und in Arachne eingefügt, was zu weiteren 40000
+  kulturhistorisch wichtigen Digitalisaten führen soll. Neben diesen größeren
+  Projekten gibt es noch eine Vielzahl anderer, auch datenbankorientierter
+  Unternehmungen, so die Onlineedition des "Corpus der antiken
+  Sarkophagreliefs". 2004 wurde Arachne technisch wie semantisch und
+  redaktionell grundlegend umstrukturiert. Die Daten der FileMaker-Lösung
+  wurden exportiert, und die neue Arachne als MAMP-Lösung aufgesetzt. Bedenkt
+  man Arachnes strategische Positionierung als zentrale Objektdatenbank einer
+  Institution, die ca. zwei Millionen Bilder in ihren Archiven beherbergt und
+  ständig neue Sach- und Bilddaten produziert, lässt sich daraus auch der
+  zukünftige Arbeits- und Entwicklungsaufwand ermessen, um diese
+  Informationsbestände wenigstens teil- und schrittweise zu erfassen.</p>
+
+  <h2>Ausblick</h2>
+
+  <p>Vorhersagen über die erreichbaren Digitalisierungsanteile bezogen auf den
+  realen Datenbestand sind naturgemäß schwierig. Ein Annäherungswert lässt sich
+  möglicherweise gewinnen im Bereich der Digitalisierungsprojekte des
+  kulturellen Erbes in Europa, wo man angesichts bei der aktuellen finanziellen
+  Situation von der Digitalisierbarkeit etwa 30% des realen Bestandes ausgeht.
+  Für Arachne würde das etwa 700000 Bilder bedeuten; unter Annahme von neu
+  erzeugtem Dokumentationsmaterial wären dann etwa 1 Million Bilder in 20 bis
+  30 Jahren realistisch. All diese Bilder wären dann zumindest in Bezug auf
+  Material und topographischer Situation vollständig abfragbar, auch würde sich
+  der Focus dann nicht mehr allein auf der klassischen Antike befinden, sondern
+  auch Gebiete wie Südamerika umfassen.<br>
+  Arachne versucht, Interoperabilität zwischen unterschiedlichen Systemen zu
+  schaffen und gleichzeitig die Urheberrechte der Erzeuger zu schützen - einer
+  der zentralen Punkte in der Zusammenarbeit mit dem DAI. Auch innerhalb des
+  DAI wird Interoperabilität immer wichtiger, vor allem zwischen Arachne als
+  zentraler Bilddatenbank und den unterschiedlichen, auf Ausgrabungen und
+  Surveys benutzten GIS, um bei der Datenhaltung die nicht sicherheitsrelevante
+  Redundanz möglichst gering zu halten. Ein weiteres Vorhaben seitens des DAI
+  ist das Bereitstellen von URIs (Universal Resource Identifier) für alle
+  digital erfassten Objekte. Auch die Einbindung des CIDOC-CRM und der Open
+  Archives Initative ist von großer Bedeutung, und als Partner im CLAROSnet
+  Projekt wird ein - bisher fehlendes - multilinguales Interface geschaffen.
+  Die Politik der Arbeitsstelle für Digitale Archäologie und des DAIs zielen
+  auf eine internationale Zusammenarbeit ab, um diese komplexen Probleme nicht
+  alleine anzugehen.<br>
+  Ein weiterer wichtiger Punkt ist die Bereitstellung von Stichwerken ohne
+  existierende Urheberrechte - derzeit über 2000 Stichwerke mit etwa 440.353
+  Seiten wurden bereits digitalisiert, frei zugänglich und können kommentiert
+  werden.</p>
+
+  <p>Durch neue Fotokampagnen und -käufe, u. a. die mit Unterstützung der
+  <a href="http://www.dfg.de/" target="_blank">DFG</a> digitalisierten
+  Komplexe: <a href=
+  "http://archaeologie.uni-koeln.de/node/109#fittschen-malter" target=
+  "_blank">Archive Fittschen und Malter,</a> <a href=
+  "http://archaeologie.uni-koeln.de/node/109#negative%20dai%20rom" target=
+  "_blank">Skulpturennegative des Deutschen Archäologischen Instituts in
+  Rom</a>, <a href="../drupal/?q=node/95" target="_blank">Glasnegative des
+  Deutschen Archäologischen Instituts</a> sowie die in Eigenleistung erbrachte
+  <a href="http://archaeologie.uni-koeln.de/node/109#berlin" target=
+  "_blank">Dokumentation der Skulpturen der Berliner Antikensammlung</a> wächst
+  ARACHNE ständig weiter. Zur inhaltlichen Vertiefung dienen</p>
+
+  <ul>
+    <li>Lehrveranstaltungen am Archäologischen Institut der Universität zu
+    Köln</li>
+
+    <li>Verschränkung mit folgenden <a href=
+    "http://www.archaeologie.uni-koeln.de/?q=node/59" target=
+    "_blank">Projekten</a></li>
+  </ul>
+
+  <p>Reinhard Förtsch</p>
+</div>

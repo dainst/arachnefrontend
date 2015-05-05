@@ -38,6 +38,9 @@ angular.module('arachne',[
 		.when('/projects', {templateUrl: 'partials/projects.html'})
 		.when('/register', {templateUrl: 'partials/register.html'})
 		.when('/faq', {templateUrl: 'partials/faq.html'})
+		.when('/bestellung', {templateUrl: 'partials/bestellung.html'})
+		.when('/ueber', {templateUrl: 'partials/ueber.html'})
+		.when('/apis', {templateUrl: 'partials/apis.html'})
 		.when('/project/:name', {templateUrl: 'partials/project.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
