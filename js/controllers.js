@@ -230,7 +230,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				var entry = {
 					catalogId: catalog.id,
 					parentId: catalog.root.id,
-					text: $scope.entity.sections,
 					arachneEntityId: $scope.entity.entityId,
 					label: $scope.entity.title
 				};
