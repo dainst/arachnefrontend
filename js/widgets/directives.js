@@ -116,15 +116,27 @@ angular.module('arachne.widgets.directives', [])
 		};
 	}])
 
-	.directive('con10tCatalogMap', function() {
+	.directive('con10tCatalogMap', ['searchService', function(searchService) {
 		return {
 			restrict: 'E',
 			scope: {
+				menuTitle: '@',
+				catalogIds: '@',
+				facetsAllow: '=',
+				facetsDeny: '=',
 				overlays: '='
 			},
-			templateUrl: 'partials/widgets/con10t-catalog-map.html'
+			templateUrl: 'partials/widgets/con10t-catalog-map.html',
+			link: function(scope) {
+				var key = "catalogIds";
+				var query = searchService.currentQuery();
+
+				if (scope.catalogIds && !query.hasFacet(key)) {
+					query.facets.push({key: key, value: scope.catalogIds});
+				}
+			}
 		};
-	})
+	}])
 
     .directive('con10tSearch', ['$location', '$filter', function($location, $filter) {
 

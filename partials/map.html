@@ -5,10 +5,22 @@
 		<div ng-hide="resultSize >= 0" class="loading"></div>
 
 		<!-- Menü -->
-		<div ar-map-menu result-size="resultSize" facet-limit="facetLimit" mapfacet="mapfacet" mapfacet-names="mapfacetNames" current-query="currentQuery" facets="facets"></div>
+		<div ar-map-menu
+			result-size="resultSize"
+			facet-limit="facetLimit"
+			mapfacet="mapfacet"
+			mapfacet-names="mapfacetNames"
+			current-query="currentQuery"
+			facets="facets"
+			search-function="searchDeferred">
+		</div>
 
 		<!-- Karte -->
-		<div ar-map ng-if="resultSize != null" mapfacet="mapfacet" current-query="currentQuery" class="col-md-12 ar-map ar-fullscreenmap" id="map"></div>
+		<div ar-map ng-if="resultSize != null" class="col-md-12 ar-map ar-fullscreenmap" id="map"
+			mapfacet="mapfacet"
+			current-query="currentQuery"
+			search-function="searchDeferred">
+		</div>
 
 	</div>
 
