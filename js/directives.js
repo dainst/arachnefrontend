@@ -312,8 +312,29 @@ angular.module('arachne.directives', [])
 
 	.directive('arActiveFacets', function() {
 		return {
-			scope: { route: '@', currentQuery: '=' },
-			templateUrl: 'partials/directives/ar-active-facets.html'
+			scope: {
+				route: '@',
+				currentQuery: '=',
+				hiddenFacets: '='
+			},
+			templateUrl: 'partials/directives/ar-active-facets.html',
+			link: function(scope) {
+				var facets = scope.currentQuery.facets || [];
+
+				if (scope.hiddenFacets) {
+					facets = facets.filter(function(facet) {
+						for (var i = 0; i < scope.hiddenFacets.length; i++) {
+							var hiddenFacet = scope.hiddenFacets[i];
+							if ((hiddenFacet.key == facet.key) && (hiddenFacet.value == facet.value)) {
+								return false;
+							}
+						}
+						return true;
+					});
+				}
+
+				scope.facets = facets;
+			}
 		}
 	})
 
@@ -629,6 +650,7 @@ angular.module('arachne.directives', [])
 			facets: '=',
 			facetsAllow: '=',
 			facetsDeny: '=',
+			facetsSelect: '=',
 			overlays: '=',
 			searchFunction: '='
 		},

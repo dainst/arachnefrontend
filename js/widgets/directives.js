@@ -121,18 +121,23 @@ angular.module('arachne.widgets.directives', [])
 			restrict: 'E',
 			scope: {
 				menuTitle: '@',
-				catalogIds: '@',
 				facetsAllow: '=',
 				facetsDeny: '=',
+				facetsSelect: '=',
 				overlays: '='
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-map.html',
 			link: function(scope) {
-				var key = "catalogIds";
-				var query = searchService.currentQuery();
+				if (scope.facetsSelect) {
+					var query = searchService.currentQuery();
 
-				if (scope.catalogIds && !query.hasFacet(key)) {
-					query.facets.push({key: key, value: scope.catalogIds});
+					for (var i = 0; i < scope.facetsSelect.length; i++) {
+						var facet = scope.facetsSelect[i];
+
+						if (!query.hasFacet(facet.key)) {
+							query.facets.push(facet);
+						}
+					}
 				}
 			}
 		};
