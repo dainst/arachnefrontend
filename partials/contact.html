@@ -1,0 +1,50 @@
+<div ng-controller="ContactController as contactController">
+    <script type="text/ng-template" id="contactFinish.html">
+    	<div class="modal-header">
+    		<h3 class="modal-title">Message send!</h3>
+    		<div class="modal-footer">
+            	<a class="btn btn-primary" href="/">Ok</a>
+        	</div>
+    	</div>
+    </script>
+	<div class="col-md-offset-2 col-md-8">
+		<form class="form-horizontal" name="contactForm" ng-submit="sendForm()">
+			<div class="form-group" ng-class="{ 'has-error': contactForm.name.$invalid }" style="padding-top: 10px;">
+	        	<label for="name" class="col-sm-3 control-label">Name </label>
+	        	<div class="col-sm-7">
+	        		<input type="text" name="name" ng-model="usrData.name" class="form-control" placeholder="First & Last Name" required />
+	        	</div>
+			</div>
+			<div class="form-group" ng-class="{ 'has-error': contactForm.email.$invalid }">
+	        	<label for="name" class="col-sm-3 control-label">E-Mail </label>
+	        	<div class="col-sm-7">
+	        		<input type="email" name="email" ng-model="usrData.email" placeholder="E-Mail" class="form-control" required />  
+	        	</div>
+			</div>
+			<div class="form-group" ng-class="{ 'has-error': contactForm.subject.$invalid }">
+	        	<label for="subject" class="col-sm-3 control-label">Subject </label>
+	        	<div class="col-sm-7">
+	        		<input type="text" name="subject" ng-model="usrData.subject" class="form-control" placeholder="Subject" required />
+	        	</div>
+			</div>
+			<div class="form-group" ng-class="{ 'has-error': contactForm.message.$invalid }">
+	        	<label for="subject" class="col-sm-3 control-label">Message </label>
+	        	<div class="col-sm-7">
+	        		<textarea name="message" ng-model="usrData.message" rows="4" class="form-control" placeholder="Message" required></textarea>
+	        	</div>
+			</div>
+			<div class="form-group">
+	        	<label for="subject" class="col-sm-3 control-label">Are you a Robot ?</label>
+	        	<div class="btn-group col-md-7">
+      				<label class="btn btn-primary" ng-model="radioRobot" btn-radio="'yes'">Yes</label>
+       				<label class="btn btn-primary" ng-model="radioRobot" btn-radio="'no'">No</label>
+    			</div>
+			</div>
+			<div class="form-group">
+			    <div class="col-sm-offset-3 col-sm-9">
+			      	<button type="submit" class="btn btn-default">Send</button>
+			    </div>
+			 </div>
+		</form>
+	</div>
+</div>

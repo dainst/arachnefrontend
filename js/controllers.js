@@ -64,7 +64,32 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.cancel = function () {
 			$modalInstance.dismiss();
 		};
-	
+
+		$scope.forgotPassword = function(){
+			$modalInstance.dismiss();
+
+		    var PWD = $modal.open({
+		      	templateUrl: 'partials/Modals/password.html',
+		      	controller: 'PwdController'
+		    });
+		    PWD.close = function(bla){
+		    	PWD.dismiss();
+		    };
+			
+		}
+	}
+])
+.controller('PwdController', ['$scope', '$modalInstance', '$http', '$modal', 'resetService',
+	function ($scope, $modalInstance, $http, $modal, resetService) {
+
+		$scope.sendForm = function() {
+			console.log($scope.usrData);
+			$modalInstance.dismiss();
+			resetService.resetpwd($scope.usrData, function(data){console.log(errorMSG);}, function(errorMSG){console.log(errorMSG);});
+		}
+		$scope.cancel = function () {
+			$modalInstance.dismiss();
+		};
 	}
 ])
 .controller('SearchFormCtrl', ['$scope', '$location',
@@ -574,6 +599,26 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+.controller('ContactController', ['$scope', '$http', '$modal', 'contactService',
+	function ($scope, $http, $modal, contactService) {
+  		$scope.radioRobot = 'yes';
+
+  		$scope.sendForm = function() {
+		 	if ($scope.contactForm.$valid && $scope.radioRobot =="no") {
+		 		console.log($scope.usrData);
+		 		$scope.open();
+		 		contactService.sendContact($scope.usrData, function(data){console.log(data);}, function(error){console.log(error);});
+		  	}
+  		}
+
+  		$scope.open = function () {
+		    var modalInstance = $modal.open({
+		      	templateUrl: 'contactFinish.html'
+		    })
+		}
+	}
+])
+
 
 .controller('AllCategoriesController', ['$rootScope', '$scope', '$http', 'categoryService', '$timeout',
 	function ($rootScope, $scope, $http, categoryService, $timeout) {
