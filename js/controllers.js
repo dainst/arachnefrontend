@@ -192,35 +192,44 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('MapCtrl', ['$rootScope', '$scope', 'searchService', 'categoryService', '$location',
-	function($rootScope, $scope, searchService, categoryService, $location) {
+.controller('MapCtrl', ['$rootScope', '$scope', 'searchService', 'messageService',
+	function($rootScope, $scope, searchService, messageService) {
 
 		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort", "facet_geo"]; //, "facet_ort"
 
 		$rootScope.hideFooter = true;
 
-		$scope.currentQuery = searchService.currentQuery();
-		$scope.currentQuery.limit = 0;
-		if (!$scope.currentQuery.restrict) {
-			$scope.currentQuery.restrict = $scope.mapfacetNames[0];
-		}
+		var promise = null;
 
-		searchService.getCurrentPage().then(function(entities) {
-			$scope.resultSize = searchService.getSize();
-			$scope.facets = searchService.getFacets();
-			for (var i = 0; i < $scope.facets.length; i++) {
-				if ($scope.facets[i].name == $scope.currentQuery.restrict) {
-					$scope.mapfacet = $scope.facets[i];
-					break;
-				}
+		$scope.searchDeferred = function() {
+			if (promise) {
+				return promise;
 			}
-		}, function(response) {
-			$scope.resultSize = 0;
-			$scope.error = true;
-			if (response.status == '404') messageService.addMessageForCode('backend_missing');
-			else messageService.addMessageForCode('search_' +  response.status);
-		});
 
+			$scope.currentQuery = searchService.currentQuery();
+			$scope.currentQuery.limit = 0;
+			if (!$scope.currentQuery.restrict) {
+				$scope.currentQuery.restrict = $scope.mapfacetNames[0];
+			}
+
+			promise = searchService.getCurrentPage().then(function(entities) {
+				$scope.resultSize = searchService.getSize();
+				$scope.facets = searchService.getFacets();
+				for (var i = 0; i < $scope.facets.length; i++) {
+					if ($scope.facets[i].name == $scope.currentQuery.restrict) {
+						$scope.mapfacet = $scope.facets[i];
+						break;
+					}
+				}
+			}, function(response) {
+				$scope.resultSize = 0;
+				$scope.error = true;
+				if (response.status == '404') messageService.addMessageForCode('backend_missing');
+				else messageService.addMessageForCode('search_' +  response.status);
+			});
+
+			return promise;
+		}
 	}
 ])
 .controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
@@ -255,7 +264,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				var entry = {
 					catalogId: catalog.id,
 					parentId: catalog.root.id,
-					text: $scope.entity.sections,
 					arachneEntityId: $scope.entity.entityId,
 					label: $scope.entity.title
 				};

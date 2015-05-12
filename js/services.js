@@ -200,7 +200,7 @@ angular.module('arachne.services', [])
 			// check if query has any particular facet filter attached
 			hasFacet: function(facetName) {
 				return this.facets.some(function(facet) {
-					facet.key == facetName;
+					return (facet.key == facetName);
 				});
 			},
 
@@ -254,6 +254,8 @@ angular.module('arachne.services', [])
 						}
 					} else if (key == 'restrict') {
 						queries.push("_exists_:" + this[key]);
+					} else if (key == 'catalogIds') {
+						queries.push("catalogIds:" + this[key]);
 					} else if (key == 'q') {
 						queries.push(this[key]);
 					} else if (['fl','limit','sort','desc'].indexOf(key) != -1) {
