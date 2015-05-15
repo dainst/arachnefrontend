@@ -607,22 +607,34 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('ContactController', ['$scope', '$http', '$modal', 'contactService',
-	function ($scope, $http, $modal, contactService) {
+.controller('ContactController', ['$scope', '$http', '$modal', 'contactService', 'arachneSettings',
+	function ($scope, $http, $modal, contactService, arachneSettings) {
   		$scope.radioRobot = 'yes';
 
-  		$scope.sendForm = function() {
-		 	if ($scope.contactForm.$valid && $scope.radioRobot =="no") {
-		 		console.log($scope.usrData);
-		 		$scope.open();
-		 		contactService.sendContact($scope.usrData, function(data){console.log(data);}, function(error){console.log(error);});
-		  	}
-  		}
+		$scope.success = false;
+		$scope.error = "";
 
-  		$scope.open = function () {
-		    var modalInstance = $modal.open({
-		      	templateUrl: 'contactFinish.html'
-		    })
+		$scope.submit = function() {
+			console.log($scope.usrData);
+
+			contactService.sendContact($scope.usrData, function(data){console.log(data);}, function(error){console.log(error);});
+			/*var res = $http.post(arachneSettings.dataserviceUri + "/contact", $scope.usrData);
+			
+			res.success(function(data, status, headers, config) {
+				$scope.error = "";
+				$scope.success = true;
+			});
+			res.error(function(data, status, headers, config) {
+				$scope.error = data.message;
+			});	
+			$http.post(arachneSettings.dataserviceUri + "/contact", $scope.usrData, {
+				"headers": { "Content-Type": "application/json" }
+			}).success(function(data) {
+				$scope.error = "";
+				$scope.success = true;
+			}).error(function(data) {
+				$scope.error = data.message;
+			});*/
 		}
 	}
 ])
