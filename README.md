@@ -22,7 +22,7 @@ npm install
 
 The static files representing the project pages are stored in the directory `con10t`. The repository comes preconfigured with the Arachne project pages configured as a git submodule.
 
-In order to setup the submodule you have to run the following commands after the initial checkout:
+In order to set up the submodule you have to run the following commands after the initial checkout:
 ```
 cd con10t
 git submodule init
@@ -55,8 +55,6 @@ server {
         try_files $uri $uri/ /index.html =404;
 }
 ```
-
-The string `try_files $uri $uri/ /index.html =404;` means that now all non-existent urls will be forwarded to index.html file, but without rewriting url in the browser address bar.
 
 ### Apache
 
