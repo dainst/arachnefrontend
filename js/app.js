@@ -41,7 +41,7 @@ angular.module('arachne',[
 		.when('/contact', {templateUrl: 'partials/contact.html'})
 		.when('/project/:name', {templateUrl: 'partials/project.html'});
 }]).constant('arachneSettings', {
-		dataserviceUri: "http://" + document.location.host + "data",
+		dataserviceUri: "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 		sortableFields : ["entityId", "title", "subtitle"]
