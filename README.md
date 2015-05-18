@@ -45,7 +45,7 @@ Any changes made to HTML, CSS or JS files should automatically trigger a browser
 
 ## Deployment
 
-In order for AngularJS' HTML5 mode to work the use the following configurations:
+In order for AngularJS' HTML5 mode to work use the following configurations:
 
 ### nginx
 ```
