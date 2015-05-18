@@ -18,7 +18,7 @@ To install the necessary dependencies run the following command in the working d
 npm install
 ```
 
-### Project sites submodule
+### con10t submodule
 
 The static files representing the project pages are stored in the directory `con10t`. The repository comes preconfigured with the Arachne project pages configured as a git submodule.
 
