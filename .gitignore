@@ -8,3 +8,7 @@
 .htaccess
 ehthumbs.db
 Thumbs.db
+
+# local dependencies #
+######################
+node_modules/

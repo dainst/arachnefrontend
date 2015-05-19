@@ -1,10 +1,53 @@
-
 # Arachne 4 Frontend
 
-## Deployment
-#### ...on nginx (incl. html5 mode)
+## Development
 
-##### nginx-site config
+The repository includes a [grunt](http://gruntjs.com/) configuration for setting up a local server, preconfigured with:
+* proxying to the backend running on the development server
+* url rewriting for AngularJS' HTML5 mode
+* live reloading
+
+### Prerequisites
+
+You need the following components in order for the local server to work:
+* [NodeJS](https://nodejs.org/download/)
+* [Grunt](http://gruntjs.com/getting-started)
+
+To install the necessary dependencies run the following command in the working directory:
+```
+npm install
+```
+
+### con10t submodule
+
+The static files representing the project pages are stored in the directory `con10t`. The repository comes preconfigured with the Arachne project pages configured as a git submodule.
+
+In order to set up the submodule you have to run the following commands after the initial checkout:
+```
+cd con10t
+git submodule init
+git submodule update
+```
+
+Subsequent updates can be loaded by running `git pull` inside the directory `con10t`.
+
+### Running the development server
+
+In order to run the frontend in the development server use the following command:
+```
+grunt server
+```
+
+After that you should be able to access the frontend under [http://localhost:1234/](http://localhost:1234/).
+
+Any changes made to HTML, CSS or JS files should automatically trigger a browser reload.
+
+
+## Deployment
+
+In order for AngularJS' HTML5 mode to work use the following configurations:
+
+### nginx
 ```
 server {
         listen   80;
@@ -13,80 +56,14 @@ server {
 }
 ```
 
-The string `try_files $uri $uri/ /index.html =404;` means that now all non-existent url will be forwarded to index.html file, but without rewriting url in the browser address bar.
+### Apache
 
-
-
----
-## Dependencies
-* Leaflet JS, including markercluster plugin
-* Angular-UI with Bootstrap http://angular-ui.github.io/bootstrap/
-
-
-
-# Modules and Structure
----
-## Bookmarks
-## Entity-Bookmark:
-* Bookmark erstellen & einer Liste hinzufügen
-* Bookmark löschen
-* Bookmark erstellen & (einer neuen Liste hinzufügen)
-
-## Bookmarks-Site
-* Bookmark-Liste hinzufügen
-* Bookmark-Liste löschen
-* Bookmark-Liste editieren 
-* Einzelne Bookmarks Editieren & löschen
-
-## Index.html
- * Fügt Bootstrap ein
- * startet AngularJS  `ng-app="myApp"`
- * Fügt die navbar ein
- * Setzt mit ng-view den Platz für die einzelnen Seiten (siehe app.js routing)
-
-### CSS
-## GridSystem
-* Die normale __row__ benutzen wir paraktisch um alles herum was Spalten (col-md-?) hat. Eine normale row-class hat margin-top: 10px;. Eine fullscreenrow-class hat margin-top:0px.  Wenn es eine fullscreen-anwendung (wie bspw. map) gibt benutzt man beide um das row-margin zu überschreiben.
-
-##Angular 
----
-
-# Allgemeines, Ablauf der Programmteile
-
-## Allgemeines zu Services/Factories
- * (1.) Services bestehen aus ihren (privaten) Variablen, die über (public) getter- und setter-Methoden von Controllern benutzt werden
- * (1.2) Du kannst keine Bindings auf Variablen aus Services oder Factories machen! Siehe http://stackoverflow.com/questions/16023451/binding-variables-from-service-factory-to-controllers
- * (2.) Services returnen nur ihre public Methoden, nie Variablen (siehe oben)!
- * (3.) Services haben die private var `arachneDataService` die alle Server-Kommunikation beinhaltet. Sie ist ein Angular Resource. Diese ist kompliziert, daher unbedingt die Angular-Doku lesen.
- * _Ablauf_: Controller ruft public Methoden des Services auf; dann ruft der Service seine Server-Funktionen auf. Diese (private) Server-Funktionen sind in unseren Services immer `arachneDataService` genannt. Der Service nimmt ggf. successMethod und errorMethod des Controllers entgegen.
- * 
-
-
-
-##app.js
- * legt in erster linie das Routing fest
- * Über die URL öffnet sich ein html Dokument (partials ordner) in der ng-view
- * die Start Seite `/` ruft die _startSite.html_ auf
- * mit `/entity/:id?` wird eine entity über _entity.html_ angezeigt
- * mit `/search/:params?` wird die Suche über _search.html_ angezeigt
-
-##controllers.js
- * legt unsere Controller fest
- * für jede Seite wird ein Controller aufgerufen
- * die _startSite.html_ ruft den `newsController` auf
- * die _entity.html_  ruft den `EntityCtrl` auf
- * die _search.html_ ruft die `SearchCtrl` auf
-
-##directives.js
- * inline Anweisungen für die Seite
- * mit `errSrc` werden nicht vorhandene Bilder durch ein ersatz Bild ausgetauscht
- * mit `imagesrow` werden Bilder in der _search.html_ auf die richtige Größe getrimmt
-
-##filters.js
- * filter für einzelne Anweisungen
- * mit `i18n` wird direkt die richtige Sprache für das Wort angezeigt
-
-##services.js
- * schickt unsere Anfragen an das Backend
- 
----
+```
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond $1#%{REQUEST_URI} ([^#]*)#(.*)\1$
+	RewriteRule ^(.*)$ %2index.html [QSA,L]
+</IfModule>
+```
