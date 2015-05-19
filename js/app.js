@@ -44,7 +44,7 @@ angular.module('arachne',[
 		.when('/kontakt', {templateUrl: 'partials/contact.html'})
 		.when('/pwdreset', {templateUrl: 'partials/pwdreset.html'})
 		.when('/project/:name', {templateUrl: 'partials/project.html'});
-}]).constant('arachneSettings', 
+}]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
 		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
