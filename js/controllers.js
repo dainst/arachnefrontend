@@ -64,7 +64,25 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.cancel = function () {
 			$modalInstance.dismiss();
 		};
-	
+	}
+])
+.controller('PwdController', ['$scope', '$http',  'resetService',
+	function ($scope, $http, resetService) {
+
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			resetService.resetpwd($scope.usrData, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
+		}
 	}
 ])
 .controller('SearchFormCtrl', ['$scope', '$location',
@@ -580,6 +598,25 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.columns[2] = $scope.projects.slice(5);
 		});
 
+	}
+])
+.controller('ContactController', ['$scope', '$http', '$modal', 'contactService', 'arachneSettings',
+	function ($scope, $http, $modal, contactService, arachneSettings) {
+
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			contactService.sendContact($scope.usrData, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
+		}
 	}
 ])
 

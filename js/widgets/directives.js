@@ -57,9 +57,7 @@ angular.module('arachne.widgets.directives', [])
 			},
 			templateUrl: 'partials/widgets/con10t-toc.html',
 			link: function(scope, element, attrs) {
-				var headings = document.querySelectorAll("h1.con10t-toc-entry" +
-                ", h2.con10t-toc-entry, h3.con10t-toc-entry, h4.con10t-toc-entry" +
-                ", h5.con10t-toc-entry, h6.con10t-toc-entry");
+				var headings = document.querySelectorAll(".con10t-toc-entry");
 
 				scope.toc = [];
 
@@ -68,7 +66,7 @@ angular.module('arachne.widgets.directives', [])
 					var heading = {
 						target: headingID,
 						text: headings[i].textContent,
-						depth: "con10t-toc-level-" + headings[i].tagName.charAt(1)
+						depth: "con10t-toc-item level-" + headings[i].tagName.charAt(1)
 					};
 					headings[i].id = headingID;
 					scope.toc.push(heading);
@@ -121,18 +119,23 @@ angular.module('arachne.widgets.directives', [])
 			restrict: 'E',
 			scope: {
 				menuTitle: '@',
-				catalogIds: '@',
 				facetsAllow: '=',
 				facetsDeny: '=',
+				facetsSelect: '=',
 				overlays: '='
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-map.html',
 			link: function(scope) {
-				var key = "catalogIds";
-				var query = searchService.currentQuery();
+				if (scope.facetsSelect) {
+					var query = searchService.currentQuery();
 
-				if (scope.catalogIds && !query.hasFacet(key)) {
-					query.facets.push({key: key, value: scope.catalogIds});
+					for (var i = 0; i < scope.facetsSelect.length; i++) {
+						var facet = scope.facetsSelect[i];
+
+						if (!query.hasFacet(facet.key)) {
+							query.facets.push(facet);
+						}
+					}
 				}
 			}
 		};
