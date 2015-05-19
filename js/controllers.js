@@ -64,32 +64,25 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.cancel = function () {
 			$modalInstance.dismiss();
 		};
-
-		$scope.forgotPassword = function(){
-			$modalInstance.dismiss();
-
-		    var PWD = $modal.open({
-		      	templateUrl: 'partials/Modals/password.html',
-		      	controller: 'PwdController'
-		    });
-		    PWD.close = function(bla){
-		    	PWD.dismiss();
-		    };
-			
-		}
 	}
 ])
-.controller('PwdController', ['$scope', '$modalInstance', '$http', '$modal', 'resetService',
-	function ($scope, $modalInstance, $http, $modal, resetService) {
+.controller('PwdController', ['$scope', '$http',  'resetService',
+	function ($scope, $http, resetService) {
 
-		$scope.sendForm = function() {
-			console.log($scope.usrData);
-			$modalInstance.dismiss();
-			resetService.resetpwd($scope.usrData, function(data){console.log(errorMSG);}, function(errorMSG){console.log(errorMSG);});
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			resetService.resetpwd($scope.usrData, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
 		}
-		$scope.cancel = function () {
-			$modalInstance.dismiss();
-		};
 	}
 ])
 .controller('SearchFormCtrl', ['$scope', '$location',
@@ -609,36 +602,23 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 ])
 .controller('ContactController', ['$scope', '$http', '$modal', 'contactService', 'arachneSettings',
 	function ($scope, $http, $modal, contactService, arachneSettings) {
-  		$scope.radioRobot = 'yes';
 
 		$scope.success = false;
 		$scope.error = "";
 
 		$scope.submit = function() {
-			console.log($scope.usrData);
-
-			contactService.sendContact($scope.usrData, function(data){console.log(data);}, function(error){console.log(error);});
-			/*var res = $http.post(arachneSettings.dataserviceUri + "/contact", $scope.usrData);
-			
-			res.success(function(data, status, headers, config) {
-				$scope.error = "";
-				$scope.success = true;
-			});
-			res.error(function(data, status, headers, config) {
-				$scope.error = data.message;
-			});	
-			$http.post(arachneSettings.dataserviceUri + "/contact", $scope.usrData, {
-				"headers": { "Content-Type": "application/json" }
-			}).success(function(data) {
-				$scope.error = "";
-				$scope.success = true;
-			}).error(function(data) {
-				$scope.error = data.message;
-			});*/
+			contactService.sendContact($scope.usrData, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
 		}
 	}
 ])
-
 
 .controller('AllCategoriesController', ['$rootScope', '$scope', '$http', 'categoryService', '$timeout',
 	function ($rootScope, $scope, $http, categoryService, $timeout) {
