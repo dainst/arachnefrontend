@@ -68,3 +68,33 @@ con10t-toc a, con10t-tree a,con10t-catalog-tree a {
 .con10t-catalog-tree-children, .con10t-tree-children{
     padding-left: 2em;
 }
+
+/* add search icon to link */
+.con10t-page a[con10t-search-query]:before {
+    content: "\e003";
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    padding-right: 0.3em;
+}
+
+/* add file icon to link */
+.con10t-page a[con10t-page]:before {
+    content: "\e022";
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    padding-right: 0.3em;
+}
+
+/* add list icon to link */
+.con10t-page a[con10t-item]:before {
+    content: "\e032";
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    padding-right: 0.3em;
+}
