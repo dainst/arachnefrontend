@@ -18,11 +18,11 @@ To install the necessary dependencies run the following command in the working d
 npm install
 ```
 
-### Project sites submodule
+### con10t submodule
 
 The static files representing the project pages are stored in the directory `con10t`. The repository comes preconfigured with the Arachne project pages configured as a git submodule.
 
-In order to setup the submodule you have to run the following commands after the initial checkout:
+In order to set up the submodule you have to run the following commands after the initial checkout:
 ```
 cd con10t
 git submodule init
@@ -45,7 +45,7 @@ Any changes made to HTML, CSS or JS files should automatically trigger a browser
 
 ## Deployment
 
-In order for AngularJS' HTML5 mode to work the use the following configurations:
+In order for AngularJS' HTML5 mode to work use the following configurations:
 
 ### nginx
 ```
@@ -55,8 +55,6 @@ server {
         try_files $uri $uri/ /index.html =404;
 }
 ```
-
-The string `try_files $uri $uri/ /index.html =404;` means that now all non-existent urls will be forwarded to index.html file, but without rewriting url in the browser address bar.
 
 ### Apache
 

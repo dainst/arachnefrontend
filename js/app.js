@@ -38,7 +38,8 @@ angular.module('arachne',[
 		.when('/projects', {templateUrl: 'partials/projects.html'})
 		.when('/register', {templateUrl: 'partials/register.html'})
 		.when('/faq', {templateUrl: 'partials/faq.html'})
-		.when('/contact', {templateUrl: 'partials/contact.html'})
+		.when('/kontakt', {templateUrl: 'partials/contact.html'})
+		.when('/pwdreset', {templateUrl: 'partials/pwdreset.html'})
 		.when('/project/:name', {templateUrl: 'partials/project.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
