@@ -22,6 +22,11 @@
     </div>
 </script>
 
+
+<div ng-hide="catalog.root">
+    <div class="loading"></div>
+</div>
+
 <div class="con10t-catalog-tree-title">{{catalog.root.label}}</div>
 <div class="con10t-catalog-tree-author">{{catalog.author}}</div>
 <div ng-repeat="node in catalog.root.children" ng-include="'catalogNode'"></div>

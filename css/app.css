@@ -276,11 +276,6 @@ h6 { font-size: 12px; }
 }
 
 .loading{
-  position: absolute;
-  top: 250px;
-  bottom:0px;
-  left: 0px;
-  right: 0px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
