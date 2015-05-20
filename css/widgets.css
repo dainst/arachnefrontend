@@ -9,6 +9,7 @@ con10t-toc, con10t-catalog-tree, con10t-tree {
     margin: 0 0 15px 15px;
     width: 40%;
 }
+
 con10t-toc a, con10t-tree a,con10t-catalog-tree a {
     cursor: pointer;
     cursor: hand;

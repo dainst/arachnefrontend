@@ -314,6 +314,11 @@ h6 { font-size: 12px; }
   border-color: #3c763d;
 }
 
+.faq h2 {
+  padding-top: 60px;   /* Hack:                                                                */
+  margin-top:  -60px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
+}
+
 .faq h4 {
   margin-top: 20px;
   font-weight: bold;
