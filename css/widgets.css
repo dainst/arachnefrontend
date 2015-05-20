@@ -1,13 +1,11 @@
-con10t-toc, con10t-catalog-tree, con10t-tree {
+con10t-toc .panel,
+con10t-catalog-tree .panel,
+con10t-tree .panel {
     text-align: left;
-    padding: 1em;
-    background-color: #f4f4f4;
-    border-style: solid;
-    border-width: thin;
-    border-color: #E7E7E7;
     float: right;
-    margin: 0 0 15px 15px;
     width: 40%;
+    margin-left: 15px;
+    margin-bottom: 15px;
 }
 
 con10t-toc a, con10t-tree a,con10t-catalog-tree a {
@@ -20,54 +18,38 @@ con10t-toc a, con10t-tree a,con10t-catalog-tree a {
     margin-top:  -55px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
 }
 
-.con10t-toc-heading {
-    padding-bottom: 1em;
-    font-size: large;
-}
-
 .con10t-toc-item {
     margin-left: 1.5em;
     text-indent: -1.5em;
+    margin-bottom: 4px;
 }
 
-.con10t-toc-item.level-1 {
-    font-size: medium;
+.con10t-toc-item {
 }
 .con10t-toc-item.level-2 {
     padding-left: 1em;
-    font-size: small;
 }
 .con10t-toc-item.level-3 {
     padding-left: 2em;
-    font-size: small;
 }
 .con10t-toc-item.level-4 {
     padding-left: 3em;
-    font-size: small;
 }
 .con10t-toc-item.level-5 {
     padding-left: 4em;
-    font-size: small;
 }
 .con10t-toc-item.level-6 {
     padding-left: 5em;
-    font-size:  small;
 }
-.con10t-catalog-tree-title {
-    padding-bottom: 1em;
-    font-size: large;
-}
-.con10t-catalog-tree-author {
-    padding-bottom: 1em;
-    font-size: medium;
-}
+
 .con10t-catalog-tree-child, .con10t-tree-child {
-    border-style: solid none none none;
-    border-width: thin;
-    border-color: #E7E7E7;
+    text-indent: -0.6em;
+    margin-top: 5px;
+    margin-left: 0.6em;
+    padding-left: 0.6em;
 }
-.con10t-catalog-tree-children, .con10t-tree-children{
-    padding-left: 2em;
+.con10t-catalog-tree-child a, .con10t-tree-child a {
+    text-indent: 0em;
 }
 
 /* add search icon to link */

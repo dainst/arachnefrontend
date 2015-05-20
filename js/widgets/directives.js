@@ -90,7 +90,8 @@ angular.module('arachne.widgets.directives', [])
 		return {
 			restrict: 'E',
 			scope: {
-				catalogId: '@'
+				catalogId: '@',
+				heading: '='
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-tree.html',
 			link: function(scope) {
