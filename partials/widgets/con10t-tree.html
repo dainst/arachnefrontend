@@ -1,26 +1,45 @@
 <script type="text/ng-template" id="nodeTemplate">
-    <div ng-class="{true: 'con10t-tree-child', false: ''}[node.parent != null]">
-        <a style="float:left" ng-click="toggleCollapse(node)" ng-if="!node.isLeaf">
-                <span ng-if="checkIfShown(node.name)">
-                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                </span>
-                <span ng-if="!checkIfShown(node.name)">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                </span>
-        </a>
+    <div class="con10t-tree-child">
 
-        <div>{{node.name}}
-            <a ng-click="startFacetedSearch(node)">
-                <span class="glyphicon glyphicon-book" aria-hidden="true" title="{{'ui_showall' | i18n}}"></span>
-            </a>
-        </div>
-
-            <span ng-if="node.children.length > 0">
-                <div class="con10t-tree-children" ng-if="node.children" collapse="!checkIfShown(node.name)">
-                    <div ng-repeat="node in node.children" ng-include="'nodeTemplate'"></div>
-                </div>
+        <span ng-click="toggleCollapse(node)" ng-if="!node.isLeaf">
+            <span ng-if="checkIfShown(node.name)">
+                <span class="glyphicon glyphicon-folder-open" aria-hidden="true" style="color:grey; cursor:pointer;"></span>
             </span>
+            <span ng-if="!checkIfShown(node.name)">
+                <span class="glyphicon glyphicon-folder-close" aria-hidden="true" style="color:grey; cursor:pointer;"></span>
+            </span>
+        </span>
+        <span ng-if="node.isLeaf">
+            <span class="glyphicon glyphicon-file" aria-hidden="true" style="color:grey; cursor:pointer;"></span>
+        </span>
+
+        <span>{{node.name}}
+            <a ng-click="startFacetedSearch(node)">
+                <span class="glyphicon glyphicon-search" aria-hidden="true" title="{{'ui_showall' | i18n}}"></span>
+            </a>
+        </span>
+
+        <span ng-if="node.children.length > 0">
+            <div class="con10t-tree-children" ng-if="node.children" collapse="!checkIfShown(node.name)">
+                <div ng-repeat="node in node.children" ng-include="'nodeTemplate'"></div>
+            </div>
+        </span>
+
     </div>
 </script>
-<div ng-click="closeAll()" title="{{'ui_hideall' | i18n}}">{{'ui_hideall' | i18n}}</div>
-<div ng-repeat="node in treeRoot" ng-include="'nodeTemplate'"></div>
+
+<div class="panel panel-default">
+    <div class="panel-heading" ng-show="heading">
+        <h3 class="panel-title">
+            {{heading}}
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div ng-hide="treeRoot">
+            <div class="loading"></div>
+        </div>
+        <div ng-repeat="node in treeRoot" ng-include="'nodeTemplate'"></div>
+    </div>
+</div>
+
+<!--<div ng-click="closeAll()" title="{{'ui_hideall' | i18n}}">{{'ui_hideall' | i18n}}</div>-->

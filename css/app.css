@@ -276,11 +276,6 @@ h6 { font-size: 12px; }
 }
 
 .loading{
-  position: absolute;
-  top: 250px;
-  bottom:0px;
-  left: 0px;
-  right: 0px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -314,6 +309,11 @@ h6 { font-size: 12px; }
   border-color: #3c763d;
 }
 
+.faq h2 {
+  padding-top: 60px;   /* Hack:                                                                */
+  margin-top:  -60px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
+}
+
 .faq h4 {
   margin-top: 20px;
   font-weight: bold;
@@ -333,8 +333,6 @@ h6 { font-size: 12px; }
 }
 
 .con10t-page {
-  width: 80%;
-  margin: 0 10%;
   text-align: justify;
 }
 
