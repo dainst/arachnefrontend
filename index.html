@@ -89,14 +89,14 @@
 					<!-- user menu if logged in -->
 					<div ng-if="user.username" dropdown ng-cloak
 							class="btn-group btn-group-sm"
-							style="margin-top:2px; padding-left:20px; padding-right:20px;">
+							style="margin-top:2px; padding-left:20px; margin-right:30px;">
 						<a href="bookmarks" class="btn btn-default navbar-btn dropdown-toggle">
 							<span class="glyphicon glyphicon-user"></span>
 							&nbsp;{{user.username}}
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu" role="menu"
-								style="margin-top:-6px; margin-right:10px;">
+								style="margin-top:-6px;">
 					        <li>
 					        	<a href="catalog">
 									<span style="color: rgb(66,139,202)" class="glyphicon glyphicon-inbox"></span>
@@ -115,7 +115,7 @@
 					<!-- login and register if not logged in -->
 					<div ng-if="!user.username" ng-cloak
 							class="btn-group btn-group-sm"
-							style="margin-top:2px; padding-left:20px; padding-right:20px;">
+							style="margin-top:2px; padding-left:20px; margin-right:30px;">
 						<a  type="button" class="btn btn-primary navbar-btn" ng-click="openLoginModal()">
 							<span class="glyphicon glyphicon-log-in"></span> &nbsp;Anmelden
 						</a>
