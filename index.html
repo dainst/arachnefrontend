@@ -7,7 +7,7 @@
 	<title>Arachne</title>
 	<link rel="shortcut icon" href="img/arachnelogo.png">
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
 	<link rel="stylesheet" href="css/MarkerCluster.css">
 	<link rel="stylesheet" href="css/MarkerCluster.Default.css">
@@ -45,26 +45,29 @@
 <body ng-controller="NavBarCtrl">
 
 	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:white; opacity:0.89" role="navigation" ng-controller="MenuCtrl">
-		<div class="col-md-3" style="padding-left:0px; position:relative">
+		<div style="padding-left:0px; position:relative">
 			<img class="pull-left" src="img/kleinergreif.png" style="height: 36px; margin-left: 16px; margin-top: 8px; width: 36px;"></img>
 			<img class="pull-left" src="img/arachnelogo.png" style="height: 36px; margin-left: 16px; margin-top: 8px; width: 36px;"></img>
 			<a class="navbar-brand" href="#" style="font-weight:300; font-size:20px; height:46px; margin-top: 4px;">arachne </a>
 			<div class="text-primary" style="font-size:12px; position:absolute; top:9px; left: 164px;">beta</div>
 		</div>
+
 		<div class="navbar-header" ng-init="isCollapsed = true">
+			
 			<button class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" type="button">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
 			</button>
+
 		</div>
-		<div class="collapse navbar-collapse"  collapse="isCollapsed" style="padding-left:10px">
+		<div class="collapse navbar-collapse" collapse="isCollapsed" style="padding-left:10px">
 			
 			<form ng-controller="SearchFormCtrl"
 					ng-submit="search()"
 					ng-hide="currentPath == '/'"
-					class="navbar-form navbar-left input-group form-inline"
+					class="navbar-left navbar-form input-group form-inline"
 					role="search">
 		        <input autofocus type="text" class="form-control" placeholder="neue Suche" ng-model="q" name="q">
 		        <span class="navbar-left input-group-btn">
@@ -72,49 +75,55 @@
 		        </span>
 		    </form>
 
-			<!-- user menu if logged in -->
-			<div ng-if="user.username" dropdown ng-cloak
-					class="btn-group btn-group-sm pull-right"
-					style="margin-top:2px; padding-right:10px;">
-				<a href="bookmarks" class="btn btn-default navbar-btn dropdown-toggle">
-					<span class="glyphicon glyphicon-user"></span>
-					&nbsp;{{user.username}}
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu" role="menu"
-						style="margin-top:-6px; margin-right:10px;">
-			        <li>
-			        	<a href="catalog">
-							<span style="color: rgb(66,139,202)" class="glyphicon glyphicon-inbox"></span>
-							&nbsp;Kataloge verwalten
-						</a>
-			        </li>
-			        <li class="divider"></li>
-			        <li>
-			        	<a ng-click="logout()" style="cursor:pointer;">
-							<span class="glyphicon glyphicon-log-out"></span> &nbsp;Abmelden
-						</a>
-			        </li>
-			    </ul>
-			</div>
-
-			<!-- login and register if not logged in -->
-			<div ng-if="!user.username" ng-cloak
-					class="btn-group btn-group-sm pull-right"
-					style="margin-top:2px; padding-right:10px;">
-				<a  type="button" class="btn btn-primary navbar-btn" ng-click="openLoginModal()">
-					<span class="glyphicon glyphicon-log-in"></span> &nbsp;Anmelden
-				</a>
-				<a ng-if="!user.username" class="btn btn-default navbar-btn" href="register">
-					Registrieren
-				</a>			
-			</div>
-			<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+			<ul class="nav navbar-nav navbar-right">
 		    	<li><a href="faq">FAQ</a></li>
 		    	<li><a href="apis">APIs</a></li>
 		    	<li><a href="bestellung">Lizenz/Bestellung</a></li>
 		    	<li><a href="ueber">Über Arachne</a></li>
 		    	<li><a href="contact">Kontakt</a></li>
+
+		    	<li>		    		
+
+					<!-- user menu if logged in -->
+					<div ng-if="user.username" dropdown ng-cloak
+							class="btn-group btn-group-sm"
+							style="margin-top:2px; padding-right:20px;">
+						<a href="bookmarks" class="btn btn-default navbar-btn dropdown-toggle">
+							<span class="glyphicon glyphicon-user"></span>
+							&nbsp;{{user.username}}
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu"
+								style="margin-top:-6px; margin-right:10px;">
+					        <li>
+					        	<a href="catalog">
+									<span style="color: rgb(66,139,202)" class="glyphicon glyphicon-inbox"></span>
+									&nbsp;Kataloge verwalten
+								</a>
+					        </li>
+					        <li class="divider"></li>
+					        <li>
+					        	<a ng-click="logout()" style="cursor:pointer;">
+									<span class="glyphicon glyphicon-log-out"></span> &nbsp;Abmelden
+								</a>
+					        </li>
+					    </ul>
+					</div>
+
+					<!-- login and register if not logged in -->
+					<div ng-if="!user.username" ng-cloak
+							class="btn-group btn-group-sm"
+							style="margin-top:2px; padding-right:20px;">
+						<a  type="button" class="btn btn-primary navbar-btn" ng-click="openLoginModal()">
+							<span class="glyphicon glyphicon-log-in"></span> &nbsp;Anmelden
+						</a>
+						<a ng-if="!user.username" class="btn btn-default navbar-btn" href="register">
+							Registrieren
+						</a>			
+					</div>
+
+		    	</li>
+
 		    </ul>
 		</div>
 	</nav>
