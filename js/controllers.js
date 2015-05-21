@@ -123,12 +123,21 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
 			$scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
 			$scope.facets = searchService.getFacets();
-			$scope.facets.forEach(function(facet) {
+			var i = 0;
+			var insert = [];
+			for (var i = 0; i < $scope.facets.length; i++) {
+				var facet = $scope.facets[i];
 				facet.open = false;
 				arachneSettings.openFacets.forEach(function(openName) {
-					if (facet.name.slice(0, openName.length) == openName)
+					if (facet.name.slice(0, openName.length) == openName) {
+						insert.unshift($scope.facets.splice(i--,1)[0]);
 						facet.open = true;
+					}
 				});
+			}
+			console.log(insert);
+			insert.forEach(function(facet) {
+				$scope.facets.unshift(facet);
 			});
 			$scope.cells = $filter('cellsFromEntities')(entities,$scope.currentQuery);
 		}, function(response) {
