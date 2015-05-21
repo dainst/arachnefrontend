@@ -12,8 +12,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		});
 	}
 ])
-.controller('MenuCtrl',	[ '$scope', '$modal', 'authService', '$location', '$route',
-	function ($scope,  $modal, authService, $location, $route) {
+.controller('MenuCtrl',	[ '$scope', '$modal', 'authService', '$location', '$window',
+	function ($scope,  $modal, authService, $location, $window) {
 
 		$scope.user = authService.getUser();
 
@@ -28,20 +28,20 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				controller: 'LoginCtrl'
 			});
 			modalInstance.result.then(function(user) {
-				$scope.user = user;
+				$window.location.reload();
 			});
 		};
 
 		$scope.logout = function() {
 			authService.clearCredentials();
 			$scope.user = authService.getUser();
-			$route.reload();
+			$window.location.reload();
 		}
 
 	}
 ])
-.controller('LoginCtrl', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal', '$route',
-	function($scope, $modalInstance, authService, $timeout, $modal, $route){
+.controller('LoginCtrl', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal', '$window',
+	function($scope, $modalInstance, authService, $timeout, $modal, $window){
 		
 		$scope.loginData = {};
 		$scope.loginerror = false;
