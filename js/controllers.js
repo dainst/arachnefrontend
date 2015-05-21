@@ -135,7 +135,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					}
 				});
 			}
-			console.log(insert);
 			insert.forEach(function(facet) {
 				$scope.facets.unshift(facet);
 			});
