@@ -89,7 +89,7 @@
 					<!-- user menu if logged in -->
 					<div ng-if="user.username" dropdown ng-cloak
 							class="btn-group btn-group-sm"
-							style="margin-top:2px; padding-right:20px;">
+							style="margin-top:2px; padding-left:20px; padding-right:20px;">
 						<a href="bookmarks" class="btn btn-default navbar-btn dropdown-toggle">
 							<span class="glyphicon glyphicon-user"></span>
 							&nbsp;{{user.username}}
@@ -115,7 +115,7 @@
 					<!-- login and register if not logged in -->
 					<div ng-if="!user.username" ng-cloak
 							class="btn-group btn-group-sm"
-							style="margin-top:2px; padding-right:20px;">
+							style="margin-top:2px; padding-left:20px; padding-right:20px;">
 						<a  type="button" class="btn btn-primary navbar-btn" ng-click="openLoginModal()">
 							<span class="glyphicon glyphicon-log-in"></span> &nbsp;Anmelden
 						</a>
