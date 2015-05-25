@@ -404,8 +404,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 		$scope.createCatalog = function() {
+			console.log($scope.user);
+			var catalogBuffer = {
+				author: $scope.user.username
+			};
 			var editCatalogModal = $modal.open({
-				templateUrl: 'partials/Modals/editCatalog.html'
+				templateUrl: 'partials/Modals/editCatalog.html',
+				controller: 'EditCatalogCtrl',
+				resolve: { catalog: function() { return catalogBuffer } }
 			});
 			editCatalogModal.close = function(newCatalog) {
 				newCatalog.public = false;
