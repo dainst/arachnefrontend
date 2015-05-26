@@ -92,6 +92,20 @@ h6 { font-size: 12px; }
   text-decoration: none;
 }
 
+.ar-map-menu {
+  background-color: rgba(248, 248, 248, 0.8);
+  position: absolute;
+  top: 60px;
+  bottom:10px;
+  right: 10px;
+  overflow-y:auto;
+  z-index:500;
+}
+
+.con10t-page .ar-map-menu {
+  top: 10px;
+}
+
 .single-line {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -353,11 +367,7 @@ h6 { font-size: 12px; }
   left: 15px;
   right: 15px;
   bottom: 0;
-  top: 0;
-}
-
-.con10t-fullscreen > * {
-  psotion: absolute;
+  top: 40px;
 }
 
 .catalog-entry {
