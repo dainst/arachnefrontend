@@ -6,7 +6,7 @@
 	<div class="modal-body">
 		
 		<div ng-if="catalogs.length == 0">
-			Keine Kataloge vorhanden. Bitte erst einen Anlegen!
+			<a href="catalog" ng-click="$dismiss()">Keine Kataloge vorhanden. Bitte erst einen Anlegen!</a>
 		</div>
 		<div id="custom-catalog">
 			<div ng-repeat="catalog in catalogs" >

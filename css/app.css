@@ -271,16 +271,11 @@ h6 { font-size: 12px; }
 .accordion-with-list .list-group-item {
   border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px;
 }
-#projectTeaser{
+#projectTeaser {
   padding-bottom: 15px;
 }
 
-.loading{
-  position: absolute;
-  top: 250px;
-  bottom:0px;
-  left: 0px;
-  right: 0px;
+.loading {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -297,11 +292,11 @@ h6 { font-size: 12px; }
   animation: spin 1.5s linear infinite;
 }
 
-@-webkit-keyframes spin{
+@-webkit-keyframes spin {
   0%{-webkit-transform: rotate(0deg);}
   100%{-webkit-transform: rotate(720deg);}
 }
-@keyframes spin{
+@keyframes spin {
   0%{transform: rotate(0deg);}
   100%{transform: rotate(720deg);}
 }
@@ -312,6 +307,11 @@ h6 { font-size: 12px; }
 
 .register-form .form-control.ng-valid.ng-dirty {
   border-color: #3c763d;
+}
+
+.faq h2 {
+  padding-top: 60px;   /* Hack:                                                                */
+  margin-top:  -60px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
 }
 
 .faq h4 {
@@ -333,8 +333,6 @@ h6 { font-size: 12px; }
 }
 
 .con10t-page {
-  width: 80%;
-  margin: 0 10%;
   text-align: justify;
 }
 
@@ -386,6 +384,16 @@ h6 { font-size: 12px; }
 
 .carousel-indicators li {
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 1);
+}
+
+/* fix search field width in collapsed navbar */
+.navbar-form .form-control {
+  width: 100%;
+}
+@media (min-width: 1200px) {
+  .navbar-form .form-control {
+    width: auto;
+  }
 }
 
 /* OVERWRITING MARKER CLUSTER STYLING FOR LEAFLET PLUGIN MARKERCLUSTER */
