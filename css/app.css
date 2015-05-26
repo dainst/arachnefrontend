@@ -348,6 +348,18 @@ h6 { font-size: 12px; }
   padding: 0 15px 0 0;
 }
 
+.con10t-page .con10t-fullscreen {
+  position: fixed;
+  left: 15px;
+  right: 15px;
+  bottom: 0;
+  top: 0;
+}
+
+.con10t-fullscreen > * {
+  psotion: absolute;
+}
+
 .catalog-entry {
   padding: 10px;
   border-radius: 4px;
