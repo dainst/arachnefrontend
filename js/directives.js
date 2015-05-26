@@ -511,7 +511,8 @@ angular.module('arachne.directives', [])
 			mapfacet: '=',
 			currentQuery: '=',
 			overlays: '=',
-			searchFunction: '='
+			searchFunction: '=',
+			mapConfig: '='
 		},
 		link: function(scope, element, attrs) {
 
@@ -638,24 +639,23 @@ angular.module('arachne.directives', [])
 	};
 	}])
 
-	.directive('arMapMenu', ['$location', function($location) {
+	.directive('arMapMenu', ['$location', 'MapConfig', function($location, MapConfig) {
 	return {
 		restrict: 'A',
 		scope: {
-			menuTitle: '=',
 			resultSize: '=',
 			mapfacet: '=',
 			mapfacetNames: '=',
 			currentQuery: '=',
 			facets: '=',
-			facetsAllow: '=',
-			facetsDeny: '=',
-			facetsSelect: '=',
 			overlays: '=',
-			searchFunction: '='
+			searchFunction: '=',
+			mapConfig: '='
 		},
 		templateUrl: 'partials/directives/ar-map-menu.html',
 		link: function(scope, element, attrs) {
+
+			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 
 			var geofacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'facet_geogrid']
 
@@ -700,17 +700,17 @@ angular.module('arachne.directives', [])
 				}
 
 				var facetsHidden = geofacets;
-				if (scope.facetsDeny) {
-					facetsHidden = facetsHidden.concat(scope.facetsDeny);
+				if (scope.menuFacetsDeny) {
+					facetsHidden = facetsHidden.concat(scope.mapConfig.menuFacetsDeny);
 				}
 
 				// determine shown facets after facets are loaded
 				scope.facetsShown = [];
 				scope.$watch('facets', function(facets) {
-					// facetsShown is either the ordered list defined in facetsAllow
-					if (facets && scope.facetsAllow) {
-						for (var i = 0; i < scope.facetsAllow.length; i++) {
-							var name = scope.facetsAllow[i];
+					// facetsShown is either the ordered list defined in mapConfig.menuFacetsAllow
+					if (facets && scope.mapConfig.menuFacetsAllow) {
+						for (var i = 0; i < scope.mapConfig.menuFacetsAllow.length; i++) {
+							var name = scope.mapConfig.menuFacetsAllow[i];
 							var result = facets.filter(function (facet) {
 								return (facet.name == name);
 							});

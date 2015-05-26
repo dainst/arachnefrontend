@@ -542,4 +542,42 @@ angular.module('arachne.services', [])
 
 	}])
 
+	// Represents a maps configuration
+	.factory('MapConfig', function() {
+
+		function MapConfig(config) {
+			config = config || {};
+
+			this.menuTitle                     = null;
+			this.menuHeadingOverlays           = "Overlays";
+			this.menuHeadingMapfacetSelection  = "Typ der Ortsangabe";
+			this.menuHeadingSearch             = "Aktuelle Suche";
+			this.menuHeadingFilters            = "Filter";
+
+			this.menuShowOverlays              = true;
+			this.menuShowMapfacetSelection     = true;
+			this.menuShowSearch                = true;
+			this.menuShowFilters               = true;
+
+			this.menuFacetsAllow               = null;
+			this.menuFacetsDeny                = null;
+
+			this.facetsSelect                  = null;
+		}
+
+		MapConfig.prototype = {
+
+			merge: function(other) {
+				for (var key in other) {
+					this[key] = other[key];
+				}
+
+				return this;
+			}
+		}
+
+		return MapConfig;
+
+	})
+
 ;

@@ -5,18 +5,15 @@
 	<div ng-hide="resultSize >= 0" class="loading"></div>
 
 	<div ar-map-menu
-		menu-title="menuTitle"
 		result-size="resultSize"
 		facet-limit="facetLimit"
 		mapfacet="mapfacet"
 		mapfacet-names="mapfacetNames"
 		current-query="currentQuery"
 		facets="facets"
-		facets-allow="facetsAllow"
-		facets-deny="facetsDeny"
-		facets-select="facetsSelect"
 		overlays="overlays"
-		search-function="searchDeferred">
+		search-function="searchDeferred"
+		map-config="mapConfig">
 	</div>
 
 	<div ar-map class="col-md-12 ar-map ar-fullscreenmap" id="map"
@@ -24,6 +21,7 @@
 		mapfacet="mapfacet"
 		current-query="currentQuery"
 		overlays="overlays"
-		search-function="searchDeferred">
+		search-function="searchDeferred"
+		map-config="mapConfig">
 	</div>
 </div>

@@ -1,7 +1,7 @@
 <div ng-if="resultSize != null" id="mapNavigation" class="ar-map-menu col-md-2 well well-sm">
 
-    <h2 class="text-muted uppercase" style="font-variant:small-caps" ng-show="menuTitle">
-        {{menuTitle}}
+    <h2 class="text-muted uppercase" style="font-variant:small-caps" ng-show="mapConfig.menuTitle">
+        {{mapConfig.menuTitle}}
     </h2>
 
     <h4>{{ mapfacet ? (mapfacet.name + "_plural" | i18n) : "" }}</h4>
@@ -36,9 +36,9 @@
     </div>
 
     <!-- Overlays -->
-    <div ng-if="overlays">
+    <div ng-if="mapConfig.menuShowOverlays && overlays">
         <h5 class="text-muted uppercase" style="cursor:pointer" ng-click="toggleOverlayGroupMenu()">
-            <strong>Overlays</strong>
+            <strong>{{mapConfig.menuHeadingOverlays}}</strong>
         </h5>
 
         <!-- Gruppen von Overlays in einem togglebaren Menü -->
@@ -73,8 +73,8 @@
     </div>
 
     <!-- Facetten zur Ortsangabe -->
-    <div>
-        <h5 class="text-muted uppercase"><strong>Typ der Ortsangabe</strong></h5>
+    <div ng-show="mapConfig.menuShowMapfacetSelection">
+        <h5 class="text-muted uppercase"><strong>{{mapConfig.menuHeadingMapfacetSelection}}</strong></h5>
             <div class="btn-group-vertical" style="display:block;" role="group">
                 <a class="btn btn-sm btn-default"
                         ng-repeat="mapfacetName in mapfacetNames"
@@ -86,19 +86,19 @@
     </div>
 
     <!-- Suchfeld -->
-    <div>
-        <h5 class="text-muted uppercase"><b>Aktuelle Suche</b></h5>
+    <div ng-show="mapConfig.menuShowSearch">
+        <h5 class="text-muted uppercase"><b>{{mapConfig.menuHeadingSearch}}</b></h5>
         <form ng-submit="go('/' + route + currentQuery.setParam('q',q).toString())">
             <input type="text" class="form-control" ng-model="q"/>
         </form>
     </div>
 
     <!-- Aktive Filter (ausgewählte Facetten) -->
-    <div ar-active-facets route="{{route}}" current-query="currentQuery" hidden-facets="facetsSelect"></div>
+    <div ar-active-facets route="{{route}}" current-query="currentQuery" hidden-facets="mapConfig.facetsSelect"></div>
 
     <!-- Weitere Facetten -->
-    <small ng-if="resultSize > 2">
-        <h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>Filter</b></h5>
+    <small ng-if="mapConfig.menuShowFilters && resultSize > 2">
+        <h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>{{mapConfig.menuHeadingFilters}}</b></h5>
         <div ng-repeat="facet in facetsShown"
                 class="panel panel-default facet">
             <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">

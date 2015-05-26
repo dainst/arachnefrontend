@@ -119,19 +119,19 @@ angular.module('arachne.widgets.directives', [])
 		return {
 			restrict: 'E',
 			scope: {
-				menuTitle: '@',
-				facetsAllow: '=',
-				facetsDeny: '=',
-				facetsSelect: '=',
-				overlays: '='
+				overlays: '=',
+				mapConfig: '='
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-map.html',
 			link: function(scope) {
-				if (scope.facetsSelect) {
+				// Add restrictions for facets to the search if defined in mapConfig
+				var facets = scope.mapConfig.facetsSelect;
+
+				if (facets) {
 					var query = searchService.currentQuery();
 
-					for (var i = 0; i < scope.facetsSelect.length; i++) {
-						var facet = scope.facetsSelect[i];
+					for (var i = 0; i < facets.length; i++) {
+						var facet = facets[i];
 
 						if (!query.hasFacet(facet.key)) {
 							query.facets.push(facet);
