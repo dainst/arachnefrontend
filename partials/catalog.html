@@ -10,7 +10,7 @@
 		<a ng-if="!entry.expanded"
 			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
 			class="glyphicon glyphicon-folder-close"
-			style="cursor: pointer;"
+			style="cursor: pointer; text-decoration: none;"
 			ng-click="entry.expanded = true"></a>
 
 		<a ng-if="entry.arachneEntityId" ng-href="entity/{{entry.arachneEntityId}}">
