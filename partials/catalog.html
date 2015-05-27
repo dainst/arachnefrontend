@@ -2,14 +2,16 @@
 	
 	<div class="catalog-entry" ng-init="entry.show = false">
 
-		<span ng-if="entry.children.length > 0 && entry.expanded"
-			class="glyphicon glyphicon-folder-open" style="color: grey; cursor: pointer;"
-			ng-click="entry.expanded = false"></span>
-		<span ng-if="entry.children.length > 0 && !entry.expanded"
-			class="glyphicon glyphicon-folder-close" style="color: grey; cursor: pointer;"
-			ng-click="entry.expanded = true"></span>
-		<span ng-if="!entry.children || entry.children.length == 0"
-			class="glyphicon glyphicon-file" style="color: grey;"></span>
+		<a ng-if="entry.expanded"
+			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
+			class="glyphicon glyphicon-folder-open"
+			style="cursor: pointer; text-decoration: none;"
+			ng-click="entry.expanded = false"></a>
+		<a ng-if="!entry.expanded"
+			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
+			class="glyphicon glyphicon-folder-close"
+			style="cursor: pointer;"
+			ng-click="entry.expanded = true"></a>
 
 		<a ng-if="entry.arachneEntityId" ng-href="entity/{{entry.arachneEntityId}}">
 			{{entry.label}}
