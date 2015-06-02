@@ -589,6 +589,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					id: projectsMenu[key].id
 				});
 			}
+			var active = Math.floor((Math.random() * $scope.projslides.length));
+			for(var i=0; i<$scope.projslides.length; i++){
+				if(i == active)
+					$scope.projslides[i].active = true;
+				else
+					$scope.projslides[i].active = false;
+			}
 		});
 		
 		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
