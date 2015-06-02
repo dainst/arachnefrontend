@@ -24,7 +24,6 @@ The static files representing the project pages are stored in the directory `con
 
 In order to set up the submodule you have to run the following commands after the initial checkout:
 ```
-cd con10t
 git submodule init
 git submodule update
 ```
