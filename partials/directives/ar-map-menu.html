@@ -105,7 +105,7 @@
                 <h5 class="panel-title">
                     <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
                     <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
-                    &nbsp;{{facet.name | i18n }}
+                    &nbsp;{{facet.name | i18n }}{{ mapConfig.menuFacetsAppend[facet.name] }}
                 </h5>
             </div>
             <ul class="list-unstyled facet" ng-show="facet.open">

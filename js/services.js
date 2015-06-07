@@ -545,8 +545,7 @@ angular.module('arachne.services', [])
 	// Represents a maps configuration
 	.factory('MapConfig', function() {
 
-		function MapConfig(config) {
-			config = config || {};
+		function MapConfig() {
 
 			this.menuTitle                     = null;
 			this.menuHeadingOverlays           = "Overlays";
@@ -561,6 +560,8 @@ angular.module('arachne.services', [])
 
 			this.menuFacetsAllow               = null;
 			this.menuFacetsDeny                = null;
+
+			this.menuFacetsAppend              = null;
 
 			this.facetsSelect                  = null;
 		}
