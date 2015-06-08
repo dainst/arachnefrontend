@@ -119,6 +119,21 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	
 		searchService.getCurrentPage().then(function(entities) {
 			$scope.entities = entities;
+
+			//------------------ QUICKFIX -----------------------
+			for(i=0; i<=$scope.entities.length-1; i++)
+			{
+				var filter;
+				filter = $scope.entities[i].title.substring(0,26);
+				if(filter == "Bestand-D-DAI-Z-Arch-FWH-F")
+				{
+					$scope.entities[i].tumbnailId = 0;
+					console.log($scope.entities[i].thumbnailId = 0);
+				}
+
+			}
+
+			//-------------------- QUICKFIX ----------------------
 			$scope.resultSize = searchService.getSize();
 			$scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
 			$scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
@@ -251,6 +266,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.url(path);
 		};
 
+
+
 		$scope.catalogs = Catalog.query();
 		var catalog = Catalog.query();
 
@@ -304,6 +321,18 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 			Entity.get({id:$routeParams.id}, function(data) {
 				$scope.entity = data;
+
+				//----------------- QUICKFIX -------------------
+
+				var filter;
+				filter = $scope.entity.title.substring(0,26);
+				if(filter == "Bestand-D-DAI-Z-Arch-FWH-F")
+				{
+					$scope.entity.images = 0;
+				}
+
+
+				//--------------- END QUICKFIX -----------------
 				document.title = $scope.entity.title + " | Arachne";
 			}, function(response) {
 				$scope.error = true;
@@ -515,6 +544,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.downloadImage = function() {
 			var imgUri = arachneSettings.dataserviceUri + "/image/" + $scope.imageId;
 			var entityUri = arachneSettings.dataserviceUri + "/entity/" + $scope.imageId;
+				console.log("downloadingimage");
+			
+
 			$http.get(imgUri, { responseType: 'blob' }).success(function(data) {
 				var document = $window.document;
 				var a = document.createElement('a');
@@ -535,6 +567,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
 		Entity.get({id:$routeParams.entityId}, function(data) {
+
 			$scope.entity = data;
 			$scope.refreshImageIndex();
 		}, function(response) {
@@ -561,7 +594,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function($routeParams, $scope, Entity, $filter, searchService, $rootScope, messageService) {
 
 		$rootScope.hideFooter = true;
-
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.entityId = $routeParams.entityId;
 		$scope.imageId = $routeParams.imageId;
