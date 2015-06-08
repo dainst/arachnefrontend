@@ -100,6 +100,7 @@ h6 { font-size: 12px; }
   right: 10px;
   overflow-y:auto;
   z-index:500;
+  text-align: left;
 }
 
 .con10t-page .ar-map-menu {

@@ -257,7 +257,7 @@ angular.module('arachne.services', [])
 					} else if (key == 'catalogIds') {
 						queries.push("catalogIds:" + this[key]);
 					} else if (key == 'q') {
-						queries.push(this[key]);
+						queries.push(this[key] + " -facet_kategorie:Orte");
 					} else if (['fl','limit','sort','desc'].indexOf(key) != -1) {
 						object[key] = this[key];
 					}
@@ -545,8 +545,7 @@ angular.module('arachne.services', [])
 	// Represents a maps configuration
 	.factory('MapConfig', function() {
 
-		function MapConfig(config) {
-			config = config || {};
+		function MapConfig() {
 
 			this.menuTitle                     = null;
 			this.menuHeadingOverlays           = "Overlays";
@@ -561,6 +560,8 @@ angular.module('arachne.services', [])
 
 			this.menuFacetsAllow               = null;
 			this.menuFacetsDeny                = null;
+
+			this.menuFacetsAppend              = null;
 
 			this.facetsSelect                  = null;
 		}
