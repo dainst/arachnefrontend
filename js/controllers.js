@@ -66,6 +66,27 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		};
 	}
 ])
+
+.controller('PwdActivationController', ['$scope', '$routeParams', '$http',  'resetService',
+	function ($scope, $routeParams, $http, resetService) {
+		console.log("token: " + $routeParams.token);
+		$scope.usrData.token = $routeParams.token;
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			resetService.resetpwd($scope.usrData, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
+		}
+	}
+])
 .controller('PwdController', ['$scope', '$http',  'resetService',
 	function ($scope, $http, resetService) {
 
