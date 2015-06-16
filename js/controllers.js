@@ -78,9 +78,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if ($scope.password && $scope.passwordConfirm) {
 				$scope.usrData.password = $filter('md5')($scope.password);
 				$scope.usrData.passwordConfirm = $filter('md5')($scope.passwordConfirm);
-				console.log($scope.usrData);
 			}
-			console.log($scope.usrData);
 			$http.post(arachneSettings.dataserviceUri + "/user/activation/" + token, $scope.usrData, {
 				"headers": { "Content-Type": "application/json" }
 			}).success(function(data) {
@@ -99,11 +97,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.error = "";
 
 		$scope.submit = function() {
-			console.log($scope.usrData);
 			$http.post(arachneSettings.dataserviceUri + "/user/reset", $scope.usrData, {
 				"headers": { "Content-Type": "application/json" }
 			}).success(function(data) {
-				console.log(data);
 				$scope.error = "";
 				$scope.success = true;
 			}).error(function(data) {
