@@ -254,7 +254,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$rootScope.hideFooter = false;
 		
 		$scope.user = authService.getUser();
-		$scope.serverUri = arachneSettings.serverUri;
+		$scope.serverUri = "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href");
 
 		categoryService.getCategoriesAsync().then(function(categories) {
 			$scope.categories = categories;
@@ -766,5 +766,21 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.catalog = catalog;
 	}
 )
-;
+
+/**
+ * Handles requests for the state of the document import.
+ * Author: Daniel M. de Oliveira
+ */
+.controller('AdminController',['$scope','$http','arachneSettings',
+	function($scope, $http,arachneSettings) {
+		$http
+			.get(arachneSettings.dataserviceUri + "/admin/dataimport" )
+			.success (function(data) {
+				$scope.msg=data.status;
+			})
+			.error(function(data) {
+				$scope.msg='backend temporarily unavailable';
+			});
+	}
+]);
 

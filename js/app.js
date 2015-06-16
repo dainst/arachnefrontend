@@ -42,11 +42,11 @@ angular.module('arachne',[
 		.when('/about', {templateUrl: 'partials/about.html'})
 		.when('/apis', {templateUrl: 'partials/apis.html'})
 		.when('/contact', {templateUrl: 'partials/contact.html'})
+		.when('/admin', {templateUrl: 'partials/admin.html'})
 		.when('/pwdreset', {templateUrl: 'partials/pwdreset.html'})
 		.when('/project/:name', {templateUrl: 'partials/project.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
-		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
 		openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 		sortableFields : ["entityId", "title", "subtitle"]
 }).run(['$rootScope', function($rootScope) {
