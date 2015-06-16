@@ -44,6 +44,7 @@ angular.module('arachne',[
 		.when('/contact', {templateUrl: 'partials/contact.html'})
 		.when('/admin', {templateUrl: 'partials/admin.html'})
 		.when('/pwdreset', {templateUrl: 'partials/pwdreset.html'})
+		.when('/user/activation/:token', {templateUrl: 'partials/activation.html'})
 		.when('/project/:name', {templateUrl: 'partials/project.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",

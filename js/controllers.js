@@ -66,22 +66,45 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		};
 	}
 ])
-.controller('PwdController', ['$scope', '$http',  'resetService',
-	function ($scope, $http, resetService) {
+
+.controller('PwdActivationController', ['$scope', '$routeParams', '$filter', '$http',  'arachneSettings',
+	function ($scope, $routeParams, $filter, $http, arachneSettings) {
+		var token = $routeParams.token;
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			if ($scope.password && $scope.passwordConfirm) {
+				$scope.usrData.password = $filter('md5')($scope.password);
+				$scope.usrData.passwordConfirm = $filter('md5')($scope.passwordConfirm);
+			}
+			$http.post(arachneSettings.dataserviceUri + "/user/activation/" + token, $scope.usrData, {
+				"headers": { "Content-Type": "application/json" }
+			}).success(function(data) {
+				$scope.error = "";
+				$scope.success = true;
+			}).error(function(data) {
+				$scope.error = data.message;
+			});
+		}
+	}
+])
+.controller('PwdController', ['$scope', '$http',  'arachneSettings',
+	function ($scope, $http, arachneSettings) {
 
 		$scope.success = false;
 		$scope.error = "";
 
 		$scope.submit = function() {
-			resetService.resetpwd($scope.usrData, 
-				function(data){
-					$scope.error = "";
-					$scope.success = true;
-				}, 
-				function(error){
-					$scope.error = data.message;
-				}
-			);
+			$http.post(arachneSettings.dataserviceUri + "/user/reset", $scope.usrData, {
+				"headers": { "Content-Type": "application/json" }
+			}).success(function(data) {
+				$scope.error = "";
+				$scope.success = true;
+			}).error(function(data) {
+				console.log(data);
+				$scope.error = data.message;
+			});
 		}
 	}
 ])
