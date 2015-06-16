@@ -74,7 +74,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.error = "";
 
 		$scope.submit = function() {
-			console.log($scope.password + " " + $scope.passwordConfirm)
 			if ($scope.password && $scope.passwordConfirm) {
 				$scope.usrData.password = $filter('md5')($scope.password);
 				$scope.usrData.passwordConfirm = $filter('md5')($scope.passwordConfirm);
