@@ -74,10 +74,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.error = "";
 
 		$scope.submit = function() {
-			console.log($scope.password + " " + $scope.passwordValidation)
-			if ($scope.password && $scope.passwordValidation) {
+			console.log($scope.password + " " + $scope.passwordConfirm)
+			if ($scope.password && $scope.passwordConfirm) {
 				$scope.usrData.password = $filter('md5')($scope.password);
-				$scope.usrData.passwordValidation = $filter('md5')($scope.passwordValidation);
+				$scope.usrData.passwordConfirm = $filter('md5')($scope.passwordConfirm);
 				console.log($scope.usrData);
 			}
 			console.log($scope.usrData);
