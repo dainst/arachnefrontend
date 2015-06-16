@@ -67,42 +67,49 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 ])
 
-.controller('PwdActivationController', ['$scope', '$routeParams', '$http',  'resetService',
-	function ($scope, $routeParams, $http, resetService) {
-		console.log("token: " + $routeParams.token);
-		$scope.usrData.token = $routeParams.token;
+.controller('PwdActivationController', ['$scope', '$routeParams', '$filter', '$http',  'arachneSettings',
+	function ($scope, $routeParams, $filter, $http, arachneSettings) {
+		var token = $routeParams.token;
 		$scope.success = false;
 		$scope.error = "";
 
 		$scope.submit = function() {
-			resetService.resetpwd($scope.usrData, 
-				function(data){
-					$scope.error = "";
-					$scope.success = true;
-				}, 
-				function(error){
-					$scope.error = data.message;
-				}
-			);
+			console.log($scope.password + " " + $scope.passwordValidation)
+			if ($scope.password && $scope.passwordValidation) {
+				$scope.usrData.password = $filter('md5')($scope.password);
+				$scope.usrData.passwordValidation = $filter('md5')($scope.passwordValidation);
+				console.log($scope.usrData);
+			}
+			console.log($scope.usrData);
+			$http.post(arachneSettings.dataserviceUri + "/user/activation/" + token, $scope.usrData, {
+				"headers": { "Content-Type": "application/json" }
+			}).success(function(data) {
+				$scope.error = "";
+				$scope.success = true;
+			}).error(function(data) {
+				$scope.error = data.message;
+			});
 		}
 	}
 ])
-.controller('PwdController', ['$scope', '$http',  'resetService',
-	function ($scope, $http, resetService) {
+.controller('PwdController', ['$scope', '$http',  'arachneSettings',
+	function ($scope, $http, arachneSettings) {
 
 		$scope.success = false;
 		$scope.error = "";
 
 		$scope.submit = function() {
-			resetService.resetpwd($scope.usrData, 
-				function(data){
-					$scope.error = "";
-					$scope.success = true;
-				}, 
-				function(error){
-					$scope.error = data.message;
-				}
-			);
+			console.log($scope.usrData);
+			$http.post(arachneSettings.dataserviceUri + "/user/reset", $scope.usrData, {
+				"headers": { "Content-Type": "application/json" }
+			}).success(function(data) {
+				console.log(data);
+				$scope.error = "";
+				$scope.success = true;
+			}).error(function(data) {
+				console.log(data);
+				$scope.error = data.message;
+			});
 		}
 	}
 ])
