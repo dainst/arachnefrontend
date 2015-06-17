@@ -794,16 +794,44 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
  * Handles requests for the state of the document import.
  * Author: Daniel M. de Oliveira
  */
-.controller('AdminController',['$scope','$http','arachneSettings',
-	function($scope, $http,arachneSettings) {
-		$http
-			.get(arachneSettings.dataserviceUri + "/admin/dataimport" )
-			.success (function(data) {
-				$scope.msg=data.status;
-			})
-			.error(function(data) {
-				$scope.msg='backend temporarily unavailable';
-			});
+.controller('AdminController',['$scope','$http','$location','arachneSettings',
+	function($scope, $http, $location, arachneSettings) {
+
+		$scope.fetchData = function () {
+
+			$http
+				.get(arachneSettings.dataserviceUri + '/admin/dataimport')
+				.success(function (data) {
+					$scope.dataimportResponse = data;
+				})
+				.error(function (data) {
+					$scope.msg = 'backend temporarily unavailable';
+					$scope.dataimportResponse = undefined;
+				});
+		}
+
+		$scope.startDataimport = function () {
+
+			$http
+				.post(arachneSettings.dataserviceUri + '/admin/dataimport?command=start')
+				.success(function (data) {
+
+					if (data.status == 'already running') {
+						$scope.msg = 'dataimport already running';
+					} else {
+						$scope.msg = 'dataimport successfully started';
+						$scope.fetchData();
+					}
+				})
+				.error(function (data) {
+					$scope.msg = 'unauthorized';
+					$scope.dataimportResponse = undefined;
+				});
+		}
+
+
+
+		$scope.fetchData();
 	}
 ]);
 
