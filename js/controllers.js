@@ -797,58 +797,76 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('DataimportCtrl',['$scope','$http','$location','arachneSettings',
 	function($scope, $http, $location, arachneSettings) {
 
-
 		var dataimportUri = arachneSettings.dataserviceUri + '/admin/dataimport';
+		var msg_unavailable = 'system reports that backend is temporarily unavailable';
+		var msg_unauthorized = 'system rejects your request. you have not the necessary permissions. please log in with admin rights.';
 
 		$scope.fetchData = function () {
 
 			$http
 				.get(dataimportUri)
 				.success(function (data) {
-					$scope.dataimportResponse = data;
+					$scope.backendResponse = data;
 				})
 				.error(function (data) {
-					$scope.msg = 'backend temporarily unavailable';
-					$scope.dataimportResponse = undefined;
+                    $scope.lastActionOutcome = msg_unavailable;
+					$scope.backendResponse = undefined;
 				});
 		}
 
 		$scope.startDataimport = function () {
+
+			$scope.lastAction='you started the dataimport (pending)';
+			$scope.lastActionOutcome=undefined;
 
 			$http
 				.post(dataimportUri + '?command=start')
 				.success(function (data) {
 
 					if (data.status == 'already running') {
-						$scope.msg = 'dataimport already running';
+						$scope.lastActionOutcome = 'dataimport already running';
 						return;
 					}
 
-					$scope.msg = 'dataimport successfully started';
+					$scope.lastActionOutcome = 'dataimport successfully started';
 					$scope.fetchData();
 				})
-				.error(function (data) {
-					$scope.msg = 'unauthorized';
+				.error(function (data,status) {
+
+					if (status==401) {
+						$scope.lastActionOutcome = msg_unauthorized;
+						return;
+					}
+
+					$scope.lastActionOutcome = msg_unavailable;
 				});
 		}
 
 		$scope.stopDataimport = function() {
+
+			$scope.lastAction='you stopped the dataimport (pending)';
+			$scope.lastActionOutcome=undefined;
 
 			$http
 				.post(dataimportUri + '?command=stop')
 				.success(function (data) {
 
 					if (data.status == 'not running') {
-						$scope.msg = 'dataimport not running';
+						$scope.lastActionOutcome = 'dataimport not running';
 						return;
 					}
 
-					$scope.msg = 'dataimport successfully stopped';
+					$scope.lastActionOutcome = 'dataimport successfully stopped';
 					$scope.fetchData();
 				})
-				.error(function (data){
+				.error(function (data,status){
 
-					$scope.msg='unauthorized';
+					if (status==401) {
+						$scope.lastActionOutcome = msg_unauthorized;
+						return;
+					}
+
+					$scope.lastActionOutcome=msg_unavailable;
 				});
 
 		}

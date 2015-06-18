@@ -8,19 +8,36 @@
         <h3>Dataimport:
         </h3>
         <br>
-        <button ng-click="fetchData();msg='refreshed';">Refresh</button><ngShow ng-show="msg">&nbsp;&nbsp;{{msg}}<ngShow/>
+        <button ng-click="fetchData();lastAction='you asked the system to refresh (pending)';lastActionOutcome=undefined;">Refresh</button>
+        <abc ng-hide="lastActionOutcome">&nbsp;&nbsp;{{lastAction}}</abc>
+        <abc ng-show="lastActionOutcome">&nbsp;&nbsp;{{lastActionOutcome}}</abc>
         <br>
         <br>
 
-        <div ng-show="dataimportResponse.status">Dataimport status: {{dataimportResponse.status}}</div>
-        <div ng-show="dataimportResponse.elapsedTime">Elapsed time: {{dataimportResponse.elapsedTime}}</div>
-        <div ng-show="dataimportResponse.estimatedTimeRemaining">Estimated time remaining: {{dataimportResponse.estimatedTimeRemaining}}</div>
-        <div ng-show="dataimportResponse.count">Dataimport count: {{dataimportResponse.count}}</div>
-        <div ng-show="dataimportResponse.indexedDocuments">Indexed documents: {{dataimportResponse.indexedDocuments}}</div>
-        <div ng-show="dataimportResponse.documentsPerSecond">Documents per second: {{dataimportResponse.documentsPerSecond}}</div>
+        <div ng-hide="backendResponse">No information available at the moment ...</div>
+
+
+        <div ng-show="backendResponse.status">Dataimport status: {{backendResponse.status}}</div>
+        <div ng-show="backendResponse.elapsedTime">Elapsed time: {{backendResponse.elapsedTime}}</div>
+        <div ng-show="backendResponse.estimatedTimeRemaining">Estimated time remaining:
+            {{backendResponse.estimatedTimeRemaining}}</div>
+        <div ng-show="backendResponse.count">Dataimport count: {{backendResponse.count}}</div>
+        <div ng-show="backendResponse.indexedDocuments">Indexed documents: {{backendResponse.indexedDocuments}}</div>
+        <div ng-show="backendResponse.documentsPerSecond">Documents per second: {{backendResponse.documentsPerSecond}}</div>
+
 
         <br>
         <button ng-click="startDataimport();">Start Dataimport</button>
         <button ng-click="stopDataimport();">Stop Dataimport</button>
+    </div>
+
+    <div class="col-md-6 col-md-offset-3 col-xs-12 well">
+        <h3>Cache:
+        </h3>
+    </div>
+
+    <div class="col-md-6 col-md-offset-3 col-xs-12 well">
+        <h3>Other:
+        </h3>
     </div>
 </div>
