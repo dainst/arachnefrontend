@@ -42,7 +42,7 @@ angular.module('arachne',[
 		.when('/about', {templateUrl: 'partials/about.html'})
 		.when('/apis', {templateUrl: 'partials/apis.html'})
 		.when('/contact', {templateUrl: 'partials/contact.html'})
-		.when('/admin', {templateUrl: 'partials/admin.html'})
+		.when('/admin/dataimport', {templateUrl: 'partials/dataimport.html'})
 		.when('/pwdreset', {templateUrl: 'partials/pwdreset.html'})
 		.when('/user/activation/:token', {templateUrl: 'partials/activation.html'})
 		.when('/project/:name', {templateUrl: 'partials/project.html'});

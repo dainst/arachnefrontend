@@ -794,13 +794,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
  * Handles requests for the state of the document import.
  * Author: Daniel M. de Oliveira
  */
-.controller('AdminController',['$scope','$http','$location','arachneSettings',
+.controller('DataimportCtrl',['$scope','$http','$location','arachneSettings',
 	function($scope, $http, $location, arachneSettings) {
+
+
+		var dataimportUri = arachneSettings.dataserviceUri + '/admin/dataimport';
 
 		$scope.fetchData = function () {
 
 			$http
-				.get(arachneSettings.dataserviceUri + '/admin/dataimport')
+				.get(dataimportUri)
 				.success(function (data) {
 					$scope.dataimportResponse = data;
 				})
@@ -813,23 +816,42 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.startDataimport = function () {
 
 			$http
-				.post(arachneSettings.dataserviceUri + '/admin/dataimport?command=start')
+				.post(dataimportUri + '?command=start')
 				.success(function (data) {
 
 					if (data.status == 'already running') {
 						$scope.msg = 'dataimport already running';
-					} else {
-						$scope.msg = 'dataimport successfully started';
-						$scope.fetchData();
+						return;
 					}
+
+					$scope.msg = 'dataimport successfully started';
+					$scope.fetchData();
 				})
 				.error(function (data) {
 					$scope.msg = 'unauthorized';
-					$scope.dataimportResponse = undefined;
 				});
 		}
 
+		$scope.stopDataimport = function() {
 
+			$http
+				.post(dataimportUri + '?command=stop')
+				.success(function (data) {
+
+					if (data.status == 'not running') {
+						$scope.msg = 'dataimport not running';
+						return;
+					}
+
+					$scope.msg = 'dataimport successfully stopped';
+					$scope.fetchData();
+				})
+				.error(function (data){
+
+					$scope.msg='unauthorized';
+				});
+
+		}
 
 		$scope.fetchData();
 	}

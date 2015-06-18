@@ -1,0 +1,26 @@
+<div class="row" style="margin-top:0px;" ng-controller="DataimportCtrl">
+    <div class="col-md-6 col-md-offset-3 col-xs-12 page-header">
+        <h2>Administration</h2>
+    </div>
+
+
+    <div class="col-md-6 col-md-offset-3 col-xs-12 well">
+        <h3>Dataimport:
+        </h3>
+        <br>
+        <button ng-click="fetchData();msg='refreshed';">Refresh</button><ngShow ng-show="msg">&nbsp;&nbsp;{{msg}}<ngShow/>
+        <br>
+        <br>
+
+        <div ng-show="dataimportResponse.status">Dataimport status: {{dataimportResponse.status}}</div>
+        <div ng-show="dataimportResponse.elapsedTime">Elapsed time: {{dataimportResponse.elapsedTime}}</div>
+        <div ng-show="dataimportResponse.estimatedTimeRemaining">Estimated time remaining: {{dataimportResponse.estimatedTimeRemaining}}</div>
+        <div ng-show="dataimportResponse.count">Dataimport count: {{dataimportResponse.count}}</div>
+        <div ng-show="dataimportResponse.indexedDocuments">Indexed documents: {{dataimportResponse.indexedDocuments}}</div>
+        <div ng-show="dataimportResponse.documentsPerSecond">Documents per second: {{dataimportResponse.documentsPerSecond}}</div>
+
+        <br>
+        <button ng-click="startDataimport();">Start Dataimport</button>
+        <button ng-click="stopDataimport();">Stop Dataimport</button>
+    </div>
+</div>

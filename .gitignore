@@ -9,6 +9,7 @@
 .idea
 ehthumbs.db
 Thumbs.db
+npm-debug.log
 
 # local dependencies #
 ######################
