@@ -17,7 +17,7 @@
         <div ng-hide="backendResponse">No information available at the moment ...</div>
 
 
-        <div ng-show="backendResponse.status">Dataimport status: {{backendResponse.status}}</div>
+        <div id="dataimport_status" ng-show="backendResponse.status">Dataimport status: {{backendResponse.status}}</div>
         <div ng-show="backendResponse.elapsedTime">Elapsed time: {{backendResponse.elapsedTime}}</div>
         <div ng-show="backendResponse.estimatedTimeRemaining">Estimated time remaining:
             {{backendResponse.estimatedTimeRemaining}}</div>
