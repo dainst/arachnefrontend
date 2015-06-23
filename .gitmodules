@@ -4,6 +4,3 @@
 [submodule "lib/httParrot"]
 	path = lib/httParrot
 	url = https://github.com/danielmarreirosdeoliveira/httParrot
-[submodule "httParrot"]
-	path = httParrot
-	url = https://github.com/danielmarreirosdeoliveira/httParrot
