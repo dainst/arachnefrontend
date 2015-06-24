@@ -809,8 +809,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		var OUTCOME_DATAIMPORT_RUNNING = 'Dataimport already running.';
 		var OUTCOME_DATAIMPORT_NOT_RUNNING = 'Dataimport not running.';
 
-		var MSG_UNAVAILABLE = 'system reports that backend is temporarily unavailable';
-		var MSG_UNAUTHORIZED = 'system rejects your request. you have not the necessary permissions. please log in with admin rights.';
+		var MSG_UNAVAILABLE = 'The system reports that the backend is temporarily unavailable';
+		var MSG_UNAUTHORIZED = 'The system rejects your request. You have not the necessary permissions. Please log in with admin rights.';
 
 		/**
 		 * All $scope functions accesible from within the view must call gate() at first.

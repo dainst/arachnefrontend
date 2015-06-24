@@ -17,8 +17,8 @@ describe ('DataimportCtrl', function() {
     var OUTCOME_DATAIMPORT_RUNNING = 'Dataimport already running.';
     var OUTCOME_DATAIMPORT_NOT_RUNNING = 'Dataimport not running.';
 
-    var msg_unavailable='system reports that backend is temporarily unavailable';
-    var msg_unauthorized='system rejects your request. you have not the necessary permissions. please log in with admin rights.';
+    var msg_unavailable='The system reports that the backend is temporarily unavailable';
+    var msg_unauthorized='The system rejects your request. You have not the necessary permissions. Please log in with admin rights.';
 
     beforeEach(function(){
 
