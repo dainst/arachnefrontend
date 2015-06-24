@@ -9,16 +9,16 @@ describe ('DataimportCtrl', function() {
     var dataimportUri=dataserviceUri+'/admin/dataimport';
 
     var ACTION_DESC_REFRESH = 'You asked the system to refresh. ';
-    var ACTION_DESC_START_DATAIMPORT = 'You started the dataimport. ';
-    var ACTION_DESC_STOP_DATAIMPORT = 'You stopped the dataimport. ';
+    var ACTION_DESC_START_DATAIMPORT = 'You asked the system to start the dataimport. ';
+    var ACTION_DESC_STOP_DATAIMPORT = 'You asked the system to stop the dataimport. ';
 
     var OUTCOME_START_DATAIMPORT = 'Dataimport successfully started. ';
     var OUTCOME_STOP_DATAIMPORT = 'Dataimport successfully stopped. ';
-    var OUTCOME_DATAIMPORT_RUNNING = 'Dataimport already running.';
-    var OUTCOME_DATAIMPORT_NOT_RUNNING = 'Dataimport not running.';
+    var OUTCOME_DATAIMPORT_RUNNING = 'Dataimport already running. ';
+    var OUTCOME_DATAIMPORT_NOT_RUNNING = 'Dataimport not running. ';
 
-    var msg_unavailable='The system reports that the backend is temporarily unavailable';
-    var msg_unauthorized='The system rejects your request. You have not the necessary permissions. Please log in with admin rights.';
+    var msg_unavailable='The system reports that the backend is temporarily unavailable. ';
+    var msg_unauthorized='The system rejects your request. You have not the necessary permissions. Please log in with admin rights. ';
 
     beforeEach(function(){
 

@@ -801,16 +801,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		var requestPending = false; // true as long as a server request is pending and waiting for an answer or timeout
 
 		var ACTION_DESC_REFRESH = 'You asked the system to refresh. ';
-		var ACTION_DESC_START_DATAIMPORT = 'You started the dataimport. ';
-		var ACTION_DESC_STOP_DATAIMPORT = 'You stopped the dataimport. ';
+		var ACTION_DESC_START_DATAIMPORT = 'You asked the system to start the dataimport. ';
+		var ACTION_DESC_STOP_DATAIMPORT = 'You asked the system to stop the dataimport. ';
 
 		var OUTCOME_START_DATAIMPORT = 'Dataimport successfully started. ';
 		var OUTCOME_STOP_DATAIMPORT = 'Dataimport successfully stopped. ';
-		var OUTCOME_DATAIMPORT_RUNNING = 'Dataimport already running.';
-		var OUTCOME_DATAIMPORT_NOT_RUNNING = 'Dataimport not running.';
+		var OUTCOME_DATAIMPORT_RUNNING = 'Dataimport already running. ';
+		var OUTCOME_DATAIMPORT_NOT_RUNNING = 'Dataimport not running. ';
 
-		var MSG_UNAVAILABLE = 'The system reports that the backend is temporarily unavailable';
-		var MSG_UNAUTHORIZED = 'The system rejects your request. You have not the necessary permissions. Please log in with admin rights.';
+		var MSG_UNAVAILABLE = 'The system reports that the backend is temporarily unavailable. ';
+		var MSG_UNAUTHORIZED = 'The system rejects your request. You have not the necessary permissions. Please log in with admin rights. ';
 
 		/**
 		 * All $scope functions accesible from within the view must call gate() at first.
