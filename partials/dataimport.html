@@ -8,22 +8,22 @@
         <h3>Dataimport:
         </h3>
         <br>
-        <button ng-click="fetchData();lastAction='you asked the system to refresh (pending)';lastActionOutcome=undefined;">Refresh</button>
-        <abc ng-hide="lastActionOutcome">&nbsp;&nbsp;{{lastAction}}</abc>
-        <abc ng-show="lastActionOutcome">&nbsp;&nbsp;{{lastActionOutcome}}</abc>
+        <button ng-click="requestRefresh();">Refresh</button>
+        <abc ng-show="lastAction">&nbsp;&nbsp;{{lastAction}}</abc>
+        <abc ng-show="lastActionOutcome"><abc ng-hide="lastAction">&nbsp;&nbsp;</abc>{{lastActionOutcome}}</abc>
         <br>
         <br>
 
-        <div ng-hide="backendResponse">No information available at the moment ...</div>
+        <div ng-hide="dataimportInfo">No information available at the moment ...</div>
 
 
-        <div id="dataimport_status" ng-show="backendResponse.status">Dataimport status: {{backendResponse.status}}</div>
-        <div ng-show="backendResponse.elapsedTime">Elapsed time: {{backendResponse.elapsedTime}}</div>
-        <div ng-show="backendResponse.estimatedTimeRemaining">Estimated time remaining:
-            {{backendResponse.estimatedTimeRemaining}}</div>
-        <div ng-show="backendResponse.count">Dataimport count: {{backendResponse.count}}</div>
-        <div ng-show="backendResponse.indexedDocuments">Indexed documents: {{backendResponse.indexedDocuments}}</div>
-        <div ng-show="backendResponse.documentsPerSecond">Documents per second: {{backendResponse.documentsPerSecond}}</div>
+        <div id="dataimport_status" ng-show="dataimportInfo.status">Dataimport status: {{dataimportInfo.status}}</div>
+        <div ng-show="dataimportInfo.elapsedTime">Elapsed time: {{dataimportInfo.elapsedTime}}</div>
+        <div ng-show="dataimportInfo.estimatedTimeRemaining">Estimated time remaining:
+            {{dataimportInfo.estimatedTimeRemaining}}</div>
+        <div ng-show="dataimportInfo.count">Dataimport count: {{dataimportInfo.count}}</div>
+        <div ng-show="dataimportInfo.indexedDocuments">Indexed documents: {{dataimportInfo.indexedDocuments}}</div>
+        <div ng-show="dataimportInfo.documentsPerSecond">Documents per second: {{dataimportInfo.documentsPerSecond}}</div>
 
 
         <br>

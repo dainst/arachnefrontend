@@ -7,6 +7,16 @@ describe ('DataimportCtrl', function() {
     var scope;
     var dataserviceUri='http://backend/data';
     var dataimportUri=dataserviceUri+'/admin/dataimport';
+
+    var ACTION_DESC_REFRESH = 'You asked the system to refresh. ';
+    var ACTION_DESC_START_DATAIMPORT = 'You started the dataimport. ';
+    var ACTION_DESC_STOP_DATAIMPORT = 'You stopped the dataimport. ';
+
+    var OUTCOME_START_DATAIMPORT = 'Dataimport successfully started. ';
+    var OUTCOME_STOP_DATAIMPORT = 'Dataimport successfully stopped. ';
+    var OUTCOME_DATAIMPORT_RUNNING = 'Dataimport already running.';
+    var OUTCOME_DATAIMPORT_NOT_RUNNING = 'Dataimport not running.';
+
     var msg_unavailable='system reports that backend is temporarily unavailable';
     var msg_unauthorized='system rejects your request. you have not the necessary permissions. please log in with admin rights.';
 
@@ -35,7 +45,7 @@ describe ('DataimportCtrl', function() {
             respond({status:'idle'});
 
         $httpBackend.flush();
-        expect(scope.backendResponse.status).toBe('idle');
+        expect(scope.dataimportInfo.status).toBe('idle');
     });
 
 
@@ -50,7 +60,7 @@ describe ('DataimportCtrl', function() {
         $httpBackend.flush();
 
         expect(scope.lastActionOutcome).toBe(msg_unavailable);
-        expect(scope.dataimportStatus).toBe(undefined);
+        expect(scope.dataimportInfo).toBe(undefined);
     });
 
     it ('should report if backend is not available on start request',function(){
@@ -65,7 +75,7 @@ describe ('DataimportCtrl', function() {
         $httpBackend.flush();
 
         expect(scope.lastActionOutcome).toBe(msg_unavailable);
-        expect(scope.dataimportStatus).toBe(undefined);
+        expect(scope.dataimportInfo).toBe(undefined);
     });
 
     it ('should report if backend is not available on stop request',function(){
@@ -80,7 +90,7 @@ describe ('DataimportCtrl', function() {
         $httpBackend.flush();
 
         expect(scope.lastActionOutcome).toBe(msg_unavailable);
-        expect(scope.dataimportStatus).toBe(undefined);
+        expect(scope.dataimportInfo).toBe(undefined);
     });
 
 
@@ -101,7 +111,7 @@ describe ('DataimportCtrl', function() {
         $httpBackend.flush();
 
 
-        expect(scope.lastAction).toBe('you started the dataimport (pending)');
+        expect(scope.lastAction).toBe(ACTION_DESC_START_DATAIMPORT);
         expect(scope.lastActionOutcome).toBe(msg_unauthorized);
     });
 
@@ -116,7 +126,7 @@ describe ('DataimportCtrl', function() {
         scope.stopDataimport();
         $httpBackend.flush();
 
-        expect(scope.lastAction).toBe('you stopped the dataimport (pending)');
+        expect(scope.lastAction).toBe(ACTION_DESC_STOP_DATAIMPORT);
         expect(scope.lastActionOutcome).toBe(msg_unauthorized);
     });
 
@@ -126,7 +136,7 @@ describe ('DataimportCtrl', function() {
 
 
 
-    it ('should react on the start command', function() {
+    it ('should execute start dataimport', function() {
 
         $httpBackend.expectGET(dataimportUri).
             respond({status:'idle'});
@@ -140,13 +150,13 @@ describe ('DataimportCtrl', function() {
 
         scope.startDataimport();
         $httpBackend.flush();
-        expect(scope.lastAction).toBe('you started the dataimport (pending)');
-        expect(scope.lastActionOutcome).toBe('dataimport successfully started');
+        expect(scope.lastAction).toBe(undefined);
+        expect(scope.lastActionOutcome).toBe(OUTCOME_START_DATAIMPORT);
     });
 
 
 
-    it ('should react on the stop command', function() {
+    it ('should execute stop dataimport', function() {
 
         $httpBackend.expectGET(dataimportUri).
             respond({status:'running'});
@@ -159,8 +169,8 @@ describe ('DataimportCtrl', function() {
 
         scope.stopDataimport();
         $httpBackend.flush();
-        expect(scope.lastAction).toBe('you stopped the dataimport (pending)');
-        expect(scope.lastActionOutcome).toBe('dataimport successfully stopped');
+        expect(scope.lastAction).toBe(undefined);
+        expect(scope.lastActionOutcome).toBe(OUTCOME_STOP_DATAIMPORT);
     });
 
 
@@ -173,11 +183,13 @@ describe ('DataimportCtrl', function() {
 
         $httpBackend.expectPOST(dataimportUri+'?command=stop').
             respond({status:'not running'});
+        $httpBackend.expectGET(dataimportUri).
+            respond({status:'idle'});
 
         scope.stopDataimport();
         $httpBackend.flush();
-        expect(scope.lastAction).toBe('you stopped the dataimport (pending)');
-        expect(scope.lastActionOutcome).toBe('dataimport not running');
+        expect(scope.lastActionOutcome).toBe(OUTCOME_DATAIMPORT_NOT_RUNNING);
+        expect(scope.dataimportInfo.status).toBe('idle');
     });
 
 
@@ -196,10 +208,35 @@ describe ('DataimportCtrl', function() {
         scope.startDataimport();
 
         $httpBackend.flush();
-        expect(scope.lastAction).toBe('you started the dataimport (pending)');
-        expect(scope.lastActionOutcome).toBe('dataimport already running');
+        expect(scope.lastAction).toBe(ACTION_DESC_START_DATAIMPORT);
+        expect(scope.lastActionOutcome).toBe(OUTCOME_DATAIMPORT_RUNNING);
     });
 
+
+
+    it ('should not begin to start the dataimport when a request is still pending', function() {
+
+        scope.requestRefresh();
+
+        scope.startDataimport();
+        expect(scope.lastAction).toBe(ACTION_DESC_REFRESH);
+    });
+
+    it ('should not begin to stop the dataimport when a request is still pending', function() {
+
+        scope.requestRefresh();
+
+        scope.stopDataimport();
+        expect(scope.lastAction).toBe(ACTION_DESC_REFRESH);
+    });
+
+    it ('should not begin to start the dataimport when a request is still pending', function() {
+
+        scope.startDataimport();
+
+        scope.requestRefresh();
+        expect(scope.lastAction).toBe(ACTION_DESC_START_DATAIMPORT);
+    });
 
 
 });
