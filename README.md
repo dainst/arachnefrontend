@@ -15,8 +15,23 @@ You need the following components in order for the local server to work:
 
 To install the necessary dependencies run the following command in the working directory:
 ```
-npm install
+$ npm install
+# npm install -g karma
+# npm install -g karma-jasmine
+# npm install -g karma@canary phantomjs karma-phantomjs-launcher
+# npm install -g protractor
+# webdriver-manager update
 ```
+
+### Running the tests
+
+To run the unit tests, call
+
+```bash
+karma start config/karma.conf.js
+```
+
+The somewhat more complex test setup for user interface tesing is described [here](docs/testing_the_user_interface.md).
 
 ### con10t submodule
 
