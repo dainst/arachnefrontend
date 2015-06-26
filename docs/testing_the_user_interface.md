@@ -1,6 +1,8 @@
 Asides from unit testing we make use of [Protractor](https://angular.github.io/protractor/#/) and [httParrot](https://github.com/danielmarreirosdeoliveira/httParrot) and Jasmine to perform some basic UI testing.
 
-To set up the testing stack, you need to perform the following steps, each one in its own terminal tab:
+## Setup
+
+To set up the testing toolstack, you need to perform the following steps, each one in its own terminal tab:
 
 1\. Run the Selenium server, which will handle the requests to the browser (currently Chrome) 
 
