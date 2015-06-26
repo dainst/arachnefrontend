@@ -2,7 +2,7 @@ Asides from unit testing we make use of [Protractor](https://angular.github.io/p
 
 ## Setup
 
-To set up the testing toolstack, you need to perform the following steps, each one in its own terminal tab:
+To set up the UI testing toolstack, you need to perform the following steps, each one in its own terminal tab:
 
 1\. Run the Selenium server, which will handle the requests to the browser (currently Chrome) 
 
