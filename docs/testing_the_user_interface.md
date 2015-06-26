@@ -1,5 +1,23 @@
 Asides from unit testing we make use of [Protractor](https://angular.github.io/protractor/#/) and [httParrot](https://github.com/danielmarreirosdeoliveira/httParrot) and Jasmine to perform some basic UI testing.
 
+## Preparative works
+
+For the UI tests to work properly, edit your [js/app.js](js/app.js). Change 
+
+```javascript
+dataserviceUri: "http://" + document.location.host + "/data",
+```
+
+to 
+
+```javascript
+dataserviceUri: "http://localhost:1236/data",
+```
+
+This is to let the frontend speak to a fake backend.
+
+**Don't** forget to change that back later!
+
 ## Setup
 
 To set up the UI testing toolstack, you need to perform the following steps, each one in its own terminal tab:
