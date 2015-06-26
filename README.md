@@ -28,17 +28,19 @@ npm install -g protractor
 webdriver-manager update
 ```
 
-You may need root permissions in order to perform these commands successfully.
+You may need root permissions on your machine in order to perform these commands successfully.
 
 ### Running the tests
 
-To run the unit tests, call
+Two types of tests are supported at the moment. User Interface (UI) and unit tests. To run the unit tests, call
 
 ```bash
 karma start config/karma.conf.js
 ```
 
-The somewhat more complex test setup for user interface tesing is described [here](docs/testing_the_user_interface.md).
+which will run all tests matching the filename pattern spec/*Spec.js. Jasmine is used as the testing framework here.
+
+The somewhat more complex test setup for UI testing is described [here](docs/testing_the_user_interface.md).
 
 ### con10t submodule
 
