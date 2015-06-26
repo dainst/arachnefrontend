@@ -13,15 +13,22 @@ You need the following components in order for the local server to work:
 * [NodeJS](https://nodejs.org/download/)
 * [Grunt](http://gruntjs.com/getting-started)
 
-To install the necessary dependencies run the following command in the working directory:
+To install the necessary dependencies for the app run the following command in the working directory:
 ```
-$ npm install
-# npm install -g karma
-# npm install -g karma-jasmine
-# npm install -g karma@canary phantomjs karma-phantomjs-launcher
-# npm install -g protractor
-# webdriver-manager update
+npm install
 ```
+
+To install the testing tools run
+
+```
+npm install -g karma
+npm install -g karma-jasmine
+npm install -g karma@canary phantomjs karma-phantomjs-launcher
+npm install -g protractor
+webdriver-manager update
+```
+
+You may need root permissions in order to perform these commands successfully.
 
 ### Running the tests
 
