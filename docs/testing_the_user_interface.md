@@ -47,10 +47,11 @@ grunt server
 
 It will run on port 1234.
 
-4\. Run the tests
+4\. Run the tests with
 
 ```bash
 protractor config/protractor.conf.js
 ```
 
+which will invoke all tests matching the filename pattern specUI/*Spec.js.
 
