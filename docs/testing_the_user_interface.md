@@ -18,7 +18,41 @@ This is to let the frontend speak to a fake backend.
 
 **Don't** forget to change that back later!
 
-## Setup
+
+## Auto-Test Runner
+
+At the root of the repo there is a little bash script which sets up the necessary
+environment for the UI tests and then runs first the unit tests and second the UI tests.
+
+```bash
+uitest.sh
+```
+
+The script first runs the unit test suite. If it passes, it
+sets up the environment for UI testing. This is done by setting up the necessary background processes for
+
+```bash
+webdriver-manager start
+node lib/httParrot/httParrot.js
+```
+
+Finally a call to
+
+```
+grunt uitest
+```
+
+will set up the application server and run the protractor test suite against
+the application code.
+
+After a run of the script, the background processes remain as daemonized processes.
+To kill them, run
+
+```bash
+./uitest.sh kill
+```
+
+## Manual Setup
 
 To set up the UI testing toolstack, you need to perform the following steps, each one in its own terminal tab:
 
