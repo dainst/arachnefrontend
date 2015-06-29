@@ -47,7 +47,7 @@ angular.module('arachne',[
 		.when('/user/activation/:token', {templateUrl: 'partials/activation.html'})
 		.when('/project/:name', {templateUrl: 'partials/project.html'});
 }]).constant('arachneSettings', {
-		dataserviceUri: "http://localhost:1236/data",
+		dataserviceUri: "http://" + document.location.host + "/data",
 		openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 		sortableFields : ["entityId", "title", "subtitle"]
 }).run(['$rootScope', function($rootScope) {
