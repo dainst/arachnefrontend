@@ -67,6 +67,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 ])
 
+//set new Passwort
 .controller('PwdActivationController', ['$scope', '$routeParams', '$filter', '$http',  'arachneSettings',
 	function ($scope, $routeParams, $filter, $http, arachneSettings) {
 		var token = $routeParams.token;
@@ -89,23 +90,82 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('PwdController', ['$scope', '$http',  'arachneSettings',
-	function ($scope, $http, arachneSettings) {
+
+//create Passwort reset request
+.controller('PwdController', ['$scope', '$http',  'arachneSettings', 'resetService', 
+	function ($scope, $http, arachneSettings, resetService) {
 
 		$scope.success = false;
 		$scope.error = "";
 
 		$scope.submit = function() {
-			$http.post(arachneSettings.dataserviceUri + "/user/reset", $scope.usrData, {
+			resetService.resetpwd($scope.usrData, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
+		}
+	}
+])
+
+//Contact Form Controller
+.controller('ContactController', ['$scope', '$http', '$modal', 'contactService', 'arachneSettings',
+	function ($scope, $http, $modal, contactService, arachneSettings) {
+
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			contactService.sendContact($scope.usrData, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
+		}
+	}
+])
+//Register Form 
+.controller('RegisterCtrl', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings', 'registerService',
+	function ($rootScope, $scope, $http, $filter, arachneSettings, registerService) {
+
+		$rootScope.hideFooter = false;
+
+		$scope.user = {};
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			if ($scope.password && $scope.passwordValidation) {
+				$scope.user.password = $filter('md5')($scope.password);
+				$scope.user.passwordValidation = $filter('md5')($scope.passwordValidation);
+			}
+			registerService.sendContact($scope.user, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
+			/*$http.post(arachneSettings.dataserviceUri + "/user/register", $scope.user, {
 				"headers": { "Content-Type": "application/json" }
 			}).success(function(data) {
 				$scope.error = "";
 				$scope.success = true;
 			}).error(function(data) {
-				console.log(data);
 				$scope.error = data.message;
-			});
+			});*/
 		}
+
 	}
 ])
 .controller('SearchFormCtrl', ['$scope', '$location',
@@ -676,25 +736,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('ContactController', ['$scope', '$http', '$modal', 'contactService', 'arachneSettings',
-	function ($scope, $http, $modal, contactService, arachneSettings) {
-
-		$scope.success = false;
-		$scope.error = "";
-
-		$scope.submit = function() {
-			contactService.sendContact($scope.usrData, 
-				function(data){
-					$scope.error = "";
-					$scope.success = true;
-				}, 
-				function(error){
-					$scope.error = data.message;
-				}
-			);
-		}
-	}
-])
 
 .controller('AllCategoriesController', ['$rootScope', '$scope', '$http', 'categoryService', '$timeout',
 	function ($rootScope, $scope, $http, categoryService, $timeout) {
@@ -735,32 +776,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			}
 		
 		}
-	}
-])
-.controller('RegisterCtrl', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings',
-	function ($rootScope, $scope, $http, $filter, arachneSettings) {
-
-		$rootScope.hideFooter = false;
-
-		$scope.user = {};
-		$scope.success = false;
-		$scope.error = "";
-
-		$scope.submit = function() {
-			if ($scope.password && $scope.passwordValidation) {
-				$scope.user.password = $filter('md5')($scope.password);
-				$scope.user.passwordValidation = $filter('md5')($scope.passwordValidation);
-			}
-			$http.post(arachneSettings.dataserviceUri + "/user/register", $scope.user, {
-				"headers": { "Content-Type": "application/json" }
-			}).success(function(data) {
-				$scope.error = "";
-				$scope.success = true;
-			}).error(function(data) {
-				$scope.error = data.message;
-			});
-		}
-
 	}
 ])
 .controller('MessageCtrl', ['$scope', 'messageService',

@@ -446,6 +446,7 @@ angular.module('arachne.services', [])
 		return factory;
 	})
 
+	//contact Form
 	.factory('contactService', ['$http', 'arachneSettings', '$resource',  function($http, arachneSettings, $resource) { 
 		var contactService = $resource('', {}, {
 			sendContact : {
@@ -462,6 +463,7 @@ angular.module('arachne.services', [])
 		}
 	}])
 
+	//reset request
 	.factory('resetService', ['$http', 'arachneSettings', '$resource',  function($http, arachneSettings, $resource) { 
 		var resetService = $resource('', {}, {
 			resetpwd : {
@@ -474,6 +476,23 @@ angular.module('arachne.services', [])
 		return {
 			resetpwd : function(pwd, successMethod, errorMethod){
 				return resetService.resetpwd(pwd, successMethod, errorMethod);
+			}
+		}
+	}])
+
+	//register 
+	.factory('registerService', ['$http', 'arachneSettings', '$resource',  function($http, arachneSettings, $resource) { 
+		var registerService = $resource('', {}, {
+			resetpwd : {
+				url: arachneSettings.dataserviceUri + '/user/register',
+				isArray: false,
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'}
+			}
+		});
+		return {
+			register : function(pwd, successMethod, errorMethod){
+				return registerService.register(pwd, successMethod, errorMethod);
 			}
 		}
 	}])
