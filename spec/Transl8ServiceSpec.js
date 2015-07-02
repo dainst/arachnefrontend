@@ -3,6 +3,10 @@
  */
 
 describe('Transl8', function (){
+	
+	var transl8Url = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
+		"translation/jsonp?application=arachne4_frontend&callback=JSON_CALLBACK";
+	
     var Transl8,$httpBackend;
 
     beforeEach(function (){
@@ -15,22 +19,17 @@ describe('Transl8', function (){
         });
 
         var mockData = [ {key: "testkey1", value: "testvalue1"}, {key: "testkey2", value: "testvalue2"} ];
-        var url = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&callback=JSON_CALLBACK";
-        $httpBackend.whenJSONP(url).respond(mockData);
+        $httpBackend.whenJSONP(transl8Url).respond(mockData);
 
     });
 
-    it('should invoke the callback', function () {
+    it('should provide an appropriate translation for a key', function () {
 
         var translations={};
-
-        var callback=function(param) {
-            translations=param;
-        };
-
-        Transl8.abc(callback);
+        Transl8.fetchTranslations();
+		
         $httpBackend.flush();
-        expect(translations['testkey1']).toBe('testvalue1');
-        expect(translations['testkey1']).not.toBe('testvalue2');
+        expect(Transl8.getTranslation('testkey1')).toBe('testvalue1');
+        expect(Transl8.getTranslation('testkey1')).not.toBe('testvalue2');
     });
 });

@@ -26,6 +26,7 @@ describe ('DataimportCtrl', function() {
             $provide.constant('arachneSettings', {
                 dataserviceUri: dataserviceUri
             });
+			$provide.value('Transl8',{fetchTranslations:function(){return true;}})
         });
     });
 

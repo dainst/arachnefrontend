@@ -605,39 +605,29 @@ angular.module('arachne.services', [])
 	 */
 	.factory('Transl8', ['$http', function($http) {
 
+		var transl8Url = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
+			"translation/jsonp?application=arachne4_frontend&callback=JSON_CALLBACK";
+
+		var translations={};
+		
 		return {
+			
+			getTranslation: function(key) {
+				return translations[key];
+			},
 
-			// prepare
+			fetchTranslations: function() {	
 
-			abc: function(callback) {
-
-				$http.jsonp("http://crazyhorse.archaeologie.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&callback=JSON_CALLBACK").
+				$http.jsonp(transl8Url).
 					success(function(data, status, headers, config) {
-						var translations = {}
-
+						
 						for(var i = 0; i < data.length; i++) {
 							translations[data[i].key] = data[i].value;
-						}
-						callback(translations);
-
+						}	
 					}).
 					error(function(data, status, headers, config) {
 						alert("ERROR: Could not get data.");
 					});
-
-				return;
 			}
 		}
 	}]);
-
-
-	//<script type="text/javascript">
-	//var translations = {}
-	//var parseTransl8 = function (data) {
-	//for(var i = 0; i < data.length; i++) {
-	//		translations[data[i].key] = data[i].value;
-	//		}
-	//}
-	//</script>
-
-	//<script type="text/javascript" src="http://crazyhorse.archaeologie.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&callback=parseTransl8"></script>

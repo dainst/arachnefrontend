@@ -42,6 +42,15 @@ angular.module('arachne.filters', [])
 			
 		}
 	}])
+	/**
+	 * Author: Daniel M. de Oliveira
+	 */
+	.filter('transl8', ['Transl8',function(Transl8){
+		return function(key) {
+			var trans = Transl8.getTranslation(key);
+			return trans;
+		}
+	}])
 	.filter('entityCountInFacet', function() {
 		return function (facet) {
 			var entityCount = 0;
