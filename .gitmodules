@@ -1,6 +1,6 @@
 [submodule "con10t"]
 	path = con10t
-	url = dai-softsource.uni-koeln.de:/srv/repos/git/con10t.git
+	url = https://github.com/codarchlab/con10t.git
 [submodule "lib/httParrot"]
 	path = lib/httParrot
 	url = https://github.com/danielmarreirosdeoliveira/httParrot
