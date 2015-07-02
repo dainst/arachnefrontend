@@ -31,9 +31,9 @@
 	</script>
 
 </head>
-<body ng-controller="NavBarCtrl">
+<body ng-controller="NavBarController">
 
-	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:white; opacity:0.89" role="navigation" ng-controller="MenuCtrl">
+	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:white; opacity:0.89" role="navigation" ng-controller="MenuController">
 		<div style="padding-left:0px; position:relative">
 			<img class="pull-left" src="img/kleinergreif.png" style="height: 36px; margin-left: 16px; margin-top: 8px; width: 36px;"></img>
 			<a href="#">
@@ -55,7 +55,7 @@
 		</div>
 		<div class="collapse navbar-collapse" collapse="isCollapsed" style="padding-left:10px">
 			
-			<form ng-controller="SearchFormCtrl"
+			<form ng-controller="SearchFormController"
 					ng-submit="search()"
 					ng-hide="currentPath == '/'"
 					class="navbar-left navbar-form input-group form-inline"
@@ -124,7 +124,7 @@
 		<div style="min-height:500px;">
 
 			<!-- MESSAGES -->
-			<div ng-controller="MessageCtrl" ng-cloak>
+			<div ng-controller="MessageController" ng-cloak>
 					<div ng-repeat="(code,message) in messages"
 							ng-class="'alert-' + message.level"
 							class="col-md-10 col-md-offset-1 alert text-center">

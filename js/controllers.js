@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
-.controller("NavBarCtrl",[ '$scope', 'con10tService', 
+.controller("NavBarController",[ '$scope', 'con10tService',
 	function ($scope, con10tService){
 		
 		$scope.topMenu = null;
@@ -12,7 +12,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		});
 	}
 ])
-.controller('MenuCtrl',	[ '$scope', '$modal', 'authService', '$location', '$window',
+.controller('MenuController',	[ '$scope', '$modal', 'authService', '$location', '$window',
 	function ($scope,  $modal, authService, $location, $window) {
 
 		$scope.user = authService.getUser();
@@ -40,7 +40,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('LoginCtrl', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal', '$window',
+.controller('LoginController', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal', '$window',
 	function($scope, $modalInstance, authService, $timeout, $modal, $window){
 		
 		$scope.loginData = {};
@@ -133,7 +133,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 ])
 //Register Form 
-.controller('RegisterCtrl', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings', 'registerService',
+.controller('RegisterController', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings', 'registerService',
 	function ($rootScope, $scope, $http, $filter, arachneSettings, registerService) {
 
 		$rootScope.hideFooter = false;
@@ -168,7 +168,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('SearchFormCtrl', ['$scope', '$location',
+.controller('SearchFormController', ['$scope', '$location',
 	function($scope, $location) {
 
 		$scope.search = function(fq) {
@@ -182,7 +182,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('SearchCtrl', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
+.controller('SearchController', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
 	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
 
 		$rootScope.hideFooter = false;
@@ -267,7 +267,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CategoryCtrl', ['$rootScope','$scope', 'Query', 'categoryService', '$location', 'Entity',
+.controller('CategoryController', ['$rootScope','$scope', 'Query', 'categoryService', '$location', 'Entity',
 	function($rootScope, $scope, Query, categoryService, $location, Entity) {
 
 		$rootScope.hideFooter = false;
@@ -291,7 +291,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('MapCtrl', ['$rootScope', '$scope', 'searchService', 'messageService',
+.controller('MapController', ['$rootScope', '$scope', 'searchService', 'messageService',
 	function($rootScope, $scope, searchService, messageService) {
 
 		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort", "facet_geo"]; //, "facet_ort"
@@ -331,7 +331,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
+.controller('EntityController', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
 	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messageService) {
 
 		$rootScope.hideFooter = false;
@@ -453,7 +453,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CatalogCtrl',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry',
+.controller('CatalogController',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry',
 	function ($scope, $modal, authService, Entity, Catalog, CatalogEntry) {
 
 		$scope.catalogs = [];
@@ -593,7 +593,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'messageService',
+.controller('EntityImageController', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'messageService',
 	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, messageService) {
 
 		$rootScope.hideFooter = true;
@@ -673,7 +673,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'messageService',
+.controller('EntityImagesController', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'messageService',
 	function($routeParams, $scope, Entity, $filter, searchService, $rootScope, messageService) {
 
 		$rootScope.hideFooter = true;
@@ -778,7 +778,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('MessageCtrl', ['$scope', 'messageService',
+.controller('MessageController', ['$scope', 'messageService',
 	function ($scope, messageService) {
 
 		$scope.messages = messageService.getMessages();
@@ -789,17 +789,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('ProjectCtrl', ['$scope', '$routeParams',
+.controller('ProjectController', ['$scope', '$routeParams',
 	function ($scope, $routeParams) {
 		$scope.templateUrl = 'con10t/de/' + $routeParams.name + '.html';
 	}
 ])
-.controller('EditCatalogEntryCtrl',
+.controller('EditCatalogEntryController',
 	function ($scope, $modalInstance, entry) {
 		$scope.entry = entry;
 	}
 )
-.controller('EditCatalogCtrl',
+.controller('EditCatalogController',
 	function ($scope, $modalInstance, catalog) {
 		$scope.catalog = catalog;
 	}
@@ -809,7 +809,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
  * Handles requests for the state of the document import.
  * Author: Daniel M. de Oliveira
  */
-.controller('DataimportCtrl',['$scope','$http','$location','arachneSettings',
+.controller('DataimportController',['$scope','$http','$location','arachneSettings',
 	function($scope, $http, $location, arachneSettings) {
 
 		var dataimportUri = arachneSettings.dataserviceUri + '/admin/dataimport';
