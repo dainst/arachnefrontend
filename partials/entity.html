@@ -47,7 +47,7 @@
 						<ul>
 							<li ng-repeat="facet in currentQuery.facets">
 								<small>
-									<i>{{facet.key | i18n}}</i>
+									<i>{{facet.key | transl8}}</i>
 									<b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b>
 								</small>
 							</li>
@@ -144,7 +144,7 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-3">
-						<b>{{ 'entityId' | i18n }}</b><br>{{ entity.entityId }}
+						<b>{{ 'entityId' | transl8 }}</b><br>{{ entity.entityId }}
 					</div>
 					<div class="col-md-3">
 						<b>Kategorie:</b><br>{{ categories[entity.type]["singular"] }}

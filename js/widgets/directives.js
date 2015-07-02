@@ -156,7 +156,7 @@ angular.module('arachne.widgets.directives', [])
             scope.slashRegex  = /\//g;
 
             if(!scope.placeholder)
-               scope.placeholder = $filter('i18n')('ui_projectsearchplaceholder');
+               scope.placeholder = $filter('transl8')('ui_projectsearchplaceholder');
 
 				scope.search = function() {
               	var url = "search/?q=";

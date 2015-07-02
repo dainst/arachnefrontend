@@ -5,12 +5,12 @@
 			class="btn btn-sm btn-block btn-warning linethrough-hover"
 			style="white-space:normal;">
 		<i>Nur Objekte mit</i><br>
-	    <b style="text-transform:capitalize;">{{currentQuery.restrict | i18n}}</b>
+	    <b style="text-transform:capitalize;">{{currentQuery.restrict | transl8}}</b>
 	</a>
 	<a ng-repeat="facet in facets"
 			ng-href="{{route}}/{{currentQuery.removeFacet(facet.key).toString()}}"
 			class="btn btn-sm btn-block btn-primary linethrough-hover">
-		<i>{{facet.key | i18n}}</i><br>
+		<i>{{facet.key | transl8}}</i><br>
 		<b>{{facet.value}}</b>
 	</a>
 </div>

@@ -4,7 +4,7 @@
         {{mapConfig.menuTitle}}
     </h2>
 
-    <h4>{{ mapfacet ? (mapfacet.name + "_plural" | i18n) : "" }}</h4>
+    <h4>{{ mapfacet ? (mapfacet.name + "_plural" | transl8) : "" }}</h4>
 
     <!-- Infos zum Suchergebnis -->
     <div ng-if="facetLimit && facetLimit == mapfacet.values.length" class="alert alert-info" style="padding:5px 10px; margin-bottom:10px;">
@@ -80,7 +80,7 @@
                         ng-repeat="mapfacetName in mapfacetNames"
                         ng-class="{'active': mapfacet.name == mapfacetName}"
                         ng-click="go(currentQuery.setParam('restrict', mapfacetName).toString())">
-                    {{ mapfacetName + '_map' | i18n }}
+                    {{ mapfacetName + '_map' | transl8 }}
                 </a>
             </div>
     </div>
@@ -105,7 +105,7 @@
                 <h5 class="panel-title">
                     <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
                     <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
-                    &nbsp;{{facet.name | i18n }}{{ mapConfig.menuFacetsAppend[facet.name] }}
+                    &nbsp;{{facet.name | transl8 }}{{ mapConfig.menuFacetsAppend[facet.name] }}
                 </h5>
             </div>
             <ul class="list-unstyled facet" ng-show="facet.open">

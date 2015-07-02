@@ -38,7 +38,7 @@
 		<small class="text-muted">Sortierung:</small>
 		<div class="btn-group" dropdown>
 			<button type="button" class="btn btn-sm btn-default dropdown-toggle">
-				<span ng-show="currentQuery.sort">{{ currentQuery.sort | i18n }}</span>
+				<span ng-show="currentQuery.sort">{{ currentQuery.sort | transl8 }}</span>
 				<span ng-hide="currentQuery.sort">Relevanz</span>
 				<span class="caret"></span>
 			</button>
@@ -50,7 +50,7 @@
 				</li>
 				<li ng-repeat="sortableField in sortableFields">
 					<a ng-href="search/{{currentQuery.setParam('sort',sortableField).removeParam('offset').toString()}}">
-						{{ sortableField | i18n }}
+						{{ sortableField | transl8 }}
 					</a>
 				</li>
 			</ul>

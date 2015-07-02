@@ -458,7 +458,7 @@ angular.module('arachne.directives', [])
 					var item = scope.found[0];
 					var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
 					var coords = coordsString.split(',');
-					var facetI18n = $filter('i18n')("facet_fundort");
+					var facetI18n = $filter('transl8')("facet_fundort");
 					var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
 					var text = item.substring(0, item.indexOf("[", 1)) + " ";
 					// Popup-Title auf Karte für Suchergebnis
@@ -474,7 +474,7 @@ angular.module('arachne.directives', [])
 					var item = scope.depo[0];
 					var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
 					var coords = coordsString.split(',');
-					var facetI18n = $filter('i18n')("facet_aufbewahrungsort");
+					var facetI18n = $filter('transl8')("facet_aufbewahrungsort");
 					var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
 					var text = item.substring(0, item.indexOf("[", 1)) + " ";
 					// Popup-Title auf Karte für Suchergebnis
@@ -547,7 +547,7 @@ angular.module('arachne.directives', [])
 						var item = scope.mapfacet.values[i].value;
 						var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
 						var coords = coordsString.split(',');
-						var facetI18n = $filter('i18n')(scope.mapfacet.name);
+						var facetI18n = $filter('transl8')(scope.mapfacet.name);
 						var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
 						var text = item.substring(0, item.indexOf("[", 1)) + " ";
 						// Popup-Title auf Karte für Suchergebnis
