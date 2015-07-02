@@ -26,7 +26,6 @@ describe('Transl8', function (){
     it('should provide an appropriate translation for a key', function () {
 
         var translations={};
-        Transl8.fetchTranslations();
 		
         $httpBackend.flush();
         expect(Transl8.getTranslation('testkey1')).toBe('testvalue1');

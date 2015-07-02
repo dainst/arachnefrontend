@@ -609,25 +609,22 @@ angular.module('arachne.services', [])
 			"translation/jsonp?application=arachne4_frontend&callback=JSON_CALLBACK";
 
 		var translations={};
-		
+
+		$http.jsonp(transl8Url).
+			success(function(data, status, headers, config) {
+
+				for(var i = 0; i < data.length; i++) {
+					translations[data[i].key] = data[i].value;
+				}
+			}).
+			error(function(data, status, headers, config) {
+				alert("ERROR: Could not get translations. Try to reload the page or send a mail to arachne@uni-koeln.de");
+			});
+
 		return {
 			
 			getTranslation: function(key) {
 				return translations[key];
-			},
-
-			fetchTranslations: function() {	
-
-				$http.jsonp(transl8Url).
-					success(function(data, status, headers, config) {
-						
-						for(var i = 0; i < data.length; i++) {
-							translations[data[i].key] = data[i].value;
-						}	
-					}).
-					error(function(data, status, headers, config) {
-						alert("ERROR: Could not get data.");
-					});
 			}
 		}
 	}]);

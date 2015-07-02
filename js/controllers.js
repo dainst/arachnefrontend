@@ -809,10 +809,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
  * Handles requests for the state of the document import.
  * Author: Daniel M. de Oliveira
  */
-.controller('DataimportCtrl',['$scope','$http','$location','arachneSettings','Transl8',
-	function($scope, $http, $location, arachneSettings,Transl8) {
-
-		Transl8.fetchTranslations();
+.controller('DataimportCtrl',['$scope','$http','$location','arachneSettings',
+	function($scope, $http, $location, arachneSettings) {
 
 		var dataimportUri = arachneSettings.dataserviceUri + '/admin/dataimport';
 		var requestPending = false; // true as long as a server request is pending and waiting for an answer or timeout
