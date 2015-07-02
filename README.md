@@ -30,6 +30,13 @@ webdriver-manager update
 
 You may need root permissions on your machine in order to perform these commands successfully.
 
+On Debian-based systems, if you have trouble installing dependencies use the 'nodejs-legacy'-package instead of 'nodejs'. Also the grunt-cli needs to be installed globally to run 'grunt server'.
+
+```
+sudo apt-get install nodejs-legacy
+sudo npm install -g grunt-cli
+```
+
 ### Running the tests
 
 Two types of tests are supported at the moment. User Interface (UI) and unit tests. To run the unit tests, call
