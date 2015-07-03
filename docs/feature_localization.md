@@ -20,7 +20,7 @@ Then the „navbar_about“-item is entitled „Über Arachne“.
 
 ```gherkin
 Given a user has chosen „da“  as his primary browser language.
-When he user opens the landing page.
+When  he user opens the landing page.
 Then the „navbar_about“-item is entitled „About Arachne“.
 ```
 
@@ -28,7 +28,7 @@ Then the „navbar_about“-item is entitled „About Arachne“.
 
 ```gherkin
 Given a user has chosen „da“  as his primary browser language.
-   And the „navbar_about“-item lacks an English translation
+ And the „navbar_about“-item lacks an English translation
 When the user opens the landing page.
 Then the „navbar_about“-item is entitled „Über Arachne“.
 ```
