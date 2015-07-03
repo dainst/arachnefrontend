@@ -605,11 +605,18 @@ angular.module('arachne.services', [])
 	 */
 	.factory('Transl8', ['$http', function($http) {
 
+		var lang='de';
+		lang=navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
+		if (lang=='en_US') lang='en';
+		if (lang=='de_DE') lang='de';
+
 		var transl8Url = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
-			"translation/jsonp?application=arachne4_frontend&callback=JSON_CALLBACK";
+			"translation/jsonp?application=arachne4_frontend&lang="+lang+"&callback=JSON_CALLBACK";
+
+
+
 
 		var translations={};
-
 		$http.jsonp(transl8Url).
 			success(function(data, status, headers, config) {
 
