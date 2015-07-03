@@ -5,7 +5,7 @@
 describe('Transl8', function (){
 	
 	var transl8Url = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
-		"translation/jsonp?application=arachne4_frontend&callback=JSON_CALLBACK";
+		"translation/jsonp?application=arachne4_frontend&lang=de&callback=JSON_CALLBACK";
 	
     var Transl8,$httpBackend;
 
