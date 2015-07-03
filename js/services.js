@@ -605,7 +605,9 @@ angular.module('arachne.services', [])
 	 */
 	.factory('Transl8', ['$http', function($http) {
 
-		var lang='de';
+		var fallbackLang='de';
+
+		var lang=fallbackLang;
 		lang=navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
 		if (lang=='en-US') lang='en';
 		if (lang=='de-DE') lang='de';
@@ -629,7 +631,15 @@ angular.module('arachne.services', [])
 			});
 
 		return {
-			
+
+			getFallbackLanguage: function(){
+				return fallbackLang;
+			},
+
+			getLanguage: function() {
+				return lang;
+			},
+
 			getTranslation: function(key) {
 				return translations[key];
 			}
