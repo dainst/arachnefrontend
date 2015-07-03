@@ -1,4 +1,4 @@
-# Feature: Localization
+# Feature: Localization of user interface elements
 
 ## Scenario: Britisch User
 
