@@ -23,13 +23,13 @@
 
 			<ul class="list-inline text-muted">
 				<li ng-show="entityCount" style="opacity:.8;">
-					Insgesamt
+					{{'startsite_total'|transl8}}
 					<b ng-bind="entityCount | number"></b>
-					Einträge
+					{{'startsite_entries'|transl8}}
 				</li>
 				<li>
 					<a href="search?q=*">
-						<span class="glyphicon glyphicon-search"></span> Alle Anzeigen
+						<span class="glyphicon glyphicon-search"></span> {{'ui_showall'|transl8}}
 					</a>
 				</li>
 				<li>
@@ -47,20 +47,20 @@
 		<div class="col-md-5 col-md-offset-1 clearfix">
 			<div style="max-width:480px; margin:auto;">
 				<h2 style="text-align:center;">
-					<a href="allCategories" style="outline: none;">Kategorien</a>
+					<a href="allCategories" style="outline: none;">{{'startsite_categories'|transl8}}</a>
 				</h2>
 				<a href="allCategories">
 					<img src="img/categories_alt.png" class="img-responsive" style="border: 1px solid lightgrey">
 				</a>
 				<p class="pull-right" style="margin:15px 0px 0px 20px;">
-					<a href="allCategories"> ... Alle Kategorien anzeigen </a>
+					<a href="allCategories"> ... {{'startsite_show_all_categories'|transl8}} </a>
 				</p>
 			</div>
 		</div>
 		<div class="col-md-5 clearfix">
 			<div style="max-width:480px; margin:auto;">
 				<h2 style="text-align:center;">
-					<a href="projects" style="outline: none;">Projekte</a>
+					<a href="projects" style="outline: none;">{{'startsite_projects'|transl8}}</a>
 				</h2>
 				<carousel interval="-10" style="border: 1px solid lightgrey">
 		  			<slide ng-repeat="slide in projslides" active="slide.active">
@@ -73,7 +73,7 @@
 		  			</slide>
 				</carousel>
 				<p class="pull-right" style="margin:15px 0px 70px 20px;">
-					<a href="projects"> ... Alle Projekte anzeigen </a>
+					<a href="projects"> ... {{'startsite_show_all_projects'|transl8}} </a>
 				</p>
 			</div>
 		</div>
