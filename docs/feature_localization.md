@@ -1,4 +1,7 @@
-# Feature: Localization of user interface elements
+# Feature: Localization
+
+Also the examples deal with the behaviour of user interface elements, the rules apply also to
+the localisation of con10t pages.
 
 ## Scenario: Britisch User
 
