@@ -92,7 +92,7 @@ h6 { font-size: 12px; }
   text-decoration: none;
 }
 
-.ar-map-menu {
+#map-main-menu {
   background-color: rgba(248, 248, 248, 0.8);
   position: absolute;
   top: 60px;
@@ -103,7 +103,22 @@ h6 { font-size: 12px; }
   text-align: left;
 }
 
-.con10t-page .ar-map-menu {
+.con10t-page #map-main-menu {
+  top: 10px;
+}
+
+#map-layer-menu {
+  background-color: rgba(248, 248, 248, 0.8);
+  position: absolute;
+  top: 60px;
+  /*bottom:10px;*/
+  left: 10px;
+  overflow-y:auto;
+  z-index:500;
+  text-align: left;
+}
+
+.con10t-page #map-layer-menu {
   top: 10px;
 }
 

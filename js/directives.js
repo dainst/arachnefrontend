@@ -610,7 +610,7 @@ angular.module('arachne.directives', [])
 				var lng = scope.currentQuery.lng || -10;
 				var zoom = scope.currentQuery.zoom || 3;
 
-				var map = L.map(element.attr('id')).setView([lat, lng], zoom);
+				var map = L.map(element.attr('id'), { zoomControl: false }).setView([lat, lng], zoom);
 
 				// register zoom level and central map position in the Query object
 				// to always keep the current map position on reload

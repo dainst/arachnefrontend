@@ -1,4 +1,5 @@
-<div ng-if="resultSize != null" id="mapNavigation" class="ar-map-menu col-md-2 well well-sm">
+<!-- Hauptmenü rechte Seite -->
+<div ng-if="resultSize != null" id="map-main-menu" class="ar-map-menu col-md-2 well well-sm">
 
     <h2 class="text-muted uppercase" style="font-variant:small-caps" ng-show="mapConfig.menuTitle">
         {{mapConfig.menuTitle}}
@@ -33,43 +34,6 @@
                 class="btn btn-primary btn-sm btn-block">
             Objekte anzeigen <i class="glyphicon glyphicon-search"> </i>
         </a>
-    </div>
-
-    <!-- Overlays -->
-    <div ng-if="mapConfig.menuShowOverlays && overlays">
-        <h5 class="text-muted uppercase" style="cursor:pointer" ng-click="toggleOverlayGroupMenu()">
-            <strong>{{mapConfig.menuHeadingOverlays}}</strong>
-        </h5>
-
-        <!-- Gruppen von Overlays in einem togglebaren Menü -->
-        <div ng-if="overlays.groups" class="panel panel-default" ng-click="toggleOverlayGroupMenu()" style="cursor:pointer">
-            <div class="panel-body">
-                <div ng-show="showOverlayGroupMenu">
-                    <div ng-repeat="group in overlays.groups">
-                        <h5 class="text-muted">{{group.name}}</h5>
-                        <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
-                            <label>
-                                <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
-                                {{ overlay.name }}
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div ng-hide="showOverlayGroupMenu" style="text-align:center">
-                    &hellip;
-                </div>
-            </div>
-        </div>
-
-        <!-- Liste von Overlays als einzelne Buttons -->
-        <div ng-if="!overlays.groups">
-            <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
-                <label>
-                    <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
-                    {{ overlay.name }}
-                </label>
-            </div>
-        </div>
     </div>
 
     <!-- Facetten zur Ortsangabe -->
@@ -118,4 +82,40 @@
             </ul>
         </div>
     </small>
+</div>
+
+
+<!-- Layer Menü linke Seite -->
+<div ng-if="mapConfig.menuShowLayerMenu" id="map-layer-menu" class="ar-map-menu col-md-2 well well-sm">
+    <!-- Overlays -->
+    <div ng-if="mapConfig.menuShowOverlays && overlays">
+        <h5 class="text-muted uppercase" style="cursor:pointer" ng-click="toggleOverlayGroupMenu()">
+            <strong>{{mapConfig.menuHeadingOverlays}}</strong>
+        </h5>
+
+        <!-- Gruppen von Overlays in einem togglebaren Menü -->
+        <div ng-if="overlays.groups && showOverlayGroupMenu">
+            <!-- <div class="panel-body"> -->
+                <div ng-repeat="group in overlays.groups">
+                    <h5 class="text-muted">{{group.name}}</h5>
+                    <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
+                        <label>
+                            <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
+                            {{ overlay.name }}
+                        </label>
+                    </div>
+                </div>
+            <!-- </div> -->
+        </div>
+
+        <!-- Liste von Overlays als einzelne Buttons -->
+        <div ng-if="!overlays.groups">
+            <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
+                <label>
+                    <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
+                    {{ overlay.name }}
+                </label>
+            </div>
+        </div>
+    </div>
 </div>

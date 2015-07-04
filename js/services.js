@@ -572,7 +572,8 @@ angular.module('arachne.services', [])
 			this.menuHeadingSearch             = "Aktuelle Suche";
 			this.menuHeadingFilters            = "Filter";
 
-			this.menuShowOverlays              = true;
+			this.menuShowLayerMenu             = false;
+			this.menuShowOverlays              = false;
 			this.menuShowMapfacetSelection     = true;
 			this.menuShowSearch                = true;
 			this.menuShowFilters               = true;
