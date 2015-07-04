@@ -27,7 +27,7 @@ When  the user opens the landing page.
 Then  the „navbar_about“-item is entitled „About Arachne“.
 ```
 
-## Scenario: Fallback Language German for not translated items.
+## Scenario: Fallback Language German for not translated items
 
 ```gherkin
 Given a user has chosen „da“  as his primary browser language.
@@ -36,5 +36,19 @@ When the user opens the landing page.
 Then the „navbar_about“-item is entitled „Über Arachne“.
 ```
 
+## Scenario: Missing translation for key (danish user)
 
+```gherkin
+Given a user has chosen „da“  as his primary browser language.
+ And the „navbar_about“-item lacks an English translation
+ And the „navbar_about“-item lacks an German translation
+ Then the „navbar_about“-item is entitled „TRL8_MISSING“.
+```
 
+## Scenario: Missing translation for key (german user)
+
+```gherkin
+Given a user has chosen „de“  as his primary browser language.
+ And the „navbar_about“-item lacks an German translation
+ Then the „navbar_about“-item is entitled „TRL8_MISSING“.
+```
