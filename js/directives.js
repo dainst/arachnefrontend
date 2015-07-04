@@ -610,6 +610,8 @@ angular.module('arachne.directives', [])
 				var lng = scope.currentQuery.lng || -10;
 				var zoom = scope.currentQuery.zoom || 3;
 
+				var baselayerName = scope.currentQuery.baselayer || scope.mapConfig.defaultLayer;
+
 				var map = L.map(element.attr('id'), { zoomControl: false }).setView([lat, lng], zoom);
 
 				// register zoom level and central map position in the Query object
@@ -620,10 +622,9 @@ angular.module('arachne.directives', [])
 					scope.currentQuery.lng = map.getCenter().lng;
 				})
 
-				var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-					maxZoom: 18
-				});
-				map.addLayer(layer);
+				var layerConfig = scope.mapConfig.layers[baselayerName];
+				var baselayer = L.tileLayer(layerConfig.url, layerConfig.layerOptions);
+				map.addLayer(baselayer);
 				L.Icon.Default.imagePath = 'img';
 
 				// which overlays (from _overlays) are to be created is given
@@ -678,14 +679,19 @@ angular.module('arachne.directives', [])
 				scope.go(scope.currentQuery.setParam('overlays', keys).toString());
 			};
 
-			scope.toggleOverlayGroupMenu = function() {
-				scope.showOverlayGroupMenu = !scope.showOverlayGroupMenu;
+			scope.toggleBaselayer = function(key) {
+				scope.go(scope.currentQuery.setParam('baselayer', key).toString());
 			}
+
+			scope.toggleLayerMenu = function() {
+				scope.showLayerMenu = !scope.showLayerMenu;
+			};
 
 			scope.searchFunction().then(function() {
 
 				scope.q = scope.currentQuery.q;
 				scope.facetLimit = scope.currentQuery.fl;
+				scope.baselayerKey = scope.currentQuery.baselayer || scope.mapConfig.defaultLayer;
 
 				var keys = scope.currentQuery.getArrayParam('overlays');
 
@@ -694,9 +700,9 @@ angular.module('arachne.directives', [])
 					scope.selectedOverlays[keys[i]] = true;
 				}
 
-				scope.showOverlayGroupMenu = false;
+				scope.showLayerMenu = false;
 				if (keys.length > 0) {
-					scope.showOverlayGroupMenu = true;
+					scope.showLayerMenu = true;
 				}
 
 				var facetsHidden = geofacets;

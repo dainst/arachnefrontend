@@ -93,7 +93,7 @@ h6 { font-size: 12px; }
 }
 
 #map-main-menu {
-  background-color: rgba(248, 248, 248, 0.8);
+  background-color: rgba(248, 248, 248, 0.9);
   position: absolute;
   top: 60px;
   bottom:10px;
@@ -108,7 +108,7 @@ h6 { font-size: 12px; }
 }
 
 #map-layer-menu {
-  background-color: rgba(248, 248, 248, 0.8);
+  background-color: rgba(248, 248, 248, 0.9);
   position: absolute;
   top: 60px;
   /*bottom:10px;*/

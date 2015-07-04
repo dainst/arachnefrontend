@@ -567,13 +567,16 @@ angular.module('arachne.services', [])
 		function MapConfig() {
 
 			this.menuTitle                     = null;
+			this.menuHeadingLayerMenu          = "Kartenoptionen"
 			this.menuHeadingOverlays           = "Overlays";
+			this.menuHeadingBaselayers         = "Karten";
 			this.menuHeadingMapfacetSelection  = "Typ der Ortsangabe";
 			this.menuHeadingSearch             = "Aktuelle Suche";
 			this.menuHeadingFilters            = "Filter";
 
 			this.menuShowLayerMenu             = false;
 			this.menuShowOverlays              = false;
+			this.menuShowBaselayers            = false;
 			this.menuShowMapfacetSelection     = true;
 			this.menuShowSearch                = true;
 			this.menuShowFilters               = true;
@@ -584,6 +587,42 @@ angular.module('arachne.services', [])
 			this.menuFacetsAppend              = null;
 
 			this.facetsSelect                  = null;
+
+			this.defaultLayer                  = "osm";
+
+			this.layers = {
+				osm: {
+					name: 'OpenStreetMap',
+					type: 'xyz',
+					url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+					layerOptions: {
+						subdomains: ['a', 'b', 'c'],
+						attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+						continuousWorld: true,
+						maxZoom: 18
+					}
+				},
+				mapquestAerial: {
+					name: 'MapQuest Open Aerial',
+					type: 'xyz',
+					url: 'http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png',
+					layerOptions: {
+						subdomains: ['1', '2', '3', '4'],
+						attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
+						continuousWorld: true
+					}
+				},
+				romanEmpire: {
+					name: 'Roman Empire',
+					type: 'xyz',
+					url: 'http://pelagios.dme.ait.ac.at/tilesets/imperium//{z}/{x}/{y}.png',
+					layerOptions: {
+						subdomains: ['a', 'b', 'c'],
+						attribution: 'Tiles: <a href="http://imperium.ahlfeldt.se/">DARE 2014</a>',
+						continuousWorld: true
+					}
+				}
+			}
 		}
 
 		MapConfig.prototype = {
