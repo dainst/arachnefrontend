@@ -57,7 +57,7 @@ Given a user has chosen „de“  as his primary browser language.
  Then the „navbar_about“-item is entitled „About Arachne“.
 ```
 
-## Scenario: Missing translation for key (any language user)
+## Scenario: Missing translation for key (any language)
 
 ```gherkin
 Given the „navbar_about“-item lacks an English translation
