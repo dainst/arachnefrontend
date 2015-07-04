@@ -607,10 +607,15 @@ angular.module('arachne.services', [])
 
 		var fallbackLang='de';
 
-		var lang=fallbackLang;
-		lang=navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
-		if (lang=='en-US') lang='en';
-		if (lang=='de-DE') lang='de';
+		var lang=navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
+
+		if (lang=='en-US') {
+			lang='en';
+		} else if (lang=='de-DE') {
+			lang='de';
+		} else {
+			lang = fallbackLang;
+		}
 
 		var transl8Url = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
 			"translation/jsonp?application=arachne4_frontend&lang="+lang+"&callback=JSON_CALLBACK";
