@@ -50,5 +50,17 @@ Given a user has chosen „da“  as his primary browser language.
 ```gherkin
 Given a user has chosen „de“  as his primary browser language.
  And the „navbar_about“-item lacks an German translation
+ And the „navbar_about“-item has an English translation
  Then the „navbar_about“-item is entitled „TRL8_MISSING“.
 ```
+
+## Scenario: Missing german translation for key (german user)
+
+```gherkin
+Given a user has chosen „de“  as his primary browser language.
+ And the „navbar_about“-item lacks an German translation
+ And the „navbar_about“-item has an English translation
+ Then the „navbar_about“-item is entitled „About Arachne“.
+```
+
+
