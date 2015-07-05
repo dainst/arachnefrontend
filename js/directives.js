@@ -504,7 +504,7 @@ angular.module('arachne.directives', [])
 	};
 	}])	
 
-	.directive('arMap', ['$location', '$filter', function($location, $filter) {
+	.directive('arMap', ['$location', '$compile', function($location, $compile) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -544,21 +544,24 @@ angular.module('arachne.directives', [])
 
 				if(scope.mapfacet) {
 					for(var i=0; i < scope.mapfacet.values.length; i++){
+						// Koordinaten und Titel aus dem String-Value der Facette ermitteln
 						var item = scope.mapfacet.values[i].value;
 						var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
 						var coords = coordsString.split(',');
-						var facetI18n = $filter('transl8')(scope.mapfacet.name);
-						var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
-						var text = item.substring(0, item.indexOf("[", 1)) + " ";
-						// Popup-Title auf Karte für Suchergebnis
-						title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
-						title += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte<br>";
-						title += "<a href='search/" + scope.currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).addFacet(scope.mapfacet.name,item).toString() + "'>Diese Einträge anzeigen</a>";
-						text = facetI18n + ": " + text;
-						text += "Insgesamt " + scope.mapfacet.values[i].count + " Objekte ";
+						var title = item.substring(0, item.indexOf("[", 1)) + " ";
 
-						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text, entityCount : scope.mapfacet.values[i].count });
-						marker.bindPopup(title);
+						// Dom-Element für Popup bauen, in Link-Funktion kompilieren
+						var html = '<div ar-map-popup facet-name="{{facetName}}" title="{{title}}" count="{{count}}" ref="{{ref}}"></div>';
+						var linkFunction = $compile(angular.element(html));
+						var newScope = scope.$new(true);
+						newScope.facetName = scope.mapfacet.name;
+						newScope.title = title;
+						newScope.count = scope.mapfacet.values[i].count
+						newScope.ref = scope.currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).addFacet(scope.mapfacet.name,item).toString();
+
+						// Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
+						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { entityCount : scope.mapfacet.values[i].count });
+						marker.bindPopup(linkFunction(newScope)[0]);
 						markerClusterGroup.addLayer(marker);
 					}
 				}
@@ -733,6 +736,22 @@ angular.module('arachne.directives', [])
 				});
 
 			});
+		}
+	};
+	}])
+
+	.directive('arMapPopup', ['MapConfig', function(MapConfig) {
+	return {
+		restrict: 'A',
+		scope: {
+			facetName: '@',
+			title: '@',
+			count: '@',
+			ref: '@'
+		},
+		templateUrl: 'partials/directives/ar-map-popup.html',
+		link: function(scope) {
+			// do nothing for now
 		}
 	};
 	}])
