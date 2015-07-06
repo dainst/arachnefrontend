@@ -649,6 +649,7 @@ angular.module('arachne.services', [])
 
 		var lang=navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
 
+
 		if (lang=='en-US') {
 			lang='en';
 		} else if (lang=='de-DE') {
@@ -682,7 +683,7 @@ angular.module('arachne.services', [])
 			},
 
 			getLanguage: function() {
-				return lang;
+				return fallbackLang;
 			},
 
 			getTranslation: function(key) {

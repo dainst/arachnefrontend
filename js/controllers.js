@@ -798,15 +798,20 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.templateUrl=undefined;
 
-		$http.get(templateUrl)
+
+
+		$scope.templateUrl='con10t/de/'+$routeParams.name+'.html';
+
+		/**$http.get(templateUrl)
 			.success(
 				function(){
+
 					$scope.templateUrl=templateUrl;
 				})
 			.error(
 				function(){
 					$scope.templateUrl=templateUrlFallback;
-			})
+			})*/
 	}
 ])
 .controller('EditCatalogEntryController',
