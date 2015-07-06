@@ -36,7 +36,7 @@ Then the title of the project is "pagina di progretto: abc".
 
 ## Scenario: Italian User - missing italian translation
 
-```
+```gherkin
 Given a user has chosen "it"  as his primary browser language. 
   And The "abc" project has an english translation.
 When the user opens the project page for "abc"-project
