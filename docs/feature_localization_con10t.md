@@ -1,5 +1,5 @@
 # Feature: Localization of con10t project pages
 
-See also: [Localization of user interface elements]
+See also: [Localization of user interface elements](feature_localization.md)
 
 # 
