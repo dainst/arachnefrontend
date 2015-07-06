@@ -789,12 +789,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('ProjectController', ['$scope', '$routeParams', 'Transl8', '$http',
-	function ($scope, $routeParams, Transl8, $http) {
-		var lang=Transl8.getLanguage();
+.controller('ProjectController', ['$scope', '$routeParams', 'transl8', '$http',
+	function ($scope, $routeParams, transl8, $http) {
+		var lang=transl8.getLanguage();
 
 		var templateUrl = 'con10t/'+lang+'/' + $routeParams.name + '.html';
-		var templateUrlFallback = 'con10t/'+Transl8.getFallbackLanguage+'/'+$routeParams.name+'.html';
+		var templateUrlFallback = 'con10t/'+transl8.getFallbackLanguage+'/'+$routeParams.name+'.html';
 
 		$scope.templateUrl=undefined;
 

@@ -2,33 +2,101 @@
  * Author: Daniel M. de Oliveira
  */
 
-describe('Transl8', function (){
-	
-	var transl8Url = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
-		"translation/jsonp?application=arachne4_frontend&lang=de&callback=JSON_CALLBACK";
-	
-    var Transl8,$httpBackend;
+describe('transl8', function (){
 
-    beforeEach(function (){
+    var KEY = "navbar_about";
+    var KEY_INVALID = "navbar_xyz";
 
-        module('arachne.services');
 
-        inject(function(_Transl8_, _$httpBackend_) {
-            Transl8 = _Transl8_;
+
+    // TODO unify next 2 lines
+
+	var transl8UrlEn = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
+		"translation/jsonp?application=arachne4_frontend&lang=en&callback=JSON_CALLBACK";
+    var transl8UrlDe = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
+        "translation/jsonp?application=arachne4_frontend&lang=de&callback=JSON_CALLBACK";
+    var TRANSLATION_MISSING = 'TRL8 MISSING';
+    var TRANSLATION_EN = 'About Arachne';
+    var TRANSLATION_DE = 'Über Arachne';
+    var mockDataEn = [ {key: KEY, value: TRANSLATION_EN} ];
+    var mockDataDe = [ {key: KEY, value: TRANSLATION_DE} ];
+
+
+
+    // ---
+
+    var transl8,$httpBackend;
+
+
+
+    var prepare = function(primaryLang){
+
+        module('arachne.services',function($provide) {
+                $provide.value('language', {
+                    __: function () {
+                        return primaryLang;
+                    }
+                });
+            }
+        );
+
+        inject(function(_transl8_, _$httpBackend_) {
+            transl8 = _transl8_;
             $httpBackend = _$httpBackend_;
         });
 
-        var mockData = [ {key: "testkey1", value: "testvalue1"}, {key: "testkey2", value: "testvalue2"} ];
-        $httpBackend.whenJSONP(transl8Url).respond(mockData);
+        $httpBackend.whenJSONP(transl8UrlDe).respond(mockDataDe);
+        $httpBackend.whenJSONP(transl8UrlEn).respond(mockDataEn);
+    }
 
+    it('should provide german menu items for german users', function () {
+
+        prepare('de');
+
+        $httpBackend.flush();
+        expect(transl8.getTranslation(KEY)).toBe(TRANSLATION_DE);
     });
 
-    it('should provide an appropriate translation for a key', function () {
+    it('should provide english menu items for english users', function () {
 
-        var translations={};
-		
+        prepare('en-US');
+
         $httpBackend.flush();
-        expect(Transl8.getTranslation('testkey1')).toBe('testvalue1');
-        expect(Transl8.getTranslation('testkey1')).not.toBe('testvalue2');
+        expect(transl8.getTranslation(KEY)).toBe(TRANSLATION_EN);
+    });
+
+    it('should provide english menu items for danish users', function () {
+
+        prepare('da');
+
+        $httpBackend.flush();
+        expect(transl8.getTranslation(KEY)).toBe(TRANSLATION_EN);
+    });
+
+
+
+
+    it('translation missing (german user)', function () {
+
+        prepare('de');
+
+        $httpBackend.flush();
+        expect(transl8.getTranslation(KEY_INVALID)).toBe(TRANSLATION_MISSING);
+    });
+
+    it('translation missing (english user)', function () {
+
+        prepare('en');
+
+        $httpBackend.flush();
+        expect(transl8.getTranslation(KEY_INVALID)).toBe(TRANSLATION_MISSING);
+    });
+
+    it('translation missing (danish user)', function () {
+
+        prepare('da');
+
+        $httpBackend.flush();
+        expect(transl8.getTranslation(KEY_INVALID)).toBe(TRANSLATION_MISSING);
     });
 });

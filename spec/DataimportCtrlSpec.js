@@ -26,7 +26,7 @@ describe ('DataimportController', function() {
             $provide.constant('arachneSettings', {
                 dataserviceUri: dataserviceUri
             });
-			$provide.value('Transl8',{fetchTranslations:function(){return true;}})
+			$provide.value('transl8',{fetchTranslations:function(){return true;}})
         });
     });
 

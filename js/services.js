@@ -640,54 +640,18 @@ angular.module('arachne.services', [])
 
 	})
 
-	/**
-	 * Author: Daniel M. de Oliveira
-	 */
-	.factory('Transl8', ['$http', function($http) {
 
-		var fallbackLang='de';
+	/**
+	 * @return: the users primary browser language.
+	 * @author: Daniel M. de Oliveira
+	 */
+	.factory('language', function(){
 
 		var lang=navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
 
-
-		if (lang=='en-US') {
-			lang='en';
-		} else if (lang=='de-DE') {
-			lang='de';
-		} else {
-			lang = fallbackLang;
-		}
-
-		var transl8Url = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
-			"translation/jsonp?application=arachne4_frontend&lang="+lang+"&callback=JSON_CALLBACK";
-
-
-
-
-		var translations={};
-		$http.jsonp(transl8Url).
-			success(function(data, status, headers, config) {
-
-				for(var i = 0; i < data.length; i++) {
-					translations[data[i].key] = data[i].value;
-				}
-			}).
-			error(function(data, status, headers, config) {
-				alert("ERROR: Could not get translations. Try to reload the page or send a mail to arachne@uni-koeln.de");
-			});
-
 		return {
-
-			getFallbackLanguage: function(){
-				return fallbackLang;
-			},
-
-			getLanguage: function() {
-				return fallbackLang;
-			},
-
-			getTranslation: function(key) {
-				return translations[key];
+			__ : function(){
+				return lang;
 			}
 		}
-	}]);
+	});
