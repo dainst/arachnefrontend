@@ -34,7 +34,7 @@ When the user opens the project page for "abc"-project
 Then the title of the project is "pagina di progretto: abc".
 ```
 
-Scenario: Italian User - missing italian translation
+## Scenario: Italian User - missing italian translation
 
 ```
 Given a user has chosen „it“  as his primary browser language. 
@@ -43,7 +43,7 @@ When the user opens the project page for "abc"-project
 Then the title of the project is "Project page: abc".
 ```
 
-Scenario: Non German User - missing english translation
+## Scenario: Non German User - missing english translation
 
 ```gherkin
 Given a user has chosen „da“  as his primary browser language. 
@@ -51,7 +51,7 @@ When the user opens the project page for "abc"-project
 Then the title of the project is "Projektseite: abc".
 ```
 
-Scenario: Italian User - missing italian and english translation
+## Scenario: Italian User - missing italian and english translation
 
 ```gherkin
 Given a user has chosen „it“  as his primary browser language. 
