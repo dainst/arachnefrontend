@@ -4,9 +4,11 @@
 
 See also: [Localization of user interface elements](feature_localization.md)
 
-## Preconditions:
+## Background:
 
+```gherkin
 Given there is a project "abc" with a german translation.
+```
 
 ## Scenario: German User
 
