@@ -1,27 +1,30 @@
 'use strict';
 
 /**
+ * Provides translations for keys based on the primary browser language of the user.
+ * Makes use of the CoDArchLab Transl8 tool.
+ *
  * @author: Daniel M. de Oliveira
  */
-
-/* Services */
 angular.module('arachne.services')
 .factory('transl8', ['$http', 'language', function($http, language) {
 
+
     var TRANSLATION_MISSING = 'TRL8 MISSING';
+    var TRANSL8_JSONP_URL = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
+        "translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK";
+
 
     var fallbackLang='en';
 
     var lang=fallbackLang;
     if (language.__().substring(0,2)=='de') lang='de';
 
-    var transl8Url = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
-        "translation/jsonp?application=arachne4_frontend&lang="+lang+"&callback=JSON_CALLBACK";
 
 
+    var transl8Url = TRANSL8_JSONP_URL.replace('{LANG}',lang);
 
-
-    var translations={};
+    var translations={}; // Map: [transl8_key,translation].
     $http.jsonp(transl8Url).
         success(function(data, status, headers, config) {
 

@@ -6,24 +6,20 @@ describe('transl8', function (){
 
     var KEY = "navbar_about";
     var KEY_INVALID = "navbar_xyz";
-
-
-
-    // TODO unify next 2 lines
-
-	var transl8UrlEn = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
-		"translation/jsonp?application=arachne4_frontend&lang=en&callback=JSON_CALLBACK";
-    var transl8UrlDe = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
-        "translation/jsonp?application=arachne4_frontend&lang=de&callback=JSON_CALLBACK";
+    var TRANSL8_JSONP_URL = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
+        "translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK";
     var TRANSLATION_MISSING = 'TRL8 MISSING';
     var TRANSLATION_EN = 'About Arachne';
     var TRANSLATION_DE = 'Über Arachne';
+
+
     var mockDataEn = [ {key: KEY, value: TRANSLATION_EN} ];
     var mockDataDe = [ {key: KEY, value: TRANSLATION_DE} ];
+    var transl8UrlEn = TRANSL8_JSONP_URL.replace('{LANG}','en');
+    var transl8UrlDe = TRANSL8_JSONP_URL.replace('{LANG}','de');
 
 
 
-    // ---
 
     var transl8,$httpBackend;
 
