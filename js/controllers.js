@@ -789,31 +789,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('ProjectController', ['$scope', '$routeParams', 'transl8', '$http',
-	function ($scope, $routeParams, transl8, $http) {
-		var lang=transl8.getLanguage();
-
-		var templateUrl = 'con10t/'+lang+'/' + $routeParams.name + '.html';
-		var templateUrlFallback = 'con10t/'+transl8.getFallbackLanguage+'/'+$routeParams.name+'.html';
-
-		$scope.templateUrl=undefined;
-
-
-
-		$scope.templateUrl='con10t/de/'+$routeParams.name+'.html';
-
-		/**$http.get(templateUrl)
-			.success(
-				function(){
-
-					$scope.templateUrl=templateUrl;
-				})
-			.error(
-				function(){
-					$scope.templateUrl=templateUrlFallback;
-			})*/
-	}
-])
 .controller('EditCatalogEntryController',
 	function ($scope, $modalInstance, entry) {
 		$scope.entry = entry;
