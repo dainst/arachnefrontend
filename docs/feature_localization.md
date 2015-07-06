@@ -1,4 +1,4 @@
-# Feature: Localization
+# Feature: Localization of user interface elements
 
 [Specification](../spec/Transl8ServiceSpec.js)
 
