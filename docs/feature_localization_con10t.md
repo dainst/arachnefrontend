@@ -18,7 +18,7 @@ Then the title of the project is "Projektseite: abc".
 ## Scenario: British User
 
 ```gherkin
-Given a user has chosen „en“  as his primary browser language. 
+Given a user has chosen "en"  as his primary browser language. 
   And The "abc" project has an english translation.
 When the user opens the project page for "abc"-project
 Then the title of the project is "Project page: abc".
