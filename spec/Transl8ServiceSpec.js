@@ -72,7 +72,7 @@ describe('transl8', function (){
 
 
 
-    it('translation missing (german user)', function () {
+    it('lacks a german translation (german user)', function () {
 
         prepare('de');
 
@@ -80,7 +80,7 @@ describe('transl8', function (){
         expect(transl8.getTranslation(KEY_INVALID)).toBe(TRANSLATION_MISSING);
     });
 
-    it('translation missing (english user)', function () {
+    it('lacks an english translation (english user)', function () {
 
         prepare('en');
 
@@ -88,7 +88,7 @@ describe('transl8', function (){
         expect(transl8.getTranslation(KEY_INVALID)).toBe(TRANSLATION_MISSING);
     });
 
-    it('translation missing (danish user)', function () {
+    it('lacks an english translation (danish user)', function () {
 
         prepare('da');
 
