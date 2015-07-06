@@ -2,9 +2,7 @@
 
 [Specification](../spec/Transl8ServiceSpec.js)
 
-
-Also the examples deal with the behaviour of user interface elements, the rules apply also to
-the localisation of con10t pages.
+See also: [Localization of con10t project pages](feature_localization_con10t.md)
 
 ## Scenario: Britisch User
 
