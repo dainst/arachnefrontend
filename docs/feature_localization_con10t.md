@@ -1,5 +1,7 @@
 # Feature: Localization of con10t project pages
 
+[Specification](todo)
+
 See also: [Localization of user interface elements](feature_localization.md)
 
 ## Preconditions:
