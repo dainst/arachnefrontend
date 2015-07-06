@@ -11,7 +11,7 @@ the localisation of con10t pages.
 ```gherkin
 Given a user has chosen „en“ as his primary browser language.
 When the user opens the landing page.
-Then the „navar_about“-Item is entitled „About Arachne“.
+Then the „navbar_about“-Item is entitled „About Arachne“.
 ```
 
 ## Scenario: German User
