@@ -40,7 +40,7 @@ angular.module('arachne.services')
 
             var translation = translations[key];
             if (!translation || 0 === translation.length)
-                translation=TRANSLATION_MISSING;
+                translation=TRANSLATION_MISSING+' ('+key+')';
 
             return translation;
         }
