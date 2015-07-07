@@ -24,7 +24,7 @@
 		<div ng-if="resultSize">
 
 			<h5 ng-if="currentQuery.q" class="text-muted">
-				<strong class="uppercase">Aktuelle Suche</strong>
+				<strong class="uppercase">{{"ui_current_query"|transl8}}</strong>
 			</h5>
 
 			<div ng-if="currentQuery.q" class="panel panel-default">
@@ -33,17 +33,17 @@
 
 					<a ng-href="search{{currentQuery.removeParam('resultIndex').removeParam('offset').toString()}}"
 							class="btn btn-xs pull-right btn-primary">
-						<span class="glyphicon glyphicon-arrow-left"></span> zum Suchergebnis
+						<span class="glyphicon glyphicon-arrow-left"></span> {{"ui_to_search_result"|transl8}}
 					</a>
 
 					<div>
-						<b class="text-muted uppercase small">Aktuelle Suche</b><br>
+						<b class="text-muted uppercase small">{{"ui_current_query"|transl8}}</b><br>
 						<span ng-if="!currentQuery.label">{{currentQuery.q}}</span>
 						<i ng-if="currentQuery.label">{{currentQuery.label}}</i>
 					</div>
 
 					<div ng-if="currentQuery.hasFacets()">
-						<b class="text-muted uppercase small">Aktive Filter</b>
+						<b class="text-muted uppercase small">{{"entity_active_filters"|transl8}}</b>
 						<ul>
 							<li ng-repeat="facet in currentQuery.facets">
 								<small>
@@ -65,7 +65,7 @@
 						<div>
 							<b class="text-muted uppercase small">
 								<span class="glyphicon glyphicon-chevron-left" style="color:black" ></span>
-								&nbsp; vorheriges Ergebnis
+								&nbsp; {{"entity_previous_result"|transl8}}
 							</b>
 						</div>
 						<div ar-entity-title entity="prevEntity"></div>
@@ -73,7 +73,7 @@
 					</a>
 
 					<li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
-						<b class="text-muted uppercase small">Angezeiger Datensatz</b>
+						<b class="text-muted uppercase small">{{"entity_shown_result"|transl8}}</b>
 						<form ng-submit="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">
 							<div class="input-group"
 									ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
@@ -94,7 +94,7 @@
 							style="height:75px; overflow:hidden">
 						<div>
 							<b class="text-muted uppercase small">
-								&nbsp; nächstes Ergebnis
+								&nbsp; {{"entity_next_result"|transl8}}
 								<span class="glyphicon glyphicon-chevron-right" style="color:black" ></span>
 							</b>
 						</div>

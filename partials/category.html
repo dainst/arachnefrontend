@@ -25,9 +25,9 @@
 			</form>
 			<ul class="list-inline text-muted">
 				<li ng-show="resultSize">
-					Insgesamt
+					{{"ui_total"|transl8}}
 					<b ng-bind="resultSize | number"></b>
-					Einträge
+					{{"ui_entries"|transl8}}
 				</li>
 				<li>
 					<a ng-href="search?q=*&fq=facet_kategorie:'{{title}}'">
