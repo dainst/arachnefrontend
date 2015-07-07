@@ -9,7 +9,7 @@ angular.module('arachne.controllers')
  * in one language for the view. The shown language 
  * for each project's title gets chosen by considering
  * the users primary selected browser language and 
- * the translations availabe for each title.
+ * the translations available for each title.
  *
  * @see: ../docs/feature_localization_con10t.md
  * @see: ../spec/ProjectsControllerSpec.js 
