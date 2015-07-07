@@ -12,7 +12,7 @@ angular.module('arachne.controllers')
  * the translations available for each title.
  *
  * @see: ../docs/feature_localization_con10t.md
- * @see: ../spec/ProjectsControllerSpec.js 
+ * @see: ../spec/controllers_projects_spec.js 
  *
  * @author: Daniel M. de Oliveira
  * @author: Sebastian Cuy
