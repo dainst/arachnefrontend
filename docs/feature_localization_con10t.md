@@ -1,6 +1,6 @@
 # Feature: Localization of con10t project pages
 
-[Specification](../spec/ProjectControllerSpec.js)
+[Specification](../spec/controllers_project_spec.js)
 
 See also: [Localization of user interface elements](feature_localization.md)
 
