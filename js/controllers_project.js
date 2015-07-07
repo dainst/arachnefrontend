@@ -25,8 +25,7 @@ angular.module('arachne.controllers')
 		}
 				
 		var lang = language.__();
-		if (language.__().substring(0,2)=='de') lang='de';
-		if (language.__().substring(0,2)=='en') lang='en';
+
 	
 
 		

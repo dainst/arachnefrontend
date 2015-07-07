@@ -97,27 +97,6 @@ describe ('ProjectController', function() {
 	
 	// === Unit Tests ===
 	
-    it ('should provide the link to an english page (american user) ',function(){
-
-		prepare('en-US');
-
-        $httpBackend.expectGET(con10t_en).respond(200,'');
-		$httpBackend.flush();
-
-        expect(scope.templateUrl).toBe(con10t_en);
-    });
-	
-    it ('should provide the link to a german page (austrian user) ',function(){
-
-		prepare('de-AT');
-
-        $httpBackend.expectGET(con10t_de).respond(200,'');
-		$httpBackend.flush();
-
-        expect(scope.templateUrl).toBe(con10t_de);
-    });
-	
-	
 	// TODO german translation missing. for german, english, other
 	// TODO send problem to message service	
 	

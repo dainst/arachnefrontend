@@ -7,44 +7,34 @@
  * @author: Daniel M. de Oliveira
  */
 angular.module('arachne.services')
-.factory('transl8', ['$http', 'language', function($http, language) {
+.factory('transl8', ['$http', 'language', function($http, primaryBrowserLanguage) {
 
-
+    var ENGLISH_LANG='en';
     var TRANSLATION_MISSING = 'TRL8 MISSING';
     var TRANSL8_JSONP_URL = "http://crazyhorse.archaeologie.uni-koeln.de/transl8/" +
         "translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK";
 
 
-    var fallbackLang='en';
 
-    var lang=fallbackLang;
-    if (language.__().substring(0,2)=='de') lang='de';
+    var translationLang=ENGLISH_LANG;
+    if (primaryBrowserLanguage.__()=='de') translationLang='de';
+    var transl8Url = TRANSL8_JSONP_URL.replace('{LANG}',translationLang);
 
 
-
-    var transl8Url = TRANSL8_JSONP_URL.replace('{LANG}',lang);
 
     var translations={}; // Map: [transl8_key,translation].
     $http.jsonp(transl8Url).
-        success(function(data, status, headers, config) {
+        success(function(data) {
 
             for(var i = 0; i < data.length; i++) {
                 translations[data[i].key] = data[i].value;
             }
         }).
-        error(function(data, status, headers, config) {
+        error(function() {
             alert("ERROR: Could not get translations. Try to reload the page or send a mail to arachne@uni-koeln.de");
         });
 
     return {
-
-        getFallbackLanguage: function(){
-            return fallbackLang;
-        },
-
-        getLanguage: function() {
-            return fallbackLang;
-        },
 
         getTranslation: function(key) {
 
