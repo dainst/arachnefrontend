@@ -2,6 +2,8 @@
 
 [Specification](../spec/controllers_project_spec.js)
 
+[Specification](../spec/controllers_projects_spec.js) of projects overview.
+
 See also: [Localization of user interface elements](feature_localization.md)
 
 ## Background:
