@@ -722,20 +722,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 ])
 
-.controller('ProjectsController', ['$scope', '$http', 'con10tService', 
-	function ($scope, $http, con10tService) {
-
-		$scope.columns = [];
-		
-		con10tService.getProjects().success(function(data){
-			$scope.projects = data[0].children;
-			$scope.columns[0] = $scope.projects.slice(0,3);
-			$scope.columns[1] = $scope.projects.slice(3,5);
-			$scope.columns[2] = $scope.projects.slice(5);
-		});
-
-	}
-])
 
 .controller('AllCategoriesController', ['$rootScope', '$scope', '$http', 'categoryService', '$timeout',
 	function ($rootScope, $scope, $http, categoryService, $timeout) {

@@ -437,9 +437,6 @@ angular.module('arachne.services', [])
 		factory.getTop = function() {
     		return $http.get('con10t/top.json');
 		}
-		factory.getProjects = function() {
-    		return $http.get('con10t/projects.json');
-		}
 		factory.getFront = function() {
     		return $http.get('con10t/front.json');
 		}
