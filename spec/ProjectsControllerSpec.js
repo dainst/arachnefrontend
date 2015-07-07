@@ -7,7 +7,7 @@ describe ('ProjectsController', function() {
 
     var scope = {};
 
-    var prepare = function(primaryLanguage) {
+    var prepare = function(primaryLanguage,prepareJson) {
         module('arachne.controllers',function($provide){
             $provide.value('language',{__:function(){return primaryLanguage;}});
         });
@@ -16,6 +16,8 @@ describe ('ProjectsController', function() {
             $httpBackend=_$httpBackend_;
             $controller('ProjectsController',{'$scope':scope});
         });
+		
+		prepareJson();
     }
 	
 	
@@ -76,7 +78,7 @@ describe ('ProjectsController', function() {
 
 
     it ('should adjust the titles to german',function(){
-        prepare('de'); jsonFull();
+        prepare('de',jsonFull);
 
         // 3 layers is the specified max (see http://dai-softsource.uni-koeln.de/projects/con10t/wiki/Men%C3%BCstruktur).
 
@@ -86,47 +88,47 @@ describe ('ProjectsController', function() {
     });
 	
 	it ('should show an german title (german user)', function(){
-		prepare('de'); jsonFull();
+		prepare('de',jsonFull);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');		
 	});
 	
 	it ('should show an english title (british user)', function(){
-		prepare('en'); jsonFull();
+		prepare('en',jsonFull);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objectdatabase"');		
 	});
 	
 	it ('should show an italian title (italian user)', function(){
-		prepare('it'); jsonFull();
+		prepare('it',jsonFull);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - IT"');		
 	});
 	
 	it ('should show a german title (british user, english tranlslation missing)', function(){
-		prepare('en'); jsonGermanOnly();
+		prepare('en',jsonGermanOnly);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');		
 	});
 	
 	it ('should show an english title (danish user)', function(){
-		prepare('da'); jsonFull();
+		prepare('da',jsonFull);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objectdatabase"');		
 	});
 	
 	it ('should show an english title (danish user, english translation missing)', function(){
-		prepare('da'); jsonGermanOnly();
+		prepare('da',jsonGermanOnly);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');		
 	});
 
 	it ('should show an english title (italian user, italian translation missing)', function(){
-		prepare('it'); jsonGermanEnglish();
+		prepare('it',jsonGermanEnglish);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objectdatabase"');		
 	});
 	
 	it ('should show a german title (italian user, italian translation missing)', function(){
-		prepare('it'); jsonGermanOnly();
+		prepare('it',jsonGermanOnly);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');		
 	});
 	
 	it ('should show an german title (italian user, italian and english translation missing)', function(){
-		prepare('it'); jsonGermanOnly();
+		prepare('it',jsonGermanOnly);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');		
 	});
 });
