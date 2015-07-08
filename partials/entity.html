@@ -112,15 +112,15 @@
 
 		<!-- Karte -->
     	<div ng-if="entity.facet_aufbewahrungsort || entity.facet_fundort">    		
-			<h5 class="text-muted uppercase"><strong>Orte</strong></h5>
+			<h5 class="text-muted uppercase"><strong>{{'entity_places'|transl8}}</strong></h5>
         	<div class="well" entitymap found="entity.facet_fundort" depo="entity.facet_aufbewahrungsort" id="entitymap" style="height:200px;"></div>
     	</div>
 
 		<!-- NOTES -->
 		<div ng-if="user.username">
-			<h5 class="text-muted uppercase"><strong>Kataloge</strong></h5>
+			<h5 class="text-muted uppercase"><strong>{{'entity_catalogs'|transl8}}</strong></h5>
 			<button type="button" class="btn btn-default btn-sm" ng-click="createEntry()">
-				<span class="glyphicon glyphicon-pushpin"></span> Eintrag anlegen
+				<span class="glyphicon glyphicon-pushpin"></span> {{'entity_create_entry'|transl8}}
 			</button>
 		</div>
 		<!-- END NOTES -->
@@ -144,13 +144,13 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-3">
-						<b>{{ 'entityId' | transl8 }}</b><br>{{ entity.entityId }}
+						<b>{{ 'entityId' | transl8 }}:</b><br>{{ entity.entityId }}
 					</div>
 					<div class="col-md-3">
-						<b>Kategorie:</b><br>{{ categories[entity.type]["singular"] }}
+						<b>{{'ui_category'|transl8}}:</b><br>{{ categories[entity.type]["singular"] }}
 					</div>
 					<div class="col-md-3">
-						<b>Seriennummer:</b><br>{{ entity.internalId }}
+						<b>{{'ui_serial_number'|transl8}}:</b><br>{{ entity.internalId }}
 					</div>
 					<div class="col-md-3">
 						
@@ -174,14 +174,14 @@
 				<hr>
 
 				<div ng-if="!entity.sections">
-					<em>keine weiteren Angaben eingetragen</em>
+					<em>{{'entity_no_further_info'|transl8}}</em>
 				</div>
 				<div class="sections"
 						ng-repeat="section in entity.sections"
 						ng-include="'section_template.html'">
 				</div>
 				<div ng-if="entity.additionalContent.ocrText">
-					<div class="page-header"><h4>OCR Text-Analyse</h4></div>
+					<div class="page-header"><h4>OCR Text {{'entity_analysis'|transl8}}</h4></div>
 					<ul>{{entity.additionalContent.ocrText}}</ul>
 				</div>
 
@@ -195,17 +195,17 @@
 					<div class="col-md-12">
 						<h3 ng-if="entity.images.length > 1">
 							<a ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}">
-								Abbildungen <small>({{entity.images.length}})</small>
+								{{'entity_images'|transl8}} <small>({{entity.images.length}})</small>
 							</a>
 						</h3>
-						<h3 ng-if="entity.images.length == 1">Abbildung</h3>
+						<h3 ng-if="entity.images.length == 1">{{'entity_image'|transl8}}</h3>
 						<div ar-imageslider ng-if="entity.images" entity="entity" current-query="currentQuery"></div>
 					</div>
 				</div>
 
 				<div class="row" ng-if="entity.externalLinks">
 					<div class="col-md-12">
-						<h3>Andere Ansichten</h3>
+						<h3>{{'entity_other_views'|transl8}}</h3>
 						<div class="list-group">
 							<a ng-repeat="externalLink in entity.externalLinks"
 									ng-href="{{ externalLink.url }}"
@@ -224,7 +224,7 @@
 						
 						<h3>
 							<a ng-href="search{{contextQuery.toString()}}">
-								Verknüpfte Objekte
+								{{'entity_linked_objects'|transl8}}
 								<small>({{contextSize}})</small>
 							</a>
 						</h3>
