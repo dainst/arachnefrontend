@@ -25,7 +25,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.openLoginModal = function() {
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/loginForm.html',
-				controller: 'LoginCtrl'
+				controller: 'LoginController'
 			});
 			modalInstance.result.then(function(user) {
 				$window.location.reload();
