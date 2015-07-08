@@ -1,8 +1,11 @@
 # Feature: Localization of con10t project pages
 
-[Specification](../spec/controllers_project_spec.js)
+[Specification](../spec/controllers_projects_spec.js)
 
-[Specification](../spec/controllers_projects_spec.js) of projects overview.
+It describes the behaviour of the projects overview page.
+From there, the project title links lead to specific project pages,
+which appear in the same language in which the project title is shown.
+
 
 See also: [Localization of user interface elements](feature_localization.md)
 
@@ -10,6 +13,7 @@ See also: [Localization of user interface elements](feature_localization.md)
 
 ```gherkin
 Given there is a project "abc" with a german translation.
+  And the project is listed on the projects page.
 ```
 
 ## Scenario: German User
@@ -17,7 +21,6 @@ Given there is a project "abc" with a german translation.
 ```gherkin
 Given a user has chosen "de"  as his primary browser language.
   And The "abc" project has an english translation.
-When the user opens the project page for "abc"-project
 Then the title of the project is "Projektseite: abc".
 ```
 
@@ -26,7 +29,6 @@ Then the title of the project is "Projektseite: abc".
 ```gherkin
 Given a user has chosen "en"  as his primary browser language. 
   And The "abc" project has an english translation.
-When the user opens the project page for "abc"-project
 Then the title of the project is "Project page: abc".
 ```
 
@@ -36,7 +38,6 @@ Then the title of the project is "Project page: abc".
 Given a user has chosen "it"  as his primary browser language. 
   And The "abc" project has an english translation.
   And The "abc" project has an italian translation.
-When the user opens the project page for "abc"-project
 Then the title of the project is "pagina di progretto: abc".
 ```
 
@@ -45,23 +46,20 @@ Then the title of the project is "pagina di progretto: abc".
 ```gherkin
 Given a user has chosen "it"  as his primary browser language. 
   And The "abc" project has an english translation.
-When the user opens the project page for "abc"-project
 Then the title of the project is "Project page: abc".
 ```
 
 ## Scenario: Italian User - missing italian and english translation
 
 ```gherkin
-Given a user has chosen "it"  as his primary browser language. 
-When the user opens the project page for "abc"-project
+Given a user has chosen "it"  as his primary browser language.
 Then the title of the project is "Projektseite: abc".
 ```
 
-## Scenario: Non German User - missing english translation
+## Scenario: British - missing english translation
 
 ```gherkin
-Given a user has chosen "da"  as his primary browser language. 
-When the user opens the project page for "abc"-project
+Given a user has chosen "en"  as his primary browser language.
 Then the title of the project is "Projektseite: abc".
 ```
 

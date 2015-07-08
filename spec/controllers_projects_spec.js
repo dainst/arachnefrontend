@@ -101,34 +101,19 @@ describe ('ProjectsController', function() {
 		prepare('it',jsonFull);
 		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - IT"');		
 	});
-	
-	it ('should show a german title (british user, english tranlslation missing)', function(){
-		prepare('en',jsonGermanOnly);
-		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');		
-	});
-	
-	it ('should show an english title (danish user)', function(){
-		prepare('da',jsonFull);
-		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objectdatabase"');		
-	});
-	
-	it ('should show an english title (danish user, english translation missing)', function(){
-		prepare('da',jsonGermanOnly);
-		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');		
-	});
 
-	it ('should show an english title (italian user, italian translation missing)', function(){
-		prepare('it',jsonGermanEnglish);
-		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objectdatabase"');		
-	});
-	
-	it ('should show a german title (italian user, italian translation missing)', function(){
-		prepare('it',jsonGermanOnly);
-		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');		
-	});
-	
-	it ('should show an german title (italian user, italian and english translation missing)', function(){
-		prepare('it',jsonGermanOnly);
-		expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');		
-	});
+	it ('should show an english title (italian user, italian translation missing)', function() {
+        prepare('it', jsonGermanEnglish);
+        expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objectdatabase"');
+    });
+
+    it ('should show a german title (italian user, italian and english translation missing)', function(){
+        prepare('it',jsonGermanOnly);
+        expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');
+    });
+
+    it ('should show a german title (british user, english translation missing)', function(){
+        prepare('en',jsonGermanOnly);
+        expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');
+    });
 });

@@ -45,7 +45,7 @@ angular.module('arachne',[
 		.when('/admin/dataimport', {templateUrl: 'partials/dataimport.html'})
 		.when('/pwdreset', {templateUrl: 'partials/pwdreset.html'})
 		.when('/user/activation/:token', {templateUrl: 'partials/activation.html'})
-		.when('/project/:name', {templateUrl: 'partials/project.html'});
+		.when('/project/:lang/:name', {templateUrl: 'partials/project.html'});
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
 		//dataserviceUri: "http://lakota.archaeologie.uni-koeln.de/data",

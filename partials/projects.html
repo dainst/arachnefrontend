@@ -11,7 +11,7 @@
 		<div ng-repeat="column in columns" class="col-md-4">
 			<div ng-repeat="project in column">
 				<h3 style="margin-top:25px;">
-					<a ng-show="project.id" href="project/{{project.id}}" style="color:black;">
+					<a ng-show="project.id" href="project/{{project.selectedLang}}/{{project.id}}" style="color:black;">
 						{{project.title}}
 					</a>
 					<span ng-hide="project.id">{{project.title}}</span>
@@ -20,7 +20,7 @@
 				<ul class="list-unstyled">
 					<li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;">
 						<span ng-hide="filter && project.titletoLowerCase().indexOf(filter.toLowerCase()) == -1">
-							<a ng-show="project.id" href="project/{{project.id}}">
+							<a ng-show="project.id" href="project/{{project.selectedLang}}/{{project.id}}">
 								{{project.title}}
 							</a>
 							<span ng-hide="project.id">{{project.title}}</span>
@@ -28,7 +28,7 @@
 						<ul ng-show="project.children">
 							<li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;"
 									ng-hide="filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1">
-								<a ng-show="project.id" href="project/{{project.id}}">
+								<a ng-show="project.id" href="project/{{project.selectedLang}}/{{project.id}}">
 									{{project.title}}
 								</a>
 								<span ng-hide="project.id">{{project.title}}</span>
@@ -38,8 +38,5 @@
 				</ul>
 			</div>
 		</div>
-
-		
-
     </div>
 </div>

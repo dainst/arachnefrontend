@@ -785,6 +785,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.catalog = catalog;
 	}
 )
-
-;
+.controller('ProjectController', ['$scope', '$routeParams', 'language', '$http',
+	function ($scope, $routeParams, language, $http) {
+		$scope.templateUrl = 'con10t/'+$routeParams.lang+'/'+$routeParams.name+'.html';
+	}
+]);
 
