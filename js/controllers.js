@@ -789,5 +789,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ($scope, $routeParams, language, $http) {
 		$scope.templateUrl = 'con10t/'+$routeParams.lang+'/'+$routeParams.name+'.html';
 	}
+])
+.controller('StaticController', ['$scope', '$routeParams', 'language',
+	function ($scope, $routeParams, language) {
+		$scope.templateUrl = 'static/de/'+$routeParams.name+'.html';
+	}
 ]);
 
