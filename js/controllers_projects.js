@@ -18,14 +18,13 @@ angular.module('arachne.controllers')
  * @author: Sebastian Cuy
  */
 .controller('ProjectsController', ['$scope', '$http', 'language', 'languageSelection',
-    function ($scope, $http, language, languageSelection ) {
+    function ($scope, $http, language, languageSelection) {
 
 		var PROJECTS_JSON = 'con10t/projects.json';
 
 
 		var adjustTitleForLang = function(lang,project) {
         	project.title=project.title[lang];
-        	project.selectedLang=lang;
 		}
 
         var isTitleAvailableForLang = function (lang,project) {
