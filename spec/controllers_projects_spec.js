@@ -8,11 +8,13 @@ describe ('ProjectsController', function() {
     var scope = {};
 
     var prepare = function(primaryLanguage,prepareJson) {
-        module('arachne.controllers',function($provide){
+        module('arachne.services',function($provide){
             $provide.value('language',{__:function(){return primaryLanguage;}});
         });
+        module('arachne.controllers');
 
-        inject(function($controller,_$httpBackend_,language){
+
+        inject(function($controller,_$httpBackend_){
             $httpBackend=_$httpBackend_;
             $controller('ProjectsController',{'$scope':scope});
         });

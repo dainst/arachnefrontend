@@ -656,4 +656,32 @@ angular.module('arachne.services', [])
 				return lang;
 			}
 		}
-	});
+	})
+
+
+	.factory('languageSelection', function(){
+
+		var GERMAN_LANG = 'de';
+		var ENGLISH_LANG = 'en';
+
+		return {
+			__ : function(lang,isLangApplicable,applyLang,param){
+
+					if (lang==GERMAN_LANG){
+						applyLang(GERMAN_LANG,param)
+						return;
+					}
+
+					if (isLangApplicable(lang,param)){
+						applyLang(lang,param);
+					} else if (lang==ENGLISH_LANG){
+						applyLang(GERMAN_LANG,param);
+					} else if (isLangApplicable(ENGLISH_LANG,param))
+						applyLang(ENGLISH_LANG,param);
+					else
+						applyLang(GERMAN_LANG,param);
+
+				}
+			}
+		}
+	);

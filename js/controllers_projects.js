@@ -17,39 +17,24 @@ angular.module('arachne.controllers')
  * @author: Daniel M. de Oliveira
  * @author: Sebastian Cuy
  */
-.controller('ProjectsController', ['$scope', '$http', 'language',
-    function ($scope, $http, language ) {
+.controller('ProjectsController', ['$scope', '$http', 'language', 'languageSelection',
+    function ($scope, $http, language, languageSelection ) {
 
 		var PROJECTS_JSON = 'con10t/projects.json';
-		var GERMAN_LANG = 'de';
-		var ENGLISH_LANG = 'en';
 
-		var adjustTitle = function(project,lang) {
+
+		var adjustTitleForLang = function(lang,project) {
         	project.title=project.title[lang];
         	project.selectedLang=lang;
 		}
 
-        var reduceTitleBasedOnLang = function(project){
-			
-			if (language.__()==GERMAN_LANG){
-            	adjustTitle(project,GERMAN_LANG)
-				return;
-			}
-			
-			if (project.title[language.__()]){
-            	adjustTitle(project,language.__());
-			} else if (language.__()==ENGLISH_LANG){
-	            adjustTitle(project,GERMAN_LANG);
-            } else if (project.title[ENGLISH_LANG])
-	            adjustTitle(project,ENGLISH_LANG);
-			else 
-				adjustTitle(project,GERMAN_LANG);
-			
+        var isTitleAvailableForLang = function (lang,project) {
+            return project.title[lang];
         }
 
         var recurseProjectsToAdjustTitle = function(project){
 
-            reduceTitleBasedOnLang(project);
+            languageSelection.__ (language.__(),isTitleAvailableForLang,adjustTitleForLang,project);
 
             if (! project.children) return;
             for (var i=0;i<project.children.length;i++) {
