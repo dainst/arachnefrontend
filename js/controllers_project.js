@@ -4,50 +4,48 @@ angular.module('arachne.controllers')
 
 
 /**
+ * Sets the templateUrl for a localized project page.
+ * The version of the project page gets determined
+ * by specification by the user via search param lang 
+ * or otherwise by an automatic language selection rule.
+ * 
+ * $scope
+ *   templateUrl
+ *
  * @author: Sebastian Cuy
  * @author: Daniel M. de Oliveira
  */
 
 .controller('ProjectController', ['$scope', '$routeParams', '$http', '$location', 'language', 'languageSelection',
-    function ($scope, $routeParams, $http, $location, language, languageSelection) {
+function ($scope, $routeParams, $http, $location, language, languageSelection) {
 
-        var PROJECTS_JSON = 'con10t/projects.json';
+	var GERMAN_LANG = 'de';
+	var PROJECTS_JSON = 'con10t/projects.json';
+	var CON10T_URL = 'con10t/{LANG}/{NAME}.html';
+	var con10tUrl = CON10T_URL.replace('{NAME}',$routeParams.name);
 
-        $scope.templateUrl="";
+	var isProjectSiteAvailableForLang = function(lang,project) {
+		var recursive = function(project){
+			if (project.id==$routeParams.name&&project.title[lang]) return true;
+			if (project.children) 
+				for (var i=0; i< project.children.length;i++)
+					if (recursive(project.children[i])) return true;
+			return false;
+		}  
+		if (recursive(project)) return true;
+		return false;
+	}
 
-        var isProjectSiteAvailable = function(lang,projects) {
+	var setTemplateUrlForLang = function(lang,projects) {
+		$scope.templateUrl=con10tUrl.replace('{LANG}',lang);
+	}
 
-            for (var i=0; i< projects.length;i++) {
-                if (projects[i].id==$routeParams.name&&projects[i].title[lang]) return true;
-                if (projects[i].children){
-                    for (var j=0; j< projects[i].children.length;j++) {
-                       if (projects[i].children[j].id==$routeParams.name&&projects[i].children[j].title[lang]) return true;
-                       if (projects[i].children[j].children)
-                           for (var k=0; k< projects[i].children[j].children.length;k++) {
-                               if (projects[i].children[j].children[k].id==$routeParams.name&&projects[i].children[j].children[k].title[lang]) return true;
-                           }
-                    }
-                }
-            }
-            return false;
-        }
-
-
-
-        var setTemplateUrlForLang = function(lang,projects) {
-            $scope.templateUrl='con10t/'+lang+'/'+$routeParams.name+'.html';
-        }
-
-
-
-        if ($location.search()['lang']==undefined){
-            $http.get(PROJECTS_JSON).success(function(data){
-                var projects = data[0].children;
-                languageSelection.__ (language.__(),isProjectSiteAvailable,setTemplateUrlForLang,projects);
-            });
-        }
-        else
-            $scope.templateUrl = 'con10t/'+$location.search()['lang']+'/'+$routeParams.name+'.html';
-
-    }
-]);
+    
+	if ($location.search()['lang']==undefined){
+		$http.get(PROJECTS_JSON).success(function(data){
+			languageSelection.__ (language.__(),isProjectSiteAvailableForLang,setTemplateUrlForLang,data[0]);
+		});
+	}
+	else
+		$scope.templateUrl = con10tUrl.replace('{LANG}',$location.search()['lang']);
+}]);
