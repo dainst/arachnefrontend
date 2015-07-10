@@ -20,8 +20,8 @@ angular.module('arachne.controllers')
  * @author: Daniel M. de Oliveira
  */
 
-.controller('StaticContentController', ['$scope', '$routeParams', '$http', '$location', 'language', 'languageSelection',
-function ($scope, $routeParams, $http, $location, language, languageSelection) {
+.controller('StaticContentController', ['$scope', '$routeParams', '$http', '$location', 'localizedContent',
+function ($scope, $routeParams, $http, $location, localizedContent) {
 
 	var CONTENT_URL = '{LOCATION}/{LANG}/{NAME}.html';
 
@@ -41,49 +41,15 @@ function ($scope, $routeParams, $http, $location, language, languageSelection) {
 
 
 	if ($location.search()['lang']!=undefined){
+
 		$scope.templateUrl = content_url.replace('{LANG}',$location.search()['lang']);
-		return;
+
+	} else {
+
+		$http.get(toc_json).success(function (data) {
+			var lang = localizedContent.determineLanguage(data[0], $routeParams.name);
+			$scope.templateUrl = content_url.replace('{LANG}', lang);
+		});
 	}
 
-
-
-    // If language is not explicitly specified,
-	// auto-determine one.
-
-	/**
-	 * Searches recursively through an object tree and
-	 * determines if there is an item whose title matches
-	 * $routeParams.name and which has a title for lang.
-	 *
-	 * Abstract tree structure:
-	 * item
-	 *   id: the_id,
-	 *   title: ( lang_a : title, lang_b : title ),
-	 *   children: [ item, item, item ]
-	 *
-	 * @param lang
-	 * @param item the root of the object tree.
-	 * @returns true if there is at least one item
-	 *   meeting the above mentioned condition. false
-	 *   otherwise.
-	 */
-	var isItemAvailableForLang = function(lang,item) {
-		var recursive = function(item){
-			if (item.id==$routeParams.name&&item.title[lang]) return true;
-			if (item.children)
-				for (var i=0; i< item.children.length;i++)
-					if (recursive(item.children[i])) return true;
-			return false;
-		}
-		if (recursive(item)) return true;
-		return false;
-	}
-
-	var setTemplateUrlForLang = function(lang) {
-		$scope.templateUrl=content_url.replace('{LANG}',lang);
-	}
-
-	$http.get(toc_json).success(function(data){
-		languageSelection.__ (language.__(),isItemAvailableForLang,setTemplateUrlForLang,data[0]);
-	});
 }]);

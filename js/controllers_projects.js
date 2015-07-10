@@ -14,8 +14,8 @@ angular.module('arachne.controllers')
  * @author: Daniel M. de Oliveira
  * @author: Sebastian Cuy
  */
-.controller('ProjectsController', ['$scope', '$http', 'languageReduction',
-	function ($scope, $http, languageReduction) {
+.controller('ProjectsController', ['$scope', '$http', 'localizedContent',
+	function ($scope, $http, localizedContent) {
 
 		var PROJECTS_JSON = 'con10t/projects.json';
 
@@ -28,7 +28,7 @@ angular.module('arachne.controllers')
 		}
 
 		$http.get(PROJECTS_JSON).success(function(data){
-			languageReduction.__(data[0]);
+			localizedContent.reduceTitles(data[0]);
 			projects = data[0].children;
 			sliceColumns();
 		});

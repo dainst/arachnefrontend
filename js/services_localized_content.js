@@ -26,12 +26,12 @@
  */
 angular.module('arachne.services')
 
-.factory('languageReduction',
+.factory('localizedContent',
 	['language', 'languageSelection', function(language, languageSelection) {
 
 	return {
 
-		__ : function(node){
+		reduceTitles : function(node){
 
 			var adjustTitleForLang = function(lang,node) {
 				if (node.title)
@@ -54,6 +54,47 @@ angular.module('arachne.services')
 			}
 
 			recurseProjectsToAdjustTitle(node);
+		},
+
+		determineLanguage : function (node,title) {
+
+			var return_language = '';
+
+			/**
+			 * Searches recursively through an object tree and
+			 * determines if there is an item whose title matches
+			 * $routeParams.name and which has a title for lang.
+			 *
+			 * Abstract tree structure:
+			 * item
+			 *   id: the_id,
+			 *   title: ( lang_a : title, lang_b : title ),
+			 *   children: [ item, item, item ]
+			 *
+			 * @param lang
+			 * @param item the root of the object tree.
+			 * @returns true if there is at least one item
+			 *   meeting the above mentioned condition. false
+			 *   otherwise.
+			 */
+			var isItemAvailableForLang = function(lang,item) {
+				var recursive = function(item){
+					if (item.id==title&&item.title[lang]) return true;
+					if (item.children)
+						for (var i=0; i< item.children.length;i++)
+							if (recursive(item.children[i])) return true;
+					return false;
+				}
+				if (recursive(item)) return true;
+				return false;
+			}
+
+			var setTemplateUrlForLang = function(lang) {
+				return_language = lang;
+			}
+
+			languageSelection.__ (language.__(),isItemAvailableForLang,setTemplateUrlForLang,node);
+			return return_language;
 		}
 	};
 }]);
