@@ -7,9 +7,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ($scope, con10tService){
 		
 		$scope.topMenu = null;
-		con10tService.getTop().success(function(data){
+		/*con10tService.getTop().success(function(data){
 			$scope.topMenu = data;
-		});
+		});*/
 	}
 ])
 .controller('MenuController',	[ '$scope', '$modal', 'authService', '$location', '$window',

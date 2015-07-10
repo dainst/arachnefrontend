@@ -1,0 +1,23 @@
+[
+  {
+    "id": "Overview",
+    "title": {
+      "de": "Inhalte"
+    }
+    ,"children": [
+
+	{
+		"id": "ueber",
+		"title": {
+			"de": "Über iDAI.images/Arachne"
+		}
+	},
+	{
+		"id": "faq",
+		"title": {
+			"de": "Dokumentation/FAQ"
+		}
+	}
+  ]
+
+}]
