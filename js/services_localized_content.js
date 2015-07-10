@@ -19,7 +19,7 @@ angular.module('arachne.services')
 	return {
 
 		/**
-	     * Walks trough all elements of the tree
+		 * Walks trough all elements of the tree
 		 * and adjusts the titles of nodes to only appear
 		 * in one language. 
 		 *
@@ -85,26 +85,26 @@ angular.module('arachne.services')
 		 */
 		determineLanguage : function (node,title) {
 
-			var return_language = '';
+			var ret_language = '';
 
 			/**
 			 * Searches recursively through an object tree and
-			 * determines if there is an item whose title matches
-			 * $routeParams.name and which has a title for lang.
+			 * determines if there is a node whose title matches
+			 * *title* and which has a title for lang.
 			 *
 			 * Abstract tree structure:
-			 * item
+			 * node
 			 *   id: the_id,
 			 *   title: ( lang_a : title, lang_b : title ),
-			 *   children: [ item, item, item ]
+			 *   children: [ node, node, node ]
 			 *
 			 * @param lang
-			 * @param item the root of the object tree.
+			 * @param node the root of the object tree.
 			 * @returns true if there is at least one item
 			 *   meeting the above mentioned condition. false
 			 *   otherwise.
 			 */
-			var isItemAvailableForLang = function(lang,node) {
+			var isNodeAvailableForLang = function(lang,node) {
 				var recursive = function(node){
 					if (node.id==title&&node.title[lang]) return true;
 					if (node.children)
@@ -117,11 +117,11 @@ angular.module('arachne.services')
 			}
 
 			var setLang = function(lang) {
-				return_language = lang;
+				ret_language = lang;
 			}
 
-			languageSelection.__ (language.__(),isItemAvailableForLang,setLang,node);
-			return return_language;
+			languageSelection.__ (language.__(),isNodeAvailableForLang,setLang,node);
+			return ret_language;
 		}
 	};
 }]);
