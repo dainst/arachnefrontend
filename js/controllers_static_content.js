@@ -24,7 +24,7 @@ angular.module('arachne.controllers')
 function ($scope, $routeParams, $http, $location, localizedContent) {
 
 	var CONTENT_URL = '{LOCATION}/{LANG}/{NAME}.html';
-    var CONTENT_TOC = '{LOCATION}/projects.json'
+	var CONTENT_TOC = '{LOCATION}/projects.json'
 
 	// ## ROUTE TO CONTENT MAPPING ##
 
