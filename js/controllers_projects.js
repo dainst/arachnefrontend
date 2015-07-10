@@ -18,43 +18,43 @@ angular.module('arachne.controllers')
  * @author: Sebastian Cuy
  */
 .controller('ProjectsController', ['$scope', '$http', 'language', 'languageSelection',
-    function ($scope, $http, language, languageSelection) {
+	function ($scope, $http, language, languageSelection) {
 
 		var PROJECTS_JSON = 'con10t/projects.json';
 
 
 		var adjustTitleForLang = function(lang,project) {
-        	project.title=project.title[lang];
+			project.title=project.title[lang];
 		}
 
-        var isTitleAvailableForLang = function (lang,project) {
-            return project.title[lang];
-        }
+		var isTitleAvailableForLang = function (lang,project) {
+			return project.title[lang];
+		}
 
-        var recurseProjectsToAdjustTitle = function(project){
+		var recurseProjectsToAdjustTitle = function(project){
 
-            languageSelection.__ (language.__(),isTitleAvailableForLang,adjustTitleForLang,project);
+			languageSelection.__ (language.__(),isTitleAvailableForLang,adjustTitleForLang,project);
 
-            if (! project.children) return;
-            for (var i=0;i<project.children.length;i++) {
-                recurseProjectsToAdjustTitle(project.children[i]);
-            }
-        }
+			if (! project.children) return;
+			for (var i=0;i<project.children.length;i++) {
+				recurseProjectsToAdjustTitle(project.children[i]);
+			}
+		}
 
-        $scope.columns = [];
-        var sliceColumns = function(){
-            $scope.columns[0] = $scope.projects.slice(0,3);
-            $scope.columns[1] = $scope.projects.slice(3,5);
-            $scope.columns[2] = $scope.projects.slice(5);
-        }
+		$scope.columns = [];
+		var sliceColumns = function(){
+			$scope.columns[0] = $scope.projects.slice(0,3);
+			$scope.columns[1] = $scope.projects.slice(3,5);
+			$scope.columns[2] = $scope.projects.slice(5);
+		}
 
-        $http.get(PROJECTS_JSON).success(function(data){
-            $scope.projects = data[0].children;
+		$http.get(PROJECTS_JSON).success(function(data){
+			$scope.projects = data[0].children;
 
-            for (var i=0;i<$scope.projects.length;i++)
-                recurseProjectsToAdjustTitle($scope.projects[i]);
+			for (var i=0;i<$scope.projects.length;i++)
+				recurseProjectsToAdjustTitle($scope.projects[i]);
 
-            sliceColumns();
-        });
-    }
+			sliceColumns();
+		});
+	}
 ]);

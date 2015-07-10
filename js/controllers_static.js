@@ -8,7 +8,7 @@ angular.module('arachne.controllers')
  */
 
 .controller('StaticController', ['$scope', '$routeParams', 'language',
-    function ($scope, $routeParams, language) {
-        $scope.templateUrl = 'static/de/'+$routeParams.name+'.html';
-    }
+	function ($scope, $routeParams, language) {
+		$scope.templateUrl = 'static/de/'+$routeParams.name+'.html';
+	}
 ]);

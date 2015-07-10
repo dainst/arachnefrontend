@@ -37,11 +37,11 @@ describe ('ProjectController', function() {
 
 	var setUpSimpleProjectJson = function(projectName,projectLang) {
 		$httpBackend.expectGET(PROJECTS_JSON).respond(200,'[{\
-            "id": "","children": [{\
-                "id": "'+projectName+'",\
-                "title": {\
-                    "'+projectLang+'": "DAI - Objectdatabase"\
-                }}]}]');
+			"id": "","children": [{\
+				"id": "'+projectName+'",\
+				"title": {\
+					"'+projectLang+'": "DAI - Objectdatabase"\
+				}}]}]');
 		$httpBackend.flush();
 	}
 
@@ -71,18 +71,18 @@ describe ('ProjectController', function() {
 	it ('should search for a matching project translation recursively',function(){
 		prepare('it',{});
 		$httpBackend.expectGET(PROJECTS_JSON).respond(200,'[{\
-            "id": "",\
-            "children": [\
-            {\
-                "id": "1",\
-                "children": [\
-                    {\
-                        "id": "fotorom",\
-                        "children" : [ {\
-                            "id" : "project_title", \
-                            "title" : { \
-                                "it" : "dede"\
-                            }}]}]}]}]');
+			"id": "",\
+			"children": [\
+			{\
+				"id": "1",\
+				"children": [\
+					{\
+						"id": "fotorom",\
+						"children" : [ {\
+							"id" : "project_title", \
+							"title" : { \
+								"it" : "dede"\
+							}}]}]}]}]');
 		$httpBackend.flush();
 		expect(scope.templateUrl).toBe(TEMPLATE_URL.replace('{LANG}','it'));
 	});

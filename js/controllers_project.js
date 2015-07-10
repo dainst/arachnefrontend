@@ -40,7 +40,7 @@ function ($scope, $routeParams, $http, $location, language, languageSelection) {
 		$scope.templateUrl=con10tUrl.replace('{LANG}',lang);
 	}
 
-    
+
 	if ($location.search()['lang']==undefined){
 		$http.get(PROJECTS_JSON).success(function(data){
 			languageSelection.__ (language.__(),isProjectSiteAvailableForLang,setTemplateUrlForLang,data[0]);
