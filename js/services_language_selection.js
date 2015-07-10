@@ -13,36 +13,36 @@ angular.module('arachne.services')
  */
 .factory('languageSelection', function(){
 
-    var GERMAN_LANG = 'de';
-    var ENGLISH_LANG = 'en';
+	var GERMAN_LANG = 'de';
+	var ENGLISH_LANG = 'en';
 
-    return {
+	return {
 
-        /**
-         * The language selection rule.
-         *
-         * @param prefered_lang - the language initially prefered by the client
-         * @param isLangApplicable - callback function(lang,param) for testing
-         *   if lang is applicable in the clients context
-         * @param applyLang - callback function(lang_,param) for applying
-         *   lang in the clients context
-         * @param param - used as second param for the callbacks
-         */
-        __ : function(prefered_lang,isLangApplicable,applyLang,param){
+		/**
+		 * The language selection rule.
+		 *
+		 * @param prefered_lang - the language initially prefered by the client
+		 * @param isLangApplicable - callback function(lang,param) for testing
+		 *   if lang is applicable in the clients context
+		 * @param applyLang - callback function(lang_,param) for applying
+		 *   lang in the clients context
+		 * @param param - used as second param for the callbacks
+		 */
+		__ : function(prefered_lang,isLangApplicable,applyLang,param){
 
-            if (prefered_lang==GERMAN_LANG){
-                applyLang(GERMAN_LANG,param)
-                return;
-            }
+			if (prefered_lang==GERMAN_LANG){
+				applyLang(GERMAN_LANG,param)
+				return;
+			}
 
-            if (isLangApplicable(prefered_lang,param)){
-                applyLang(prefered_lang,param);
-            } else if (prefered_lang==ENGLISH_LANG){
-                applyLang(GERMAN_LANG,param);
-            } else if (isLangApplicable(ENGLISH_LANG,param))
-                applyLang(ENGLISH_LANG,param);
-            else
-                applyLang(GERMAN_LANG,param);
-        }
-    }
+			if (isLangApplicable(prefered_lang,param)){
+				applyLang(prefered_lang,param);
+			} else if (prefered_lang==ENGLISH_LANG){
+				applyLang(GERMAN_LANG,param);
+			} else if (isLangApplicable(ENGLISH_LANG,param))
+				applyLang(ENGLISH_LANG,param);
+			else
+				applyLang(GERMAN_LANG,param);
+		}
+	}
 });

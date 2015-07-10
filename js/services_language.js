@@ -11,16 +11,16 @@ angular.module('arachne.services')
  */
 .factory('language', function(){
 
-    var lang=navigator.languages ?
-        navigator.languages[0] :
-        (navigator.language || navigator.userLanguage);
+	var lang=navigator.languages ?
+		navigator.languages[0] :
+		(navigator.language || navigator.userLanguage);
 
-    if (lang.substring(0,2)=='de') lang='de';
-    if (lang.substring(0,2)=='en') lang='en';
+	if (lang.substring(0,2)=='de') lang='de';
+	if (lang.substring(0,2)=='en') lang='en';
 
-    return {
-        __ : function(){
-            return lang;
-        }
-    }
+	return {
+		__ : function(){
+			return lang;
+		}
+	}
 });
