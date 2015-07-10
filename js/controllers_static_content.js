@@ -24,20 +24,19 @@ angular.module('arachne.controllers')
 function ($scope, $routeParams, $http, $location, localizedContent) {
 
 	var CONTENT_URL = '{LOCATION}/{LANG}/{NAME}.html';
+    var CONTENT_TOC = '{LOCATION}/projects.json'
 
 	// ## ROUTE TO CONTENT MAPPING ##
 
-	var toc_json = ''; // used for language auto-selection.
-	var content_url = '';
+	var contentDir = '';
+	if ($location.path().indexOf('/info')==0)
+		contentDir = 'static';
+	else
+		contentDir = 'con10t';
 
-	if ($location.path().indexOf('/info')==0){
-		toc_json = 'static/top.json';
-		content_url = CONTENT_URL.replace('{LOCATION}','static');
-	}else{
-		toc_json = 'con10t/projects.json';
-		content_url = CONTENT_URL.replace('{LOCATION}','con10t');
-	}
-	content_url = content_url.replace('{NAME}',$routeParams.name);
+	var content_url = CONTENT_URL.
+		replace('{NAME}',$routeParams.name).
+		replace('{LOCATION}',contentDir);
 
 
 	if ($location.search()['lang']!=undefined){
@@ -46,7 +45,7 @@ function ($scope, $routeParams, $http, $location, localizedContent) {
 
 	} else {
 
-		$http.get(toc_json).success(function (data) {
+		$http.get(CONTENT_TOC.replace('{LOCATION}',contentDir)).success(function (data) {
 			var lang = localizedContent.determineLanguage(data[0], $routeParams.name);
 			$scope.templateUrl = content_url.replace('{LANG}', lang);
 		});

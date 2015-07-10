@@ -90,7 +90,7 @@ describe ('StaticContentController', function() {
 
 	it ('should serve content from the static folder for the info route',function(){
 		prepare('/info','title','it',{});
-		setUpSimpleProjectJson('static/top.json','title','it');
+		setUpSimpleProjectJson('static/projects.json','title','it');
 		expect(scope.templateUrl).toBe('static/it/title.html');
 	});
 });
