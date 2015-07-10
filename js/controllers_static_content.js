@@ -26,8 +26,7 @@ function ($scope, $routeParams, $http, $location, localizedContent) {
 	var CONTENT_URL = '{LOCATION}/{LANG}/{NAME}.html';
 	var CONTENT_TOC = '{LOCATION}/projects.json'
 
-	// ## ROUTE TO CONTENT MAPPING ##
-
+	// Map route to contentDir
 	var contentDir = '';
 	if ($location.path().indexOf('/info')==0)
 		contentDir = 'static';
@@ -50,5 +49,4 @@ function ($scope, $routeParams, $http, $location, localizedContent) {
 			$scope.templateUrl = content_url.replace('{LANG}', lang);
 		});
 	}
-
 }]);
