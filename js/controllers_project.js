@@ -19,9 +19,9 @@ angular.module('arachne.controllers')
 .controller('ProjectController', ['$scope', '$routeParams', '$http', '$location', 'language', 'languageSelection',
 function ($scope, $routeParams, $http, $location, language, languageSelection) {
 
-	var GERMAN_LANG = 'de';
 	var PROJECTS_JSON = 'con10t/projects.json';
 	var CON10T_URL = 'con10t/{LANG}/{NAME}.html';
+
 	var con10tUrl = CON10T_URL.replace('{NAME}',$routeParams.name);
 
 	var isProjectSiteAvailableForLang = function(lang,project) {
