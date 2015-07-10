@@ -17,7 +17,7 @@ angular.module('arachne.services')
 
 
 	var translationLang=ENGLISH_LANG;
-	if (primaryBrowserLanguage.__()=='de') translationLang='de';
+	if (primaryBrowserLanguage.browserPrimaryLanguage()=='de') translationLang='de';
 	var transl8Url = TRANSL8_JSONP_URL.replace('{LANG}',translationLang);
 
 

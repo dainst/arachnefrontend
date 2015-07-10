@@ -14,7 +14,7 @@
 angular.module('arachne.services')
 
 .factory('localizedContent',
-	['language', 'languageSelection', function(language, languageSelection) {
+	['languageSelection', function(languageSelection) {
 
 	return {
 
@@ -25,9 +25,7 @@ angular.module('arachne.services')
 		 *
 		 * The choice is beeing made for each node independently 
 		 * of the other nodes via the language selection 
-		 * rule, taking into consideration the 
-		 * users currently selected primary
-		 * browser language and the availability of the 
+		 * rule, taking into consideration the availability of the 
 		 * languages of the node.
 		 *
 		 * Tree structure before:
@@ -58,7 +56,7 @@ angular.module('arachne.services')
 
 			var recurseProjectsToAdjustTitle = function(node){
 
-				languageSelection.__ (language.__(),isTitleAvailableForLang,adjustTitleForLang,node);
+				languageSelection.__(isTitleAvailableForLang,adjustTitleForLang,node);
 
 				if (! node.children) return;
 				for (var i=0;i<node.children.length;i++) {
@@ -75,9 +73,7 @@ angular.module('arachne.services')
 		 * a given title is applicable. 
 		 * 
 		 * The choice is beeing made via the language selection 
-		 * rule, taking into consideration the 
-		 * users currently selected primary
-		 * browser language and the availability of the 
+		 * rule, taking into consideration the availability of the 
 		 * languages of the node.
 		 *
 		 * @param node
@@ -120,7 +116,7 @@ angular.module('arachne.services')
 				ret_language = lang;
 			}
 
-			languageSelection.__ (language.__(),isNodeAvailableForLang,setLang,node);
+			languageSelection.__ (isNodeAvailableForLang,setLang,node);
 			return ret_language;
 		}
 	};

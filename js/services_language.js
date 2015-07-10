@@ -19,7 +19,7 @@ angular.module('arachne.services')
 	if (lang.substring(0,2)=='en') lang='en';
 
 	return {
-		__ : function(){
+		browserPrimaryLanguage : function(){
 			return lang;
 		}
 	}

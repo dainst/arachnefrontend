@@ -9,7 +9,7 @@ describe ('ProjectsController', function() {
 
 	var prepare = function(primaryLanguage,prepareJson) {
 		module('arachne.services',function($provide){
-			$provide.value('language',{__:function(){return primaryLanguage;}});
+			$provide.value('language',{browserPrimaryLanguage:function(){return primaryLanguage;}});
 		});
 		module('arachne.controllers');
 

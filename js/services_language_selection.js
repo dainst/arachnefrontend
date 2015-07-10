@@ -11,7 +11,7 @@ angular.module('arachne.services')
  *
  * @author: Daniel M. de Oliveira
  */
-.factory('languageSelection', function(){
+.factory('languageSelection', ['language', function(language) {
 
 	var GERMAN_LANG = 'de';
 	var ENGLISH_LANG = 'en';
@@ -28,16 +28,16 @@ angular.module('arachne.services')
 		 *   lang in the clients context
 		 * @param param - used as second param for the callbacks
 		 */
-		__ : function(prefered_lang,isLangApplicable,applyLang,param){
+		__ : function(isLangApplicable,applyLang,param){
 
-			if (prefered_lang==GERMAN_LANG){
+			if (language.browserPrimaryLanguage()==GERMAN_LANG){
 				applyLang(GERMAN_LANG,param)
 				return;
 			}
 
-			if (isLangApplicable(prefered_lang,param)){
-				applyLang(prefered_lang,param);
-			} else if (prefered_lang==ENGLISH_LANG){
+			if (isLangApplicable(language.browserPrimaryLanguage(),param)){
+				applyLang(language.browserPrimaryLanguage(),param);
+			} else if (language.browserPrimaryLanguage()==ENGLISH_LANG){
 				applyLang(GERMAN_LANG,param);
 			} else if (isLangApplicable(ENGLISH_LANG,param))
 				applyLang(ENGLISH_LANG,param);
@@ -45,4 +45,4 @@ angular.module('arachne.services')
 				applyLang(GERMAN_LANG,param);
 		}
 	}
-});
+}]);

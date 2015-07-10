@@ -29,7 +29,7 @@ describe('transl8', function (){
 
 		module('arachne.services',function($provide) {
 				$provide.value('language', {
-					__: function () {
+					browserPrimaryLanguage: function () {
 						return primaryLang;
 					}
 				});
