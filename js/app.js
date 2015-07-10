@@ -40,8 +40,8 @@ angular.module('arachne',[
 		.when('/admin/dataimport', {templateUrl: 'partials/dataimport.html'})
 		.when('/pwdreset', {templateUrl: 'partials/pwdreset.html'})
 		.when('/user/activation/:token', {templateUrl: 'partials/activation.html'})
-		.when('/project/:name', {templateUrl: 'partials/static.html'})
-		.when('/info/:name', {templateUrl: 'partials/static.html'}); // Named it info, not static, to sound not too technical.
+		.when('/project/:title', {templateUrl: 'partials/static.html'})
+		.when('/info/:title', {templateUrl: 'partials/static.html'}); // Named it info, not static, to sound not too technical.
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
 		//dataserviceUri: "http://lakota.archaeologie.uni-koeln.de/data",

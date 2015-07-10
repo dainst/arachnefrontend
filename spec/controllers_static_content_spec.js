@@ -20,7 +20,7 @@ describe ('StaticContentController', function() {
 				}
 			});
 			$provide.constant('$routeParams', {
-				"name" : title
+				"title" : title
 			});
 			$provide.value('language', {
 				browserPrimaryLanguage: function () {

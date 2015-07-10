@@ -34,7 +34,7 @@ function ($scope, $routeParams, $http, $location, localizedContent) {
 		contentDir = 'con10t';
 
 	var content_url = CONTENT_URL.
-		replace('{NAME}',$routeParams.name).
+		replace('{NAME}',$routeParams.title).
 		replace('{LOCATION}',contentDir);
 
 
@@ -45,7 +45,7 @@ function ($scope, $routeParams, $http, $location, localizedContent) {
 	} else {
 
 		$http.get(CONTENT_TOC.replace('{LOCATION}',contentDir)).success(function (data) {
-			var lang = localizedContent.determineLanguage(data[0], $routeParams.name);
+			var lang = localizedContent.determineLanguage(data[0], $routeParams.title);
 			$scope.templateUrl = content_url.replace('{LANG}', lang);
 		});
 	}
