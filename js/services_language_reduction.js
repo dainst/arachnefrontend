@@ -4,7 +4,7 @@
  * Walks trough all elements of an JSON object tree
  * and adjusts the titles of nodes to only appear
  * in one language. The language
- * for each items's title gets chosen by considering
+ * for each item's title gets chosen by considering
  * the users primary selected browser language and
  * the translations available for each title.
  *
@@ -38,9 +38,9 @@ angular.module('arachne.services')
 					node.title=node.title[lang];
 			}
 
-			var isTitleAvailableForLang = function (lang,project) {
-				if (!project.title) return false;
-				return project.title[lang];
+			var isTitleAvailableForLang = function (lang,item) {
+				if (!item.title) return false;
+				return item.title[lang];
 			}
 
 			var recurseProjectsToAdjustTitle = function(node){
