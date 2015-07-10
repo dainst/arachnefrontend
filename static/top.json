@@ -17,7 +17,12 @@
 		"title": {
 			"de": "Dokumentation/FAQ"
 		}
-	}
+	},
+    {
+      "id": "imprint",
+      "title": {
+        "en": "Über iDAI.images/Arachne"
+      }
+    }
   ]
-
 }]
