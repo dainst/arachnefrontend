@@ -1,27 +1,14 @@
 'use strict';
 
 /**
- * Walks trough all elements of an JSON object tree
- * and adjusts the titles of nodes to only appear
- * in one language. The language
- * for each item's title gets chosen by considering
- * the users primary selected browser language and
- * the translations available for each title.
- *
- * Abstract tree structure before:
- *
- * item
+ * Perform localization related tasks on 
+ * tree structure exemplified by:
+ * 
+ * node
  *   id: the_id,
  *   title: ( lang_a : title_lang_a, lang_b : title_lang_b ),
- *   children: [ item, item, item ]
- *
- * Abstract tree structure after:
- *
- * item
- *   id: the_id,
- *   title: title_lang_b,
- *   children: [ item, item, item ]
- *
+ *   children: [ node, node, node ]
+ * 
  * @author: Daniel M. de Oliveira
  */
 angular.module('arachne.services')
@@ -31,6 +18,32 @@ angular.module('arachne.services')
 
 	return {
 
+		/**
+	     * Walks trough all elements of the tree
+		 * and adjusts the titles of nodes to only appear
+		 * in one language. 
+		 *
+		 * The choice is beeing made for each node independently 
+		 * of the other nodes via the language selection 
+		 * rule, taking into consideration the 
+		 * users currently selected primary
+		 * browser language and the availability of the 
+		 * languages of the node.
+		 *
+		 * Tree structure before:
+		 *
+		 * node
+		 *   id: the_id,
+		 *   title: ( lang_a : title_lang_a, lang_b : title_lang_b ),
+		 *   children: [ node, node, node ]
+		 *
+		 * Tree structure after:
+		 *
+		 * node
+		 *   id: the_id,
+		 *   title: title_lang_b,
+		 *   children: [ node, node, node ]
+		 */
 		reduceTitles : function(node){
 
 			var adjustTitleForLang = function(lang,node) {
@@ -38,9 +51,9 @@ angular.module('arachne.services')
 					node.title=node.title[lang];
 			}
 
-			var isTitleAvailableForLang = function (lang,item) {
-				if (!item.title) return false;
-				return item.title[lang];
+			var isTitleAvailableForLang = function (lang,node) {
+				if (!node.title) return false;
+				return node.title[lang];
 			}
 
 			var recurseProjectsToAdjustTitle = function(node){
@@ -56,6 +69,20 @@ angular.module('arachne.services')
 			recurseProjectsToAdjustTitle(node);
 		},
 
+		/**
+		 * Walks through all elements of the tree and 
+		 * determines which language for a node of 
+		 * a given title is applicable. 
+		 * 
+		 * The choice is beeing made via the language selection 
+		 * rule, taking into consideration the 
+		 * users currently selected primary
+		 * browser language and the availability of the 
+		 * languages of the node.
+		 *
+		 * @param node
+		 * @param title
+		 */
 		determineLanguage : function (node,title) {
 
 			var return_language = '';
@@ -77,23 +104,23 @@ angular.module('arachne.services')
 			 *   meeting the above mentioned condition. false
 			 *   otherwise.
 			 */
-			var isItemAvailableForLang = function(lang,item) {
-				var recursive = function(item){
-					if (item.id==title&&item.title[lang]) return true;
-					if (item.children)
-						for (var i=0; i< item.children.length;i++)
-							if (recursive(item.children[i])) return true;
+			var isItemAvailableForLang = function(lang,node) {
+				var recursive = function(node){
+					if (node.id==title&&node.title[lang]) return true;
+					if (node.children)
+						for (var i=0; i< node.children.length;i++)
+							if (recursive(node.children[i])) return true;
 					return false;
 				}
-				if (recursive(item)) return true;
+				if (recursive(node)) return true;
 				return false;
 			}
 
-			var setTemplateUrlForLang = function(lang) {
+			var setLang = function(lang) {
 				return_language = lang;
 			}
 
-			languageSelection.__ (language.__(),isItemAvailableForLang,setTemplateUrlForLang,node);
+			languageSelection.__ (language.__(),isItemAvailableForLang,setLang,node);
 			return return_language;
 		}
 	};
