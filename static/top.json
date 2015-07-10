@@ -5,19 +5,38 @@
       "de": "Inhalte"
     }
     ,"children": [
+    {
+      "id": "top",
+      "children":[
+      {
+        "id": "order",
+        "title": {
+          "en": "Über iDAI.images/Arachne"
+        }
+      },
+      {
+        "id": "faq",
+        "title": {
+          "de": "Dokumentation/FAQ"
+        }
+      }]
+    },
+    {
+      "id": "bottom",
+      "children": [
+      {
+        "id": "imprint",
+        "title": {
+          "en": "Über iDAI.images/Arachne"
+        }
+      },
+      {
+        "id": "privacy",
+        "title": {
+          "de": "Über iDAI.images/Arachne"
+        }
+      }]
+    }
 
-	{
-		"id": "ueber",
-		"title": {
-			"de": "Über iDAI.images/Arachne"
-		}
-	},
-	{
-		"id": "faq",
-		"title": {
-			"de": "Dokumentation/FAQ"
-		}
-	}
   ]
-
 }]
