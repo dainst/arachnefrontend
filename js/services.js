@@ -635,5 +635,4 @@ angular.module('arachne.services', [])
 
 		return MapConfig;
 
-	}
-);
+	});
