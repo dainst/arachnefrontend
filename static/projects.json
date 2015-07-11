@@ -8,18 +8,36 @@
     {
       "id": "top",
       "children":[
+	      {
+	        "id": "faq",
+	        "title": {
+	          "de": "FAQ"
+	        }
+	      },
+	      {
+	        "id": "apis",
+	        "title": {
+	          "de": "APIs",
+			  "en": "APIs"
+	        }
+	      },
       {
         "id": "order",
         "title": {
-          "en": "Über iDAI.images/Arachne"
+		  "en": "License / Order",
+          "de": "Lizenz / Bestellungen"
         }
       },
       {
-        "id": "faq",
+        "id": "about",
         "title": {
-          "de": "Dokumentation/FAQ"
+          "de": "Über Arachne"
         }
-      }]
+      }
+	  
+	  
+	  
+      ]
     },
     {
       "id": "bottom",
