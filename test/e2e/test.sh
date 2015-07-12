@@ -84,7 +84,7 @@ then
   exit
 fi
 
-karma start config/karma.conf.js
+karma start test/karma.conf.js
 if [ $? -ne 0 ]
 then
   echo Unit tests not passed. Will not continue.

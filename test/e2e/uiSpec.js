@@ -2,7 +2,7 @@
  * Author: Daniel M. de Oliveira
  */
 
-var poster = require('../lib/poster.js');
+var poster = require('../../test/e2e/poster.js');
 
 describe('/admin/dataimport',function(){
 	

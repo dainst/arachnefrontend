@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 		},
 		protractor: {
 			options: {
-				configFile: "config/protractor.conf.js",
+				configFile: "test/e2e/protractor.conf.js",
 			},
 			e2e: {
 				options: {
