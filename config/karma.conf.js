@@ -27,7 +27,7 @@ module.exports = function(config) {
       'lib/ui-bootstrap-tpls-0.11.2.min.js',
       'js/*.js',
       'spec/*_spec.js',
-	  'partials/directives/ar-navbar.html'
+	  'partials/directives/*.html'
     ],
 
 

@@ -40,21 +40,21 @@
       ]
     },
     {
-      "id": "bottom",
+      "id": "footer",
       "children": [
       {
         "id": "imprint",
         "title": {
-          "en": "Über iDAI.images/Arachne"
+		  "de": "Impressum",
+          "en": "Imprint"
         }
       },
       {
         "id": "privacy",
         "title": {
-          "de": "Über iDAI.images/Arachne"
+          "de": "Datenschutz"
         }
       }]
     }
-
   ]
 }]

@@ -1,7 +1,7 @@
 /**
  * Author: Daniel M. de Oliveira
  */
-describe ('Ar-Navbar', function() {
+describe ('arFooter', function() {
 
 	var scope = {};
 
@@ -11,11 +11,6 @@ describe ('Ar-Navbar', function() {
 			$provide.value('language', {
 				browserPrimaryLanguage: function () {
 					return primaryLanguage;
-				}
-			});
-			$provide.value('authService', {
-				getUser: function () {
-					return 'testUser';
 				}
 			});
 			$provide.value('transl8', {
@@ -34,27 +29,28 @@ describe ('Ar-Navbar', function() {
 		
 		inject(function($rootScope, $compile, $templateCache,$httpBackend) {
 			
-			template = $templateCache.get('partials/directives/ar-navbar.html');
-			$templateCache.put('app/partials/directives/ar-navbar.html',template);
+			template = $templateCache.get('partials/directives/ar-footer.html');
+			$templateCache.put('app/partials/directives/ar-footer.html',template);
 			
 			$httpBackend.expectGET('static/projects.json').respond(200,'[{\
 				"id": "",\
 				"children": [\
+				{"id":"header"},\
 				{\
-					"id": "header",\
+					"id": "footer",\
 					"children": [\
 						{\
-							"id": "about",\
+							"id": "imprint",\
 							"title": {\
-								"de": "Über Arachne",\
-								"en": "About Arachne"\
+								"de": "Impressum",\
+								"en": "Imprint"\
 							}}]}]}]');
 			
 			
 		    scope = $rootScope.$new();
 			$templateCache.put();
 		    element =
-		        '<ar-navbar content-dir="static"></ar-navbar>';
+		        '<ar-footer content-dir="static"></ar-footer>';
 
 		    scope.size = 100;
 		    element = $compile(element)(scope);
@@ -65,12 +61,12 @@ describe ('Ar-Navbar', function() {
 		
 	it ('show german menu item',function(){
 		prepare('de');
-		expect(element.find('ul').find('li').eq(0).find('a').text()).toBe("Über Arachne");
+		expect(element.find('p').eq(1).find('a').eq(0).text()).toBe("Impressum");
 	});
 	
 		
 	it ('show english menu item',function(){
 		prepare('en');
-		expect(element.find('ul').find('li').eq(0).find('a').text()).toBe("About Arachne");
+		expect(element.find('p').eq(1).find('a').eq(0).text()).toBe("Imprint");
 	});
 });
