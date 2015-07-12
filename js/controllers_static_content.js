@@ -24,7 +24,7 @@ angular.module('arachne.controllers')
 function ($scope, $routeParams, $http, $location, localizedContent) {
 
 	var CONTENT_URL = '{LOCATION}/{LANG}/{NAME}.html';
-	var CONTENT_TOC = '{LOCATION}/projects.json'
+	var CONTENT_TOC = '{LOCATION}/content.json'
 
 	// Map route to contentDir
 	var contentDir = '';
@@ -45,7 +45,7 @@ function ($scope, $routeParams, $http, $location, localizedContent) {
 	} else {
 
 		$http.get(CONTENT_TOC.replace('{LOCATION}',contentDir)).success(function (data) {
-			var lang = localizedContent.determineLanguage(data[0], $routeParams.title);
+			var lang = localizedContent.determineLanguage(data, $routeParams.title);
 			$scope.templateUrl = content_url.replace('{LANG}', lang);
 		});
 	}

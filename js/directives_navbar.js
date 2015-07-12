@@ -16,8 +16,8 @@ return {
 	controller: [ '$scope', '$http', 'localizedContent', 
 		function($scope,$http, localizedContent) {
 		$scope.getNavbarLinks = function(contentDir){
-			$http.get(contentDir+'/projects.json').success(function(data){
-				var navbarLinks = localizedContent.getNodeById(data[0],'navbar');
+			$http.get(contentDir+'/content.json').success(function(data){
+				var navbarLinks = localizedContent.getNodeById(data,'navbar');
 				if (navbarLinks==undefined) {console.log('error: no navbarLinks found');}
 				localizedContent.reduceTitles(navbarLinks)			
 				$scope.dynamicLinkList=navbarLinks.children;

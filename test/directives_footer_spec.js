@@ -32,7 +32,7 @@ describe ('arFooter', function() {
 			template = $templateCache.get('partials/directives/ar-footer.html');
 			$templateCache.put('app/partials/directives/ar-footer.html',template);
 			
-			$httpBackend.expectGET('static/projects.json').respond(200,'[{\
+			$httpBackend.expectGET('static/content.json').respond(200,'{\
 				"id": "",\
 				"children": [\
 				{"id":"header"},\
@@ -44,7 +44,7 @@ describe ('arFooter', function() {
 							"title": {\
 								"de": "Impressum",\
 								"en": "Imprint"\
-							}}]}]}]');
+							}}]}]}');
 			
 			
 		    scope = $rootScope.$new();

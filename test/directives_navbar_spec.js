@@ -37,7 +37,7 @@ describe ('Ar-Navbar', function() {
 			template = $templateCache.get('partials/directives/ar-navbar.html');
 			$templateCache.put('app/partials/directives/ar-navbar.html',template);
 			
-			$httpBackend.expectGET('static/projects.json').respond(200,'[{\
+			$httpBackend.expectGET('static/content.json').respond(200,'{\
 				"id": "",\
 				"children": [\
 				{\
@@ -48,7 +48,7 @@ describe ('Ar-Navbar', function() {
 							"title": {\
 								"de": "Über Arachne",\
 								"en": "About Arachne"\
-							}}]}]}]');
+							}}]}]}');
 			
 			
 		    scope = $rootScope.$new();

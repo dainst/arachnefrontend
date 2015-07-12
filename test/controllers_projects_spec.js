@@ -3,7 +3,7 @@
  */
 describe ('ProjectsController', function() {
 
-   var CON10T_URL = 'con10t/projects.json';
+   var CON10T_URL = 'con10t/content.json';
 
 	var scope = {};
 
@@ -24,7 +24,7 @@ describe ('ProjectsController', function() {
 	
 	
 	var jsonFull = function() {
-		$httpBackend.expectGET(CON10T_URL).respond(200,'[{\
+		$httpBackend.expectGET(CON10T_URL).respond(200,'{\
 			"id": "",\
 			"children": [\
 			{\
@@ -53,26 +53,26 @@ describe ('ProjectsController', function() {
 			}\
 		]\
 		}\
-		]');
+		');
 		$httpBackend.flush();
 	}
 	
 	var jsonGermanEnglish = function() {
-		$httpBackend.expectGET(CON10T_URL).respond(200,'[{\
+		$httpBackend.expectGET(CON10T_URL).respond(200,'{\
 			"id": "","children": [{\
 				"id": "1",\
 				"title": {\
 					"de": "DAI - Objektdatenbank",\
 					"en": "DAI - Objectdatabase"\
-				}}]}]');
+				}}]}');
 		$httpBackend.flush();
 	}
 	
 	var jsonGermanOnly = function() {
-		$httpBackend.expectGET(CON10T_URL).respond(200,'[{\
+		$httpBackend.expectGET(CON10T_URL).respond(200,'{\
 			"id": "", "children": [ {\
 				"id": "1",\
-				"title": { "de": "DAI - Objektdatenbank" }}]}]');
+				"title": { "de": "DAI - Objektdatenbank" }}]}');
 		$httpBackend.flush();
 	}
 	

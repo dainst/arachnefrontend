@@ -4,7 +4,7 @@
 describe ('StaticContentController', function() {
 
 	var TEMPLATE_URL = "con10t/{LANG}/title.html";
-	var PROJECTS_JSON = 'con10t/projects.json';
+	var PROJECTS_JSON = 'con10t/content.json';
 
 	var scope = {};
 
@@ -37,12 +37,12 @@ describe ('StaticContentController', function() {
 	}
 
 	var setUpSimpleProjectJson = function(jsonFile,itemName,itemLang) {
-		$httpBackend.expectGET(jsonFile).respond(200,'[{\
+		$httpBackend.expectGET(jsonFile).respond(200,'{\
 			"id": "","children": [{\
 				"id": "'+itemName+'",\
 				"title": {\
 					"'+itemLang+'": "DAI - Objectdatabase"\
-				}}]}]');
+				}}]}');
 		$httpBackend.flush();
 	}
 
@@ -71,7 +71,7 @@ describe ('StaticContentController', function() {
 
 	it ('should search for a matching project translation recursively',function(){
 		prepare('/project','title','it',{});
-		$httpBackend.expectGET(PROJECTS_JSON).respond(200,'[{\
+		$httpBackend.expectGET(PROJECTS_JSON).respond(200,'{\
 			"id": "",\
 			"children": [\
 			{\
@@ -83,14 +83,14 @@ describe ('StaticContentController', function() {
 							"id" : "title", \
 							"title" : { \
 								"it" : "dede"\
-							}}]}]}]}]');
+							}}]}]}]}');
 		$httpBackend.flush();
 		expect(scope.templateUrl).toBe(TEMPLATE_URL.replace('{LANG}','it'));
 	});
 
 	it ('should serve content from the static folder for the info route',function(){
 		prepare('/info','title','it',{});
-		setUpSimpleProjectJson('static/projects.json','title','it');
+		setUpSimpleProjectJson('static/content.json','title','it');
 		expect(scope.templateUrl).toBe('static/it/title.html');
 	});
 });
