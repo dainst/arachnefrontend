@@ -16,28 +16,24 @@ module.exports = function(config) {
 
     plugins : [
       'karma-phantomjs-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+	  'karma-ng-html2js-preprocessor'
     ],
     // list of files / patterns to load in the browser
     files: [
 
-        'node_modules/angular/angular.js',
-        'node_modules/angular-mocks/angular-mocks.js',
+      'node_modules/angular/angular.js',
+      'node_modules/angular-mocks/angular-mocks.js',
       'lib/ui-bootstrap-tpls-0.11.2.min.js',
       'js/*.js',
-      'spec/*_spec.js'
+      'spec/*_spec.js',
+	  'partials/directives/ar-navbar.html'
     ],
 
 
     // list of files to exclude
     exclude: [
     ],
-
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-    },
 
 
     // test results reporter to use
@@ -70,6 +66,14 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: true,
+	
+	ngHtml2JsPreprocessor: {
+	    stripPrefix: 'app/',
+		moduleName: 'templates'
+	},
+	preprocessors: {
+	    "partials/directives/*.html": "ng-html2js"
+	}
   });
 };
