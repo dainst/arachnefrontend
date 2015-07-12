@@ -14,14 +14,16 @@ return {
 	templateUrl: 'partials/directives/ar-footer.html',
 	controller: [ '$scope', '$http', 'localizedContent', 
 		function($scope,$http, localizedContent) {
-		$scope.getTop = function(contentDir){
+		$scope.getFooterLinks = function(contentDir){
 			$http.get(contentDir+'/projects.json').success(function(data){
-				localizedContent.reduceTitles(data[0].children[1])		
-				$scope.dynamicLinkList=data[0].children[1].children;
+				var footerLinks = localizedContent.getNodeById(data[0],'footer');
+				if (footerLinks==undefined) {console.log('error: no footerLinks found');}
+				localizedContent.reduceTitles(footerLinks)	
+				$scope.dynamicLinkList=footerLinks.children;
 			});				
 		}
 		}],
 	link: function(scope,element,attrs){
-		scope.getTop(attrs.contentDir);
+		scope.getFooterLinks(attrs.contentDir);
 	}
 }});

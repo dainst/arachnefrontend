@@ -41,7 +41,7 @@ describe ('Ar-Navbar', function() {
 				"id": "",\
 				"children": [\
 				{\
-					"id": "header",\
+					"id": "navbar",\
 					"children": [\
 						{\
 							"id": "about",\

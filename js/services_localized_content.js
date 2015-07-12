@@ -118,6 +118,31 @@ angular.module('arachne.services')
 
 			languageSelection.__ (isNodeAvailableForLang,setLang,node);
 			return ret_language;
+		},
+		
+		/**
+		 * Walks through the elements of the tree 
+		 * until it finds a node of the given id.
+		 * 
+		 * @return reference to the first node 
+		 *   found whose id matches param id. 
+		 *   undefined if no node could for the id
+		 *   could be found.
+		 */
+		getNodeById : function (node,id) {
+			
+			var recurse = function(node,id){
+				if (node.id==id) return node;
+				if (! node.children) return undefined;
+				var foundNode=undefined;
+				for (var i=0;i<node.children.length;i++){
+					var retval=recurse(node.children[i],id);
+					if (retval!=undefined) foundNode=retval;
+				}
+				return foundNode;
+					
+			}
+			return recurse(node,id);
 		}
 	};
 }]);

@@ -15,14 +15,16 @@ return {
 	templateUrl: 'partials/directives/ar-navbar.html',
 	controller: [ '$scope', '$http', 'localizedContent', 
 		function($scope,$http, localizedContent) {
-		$scope.getTop = function(contentDir){
+		$scope.getNavbarLinks = function(contentDir){
 			$http.get(contentDir+'/projects.json').success(function(data){
-				localizedContent.reduceTitles(data[0].children[0])			
-				$scope.dynamicLinkList=data[0].children[0].children;
+				var navbarLinks = localizedContent.getNodeById(data[0],'navbar');
+				if (navbarLinks==undefined) {console.log('error: no navbarLinks found');}
+				localizedContent.reduceTitles(navbarLinks)			
+				$scope.dynamicLinkList=navbarLinks.children;
 			});				
 		}
 		}],
 	link: function(scope,element,attrs){
-		scope.getTop(attrs.contentDir);
+		scope.getNavbarLinks(attrs.contentDir);
 	}
 }});
