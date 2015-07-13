@@ -1,6 +1,6 @@
 # Feature: Localization of user interface elements
 
-[Specification](../spec/services_transl8_spec.js)
+[Specification](../test/services_transl8_spec.js)
 
 See also: [Localization of con10t project pages](feature_localization_con10t.md)
 
