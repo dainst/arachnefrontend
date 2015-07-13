@@ -23,6 +23,7 @@ To install the testing tools run
 ```
 npm install -g karma
 npm install -g karma-jasmine
+npm install -g karma-ng-html2js-preprocessor
 npm install -g karma@canary phantomjs karma-phantomjs-launcher
 npm install -g protractor
 webdriver-manager update
