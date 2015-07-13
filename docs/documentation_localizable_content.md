@@ -82,7 +82,7 @@ properly as far as localization concerns:
 **Note** that the language selection gets performed for each item individually. If the user is italian for example,
 and a certain page is available in italian, it will be served in italian, while another item is served in english or
 german, depending on which language the item is present. There is a link to the actual language selection rule
-in the [Artifacts](#Artifacts) section.
+in the [Artifacts](#artifacts) section.
 
 **Note 2** : Only "short" forms of language identifiers are usable within the localization system. For example "de", but not
 "de-AT" or "de-DE".
