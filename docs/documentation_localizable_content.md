@@ -44,8 +44,8 @@ A few things to note:
 1. The identifiers must be unique.
 1. Each node can have and array of nodes as children.
 1. Each node can have the id and title fields, which make are the precondition for localization.
-1. The structure itself and the program code is of recursive nature, so nodes can theoretically be nested infinitely.\
- Practically the nesting is limited due to practical concerns. (See artifacts using the core localization system\
+1. The structure itself and the program code is of recursive nature, so nodes can theoretically be nested infinitely.
+ Practically the nesting is limited due to practical concerns. (See artifacts using the core localization system
  in section [artifacts](#Artifacts))
 
 
@@ -62,7 +62,7 @@ Again, a few things to note:
 
 1. "about" corresponds to an identifier of a node in content.json.
 1. The de/about.html and en/about.html files correspond to german / english versions of the same content.
-1. The file system structure does not reflect the nesting. This is no problem since the identifiers are required \
+1. The file system structure does not reflect the nesting. This is no problem since the identifiers are required
   to be unique.
 
 ## Automatic Localization
@@ -76,7 +76,7 @@ properly as far as localization concerns:
 
 1. Every content, identified by its id, must at least be present in german (de).
 1. There should be a html named de/id.html and a corresponding node in content.json.
-1. For each additional language a html should be placed in the language folder and a title entry should be added to \
+1. For each additional language a html should be placed in the language folder and a title entry should be added to
   the corresponding node.
 
 **Note** that the language selection gets performed for each item individually. If the user is italian for example,
