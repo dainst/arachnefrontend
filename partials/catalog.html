@@ -56,6 +56,7 @@
 	<div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
 		Für Kataloge bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 	</div>
+	
 	<div class="col-md-10 col-md-offset-1" ng-if="user.username">
 		<div class="page-header">
 			<h3>
@@ -65,9 +66,10 @@
 		</div>
 		
 		<div class="row">
-
+			<div ng-hide="catalogs.length >= 0" class="col-md-10">
+				<div class="loading" style="margin-top:70px;"></div>
+			</div>
 			<div ng-if="activeCatalog" class="col-md-10 catalog-edit">
-
 				<h3>
 					<b>{{activeCatalog.root.label}}</b> <small>Autor: {{activeCatalog.author}}</small>
 					<div class="btn-group btn-group-xs pull-right">

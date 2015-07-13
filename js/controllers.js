@@ -99,13 +99,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('SearchCtrl', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'messageService', '$http',
-	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, messageService, $http){
+.controller('SearchCtrl', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'Catalog','messageService', '$modal', '$http', 'Entity', 'authService',
+	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, messageService, $modal, $http, Entity, authService){
 
 		$rootScope.hideFooter = false;
+		$scope.user = authService.getUser();
 		
 		$scope.currentQuery = searchService.currentQuery();
 		$scope.q = angular.copy($scope.currentQuery.q);
+		//$scope.user = authService.getUser();
 
 		$scope.sortableFields = arachneSettings.sortableFields;
 		// ignore unknown sort fields
@@ -117,9 +119,86 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.categories = categories;
 		});
 	
+		//-------------------- Query to Catalog --------------
+		$scope.toCatalog = function() {
+			var count = searchService.getSize();
+			var off = 0;
+			var error = false; 
+			$scope.catalogEntries = [];
+
+			if(count >= 1000)
+				alert("Die Suchmenge ist sehr groß, wir empfehlen den Vorgang abzubrechen");
+
+			while(count >= 0){
+				var query = angular.extend({offset: off, limit:50}, $scope.currentQuery.toFlatObject());
+				var entities = Entity.query(query); 
+
+				setTimeout(function(){
+					if(!entities.entities){
+						//zu lagsam, mehr Zeit
+						setTimeout(function(){
+							for(var i = 0; i<=entities.entities.length-1; i++)
+							{
+								$scope.catalogEntries[off+i] = {
+									"arachneEntityId" : entities.entities[i].entityId,
+									"label" : entities.entities[i].title,
+									"text" : entities.entities[i].subtitle
+								}
+							} 
+							off += 50;
+							}, 1000);
+						
+					}else
+					{
+						for(var i = 0; i<=entities.entities.length-1; i++)
+						{
+							$scope.catalogEntries[off+i] = {
+								"arachneEntityId" : entities.entities[i].entityId,
+								"label" : entities.entities[i].title,
+								"text" : entities.entities[i].subtitle
+							}
+						} 
+						off += 50;
+					}
+					
+				}, 500);
+
+				count -=50;					
+			}
+
+			var text = $scope.currentQuery.toFlatObject().q;
+
+			for(var i = 0; i<= $scope.currentQuery.toFlatObject().fq.length-1; i++){
+				text = text + " " + $scope.currentQuery.toFlatObject().fq[i];
+			}
+				if(!error)
+				{
+					var bufferCatalog = {
+						author: $scope.user.username,
+						root:{
+							label: $scope.currentQuery.label,
+							text: text,
+							children: $scope.catalogEntries
+						}
+					};
+					var catalogFromSearch = $modal.open({
+						templateUrl: 'partials/Modals/editCatalog.html',
+						controller: 'EditCatalogCtrl',
+						resolve: { catalog: function() {  return bufferCatalog } }
+					});
+					catalogFromSearch.close = function(newCatalog) {
+						newCatalog.public = false;
+						Catalog.save({}, newCatalog, function(result) {
+						});
+						catalogFromSearch.dismiss();
+					}
+				}
+		};
+
 		searchService.getCurrentPage().then(function(entities) {
 			$scope.entities = entities;
 
+			//console.log($scope.currentQuery.toFlatObject());
 			//------------------ QUICKFIX -----------------------
 			for(i=0; i<=$scope.entities.length-1; i++)
 			{
@@ -132,7 +211,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				}
 
 			}
-
 			//-------------------- QUICKFIX ----------------------
 			$scope.resultSize = searchService.getSize();
 			$scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
