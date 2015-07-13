@@ -1,4 +1,14 @@
 /**
+ * The main focus of this test is to prove that an item from
+ * the static/content.json "navbar" node leads to the dynamic
+ * creation of a menu item in the navigation bar.
+ * 
+ * The language selection mechanism if following the rules 
+ * described in ../docs/feature_localization_con10t.md and implemented
+ * on top of the same mechanisms which are already tested in
+ * ../test/controllers_projects_spec.js. 
+ * So these rules won't be tested here.
+ * 
  * Author: Daniel M. de Oliveira
  */
 describe ('Ar-Navbar', function() {
@@ -62,7 +72,7 @@ describe ('Ar-Navbar', function() {
 			$httpBackend.flush();
 		});
 	};
-		
+	
 	it ('show german menu item',function(){
 		prepare('de');
 		expect(element.find('ul').find('li').eq(0).find('a').text()).toBe("Über Arachne");
