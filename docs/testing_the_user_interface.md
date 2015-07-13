@@ -22,7 +22,7 @@ This is to let the frontend speak to a fake backend.
 ## Auto-Test Runner
 
 At the root of the repo there is a little bash script which sets up the necessary
-environment for the UI tests and then runs first the unit tests and second the UI tests.
+environment for the e2e tests and then runs first the unit tests and second the e2e tests.
 
 ```bash
 test/e2e/test.sh
@@ -74,5 +74,5 @@ It will run on port 1234.
 protractor config/protractor.conf.js
 ```
 
-which will invoke all tests matching the filename pattern specUI/*Spec.js.
+which will invoke all tests matching the filename pattern test/e2e/*Spec.js.
 
