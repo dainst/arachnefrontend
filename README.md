@@ -46,9 +46,9 @@ Two types of tests are supported at the moment. User Interface (UI) and unit tes
 karma start test/karma.conf.js
 ```
 
-which will run all tests matching the filename pattern spec/*Spec.js. Jasmine is used as the testing framework here.
+which will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
 
-The somewhat more complex test setup for UI testing is described [here](docs/testing_the_user_interface.md).
+The somewhat more complex test setup for e2e testing is described [here](docs/development_e2e_testing.md).
 
 ### con10t submodule
 
