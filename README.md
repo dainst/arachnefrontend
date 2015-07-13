@@ -43,7 +43,7 @@ sudo npm install -g grunt-cli
 Two types of tests are supported at the moment. User Interface (UI) and unit tests. To run the unit tests, call
 
 ```bash
-karma start config/karma.conf.js
+karma start test/karma.conf.js
 ```
 
 which will run all tests matching the filename pattern spec/*Spec.js. Jasmine is used as the testing framework here.
