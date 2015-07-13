@@ -84,6 +84,9 @@ and a certain page is available in italian, it will be served in italian, while 
 german, depending on which language the item is present. There is a link to the actual language selection rule
 in the [Artifacts](#Artifacts) section.
 
+**Note 2** : Only "short" forms of language identifier are usable within the localization system. For example "de", but not
+"de-AT" or "de-DE".
+
 ## Artifacts
 
 Here are the main artifacts comprising the content / localization system:
