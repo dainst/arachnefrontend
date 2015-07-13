@@ -1,8 +1,8 @@
-Asides from unit testing we make use of [Protractor](https://angular.github.io/protractor/#/) and [httParrot](https://github.com/danielmarreirosdeoliveira/httParrot) and Jasmine to perform some basic UI testing.
+Asides from unit testing we make use of [Protractor](https://angular.github.io/protractor/#/) and [httParrot](https://github.com/danielmarreirosdeoliveira/httParrot) and Jasmine to perform some basic e2e testing.
 
 ## Preparative works
 
-For the UI tests to work properly, edit your [js/app.js](js/app.js). Change 
+For the e2e tests to work properly, edit your [js/app.js](js/app.js). Change 
 
 ```javascript
 dataserviceUri: "http://" + document.location.host + "/data",
@@ -25,31 +25,18 @@ At the root of the repo there is a little bash script which sets up the necessar
 environment for the UI tests and then runs first the unit tests and second the UI tests.
 
 ```bash
-uitest.sh
+test/e2e/test.sh
 ```
 
 The script first runs the unit test suite. If it passes, it
-sets up the environment for UI testing. This is done by setting up the necessary background processes for
-
-```bash
-webdriver-manager start
-node lib/httParrot/httParrot.js
-```
-
-Finally a call to
-
-```
-grunt uitest
-```
-
-will set up the application server and run the protractor test suite against
-the application code.
+sets up the environment for e2e testing. This is done by setting up the necessary background processes for the
+webdriver-manager, httParrot, and "grunt uitest", which will set up the necessary environment to run the protractor test suite against the application code.
 
 After a run of the script, the background processes remain as daemonized processes.
 To kill them, run
 
 ```bash
-./uitest.sh kill
+test/e2e/test.sh kill
 ```
 
 ## Manual Setup
