@@ -1,6 +1,6 @@
 # Feature: Localization of con10t project pages
 
-[Specification](../spec/controllers_projects_spec.js)
+[Specification](../test/controllers_projects_spec.js)
 
 It describes the behaviour of the projects overview page.
 From there, the project title links lead to specific project pages,
