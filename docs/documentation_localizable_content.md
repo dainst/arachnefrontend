@@ -12,7 +12,7 @@ to /project/[title].html. This route serves content from the "con10t" language f
 The contents can be localized, which means, the language in which the link titles are visible and
 in which the content is delivered, is
  automatically determined by the system. This is explained in the paragraph on
- [Automatic Localization](#Automatic\ Localization).
+ [Automatic Localization](#automatic-localization).
 But first lets have a look on the basic data structure and folder layout for localizable static content.
 
 ## Data and Content Structure
@@ -46,7 +46,7 @@ A few things to note:
 1. Each node can have the id and title fields, which make are the precondition for localization.
 1. The structure itself and the program code is of recursive nature, so nodes can theoretically be nested infinitely.
  Practically the nesting is limited due to practical concerns. (See artifacts using the core localization system
- in section [artifacts](#Artifacts))
+ in section [artifacts](#artifacts))
 
 
 The directory structure of a content dir matching the json example from the top
