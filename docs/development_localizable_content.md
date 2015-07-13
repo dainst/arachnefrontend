@@ -79,7 +79,7 @@ properly as far as localization concerns:
 1. For each additional language a html should be placed in the language folder and a title entry should be added to
   the corresponding node.
 
-**Note** that the language selection gets performed for each item individually. If the user is italian for example,
+**Note 1** : The language selection gets performed for each item individually. If the user is italian for example,
 and a certain page is available in italian, it will be served in italian, while another item is served in english or
 german, depending on which language the item is present. There is a link to the actual language selection rule
 in the [Artifacts](#artifacts) section.
