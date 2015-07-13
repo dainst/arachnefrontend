@@ -8,10 +8,6 @@ describe ('DataimportController', function() {
 	var dataserviceUri='http://backend/data';
 	var dataimportUri=dataserviceUri+'/admin/dataimport';
 
-	var ACTION_DESC_REFRESH = 'You asked the system to refresh. ';
-	var ACTION_DESC_START_DATAIMPORT = 'You asked the system to start the dataimport. ';
-	var ACTION_DESC_STOP_DATAIMPORT = 'You asked the system to stop the dataimport. ';
-
 	var OUTCOME_START_DATAIMPORT = 'Dataimport successfully started. ';
 	var OUTCOME_STOP_DATAIMPORT = 'Dataimport successfully stopped. ';
 	var OUTCOME_DATAIMPORT_RUNNING = 'Dataimport already running. ';
@@ -111,8 +107,6 @@ describe ('DataimportController', function() {
 		scope.startDataimport();
 		$httpBackend.flush();
 
-
-		expect(scope.lastAction).toBe(ACTION_DESC_START_DATAIMPORT);
 		expect(scope.lastActionOutcome).toBe(msg_unauthorized);
 	});
 
@@ -127,7 +121,6 @@ describe ('DataimportController', function() {
 		scope.stopDataimport();
 		$httpBackend.flush();
 
-		expect(scope.lastAction).toBe(ACTION_DESC_STOP_DATAIMPORT);
 		expect(scope.lastActionOutcome).toBe(msg_unauthorized);
 	});
 
@@ -151,7 +144,6 @@ describe ('DataimportController', function() {
 
 		scope.startDataimport();
 		$httpBackend.flush();
-		expect(scope.lastAction).toBe(undefined);
 		expect(scope.lastActionOutcome).toBe(OUTCOME_START_DATAIMPORT);
 	});
 
@@ -170,7 +162,6 @@ describe ('DataimportController', function() {
 
 		scope.stopDataimport();
 		$httpBackend.flush();
-		expect(scope.lastAction).toBe(undefined);
 		expect(scope.lastActionOutcome).toBe(OUTCOME_STOP_DATAIMPORT);
 	});
 
@@ -200,27 +191,31 @@ describe ('DataimportController', function() {
 		$httpBackend.expectGET(dataimportUri).
 			respond({status:'running'});
 		$httpBackend.flush();
-
-
+		
 		$httpBackend.expectPOST(dataimportUri+'?command=start').
 			respond({status:'already running'});
+		$httpBackend.expectGET(dataimportUri).
+			respond({status:'running'});
 
-		expect(scope.lastAction).toBe(undefined);
 		scope.startDataimport();
 
 		$httpBackend.flush();
-		expect(scope.lastAction).toBe(ACTION_DESC_START_DATAIMPORT);
 		expect(scope.lastActionOutcome).toBe(OUTCOME_DATAIMPORT_RUNNING);
 	});
 
 
+	it ('should show when a request is pending', function() {
+
+		scope.requestRefresh();
+		expect(scope.lastActionOutcome).toBe('Request pending. ');
+	});
 
 	it ('should not begin to start the dataimport when a request is still pending', function() {
 
 		scope.requestRefresh();
 
 		scope.startDataimport();
-		expect(scope.lastAction).toBe(ACTION_DESC_REFRESH);
+		expect(scope.lastActionOutcome).toBe('Request pending. Please wait. ');
 	});
 
 	it ('should not begin to stop the dataimport when a request is still pending', function() {
@@ -228,7 +223,7 @@ describe ('DataimportController', function() {
 		scope.requestRefresh();
 
 		scope.stopDataimport();
-		expect(scope.lastAction).toBe(ACTION_DESC_REFRESH);
+		expect(scope.lastActionOutcome).toBe('Request pending. Please wait. ');
 	});
 
 	it ('should not begin to start the dataimport when a request is still pending', function() {
@@ -236,8 +231,6 @@ describe ('DataimportController', function() {
 		scope.startDataimport();
 
 		scope.requestRefresh();
-		expect(scope.lastAction).toBe(ACTION_DESC_START_DATAIMPORT);
+		expect(scope.lastActionOutcome).toBe('Request pending. Please wait. ');
 	});
-
-
 });

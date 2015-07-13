@@ -4,17 +4,22 @@ angular.module('arachne.controllers')
 
 /**
  * Handles requests for the state of the document import.
- * Author: Daniel M. de Oliveira
+ * 
+ * $scope
+ *   dataimportInfo
+ *   lastActionOutcome
+ *   
+ *   requestRefresh()
+ *   startDataimport()
+ *   stopDataimport()
+ * 
+ * @author: Daniel M. de Oliveira
  */
 .controller('DataimportController',['$scope','$http','$location','arachneSettings',
 function($scope, $http, $location, arachneSettings) {
 
 	var dataimportUri = arachneSettings.dataserviceUri + '/admin/dataimport';
 	var requestPending = false; // true as long as a server request is pending and waiting for an answer or timeout
-
-	var ACTION_DESC_REFRESH = 'You asked the system to refresh. ';
-	var ACTION_DESC_START_DATAIMPORT = 'You asked the system to start the dataimport. ';
-	var ACTION_DESC_STOP_DATAIMPORT = 'You asked the system to stop the dataimport. ';
 
 	var OUTCOME_START_DATAIMPORT = 'Dataimport successfully started. ';
 	var OUTCOME_STOP_DATAIMPORT = 'Dataimport successfully stopped. ';
@@ -30,38 +35,37 @@ function($scope, $http, $location, arachneSettings) {
 	 * returns: true to indicate the $scope function is allowed to get executed. false otherwise.
 	 * The action should return immediately in the latter case.
 	 */
-	function gatePassed(lastAction) {
+	function gatePassed() {
 		if (requestPending){
 			$scope.lastActionOutcome=$scope.lastActionOutcome+'Please wait. ';
 			return false;
 		}
 		requestPending=true;
 		$scope.lastActionOutcome='Request pending. ';
-		$scope.lastAction=lastAction;
 		return true;
 	}
 
+	function handleError(status) {
+		if (status==401)
+			$scope.lastActionOutcome = MSG_UNAUTHORIZED;
+		else
+			$scope.lastActionOutcome = MSG_UNAVAILABLE;
+	}
 
-	function fetchDataimportInfo() {
+	function fetchDataimportInfo(successCallback) {
 
 		$http
 			.get(dataimportUri)
 			.success(function (data) {
-				requestPending=false;
-
-				if ($scope.lastAction==ACTION_DESC_REFRESH){
-					$scope.lastAction=undefined;
-					$scope.lastActionOutcome=undefined;
-				}
-
+				if (successCallback) successCallback();
 				$scope.dataimportInfo = data;
 			})
 			.error(function (data) {
-				requestPending=false;
-
 				$scope.lastActionOutcome = MSG_UNAVAILABLE;
-
 				$scope.dataimportInfo = undefined;
+				
+			}).finally(function(){
+				requestPending=false;
 			});
 	}
 
@@ -69,9 +73,13 @@ function($scope, $http, $location, arachneSettings) {
 	 * Lets admins retrieve the latest information on the dataimport status.
 	 */
 	$scope.requestRefresh = function () {
-		if (!gatePassed(ACTION_DESC_REFRESH)) return;
+		if (!gatePassed()) return;
 
-		fetchDataimportInfo();
+		var clear = function() {
+			$scope.lastActionOutcome=undefined;
+		}
+
+		fetchDataimportInfo(clear);
 	}
 
 
@@ -79,32 +87,24 @@ function($scope, $http, $location, arachneSettings) {
 	 * Lets admins start the dataimport.
 	 */
 	$scope.startDataimport = function () {
-		if (!gatePassed(ACTION_DESC_START_DATAIMPORT)) return;
+		if (!gatePassed()) return;
 
 		$http
 			.post(dataimportUri + '?command=start')
 			.success(function (data) {
-				requestPending=false;
-
-				if (data.status == 'already running') {
+				
+				if (data.status == 'already running') 
 					$scope.lastActionOutcome = OUTCOME_DATAIMPORT_RUNNING;
-					return;
-				}
+				else
+					$scope.lastActionOutcome = OUTCOME_START_DATAIMPORT;
 
-				$scope.lastAction = undefined;
-				$scope.lastActionOutcome = OUTCOME_START_DATAIMPORT;
-
+				// Provide feedback in any case.
 				fetchDataimportInfo();
 			})
 			.error(function (data,status) {
+				handleError(status);
+			}).finally(function(){
 				requestPending=false;
-
-				if (status==401) {
-					$scope.lastActionOutcome = MSG_UNAUTHORIZED;
-					return;
-				}
-
-				$scope.lastActionOutcome = MSG_UNAVAILABLE;
 			});
 	}
 
@@ -113,42 +113,28 @@ function($scope, $http, $location, arachneSettings) {
 	 * Lets admins stop the dataimport.
 	 */
 	$scope.stopDataimport = function() {
-		if (!gatePassed(ACTION_DESC_STOP_DATAIMPORT)) return;
+		if (!gatePassed()) return;
 
 		$http
 			.post(dataimportUri + '?command=stop')
 			.success(function (data) {
-				requestPending=false;
-
-				if (data.status == 'not running') {
-					$scope.lastAction = undefined;
+				
+				if (data.status == 'not running') 
 					$scope.lastActionOutcome = OUTCOME_DATAIMPORT_NOT_RUNNING;
-
-					// This is to give the user feedback when he asked to stop
-					// and dataimportInfo reflects an old state.
-					fetchDataimportInfo();
-					return;
-				}
-
-				$scope.lastAction = undefined;
-				$scope.lastActionOutcome = OUTCOME_STOP_DATAIMPORT;
-
-				// The dataimportInfo may not reflect yet that the dataimport has stopped
-				// because the backend may need some time to perform the request.
-				// See comment above.
+				else
+					$scope.lastActionOutcome = OUTCOME_STOP_DATAIMPORT;			
+				
+				// When data.status was 'not running' this does not mean that 
+				// dataimportInfo reflected this at the moment the user requested
+				// the stopDataimport (again). So the users wish for feedback is valid and
+				// fetchDataimportInfo() is to be called in any case to update the info.
 				fetchDataimportInfo();
 			})
 			.error(function (data,status){
+				handleError(status);
+			}).finally(function(){
 				requestPending=false;
-
-				if (status==401) {
-					$scope.lastActionOutcome = MSG_UNAUTHORIZED;
-					return;
-				}
-
-				$scope.lastActionOutcome=MSG_UNAVAILABLE;
 			});
-
 	}
 
 	fetchDataimportInfo();
