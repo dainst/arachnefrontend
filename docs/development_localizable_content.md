@@ -89,7 +89,7 @@ in the [Artifacts](#artifacts) section.
 
 **Note 3** : Localization of other items, like user interface messages, texts, other menu items, facets etc. is not handled by the system under discussion here.
 
-**Note 4** : For development purposes, content available on the file system, but not configured via content.json can be accessed exclicitely via */[static|con10t]/[title]?lang=[lang]*. If the ?lang=[lang] part is omitted, the content from the de directory gets delivered if available.
+**Note 4** : For development purposes, content available on the file system but not configured via content.json can be accessed exclicitely via */[static|con10t]/[title]?lang=[lang]*. If the ?lang=[lang] part is omitted, the content from the "de" directory gets delivered. In both cases the requested content should be present on the file system. The system shows a blank view if it can't find the corresponding html file.
 
 ## Artifacts
 
