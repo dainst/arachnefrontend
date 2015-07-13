@@ -87,6 +87,8 @@ in the [Artifacts](#artifacts) section.
 **Note 2** : Only "short" forms of language identifiers are usable within the localization system. For example "de", but not
 "de-AT" or "de-DE".
 
+**Note 3** : Localization of other items, like user interface messages, texts, other menu items, facets etc. is not handled by the system under discussion here.
+
 ## Artifacts
 
 Here are the main artifacts comprising the content / localization system:
