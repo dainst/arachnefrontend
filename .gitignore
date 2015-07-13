@@ -6,8 +6,10 @@
 .Spotlight-V100
 .Trashes
 .htaccess
+.idea
 ehthumbs.db
 Thumbs.db
+npm-debug.log
 
 # local dependencies #
 ######################

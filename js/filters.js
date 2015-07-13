@@ -34,12 +34,13 @@ angular.module('arachne.filters', [])
 			}
 		}
 	})
-	.filter('i18n', ['$window', function($window) {
-		return function (input) {
-			var trans = $window.translations[input];
-			if (typeof(trans) == "undefined") return input;
-			return trans
-			
+	/**
+	 * Author: Daniel M. de Oliveira
+	 */
+	.filter('transl8', ['transl8',function(transl8){
+		return function(key) {
+			var trans = transl8.getTranslation(key);
+			return trans;
 		}
 	}])
 	.filter('entityCountInFacet', function() {

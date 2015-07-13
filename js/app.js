@@ -32,21 +32,19 @@ angular.module('arachne',[
 		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
 		.when('/map', {templateUrl: 'partials/map.html'})
 		.when('/3d', {templateUrl: 'partials/3d.html'})
-		.when('/imprint', {templateUrl: 'partials/imprint.html'})
-		.when('/privacy', {templateUrl: 'partials/privacy.html'})
 		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
 		.when('/projects', {templateUrl: 'partials/projects.html'})
 		.when('/register', {templateUrl: 'partials/register.html'})
-		.when('/faq', {templateUrl: 'partials/faq.html'})
-		.when('/order', {templateUrl: 'partials/order.html'})
-		.when('/about', {templateUrl: 'partials/about.html'})
 		.when('/apis', {templateUrl: 'partials/apis.html'})
 		.when('/contact', {templateUrl: 'partials/contact.html'})
+		.when('/admin/dataimport', {templateUrl: 'partials/dataimport.html'})
 		.when('/pwdreset', {templateUrl: 'partials/pwdreset.html'})
-		.when('/project/:name', {templateUrl: 'partials/project.html'});
+		.when('/user/activation/:token', {templateUrl: 'partials/activation.html'})
+		.when('/project/:title', {templateUrl: 'partials/static.html'})
+		.when('/info/:title', {templateUrl: 'partials/static.html'}); // Named it info, not static, to sound not too technical.
 }]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
-		serverUri : "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href"),
+		//dataserviceUri: "http://lakota.archaeologie.uni-koeln.de/data",
 		openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 		sortableFields : ["entityId", "title", "subtitle"]
 }).run(['$rootScope', function($rootScope) {

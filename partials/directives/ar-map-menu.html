@@ -1,10 +1,11 @@
-<div ng-if="resultSize != null" id="mapNavigation" class="ar-map-menu col-md-2 well well-sm">
+<!-- Hauptmenü rechte Seite -->
+<div ng-if="resultSize != null" id="map-main-menu" class="ar-map-menu col-md-2 well well-sm">
 
     <h2 class="text-muted uppercase" style="font-variant:small-caps" ng-show="mapConfig.menuTitle">
         {{mapConfig.menuTitle}}
     </h2>
 
-    <h4>{{ mapfacet ? (mapfacet.name + "_plural" | i18n) : "" }}</h4>
+    <h4>{{ mapfacet ? (mapfacet.name + "_plural" | transl8) : "" }}</h4>
 
     <!-- Infos zum Suchergebnis -->
     <div ng-if="facetLimit && facetLimit == mapfacet.values.length" class="alert alert-info" style="padding:5px 10px; margin-bottom:10px;">
@@ -35,43 +36,6 @@
         </a>
     </div>
 
-    <!-- Overlays -->
-    <div ng-if="mapConfig.menuShowOverlays && overlays">
-        <h5 class="text-muted uppercase" style="cursor:pointer" ng-click="toggleOverlayGroupMenu()">
-            <strong>{{mapConfig.menuHeadingOverlays}}</strong>
-        </h5>
-
-        <!-- Gruppen von Overlays in einem togglebaren Menü -->
-        <div ng-if="overlays.groups" class="panel panel-default" ng-click="toggleOverlayGroupMenu()" style="cursor:pointer">
-            <div class="panel-body">
-                <div ng-show="showOverlayGroupMenu">
-                    <div ng-repeat="group in overlays.groups">
-                        <h5 class="text-muted">{{group.name}}</h5>
-                        <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
-                            <label>
-                                <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
-                                {{ overlay.name }}
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div ng-hide="showOverlayGroupMenu" style="text-align:center">
-                    &hellip;
-                </div>
-            </div>
-        </div>
-
-        <!-- Liste von Overlays als einzelne Buttons -->
-        <div ng-if="!overlays.groups">
-            <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
-                <label>
-                    <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
-                    {{ overlay.name }}
-                </label>
-            </div>
-        </div>
-    </div>
-
     <!-- Facetten zur Ortsangabe -->
     <div ng-show="mapConfig.menuShowMapfacetSelection">
         <h5 class="text-muted uppercase"><strong>{{mapConfig.menuHeadingMapfacetSelection}}</strong></h5>
@@ -80,7 +44,7 @@
                         ng-repeat="mapfacetName in mapfacetNames"
                         ng-class="{'active': mapfacet.name == mapfacetName}"
                         ng-click="go(currentQuery.setParam('restrict', mapfacetName).toString())">
-                    {{ mapfacetName + '_map' | i18n }}
+                    {{ mapfacetName + '_map' | transl8 }}
                 </a>
             </div>
     </div>
@@ -105,7 +69,7 @@
                 <h5 class="panel-title">
                     <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
                     <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
-                    &nbsp;{{facet.name | i18n }}{{ mapConfig.menuFacetsAppend[facet.name] }}
+                    &nbsp;{{facet.name | transl8 }}{{ mapConfig.menuFacetsAppend[facet.name] }}
                 </h5>
             </div>
             <ul class="list-unstyled facet" ng-show="facet.open">
@@ -118,4 +82,63 @@
             </ul>
         </div>
     </small>
+</div>
+
+
+<!-- Layer Menü linke Seite -->
+<div ng-if="mapConfig.menuShowLayerMenu" id="map-layer-menu" class="ar-map-menu col-md-2 well well-sm">
+
+    <h4 ng-click="toggleLayerMenu()" style="cursor:pointer">
+        {{ mapConfig.menuHeadingLayerMenu }}
+    </h4>
+
+    <div ng-if="showLayerMenu">
+
+        <!-- Overlays -->
+        <div ng-if="mapConfig.menuShowOverlays && overlays">
+            <h5 class="text-muted uppercase">
+                <strong>{{mapConfig.menuHeadingOverlays}}</strong>
+            </h5>
+
+            <!-- Gruppen von Overlays in einem togglebaren Menü -->
+            <div ng-if="overlays.groups">
+                <!-- <div class="panel-body"> -->
+                    <div ng-repeat="group in overlays.groups">
+                        <h5 class="text-muted">{{group.name}}</h5>
+                        <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
+                            <label>
+                                <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
+                                {{ overlay.name }}
+                            </label>
+                        </div>
+                    </div>
+                <!-- </div> -->
+            </div>
+
+            <!-- Liste von Overlays als einzelne Buttons -->
+            <div ng-if="!overlays.groups">
+                <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
+                    <label>
+                        <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
+                        {{ overlay.name }}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Base Layer -->
+        <div ng-if="mapConfig.menuShowBaselayers">
+            <h5 class="text-muted uppercase">
+                <strong>{{mapConfig.menuHeadingBaselayers}}</strong>
+            </h5>
+
+            <div ng-repeat="(key, baselayer) in mapConfig.layers" ng-click="toggleBaselayer(key)">
+                <label style="font-weight:normal">
+                    <input type="radio" value="" ng-checked="key == baselayerKey">
+                    {{ baselayer.name }}
+                </label>
+            </div>
+        </div>
+
+    </div>
 </div>

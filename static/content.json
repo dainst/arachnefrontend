@@ -1,0 +1,60 @@
+
+  {
+    "id": "Overview",
+    "title": {
+      "de": "Inhalte"
+    }
+    ,"children": [
+    {
+      "id": "navbar",
+      "children":[
+	      {
+	        "id": "faq",
+	        "title": {
+	          "de": "FAQ"
+	        }
+	      },
+	      {
+	        "id": "apis",
+	        "title": {
+	          "de": "Schnittstellen",
+			  "en": "APIs"
+	        }
+	      },
+      {
+        "id": "order",
+        "title": {
+		  "en": "License / Order",
+          "de": "Lizenz / Bestellungen"
+        }
+      },
+      {
+        "id": "about",
+        "title": {
+          "de": "Über Arachne"
+        }
+      }
+	  
+	  
+	  
+      ]
+    },
+    {
+      "id": "footer",
+      "children": [
+      {
+        "id": "imprint",
+        "title": {
+		  "de": "Impressum",
+          "en": "Imprint"
+        }
+      },
+      {
+        "id": "privacy",
+        "title": {
+          "de": "Datenschutz"
+        }
+      }]
+    }
+  ]
+}

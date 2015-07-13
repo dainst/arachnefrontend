@@ -2,6 +2,8 @@
   "name": "arachnefrontend",
   "version": "0.1.0",
   "devDependencies": {
+    "angular": "^1.3.16",
+    "angular-mocks": "^1.3.16",
     "connect-livereload": "^0.5.3",
     "connect-modrewrite": "^0.8.1",
     "grunt": "~0.4.5",
@@ -10,6 +12,13 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-contrib-uglify": "~0.5.0",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-protractor-runner": "^2.0.0",
+    "jasmine-core": "^2.3.4",
+    "karma-chrome-launcher": "^0.1.12",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "phantomjs": "^1.9.17",
+    "karma-html2js-preprocessor": "~0.1.0"
   }
 }

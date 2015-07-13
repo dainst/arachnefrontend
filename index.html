@@ -16,17 +16,6 @@
 	<link rel="stylesheet" href="css/leaflet.css">
 	<link rel="stylesheet" href="css/angular-ui-tree.min.css">
 
-	<script type="text/javascript">
-		var translations = {}
-		var parseTransl8 = function (data) {
-			for(var i = 0; i < data.length; i++) {
-				translations[data[i].key] = data[i].value;
-			}
-		}
-	</script>
-
-	<script type="text/javascript" src="http://crazyhorse.archaeologie.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&callback=parseTransl8"></script>
-
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -42,100 +31,16 @@
 	</script>
 
 </head>
-<body ng-controller="NavBarCtrl">
+<body ng-controller="NavBarController">
 
-	<nav class="navbar navbar-default navbar-fixed-top" style="background-color:white; opacity:0.89" role="navigation" ng-controller="MenuCtrl">
-		<div style="padding-left:0px; position:relative">
-			<img class="pull-left" src="img/kleinergreif.png" style="height: 36px; margin-left: 16px; margin-top: 8px; width: 36px;"></img>
-			<a href="#">
-				<img class="pull-left" src="img/arachnelogo.png" style="height: 36px; margin-left: 16px; margin-top: 8px; width: 36px;"></img>
-				<span class="navbar-brand" style="font-weight:300; font-size:20px; height:46px; margin-top: 4px;">arachne </span>
-				<span class="text-primary" style="font-size:12px; position:absolute; top:9px; left: 164px;">beta</span>
-			</a>
-		</div>
-
-		<div class="navbar-header" ng-init="isCollapsed = true">
-			
-			<button class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" type="button">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-
-		</div>
-		<div class="collapse navbar-collapse" collapse="isCollapsed" style="padding-left:10px">
-			
-			<form ng-controller="SearchFormCtrl"
-					ng-submit="search()"
-					ng-hide="currentPath == '/'"
-					class="navbar-left navbar-form input-group form-inline"
-					role="search">
-		        <input autofocus type="text" class="form-control" placeholder="neue Suche" ng-model="q" name="q">
-		        <span class="navbar-left input-group-btn">
-		        	<button type="submit" class="btn btn-default"><span style="line-height:inherit" class="glyphicon glyphicon-search"></span></button>
-		        </span>
-		    </form>
-
-			<ul class="nav navbar-nav navbar-right">
-		    	<li><a href="faq">FAQ</a></li>
-		    	<li><a href="apis">APIs</a></li>
-		    	<li><a href="order">Lizenz/Bestellung</a></li>
-		    	<li><a href="about">Über Arachne</a></li>
-		    	<li><a href="contact">Kontakt</a></li>
-
-		    	<li>		    		
-
-					<!-- user menu if logged in -->
-					<div ng-if="user.username" dropdown ng-cloak
-							class="btn-group btn-group-sm"
-							style="margin-top:2px; padding-left:20px; margin-right:30px;">
-						<a href="bookmarks" class="btn btn-default navbar-btn dropdown-toggle">
-							<span class="glyphicon glyphicon-user"></span>
-							&nbsp;{{user.username}}
-							<span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu" role="menu"
-								style="margin-top:-6px;">
-					        <li>
-					        	<a href="catalog">
-									<span style="color: rgb(66,139,202)" class="glyphicon glyphicon-inbox"></span>
-									&nbsp;Kataloge verwalten
-								</a>
-					        </li>
-					        <li class="divider"></li>
-					        <li>
-					        	<a ng-click="logout()" style="cursor:pointer;">
-									<span class="glyphicon glyphicon-log-out"></span> &nbsp;Abmelden
-								</a>
-					        </li>
-					    </ul>
-					</div>
-
-					<!-- login and register if not logged in -->
-					<div ng-if="!user.username" ng-cloak
-							class="btn-group btn-group-sm"
-							style="margin-top:2px; padding-left:20px; margin-right:30px;">
-						<a  type="button" class="btn btn-primary navbar-btn" ng-click="openLoginModal()">
-							<span class="glyphicon glyphicon-log-in"></span> &nbsp;Anmelden
-						</a>
-						<a ng-if="!user.username" class="btn btn-default navbar-btn" href="register">
-							Registrieren
-						</a>			
-					</div>
-
-		    	</li>
-
-		    </ul>
-		</div>
-	</nav>
-
+	<ar-navbar content-dir="static"></ar-navbar>
+	
 	<div class="container-fluid">
 
 		<div style="min-height:500px;">
 
 			<!-- MESSAGES -->
-			<div ng-controller="MessageCtrl" ng-cloak>
+			<div ng-controller="MessageController" ng-cloak>
 					<div ng-repeat="(code,message) in messages"
 							ng-class="'alert-' + message.level"
 							class="col-md-10 col-md-offset-1 alert text-center">
@@ -149,16 +54,7 @@
 
 		</div>
 
-		<div ng-hide="$root.hideFooter" class="row">
-			<div class="col-md-12 text-center">
-				<hr>
-				<p>
-					<a href="http://archaeologie.uni-koeln.de" target="_blank"><img src="img/siegel_unikoeln.gif" height="80px"></a>
-					<a href="http://www.dainst.org/" target="_blank"><img src="img/greif.png" height="80px"></a>
-				</p>
-				<p class="small">Copyright Arachne © 2014 | <a href="imprint">Impressum</a> | <a href="privacy">Datenschutz</a> | Fehlermeldungen bitte an <a href="mailto:idai.objects@dainst.de">idai.objects@dainst.de</a></p>
-			</div>
-		</div>
+		<ar-footer content-dir="static"></ar-footer>
 	</div>
 
 
@@ -183,9 +79,18 @@
 	<script src="lib/angular-ui-tree.min.js"></script>
 
 	<script src="js/services.js"></script>
+	<script src="js/services_transl8.js"></script>
+    <script src="js/services_language.js"></script>
+	<script src="js/services_language_selection.js"></script>
+	<script src="js/services_localized_content.js"></script>
 	<script src="js/controllers.js"></script>
+	<script src="js/controllers_dataimport.js"></script>
+	<script src="js/controllers_projects.js"></script>
+	<script src="js/controllers_static_content.js"></script>
 	<script src="js/filters.js"></script>
 	<script src="js/directives.js"></script>
+	<script src="js/directives_navbar.js"></script>
+	<script src="js/directives_footer.js"></script>
     <script src="js/widgets/directives.js"></script>
 	<script src="js/app.js"></script>
 

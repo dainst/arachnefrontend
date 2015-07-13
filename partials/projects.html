@@ -12,34 +12,33 @@
 			<div ng-repeat="project in column">
 				<h3 style="margin-top:25px;">
 					<a ng-show="project.id" href="project/{{project.id}}" style="color:black;">
-						{{project.title.de}}
+						{{project.title}}
 					</a>
-					<span ng-hide="project.id">{{project.title.de}}</span>
+					<span ng-hide="project.id">{{project.title}}</span>
 				</h3>
 				<hr style="margin-top: 0; margin-bottom:10px;">
 				<ul class="list-unstyled">
 					<li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;">
-						<span ng-hide="filter && project.title.de.toLowerCase().indexOf(filter.toLowerCase()) == -1">
+						<span ng-hide="project.hidden || (filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1)">
 							<a ng-show="project.id" href="project/{{project.id}}">
-								{{project.title.de}}
+								{{project.title}}
 							</a>
-							<span ng-hide="project.id">{{project.title.de}}</span>
+							<span ng-hide="project.id">{{project.title}}</span>
 						</span>
 						<ul ng-show="project.children">
-							<li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;"
-									ng-hide="filter && project.title.de.toLowerCase().indexOf(filter.toLowerCase()) == -1">
-								<a ng-show="project.id" href="project/{{project.id}}">
-									{{project.title.de}}
-								</a>
-								<span ng-hide="project.id">{{project.title.de}}</span>
+							<li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;">
+								<span ng-hide="project.hidden || (filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1)">
+									<a ng-show="project.id" href="project/{{project.id}}">
+										{{project.title}}
+									</a>
+									<span ng-hide="project.id">{{project.title}}</span>
+								</span>
+
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</div>
 		</div>
-
-		
-
     </div>
 </div>

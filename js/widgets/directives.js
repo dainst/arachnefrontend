@@ -156,7 +156,7 @@ angular.module('arachne.widgets.directives', [])
             scope.slashRegex  = /\//g;
 
             if(!scope.placeholder)
-               scope.placeholder = $filter('i18n')('ui_projectsearchplaceholder');
+               scope.placeholder = $filter('transl8')('ui_projectsearchplaceholder');
 
 				scope.search = function() {
               	var url = "search/?q=";
@@ -201,7 +201,7 @@ angular.module('arachne.widgets.directives', [])
                  scope.hierarchyFacets = attrs.hierarchyFacets.split(',');
 
                // in the UI, the tree starts with the last provided static facet's name
-              scope.treeRoot = [{name: scope.staticFacets[scope.staticFacets.length - 1][1], depth: 0, children:[], facet: null, parent: null}];
+              scope.treeRoot = [{name: scope.staticFacets[scope.staticFacets.length - 1][1], depth: 0, children:[], facet: null, parent: null, id: "0"}];
               scope.isShown = {};
 
               scope.getNodeChildren = function(node){
@@ -222,6 +222,9 @@ angular.module('arachne.widgets.directives', [])
                  }
 
                  treeQuery.q = "*";
+                 treeQuery.limit = 0;
+
+                 // TODO implement sorting of facet values (when available in backend)
 
                  Entity.query(treeQuery.toFlatObject(), function(response) {
                     for(var  i = 0; i < response.facets.length; i++){
@@ -231,15 +234,23 @@ angular.module('arachne.widgets.directives', [])
                           || (scope.wildcardFacet && currentResultFacet.name.indexOf(scope.wildcardFacet) > -1)){
                           for(var j = 0; j < currentResultFacet.values.length; j++)
                           {
-                             node.children.push({name: currentResultFacet.values[j].value, depth: node.depth + 1, children:[],
-                                facet: [currentResultFacet.name, currentResultFacet.values[j].value], parent: node});
+                          	var value = currentResultFacet.values[j].value;
+                          	var child = {
+                        		name: value, 
+                        		depth: node.depth + 1,
+                        		children:[],
+                    			facet: [currentResultFacet.name, value],
+                    			parent: node,
+                    			id: node.id + "_" + j
+                    		}
+                            node.children.push(child);
                           }
                        }
                     }
                     if(node.children == 0){
                        node.isLeaf = true;
                     }
-                    scope.isShown[ node.name] = true;
+                    scope.isShown[node.id] = true;
                  });
               };
 
@@ -254,13 +265,13 @@ angular.module('arachne.widgets.directives', [])
               };
 
               scope.toggleCollapse = function(node){
-                 scope.isShown[node.name] = !scope.isShown[node.name];
-                 if(scope.isShown[node.name]){
+                 scope.isShown[node.id] = !scope.isShown[node.id];
+                 if(scope.isShown[node.id]){
                     this.getNodeChildren(node)
                  }
               };
-              scope.checkIfShown = function(label){
-                 return scope.isShown[label]; // at first load -> undefined, so it gets hidden but: ugly?
+              scope.checkIfShown = function(node){
+                 return scope.isShown[node.id]; // at first load -> undefined, so it gets hidden but: ugly?
               };
 
                scope.closeAll = function(){

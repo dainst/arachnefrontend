@@ -14,7 +14,7 @@
 
 </script>
 
-<div ng-cloak class="row"  ng-controller="EntityCtrl">
+<div ng-cloak class="row"  ng-controller="EntityController">
 
 	<div ng-hide="entity.entityId || error" class="loading"></div>
 
@@ -24,7 +24,7 @@
 		<div ng-if="resultSize">
 
 			<h5 ng-if="currentQuery.q" class="text-muted">
-				<strong class="uppercase">Aktuelle Suche</strong>
+				<strong class="uppercase">{{"ui_current_query"|transl8}}</strong>
 			</h5>
 
 			<div ng-if="currentQuery.q" class="panel panel-default">
@@ -33,21 +33,21 @@
 
 					<a ng-href="search{{currentQuery.removeParam('resultIndex').removeParam('offset').toString()}}"
 							class="btn btn-xs pull-right btn-primary">
-						<span class="glyphicon glyphicon-arrow-left"></span> zum Suchergebnis
+						<span class="glyphicon glyphicon-arrow-left"></span> {{"ui_to_search_result"|transl8}}
 					</a>
 
 					<div>
-						<b class="text-muted uppercase small">Aktuelle Suche</b><br>
+						<b class="text-muted uppercase small">{{"ui_current_query"|transl8}}</b><br>
 						<span ng-if="!currentQuery.label">{{currentQuery.q}}</span>
 						<i ng-if="currentQuery.label">{{currentQuery.label}}</i>
 					</div>
 
 					<div ng-if="currentQuery.hasFacets()">
-						<b class="text-muted uppercase small">Aktive Filter</b>
+						<b class="text-muted uppercase small">{{"entity_active_filters"|transl8}}</b>
 						<ul>
 							<li ng-repeat="facet in currentQuery.facets">
 								<small>
-									<i>{{facet.key | i18n}}</i>
+									<i>{{facet.key | transl8}}</i>
 									<b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b>
 								</small>
 							</li>
@@ -65,7 +65,7 @@
 						<div>
 							<b class="text-muted uppercase small">
 								<span class="glyphicon glyphicon-chevron-left" style="color:black" ></span>
-								&nbsp; vorheriges Ergebnis
+								&nbsp; {{"entity_previous_result"|transl8}}
 							</b>
 						</div>
 						<div ar-entity-title entity="prevEntity"></div>
@@ -73,7 +73,7 @@
 					</a>
 
 					<li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
-						<b class="text-muted uppercase small">Angezeiger Datensatz</b>
+						<b class="text-muted uppercase small">{{"entity_shown_result"|transl8}}</b>
 						<form ng-submit="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">
 							<div class="input-group"
 									ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
@@ -94,7 +94,7 @@
 							style="height:75px; overflow:hidden">
 						<div>
 							<b class="text-muted uppercase small">
-								&nbsp; nächstes Ergebnis
+								&nbsp; {{"entity_next_result"|transl8}}
 								<span class="glyphicon glyphicon-chevron-right" style="color:black" ></span>
 							</b>
 						</div>
@@ -112,15 +112,15 @@
 
 		<!-- Karte -->
     	<div ng-if="entity.facet_aufbewahrungsort || entity.facet_fundort">    		
-			<h5 class="text-muted uppercase"><strong>Orte</strong></h5>
+			<h5 class="text-muted uppercase"><strong>{{'entity_places'|transl8}}</strong></h5>
         	<div class="well" entitymap found="entity.facet_fundort" depo="entity.facet_aufbewahrungsort" id="entitymap" style="height:200px;"></div>
     	</div>
 
 		<!-- NOTES -->
 		<div ng-if="user.username">
-			<h5 class="text-muted uppercase"><strong>Kataloge</strong></h5>
+			<h5 class="text-muted uppercase"><strong>{{'entity_catalogs'|transl8}}</strong></h5>
 			<button type="button" class="btn btn-default btn-sm" ng-click="createEntry()">
-				<span class="glyphicon glyphicon-pushpin"></span> Eintrag anlegen
+				<span class="glyphicon glyphicon-pushpin"></span> {{'entity_create_entry'|transl8}}
 			</button>
 		</div>
 		<!-- END NOTES -->
@@ -144,13 +144,13 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-3">
-						<b>{{ 'entityId' | i18n }}</b><br>{{ entity.entityId }}
+						<b>{{ 'entityId' | transl8 }}:</b><br>{{ entity.entityId }}
 					</div>
 					<div class="col-md-3">
-						<b>Kategorie:</b><br>{{ categories[entity.type]["singular"] }}
+						<b>{{'ui_category'|transl8}}:</b><br>{{ categories[entity.type]["singular"] }}
 					</div>
 					<div class="col-md-3">
-						<b>Seriennummer:</b><br>{{ entity.internalId }}
+						<b>{{'ui_serial_number'|transl8}}:</b><br>{{ entity.internalId }}
 					</div>
 					<div class="col-md-3">
 						
@@ -174,14 +174,14 @@
 				<hr>
 
 				<div ng-if="!entity.sections">
-					<em>keine weiteren Angaben eingetragen</em>
+					<em>{{'entity_no_further_info'|transl8}}</em>
 				</div>
 				<div class="sections"
 						ng-repeat="section in entity.sections"
 						ng-include="'section_template.html'">
 				</div>
 				<div ng-if="entity.additionalContent.ocrText">
-					<div class="page-header"><h4>OCR Text-Analyse</h4></div>
+					<div class="page-header"><h4>OCR Text {{'entity_analysis'|transl8}}</h4></div>
 					<ul>{{entity.additionalContent.ocrText}}</ul>
 				</div>
 
@@ -195,17 +195,17 @@
 					<div class="col-md-12">
 						<h3 ng-if="entity.images.length > 1">
 							<a ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}">
-								Abbildungen <small>({{entity.images.length}})</small>
+								{{'entity_images'|transl8}} <small>({{entity.images.length}})</small>
 							</a>
 						</h3>
-						<h3 ng-if="entity.images.length == 1">Abbildung</h3>
+						<h3 ng-if="entity.images.length == 1">{{'entity_image'|transl8}}</h3>
 						<div ar-imageslider ng-if="entity.images" entity="entity" current-query="currentQuery"></div>
 					</div>
 				</div>
 
 				<div class="row" ng-if="entity.externalLinks">
 					<div class="col-md-12">
-						<h3>Andere Ansichten</h3>
+						<h3>{{'entity_other_views'|transl8}}</h3>
 						<div class="list-group">
 							<a ng-repeat="externalLink in entity.externalLinks"
 									ng-href="{{ externalLink.url }}"
@@ -224,7 +224,7 @@
 						
 						<h3>
 							<a ng-href="search{{contextQuery.toString()}}">
-								Verknüpfte Objekte
+								{{'entity_linked_objects'|transl8}}
 								<small>({{contextSize}})</small>
 							</a>
 						</h3>

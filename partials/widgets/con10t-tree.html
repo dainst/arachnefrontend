@@ -2,10 +2,10 @@
     <div class="con10t-tree-child">
 
         <span ng-click="toggleCollapse(node)" ng-if="!node.isLeaf">
-            <span ng-if="checkIfShown(node.name)">
+            <span ng-if="checkIfShown(node)">
                 <span class="glyphicon glyphicon-folder-open" aria-hidden="true" style="color:grey; cursor:pointer;"></span>
             </span>
-            <span ng-if="!checkIfShown(node.name)">
+            <span ng-if="!checkIfShown(node)">
                 <span class="glyphicon glyphicon-folder-close" aria-hidden="true" style="color:grey; cursor:pointer;"></span>
             </span>
         </span>
@@ -15,12 +15,12 @@
 
         <span>{{node.name}}
             <a ng-click="startFacetedSearch(node)">
-                <span class="glyphicon glyphicon-search" aria-hidden="true" title="{{'ui_showall' | i18n}}"></span>
+                <span class="glyphicon glyphicon-search" aria-hidden="true" title="{{'ui_showall' | transl8}}"></span>
             </a>
         </span>
 
         <span ng-if="node.children.length > 0">
-            <div class="con10t-tree-children" ng-if="node.children" collapse="!checkIfShown(node.name)">
+            <div class="con10t-tree-children" ng-if="node.children" collapse="!checkIfShown(node)">
                 <div ng-repeat="node in node.children" ng-include="'nodeTemplate'"></div>
             </div>
         </span>
@@ -42,4 +42,4 @@
     </div>
 </div>
 
-<!--<div ng-click="closeAll()" title="{{'ui_hideall' | i18n}}">{{'ui_hideall' | i18n}}</div>-->
+<!--<div ng-click="closeAll()" title="{{'ui_hideall' | transl8}}">{{'ui_hideall' | transl8}}</div>-->

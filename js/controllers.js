@@ -3,16 +3,16 @@
 /* Controllers */
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
-.controller("NavBarCtrl",[ '$scope', 'con10tService', 
+.controller("NavBarController",[ '$scope', 'con10tService',
 	function ($scope, con10tService){
 		
 		$scope.topMenu = null;
-		con10tService.getTop().success(function(data){
+		/*con10tService.getTop().success(function(data){
 			$scope.topMenu = data;
-		});
+		});*/
 	}
 ])
-.controller('MenuCtrl',	[ '$scope', '$modal', 'authService', '$location', '$window',
+.controller('MenuController',	[ '$scope', '$modal', 'authService', '$location', '$window',
 	function ($scope,  $modal, authService, $location, $window) {
 
 		$scope.user = authService.getUser();
@@ -25,7 +25,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.openLoginModal = function() {
 			var modalInstance = $modal.open({
 				templateUrl: 'partials/Modals/loginForm.html',
-				controller: 'LoginCtrl'
+				controller: 'LoginController'
 			});
 			modalInstance.result.then(function(user) {
 				$window.location.reload();
@@ -40,7 +40,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('LoginCtrl', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal', '$window',
+.controller('LoginController', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal', '$window',
 	function($scope, $modalInstance, authService, $timeout, $modal, $window){
 		
 		$scope.loginData = {};
@@ -66,8 +66,34 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		};
 	}
 ])
-.controller('PwdController', ['$scope', '$http',  'resetService',
-	function ($scope, $http, resetService) {
+
+//set new Passwort
+.controller('PwdActivationController', ['$scope', '$routeParams', '$filter', '$http',  'arachneSettings',
+	function ($scope, $routeParams, $filter, $http, arachneSettings) {
+		var token = $routeParams.token;
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			if ($scope.password && $scope.passwordConfirm) {
+				$scope.usrData.password = $filter('md5')($scope.password);
+				$scope.usrData.passwordConfirm = $filter('md5')($scope.passwordConfirm);
+			}
+			$http.post(arachneSettings.dataserviceUri + "/user/activation/" + token, $scope.usrData, {
+				"headers": { "Content-Type": "application/json" }
+			}).success(function(data) {
+				$scope.error = "";
+				$scope.success = true;
+			}).error(function(data) {
+				$scope.error = data.message;
+			});
+		}
+	}
+])
+
+//create Passwort reset request
+.controller('PwdController', ['$scope', '$http',  'arachneSettings', 'resetService', 
+	function ($scope, $http, arachneSettings, resetService) {
 
 		$scope.success = false;
 		$scope.error = "";
@@ -85,7 +111,64 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('SearchFormCtrl', ['$scope', '$location',
+
+//Contact Form Controller
+.controller('ContactController', ['$scope', '$http', '$modal', 'contactService', 'arachneSettings',
+	function ($scope, $http, $modal, contactService, arachneSettings) {
+
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			contactService.sendContact($scope.usrData, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
+		}
+	}
+])
+//Register Form 
+.controller('RegisterController', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings', 'registerService',
+	function ($rootScope, $scope, $http, $filter, arachneSettings, registerService) {
+
+		$rootScope.hideFooter = false;
+
+		$scope.user = {};
+		$scope.success = false;
+		$scope.error = "";
+
+		$scope.submit = function() {
+			if ($scope.password && $scope.passwordValidation) {
+				$scope.user.password = $filter('md5')($scope.password);
+				$scope.user.passwordValidation = $filter('md5')($scope.passwordValidation);
+			}
+			registerService.sendContact($scope.user, 
+				function(data){
+					$scope.error = "";
+					$scope.success = true;
+				}, 
+				function(error){
+					$scope.error = data.message;
+				}
+			);
+			/*$http.post(arachneSettings.dataserviceUri + "/user/register", $scope.user, {
+				"headers": { "Content-Type": "application/json" }
+			}).success(function(data) {
+				$scope.error = "";
+				$scope.success = true;
+			}).error(function(data) {
+				$scope.error = data.message;
+			});*/
+		}
+
+	}
+])
+.controller('SearchFormController', ['$scope', '$location',
 	function($scope, $location) {
 
 		$scope.search = function(fq) {
@@ -262,7 +345,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CategoryCtrl', ['$rootScope','$scope', 'Query', 'categoryService', '$location', 'Entity',
+.controller('CategoryController', ['$rootScope','$scope', 'Query', 'categoryService', '$location', 'Entity',
 	function($rootScope, $scope, Query, categoryService, $location, Entity) {
 
 		$rootScope.hideFooter = false;
@@ -286,7 +369,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('MapCtrl', ['$rootScope', '$scope', 'searchService', 'messageService',
+.controller('MapController', ['$rootScope', '$scope', 'searchService', 'messageService',
 	function($rootScope, $scope, searchService, messageService) {
 
 		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort", "facet_geo"]; //, "facet_ort"
@@ -326,13 +409,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('EntityCtrl', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
+.controller('EntityController', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
 	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messageService) {
 
 		$rootScope.hideFooter = false;
 		
 		$scope.user = authService.getUser();
-		$scope.serverUri = arachneSettings.serverUri;
+		$scope.serverUri = "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href");
 
 		categoryService.getCategoriesAsync().then(function(categories) {
 			$scope.categories = categories;
@@ -448,7 +531,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CatalogCtrl',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry',
+.controller('CatalogController',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry',
 	function ($scope, $modal, authService, Entity, Catalog, CatalogEntry) {
 
 		$scope.catalogs = [];
@@ -588,7 +671,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageCtrl', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'messageService',
+.controller('EntityImageController', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'messageService',
 	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, messageService) {
 
 		$rootScope.hideFooter = true;
@@ -668,7 +751,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImagesCtrl', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'messageService',
+.controller('EntityImagesController', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'messageService',
 	function($routeParams, $scope, Entity, $filter, searchService, $rootScope, messageService) {
 
 		$rootScope.hideFooter = true;
@@ -717,39 +800,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 ])
 
-.controller('ProjectsController', ['$scope', '$http', 'con10tService', 
-	function ($scope, $http, con10tService) {
-
-		$scope.columns = [];
-		
-		con10tService.getProjects().success(function(data){
-			$scope.projects = data[0].children;
-			$scope.columns[0] = $scope.projects.slice(0,3);
-			$scope.columns[1] = $scope.projects.slice(3,5);
-			$scope.columns[2] = $scope.projects.slice(5);
-		});
-
-	}
-])
-.controller('ContactController', ['$scope', '$http', '$modal', 'contactService', 'arachneSettings',
-	function ($scope, $http, $modal, contactService, arachneSettings) {
-
-		$scope.success = false;
-		$scope.error = "";
-
-		$scope.submit = function() {
-			contactService.sendContact($scope.usrData, 
-				function(data){
-					$scope.error = "";
-					$scope.success = true;
-				}, 
-				function(error){
-					$scope.error = data.message;
-				}
-			);
-		}
-	}
-])
 
 .controller('AllCategoriesController', ['$rootScope', '$scope', '$http', 'categoryService', '$timeout',
 	function ($rootScope, $scope, $http, categoryService, $timeout) {
@@ -792,33 +842,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('RegisterCtrl', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings',
-	function ($rootScope, $scope, $http, $filter, arachneSettings) {
-
-		$rootScope.hideFooter = false;
-
-		$scope.user = {};
-		$scope.success = false;
-		$scope.error = "";
-
-		$scope.submit = function() {
-			if ($scope.password && $scope.passwordValidation) {
-				$scope.user.password = $filter('md5')($scope.password);
-				$scope.user.passwordValidation = $filter('md5')($scope.passwordValidation);
-			}
-			$http.post(arachneSettings.dataserviceUri + "/user/register", $scope.user, {
-				"headers": { "Content-Type": "application/json" }
-			}).success(function(data) {
-				$scope.error = "";
-				$scope.success = true;
-			}).error(function(data) {
-				$scope.error = data.message;
-			});
-		}
-
-	}
-])
-.controller('MessageCtrl', ['$scope', 'messageService',
+.controller('MessageController', ['$scope', 'messageService',
 	function ($scope, messageService) {
 
 		$scope.messages = messageService.getMessages();
@@ -829,20 +853,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('ProjectCtrl', ['$scope', '$routeParams',
-	function ($scope, $routeParams) {
-		$scope.templateUrl = 'con10t/de/' + $routeParams.name + '.html';
-	}
-])
-.controller('EditCatalogEntryCtrl',
+.controller('EditCatalogEntryController',
 	function ($scope, $modalInstance, entry) {
 		$scope.entry = entry;
 	}
 )
-.controller('EditCatalogCtrl',
+.controller('EditCatalogController',
 	function ($scope, $modalInstance, catalog) {
 		$scope.catalog = catalog;
 	}
-)
-;
+);
 

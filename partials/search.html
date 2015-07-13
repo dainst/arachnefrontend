@@ -1,4 +1,4 @@
-<div class="row" ng-controller="SearchCtrl">
+<div class="row" ng-controller="SearchController">
 	
 	<!-- Loading-Icon -->
 	<div ng-hide="resultSize >= 0">
@@ -21,14 +21,16 @@
 	<!-- Linke Spalte -->
 	<div class="col-md-2 col-sm-3" ng-if="resultSize">
 		<div>
-			<small class="text-muted">
-				Insgesamt <b>{{ resultSize|number }}</b> Ergebnis<span ng-show="resultSize > 1">se</span>
-				<span ng-show="numPages > 1"><br> auf <b>{{numPages|number}}</b> Seiten</span>
-			</small>
+		<small class="text-muted">
+			{{"ui_total"|transl8}} <b>{{ resultSize|number }}</b>
+			<span ng-show="resultSize > 1"> {{"ui_entries"|transl8}}</span>
+			<span ng-hide="resultSize > 1"> {{"ui_entry"|transl8}}</span>
+			<span ng-show="numPages > 1"><br> auf <b>{{numPages|number}}</b> {{"ui_pages"|transl8}}</span>
+		</small>
 		</div>
 		<small>
 
-			<h5 class="text-muted uppercase"><b>Aktuelle Suche</b></h5>
+			<h5 class="text-muted uppercase"><b>{{"ui_current_query"|transl8}}</b></h5>
 			<form ng-if="!currentQuery.label" ng-submit="go('/search' + currentQuery.setParam('q',q).toString())">
 				<input type="text" class="form-control" ng-model="q">
 			</form>
@@ -46,7 +48,7 @@
 					<h5 class="panel-title">
 						<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
 						<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>	
-						&nbsp;{{facet.name | i18n }}
+						&nbsp;{{facet.name | transl8 }}
 					</h5>
 				</div>
 				<ul class="list-unstyled facet"	ng-show="facet.open">

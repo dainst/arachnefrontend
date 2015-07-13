@@ -38,17 +38,39 @@ module.exports = function(grunt) {
 				    host: 'lakota.archaeologie.uni-koeln.de'
 				}]
 			}
+		},
+		protractor: {
+			options: {
+				configFile: "test/e2e/protractor.conf.js",
+			},
+			e2e: {
+				options: {
+					keepAlive: false
+				}
+			},
+			continuous: {
+				options: {
+					keepAlive: false
+				}
+			}
 		}
 	});
-  
+
+
+
+
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-connect-proxy');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-protractor-runner');
 
 	grunt.registerTask('server', [
         'configureProxies:server',
 		'connect:server',
 		'watch'
-    ]);
+    ]).registerTask('uitest', [
+		'connect:server',
+		'protractor:e2e'
+	]);
 
 };
