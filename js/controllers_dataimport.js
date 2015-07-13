@@ -30,19 +30,18 @@ function($scope, $http, $location, arachneSettings) {
 	var MSG_UNAUTHORIZED = 'The system rejects your request. You have not the necessary permissions. Please log in with admin rights. ';
 
 	/**
-	 * All $scope functions accesible from within the view must call gate() at first.
-	 * +lastAction+ - Description of the last action.
-	 * returns: true to indicate the $scope function is allowed to get executed. false otherwise.
+	 * All $scope functions accesible from within the view must call anotherRequestPending() at first.
+	 * @return false to indicate the $scope function is allowed to get executed. true otherwise.
 	 * The action should return immediately in the latter case.
 	 */
-	function gatePassed() {
+	function anotherRequestPending() {
 		if (requestPending){
 			$scope.lastActionOutcome=$scope.lastActionOutcome+'Please wait. ';
-			return false;
+			return true;
 		}
 		requestPending=true;
 		$scope.lastActionOutcome='Request pending. ';
-		return true;
+		return false;
 	}
 
 	function handleError(status) {
@@ -73,7 +72,7 @@ function($scope, $http, $location, arachneSettings) {
 	 * Lets admins retrieve the latest information on the dataimport status.
 	 */
 	$scope.requestRefresh = function () {
-		if (!gatePassed()) return;
+		if (anotherRequestPending()) return;
 
 		var clear = function() {
 			$scope.lastActionOutcome=undefined;
@@ -87,7 +86,7 @@ function($scope, $http, $location, arachneSettings) {
 	 * Lets admins start the dataimport.
 	 */
 	$scope.startDataimport = function () {
-		if (!gatePassed()) return;
+		if (anotherRequestPending()) return;
 
 		$http
 			.post(dataimportUri + '?command=start')
@@ -113,7 +112,7 @@ function($scope, $http, $location, arachneSettings) {
 	 * Lets admins stop the dataimport.
 	 */
 	$scope.stopDataimport = function() {
-		if (!gatePassed()) return;
+		if (anotherRequestPending()) return;
 
 		$http
 			.post(dataimportUri + '?command=stop')
