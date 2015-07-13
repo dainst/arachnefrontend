@@ -4,10 +4,10 @@
  * creation of a menu item in the navigation bar.
  * 
  * The language selection mechanism if following the rules 
- * described in ../docs/feature_localization_con10t.md and implemented
+ * described in ../docs/feature_localization_con10t.md and is implemented
  * on top of the same mechanisms which are already tested in
  * ../test/controllers_projects_spec.js. 
- * So these rules won't be tested here.
+ * So these rules won't be tested here again.
  * 
  * Author: Daniel M. de Oliveira
  */
