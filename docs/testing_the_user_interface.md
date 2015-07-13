@@ -2,7 +2,7 @@ Asides from unit testing we make use of [Protractor](https://angular.github.io/p
 
 ## Preparative works
 
-For the e2e tests to work properly, edit your [js/app.js](js/app.js). Change 
+For the e2e tests to work properly, edit your [app.js](../js/app.js). Change 
 
 ```javascript
 dataserviceUri: "http://" + document.location.host + "/data",
