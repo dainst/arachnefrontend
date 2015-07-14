@@ -182,7 +182,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('SearchCtrl', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'Catalog','messageService', '$modal', '$http', 'Entity', 'authService',
+.controller('SearchController', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'Catalog','messageService', '$modal', '$http', 'Entity', 'authService',
 	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, messageService, $modal, $http, Entity, authService){
 
 		$rootScope.hideFooter = false;
