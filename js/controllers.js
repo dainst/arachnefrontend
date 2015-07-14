@@ -266,7 +266,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					};
 					var catalogFromSearch = $modal.open({
 						templateUrl: 'partials/Modals/editCatalog.html',
-						controller: 'EditCatalogCtrl',
+						controller: 'EditCatalogController',
 						resolve: { catalog: function() {  return bufferCatalog } }
 					});
 					catalogFromSearch.close = function(newCatalog) {
@@ -433,7 +433,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				};
 				var editEntryModal = $modal.open({
 					templateUrl: 'partials/Modals/editEntry.html',
-					controller: 'EditCatalogEntryCtrl',
+					controller: 'EditCatalogEntryController',
 					resolve: { entry: function() { return entry } }
 				});
 				editEntryModal.close = function(newEntry) {
@@ -564,7 +564,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.editEntry = function(entry) {
 			var editEntryModal = $modal.open({
 				templateUrl: 'partials/Modals/editEntry.html',
-				controller: 'EditCatalogEntryCtrl',
+				controller: 'EditCatalogEntryController',
 				resolve: { entry: function() { return entry } }
 			});
 			editEntryModal.close = function(newEntry) {
@@ -580,7 +580,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			};
 			var editCatalogModal = $modal.open({
 				templateUrl: 'partials/Modals/editCatalog.html',
-				controller: 'EditCatalogCtrl',
+				controller: 'EditCatalogController',
 				resolve: { catalog: function() { return catalogBuffer } }
 			});
 			editCatalogModal.close = function(newCatalog) {
@@ -596,7 +596,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.editCatalog = function() {
 			var editCatalogModal = $modal.open({
 				templateUrl: 'partials/Modals/editCatalog.html',
-				controller: 'EditCatalogCtrl',
+				controller: 'EditCatalogController',
 				resolve: { catalog: function() { return $scope.activeCatalog } }
 			});
 			editCatalogModal.close = function(newCatalog) {
