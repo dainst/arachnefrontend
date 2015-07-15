@@ -37,6 +37,29 @@ module.exports = function(grunt) {
 				    context: '/data',
 				    host: 'lakota.archaeologie.uni-koeln.de'
 				}]
+			},
+			testserver: {
+				options: {
+					port: 1234,
+					livereload: 35729,
+					middleware: function (connect, options) {
+						var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
+						var modRewrite = require('connect-modrewrite');
+						return [
+							// Include the proxy to the dev backend
+							proxy,
+							// rewrite for AngularJS HTML5 mode
+							modRewrite(['^[^\\.]*$ /index.html [L]']),
+							// Serve static files.
+							connect.static(options.base[0])
+						];
+					}
+				},
+				proxies: [{
+					context: '/data',
+					host: 'localhost',
+					port: 1236
+				}]
 			}
 		},
 		protractor: {
@@ -69,7 +92,8 @@ module.exports = function(grunt) {
 		'connect:server',
 		'watch'
     ]).registerTask('uitest', [
-		'connect:server',
+		'configureProxies:testserver',
+		'connect:testserver',
 		'protractor:e2e'
 	]);
 
