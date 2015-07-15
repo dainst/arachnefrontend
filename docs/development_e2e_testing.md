@@ -1,24 +1,5 @@
 Asides from unit testing we make use of [Protractor](https://angular.github.io/protractor/#/) and [httParrot](https://github.com/danielmarreirosdeoliveira/httParrot) and Jasmine to perform some basic e2e testing.
 
-## Preparative works
-
-For the e2e tests to work properly, edit your [app.js](../js/app.js). Change 
-
-```javascript
-dataserviceUri: "http://" + document.location.host + "/data",
-```
-
-to 
-
-```javascript
-dataserviceUri: "http://localhost:1236/data",
-```
-
-This is to let the frontend speak to a fake backend.
-
-**Don't** forget to change that back later!
-
-
 ## Auto-Test Runner
 
 At the root of the repo there is a little bash script which sets up the necessary
