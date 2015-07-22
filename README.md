@@ -16,6 +16,8 @@ You need the following components in order for the local server to work:
 To install the necessary dependencies for the app run the following command in the working directory:
 ```
 npm install
+npm install -g bower
+bower install
 ```
 
 To install the testing tools run
