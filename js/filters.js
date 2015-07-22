@@ -38,10 +38,12 @@ angular.module('arachne.filters', [])
 	 * Author: Daniel M. de Oliveira
 	 */
 	.filter('transl8', ['transl8',function(transl8){
-		return function(key) {
+		var filterFunc=function(key) {
 			var trans = transl8.getTranslation(key);
 			return trans;
 		}
+		filterFunc.$stateful=true;
+		return filterFunc;
 	}])
 	.filter('entityCountInFacet', function() {
 		return function (facet) {

@@ -14,3 +14,5 @@ npm-debug.log
 # local dependencies #
 ######################
 node_modules/
+bower_components
+*.iml

@@ -1,0 +1,20 @@
+{
+  "name": "arachnefrontend",
+  "version": "0.1.0",
+  "homepage": "https://github.com/codarchlab/arachnefrontend",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~0.13.0",
+    "bootstrap": "~3.3.5",
+    "angular-cookies": "~1.4.3",
+    "angular-resource": "~1.4.3",
+    "angular-route": "~1.4.3",
+    "angular-sanitize": "~1.4.3"
+  }
+}

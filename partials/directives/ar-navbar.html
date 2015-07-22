@@ -8,9 +8,9 @@
                     <li>
                         <img src="img/kleinergreif.png" style="height: 36px; margin-left: 16px; margin-top: 8px; width: 36px;"></img>
                     </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" >idai.welt <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
+                    <li class="dropdown" dropdown>
+                        <a href="#" class="dropdown-toggle" dropdown-toggle data-toggle="dropdown" >idai.welt <b class="caret"></b></a>
+                        <ul class="dropdown-menu" dropdown-menu>
                             <li><a href="http://www.dainst.org/de/forschung/forschung-digital/idai.welt" target="_blank">Übersicht</a></li>
                             <li class="divider"></li>
                             <li><a href="https://gazetteer.dainst.org/" target="_blank">idai.gazetteer</a></li>
@@ -68,12 +68,12 @@
 					<div ng-if="user.username" dropdown ng-cloak
 							class="btn-group btn-group-sm"
 							style="margin-top:2px; padding-left:20px; margin-right:30px;">
-						<a href="bookmarks" class="btn btn-default navbar-btn dropdown-toggle">
+						<a href="bookmarks" class="btn btn-default navbar-btn dropdown-toggle" dropdown-toggle>
 							<span class="glyphicon glyphicon-user"></span>
 							&nbsp;{{user.username}}
 							<span class="caret"></span>
 						</a>
-						<ul class="dropdown-menu" role="menu"
+						<ul class="dropdown-menu" dropdown-menu role="menu"
 								style="margin-top:-6px;">
 					        <li>
 					        	<a href="catalog">
