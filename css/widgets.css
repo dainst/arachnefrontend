@@ -1,8 +1,6 @@
 con10t-toc .panel,
 con10t-tree .panel {
     text-align: left;
-    float: right;
-    width: 40%;
     margin-left: 15px;
     margin-bottom: 15px;
 }
