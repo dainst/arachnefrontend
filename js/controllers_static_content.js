@@ -29,7 +29,7 @@ function ($scope, $routeParams, $http, $location, localizedContent) {
 	// Map route to contentDir
 	var contentDir = '';
 	if ($location.path().indexOf('/info')==0)
-		contentDir = 'static';
+		contentDir = 'info';
 	else
 		contentDir = 'con10t';
 

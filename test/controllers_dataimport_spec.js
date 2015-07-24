@@ -18,12 +18,14 @@ describe ('DataimportController', function() {
 
 	beforeEach(function(){
 
-		module('arachne.controllers',function($provide){
+
+		module('idai.components',function($provide){
 			$provide.constant('arachneSettings', {
 				dataserviceUri: dataserviceUri
 			});
 			$provide.value('transl8',{fetchTranslations:function(){return true;}})
 		});
+		module('arachne.controllers');
 	});
 
 	beforeEach(inject(function($controller,_$httpBackend_,arachneSettings){

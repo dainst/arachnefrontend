@@ -24,7 +24,7 @@ module.exports = function(config) {
 
       'node_modules/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      'lib/ui-bootstrap-tpls-0.11.2.min.js',
+      'bower_components/angular-bootstrap/ui-bootstrap.js',
       'js/*.js',
       'test/*_spec.js',
 	  'partials/directives/*.html'

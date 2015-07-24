@@ -10,7 +10,7 @@ describe ('StaticContentController', function() {
 
 	var prepare = function (route,title,primaryLanguage,searchParam) {
 		module('arachne.controllers');
-		module('arachne.services', function($provide) {
+		module('idai.components', function($provide) {
 			$provide.value('$location', {
 				search : function () {
 					return searchParam;
@@ -90,7 +90,7 @@ describe ('StaticContentController', function() {
 
 	it ('should serve content from the static folder for the info route',function(){
 		prepare('/info','title','it',{});
-		setUpSimpleProjectJson('static/content.json','title','it');
-		expect(scope.templateUrl).toBe('static/it/title.html');
+		setUpSimpleProjectJson('info/content.json','title','it');
+		expect(scope.templateUrl).toBe('info/it/title.html');
 	});
 });

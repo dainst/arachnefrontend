@@ -12,11 +12,13 @@ angular.module('arachne',[
 	'angulartics.google.analytics',
 	'relativePathsInPartial',
 	'ui.tree',
+	'idai.templates',
+	'idai.components',
 	'arachne.filters',
 	'arachne.services',
 	'arachne.directives',
 	'arachne.controllers',
-    'arachne.widgets.directives'
+	'arachne.widgets.directives'
 ])
 .config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
 	$locationProvider.html5Mode(true);

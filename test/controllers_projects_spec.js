@@ -8,7 +8,7 @@ describe ('ProjectsController', function() {
 	var scope = {};
 
 	var prepare = function(primaryLanguage,prepareJson) {
-		module('arachne.services',function($provide){
+		module('idai.components',function($provide){
 			$provide.value('language',{browserPrimaryLanguage:function(){return primaryLanguage;}});
 		});
 		module('arachne.controllers');
