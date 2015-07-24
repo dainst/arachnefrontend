@@ -432,17 +432,6 @@ angular.module('arachne.services', [])
 
 	}])
 
-	.factory('con10tService', function($http) { 
-		var factory = {};
-		factory.getTop = function() {
-    		return $http.get('con10t/top.json');
-		}
-		factory.getFront = function() {
-    		return $http.get('con10t/front.json');
-		}
-		return factory;
-	})
-
 	//contact Form
 	.factory('contactService', ['$http', 'arachneSettings', '$resource',  function($http, arachneSettings, $resource) { 
 		var contactService = $resource('', {}, {

@@ -3,15 +3,7 @@
 /* Controllers */
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
-.controller("NavBarController",[ '$scope', 'con10tService',
-	function ($scope, con10tService){
-		
-		$scope.topMenu = null;
-		/*con10tService.getTop().success(function(data){
-			$scope.topMenu = data;
-		});*/
-	}
-])
+
 .controller('MenuController',	[ '$scope', '$modal', 'authService', '$location', '$window',
 	function ($scope,  $modal, authService, $location, $window) {
 
@@ -738,13 +730,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		});
 
 	}
-])
-.controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'con10tService', 'messageService', 'categoryService', '$timeout',
-	function ($rootScope, $scope, $http, arachneSettings, con10tService, messageService, categoryService, $timeout) {
+]).controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'messageService',
+	function ($rootScope, $scope, $http, arachneSettings, messageService) {
 
 		$rootScope.hideFooter = false;
 
-		con10tService.getFront().success(function(projectsMenu){
+		$http.get('con10t/front.json').success(function(projectsMenu){
 			var projslides = $scope.projslides = [];
 			for(var key in projectsMenu) {
 				projslides.push({
