@@ -205,6 +205,7 @@ angular.module('arachne.widgets.directives', [])
               scope.isShown = {};
 
               scope.getNodeChildren = function(node){
+
                  if(node.children != 0){
                     return;
                  }
@@ -267,7 +268,7 @@ angular.module('arachne.widgets.directives', [])
               scope.toggleCollapse = function(node){
                  scope.isShown[node.id] = !scope.isShown[node.id];
                  if(scope.isShown[node.id]){
-                    this.getNodeChildren(node)
+                    this.getNodeChildren(node);
                  }
               };
               scope.checkIfShown = function(node){
@@ -292,6 +293,9 @@ angular.module('arachne.widgets.directives', [])
 
                  $location.url(url);
               };
+
+              scope.toggleCollapse(scope.treeRoot[0]);
+
            }
         }
     }])
