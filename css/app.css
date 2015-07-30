@@ -2,7 +2,6 @@
 
 body {
 	margin-top: 50px;
-	font-family: 'Open Sans', sans-serif;
   overflow-y: scroll; /* always show scrollbar */
 }
 
@@ -55,6 +54,7 @@ h6 { font-size: 12px; }
   text-overflow: ellipsis;
   white-space: nowrap;
   height: 37px;
+  line-height: 1.2;
 }
 
 .ar-imagegrid-cell-link:hover {
@@ -157,7 +157,6 @@ h6 { font-size: 12px; }
 }
 
 .sections {
-  font-size: 13px;
   padding-left: 20px;
 }
 .sections ul {
@@ -245,7 +244,7 @@ h6 { font-size: 12px; }
 .facet .panel-title {
   font-size: 12px;
   cursor: pointer;
-  color: #428bca;
+  color: #37588e;
 }
 .facet ul {
 	margin: 0px;
@@ -256,7 +255,7 @@ h6 { font-size: 12px; }
 	padding: 3px 6px;
 }
 .facet li:hover {
-	background-color: #428bca;
+	background-color: rgba(85, 114, 161, 0.9);
   color: white;
 }
 .facet li a {
