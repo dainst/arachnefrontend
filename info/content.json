@@ -17,15 +17,15 @@
 	      {
 	        "id": "apis",
 	        "title": {
-	          "de": "Schnittstellen",
+	          "de": "APIs",
 			  "en": "APIs"
 	        }
 	      },
       {
         "id": "order",
         "title": {
-		  "en": "License / Order",
-          "de": "Lizenz / Bestellungen"
+		  "en": "Order",
+          "de": "Bestellungen"
         }
       },
       {
