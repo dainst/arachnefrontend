@@ -1,96 +1,79 @@
-<script type="text/ng-template" id="section_template.html">
+<div ng-controller="EntityImageController" id="theimage" class="row fullscreenrow">
 
-	<li ng-if="!section.value" ng-class="{'thumbnail' : section.contextEntity}">
-		<b>{{section.label}}</b>
-		<ul ng-repeat="section in (section.content || section.contextEntity)" ng-include="'section_template.html'"></ul>
-	</li>
+	<!-- message for anonymous users -->
+	<div ng-if="!allow" class="col-md-12 text-right alert alert-info">
+		Sie müssen angemeldet sein um dieses Bild in hoher Auflösung betrachten zu können.<span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 75px 0 10px; font-size: 20px;"></span>
+	</div>
 
-	<li ng-if="section.value" ng-switch="isArray(section.value)">
-		<span ng-switch-when="false" ng-bind-html="section.value"></span>
-		<div ng-switch-when="true">
-			<div class="section-item" ng-repeat="valueItem in section.value" ng-bind-html="valueItem"></div>
-		</div>
-	</li>
+	<!-- image viewer -->
+	<div zoomifyimg ng-if="allow && imageProperties.width"
+			entityid="{{imageId}}"
+			imageProperties="{{imageProperties}}"
+			zoomifyHeight="{{imageProperties.height}}"
+			zoomifiyTilesize="{{imageProperties.tilesize}}"
+			style="height:100%">
+	</div>
 
-</script>
-<div ng-controller="EntityImageController" id="theimage">
-	<div class="row fullscreenrow">
+	<!-- toolbox in upper right corner -->
+	<div ng-if="allow && entity" 
+			class="btn-group-vertical"
+			style="opacity:0.8; position:absolute; right:10px; top:60px;">
+		<a class="btn btn-default btn-sm" href="entity/{{entity.entityId}}{{currentQuery.toString()}}">
+			<div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">
+				{{entity.title}}<br><i>anzeigen</i>
+			</div>
+		</a>
+		<a class="btn btn-default btn-sm"  ng-click="downloadImage()">
+			<i class="glyphicon glyphicon-download-alt"></i> Download
+		</a>
+		<a class="btn btn-default btn-sm" ng-href="entity/{{imageId}}">
+			Bild-Metadaten
+		</a>
+		<button class="btn btn-default btn-sm" ng-click="requestFullscreen()">
+			<span class="glyphicon glyphicon-fullscreen"></span> Vollbild
+		</button>
+		<a ng-if="entity.images.length > 1"
+				ng-href="entity/{{entity.entityId}}/images"
+				 class="btn btn-default btn-sm ">
+			<span class="glyphicon glyphicon-th"></span> Alle Bilder ({{entity.images.length}})
+		</a>
+	</div>
 
-		<!-- message for anonymous users -->
-		<div ng-if="!allow" class="col-md-12 text-right alert alert-info">
-			Sie müssen angemeldet sein um dieses Bild in hoher Auflösung betrachten zu können.<span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 75px 0 10px; font-size: 20px;"></span>
-		</div>
+	<!-- paging -->
+	<div ng-if="allow && entity.images"
+			style="opacity:0.8; position:absolute; bottom:10px; left:50%; margin-left:-80px">
 
-		<!-- image viewer -->
-		<div zoomifyimg ng-if="allow && imageProperties.width"
-				entityid="{{imageId}}"
-				imageProperties="{{imageProperties}}"
-				zoomifyHeight="{{imageProperties.height}}"
-				zoomifiyTilesize="{{imageProperties.tilesize}}"
-				style="height:100%">
-		</div>
+		<a ng-if="imageIndex == 0"
+				class="btn btn-link disabled"
+				style="font-size:30px">
+			<span class="glyphicon glyphicon-circle-arrow-left"></span>
+		</a>
 
-		<!-- toolbox in upper right corner -->
-		<div ng-if="allow && entity" 
-				class="btn-group-vertical"
-				style="opacity:0.8; position:absolute; right:10px; top: 60px;">
-			<a class="btn btn-default btn-sm" href="entity/{{entity.entityId}}{{currentQuery.toString()}}">
-				<div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">
-					{{entity.title}}<br><i>anzeigen</i>
-				</div>
-			</a>
-			<a class="btn btn-default btn-sm"  ng-click="downloadImage()">
-				<i class="glyphicon glyphicon-download-alt"></i> Download
-			</a>
-			<a class="btn btn-default btn-sm" ng-href="entity/{{imageId}}">
-				Bild-Metadaten
-			</a>
-			<button class="btn btn-default btn-sm" ng-click="requestFullscreen()">
-				<span class="glyphicon glyphicon-fullscreen"></span> Vollbild
-			</button>
-			<a ng-if="entity.images.length > 1"
-					ng-href="entity/{{entity.entityId}}/images"
-					 class="btn btn-default btn-sm ">
-				<span class="glyphicon glyphicon-th"></span> Alle Bilder ({{entity.images.length}})
-			</a>
-		</div>
+		<a ng-if="imageIndex > 0"
+				ng-href="entity/{{entity.entityId}}/image/{{entity.images[imageIndex-1].imageId}}{{currentQuery.toString()}}"
+				class="btn btn-link"
+				style="font-size:30px">
+			<span class="glyphicon glyphicon-circle-arrow-left"></span>
+		</a>
 
-		<!-- paging -->
-		<div ng-if="allow && entity.images"
-				style="opacity:0.8; position:absolute; bottom:10px; left:50%; margin-left:-80px">
+		<a ng-if="entity.images.length > 1"
+				 ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}"
+				 class="btn btn-primary btn-sm badge">
+			<span class="glyphicon glyphicon-th"></span> {{imageIndex+1}}/{{entity.images.length}}
+		</a>
 
-			<a ng-if="imageIndex == 0"
-					class="btn btn-link disabled"
-					style="font-size:30px">
-				<span class="glyphicon glyphicon-circle-arrow-left"></span>
-			</a>
+		<a ng-if="imageIndex >= (entity.images.length - 1)"
+				class="btn btn-link disabled"
+				style="font-size:30px">
+			<span class="glyphicon glyphicon-circle-arrow-right"></span>
+		</a>
 
-			<a ng-if="imageIndex > 0"
-					ng-href="entity/{{entity.entityId}}/image/{{entity.images[imageIndex-1].imageId}}{{currentQuery.toString()}}"
-					class="btn btn-link"
-					style="font-size:30px">
-				<span class="glyphicon glyphicon-circle-arrow-left"></span>
-			</a>
-
-			<a ng-if="entity.images.length > 1"
-					 ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}"
-					 class="btn btn-primary btn-sm badge">
-				<span class="glyphicon glyphicon-th"></span> {{imageIndex+1}}/{{entity.images.length}}
-			</a>
-
-			<a ng-if="imageIndex >= (entity.images.length - 1)"
-					class="btn btn-link disabled"
-					style="font-size:30px">
-				<span class="glyphicon glyphicon-circle-arrow-right"></span>
-			</a>
-
-			<a ng-if="imageIndex < (entity.images.length - 1)"
-					ng-href="entity/{{entity.entityId}}/image/{{entity.images[imageIndex+1].imageId}}{{currentQuery.toString()}}"
-					class="btn btn-link" style="font-size:30px">
-				<span class="glyphicon glyphicon-circle-arrow-right"></span>
-			</a>
-
-		</div>
+		<a ng-if="imageIndex < (entity.images.length - 1)"
+				ng-href="entity/{{entity.entityId}}/image/{{entity.images[imageIndex+1].imageId}}{{currentQuery.toString()}}"
+				class="btn btn-link" style="font-size:30px">
+			<span class="glyphicon glyphicon-circle-arrow-right"></span>
+		</a>
 
 	</div>
+
 </div>
