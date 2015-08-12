@@ -86,7 +86,9 @@
 
 
 <!-- Layer Menü linke Seite -->
-<div ng-if="mapConfig.menuShowLayerMenu" id="map-layer-menu" class="ar-map-menu col-md-2 well well-sm">
+<div ng-if="mapConfig.menuShowLayerMenu" id="map-layer-menu"
+     class="ar-map-menu col-md-2 well well-sm"
+     ng-class="showLayerMenu ? 'toggled' : ''">
 
     <h4 ng-click="toggleLayerMenu()" style="cursor:pointer">
         {{ mapConfig.menuHeadingLayerMenu }}

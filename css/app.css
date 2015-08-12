@@ -111,11 +111,14 @@ h6 { font-size: 12px; }
   background-color: rgba(248, 248, 248, 0.9);
   position: absolute;
   top: 60px;
-  /*bottom:10px;*/
   left: 10px;
-  overflow-y:auto;
   z-index:500;
   text-align: left;
+}
+
+#map-layer-menu.toggled {
+  bottom:10px;
+  overflow-y:auto;
 }
 
 .con10t-page #map-layer-menu {
@@ -291,6 +294,7 @@ h6 { font-size: 12px; }
 }
 .ar-fullscreenmap {
   height: 100%;
+  position: absolute;
 }
 .ar-halfscreenmap {
   height: 50%;
