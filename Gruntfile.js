@@ -26,8 +26,8 @@ module.exports = function(grunt) {
 						return [
 							// Include the proxy to the dev backend
 							proxy,
-							// rewrite for AngularJS HTML5 mode
-							modRewrite(['^[^\\.]*$ /index.html [L]']),
+							// rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
+							modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json\\swf$ /index.html [L]']),
 							// Serve static files.
 							connect.static(options.base[0])
 						];
@@ -48,8 +48,8 @@ module.exports = function(grunt) {
 						return [
 							// Include the proxy to the dev backend
 							proxy,
-							// rewrite for AngularJS HTML5 mode
-							modRewrite(['^[^\\.]*$ /index.html [L]']),
+							// rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
+							modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json\\swf$ /index.html [L]']),
 							// Serve static files.
 							connect.static(options.base[0])
 						];
