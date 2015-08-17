@@ -346,8 +346,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('MapController', ['$rootScope', '$scope', 'searchService', 'messageService',
-	function($rootScope, $scope, searchService, messageService) {
+.controller('MapController', ['$rootScope', '$scope', '$filter', 'searchService', 'messageService', 'Place',
+	function($rootScope, $scope, $filter, searchService, messageService, Place) {
 
 		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort", "facet_geo"]; //, "facet_ort"
 
@@ -375,6 +375,16 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 						break;
 					}
 				}
+
+				var places = [];
+				for (var i = 0; i < $scope.mapfacet.values.length; i++) {
+					var bucket = $scope.mapfacet.values[i];
+					var relationName = $filter('transl8')($scope.mapfacet.name);
+					var query = searchService.currentQuery().removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).addFacet($scope.mapfacet.name,bucket.value)
+					var place = Place.fromBucket(bucket, relationName, query);
+					places.push(place);
+				}
+				$scope.places = places;
 			}, function(response) {
 				$scope.resultSize = 0;
 				$scope.error = true;

@@ -502,13 +502,14 @@ angular.module('arachne.directives', [])
 
 		}
 	};
-	}])	
+	}])
 
-	.directive('arMap', ['$location', '$compile', function($location, $compile) {
+	// Shows a number of Place objects on a Leaflet map as MarkerClusters
+	.directive('arPlacesMap', ['$location', '$compile', function($location, $compile) {
 	return {
 		restrict: 'A',
 		scope: {
-			mapfacet: '=',
+			places: '=',
 			currentQuery: '=',
 			overlays: '=',
 			searchFunction: '=',
@@ -542,25 +543,18 @@ angular.module('arachne.directives', [])
 					}
 				});
 
-				if(scope.mapfacet) {
-					for(var i=0; i < scope.mapfacet.values.length; i++){
-						// Koordinaten und Titel aus dem String-Value der Facette ermitteln
-						var item = scope.mapfacet.values[i].value;
-						var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
-						var coords = coordsString.split(',');
-						var title = item.substring(0, item.indexOf("[", 1)) + " ";
+				if(scope.places) {
+					for(var i=0; i < scope.places.length; i++){
+						var place = scope.places[i];
 
-						// Dom-Element für Popup bauen, in Link-Funktion kompilieren
-						var html = '<div ar-map-popup facet-name="{{facetName}}" title="{{title}}" count="{{count}}" ref="{{ref}}"></div>';
+						// Dom-Element für Popup bauen und in Link-Funktion kompilieren
+						var html = '<div ar-map-popup place="place"></div>';
 						var linkFunction = $compile(angular.element(html));
 						var newScope = scope.$new(true);
-						newScope.facetName = scope.mapfacet.name;
-						newScope.title = title;
-						newScope.count = scope.mapfacet.values[i].count
-						newScope.ref = scope.currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).addFacet(scope.mapfacet.name,item).toString();
+						newScope.place = place;
 
 						// Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
-						var marker = L.marker(new L.LatLng(coords[0], coords[1]), { entityCount : scope.mapfacet.values[i].count });
+						var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), { entityCount : place.entityCount });
 						marker.bindPopup(linkFunction(newScope)[0]);
 						markerClusterGroup.addLayer(marker);
 					}
@@ -606,7 +600,7 @@ angular.module('arachne.directives', [])
 				// contains all usable Overlays { overlay.key: overlay }
 				var _overlays = extractOverlays();
 
-				// the layer with markers (has to be recreated when mapfacet changes)
+				// the layer with markers (has to be recreated when places change)
 				var markerClusterGroup = null;
 
 				var lat = scope.currentQuery.lat || 40;
@@ -744,10 +738,7 @@ angular.module('arachne.directives', [])
 	return {
 		restrict: 'A',
 		scope: {
-			facetName: '@',
-			title: '@',
-			count: '@',
-			ref: '@'
+			place: '='
 		},
 		templateUrl: 'partials/directives/ar-map-popup.html',
 		link: function(scope) {

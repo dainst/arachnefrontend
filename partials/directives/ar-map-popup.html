@@ -1,7 +1,7 @@
-<h4 class="text-info centered">{{ facetName | transl8 }}</h4>
+<h4 class="text-info centered">{{ place.relation }}</h4>
 
-<b>{{title}}</b>
+<b>{{place.name}}</b>
 <br>
-Insgesamt {{count}} Objekte
+Insgesamt {{place.entityCount}} Objekte
 <br>
-<a href="search/{{ref}}">Diese Einträge anzeigen</a>
+<a href="search/{{place.query.toString()}}">Diese Einträge anzeigen</a>

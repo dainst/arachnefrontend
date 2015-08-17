@@ -547,7 +547,7 @@ angular.module('arachne.services', [])
 
 	}])
 
-	// Represents a maps configuration
+	// Represents a configuration for a map with corresponding menu
 	.factory('MapConfig', function() {
 
 		function MapConfig() {
@@ -623,5 +623,43 @@ angular.module('arachne.services', [])
 		}
 
 		return MapConfig;
+
+	})
+
+	// Represents a place
+	// optionally with information about the number of connected entities
+	// and/or these entities themselves
+	.factory('Place', function() {
+
+		function Place() {
+			this.location = null; // { lon: 12.345, lat: 12.345 }
+			this.name = "";
+			this.relation = "";
+			this.gazetteerId = null;
+			this.entityCount = 0;
+			this.entities = [];
+			this.query = null;
+		};
+
+		// factory to generate places objects from buckets of facets containing geo information
+		// facetName is the name of the facet, the bucket is a bucket of,
+		//   e.g.: "facet_aufbewahrungsort", "facet_fundort", "facet_geo" etc.
+		// bucket is a facet value, e.g.: {
+		//     "value": "Siena, Italien, buonconvento[43.132963,11.483803]",
+		//     "count": 14
+		// }
+		Place.fromBucket = function(bucket, relation, query) {
+			var place = new Place();
+			var coordsString = bucket.value.substring(bucket.value.indexOf("[", 1)+1, bucket.value.length - 1);
+			var coords = coordsString.split(',');
+			place.location = { lat: coords[0], lon: coords[1] }
+			place.name = bucket.value.substring(0, bucket.value.indexOf("[", 1)) + " ";
+			place.relation = relation;
+			place.entityCount = bucket.count;
+			place.query = query;
+			return place;
+		}
+
+		return Place;
 
 	});
