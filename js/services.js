@@ -547,7 +547,9 @@ angular.module('arachne.services', [])
 
 	}])
 
-	// Represents a configuration for a map with corresponding menu
+	// Represents a configuration for a map with corresponding menu.
+	// Only holds values that are required once for the map's and
+	// map menu's setup, but which do not change by user input.
 	.factory('MapConfig', function() {
 
 		function MapConfig() {
@@ -573,6 +575,8 @@ angular.module('arachne.services', [])
 			this.menuFacetsAppend              = null;
 
 			this.facetsSelect                  = null;
+
+			this.overlays                      = null;
 
 			this.defaultLayer                  = "osm";
 

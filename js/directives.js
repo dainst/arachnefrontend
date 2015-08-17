@@ -511,7 +511,6 @@ angular.module('arachne.directives', [])
 		scope: {
 			places: '=',
 			currentQuery: '=',
-			overlays: '=',
 			searchFunction: '=',
 			mapConfig: '='
 		},
@@ -563,24 +562,25 @@ angular.module('arachne.directives', [])
 				map.addLayer(markerClusterGroup);
 			}
 
-			// gets overlays from scope, returns an object with all overlays
-			// ordered to their keys regardless of their previous order
+			// gets overlays from mapConfig, returns an object with all overlays
+			// ordered to their keys regardless of their previous ordering
 			var extractOverlays = function() {
 				var result = {}
-				// overlays are either grouped at scope.overlays.groups
-				if (scope.overlays && scope.overlays.groups) {
-					for (var i = 0; i < scope.overlays.groups.length; i++) {
-						var group = scope.overlays.groups[i];
+				var overlays = scope.mapConfig.overlays;
+				// overlays are either grouped at .groups
+				if (overlays && overlays.groups) {
+					for (var i = 0; i < overlays.groups.length; i++) {
+						var group = overlays.groups[i];
 
 						for (var j = 0; j < group.overlays.length; j++) {
 							var overlay = group.overlays[j];
 							result[overlay.key] = overlay;
 						}
 					}
-				// or just listed at scope.overlays
-				} else if (scope.overlays) {
-					for (var i = 0; i < scope.overlays.length; i++) {
-						var overlay = scope.overlays[i];
+				// or just listed directly
+				} else if (overlays) {
+					for (var i = 0; i < overlays.length; i++) {
+						var overlay = overlays[i];
 						result[overlay.key] = overlay;
 					}
 				}
@@ -646,7 +646,6 @@ angular.module('arachne.directives', [])
 			mapfacetNames: '=',
 			currentQuery: '=',
 			facets: '=',
-			overlays: '=',
 			searchFunction: '=',
 			mapConfig: '='
 		},

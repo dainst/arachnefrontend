@@ -119,7 +119,6 @@ angular.module('arachne.widgets.directives', [])
 		return {
 			restrict: 'E',
 			scope: {
-				overlays: '=',
 				mapConfig: '='
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-map.html',
