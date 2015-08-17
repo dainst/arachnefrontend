@@ -14,8 +14,15 @@
 				<span class="glyphicon glyphicon-th-list"></span>
 				Liste
 			</a>
-			
 		</div>
+		<div class="btn-group" ng-if="user.username">
+				<div ng-if="resultSize <= 1000 && resultSize >= 2">
+					<a class="btn btn-sm btn-default" ng-click="toCatalog()">Ergebnis als Katalog speichern</a>
+				</div>
+				<div ng-if="resultSize >= 1000">
+					Suche weiter einschränken zum Anlegen eines Katalogs!
+				</div>
+ 			</div>
 	</div>
 
 	<div class="col-sm-4 text-center">
