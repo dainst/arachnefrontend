@@ -630,40 +630,115 @@ angular.module('arachne.services', [])
 
 	})
 
-	// Represents a place
-	// optionally with information about the number of connected entities
-	// and/or these entities themselves
+	// Represents a place with entities
+	// (as opposed to the entity with places, that is served by the backend)
 	.factory('Place', function() {
 
 		function Place() {
 			this.location = null; // { lon: 12.345, lat: 12.345 }
 			this.name = "";
-			this.relation = "";
 			this.gazetteerId = null;
 			this.entityCount = 0;
-			this.entities = [];
+			this.entities = {}; // { relation1: [entity1, entity2], relation2: [entity3, ...], ... }
 			this.query = null;
 		};
 
+		Place.prototype = {
+
+			merge: function(other) {
+				for (var key in other) {
+					this[key] = other[key];
+				}
+
+				delete this.relation;
+
+				return this;
+			},
+
+			hasCoordinates: function() {
+				return (this.location && this.location.lat && this.location.lon);
+			},
+
+			getId: function() {
+				if (this.hasCoordinates()) {
+					var id = this.location.lat + ',' + this.location.lon;
+				} else {
+					var id = this.name;
+				}
+				return id;
+			},
+
+			addEntity: function(entity, relation) {
+				if (!this.entities[relation]) {
+					this.entities[relation] = [];
+				}
+				this.entities[relation].push(entity);
+				this.entityCount += 1;
+			}
+		};
+
 		// factory to generate places objects from buckets of facets containing geo information
-		// facetName is the name of the facet, the bucket is a bucket of,
-		//   e.g.: "facet_aufbewahrungsort", "facet_fundort", "facet_geo" etc.
+		// query is a Query object, that schould be used to search for the entities connected
 		// bucket is a facet value, e.g.: {
 		//     "value": "Siena, Italien, buonconvento[43.132963,11.483803]",
 		//     "count": 14
 		// }
-		Place.fromBucket = function(bucket, relation, query) {
+		Place.fromBucket = function(bucket, query) {
 			var place = new Place();
 			var coordsString = bucket.value.substring(bucket.value.indexOf("[", 1)+1, bucket.value.length - 1);
 			var coords = coordsString.split(',');
 			place.location = { lat: coords[0], lon: coords[1] }
 			place.name = bucket.value.substring(0, bucket.value.indexOf("[", 1)) + " ";
-			place.relation = relation;
 			place.entityCount = bucket.count;
 			place.query = query;
 			return place;
-		}
+		};
 
 		return Place;
 
-	});
+	})
+
+	.factory('PlacesService', ['Place', function(Place) {
+
+		return {
+
+			// reads a list of entities with connected places
+			// returns a list of places with connected entities
+			getPlacesListFromEntityList: function(entities) {
+				var places = {};
+				var result = [];
+
+				for(var i = 0; i < entities.length; i++) {
+					var entity = entities[i];
+
+					if (entity.places) {
+						for (var j = 0; j < entity.places.length; j++) {
+							var place = new Place();
+							place.merge(entity.places[j]);
+
+							var key = place.getId();
+
+							// If there is a place with the same id, use that one
+							// instead
+							if (places[key]) {
+								places[key].addEntity(entity);
+							} else {
+								place.addEntity(entity);
+								places[key] = place;
+							}
+						}
+					}
+				}
+
+				for (key in places) {
+					result.push(places[key]);
+				}
+
+				return result;
+			}
+
+		}
+
+	}])
+
+;

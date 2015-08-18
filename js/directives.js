@@ -546,16 +546,18 @@ angular.module('arachne.directives', [])
 					for(var i=0; i < scope.places.length; i++){
 						var place = scope.places[i];
 
-						// Dom-Element für Popup bauen und in Link-Funktion kompilieren
-						var html = '<div ar-map-popup place="place"></div>';
-						var linkFunction = $compile(angular.element(html));
-						var newScope = scope.$new(true);
-						newScope.place = place;
+						if (place.hasCoordinates()) {
+							// Dom-Element für Popup bauen und in Link-Funktion kompilieren
+							var html = '<div ar-map-popup place="place"></div>';
+							var linkFunction = $compile(angular.element(html));
+							var newScope = scope.$new(true);
+							newScope.place = place;
 
-						// Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
-						var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), { entityCount : place.entityCount });
-						marker.bindPopup(linkFunction(newScope)[0]);
-						markerClusterGroup.addLayer(marker);
+							// Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
+							var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), { entityCount : place.entityCount });
+							marker.bindPopup(linkFunction(newScope)[0]);
+							markerClusterGroup.addLayer(marker);
+						}
 					}
 				}
 
@@ -587,7 +589,7 @@ angular.module('arachne.directives', [])
 				return result
 			}
 
-			// adds an overlay to the map
+			// displays an overlay on the map
 			var addOverlay = function(map, overlay) {
 				if (overlay && overlay.type == 'wms') {
 					var wms = L.tileLayer.wms(overlay.url, overlay.layerOptions);
