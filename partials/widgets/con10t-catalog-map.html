@@ -4,22 +4,20 @@
 	<!-- Loading-Icon -->
 	<div ng-hide="resultSize >= 0" class="loading"></div>
 
-	<div ar-map-menu
+	<div ar-map-menu ng-if="resultSize != null"
 		result-size="resultSize"
 		facet-limit="facetLimit"
 		mapfacet="mapfacet"
 		mapfacet-names="mapfacetNames"
 		current-query="currentQuery"
 		facets="facets"
-		search-function="searchDeferred"
 		map-config="mapConfig">
 	</div>
 
-	<div ar-places-map class="col-md-12 ar-map ar-fullscreenmap" id="map"
-		ng-if="resultSize != null"
+	<div ar-places-map ng-if="resultSize != null" class="col-md-12 ar-map ar-fullscreenmap" id="map"
 		places="places"
 		current-query="currentQuery"
-		search-function="searchDeferred"
 		map-config="mapConfig">
 	</div>
+
 </div>

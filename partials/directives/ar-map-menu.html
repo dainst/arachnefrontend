@@ -134,7 +134,7 @@
                 <strong>{{mapConfig.menuHeadingBaselayers}}</strong>
             </h5>
 
-            <div ng-repeat="(key, baselayer) in mapConfig.layers" ng-click="toggleBaselayer(key)">
+            <div ng-repeat="(key, baselayer) in mapConfig.baselayers" ng-click="toggleBaselayer(key)">
                 <label style="font-weight:normal">
                     <input type="radio" value="" ng-checked="key == baselayerKey">
                     {{ baselayer.name }}

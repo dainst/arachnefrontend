@@ -356,75 +356,58 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		var promise = null;
 
-		$scope.searchDeferred = function() {
-			if (promise) {
-				return promise;
-			}
-
-			$scope.currentQuery = searchService.currentQuery();
-			$scope.currentQuery.limit = 0;
-			if (!$scope.currentQuery.restrict) {
-				$scope.currentQuery.restrict = $scope.mapfacetNames[0];
-			}
-
-			promise = searchService.getCurrentPage().then(function(entities) {
-				$scope.resultSize = searchService.getSize();
-				$scope.facets = searchService.getFacets();
-				for (var i = 0; i < $scope.facets.length; i++) {
-					if ($scope.facets[i].name == $scope.currentQuery.restrict) {
-						$scope.mapfacet = $scope.facets[i];
-						break;
-					}
-				}
-
-				var places = [];
-				for (var i = 0; i < $scope.mapfacet.values.length; i++) {
-					var bucket = $scope.mapfacet.values[i];
-					var query = searchService.currentQuery().removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).addFacet($scope.mapfacet.name,bucket.value)
-					var place = Place.fromBucket(bucket, query);
-					places.push(place);
-				}
-				$scope.places = places;
-			}, function(response) {
-				$scope.resultSize = 0;
-				$scope.error = true;
-				if (response.status == '404') messageService.addMessageForCode('backend_missing');
-				else messageService.addMessageForCode('search_' +  response.status);
-			});
-
-			return promise;
+		$scope.currentQuery = searchService.currentQuery();
+		$scope.currentQuery.limit = 0;
+		if (!$scope.currentQuery.restrict) {
+			$scope.currentQuery.restrict = $scope.mapfacetNames[0];
 		}
+
+		searchService.getCurrentPage().then(function(entities) {
+			$scope.facets = searchService.getFacets();
+			for (var i = 0; i < $scope.facets.length; i++) {
+				if ($scope.facets[i].name == $scope.currentQuery.restrict) {
+					$scope.mapfacet = $scope.facets[i];
+					break;
+				}
+			}
+
+			var places = [];
+			for (var i = 0; i < $scope.mapfacet.values.length; i++) {
+				var bucket = $scope.mapfacet.values[i];
+				var query = searchService.currentQuery().removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).addFacet($scope.mapfacet.name,bucket.value)
+				var place = Place.fromBucket(bucket, query);
+				places.push(place);
+			}
+			$scope.places = places;
+			$scope.resultSize = searchService.getSize();
+		}, function(response) {
+			$scope.resultSize = 0;
+			$scope.error = true;
+			if (response.status == '404') messageService.addMessageForCode('backend_missing');
+			else messageService.addMessageForCode('search_' +  response.status);
+		});
 	}
 ])
-.controller('EntitySearchMapController', ['$rootScope', '$scope', 'searchService', 'messageService', 'Place', 'PlacesService',
-	function($rootScope, $scope, searchService, messageService, Place, PlacesService) {
+.controller('EntitySearchMapController', ['$rootScope', '$scope', 'searchService', 'messageService', 'Place', 'placesService',
+	function($rootScope, $scope, searchService, messageService, Place, placesService) {
 
 		$rootScope.hideFooter = true;
 
-		var promise = null;
+		$scope.currentQuery = searchService.currentQuery();
 
-		$scope.searchDeferred = function() {
-			if (promise) {
-				return promise;
-			}
+		searchService.getCurrentPage().then(function(entities) {
+			$scope.facets = searchService.getFacets();
 
-			$scope.currentQuery = searchService.currentQuery();
+			var places = placesService.getPlacesListFromEntityList(entities);
+			$scope.places = places;
+			$scope.resultSize = searchService.getSize();
+		}, function(response) {
+			$scope.resultSize = 0;
+			$scope.error = true;
+			if (response.status == '404') messageService.addMessageForCode('backend_missing');
+			else messageService.addMessageForCode('search_' +  response.status);
+		});
 
-			promise = searchService.getCurrentPage().then(function(entities) {
-				$scope.resultSize = searchService.getSize();
-				$scope.facets = searchService.getFacets();
-
-				var places = PlacesService.getPlacesListFromEntityList(entities);
-				$scope.places = places;
-			}, function(response) {
-				$scope.resultSize = 0;
-				$scope.error = true;
-				if (response.status == '404') messageService.addMessageForCode('backend_missing');
-				else messageService.addMessageForCode('search_' +  response.status);
-			});
-
-			return promise;
-		}
 	}
 ])
 .controller('EntityController', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',

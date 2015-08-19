@@ -505,7 +505,7 @@ angular.module('arachne.directives', [])
 	}])
 
 	// Shows a number of Place objects on a Leaflet map as MarkerClusters
-	.directive('arPlacesMap', ['$location', '$compile', function($location, $compile) {
+	.directive('arPlacesMap', ['$location', '$compile', 'MapConfig', function($location, $compile, MapConfig) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -597,44 +597,45 @@ angular.module('arachne.directives', [])
 				}
 			}
 
-			scope.searchFunction().then(function() {
+			// initialise standard mapConfig, overwrite with values from scope.mapConfig
+			// if present
+			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 
-				// contains all usable Overlays { overlay.key: overlay }
-				var _overlays = extractOverlays();
+			// contains all usable Overlays { overlay.key: overlay }
+			var _overlays = extractOverlays();
 
-				// the layer with markers (has to be recreated when places change)
-				var markerClusterGroup = null;
+			// the layer with markers (has to be recreated when places change)
+			var markerClusterGroup = null;
 
-				var lat = scope.currentQuery.lat || 40;
-				var lng = scope.currentQuery.lng || -10;
-				var zoom = scope.currentQuery.zoom || 3;
+			var lat = scope.currentQuery.lat || 40;
+			var lng = scope.currentQuery.lng || -10;
+			var zoom = scope.currentQuery.zoom || 3;
 
-				var baselayerName = scope.currentQuery.baselayer || scope.mapConfig.defaultLayer;
+			var baselayerName = scope.currentQuery.baselayer || scope.mapConfig.defaultBaselayer;
 
-				var map = L.map(element.attr('id'), { zoomControl: false }).setView([lat, lng], zoom);
+			var map = L.map(element.attr('id'), { zoomControl: false }).setView([lat, lng], zoom);
 
-				// register zoom level and central map position in the Query object
-				// to always keep the current map position on reload
-				map.on('moveend', function() {
-					scope.currentQuery.zoom = map.getZoom();
-					scope.currentQuery.lat = map.getCenter().lat;
-					scope.currentQuery.lng = map.getCenter().lng;
-				})
+			// register zoom level and central map position in the Query object
+			// to always keep the current map position on reload
+			map.on('moveend', function() {
+				scope.currentQuery.zoom = map.getZoom();
+				scope.currentQuery.lat = map.getCenter().lat;
+				scope.currentQuery.lng = map.getCenter().lng;
+			})
 
-				var layerConfig = scope.mapConfig.layers[baselayerName];
-				var baselayer = L.tileLayer(layerConfig.url, layerConfig.layerOptions);
-				map.addLayer(baselayer);
-				L.Icon.Default.imagePath = 'img';
+			var layerConfig = scope.mapConfig.baselayers[baselayerName];
+			var baselayer = L.tileLayer(layerConfig.url, layerConfig.layerOptions);
+			map.addLayer(baselayer);
+			L.Icon.Default.imagePath = 'img';
 
-				// which overlays (from _overlays) are to be created is given
-				// by their keys in the URL
-				var keys = scope.currentQuery.getArrayParam('overlays');
-				for (var i = 0; i < keys.length; i++) {
-					addOverlay(map, _overlays[keys[i]]);
-				}
+			// which overlays (from _overlays) are to be created is given
+			// by their keys in the URL
+			var keys = scope.currentQuery.getArrayParam('overlays');
+			for (var i = 0; i < keys.length; i++) {
+				addOverlay(map, _overlays[keys[i]]);
+			}
 
-				selectFacetsAndCreateMarkers(markerClusterGroup, map);
-			});
+			selectFacetsAndCreateMarkers(markerClusterGroup, map);
 		}
 	};
 	}])
@@ -648,12 +649,13 @@ angular.module('arachne.directives', [])
 			mapfacetNames: '=',
 			currentQuery: '=',
 			facets: '=',
-			searchFunction: '=',
 			mapConfig: '='
 		},
 		templateUrl: 'partials/directives/ar-map-menu.html',
 		link: function(scope, element, attrs) {
 
+			// initialise standard mapConfig, overwrite with values from scope.mapConfig
+			// if present
 			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 
 			var geofacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'facet_geogrid']
@@ -678,6 +680,7 @@ angular.module('arachne.directives', [])
 			};
 
 			scope.toggleBaselayer = function(key) {
+				console.log(scope.currentQuery);
 				scope.go(scope.currentQuery.setParam('baselayer', key).toString());
 			}
 
@@ -685,51 +688,47 @@ angular.module('arachne.directives', [])
 				scope.showLayerMenu = !scope.showLayerMenu;
 			};
 
-			scope.searchFunction().then(function() {
+			scope.q = scope.currentQuery.q;
+			scope.facetLimit = scope.currentQuery.fl;
+			scope.baselayerKey = scope.currentQuery.baselayer || scope.mapConfig.defaultBaselayer;
 
-				scope.q = scope.currentQuery.q;
-				scope.facetLimit = scope.currentQuery.fl;
-				scope.baselayerKey = scope.currentQuery.baselayer || scope.mapConfig.defaultLayer;
+			var keys = scope.currentQuery.getArrayParam('overlays');
 
-				var keys = scope.currentQuery.getArrayParam('overlays');
+			scope.selectedOverlays = {}
+			for (var i = 0; i < keys.length; i++) {
+				scope.selectedOverlays[keys[i]] = true;
+			}
 
-				scope.selectedOverlays = {}
-				for (var i = 0; i < keys.length; i++) {
-					scope.selectedOverlays[keys[i]] = true;
-				}
+			scope.showLayerMenu = false;
+			if (keys.length > 0) {
+				scope.showLayerMenu = true;
+			}
 
-				scope.showLayerMenu = false;
-				if (keys.length > 0) {
-					scope.showLayerMenu = true;
-				}
+			var facetsHidden = geofacets;
+			if (scope.menuFacetsDeny) {
+				facetsHidden = facetsHidden.concat(scope.mapConfig.menuFacetsDeny);
+			}
 
-				var facetsHidden = geofacets;
-				if (scope.menuFacetsDeny) {
-					facetsHidden = facetsHidden.concat(scope.mapConfig.menuFacetsDeny);
-				}
-
-				// determine shown facets after facets are loaded
-				scope.facetsShown = [];
-				scope.$watch('facets', function(facets) {
-					// facetsShown is either the ordered list defined in mapConfig.menuFacetsAllow
-					if (facets && scope.mapConfig.menuFacetsAllow) {
-						for (var i = 0; i < scope.mapConfig.menuFacetsAllow.length; i++) {
-							var name = scope.mapConfig.menuFacetsAllow[i];
-							var result = facets.filter(function (facet) {
-								return (facet.name == name);
-							});
-							if (result[0]) {
-								scope.facetsShown.push(result[0]);
-							}
-						}
-					// or it is scope.facets pruned by everything in facetsHidden
-					} else if(facets && facetsHidden) {
-						scope.facetsShown = facets.filter(function (facet) {
-							return (facetsHidden.indexOf(facet.name) == -1)
+			// determine shown facets after facets are loaded
+			scope.facetsShown = [];
+			scope.$watch('facets', function(facets) {
+				// facetsShown is either the ordered list defined in mapConfig.menuFacetsAllow
+				if (facets && scope.mapConfig.menuFacetsAllow) {
+					for (var i = 0; i < scope.mapConfig.menuFacetsAllow.length; i++) {
+						var name = scope.mapConfig.menuFacetsAllow[i];
+						var result = facets.filter(function (facet) {
+							return (facet.name == name);
 						});
+						if (result[0]) {
+							scope.facetsShown.push(result[0]);
+						}
 					}
-				});
-
+				// or it is scope.facets pruned by everything in facetsHidden
+				} else if(facets && facetsHidden) {
+					scope.facetsShown = facets.filter(function (facet) {
+						return (facetsHidden.indexOf(facet.name) == -1)
+					});
+				}
 			});
 		}
 	};

@@ -578,9 +578,9 @@ angular.module('arachne.services', [])
 
 			this.overlays                      = null;
 
-			this.defaultLayer                  = "osm";
+			this.defaultBaselayer                  = "osm";
 
-			this.layers = {
+			this.baselayers = {
 				osm: {
 					name: 'OpenStreetMap',
 					type: 'xyz',
@@ -590,26 +590,6 @@ angular.module('arachne.services', [])
 						attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 						continuousWorld: true,
 						maxZoom: 18
-					}
-				},
-				mapquestAerial: {
-					name: 'MapQuest Open Aerial',
-					type: 'xyz',
-					url: 'http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png',
-					layerOptions: {
-						subdomains: ['1', '2', '3', '4'],
-						attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
-						continuousWorld: true
-					}
-				},
-				romanEmpire: {
-					name: 'Roman Empire',
-					type: 'xyz',
-					url: 'http://pelagios.dme.ait.ac.at/tilesets/imperium//{z}/{x}/{y}.png',
-					layerOptions: {
-						subdomains: ['a', 'b', 'c'],
-						attribution: 'Tiles: <a href="http://imperium.ahlfeldt.se/">DARE 2014</a>',
-						continuousWorld: true
 					}
 				}
 			}
@@ -698,7 +678,7 @@ angular.module('arachne.services', [])
 
 	})
 
-	.factory('PlacesService', ['Place', function(Place) {
+	.factory('placesService', ['Place', function(Place) {
 
 		return {
 

@@ -117,18 +117,29 @@ angular.module('arachne.widgets.directives', [])
 
 	.directive('con10tCatalogMap', ['searchService', function(searchService) {
 		return {
-			restrict: 'E',
+			restrict: 'A',
 			scope: {
-				mapConfig: '='
+				mapConfig: '=',
+                limit: '@'
 			},
 			templateUrl: 'partials/widgets/con10t-catalog-map.html',
-			link: function(scope) {
+			controller: function($scope) {
+                var query = searchService.currentQuery();
+
+                // Set query phrase to '*' if not defined beforehand
+                if (!query.q) {
+                    query.q = '*';
+                }
+
+                // Add a limit to the search if defined in the attribute
+                if ($scope.limit) {
+                    query.limit = $scope.limit;
+                }
+
 				// Add restrictions for facets to the search if defined in mapConfig
-				var facets = scope.mapConfig.facetsSelect;
+				var facets = $scope.mapConfig.facetsSelect;
 
 				if (facets) {
-					var query = searchService.currentQuery();
-
 					for (var i = 0; i < facets.length; i++) {
 						var facet = facets[i];
 

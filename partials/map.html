@@ -5,23 +5,20 @@
 		<div ng-hide="resultSize >= 0" class="loading"></div>
 
 		<!-- Menü -->
-		<div ar-map-menu
+		<div ar-map-menu ng-if="resultSize != null"
 			result-size="resultSize"
 			facet-limit="facetLimit"
 			mapfacet="mapfacet"
 			mapfacet-names="mapfacetNames"
 			current-query="currentQuery"
 			facets="facets"
-			search-function="searchDeferred"
 			map-config="mapConfig">
 		</div>
 
 		<!-- Karte -->
 		<div ar-places-map ng-if="resultSize != null" class="col-md-12 ar-map ar-fullscreenmap" id="map"
 			places="places"
-			current-query="currentQuery"
-			search-function="searchDeferred"
-			map-config="mapConfig">
+			current-query="currentQuery">
 		</div>
 
 	</div>
