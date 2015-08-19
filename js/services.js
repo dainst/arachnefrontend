@@ -678,43 +678,67 @@ angular.module('arachne.services', [])
 
 	})
 
-	.factory('placesService', ['Place', function(Place) {
+	// Provides a list of Place objects corresponding to the entities in the current search result
+	.factory('placesService', ['searchService', 'Place', function(searchService, Place) {
 
-		return {
+		// A list of places or a promise of such a list
+		var promise = null;
 
-			// reads a list of entities with connected places
-			// returns a list of places with connected entities
-			getPlacesListFromEntityList: function(entities) {
-				var places = {};
-				var result = [];
+		// Keep the last query used to construct the places list
+		// to check if the current query is different
+		var lastQuery = null;
 
-				for(var i = 0; i < entities.length; i++) {
-					var entity = entities[i];
+		// reads a list of entities with connected places
+		// returns a list of places with connected entities
+		var buildPlacesListFromEntityList = function(entities) {
+			var places = {};
+			var placesList = [];
 
-					if (entity.places) {
-						for (var j = 0; j < entity.places.length; j++) {
-							var place = new Place();
-							place.merge(entity.places[j]);
+			for(var i = 0; i < entities.length; i++) {
+				var entity = entities[i];
 
-							var key = place.getId();
+				if (entity.places) {
+					for (var j = 0; j < entity.places.length; j++) {
+						var place = new Place();
+						place.merge(entity.places[j]);
 
-							// If there is a place with the same id, use that one
-							// instead
-							if (places[key]) {
-								places[key].addEntity(entity);
-							} else {
-								place.addEntity(entity);
-								places[key] = place;
-							}
+						// If there already is a place with the same id, use
+						// that one instead
+						var key = place.getId();
+						if (places[key]) {
+							places[key].addEntity(entity);
+						} else {
+							place.addEntity(entity);
+							places[key] = place;
 						}
 					}
 				}
+			}
 
-				for (key in places) {
-					result.push(places[key]);
-				}
+			for (key in places) {
+				placesList.push(places[key]);
+			}
 
-				return result;
+			return placesList;
+		};
+
+		return {
+
+			// returns a promise for list of places corresponding
+			// to the current search result
+			getCurrentPlaces: function() {
+				var oldPromise = promise;
+
+				promise = searchService.getCurrentPage().then(function(entities) {
+					if (oldPromise && lastQuery && angular.equals(lastQuery, searchService.currentQuery().toFlatObject())) {
+						return oldPromise;
+					} else {
+						lastQuery = searchService.currentQuery().toFlatObject();
+						return buildPlacesListFromEntityList(entities);
+					}
+				});
+
+				return promise;
 			}
 
 		}

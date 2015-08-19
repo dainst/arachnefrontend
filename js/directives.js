@@ -680,7 +680,6 @@ angular.module('arachne.directives', [])
 			};
 
 			scope.toggleBaselayer = function(key) {
-				console.log(scope.currentQuery);
 				scope.go(scope.currentQuery.setParam('baselayer', key).toString());
 			}
 

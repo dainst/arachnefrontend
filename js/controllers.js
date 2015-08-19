@@ -395,10 +395,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.currentQuery = searchService.currentQuery();
 
-		searchService.getCurrentPage().then(function(entities) {
+		placesService.getCurrentPlaces().then(function (places) {
 			$scope.facets = searchService.getFacets();
 
-			var places = placesService.getPlacesListFromEntityList(entities);
 			$scope.places = places;
 			$scope.resultSize = searchService.getSize();
 		}, function(response) {
