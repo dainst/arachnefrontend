@@ -1,0 +1,27 @@
+<!-- Ausgewählte Facetten -->
+<div ar-active-facets ng-if="currentQuery"
+    route="{{route}}" current-query="currentQuery"
+    hidden-facets="mapConfig.facetsSelect"></div>
+
+<!-- Auswählbare Facetten -->
+<small ng-if="mapConfig.menuShowFilters && entityCount > 2">
+    <h5 class="text-muted uppercase" ng-hide="entityCount < 2"><b>{{mapConfig.menuHeadingFilters}}</b></h5>
+    <div ng-repeat="facet in facetsShown"
+            class="panel panel-default facet">
+        <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+            <h5 class="panel-title">
+                <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+                <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
+                &nbsp;{{facet.name | transl8 }}{{ mapConfig.menuFacetsAppend[facet.name] }}
+            </h5>
+        </div>
+        <ul class="list-unstyled facet" ng-show="facet.open">
+            <li ng-repeat="facetValue in facet.values">
+                <a style="cursor:pointer" ng-click="go(facet.name, facetValue.value)">
+                    <b class="pull-right text-muted">{{facetValue.count | number}}</b>
+                    {{facetValue.value | stripCoords}}
+                </a>
+            </li>
+        </ul>
+    </div>
+</small>

@@ -1,5 +1,5 @@
 <!-- Hauptmenü rechte Seite -->
-<div ng-if="resultSize != null" id="map-main-menu" class="ar-map-menu col-md-2 well well-sm">
+<div ng-if="resultSize != null" id="map-right-menu" class="col-md-2 well well-sm toggled">
 
     <h2 class="text-muted uppercase" style="font-variant:small-caps" ng-show="mapConfig.menuTitle">
         {{mapConfig.menuTitle}}
@@ -86,8 +86,8 @@
 
 
 <!-- Layer Menü linke Seite -->
-<div ng-if="mapConfig.menuShowLayerMenu" id="map-layer-menu"
-     class="ar-map-menu col-md-2 well well-sm"
+<div ng-if="mapConfig.menuShowLayerMenu" id="map-left-menu"
+     class="col-md-2 well well-sm"
      ng-class="showLayerMenu ? 'toggled' : ''">
 
     <h4 ng-click="toggleLayerMenu()" style="cursor:pointer">

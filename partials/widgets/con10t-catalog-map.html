@@ -4,15 +4,7 @@
 	<!-- Loading-Icon -->
 	<div ng-hide="resultSize >= 0" class="loading"></div>
 
-	<div ar-map-menu ng-if="resultSize != null"
-		result-size="resultSize"
-		facet-limit="facetLimit"
-		mapfacet="mapfacet"
-		mapfacet-names="mapfacetNames"
-		current-query="currentQuery"
-		facets="facets"
-		map-config="mapConfig">
-	</div>
+	<div ng-transclude></div>
 
 	<div ar-places-map ng-if="resultSize != null" class="col-md-12 ar-map ar-fullscreenmap" id="map"
 		places="places"

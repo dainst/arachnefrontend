@@ -409,6 +409,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+.controller('MapMenuController', ['$scope', 'searchService',
+	function($scope, searchService) {
+
+		$scope.leftMenuToggled = true;
+		$scope.rightMenuToggled = true;
+
+		$scope.overlaysActive = function() {
+			return (searchService.currentQuery().overlays ? true : false);
+		}
+	}
+])
 .controller('EntityController', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
 	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messageService) {
 

@@ -122,18 +122,21 @@ angular.module('arachne.widgets.directives', [])
 				mapConfig: '=',
                 limit: '@'
 			},
+            // menu elements may appear in the transcluded html
+            transclude: true,
 			templateUrl: 'partials/widgets/con10t-catalog-map.html',
 			controller: function($scope) {
-                var query = searchService.currentQuery();
 
-                // Set query phrase to '*' if not defined beforehand
-                if (!query.q) {
-                    query.q = '*';
+                var currentQuery = searchService.currentQuery();
+
+                // Set currentQuery phrase to '*' if not defined beforehand
+                if (!currentQuery.q) {
+                    currentQuery.q = '*';
                 }
 
                 // Add a limit to the search if defined in the attribute
                 if ($scope.limit) {
-                    query.limit = $scope.limit;
+                    currentQuery.limit = $scope.limit;
                 }
 
 				// Add restrictions for facets to the search if defined in mapConfig
@@ -143,8 +146,8 @@ angular.module('arachne.widgets.directives', [])
 					for (var i = 0; i < facets.length; i++) {
 						var facet = facets[i];
 
-						if (!query.hasFacet(facet.key)) {
-							query.facets.push(facet);
+						if (!currentQuery.hasFacet(facet.key)) {
+							currentQuery.facets.push(facet);
 						}
 					}
 				}

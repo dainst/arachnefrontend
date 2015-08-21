@@ -733,6 +733,150 @@ angular.module('arachne.directives', [])
 	};
 	}])
 
+	.directive('arMapMenuSearchInfo', ['searchService', 'placesService', function(searchService, placesService) {
+	return {
+		restrict: 'A',
+		scope: {
+			mapConfig: '='
+		},
+		templateUrl: 'partials/directives/ar-map-menu-search-info.html',
+		link: function(scope) {
+			placesService.getCurrentPlaces().then(function(places) {
+				scope.entityCount = searchService.getSize();
+				scope.placesCount = places.length;
+			});
+		}
+	}
+	}])
+
+	.directive('arMapMenuSearchField', ['$location', 'searchService', function($location, searchService) {
+	return {
+		restrict: 'A',
+		scope: {
+			mapConfig: '=',
+			q: '@?'
+		},
+		templateUrl: 'partials/directives/ar-map-menu-search-field.html',
+		link: function(scope) {
+
+			var route = $location.path().slice(1);
+			var currentQuery = searchService.currentQuery();
+
+			searchService.getCurrentPage().then(function() {
+				scope.q = currentQuery.q
+				if (!scope.q) {
+					scope.q = '*';
+				}
+			});
+
+			scope.go = function(q) {
+				var path = '/' + route + currentQuery.setParam('q',q).toString();
+				$location.url(path);
+			};
+		}
+	}
+	}])
+
+	.directive('arMapMenuFacetSearch', ['$location', 'searchService', 'MapConfig', function($location, searchService, MapConfig) {
+	return {
+		restrict: 'A',
+		scope: {
+			mapConfig: '='
+		},
+		templateUrl: 'partials/directives/ar-map-menu-facet-search.html',
+		link: function(scope) {
+
+			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
+			scope.route = $location.path().slice(1)
+			scope.entityCount = null;
+			scope.facetsShown = [];
+
+			searchService.getCurrentPage().then(function() {
+				scope.entityCount = searchService.getSize();
+				scope.currentQuery = searchService.currentQuery();
+
+				// facetsShown is either the ordered list defined in mapConfig.menuFacetsAllow
+				var facets = searchService.getFacets();
+				if (facets && scope.mapConfig.menuFacetsAllow) {
+					for (var i = 0; i < scope.mapConfig.menuFacetsAllow.length; i++) {
+						var name = scope.mapConfig.menuFacetsAllow[i];
+						var result = facets.filter(function (facet) {
+							return (facet.name == name);
+						});
+						if (result[0]) {
+							scope.facetsShown.push(result[0]);
+						}
+					}
+				// or it is scope.facets pruned by everything in facetsHidden
+				} else if(facets && facetsHidden) {
+					scope.facetsShown = facets.filter(function (facet) {
+						return (facetsHidden.indexOf(facet.name) == -1)
+					});
+				}
+			});
+
+			scope.go = function(facetName, facetValue) {
+				var path = scope.currentQuery.addFacet(facetName,facetValue).removeParam('offset').toString()
+				$location.url(path);
+			};
+		}
+	}
+	}])
+
+	.directive('arMapMenuOverlays', ['$location', 'searchService', function($location, searchService) {
+	return {
+		restrict: 'A',
+		scope: {
+			overlays: '=',
+			mapConfig: '='
+		},
+		templateUrl: 'partials/directives/ar-map-menu-overlays.html',
+		link: function(scope) {
+
+			var currentQuery = searchService.currentQuery();
+			var keys = currentQuery.getArrayParam('overlays');
+
+			scope.selectedOverlays = {};
+
+			scope.toggleOverlay = function(key) {
+
+				var idx = keys.indexOf(key);
+				if (idx > -1) {
+					keys.splice(idx, 1);
+				} else {
+					keys.push(key);
+				}
+
+				$location.url(currentQuery.setParam('overlays', keys).toString());
+			};
+
+			for (var i = 0; i < keys.length; i++) {
+				scope.selectedOverlays[keys[i]] = true;
+			}
+
+		}
+	}
+	}])
+
+	.directive('arMapMenuBaselayer', ['$location', 'searchService', function($location, searchService) {
+	return {
+		restrict: 'A',
+		scope: {
+			mapConfig: '='
+		},
+		templateUrl: 'partials/directives/ar-map-menu-baselayer.html',
+		link: function(scope) {
+			var currentQuery = searchService.currentQuery();
+
+			scope.chosenBaselayer = currentQuery.baselayer || "osm";
+
+			scope.toggleBaselayer = function(key) {
+				$location.url(currentQuery.setParam('baselayer', key).toString());
+			}
+		}
+	}
+	}])
+
 	.directive('arMapPopup', ['MapConfig', function(MapConfig) {
 	return {
 		restrict: 'A',

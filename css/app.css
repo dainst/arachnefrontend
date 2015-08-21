@@ -92,37 +92,29 @@ h6 { font-size: 12px; }
   text-decoration: none;
 }
 
-#map-main-menu {
+#map-right-menu, #map-left-menu {
   background-color: rgba(248, 248, 248, 0.9);
   position: absolute;
   top: 60px;
-  bottom:10px;
+  text-align: left;
+  z-index:500;
+}
+
+#map-right-menu {
   right: 10px;
-  overflow-y:auto;
-  z-index:500;
-  text-align: left;
 }
 
-.con10t-page #map-main-menu {
+#map-left-menu {
+  left: 10px;
+}
+
+.con10t-page #map-right-menu, .con10t-page #map-left-menu {
   top: 10px;
 }
 
-#map-layer-menu {
-  background-color: rgba(248, 248, 248, 0.9);
-  position: absolute;
-  top: 60px;
-  left: 10px;
-  z-index:500;
-  text-align: left;
-}
-
-#map-layer-menu.toggled {
+#map-right-menu.toggled, #map-left-menu.toggled {
   bottom:10px;
   overflow-y:auto;
-}
-
-.con10t-page #map-layer-menu {
-  top: 10px;
 }
 
 .single-line {
