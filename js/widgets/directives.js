@@ -120,7 +120,8 @@ angular.module('arachne.widgets.directives', [])
 			restrict: 'A',
 			scope: {
 				mapConfig: '=',
-                limit: '@'
+                limit: '@',
+                clustered: '=' // true|false
 			},
             // menu elements may appear in the transcluded html
             transclude: true,

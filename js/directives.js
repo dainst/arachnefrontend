@@ -512,7 +512,8 @@ angular.module('arachne.directives', [])
 			places: '=',
 			currentQuery: '=',
 			searchFunction: '=',
-			mapConfig: '='
+			mapConfig: '=',
+			clustered: '='
 		},
 		link: function(scope, element, attrs) {
 
@@ -556,7 +557,11 @@ angular.module('arachne.directives', [])
 							// Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
 							var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), { entityCount : place.entityCount });
 							marker.bindPopup(linkFunction(newScope)[0]);
-							markerClusterGroup.addLayer(marker);
+							if (scope.clustered) {
+								markerClusterGroup.addLayer(marker);
+							} else {
+								map.addLayer(marker);
+							}
 						}
 					}
 				}
@@ -823,7 +828,7 @@ angular.module('arachne.directives', [])
 	}
 	}])
 
-	.directive('arMapMenuOverlays', ['$location', 'searchService', function($location, searchService) {
+	.directive('arMapMenuOverlays', ['$location', 'searchService', 'MapConfig', function($location, searchService, MapConfig) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -837,6 +842,7 @@ angular.module('arachne.directives', [])
 			var keys = currentQuery.getArrayParam('overlays');
 
 			scope.selectedOverlays = {};
+			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 
 			scope.toggleOverlay = function(key) {
 
@@ -868,6 +874,7 @@ angular.module('arachne.directives', [])
 		link: function(scope) {
 			var currentQuery = searchService.currentQuery();
 
+			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 			scope.chosenBaselayer = currentQuery.baselayer || "osm";
 
 			scope.toggleBaselayer = function(key) {
