@@ -17,6 +17,10 @@ h4 { font-size: 16px; }
 h5 { font-size: 14px; }
 h6 { font-size: 12px; }
 
+.clickable {
+  cursor: pointer;
+}
+
 #custom-catalog .panel-heading {
     background-color: #337ab7 !important;
     color: white;
@@ -115,6 +119,10 @@ h6 { font-size: 12px; }
 #map-right-menu.toggled, #map-left-menu.toggled {
   bottom:10px;
   overflow-y:auto;
+}
+
+*[ar-map-popup] ul {
+  padding-left: 10px;
 }
 
 .single-line {

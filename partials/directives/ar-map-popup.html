@@ -1,30 +1,46 @@
-<h4 ng-if="place.entities.length == 0" class="text-info centered">{{ place.relation }}</h4>
+<!-- The place's relation only shows as title if no entities (with possibly different relations) are connected. -->
+<h4 ng-if="listLength == 0" class="text-info centered">{{ place.relation }}</h4>
 
 <b>{{place.name}}</b>
 
-<div ng-if="place.entities.length > 0">
+<div ng-if="listLength > 0">
 
     <br>
-    <b>Verknüpfte Objekte</b>
+    <!-- small lists do not page -->
+    <b ng-if="listLength <= limit">
+        {{listLength}} Verknüpfte<span ng-if="listLength == 1">s</span>
+        Objekt<span ng-if="listLength >1">e</span>
+    </b>
 
-    <ul ng-init="listMaxLength = 3">
-        <li ng-repeat="entity in place.entities.slice(0,listMaxLength)">
+    <!-- bigger lists page -->
+    <b ng-if="listLength > limit">
+        {{offset+1}}-{{(offset+limit > listLength) ? listLength : offset+limit}} von {{listLength}} verknüpften Objekten
+    </b>
+
+    <ul style="margin-left:0px">
+        <div ng-if="offset > 0">
+            <span class="clickable" ng-click="get(offset-3, limit)">&hellip;</span>
+        </div>
+
+        <li ng-repeat="entity in shownEntities">
             <span ng-if="place.relation">{{ place.relation }}:</span>
             <a href="entity/{{entity.entityId}}" target="_blank">{{ entity.title }}</a>
         </li>
-        <li ng-if="place.entities.length > listMaxLength">
-            &hellip;
-        </li>
+
+        <div ng-if="(offset + limit) < listLength">
+            <span class="clickable" ng-click="get(offset+3, limit)">&hellip;</span>
+        </div>
     </ul>
 </div>
 
-<div ng-if="(place.entities.length > (listMaxLength + 1)) && place.query">
+<div ng-if="(listLength > shownEntities.length) && place.query">
     <a href="search/{{place.query.toString()}}" target="_blank">
-        Alle {{place.entities.length}} Objekte anzeigen
+        Alle Objekte anzeigen
     </a>
 </div>
 
-<div ng-if="(place.entities.length == 0) && (place.entityCount > 0)" >
+<!-- places not directoy connected to entities make their entities available via a search -->
+<div ng-if="(listLength == 0) && (place.entityCount > 0)" >
     <a href="search/{{place.query.toString()}}" target="_blank">
         Insgesamt {{place.entityCount}} Objekt<span ng-if="place.entityCount > 1">e</span>
     </a>
