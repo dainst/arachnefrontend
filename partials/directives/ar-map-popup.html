@@ -1,7 +1,31 @@
-<h4 class="text-info centered">{{ place.relation }}</h4>
+<h4 ng-if="place.entities.length == 0" class="text-info centered">{{ place.relation }}</h4>
 
 <b>{{place.name}}</b>
-<br>
-Insgesamt {{place.entityCount}} Objekte
-<br>
-<a href="search/{{place.query.toString()}}">Diese Einträge anzeigen</a>
+
+<div ng-if="place.entities.length > 0">
+
+    <br>
+    <b>Verknüpfte Objekte</b>
+
+    <ul ng-init="listMaxLength = 3">
+        <li ng-repeat="entity in place.entities.slice(0,listMaxLength)">
+            <span ng-if="place.relation">{{ place.relation }}:</span>
+            <a href="entity/{{entity.entityId}}" target="_blank">{{ entity.title }}</a>
+        </li>
+        <li ng-if="place.entities.length > listMaxLength">
+            &hellip;
+        </li>
+    </ul>
+</div>
+
+<div ng-if="(place.entities.length > (listMaxLength + 1)) && place.query">
+    <a href="search/{{place.query.toString()}}" target="_blank">
+        Alle {{place.entities.length}} Objekte anzeigen
+    </a>
+</div>
+
+<div ng-if="(place.entities.length == 0) && (place.entityCount > 0)" >
+    <a href="search/{{place.query.toString()}}" target="_blank">
+        Insgesamt {{place.entityCount}} Objekt<span ng-if="place.entityCount > 1">e</span>
+    </a>
+</div>

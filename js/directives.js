@@ -602,6 +602,10 @@ angular.module('arachne.directives', [])
 				}
 			}
 
+			if (scope.clustered != false) {
+				scope.clustered = true;
+			}
+
 			// initialise standard mapConfig, overwrite with values from scope.mapConfig
 			// if present
 			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
@@ -640,7 +644,7 @@ angular.module('arachne.directives', [])
 				addOverlay(map, _overlays[keys[i]]);
 			}
 
-			selectFacetsAndCreateMarkers(markerClusterGroup, map);
+			selectFacetsAndCreateMarkers(markerClusterGroup, map, scope.places, scope.clustered);
 		}
 	};
 	}])
@@ -864,7 +868,7 @@ angular.module('arachne.directives', [])
 	}
 	}])
 
-	.directive('arMapMenuBaselayer', ['$location', 'searchService', function($location, searchService) {
+	.directive('arMapMenuBaselayer', ['$location', 'searchService', 'MapConfig', function($location, searchService, MapConfig) {
 	return {
 		restrict: 'A',
 		scope: {

@@ -619,8 +619,8 @@ angular.module('arachne.services', [])
 			this.name = "";
 			this.gazetteerId = null;
 			this.entityCount = 0;
-			this.entities = {}; // { relation1: [entity1, entity2], relation2: [entity3, ...], ... }
-			this.query = null;
+			this.entities = [];
+			this.query = null; // A query to retrieve the entities in question
 		};
 
 		Place.prototype = {
@@ -629,9 +629,6 @@ angular.module('arachne.services', [])
 				for (var key in other) {
 					this[key] = other[key];
 				}
-
-				delete this.relation;
-
 				return this;
 			},
 
@@ -648,17 +645,18 @@ angular.module('arachne.services', [])
 				return id;
 			},
 
+			// adds an Entity to the place, this pushes the
 			addEntity: function(entity, relation) {
-				if (!this.entities[relation]) {
-					this.entities[relation] = [];
+				if (relation) {
+					entity.relation = relation;
 				}
-				this.entities[relation].push(entity);
+				this.entities.push(entity);
 				this.entityCount += 1;
 			}
 		};
 
 		// factory to generate places objects from buckets of facets containing geo information
-		// query is a Query object, that schould be used to search for the entities connected
+		// query is a Query object, that should be used to search for the entities connected
 		// bucket is a facet value, e.g.: {
 		//     "value": "Siena, Italien, buonconvento[43.132963,11.483803]",
 		//     "count": 14
@@ -681,7 +679,7 @@ angular.module('arachne.services', [])
 	// Provides a list of Place objects corresponding to the entities in the current search result
 	.factory('placesService', ['searchService', 'Place', function(searchService, Place) {
 
-		// A list of places or a promise of such a list
+		// A promise for an Array of Place objects with corresponding entities
 		var promise = null;
 
 		// Keep the last query used to construct the places list
@@ -703,13 +701,18 @@ angular.module('arachne.services', [])
 						place.merge(entity.places[j]);
 
 						// If there already is a place with the same id, use
-						// that one instead
+						// that one instead and just add the entity
 						var key = place.getId();
 						if (places[key]) {
-							places[key].addEntity(entity);
+							places[key].addEntity(entity, place.relation);
 						} else {
-							place.addEntity(entity);
+							place.addEntity(entity, place.relation);
 							places[key] = place;
+						}
+
+						if (!place.query && place.gazetteerId) {
+							place.query = searchService.currentQuery().removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']);
+							place.query.q = place.query.q + " places.gazetteerId:" + place.gazetteerId;
 						}
 					}
 				}
