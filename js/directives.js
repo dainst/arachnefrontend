@@ -622,7 +622,8 @@ angular.module('arachne.directives', [])
 
 			var baselayerName = scope.currentQuery.baselayer || scope.mapConfig.defaultBaselayer;
 
-			var map = L.map(element.attr('id'), { zoomControl: false }).setView([lat, lng], zoom);
+			// intitalize a basic map
+			var map = L.map(element.attr('id'), { zoomControl: false });
 
 			// register zoom level and central map position in the Query object
 			// to always keep the current map position on reload
@@ -632,6 +633,7 @@ angular.module('arachne.directives', [])
 				scope.currentQuery.lng = map.getCenter().lng;
 			})
 
+			// add the baselayer
 			var layerConfig = scope.mapConfig.baselayers[baselayerName];
 			var baselayer = L.tileLayer(layerConfig.url, layerConfig.layerOptions);
 			map.addLayer(baselayer);
@@ -644,7 +646,34 @@ angular.module('arachne.directives', [])
 				addOverlay(map, _overlays[keys[i]]);
 			}
 
+			// create the actual places' markers
 			selectFacetsAndCreateMarkers(markerClusterGroup, map, scope.places, scope.clustered);
+
+			// set the map's view:
+			// fit bounds to entities only when zoom or coordinates are not explicitely
+			// required by the url, else use the url settings
+			if (!(scope.currentQuery.zoom || scope.currentQuery.lat || scope.currentQuery.lng)) {
+				var latLngs = scope.places.map(function(place) {
+					if (place.location) {
+						return [place.location.lat, place.location.lon];
+					}
+				})
+				map.fitBounds(latLngs);
+
+				// set zoom, such that it is not too detailed and zoom out a little bit
+				// to prevent all markers being hidden behind menus on the side
+				var zoom = map.getZoom();
+				if(zoom > 9) {
+					map.setZoom(9);
+				} else if(zoom > 4) {
+					map.setZoom(zoom -1);
+				}
+			} else {
+				var lat = scope.currentQuery.lat || 40;
+				var lng = scope.currentQuery.lng || -10;
+				var zoom = scope.currentQuery.zoom || 3;
+				map.setView([lat, lng], zoom);
+			}
 		}
 	};
 	}])
@@ -778,8 +807,11 @@ angular.module('arachne.directives', [])
 				}
 			});
 
-			scope.go = function(q) {
-				var path = '/' + route + currentQuery.setParam('q',q).toString();
+			scope.search = function(q) {
+				// remove coordinate and zoom params on new search to indicate that the map
+				// should choose its default action when rendering the new objects' places
+				var query = currentQuery.setParam('q',q).removeParams(['lat', 'lng', 'zoom']);
+				var path = '/' + route + query.toString();
 				$location.url(path);
 			};
 		}
@@ -825,8 +857,11 @@ angular.module('arachne.directives', [])
 			});
 
 			scope.go = function(facetName, facetValue) {
-				var path = scope.currentQuery.addFacet(facetName,facetValue).removeParam('offset').toString()
-				$location.url(path);
+				// remove coordinate and zoom params on new search to indicate that the map
+				// should choose its default action when rendering the new objects' places
+				var query = scope.currentQuery.addFacet(facetName,facetValue)
+					.removeParams(['offset', 'lat', 'lng', 'zoom'])
+				$location.url(query.toString());
 			};
 		}
 	}
@@ -849,7 +884,6 @@ angular.module('arachne.directives', [])
 			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 
 			scope.toggleOverlay = function(key) {
-
 				var idx = keys.indexOf(key);
 				if (idx > -1) {
 					keys.splice(idx, 1);
