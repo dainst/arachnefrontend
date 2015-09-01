@@ -96,7 +96,9 @@ h6 { font-size: 12px; }
   text-decoration: none;
 }
 
-#map-right-menu, #map-left-menu {
+/* map menu items and controls */
+
+#map-right-menu, #map-left-menu, #ar-map-zoomcontrol {
   background-color: rgba(248, 248, 248, 0.9);
   position: absolute;
   top: 60px;
@@ -112,7 +114,12 @@ h6 { font-size: 12px; }
   left: 10px;
 }
 
-.con10t-page #map-right-menu, .con10t-page #map-left-menu {
+#ar-map-zoomcontrol {
+  left:10px;
+  text-align: center;
+}
+
+.con10t-page #map-right-menu, .con10t-page #map-left-menu, .con10t-page #ar-map-zoomcontrol {
   top: 10px;
 }
 
@@ -123,6 +130,13 @@ h6 { font-size: 12px; }
 
 *[ar-map-popup] ul {
   padding-left: 10px;
+}
+
+.ar-map-zoomcontrol-box {
+  border: 1px solid #e3e3e3;
+  padding: 4px 10px 4px 10px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .single-line {

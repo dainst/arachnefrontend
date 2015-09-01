@@ -505,13 +505,12 @@ angular.module('arachne.directives', [])
 	}])
 
 	// Shows a number of Place objects on a Leaflet map as MarkerClusters
-	.directive('arPlacesMap', ['$location', '$compile', 'MapConfig', function($location, $compile, MapConfig) {
+	.directive('arPlacesMap', ['$location', '$compile', 'MapConfig', 'mapService', function($location, $compile, MapConfig, mapService) {
 	return {
 		restrict: 'A',
 		scope: {
 			places: '=',
 			currentQuery: '=',
-			searchFunction: '=',
 			mapConfig: '=',
 			clustered: '='
 		},
@@ -623,7 +622,7 @@ angular.module('arachne.directives', [])
 			var baselayerName = scope.currentQuery.baselayer || scope.mapConfig.defaultBaselayer;
 
 			// intitalize a basic map
-			var map = L.map(element.attr('id'), { zoomControl: false });
+			map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
 
 			// register zoom level and central map position in the Query object
 			// to always keep the current map position on reload
@@ -946,6 +945,23 @@ angular.module('arachne.directives', [])
 		}
 	};
 	})
+
+	// directive implements a simple Zoomcontrol box instead of the one provided by leaflet. This is done
+	// such that the box can be styled via any template even if that could not normally override leaflet's
+	// css (e.g. con10t-pages)
+	.directive('arMapZoomcontrol', ['searchService', 'mapService', function(searchService, mapService) {
+	return{
+		restrict: 'A',
+		scope: {},
+		templateUrl: 'partials/directives/ar-map-zoomcontrol.html',
+		link: function(scope) {
+
+			scope.increaseZoom = function(increment) {
+				mapService.increaseZoom(increment);
+			}
+		}
+	};
+	}])
 
 	.directive('zoomifyimg', ['arachneSettings', '$http', function(arachneSettings, $http) {
 		return {
