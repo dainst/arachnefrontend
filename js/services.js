@@ -727,7 +727,7 @@ angular.module('arachne.services', [])
 
 		return {
 
-			// returns a promise for list of places corresponding
+			// returns a promise for a list of places corresponding
 			// to the current search result
 			getCurrentPlaces: function() {
 				var oldPromise = promise;
@@ -742,6 +742,51 @@ angular.module('arachne.services', [])
 				});
 
 				return promise;
+			}
+
+		}
+
+	}])
+
+	// Provides a single leaflet map for different controllers/directives.
+	// Provides methods to alter the map's state while keeping the appropriate
+	// parameters of currentQuery in sync, such that the map's status can
+	// fully be described by the url implicit in searchService.currentQuery.
+	.factory('mapService', ['searchService', function(searchService){
+
+		var map = null;
+		var currentQuery = searchService.currentQuery();
+
+		return {
+
+			// initialize the Map given an Attribute id of an
+			// HTML-Element.
+			// Params are the same as those of Learflet's L.map():
+			// http://leafletjs.com/reference.html#map-constructor
+			// Returns the map governed by the mapService.
+			initializeMap: function(id, options) {
+				map = L.map(id, options);
+				return map;
+			},
+
+			// Returns the map governed by mapService.
+			getMap: function() {
+				return map;
+			},
+
+			// Increases the map's zoom level or decreases it if the
+			// increment is negative.
+			// Sets currentQuery.zoom to the new level.
+			increaseZoom: function(increment) {
+				var lvl = map.getZoom();
+
+				lvl = lvl + increment;
+				if (lvl < 1) {
+					lvl = 1;
+				}
+
+				map.setZoom(lvl);
+				currentQuery.zoom = lvl;
 			}
 
 		}
