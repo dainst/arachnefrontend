@@ -124,6 +124,39 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
+//Edit User Form 
+.controller('EditUserController', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings', 'registerService', 'authService',
+	function ($rootScope, $scope, $http, $filter, arachneSettings, registerService, authService) {
+
+		$rootScope.hideFooter = false;
+
+		$scope.userBuffer = authService.getUser();
+
+		$scope.user = {};
+		$scope.success = false;
+		$scope.error = "";
+
+		$http.get(arachneSettings.dataserviceUri + "/userinfo/" + $scope.userBuffer.username
+			).success(function(data) {
+				$scope.user = data;
+				console.log($scope.user);
+			}).error(function(data) {
+				$scope.error = data.message;
+			});
+
+		$scope.submit = function() {
+			$http.put(arachneSettings.dataserviceUri + "/userinfo/" + scope.userBuffer.username, $scope.user, {
+				"headers": { "Content-Type": "application/json" }
+			}).success(function(data) {
+				$scope.error = "";
+				$scope.success = true;
+			}).error(function(data) {
+				$scope.error = data.message;
+			});
+		}
+
+	}
+])
 //Register Form 
 .controller('RegisterController', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings', 'registerService',
 	function ($rootScope, $scope, $http, $filter, arachneSettings, registerService) {
@@ -535,6 +568,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.catalogs = [];
 		$scope.user = authService.getUser();
+		$scope.tobig = false;
 
 		$scope.treeOptions = {
 			dropped: function(event) {
@@ -554,6 +588,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.refreshCatalogs();
 
 		$scope.setActiveCatalog = function(catalog) {
+			console.log(catalog);
 			$scope.activeCatalog = catalog;
 		}
 

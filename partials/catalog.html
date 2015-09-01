@@ -87,8 +87,12 @@
 						</button>
 					</div>
 				</h3>
+				<div ng-if="activeCatalog.root.children.length > 500">
+					Katalog zu groß zur Darstelleung 
+					<a ng-href="search?q={{activeCatalog.id}}">Als Suche anzeigen</a>
+				</div>
 
-				<div ng-if="activeCatalog.root.children.length > 0" ui-tree="treeOptions">
+				<div ng-if="activeCatalog.root.children.length > 0 && activeCatalog.root.children.length < 500" ui-tree="treeOptions">
 					<ol ui-tree-nodes="" ng-model="activeCatalog.root.children">
 						<li ng-repeat="entry in activeCatalog.root.children"
 								ui-tree-node

@@ -38,6 +38,7 @@ angular.module('arachne',[
 		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
 		.when('/projects', {templateUrl: 'partials/projects.html'})
 		.when('/register', {templateUrl: 'partials/register.html'})
+		.when('/editUser', {templateUrl: 'partials/editUser.html'})
 		.when('/apis', {templateUrl: 'partials/apis.html'})
 		.when('/contact', {templateUrl: 'partials/contact.html'})
 		.when('/admin/dataimport', {templateUrl: 'partials/dataimport.html'})
