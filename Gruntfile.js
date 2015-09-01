@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 							// Include the proxy to the dev backend
 							proxy,
 							// rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
-							modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json\\swf$ /index.html [L]']),
+							modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.woff2|\\.woff\.ttf$ /index.html [L]']),
 							// Serve static files.
 							connect.static(options.base[0])
 						];
