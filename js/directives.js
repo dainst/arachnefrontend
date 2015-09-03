@@ -314,26 +314,11 @@ angular.module('arachne.directives', [])
 		return {
 			scope: {
 				route: '@',
-				currentQuery: '=',
-				hiddenFacets: '='
+				currentQuery: '='
 			},
 			templateUrl: 'partials/directives/ar-active-facets.html',
 			link: function(scope) {
-				var facets = scope.currentQuery.facets || [];
-
-				if (scope.hiddenFacets) {
-					facets = facets.filter(function(facet) {
-						for (var i = 0; i < scope.hiddenFacets.length; i++) {
-							var hiddenFacet = scope.hiddenFacets[i];
-							if ((hiddenFacet.key == facet.key) && (hiddenFacet.value == facet.value)) {
-								return false;
-							}
-						}
-						return true;
-					});
-				}
-
-				scope.facets = facets;
+				scope.facets = scope.currentQuery.facets || [];
 			}
 		}
 	})
@@ -505,12 +490,11 @@ angular.module('arachne.directives', [])
 	}])
 
 	// Shows a number of Place objects on a Leaflet map as MarkerClusters
-	.directive('arPlacesMap', ['$location', '$compile', 'MapConfig', 'mapService', function($location, $compile, MapConfig, mapService) {
+	.directive('arPlacesMap', ['$location', '$compile', 'MapConfig', 'mapService', 'searchService', function($location, $compile, MapConfig, mapService, searchService) {
 	return {
 		restrict: 'A',
 		scope: {
 			places: '=',
-			currentQuery: '=',
 			mapConfig: '=',
 			clustered: '='
 		},
@@ -605,12 +589,14 @@ angular.module('arachne.directives', [])
 				scope.clustered = true;
 			}
 
+			scope.currentQuery = searchService.currentQuery();
+
 			// initialise standard mapConfig, overwrite with values from scope.mapConfig
 			// if present
 			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 
-			// contains all usable Overlays { overlay.key: overlay }
-			var _overlays = extractOverlays();
+			// Set the available overlays
+			mapService.setOverlays(extractOverlays());
 
 			// the layer with markers (has to be recreated when places change)
 			var markerClusterGroup = null;
@@ -622,15 +608,7 @@ angular.module('arachne.directives', [])
 			var baselayerName = scope.currentQuery.baselayer || scope.mapConfig.defaultBaselayer;
 
 			// intitalize a basic map
-			map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
-
-			// register zoom level and central map position in the Query object
-			// to always keep the current map position on reload
-			map.on('moveend', function() {
-				scope.currentQuery.zoom = map.getZoom();
-				scope.currentQuery.lat = map.getCenter().lat;
-				scope.currentQuery.lng = map.getCenter().lng;
-			})
+			var map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
 
 			// add the baselayer
 			var layerConfig = scope.mapConfig.baselayers[baselayerName];
@@ -638,11 +616,10 @@ angular.module('arachne.directives', [])
 			map.addLayer(baselayer);
 			L.Icon.Default.imagePath = 'img';
 
-			// which overlays (from _overlays) are to be created is given
-			// by their keys in the URL
+			// which overlays are to be created is given by their keys in the URL
 			var keys = scope.currentQuery.getArrayParam('overlays');
 			for (var i = 0; i < keys.length; i++) {
-				addOverlay(map, _overlays[keys[i]]);
+				mapService.activateOverlay(keys[i]);
 			}
 
 			// create the actual places' markers
@@ -786,7 +763,7 @@ angular.module('arachne.directives', [])
 	}
 	}])
 
-	.directive('arMapMenuSearchField', ['$location', 'searchService', function($location, searchService) {
+	.directive('arMapMenuSearchField', ['$location', 'searchService', 'mapService', function($location, searchService, mapService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -809,7 +786,7 @@ angular.module('arachne.directives', [])
 			scope.search = function(q) {
 				// remove coordinate and zoom params on new search to indicate that the map
 				// should choose its default action when rendering the new objects' places
-				var query = currentQuery.setParam('q',q).removeParams(['lat', 'lng', 'zoom']);
+				var query = mapService.getMapQuery().setParam('q',q).removeParams(['lat', 'lng', 'zoom']);
 				var path = '/' + route + query.toString();
 				$location.url(path);
 			};
@@ -817,7 +794,7 @@ angular.module('arachne.directives', [])
 	}
 	}])
 
-	.directive('arMapMenuFacetSearch', ['$location', 'searchService', 'MapConfig', function($location, searchService, MapConfig) {
+	.directive('arMapMenuFacetSearch', ['$location', 'searchService', 'MapConfig', 'mapService', function($location, searchService, MapConfig, mapService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -830,6 +807,7 @@ angular.module('arachne.directives', [])
 			scope.route = $location.path().slice(1)
 			scope.entityCount = null;
 			scope.facetsShown = [];
+			scope.activeFacets = [];
 
 			searchService.getCurrentPage().then(function() {
 				scope.entityCount = searchService.getSize();
@@ -853,20 +831,41 @@ angular.module('arachne.directives', [])
 						return (facetsHidden.indexOf(facet.name) == -1)
 					});
 				}
+
+				// determine active facets, do not show preselected facets as active
+				var queryFacets = scope.currentQuery.facets;
+				if (scope.mapConfig.facetsSelect) {
+					scope.activeFacets = queryFacets.filter(function(facet) {
+						for (var i = 0; i < scope.mapConfig.facetsSelect.length; i++) {
+							var hiddenFacet = scope.mapConfig.facetsSelect[i];
+							if ((hiddenFacet.key == facet.key) && (hiddenFacet.value == facet.value)) {
+								return false;
+							}
+						}
+						return true;
+					});
+				}
+
 			});
 
-			scope.go = function(facetName, facetValue) {
+			scope.addFacet = function(facetName, facetValue) {
 				// remove coordinate and zoom params on new search to indicate that the map
 				// should choose its default action when rendering the new objects' places
-				var query = scope.currentQuery.addFacet(facetName,facetValue)
-					.removeParams(['offset', 'lat', 'lng', 'zoom'])
+				var query = mapService.getMapQuery().addFacet(facetName,facetValue)
+					.removeParams(['offset', 'lat', 'lng', 'zoom']);
 				$location.url(query.toString());
 			};
+
+			scope.removeFacet = function(facetName) {
+				var query = mapService.getMapQuery().removeFacet(facetName)
+					.removeParams(['offset', 'lat', 'lng', 'zoom']);
+				$location.url(query.toString());
+			}
 		}
 	}
 	}])
 
-	.directive('arMapMenuOverlays', ['$location', 'searchService', 'MapConfig', function($location, searchService, MapConfig) {
+	.directive('arMapMenuOverlays', ['$location', 'searchService', 'MapConfig', 'mapService', function($location, searchService, MapConfig, mapService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -883,14 +882,7 @@ angular.module('arachne.directives', [])
 			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 
 			scope.toggleOverlay = function(key) {
-				var idx = keys.indexOf(key);
-				if (idx > -1) {
-					keys.splice(idx, 1);
-				} else {
-					keys.push(key);
-				}
-
-				$location.url(currentQuery.setParam('overlays', keys).toString());
+				mapService.toggleOverlay(key);
 			};
 
 			for (var i = 0; i < keys.length; i++) {

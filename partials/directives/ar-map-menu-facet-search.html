@@ -1,7 +1,13 @@
 <!-- Ausgewählte Facetten -->
-<div ar-active-facets ng-if="currentQuery"
-    route="{{route}}" current-query="currentQuery"
-    hidden-facets="mapConfig.facetsSelect"></div>
+<div ng-if="activeFacets.length > 0">
+    <h5 class="text-muted uppercase"><b>Aktive Filter</b></h5>
+    <a ng-repeat="facet in activeFacets"
+            ng-click="removeFacet(facet.key)"
+            class="btn btn-sm btn-block btn-primary linethrough-hover">
+        <i>{{facet.key | transl8}}</i><br>
+        <b>{{facet.value}}</b>
+    </a>
+</div>
 
 <!-- Auswählbare Facetten -->
 <small ng-if="mapConfig.menuShowFilters && entityCount > 2">
@@ -17,7 +23,7 @@
         </div>
         <ul class="list-unstyled facet" ng-show="facet.open">
             <li ng-repeat="facetValue in facet.values">
-                <a style="cursor:pointer" ng-click="go(facet.name, facetValue.value)">
+                <a style="cursor:pointer" ng-click="addFacet(facet.name, facetValue.value)">
                     <b class="pull-right text-muted">{{facetValue.count | number}}</b>
                     {{facetValue.value | stripCoords}}
                 </a>

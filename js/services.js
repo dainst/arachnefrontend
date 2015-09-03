@@ -749,12 +749,17 @@ angular.module('arachne.services', [])
 	}])
 
 	// Provides a single leaflet map for different controllers/directives.
-	// Provides methods to alter the map's state while keeping the appropriate
-	// parameters of currentQuery in sync, such that the map's status can
-	// fully be described by the url implicit in searchService.currentQuery.
+	// Provides convenience methods to alter the map's state.
 	.factory('mapService', ['searchService', function(searchService){
 
 		var map = null;
+
+		var overlays = null; // { key: LayerConfig }
+		var activeOverlays = {}; // { key: TileLayer }
+
+		var baselayers = null; // { key: LayerConfig }
+		var activeBaselayer = null; // Layer
+
 		var currentQuery = searchService.currentQuery();
 
 		return {
@@ -776,7 +781,6 @@ angular.module('arachne.services', [])
 
 			// Increases the map's zoom level or decreases it if the
 			// increment is negative.
-			// Sets currentQuery.zoom to the new level.
 			increaseZoom: function(increment) {
 				var lvl = map.getZoom();
 
@@ -786,7 +790,58 @@ angular.module('arachne.services', [])
 				}
 
 				map.setZoom(lvl);
-				currentQuery.zoom = lvl;
+			},
+
+			// Sets the overlays available for this map
+			// { key: LayerConfig, ... }
+			setOverlays: function(overlaysToSet) {
+				overlays = overlaysToSet;
+			},
+
+			// Adds an overlay to the map
+			activateOverlay: function(key) {
+				var layerConfig = overlays[key];
+				if (layerConfig && layerConfig.type == 'wms') {
+					activeOverlays[key] = L.tileLayer.wms(layerConfig.url, layerConfig.layerOptions);
+					map.addLayer(activeOverlays[key]);
+				}
+			},
+
+			// Removes an overlay from the map
+			// TODO: Keep layer for later refresh
+			deactivateOverlay: function(key) {
+				map.removeLayer(activeOverlays[key]);
+				delete activeOverlays[key];
+			},
+
+			// Toggle an overlay on the map, identified by key
+			toggleOverlay: function(key) {
+				if(activeOverlays[key]) {
+					this.deactivateOverlay(key);
+				} else {
+					this.activateOverlay(key);
+				}
+
+			},
+
+			// returns a Query object copied from currentQuery and
+			// enriched with all parameters needed to recreate the current map
+			getMapQuery: function() {
+				var query = searchService.currentQuery().removeParams('lat', 'lng', 'zoom', 'overlays');
+
+				query.zoom = map.getZoom();
+				query.lat = map.getCenter().lat;
+				query.lng = map.getCenter().lng;
+
+				var overlays = [];
+				for (var key in activeOverlays) {
+					overlays.push(key);
+				}
+				if (overlays.length > 0) {
+					query.overlays = overlays;
+				}
+
+				return query;
 			}
 
 		}
