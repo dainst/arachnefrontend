@@ -550,6 +550,7 @@ angular.module('arachne.services', [])
 	// Represents a configuration for a map with corresponding menu.
 	// Only holds values that are required once for the map's and
 	// map menu's setup, but which do not change by user input.
+	// TODO: make it disappear (replace with attributes on single menu directives)
 	.factory('MapConfig', function() {
 
 		function MapConfig() {
@@ -758,7 +759,8 @@ angular.module('arachne.services', [])
 		var activeOverlays = {}; // { key: TileLayer }
 
 		var baselayers = null; // { key: LayerConfig }
-		var activeBaselayer = null; // Layer
+		var activeBaselayer = null; // TileLayer
+		var activeBaselayerKey = "";
 
 		var currentQuery = searchService.currentQuery();
 
@@ -771,6 +773,7 @@ angular.module('arachne.services', [])
 			// Returns the map governed by the mapService.
 			initializeMap: function(id, options) {
 				map = L.map(id, options);
+				L.Icon.Default.imagePath = 'img';
 				return map;
 			},
 
@@ -798,6 +801,12 @@ angular.module('arachne.services', [])
 				overlays = overlaysToSet;
 			},
 
+			// Sets the baselayers available for this map
+			// { key: LayerConfig, ... }
+			setBaselayers: function(baselayersToSet) {
+				baselayers = baselayersToSet;
+			},
+
 			// Adds an overlay to the map
 			activateOverlay: function(key) {
 				var layerConfig = overlays[key];
@@ -805,6 +814,18 @@ angular.module('arachne.services', [])
 					activeOverlays[key] = L.tileLayer.wms(layerConfig.url, layerConfig.layerOptions);
 					map.addLayer(activeOverlays[key]);
 				}
+			},
+
+			// Removes the old baselayer if neccessary and sets a new one
+			// identified by it's key
+			activateBaselayer: function(key) {
+				if (activeBaselayer) {
+					map.removeLayer(activeBaselayer)
+				}
+
+				var layerConfig = baselayers[key];
+				activeBaselayer = map.addLayer(L.tileLayer(layerConfig.url, layerConfig.layerOptions));
+				activeBaselayerKey = key;
 			},
 
 			// Removes an overlay from the map
@@ -827,7 +848,7 @@ angular.module('arachne.services', [])
 			// returns a Query object copied from currentQuery and
 			// enriched with all parameters needed to recreate the current map
 			getMapQuery: function() {
-				var query = searchService.currentQuery().removeParams('lat', 'lng', 'zoom', 'overlays');
+				var query = searchService.currentQuery().removeParams('lat', 'lng', 'zoom', 'overlays', 'baselayers');
 
 				query.zoom = map.getZoom();
 				query.lat = map.getCenter().lat;
@@ -839,6 +860,10 @@ angular.module('arachne.services', [])
 				}
 				if (overlays.length > 0) {
 					query.overlays = overlays;
+				}
+
+				if (activeBaselayerKey != "") {
+					query.baselayer = activeBaselayerKey;
 				}
 
 				return query;

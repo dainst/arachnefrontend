@@ -595,8 +595,9 @@ angular.module('arachne.directives', [])
 			// if present
 			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 
-			// Set the available overlays
+			// Set the available overlays and baselayers
 			mapService.setOverlays(extractOverlays());
+			mapService.setBaselayers(scope.mapConfig.baselayers);
 
 			// the layer with markers (has to be recreated when places change)
 			var markerClusterGroup = null;
@@ -605,16 +606,12 @@ angular.module('arachne.directives', [])
 			var lng = scope.currentQuery.lng || -10;
 			var zoom = scope.currentQuery.zoom || 3;
 
-			var baselayerName = scope.currentQuery.baselayer || scope.mapConfig.defaultBaselayer;
-
 			// intitalize a basic map
 			var map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
 
 			// add the baselayer
-			var layerConfig = scope.mapConfig.baselayers[baselayerName];
-			var baselayer = L.tileLayer(layerConfig.url, layerConfig.layerOptions);
-			map.addLayer(baselayer);
-			L.Icon.Default.imagePath = 'img';
+			var baselayerName = scope.currentQuery.baselayer || scope.mapConfig.defaultBaselayer;
+			mapService.activateBaselayer(baselayerName);
 
 			// which overlays are to be created is given by their keys in the URL
 			var keys = scope.currentQuery.getArrayParam('overlays');
@@ -893,7 +890,7 @@ angular.module('arachne.directives', [])
 	}
 	}])
 
-	.directive('arMapMenuBaselayer', ['$location', 'searchService', 'MapConfig', function($location, searchService, MapConfig) {
+	.directive('arMapMenuBaselayer', ['searchService', 'MapConfig', 'mapService', function(searchService, MapConfig, mapService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -901,13 +898,13 @@ angular.module('arachne.directives', [])
 		},
 		templateUrl: 'partials/directives/ar-map-menu-baselayer.html',
 		link: function(scope) {
-			var currentQuery = searchService.currentQuery();
 
 			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
-			scope.chosenBaselayer = currentQuery.baselayer || "osm";
+			scope.chosenBaselayer = searchService.currentQuery().baselayer || "osm";
 
 			scope.toggleBaselayer = function(key) {
-				$location.url(currentQuery.setParam('baselayer', key).toString());
+				mapService.activateBaselayer(key);
+				scope.chosenBaselayer = key;
 			}
 		}
 	}
