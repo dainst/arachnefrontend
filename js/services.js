@@ -104,6 +104,21 @@ angular.module('arachne.services', [])
 					return _result.facets;
 				},
 
+				// return the facet with field .name equal to name or null
+				// if none such facet is present in the current result
+				getFacet: function(name) {
+					var result = null;
+					if (_result.facets) {
+						for (var i = 0; i < _result.facets.length; i++) {
+							if (_result.facets[i].name ==  name) {
+								result = _result.facets[i];
+								break;
+							}
+						}
+					}
+					return result;
+				},
+
 				// get current results size
 				getSize: function() {
 					return _result.size;
@@ -119,6 +134,12 @@ angular.module('arachne.services', [])
 				// get current query
 				currentQuery: function() {
 					return _currentQuery;
+				},
+
+				// Reset the search result to allow new searches
+				reset: function() {
+					_result = { entities: [] };
+					chunkPromise = false;
 				}
 
 			}
@@ -258,7 +279,7 @@ angular.module('arachne.services', [])
 						queries.push("catalogIds:" + this[key]);
 					} else if (key == 'q') {
 						queries.push(this[key]);
-					} else if (['fl','limit','sort','desc'].indexOf(key) != -1) {
+					} else if (['fl','limit','sort','desc','ghprec','bbox'].indexOf(key) != -1) {
 						object[key] = this[key];
 					}
 				}

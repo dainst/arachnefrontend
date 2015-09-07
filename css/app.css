@@ -96,6 +96,29 @@ h6 { font-size: 12px; }
   text-decoration: none;
 }
 
+/* map widgets */
+
+.ar-map * {
+  box-sizing: content-box;
+}
+.ar-fullscreenmap {
+  height: 100%;
+  position: absolute;
+}
+.ar-halfscreenmap {
+  height: 50%;
+}
+
+*[ar-map-popup] ul {
+  padding-left: 10px;
+}
+
+.ar-map-geogrid-count-label {
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+
 /* map menu items and controls */
 
 #map-right-menu, #map-left-menu, #ar-map-zoomcontrol {
@@ -126,10 +149,6 @@ h6 { font-size: 12px; }
 #map-right-menu.toggled, #map-left-menu.toggled {
   bottom:10px;
   overflow-y:auto;
-}
-
-*[ar-map-popup] ul {
-  padding-left: 10px;
 }
 
 .ar-map-zoomcontrol-box {
@@ -303,16 +322,7 @@ h6 { font-size: 12px; }
 .imagePlaceholder {
   content:url("../img/arachnelogo.png");
 }
-.ar-map * {
-  box-sizing: content-box;
-}
-.ar-fullscreenmap {
-  height: 100%;
-  position: absolute;
-}
-.ar-halfscreenmap {
-  height: 50%;
-}
+
 /* Für Filter-Seite, an den Facetten */
 .accordion-with-list .panel-body {
   padding: 0px;

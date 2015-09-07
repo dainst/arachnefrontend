@@ -651,6 +651,183 @@ angular.module('arachne.directives', [])
 	};
 	}])
 
+	// Directive shows a gridmap constructed from the current searches
+	// agg_geogrid facet.
+	.directive('arGridMap', ['searchService', 'mapService', function(searchService, mapService) {
+	return {
+		restrict: 'A',
+		scope: {
+			baselayers: '='
+		},
+		link: function(scope, element) {
+
+			// Basic variables
+			var currentQuery = searchService.currentQuery();
+			var map = mapService.initializeMap(element.attr('id'), {});
+			var baselayerName = currentQuery.baselayer || "osm";
+
+			// Promise for a drawn grid, i.e. an array of all layers
+			// making up the current grid
+			var gridPromise = null;
+
+			var rectOptions = {
+				// color: "rgba(245,24,72,0.35)",
+				color: "rgba(245,24,72,0.35)",
+				stroke: true,
+				weight: 1
+			};
+
+			// Guesses a good geohash precision value from the zoomlevel
+			// "zoom". The returned value can be used as "ghprec"-param in
+			// search queries
+			var getGhprecFromZoom = function(zoom) {
+				var result = null;
+
+				switch (zoom) {
+					case 0:
+					case 1:
+						result = 1;
+						break;
+					case 2:
+					case 3:
+					case 4:
+					case 5:
+						result = 2;
+						break;
+					case 6:
+					case 7:
+					case 8:
+						result = 3;
+						break;
+					case 9:
+					case 10:
+						result = 4;
+						break;
+					case 11:
+					case 12:
+						result = 5;
+						break;
+					case 13:
+					case 14:
+					case 15:
+						result = 6;
+						break;
+					case 16:
+					case 17:
+					case 18:
+						result = 7;
+						break;
+					default:
+						break;
+				}
+				return result;
+			}
+
+			var getBboxFromBounds = function(bounds) {
+				var southEast = bounds.getSouthEast();
+				var northWest = bounds.getNorthWest();
+				return [northWest.lat, northWest.lng, southEast.lat, southEast.lng]
+			}
+
+			// draws a box layer on the map, returns the layer
+			var drawBox = function(coords, halfWidth, halfHeight) {
+				var southwest = [(coords[0]-halfHeight), (coords[1]-halfWidth)];
+				var northeast = [(coords[0]+halfHeight), (coords[1]+halfWidth)];
+				var rect = L.rectangle([southwest, northeast], rectOptions);
+				rect.addTo(map);
+				return rect;
+			};
+
+			// draws an html label as a layer on the map, returns the layer
+			var drawLabel = function(coords, count) {
+				var opts = {
+					className: 'ar-map-geogrid-count-label',
+					html: '' + count,
+					title: count + " Objects near (" + coords[0] + ", " + coords[1] + ")"
+				}
+				var label = L.marker(coords, { icon: L.divIcon(opts) });
+				label.addTo(map);
+				return label;
+			}
+
+			var removeLayers = function(layers) {
+				if (layers) {
+					for (var i = 0; i < layers.length; i++) {
+						map.removeLayer(layers[i]);
+					}
+				}
+			};
+
+			// resets the searchServices current result and performs a
+			// new search with parameters "bbox" and "ghprec" adjusted to fit the maps
+			// position and zoomlevel, then draws the grid from the "agg_geogrid"
+			// aggregation that results from the search, returns a promise for all
+			// layers that make up the map
+			// Removes old layers right before setting the new ones if they are present
+			// as param oldLayers
+			var drawGrid = function(oldLayers) {
+				searchService.reset();
+
+				var ghprec = getGhprecFromZoom(map.getZoom());
+				currentQuery.ghprec = getGhprecFromZoom(map.getZoom());
+				currentQuery.bbox = getBboxFromBounds(map.getBounds()).join(',');
+				var layers = [];
+
+				return searchService.getCurrentPage().then(function(entities) {
+					removeLayers(oldLayers);
+
+					var facet = searchService.getFacet("agg_geogrid");
+					if (facet) {
+						var gridElements = facet.values;
+
+						var parity = ghprec % 2;
+						var halfWidth = 90 / Math.pow(2, ((5*ghprec + parity - 2) / 2) );
+						var halfHeight = 90 / Math.pow(2, ((5*ghprec - parity) / 2) );
+
+						for (var i = 0; i < gridElements.length; i++) {
+							var coords = angular.fromJson(gridElements[i].value);
+							var count = gridElements[i].count;
+
+							layers.push(drawBox(coords, halfWidth, halfHeight));
+							layers.push(drawLabel(coords, count));
+						}
+					}
+					return layers;
+				});
+			}
+
+			// wraps drawGrid() in a promise, such that multiple calls to drawGrid()
+			// are executed in order and never asynchrously
+			var drawGridDeferred = function() {
+				if (gridPromise) {
+					gridPromise = gridPromise.then(function(oldLayers) {
+						return drawGrid(oldLayers);
+					});
+				} else {
+					gridPromise = drawGrid();
+				}
+				return gridPromise;
+			};
+
+			// Add baselayers and activate one, given by url
+			// parameter "baselayer" or a default value
+			mapService.setBaselayers(scope.baselayers);
+			mapService.activateBaselayer(baselayerName);
+
+			// Set map view to center coords with zoomlevel
+			map.setView([40, -10], 3);
+
+			drawGridDeferred();
+
+			// register a hook to redraw the grid on zoom and move events
+			map.on('moveend', function() {
+				drawGridDeferred();
+			});
+		}
+	};
+	}])
+
+	// TODO: Refactor/Remove, replaced by single map-menu-x directives
 	.directive('arMapMenu', ['$location', 'MapConfig', function($location, MapConfig) {
 	return {
 		restrict: 'A',
@@ -669,7 +846,7 @@ angular.module('arachne.directives', [])
 			// if present
 			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 
-			var geofacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'facet_geogrid']
+			var geofacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'agg_geogrid']
 
 			scope.route = $location.path().slice(1);
 
@@ -714,11 +891,6 @@ angular.module('arachne.directives', [])
 				scope.showLayerMenu = true;
 			}
 
-			var facetsHidden = geofacets;
-			if (scope.menuFacetsDeny) {
-				facetsHidden = facetsHidden.concat(scope.mapConfig.menuFacetsDeny);
-			}
-
 			// determine shown facets after facets are loaded
 			scope.facetsShown = [];
 			scope.$watch('facets', function(facets) {
@@ -744,11 +916,13 @@ angular.module('arachne.directives', [])
 	};
 	}])
 
+	// TODO: Adjust to gridmap
 	.directive('arMapMenuSearchInfo', ['searchService', 'placesService', function(searchService, placesService) {
 	return {
 		restrict: 'A',
 		scope: {
-			mapConfig: '='
+			mapConfig: '=',
+			countPlaces: '='
 		},
 		templateUrl: 'partials/directives/ar-map-menu-search-info.html',
 		link: function(scope) {
@@ -800,11 +974,18 @@ angular.module('arachne.directives', [])
 		templateUrl: 'partials/directives/ar-map-menu-facet-search.html',
 		link: function(scope) {
 
+			var geofacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'agg_geogrid']
+
 			scope.mapConfig = new MapConfig().merge(scope.mapConfig);
 			scope.route = $location.path().slice(1)
 			scope.entityCount = null;
 			scope.facetsShown = [];
 			scope.activeFacets = [];
+
+			var facetsHidden = geofacets;
+			if (scope.mapConfig.menuFacetsDeny) {
+				facetsHidden = facetsHidden.concat(scope.mapConfig.menuFacetsDeny);
+			}
 
 			searchService.getCurrentPage().then(function() {
 				scope.entityCount = searchService.getSize();
@@ -841,6 +1022,8 @@ angular.module('arachne.directives', [])
 						}
 						return true;
 					});
+				} else {
+					scope.activeFacets = queryFacets;
 				}
 
 			});

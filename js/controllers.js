@@ -442,6 +442,20 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
+.controller('GridSearchMapController', ['$rootScope', '$scope', 'searchService', 'messageService', 
+	function($rootScope, $scope, searchService, messageService){
+
+	$rootScope.hideFooter = true;
+
+	var query = searchService.currentQuery();
+	if (!(query.ghprec && query.ghprec > 0 && query.ghprec < 10)) {
+		query.ghprec = 2;
+	}
+	if (!query.q) {
+		query.q = '*';
+	}
+
+}])
 .controller('MapMenuController', ['$scope', 'searchService',
 	function($scope, searchService) {
 

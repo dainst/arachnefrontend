@@ -34,6 +34,7 @@ angular.module('arachne',[
 		.when('/search/:params?', {templateUrl: 'partials/search.html'})
 		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
 		.when('/map', {templateUrl: 'partials/map.html'})
+		.when('/gridmap', {templateUrl: 'partials/gridmap.html'})
 		.when('/3d', {templateUrl: 'partials/3d.html'})
 		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
 		.when('/projects', {templateUrl: 'partials/projects.html'})

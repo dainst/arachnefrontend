@@ -15,9 +15,12 @@
 <div ng-if="entityCount > 0" style="margin-bottom:10px;">
     <small>
     Insgesamt <b>{{ entityCount|number }}</b> Objekt<span ng-show="entityCount > 1">e</span>
-    <br>an
-    <i ng-if="mapfacet.values.length >= 2000">mehr als</i>
-    <b>{{ placesCount |number }}</b> Ort<span ng-show="placesCount > 1">en</span>
+    <br>
+    <span ng-if="countPlaces">
+        an
+        <i ng-if="mapfacet.values.length >= 2000">mehr als</i>
+        <b>{{ placesCount |number }}</b> Ort<span ng-show="placesCount > 1">en</span>
+    </span>
 </small>
 </div>
 
