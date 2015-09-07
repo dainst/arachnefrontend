@@ -10,7 +10,7 @@
             <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
                 <label>
                     <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
-                    {{overlay.name}}&nbsp;<a ng-if="overlay.attributionUrl" href="{{overlay.attributionUrl}}" title="Zur Quelle des Layers"><span class="glyphicon glyphicon-new-window" style="font-size:xx-small;color:grey"></span></a>
+                    {{overlay.name}}&nbsp;<a ng-if="overlay.attributionUrl" href="{{overlay.attributionUrl}}" target="_blank" title="Zur Quelle des Layers"><span class="glyphicon glyphicon-new-window" style="font-size:xx-small;color:grey"></span></a>
                 </label>
             </div>
         </div>
