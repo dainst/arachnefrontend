@@ -625,7 +625,7 @@ angular.module('arachne.directives', [])
 			// set the map's view:
 			// fit bounds to entities only when zoom or coordinates are not explicitely
 			// required by the url, else use the url settings
-			if (!(scope.currentQuery.zoom || scope.currentQuery.lat || scope.currentQuery.lng)) {
+			if ((scope.places && scope.places.length > 0) && !(scope.currentQuery.zoom || scope.currentQuery.lat || scope.currentQuery.lng)) {
 				var latLngs = scope.places.map(function(place) {
 					if (place.location) {
 						return [place.location.lat, place.location.lon];
