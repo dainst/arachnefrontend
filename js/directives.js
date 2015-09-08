@@ -667,6 +667,7 @@ angular.module('arachne.directives', [])
 			// when the window is bigger than the world
 			var map = mapService.initializeMap(element.attr('id'), {minZoom: 3});
 			var baselayerName = currentQuery.baselayer || "osm";
+			var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
 
 			// Promise for a drawn grid, i.e. an array of all layers
 			// making up the current grid
@@ -749,7 +750,7 @@ angular.module('arachne.directives', [])
 				}
 				var label = L.marker(coords, { icon: L.divIcon(opts) });
 				var query = searchService.currentQuery().setParam('bbox', getBboxFromBounds(gridElementBounds).join(','));
-				label.bindPopup('<a target="_blank" href="/search?' + query.toString() + '" title="Objekte suchen"><b>' + countStr + '</b> Objekte</a> bei (' + coords[0] + ', ' + coords[1] + ')');
+				label.bindPopup('<a href="' + baseLinkRef + 'search' + query.toString() + '" title="Objekte suchen"><b>' + countStr + '</b> Objekte</a> bei (' + coords[0] + ', ' + coords[1] + ')');
 				label.addTo(map);
 				return label;
 			}
