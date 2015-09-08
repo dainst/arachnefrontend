@@ -674,7 +674,6 @@ angular.module('arachne.directives', [])
 			var gridPromise = null;
 
 			var rectOptions = {
-				color: "rgba(92,138,153,0.95)",
 				stroke: true,
 				weight: 1,
 				clickable: false,
@@ -733,10 +732,20 @@ angular.module('arachne.directives', [])
 			}
 
 			// draws a box layer on the map, returns the layer
-			var drawBox = function(coords, halfWidth, halfHeight) {
+			var drawBox = function(coords, count, max, halfWidth, halfHeight) {
+				// coordinates for the box's corners
 				var southwest = [(coords[0]-halfHeight), (coords[1]-halfWidth)];
 				var northeast = [(coords[0]+halfHeight), (coords[1]+halfWidth)];
-				var rect = L.rectangle([southwest, northeast], rectOptions);
+				// determine a color for the box
+				var ratio = count / max;
+				var hue = (1.0 - ratio) * 240; // 0-240 gives a 5-color heatmap from blue to red
+				var opts = {
+					color: "hsl(" + hue + ", 70%, 75%)",
+					stroke: false,
+					weight: 1,
+					clickable: false,
+				}
+				var rect = L.rectangle([southwest, northeast], opts);
 				rect.addTo(map);
 				return rect;
 			};
@@ -752,6 +761,9 @@ angular.module('arachne.directives', [])
 				var query = searchService.currentQuery().setParam('bbox', getBboxFromBounds(gridElementBounds).join(','));
 				label.bindPopup('<a href="' + baseLinkRef + 'search' + query.toString() + '" title="Objekte suchen"><b>' + countStr + '</b> Objekte</a> bei (' + coords[0] + ', ' + coords[1] + ')');
 				label.addTo(map);
+				label.on('mouseover', function(e) {
+					label.openPopup();
+				});
 				return label;
 			}
 
@@ -785,6 +797,12 @@ angular.module('arachne.directives', [])
 					if (facet) {
 						var gridElements = facet.values;
 
+						// find maximum facet value
+						var counts = gridElements.map(function(elem) {
+							return elem.count;
+						})
+						var max = Math.max.apply(null, counts);
+
 						// compute the distance from the box's center to it's sides
 						var parity = ghprec % 2;
 						var halfWidth = 90 / Math.pow(2, ((5*ghprec + parity - 2) / 2) );
@@ -794,7 +812,7 @@ angular.module('arachne.directives', [])
 							var coords = angular.fromJson(gridElements[i].value);
 							var count = gridElements[i].count;
 
-							var box = drawBox(coords, halfWidth, halfHeight);
+							var box = drawBox(coords, count, max, halfWidth, halfHeight);
 							layers.push(box);
 							layers.push(drawLabel(coords, count, box.getBounds()));
 						}
