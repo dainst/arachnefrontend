@@ -674,7 +674,8 @@ angular.module('arachne.directives', [])
 				// color: "rgba(245,24,72,0.35)",
 				color: "rgba(245,24,72,0.35)",
 				stroke: true,
-				weight: 1
+				weight: 1,
+				clickable: false,
 			};
 
 			// Guesses a good geohash precision value from the zoomlevel
@@ -739,13 +740,15 @@ angular.module('arachne.directives', [])
 			};
 
 			// draws an html label as a layer on the map, returns the layer
-			var drawLabel = function(coords, count) {
+			var drawLabel = function(coords, count, gridElementBounds) {
 				var opts = {
-					className: 'ar-map-geogrid-count-label',
-					html: '' + count,
-					title: count + " Objects near (" + coords[0] + ", " + coords[1] + ")"
+					className: 'ar-map-geogrid-label',
+					html: '<div class="ar-map-geogrid-label-inner">' + count + '</div>',
+					alt: count + " Objects near (" + coords[0] + ", " + coords[1] + ")"
 				}
 				var label = L.marker(coords, { icon: L.divIcon(opts) });
+				var query = searchService.currentQuery().setParam('bbox', getBboxFromBounds(gridElementBounds).join(','));
+				label.bindPopup('<a target="_blank" href="/search?' + query.toString() + '" title="Objekte suchen"><b>' + count + '</b> Objekte</a> bei (' + coords[0] + ', ' + coords[1] + ')');
 				label.addTo(map);
 				return label;
 			}
@@ -780,6 +783,7 @@ angular.module('arachne.directives', [])
 					if (facet) {
 						var gridElements = facet.values;
 
+						// compute the distance from the box's center to it's sides
 						var parity = ghprec % 2;
 						var halfWidth = 90 / Math.pow(2, ((5*ghprec + parity - 2) / 2) );
 						var halfHeight = 90 / Math.pow(2, ((5*ghprec - parity) / 2) );
@@ -788,8 +792,10 @@ angular.module('arachne.directives', [])
 							var coords = angular.fromJson(gridElements[i].value);
 							var count = gridElements[i].count;
 
-							layers.push(drawBox(coords, halfWidth, halfHeight));
-							layers.push(drawLabel(coords, count));
+							var box = drawBox(coords, halfWidth, halfHeight);
+							layers.push(box);
+
+							layers.push(drawLabel(coords, count, box.getBounds()));
 						}
 					}
 					return layers;

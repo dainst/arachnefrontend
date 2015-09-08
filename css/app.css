@@ -113,9 +113,23 @@ h6 { font-size: 12px; }
   padding-left: 10px;
 }
 
-.ar-map-geogrid-count-label {
+.ar-map-geogrid-label {
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  width: 50px !important;
+  left: -19px !important;
+  top: -4px !important;
+}
+
+.ar-map-geogrid-label-inner {
+  width: 90%;
+  height: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+*[ar-grid-map] .leaflet-popup {
+  bottom: 0px !important;
 }
 
 
