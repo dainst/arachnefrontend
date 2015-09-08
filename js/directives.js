@@ -893,6 +893,10 @@ angular.module('arachne.directives', [])
 
 			// determine shown facets after facets are loaded
 			scope.facetsShown = [];
+			var facetsHidden = geofacets;
+			if (scope.mapConfig.menuFacetsDeny) {
+				facetsHidden = facetsHidden.concat(scope.mapConfig.menuFacetsDeny);
+			}
 			scope.$watch('facets', function(facets) {
 				// facetsShown is either the ordered list defined in mapConfig.menuFacetsAllow
 				if (facets && scope.mapConfig.menuFacetsAllow) {
