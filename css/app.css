@@ -114,8 +114,9 @@ h6 { font-size: 12px; }
 }
 
 .ar-map-geogrid-label {
-  color: white;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: #3f3f3f;
+  text-shadow: -1px 0 #fefefe, 0 1px #fefefe, 1px 0 #fefefe, 0 -1px #fefefe;
+  font-weight: bold;
   width: 50px !important;
   left: -19px !important;
   top: -4px !important;

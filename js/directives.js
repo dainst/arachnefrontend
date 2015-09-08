@@ -653,7 +653,7 @@ angular.module('arachne.directives', [])
 
 	// Directive shows a gridmap constructed from the current searches
 	// agg_geogrid facet.
-	.directive('arGridMap', ['searchService', 'mapService', function(searchService, mapService) {
+	.directive('arGridMap', ['$filter', 'searchService', 'mapService', function($filter, searchService, mapService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -663,7 +663,9 @@ angular.module('arachne.directives', [])
 
 			// Basic variables
 			var currentQuery = searchService.currentQuery();
-			var map = mapService.initializeMap(element.attr('id'), {});
+			// initialize map with minZoom 3 to prevent wrong bbox searches
+			// when the window is bigger than the world
+			var map = mapService.initializeMap(element.attr('id'), {minZoom: 3});
 			var baselayerName = currentQuery.baselayer || "osm";
 
 			// Promise for a drawn grid, i.e. an array of all layers
@@ -671,8 +673,7 @@ angular.module('arachne.directives', [])
 			var gridPromise = null;
 
 			var rectOptions = {
-				// color: "rgba(245,24,72,0.35)",
-				color: "rgba(245,24,72,0.35)",
+				color: "rgba(92,138,153,0.95)",
 				stroke: true,
 				weight: 1,
 				clickable: false,
@@ -741,14 +742,14 @@ angular.module('arachne.directives', [])
 
 			// draws an html label as a layer on the map, returns the layer
 			var drawLabel = function(coords, count, gridElementBounds) {
+				var countStr = $filter('number')(count);
 				var opts = {
 					className: 'ar-map-geogrid-label',
-					html: '<div class="ar-map-geogrid-label-inner">' + count + '</div>',
-					alt: count + " Objects near (" + coords[0] + ", " + coords[1] + ")"
+					html: '<div class="ar-map-geogrid-label-inner">' + countStr + '</div>',
 				}
 				var label = L.marker(coords, { icon: L.divIcon(opts) });
 				var query = searchService.currentQuery().setParam('bbox', getBboxFromBounds(gridElementBounds).join(','));
-				label.bindPopup('<a target="_blank" href="/search?' + query.toString() + '" title="Objekte suchen"><b>' + count + '</b> Objekte</a> bei (' + coords[0] + ', ' + coords[1] + ')');
+				label.bindPopup('<a target="_blank" href="/search?' + query.toString() + '" title="Objekte suchen"><b>' + countStr + '</b> Objekte</a> bei (' + coords[0] + ', ' + coords[1] + ')');
 				label.addTo(map);
 				return label;
 			}
@@ -794,7 +795,6 @@ angular.module('arachne.directives', [])
 
 							var box = drawBox(coords, halfWidth, halfHeight);
 							layers.push(box);
-
 							layers.push(drawLabel(coords, count, box.getBounds()));
 						}
 					}
