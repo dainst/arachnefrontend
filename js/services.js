@@ -677,25 +677,7 @@ angular.module('arachne.services', [])
 			}
 		};
 
-		// factory to generate places objects from buckets of facets containing geo information
-		// query is a Query object, that should be used to search for the entities connected
-		// bucket is a facet value, e.g.: {
-		//     "value": "Siena, Italien, buonconvento[43.132963,11.483803]",
-		//     "count": 14
-		// }
-		Place.fromBucket = function(bucket, query) {
-			var place = new Place();
-			var coordsString = bucket.value.substring(bucket.value.indexOf("[", 1)+1, bucket.value.length - 1);
-			var coords = coordsString.split(',');
-			place.location = { lat: coords[0], lon: coords[1] }
-			place.name = bucket.value.substring(0, bucket.value.indexOf("[", 1)) + " ";
-			place.entityCount = bucket.count;
-			place.query = query;
-			return place;
-		};
-
 		return Place;
-
 	})
 
 	// Provides a list of Place objects corresponding to the entities in the current search result

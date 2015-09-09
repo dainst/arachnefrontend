@@ -379,50 +379,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-// provides a search function to fill an ar-places-map with locations based on facets from a search result
-.controller('FacetSearchMapController', ['$rootScope', '$scope', 'searchService', 'messageService', 'Place',
-	function($rootScope, $scope, searchService, messageService, Place) {
-
-		$scope.mapfacetNames = ["facet_aufbewahrungsort", "facet_fundort", "facet_geo"]; //, "facet_ort"
-
-		$rootScope.hideFooter = true;
-
-		var promise = null;
-
-		$scope.currentQuery = searchService.currentQuery();
-		$scope.currentQuery.limit = 0;
-		if (!$scope.currentQuery.restrict) {
-			$scope.currentQuery.restrict = $scope.mapfacetNames[0];
-		}
-
-		searchService.getCurrentPage().then(function(entities) {
-			$scope.facets = searchService.getFacets();
-			for (var i = 0; i < $scope.facets.length; i++) {
-				if ($scope.facets[i].name == $scope.currentQuery.restrict) {
-					$scope.mapfacet = $scope.facets[i];
-					break;
-				}
-			}
-
-			var places = [];
-			for (var i = 0; i < $scope.mapfacet.values.length; i++) {
-				var bucket = $scope.mapfacet.values[i];
-				var query = searchService.currentQuery().removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).addFacet($scope.mapfacet.name,bucket.value)
-				var place = Place.fromBucket(bucket, query);
-				places.push(place);
-			}
-			$scope.places = places;
-			$scope.resultSize = searchService.getSize();
-		}, function(response) {
-			$scope.resultSize = 0;
-			$scope.error = true;
-			if (response.status == '404') messageService.addMessageForCode('backend_missing');
-			else messageService.addMessageForCode('search_' +  response.status);
-		});
-	}
-])
-.controller('EntitySearchMapController', ['$rootScope', '$scope', 'searchService', 'messageService', 'Place', 'placesService',
-	function($rootScope, $scope, searchService, messageService, Place, placesService) {
+.controller('EntitySearchMapController', ['$rootScope', '$scope', 'searchService', 'messageService', 'placesService',
+	function($rootScope, $scope, searchService, messageService, placesService) {
 
 		$rootScope.hideFooter = true;
 
