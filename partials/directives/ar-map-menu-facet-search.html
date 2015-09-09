@@ -9,6 +9,16 @@
     </a>
 </div>
 
+<!-- Andere Restriktionen -->
+<div ng-if="currentQuery.restrict" style="margin-top:15px;">
+    <a ng-href="{{route}}/{{currentQuery.removeParam('restrict').toString()}}"
+        class="btn btn-sm btn-block btn-warning linethrough-hover"
+        style="white-space:normal;">
+        <i>Nur Objekte mit</i><br>
+        <b style="text-transform:capitalize;">{{currentQuery.restrict | transl8}}</b>
+    </a>
+</div>
+
 <!-- Auswählbare Facetten -->
 <small ng-if="mapConfig.menuShowFilters && entityCount > 2">
     <h5 class="text-muted uppercase" ng-hide="entityCount < 2"><b>{{mapConfig.menuHeadingFilters}}</b></h5>
