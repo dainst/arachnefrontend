@@ -708,16 +708,22 @@ angular.module('arachne.services', [])
 		// to check if the current query is different
 		var lastQuery = null;
 
+		// Keep a count of all entities that have connected places
+		var entityCount = 0;
+
 		// reads a list of entities with connected places
 		// returns a list of places with connected entities
 		var buildPlacesListFromEntityList = function(entities) {
 			var places = {};
 			var placesList = [];
+			entityCount = 0;
 
 			for(var i = 0; i < entities.length; i++) {
 				var entity = entities[i];
 
 				if (entity.places) {
+					entityCount += 1;
+
 					for (var j = 0; j < entity.places.length; j++) {
 						var place = new Place();
 						place.merge(entity.places[j]);
@@ -764,6 +770,12 @@ angular.module('arachne.services', [])
 				});
 
 				return promise;
+			},
+
+			// the number of entities in the current search
+			// that are connected to places
+			getEntityCount: function() {
+				return entityCount;
 			}
 
 		}
@@ -807,12 +819,10 @@ angular.module('arachne.services', [])
 			// increment is negative.
 			increaseZoom: function(increment) {
 				var lvl = map.getZoom();
-
 				lvl = lvl + increment;
 				if (lvl < 1) {
 					lvl = 1;
 				}
-
 				map.setZoom(lvl);
 			},
 

@@ -945,20 +945,29 @@ angular.module('arachne.directives', [])
 	};
 	}])
 
-	// TODO: Adjust to gridmap
 	.directive('arMapMenuSearchInfo', ['searchService', 'placesService', function(searchService, placesService) {
 	return {
 		restrict: 'A',
 		scope: {
-			mapConfig: '=',
-			countPlaces: '='
+			// "grid" or "places", depending on the map's type, different
+			// search results are required
+			type: '@'
 		},
 		templateUrl: 'partials/directives/ar-map-menu-search-info.html',
 		link: function(scope) {
-			placesService.getCurrentPlaces().then(function(places) {
-				scope.entityCount = searchService.getSize();
-				scope.placesCount = places.length;
-			});
+			scope.entityCount = null;
+			scope.placesCount = null;
+
+			if (scope.type == "grid") {
+				searchService.getCurrentPage().then(function (entities) {
+					scope.entityCount = searchService.getSize();
+				});
+			} else if (scope.type == "places") {
+				placesService.getCurrentPlaces().then(function(places) {
+					scope.entityCount = placesService.getEntityCount();
+					scope.placesCount = places.length;
+				});
+			}
 		}
 	}
 	}])

@@ -1,12 +1,4 @@
-<h4>{{ mapfacet ? (mapfacet.name + "_plural" | transl8) : "" }}</h4>
 
-<!-- Infos zum Suchergebnis -->
-<div ng-if="facetLimit && facetLimit == mapfacet.values.length" class="alert alert-info" style="padding:5px 10px; margin-bottom:10px;">
-    <small>
-        <b>Hinweis:</b>
-        Ihre Auswahl enthält mehr Orte als auf der Karte dargestellt werden können.
-    </small>
-</div>
 
 <div ng-if="entityCount == 0" class="alert alert-info">
     Keine Orte gefunden.
@@ -16,17 +8,15 @@
     <small>
     Insgesamt <b>{{ entityCount|number }}</b> Objekt<span ng-show="entityCount > 1">e</span>
     <br>
-    <span ng-if="countPlaces">
+    <span ng-if="placesCount">
         an
-        <i ng-if="mapfacet.values.length >= 2000">mehr als</i>
         <b>{{ placesCount |number }}</b> Ort<span ng-show="placesCount > 1">en</span>
     </span>
 </small>
 </div>
 
-
 <div ng-if="entityCount > 0" style="margin-bottom:10px;">
-    <a href="search/{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']).toString()}}" type="button"
+    <a href="search/{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']).toString()}}" type="button"
             class="btn btn-primary btn-sm btn-block">
         Objekte anzeigen <i class="glyphicon glyphicon-search"> </i>
     </a>
