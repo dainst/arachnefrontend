@@ -894,12 +894,11 @@ angular.module('arachne.directives', [])
 
 			searchService.getCurrentPage().then(function() {
 				scope.q = currentQuery.q
-				if (!scope.q) {
-					scope.q = '*';
-				}
+				if (scope.q == '*') scope.q = '';
 			});
 
 			scope.search = function(q) {
+				if (q == '') q = '*';
 				// remove coordinate and zoom params on new search to indicate that the map
 				// should choose its default action when rendering the new objects' places
 				var query = mapService.getMapQuery().setParam('q',q).removeParams(['lat', 'lng', 'zoom']);
