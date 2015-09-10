@@ -379,41 +379,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntitySearchMapController', ['$rootScope', '$scope', 'searchService', 'messageService', 'placesService',
-	function($rootScope, $scope, searchService, messageService, placesService) {
-
-		$rootScope.hideFooter = true;
-
-		$scope.currentQuery = searchService.currentQuery();
-
-		placesService.getCurrentPlaces().then(function (places) {
-			$scope.facets = searchService.getFacets();
-
-			$scope.places = places;
-			$scope.resultSize = searchService.getSize();
-		}, function(response) {
-			$scope.resultSize = 0;
-			$scope.error = true;
-			if (response.status == '404') messageService.addMessageForCode('backend_missing');
-			else messageService.addMessageForCode('search_' +  response.status);
-		});
-
-	}
-])
-.controller('GridSearchMapController', ['$rootScope', '$scope', 'searchService', 'messageService', 
-	function($rootScope, $scope, searchService, messageService){
-
-	$rootScope.hideFooter = true;
-
-	var query = searchService.currentQuery();
-	if (!(query.ghprec && query.ghprec > 0 && query.ghprec < 10)) {
-		query.ghprec = 2;
-	}
-	if (!query.q) {
-		query.q = '*';
-	}
-
-}])
 .controller('MapMenuController', ['$scope', 'searchService',
 	function($scope, searchService) {
 

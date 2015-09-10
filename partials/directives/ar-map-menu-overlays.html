@@ -1,11 +1,11 @@
-<div ng-if="mapConfig.menuShowOverlays && mapConfig.overlays">
+<div ng-if="overlays">
     <h5 class="text-muted uppercase">
-        <strong>{{mapConfig.menuHeadingOverlays}}</strong>
+        <strong>{{'ui_map_menu_overlays_heading'|transl8}}</strong>
     </h5>
 
     <!-- Gruppen von Overlays in einem togglebaren Menü -->
-    <div ng-if="mapConfig.overlays.groups">
-        <div ng-repeat="group in mapConfig.overlays.groups">
+    <div ng-if="overlays.groups">
+        <div ng-repeat="group in overlays.groups">
             <h5 class="text-muted">{{group.name}}</h5>
             <div class="checkbox" ng-repeat="overlay in group.overlays" ng-click="toggleOverlay(overlay.key)">
                 <label>
@@ -17,11 +17,11 @@
     </div>
 
     <!-- Liste von Overlays als einzelne Buttons -->
-    <div ng-if="!mapConfig.overlays.groups">
-        <div class="checkbox" ng-repeat="overlay in mapConfig.overlays" ng-click="toggleOverlay(overlay.key)">
+    <div ng-if="!overlays.groups">
+        <div class="checkbox" ng-repeat="overlay in overlays" ng-click="toggleOverlay(overlay.key)">
             <label>
                 <input type="checkbox" value="" ng-model="selectedOverlays[overlay.key]">
-                {{ overlay.name }}
+                {{overlay.name}}
             </label>
         </div>
     </div>

@@ -119,33 +119,34 @@ angular.module('arachne.widgets.directives', [])
 		return {
 			restrict: 'A',
 			scope: {
-				mapConfig: '=',
-                limit: '@',
-                clustered: '=' // true|false
+				overlays: '=?',
+				baselayers: '=',
+				defaultBaselayer: '=',	// "key"
+				limit: '@',				// "500"
+				facetsSelect: '=',		// {facetName: facetValue, ...}
+				clustered: '='			// true|false
 			},
-            // menu elements may appear in the transcluded html
-            transclude: true,
+			// menu elements may appear in the transcluded html
+			transclude: true,
 			templateUrl: 'partials/widgets/con10t-catalog-map.html',
 			controller: function($scope) {
 
-                var currentQuery = searchService.currentQuery();
+				var currentQuery = searchService.currentQuery();
 
-                // Set currentQuery phrase to '*' if not defined beforehand
-                if (!currentQuery.q) {
-                    currentQuery.q = '*';
-                }
+				// Set currentQuery phrase to '*' if not defined beforehand
+				if (!currentQuery.q) {
+					currentQuery.q = '*';
+				}
 
-                // Add a limit to the search if defined in the attribute
-                if ($scope.limit) {
-                    currentQuery.limit = $scope.limit;
-                }
+				// Add a limit to the search if defined in the attribute
+				if ($scope.limit) {
+					currentQuery.limit = $scope.limit;
+				}
 
-				// Add restrictions for facets to the search if defined in mapConfig
-				var facets = $scope.mapConfig.facetsSelect;
-
-				if (facets) {
-					for (var i = 0; i < facets.length; i++) {
-						var facet = facets[i];
+				// Add restrictions for facets to the search if defined
+				if ($scope.facetsSelect) {
+					for (var i = 0; i < $scope.facetsSelect.length; i++) {
+						var facet = $scope.facetsSelect[i];
 
 						if (!currentQuery.hasFacet(facet.key)) {
 							currentQuery.facets.push(facet);

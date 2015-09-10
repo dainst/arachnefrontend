@@ -1,9 +1,9 @@
-<div ng-if="mapConfig.menuShowBaselayers">
+<div>
     <h5 class="text-muted uppercase">
-        <strong>{{mapConfig.menuHeadingBaselayers}}</strong>
+        <strong>{{'ui_map_menu_baselayer_heading'|transl8}}</strong>
     </h5>
 
-    <div ng-repeat="(key, baselayer) in mapConfig.baselayers" ng-click="toggleBaselayer(key)">
+    <div ng-repeat="(key, baselayer) in baselayers" ng-click="toggleBaselayer(key)">
         <label style="font-weight:normal">
             <input type="radio" value="" ng-checked="key == chosenBaselayer">
             {{ baselayer.name }}
