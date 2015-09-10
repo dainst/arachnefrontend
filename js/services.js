@@ -769,12 +769,13 @@ angular.module('arachne.services', [])
 			// identified by it's key
 			activateBaselayer: function(key) {
 				if (activeBaselayer) {
-					map.removeLayer(activeBaselayer)
+					map.removeLayer(activeBaselayer);
 				}
 
 				var layerConfig = baselayers[key];
-				activeBaselayer = map.addLayer(L.tileLayer(layerConfig.url, layerConfig.layerOptions));
+				activeBaselayer = L.tileLayer(layerConfig.url, layerConfig.layerOptions);
 				activeBaselayerKey = key;
+				map.addLayer(activeBaselayer);
 			},
 
 			// Removes an overlay from the map
