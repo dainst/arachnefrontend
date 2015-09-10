@@ -306,4 +306,9 @@ angular.module('arachne.filters', [])
          return string.replace(/\//g, '\\/');
       }
    })
+	.filter('decapitalize', function() {
+		return function(input) {
+			return (!!input) ? input.charAt(0).toLowerCase() + input.substr(1) : '';
+		}
+	})
 ;

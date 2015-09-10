@@ -1,6 +1,3 @@
-<!-- The place's relation only shows as title if no entities (with possibly different relations) are connected. -->
-<h4 ng-if="listLength == 0" class="text-info centered">{{ place.relation }}</h4>
-
 <b>{{place.name}}</b>
 
 <div ng-if="listLength > 0">
@@ -8,40 +5,41 @@
     <br>
     <!-- small lists do not page -->
     <b ng-if="listLength <= limit">
-        {{listLength}} Verknüpfte<span ng-if="listLength == 1">s</span>
-        Objekt<span ng-if="listLength >1">e</span>
+        {{listLength}} {{(listLength > 1 ? 'entity_linked_objects' : 'entity_linked_object') | transl8 | decapitalize}}
     </b>
 
-    <!-- bigger lists page -->
+    <!-- bigger lists do page -->
     <b ng-if="listLength > limit">
-        {{offset+1}}-{{(offset+limit > listLength) ? listLength : offset+limit}} von {{listLength}} verknüpften Objekten
+        {{listLength}} {{'entity_linked_objects' | transl8 | decapitalize}}:<br>
+        <span ng-if="offset > 0">
+            <span class="clickable small glyphicon glyphicon-chevron-left" ng-click="get(offset-3, limit)"></span>
+        </span>
+        <span ng-if="offset <= 0">
+            <span class="clickable small glyphicon glyphicon-chevron-left text-muted"></span>
+        </span>
+
+        {{offset+1}}-{{(offset+limit > listLength) ? listLength : offset+limit}}
+
+        <span ng-if="(offset + limit) < listLength">
+            <span class="clickable small glyphicon glyphicon-chevron-right" ng-click="get(offset+3, limit)"></span>
+        </span>
+        <span ng-if="(offset + limit) >= listLength">
+            <span class="clickable small glyphicon glyphicon-chevron-right text-muted"></span>
+        </span>
     </b>
 
     <ul style="margin-left:0px">
-        <div ng-if="offset > 0">
-            <span class="clickable" ng-click="get(offset-3, limit)">&hellip;</span>
-        </div>
-
         <li ng-repeat="entity in shownEntities">
             <span ng-if="place.relation">{{ place.relation }}:</span>
             <a href="entity/{{entity.entityId}}" target="_blank">{{ entity.title }}</a>
         </li>
 
-        <div ng-if="(offset + limit) < listLength">
-            <span class="clickable" ng-click="get(offset+3, limit)">&hellip;</span>
-        </div>
+
     </ul>
 </div>
 
 <div ng-if="(listLength > shownEntities.length) && place.query">
     <a href="search/{{place.query.toString()}}" target="_blank">
-        Alle Objekte anzeigen
-    </a>
-</div>
-
-<!-- places not directoy connected to entities make their entities available via a search -->
-<div ng-if="(listLength == 0) && (place.entityCount > 0)" >
-    <a href="search/{{place.query.toString()}}" target="_blank">
-        Insgesamt {{place.entityCount}} Objekt<span ng-if="place.entityCount > 1">e</span>
+        {{'ui_showallobjects' | transl8}}
     </a>
 </div>
