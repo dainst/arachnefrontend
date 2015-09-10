@@ -1,14 +1,17 @@
 <div ng-if="entityCount == 0" class="alert alert-info">
-    Keine Orte gefunden.
+    {{'ui_no_places_found' | transl8}}.
 </div>
 
 <div ng-if="entityCount > 0" style="margin-bottom:10px;">
     <small>
-    Insgesamt <b>{{ entityCount|number }}</b> Objekt<span ng-show="entityCount > 1">e</span>
+    <b>{{ entityCount | number }}</b>
+    {{(entityCount > 1 ? 'ui_object_plural' : 'ui_object') | transl8}}
+    {{'ui_total_small' | transl8}}
     <br>
     <span ng-if="placesCount">
-        an
-        <b>{{ placesCount |number }}</b> Ort<span ng-show="placesCount > 1">en</span>
+        {{'ui_at' | transl8}}
+        <b>{{ placesCount |number }}</b>
+        {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
     </span>
 </small>
 </div>
@@ -16,6 +19,6 @@
 <div ng-if="entityCount > 0" style="margin-bottom:10px;">
     <a href="search/{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']).toString()}}" type="button"
             class="btn btn-primary btn-sm btn-block">
-        Objekte anzeigen <i class="glyphicon glyphicon-search"> </i>
+        {{'ui_showobjects' | transl8}} <i class="glyphicon glyphicon-search"> </i>
     </a>
 </div>
