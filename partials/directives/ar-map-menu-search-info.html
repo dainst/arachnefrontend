@@ -2,18 +2,22 @@
     {{'ui_no_places_found' | transl8}}.
 </div>
 
-<div ng-if="entityCount > 0" style="margin-bottom:10px;">
+<div ng-if="entityCount > 0" style="margin-bottom:10px;position:relative">
+    <div style="position: absolute;top:5px;right:5px">
+        <span title="{{'ui_map_link_heading' | transl8}}" class="clickable glyphicon glyphicon-link" ng-click="showLinkModal()"></span>
+    </div>
+
     <small>
-    <b>{{ entityCount | number }}</b>
-    {{(entityCount > 1 ? 'ui_object_plural' : 'ui_object') | transl8}}
-    {{'ui_total_small' | transl8}}
-    <br>
-    <span ng-if="placesCount">
-        {{'ui_at' | transl8}}
-        <b>{{ placesCount |number }}</b>
-        {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
-    </span>
-</small>
+        <b>{{ entityCount | number }}</b>
+        {{(entityCount > 1 ? 'ui_object_plural' : 'ui_object') | transl8}}
+        {{'ui_total_small' | transl8}}
+        <br>
+        <span ng-if="placesCount">
+            {{'ui_at' | transl8}}
+            <b>{{ placesCount |number }}</b>
+            {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
+        </span>
+    </small>
 </div>
 
 <div ng-if="entityCount > 0" style="margin-bottom:10px;">

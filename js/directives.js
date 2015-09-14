@@ -814,7 +814,7 @@ angular.module('arachne.directives', [])
 			}
 
 			// wraps drawGrid() in a promise, such that multiple calls to drawGrid()
-			// are executed in order and never asynchrously
+			// are executed in order
 			var drawGridDeferred = function() {
 				if (gridPromise) {
 					gridPromise = gridPromise.then(function(oldLayers) {
@@ -827,21 +827,24 @@ angular.module('arachne.directives', [])
 			};
 
 			$rootScope.hideFooter = true;
+			var query = searchService.currentQuery();
 
 			// Add baselayers and activate one, given by url
 			// parameter "baselayer" or a default value
 			mapService.setBaselayers(scope.baselayers);
 			mapService.activateBaselayer(baselayerName);
 
-			// Set map view to center coords with zoomlevel
-			map.setView([40, -10], 3);
-
 			// make sure that the query will return the geogrid aggregation
-			var query = searchService.currentQuery();
 			if (!(query.ghprec && query.ghprec > 0 && query.ghprec < 10)) {
 				query.ghprec = 2;
 			}
 			if (!query.q) query.q = '*';
+
+			// Set map view to center coords with zoomlevel
+			var lat = query.lat || 40;
+			var lng = query.lng || -10;
+			var zoom = query.zoom || 3;
+			map.setView([lat, lng], zoom);
 
 			drawGridDeferred();
 
@@ -853,7 +856,8 @@ angular.module('arachne.directives', [])
 	};
 	}])
 
-	.directive('arMapMenuSearchInfo', ['searchService', 'placesService', function(searchService, placesService) {
+	.directive('arMapMenuSearchInfo', ['$modal', '$location', 'searchService', 'placesService', 'mapService',
+		function($modal, $location, searchService, placesService, mapService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -863,9 +867,39 @@ angular.module('arachne.directives', [])
 		},
 		templateUrl: 'partials/directives/ar-map-menu-search-info.html',
 		link: function(scope) {
+
+			// renders a modal that contains a link to the current map's view
+			scope.showLinkModal = function() {
+				// construct the link's reference from the current location and the map's query
+				var host = $location.host();
+				var port = $location.port();
+				port = (port == 80) ? "" : ":"+port;
+				var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
+				var path = $location.path().substring(1);
+				var query = mapService.getMapQuery().toString();
+				scope.linkText = host + port + baseLinkRef + path + query;
+
+				var modalInstance = $modal.open({
+					templateUrl: 'partials/Modals/mapLink.html',
+					scope: scope
+				});
+
+				modalInstance.close = function(){
+					modalInstance.dismiss();
+				};
+
+				// Select and focus the link after the modal rendered
+				modalInstance.rendered.then(function(what) {
+					var elem = document.getElementById('link-display');
+					elem.setSelectionRange(0, elem.firstChild.length);
+					elem.focus();
+				})
+			}
+
+			// basic information about the search depends on the type of the map
+			// (either a geogrid or a map with Place objects)
 			scope.entityCount = null;
 			scope.placesCount = null;
-
 			if (scope.type == "grid") {
 				searchService.getCurrentPage().then(function (entities) {
 					scope.entityCount = searchService.getSize();
