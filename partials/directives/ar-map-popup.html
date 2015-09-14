@@ -29,7 +29,7 @@
     </b>
 
     <ul style="margin-left:0px">
-        <li ng-repeat="entity in shownEntities">
+        <li ng-repeat="entity in shownEntities track by $index">
             <span ng-if="place.relation">{{ place.relation }}:</span>
             <a href="entity/{{entity.entityId}}" target="_blank">{{ entity.title }}</a>
         </li>

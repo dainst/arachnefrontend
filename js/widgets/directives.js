@@ -119,6 +119,7 @@ angular.module('arachne.widgets.directives', [])
 		return {
 			restrict: 'A',
 			scope: {
+                catalogId: '@',
 				overlays: '=?',
 				baselayers: '=',
 				defaultBaselayer: '=',	// "key"
@@ -153,6 +154,11 @@ angular.module('arachne.widgets.directives', [])
 						}
 					}
 				}
+                // Add a further restriction for the catalog id
+                if ($scope.catalogId) {
+                    $scope.catalogId = parseFloat($scope.catalogId);
+                    currentQuery.facets.push({key: 'catalogIds',value: $scope.catalogId})
+                }
 			}
 		};
 	}])
