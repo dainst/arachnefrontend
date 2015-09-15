@@ -777,6 +777,9 @@ angular.module('arachne.directives', [])
 			var drawGrid = function(oldLayers) {
 				searchService.reset();
 
+				currentQuery = searchService.currentQuery();
+				if (!currentQuery.q) currentQuery.q = '*';
+
 				var ghprec = getGhprecFromZoom(map.getZoom());
 				currentQuery.ghprec = getGhprecFromZoom(map.getZoom());
 				currentQuery.bbox = getBboxFromBounds(map.getBounds()).join(',');
@@ -827,23 +830,18 @@ angular.module('arachne.directives', [])
 			};
 
 			$rootScope.hideFooter = true;
-			var query = searchService.currentQuery();
 
 			// Add baselayers and activate one, given by url
 			// parameter "baselayer" or a default value
 			mapService.setBaselayers(scope.baselayers);
 			mapService.activateBaselayer(baselayerName);
 
-			// make sure that the query will return the geogrid aggregation
-			if (!(query.ghprec && query.ghprec > 0 && query.ghprec < 10)) {
-				query.ghprec = 2;
-			}
-			if (!query.q) query.q = '*';
+			console.log(currentQuery.q);
 
 			// Set map view to center coords with zoomlevel
-			var lat = query.lat || 40;
-			var lng = query.lng || -10;
-			var zoom = query.zoom || 3;
+			var lat = currentQuery.lat || 40;
+			var lng = currentQuery.lng || -10;
+			var zoom = currentQuery.zoom || 3;
 			map.setView([lat, lng], zoom);
 
 			drawGridDeferred();

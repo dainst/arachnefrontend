@@ -138,6 +138,7 @@ angular.module('arachne.services', [])
 
 				// Reset the search result to allow new searches
 				reset: function() {
+					_currentQuery = Query.fromSearch($location.search());
 					_result = { entities: [] };
 					chunkPromise = false;
 				}
