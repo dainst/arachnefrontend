@@ -47,7 +47,10 @@ angular.module('arachne.services', [])
 
 				// chunk is cached
 				if (!angular.isUndefined(_result.entities[offset])) {
-					var entities = _result.entities.slice(offset, offset + CHUNK_SIZE);
+					var queryLimit = parseFloat(_currentQuery.limit);
+					var limit = isNaN(queryLimit) ? CHUNK_SIZE : queryLimit;
+
+					var entities = _result.entities.slice(offset, offset + limit);
 					chunkPromise = false;
 					deferred.resolve(entities);
 					return deferred.promise;
