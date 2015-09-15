@@ -490,8 +490,8 @@ angular.module('arachne.directives', [])
 	}])
 
 	// Shows a number of Place objects on a Leaflet map as MarkerClusters
-	.directive('arPlacesMap', ['$rootScope', '$compile', 'mapService', 'searchService', 'placesService',
-		function($rootScope, $compile, mapService, searchService, placesService) {
+	.directive('arPlacesMap', ['$compile', 'mapService', 'searchService', 'placesService',
+		function($compile, mapService, searchService, placesService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -585,7 +585,6 @@ angular.module('arachne.directives', [])
 				scope.clustered = true;
 			}
 
-			$rootScope.hideFooter = true;
 			var currentQuery = searchService.currentQuery();
 
 			// Set the available overlays and baselayers
@@ -644,8 +643,8 @@ angular.module('arachne.directives', [])
 
 	// Directive shows a gridmap constructed from the current searches
 	// agg_geogrid facet.
-	.directive('arGridMap', ['$rootScope', '$filter', 'searchService', 'mapService',
-		function($rootScope, $filter, searchService, mapService) {
+	.directive('arGridMap', ['$filter', 'searchService', 'mapService',
+		function($filter, searchService, mapService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -829,14 +828,10 @@ angular.module('arachne.directives', [])
 				return gridPromise;
 			};
 
-			$rootScope.hideFooter = true;
-
 			// Add baselayers and activate one, given by url
 			// parameter "baselayer" or a default value
 			mapService.setBaselayers(scope.baselayers);
 			mapService.activateBaselayer(baselayerName);
-
-			console.log(currentQuery.q);
 
 			// Set map view to center coords with zoomlevel
 			var lat = currentQuery.lat || 40;
@@ -1307,4 +1302,12 @@ angular.module('arachne.directives', [])
 	            });
 	        }
 	    };
-	});
+	})
+	.directive('hideFooter', ['$rootScope', function($rootScope) {
+		return {
+			restrict: 'A',
+			controller: function() {
+				$rootScope.hideFooter = true;
+			}
+		}
+	}]);
