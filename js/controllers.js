@@ -145,7 +145,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 
 		$scope.submit = function() {
-			$http.put(arachneSettings.dataserviceUri + "/userinfo/" + scope.userBuffer.username, $scope.user, {
+			$http.put(arachneSettings.dataserviceUri + "/userinfo/" + $scope.userBuffer.username, $scope.user, {
 				"headers": { "Content-Type": "application/json" }
 			}).success(function(data) {
 				$scope.error = "";
