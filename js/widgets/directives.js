@@ -115,56 +115,6 @@ angular.module('arachne.widgets.directives', [])
 		};
 	}])
 
-	.directive('con10tCatalogMap', ['searchService', function(searchService) {
-		return {
-			restrict: 'A',
-			scope: {
-                catalogId: '@',
-				overlays: '=?',
-				baselayers: '=',
-				defaultBaselayer: '=',	// "key"
-				limit: '@',				// "500"
-				facetsSelect: '=',		// {facetName: facetValue, ...}
-				clustered: '='			// true|false
-			},
-			// menu elements may appear in the transcluded html
-			transclude: true,
-			templateUrl: 'partials/widgets/con10t-catalog-map.html',
-			controller: function($scope) {
-
-				var currentQuery = searchService.currentQuery();
-
-				// Set currentQuery phrase to '*' if not defined beforehand
-				if (!currentQuery.q) {
-					currentQuery.q = '*';
-				}
-
-				// Add a limit to the search if defined in the attribute
-				if ($scope.limit) {
-					currentQuery.limit = $scope.limit;
-				}
-
-				// Add restrictions for facets to the search if defined
-				if ($scope.facetsSelect) {
-					for (var i = 0; i < $scope.facetsSelect.length; i++) {
-						var facet = $scope.facetsSelect[i];
-
-						if (!currentQuery.hasFacet(facet.key)) {
-							currentQuery.facets.push(facet);
-						}
-					}
-				}
-                // Add a further restriction for the catalog id
-                if ($scope.catalogId) {
-                    $scope.catalogId = parseFloat($scope.catalogId);
-                    if (!currentQuery.hasFacet('catalogIds')) {
-                        currentQuery.facets.push({key: 'catalogIds',value: $scope.catalogId});
-                    }
-                }
-			}
-		};
-	}])
-
     .directive('con10tSearch', ['$location', '$filter', function($location, $filter) {
 
         return {
