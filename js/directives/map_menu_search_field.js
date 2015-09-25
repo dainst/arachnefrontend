@@ -25,9 +25,11 @@ return {
 
         scope.search = function(q) {
             if (q == '') q = '*';
+
             // remove coordinate and zoom params on new search to indicate that the map
             // should choose its default action when rendering the new objects' places
-            var query = mapService.getMapQuery(searchService.currentQuery()).setParam('q',q).removeParams(['lat', 'lng', 'zoom']);
+            var query = mapService.getMapQuery(searchService.currentQuery(),true).setParam('q',q);
+
             var path = '/' + route + query.toString();
             $location.url(path);
         };

@@ -105,8 +105,9 @@ angular.module('arachne.services')
         /**
          * Returns a Query object copied from currentQuery and
          * enriched with all parameters needed to recreate the current map
+         * @param stripExtraParams boolean
          */
-        getMapQuery: function(query) {
+        getMapQuery: function(query,stripExtraParams) {
             var newQuery = query.removeParams('lat', 'lng', 'zoom', 'overlays', 'baselayers');
 
             newQuery.zoom = map.getZoom();
@@ -125,6 +126,8 @@ angular.module('arachne.services')
                 newQuery.baselayer = activeBaselayerKey;
             }
 
+            if (stripExtraParams)
+                return query.removeParams(['lat', 'lng', 'zoom','bbox','ghprec','baselayer']);
             return newQuery;
         }
     }
