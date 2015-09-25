@@ -21,7 +21,9 @@ function($filter, searchService, mapService) {
             var currentGridLayers = [];
             var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
 
-            // Set map view to center coords with zoomlevel
+            /**
+             * Set map view to center coords with zoomlevel
+             */
             var initializeView = function(lat,lng,zoom) {
                 var lt = lat || 40;
                 var lg = lng || -10;
@@ -34,47 +36,14 @@ function($filter, searchService, mapService) {
              * "zoom". The returned value can be used as "ghprec"-param in
              * search queries
              */
-            var getGhprecFromZoom = function(zoom) {
-                var result = null;
+            var getGhprecFromZoom = function(zoomLevel) {
+                var zl=zoomLevel;
 
-                switch (zoom) {
-                    case 0:
-                    case 1:
-                        result = 1;
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        result = 2;
-                        break;
-                    case 6:
-                    case 7:
-                    case 8:
-                        result = 3;
-                        break;
-                    case 9:
-                    case 10:
-                        result = 4;
-                        break;
-                    case 11:
-                    case 12:
-                        result = 5;
-                        break;
-                    case 13:
-                    case 14:
-                    case 15:
-                        result = 6;
-                        break;
-                    case 16:
-                    case 17:
-                    case 18:
-                        result = 7;
-                        break;
-                    default:
-                        break;
-                }
-                return result;
+                var ghprecForZoomLevel =
+                    [1,1,2,2,2,2,3,3,3,4,4,5,5,6,6,6,7,7,7];
+
+                if (zl>18) zl=18;
+                return ghprecForZoomLevel[zl];
             };
 
             var getBboxFromBounds = function(bounds) {
@@ -141,25 +110,24 @@ function($filter, searchService, mapService) {
                 }
             };
 
+            var findMaximumFacetValue = function(boxesToDraw) {
 
-
-            var drawGrid = function(boxesToDraw,ghprec) {
-
-                // find maximum facet value
                 var counts = boxesToDraw.map(function(elem) {
                     return elem.count;
                 });
-                var max = Math.max.apply(null, counts);
+                return Math.max.apply(null, counts);
+            }
 
-                // compute the distance from the box's center to it's sides
-
+            var drawGrid = function(boxesToDraw,ghprec) {
 
                 for (var i = 0; i < boxesToDraw.length; i++) {
                     var coords = angular.fromJson(boxesToDraw[i].value);
                     var count = boxesToDraw[i].count;
 
-                    var boxesLayer = makeBoxesLayer(coords, count, max, ghprec);
-                    var labelsLayer = makeLabelsLayer(coords, count, boxesLayer.getBounds())
+                    var boxesLayer = makeBoxesLayer(
+                        coords, count, findMaximumFacetValue(boxesToDraw), ghprec);
+                    var labelsLayer = makeLabelsLayer(
+                        coords, count, boxesLayer.getBounds())
 
                     labelsLayer.addTo(map);
                     boxesLayer.addTo(map);
