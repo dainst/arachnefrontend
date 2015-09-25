@@ -102,7 +102,7 @@ Here are the main artifacts comprising the content / localization system:
 
 Here are further artifacts using the core components:
 
-1. The content delivery [code](../js/controllers_static_content.js)
+1. The content delivery [code](../js/static_content.js)
 1. The navbar [code](../js/directives_navbar.js)
 1. The footer [code](../js/directives_footer.js)
-1. The projects overview [code](../js/controllers_projects.js)
+1. The projects overview [code](../js/projects.js)
