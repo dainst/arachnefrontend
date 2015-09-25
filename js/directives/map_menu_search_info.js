@@ -25,7 +25,7 @@ function($modal, $location, searchService, placesService, mapService) {
                 port = (port == 80) ? "" : ":"+port;
                 var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
                 var path = $location.path().substring(1);
-                var query = mapService.getMapQuery().toString();
+                var query = mapService.getMapQuery(searchService.currentQuery()).toString();
                 scope.linkText = host + port + baseLinkRef + path + query;
 
                 var modalInstance = $modal.open({

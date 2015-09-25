@@ -5,7 +5,8 @@ angular.module('arachne.directives')
 /**
  * @author: David Neugebauer
  */
-.directive('arMapMenuSearchField', ['$location', 'searchService', 'mapService', function($location, searchService, mapService) {
+.directive('arMapMenuSearchField', ['$location', 'searchService', 'mapService',
+function($location, searchService, mapService) {
 return {
     restrict: 'A',
     scope: {
@@ -26,7 +27,7 @@ return {
             if (q == '') q = '*';
             // remove coordinate and zoom params on new search to indicate that the map
             // should choose its default action when rendering the new objects' places
-            var query = mapService.getMapQuery().setParam('q',q).removeParams(['lat', 'lng', 'zoom']);
+            var query = mapService.getMapQuery(searchService.currentQuery()).setParam('q',q).removeParams(['lat', 'lng', 'zoom']);
             var path = '/' + route + query.toString();
             $location.url(path);
         };

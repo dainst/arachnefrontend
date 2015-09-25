@@ -80,16 +80,15 @@ return {
         scope.addFacet = function(facetName, facetValue) {
             // remove coordinate and zoom params on new search to indicate that the map
             // should choose its default action when rendering the new objects' places
-            var query = mapService.getMapQuery().addFacet(facetName,facetValue)
+            var query = mapService.getMapQuery(searchService.currentQuery()).addFacet(facetName,facetValue)
                 .removeParams(['offset', 'lat', 'lng', 'zoom']);
             $location.url(query.toString());
         };
 
         scope.removeFacet = function(facetName) {
-            var query = mapService.getMapQuery().removeFacet(facetName)
+            var query = mapService.getMapQuery(searchService.currentQuery()).removeFacet(facetName)
                 .removeParams(['offset', 'lat', 'lng', 'zoom']);
             $location.url(query.toString());
         }
     }
-}
-}]);
+}}]);

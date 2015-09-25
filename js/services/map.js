@@ -11,7 +11,7 @@ angular.module('arachne.services')
  *
  * @author: David Neugebauer
  */
-.factory('mapService', ['searchService', function(searchService){
+.factory('mapService', function(){
 
     var map = null;
 
@@ -21,8 +21,6 @@ angular.module('arachne.services')
     var baselayers = null; // { key: LayerConfig }
     var activeBaselayer = null; // TileLayer
     var activeBaselayerKey = "";
-
-    var currentQuery = searchService.currentQuery();
 
     return {
 
@@ -104,30 +102,30 @@ angular.module('arachne.services')
 
         },
 
-        // returns a Query object copied from currentQuery and
-        // enriched with all parameters needed to recreate the current map
-        getMapQuery: function() {
-            var query = searchService.currentQuery().removeParams('lat', 'lng', 'zoom', 'overlays', 'baselayers');
+        /**
+         * Returns a Query object copied from currentQuery and
+         * enriched with all parameters needed to recreate the current map
+         */
+        getMapQuery: function(query) {
+            var newQuery = query.removeParams('lat', 'lng', 'zoom', 'overlays', 'baselayers');
 
-            query.zoom = map.getZoom();
-            query.lat = map.getCenter().lat;
-            query.lng = map.getCenter().lng;
+            newQuery.zoom = map.getZoom();
+            newQuery.lat = map.getCenter().lat;
+            newQuery.lng = map.getCenter().lng;
 
             var overlays = [];
             for (var key in activeOverlays) {
                 overlays.push(key);
             }
             if (overlays.length > 0) {
-                query.overlays = overlays;
+                newQuery.overlays = overlays;
             }
 
             if (activeBaselayerKey != "") {
-                query.baselayer = activeBaselayerKey;
+                newQuery.baselayer = activeBaselayerKey;
             }
 
-            return query;
+            return newQuery;
         }
-
     }
-
-}]);
+});
