@@ -12,6 +12,7 @@ angular.module('arachne.services')
 .factory('searchService', ['$location', 'Entity', '$rootScope', 'Query', '$q',
 function($location, Entity, $rootScope, Query, $q) {
 
+    var dirty = false;
     var _currentQuery = Query.fromSearch($location.search());
     var _result = { entities: [] };
     var CHUNK_SIZE = 50;
@@ -49,7 +50,7 @@ function($location, Entity, $rootScope, Query, $q) {
         var deferred = $q.defer();
 
         // chunk is cached
-        if (!angular.isUndefined(_result.entities[offset])) {
+        if ((!dirty)&&(!angular.isUndefined(_result.entities[offset]))) {
             var queryLimit = parseFloat(_currentQuery.limit);
             var limit = isNaN(queryLimit) ? CHUNK_SIZE : queryLimit;
 
@@ -59,6 +60,7 @@ function($location, Entity, $rootScope, Query, $q) {
             return deferred.promise;
             // chunk needs to be retrieved
         } else {
+            dirty=false;
             var query = angular.extend({offset:offset,limit:CHUNK_SIZE},_currentQuery.toFlatObject());
             var entities = Entity.query(query);
             return entities.$promise.then(function(data) {
@@ -84,6 +86,12 @@ function($location, Entity, $rootScope, Query, $q) {
     }
 
     return {
+
+        setCurrentQuery: function(query) {
+            _currentQuery=query;
+            dirty=true;
+        },
+
 
         // get a single entity from the current result
         getEntity: function(resultIndex) {

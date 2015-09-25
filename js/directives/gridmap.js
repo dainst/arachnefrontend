@@ -2,10 +2,12 @@
 
 angular.module('arachne.directives')
 
-/* Directive shows a gridmap constructed from the current searches
+/**
+ * Shows a gridmap constructed from the current searches
  * agg_geogrid facet.
  *
  * @author: David Neugebauer
+ * @author: Daniel M. de Oliveira
  */
 .directive('arGridMap', ['$filter', 'searchService', 'mapService',
 function($filter, searchService, mapService) {
@@ -16,27 +18,22 @@ function($filter, searchService, mapService) {
         },
         link: function(scope, element) {
 
-            // Basic variables
-            var currentQuery = searchService.currentQuery();
-            // initialize map with minZoom 3 to prevent wrong bbox searches
-            // when the window is bigger than the world
-            var map = mapService.initializeMap(element.attr('id'), {minZoom: 3});
-            var baselayerName = currentQuery.baselayer || "osm";
+            var currentGridLayers = [];
             var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
 
-            // Promise for a drawn grid, i.e. an array of all layers
-            // making up the current grid
-            var gridPromise = null;
-
-            var rectOptions = {
-                stroke: true,
-                weight: 1,
-                clickable: false,
+            // Set map view to center coords with zoomlevel
+            var initializeView = function(lat,lng,zoom) {
+                var lt = lat || 40;
+                var lg = lng || -10;
+                var zm = zoom || 3;
+                map.setView([lt, lg], zm);
             };
 
-            // Guesses a good geohash precision value from the zoomlevel
-            // "zoom". The returned value can be used as "ghprec"-param in
-            // search queries
+            /**
+             * Guesses a good geohash precision value from the zoomlevel
+             * "zoom". The returned value can be used as "ghprec"-param in
+             * search queries
+             */
             var getGhprecFromZoom = function(zoom) {
                 var result = null;
 
@@ -78,35 +75,49 @@ function($filter, searchService, mapService) {
                         break;
                 }
                 return result;
-            }
+            };
 
             var getBboxFromBounds = function(bounds) {
                 var southEast = bounds.getSouthEast();
                 var northWest = bounds.getNorthWest();
                 return [northWest.lat, northWest.lng, southEast.lat, southEast.lng]
+            };
+
+            var calculateHalfWidth = function(ghprec) {
+                var parity = ghprec % 2;
+                return 90 / Math.pow(2, ((5*ghprec + parity - 2) / 2) );
             }
 
-            // draws a box layer on the map, returns the layer
-            var drawBox = function(coords, count, max, halfWidth, halfHeight) {
+            var calculateHalfHeight = function(ghprec) {
+                var parity = ghprec % 2;
+                return 90 / Math.pow(2, ((5*ghprec - parity) / 2) );
+            }
+
+            var calculateOpts = function(hue) {
+
+                return {
+                    color: "hsl(" + hue + ", 70%, 75%)",
+                    stroke: false,
+                    weight: 1,
+                    clickable: false
+                };
+            }
+
+            var makeBoxesLayer = function(coords, count, max, ghprec) {
+                var halfHeight=calculateHalfHeight(ghprec)
+                var halfWidth =calculateHalfWidth(ghprec)
+
                 // coordinates for the box's corners
                 var southwest = [(coords[0]-halfHeight), (coords[1]-halfWidth)];
                 var northeast = [(coords[0]+halfHeight), (coords[1]+halfWidth)];
                 // determine a color for the box
                 var ratio = count / max;
                 var hue = (1.0 - ratio) * 240; // 0-240 gives a 5-color heatmap from blue to red
-                var opts = {
-                    color: "hsl(" + hue + ", 70%, 75%)",
-                    stroke: false,
-                    weight: 1,
-                    clickable: false,
-                }
-                var rect = L.rectangle([southwest, northeast], opts);
-                rect.addTo(map);
+                var rect = L.rectangle([southwest, northeast], calculateOpts(hue));
                 return rect;
             };
 
-            // draws an html label as a layer on the map, returns the layer
-            var drawLabel = function(coords, count, gridElementBounds) {
+            var makeLabelsLayer = function(coords, count, gridElementBounds) {
                 var countStr = $filter('number')(count);
                 var opts = {
                     className: 'ar-map-geogrid-label',
@@ -115,99 +126,99 @@ function($filter, searchService, mapService) {
                 var label = L.marker(coords, { icon: L.divIcon(opts) });
                 var query = searchService.currentQuery().setParam('bbox', getBboxFromBounds(gridElementBounds).join(','));
                 label.bindPopup('<a href="' + baseLinkRef + 'search' + query.toString() + '" title="Objekte suchen"><b>' + countStr + '</b> Objekte</a> bei (' + coords[0] + ', ' + coords[1] + ')');
-                label.addTo(map);
+
                 label.on('mouseover', function(e) {
                     label.openPopup();
                 });
                 return label;
-            }
+            };
 
-            var removeLayers = function(layers) {
-                if (layers) {
-                    for (var i = 0; i < layers.length; i++) {
-                        map.removeLayer(layers[i]);
+            var removeCurrentGridLayers = function() {
+                if (currentGridLayers) {
+                    for (var i = 0; i < currentGridLayers.length; i++) {
+                        map.removeLayer(currentGridLayers[i]);
                     }
                 }
             };
 
-            // resets the searchServices current result and performs a
-            // new search with parameters "bbox" and "ghprec" adjusted to fit the maps
-            // position and zoomlevel, then draws the grid from the "agg_geogrid"
-            // aggregation that results from the search, returns a promise for all
-            // layers that make up the map
-            // Removes old layers right before setting the new ones if they are present
-            // as param oldLayers
-            var drawGrid = function(oldLayers) {
-                searchService.reset();
 
-                currentQuery = searchService.currentQuery();
-                if (!currentQuery.q) currentQuery.q = '*';
 
-                var ghprec = getGhprecFromZoom(map.getZoom());
+            var drawGrid = function(boxesToDraw,ghprec) {
+
+                // find maximum facet value
+                var counts = boxesToDraw.map(function(elem) {
+                    return elem.count;
+                });
+                var max = Math.max.apply(null, counts);
+
+                // compute the distance from the box's center to it's sides
+
+
+                for (var i = 0; i < boxesToDraw.length; i++) {
+                    var coords = angular.fromJson(boxesToDraw[i].value);
+                    var count = boxesToDraw[i].count;
+
+                    var boxesLayer = makeBoxesLayer(coords, count, max, ghprec);
+                    var labelsLayer = makeLabelsLayer(coords, count, boxesLayer.getBounds())
+
+                    labelsLayer.addTo(map);
+                    boxesLayer.addTo(map);
+
+                    currentGridLayers.push(boxesLayer);
+                    currentGridLayers.push(labelsLayer);
+                }
+            };
+
+
+            /**
+             * Adjusts currentQuery to the current viewport.
+             * The query gets executed and a new grid gets drawn
+             * with layers based on the results.
+             */
+            var recalculateGridForViewport = function(){
                 currentQuery.ghprec = getGhprecFromZoom(map.getZoom());
                 currentQuery.bbox = getBboxFromBounds(map.getBounds()).join(',');
-                var layers = [];
 
-                return searchService.getCurrentPage().then(function(entities) {
-                    removeLayers(oldLayers);
+                searchService.setCurrentQuery(currentQuery);
+                searchService.getCurrentPage().then(function(entities){
 
-                    var facet = searchService.getFacet("agg_geogrid");
-                    if (facet) {
-                        var gridElements = facet.values;
+                    removeCurrentGridLayers();
 
-                        // find maximum facet value
-                        var counts = gridElements.map(function(elem) {
-                            return elem.count;
-                        })
-                        var max = Math.max.apply(null, counts);
+                    var boxesToDraw=[];
+                    var agg_geogrid = searchService.getFacet("agg_geogrid");
+                    if (agg_geogrid) boxesToDraw=agg_geogrid.values;
 
-                        // compute the distance from the box's center to it's sides
-                        var parity = ghprec % 2;
-                        var halfWidth = 90 / Math.pow(2, ((5*ghprec + parity - 2) / 2) );
-                        var halfHeight = 90 / Math.pow(2, ((5*ghprec - parity) / 2) );
-
-                        for (var i = 0; i < gridElements.length; i++) {
-                            var coords = angular.fromJson(gridElements[i].value);
-                            var count = gridElements[i].count;
-
-                            var box = drawBox(coords, count, max, halfWidth, halfHeight);
-                            layers.push(box);
-                            layers.push(drawLabel(coords, count, box.getBounds()));
-                        }
-                    }
-                    return layers;
+                    if (boxesToDraw.length!=0)
+                        drawGrid(boxesToDraw,currentQuery.ghprec);
                 });
-            }
-
-            // wraps drawGrid() in a promise, such that multiple calls to drawGrid()
-            // are executed in order
-            var drawGridDeferred = function() {
-                if (gridPromise) {
-                    gridPromise = gridPromise.then(function(oldLayers) {
-                        return drawGrid(oldLayers);
-                    });
-                } else {
-                    gridPromise = drawGrid();
-                }
-                return gridPromise;
             };
 
+
+
+
+            // on link
+
+            var currentQuery = searchService.currentQuery();
+            if (!currentQuery.q) currentQuery.q = '*';
+
+            var baselayerName = currentQuery.baselayer || "osm";
+
+            var map = mapService.initializeMap(
+                element.attr('id'),
+                {minZoom: 3} // 3 is to prevent wrong bbox searches
+                             // when the window is bigger than the world
+            );
             // Add baselayers and activate one, given by url
             // parameter "baselayer" or a default value
             mapService.setBaselayers(scope.baselayers);
             mapService.activateBaselayer(baselayerName);
+            initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
+            recalculateGridForViewport();
 
-            // Set map view to center coords with zoomlevel
-            var lat = currentQuery.lat || 40;
-            var lng = currentQuery.lng || -10;
-            var zoom = currentQuery.zoom || 3;
-            map.setView([lat, lng], zoom);
 
-            drawGridDeferred();
-
-            // register a hook to redraw the grid on zoom and move events
+            // Hook for redrawing the grid on zoom and move events
             map.on('moveend', function() {
-                drawGridDeferred();
+                recalculateGridForViewport();
             });
         }
     };
