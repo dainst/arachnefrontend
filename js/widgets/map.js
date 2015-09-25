@@ -16,13 +16,17 @@ return {
         defaultBaselayer: '=',	// "key"
         limit: '@',				// "500"
         facetsSelect: '=',		// {facetName: facetValue, ...}
-        clustered: '='			// true|false
+        clustered: '=',  		// true|false
+        lat: '@',
+        lng: '@',
+        zoom: '@'
+
     },
     // menu elements may appear in the transcluded html
     transclude: true,
     templateUrl: function(elem,attr) {
-        if (attr.type=="grid") return 'partials/widgets/con10t-map_grid.html'
-        if (attr.type=="places") return 'partials/widgets/con10t-map_places.html'
+        if (attr.type=="grid") return 'partials/widgets/con10t-map_grid.html';
+        if (attr.type=="places") return 'partials/widgets/con10t-map_places.html';
     },
     controller : function($scope) {
 
@@ -32,6 +36,10 @@ return {
         if (!currentQuery.q) {
             currentQuery.q = '*';
         }
+        if ($scope.lat)  currentQuery.lat=$scope.lat;
+        if ($scope.lng)  currentQuery.lng=$scope.lng;
+        if ($scope.zoom) currentQuery.zoom=$scope.zoom;
+
 
         // Add a limit to the search if defined in the attribute
         if ($scope.limit) {
@@ -56,5 +64,4 @@ return {
             }
         }
     }
-};
-}])
+}}]);
