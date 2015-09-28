@@ -87,12 +87,6 @@ function($location, Entity, $rootScope, Query, $q) {
 
     return {
 
-        setCurrentQuery: function(query) {
-            _currentQuery=query;
-            dirty=true;
-        },
-
-
         // get a single entity from the current result
         getEntity: function(resultIndex) {
 
@@ -150,13 +144,12 @@ function($location, Entity, $rootScope, Query, $q) {
             return _currentQuery;
         },
 
-        // Reset the search result to allow new searches
-        reset: function() {
-            _currentQuery = Query.fromSearch($location.search());
-            _result = { entities: [] };
-            chunkPromise = false;
+        /**
+         * To make sure query gets executed in any case
+         * next time getCurrentPage gets called.
+         */
+        markDirty: function() {
+            dirty=true;
         }
-
     }
-
 }]);

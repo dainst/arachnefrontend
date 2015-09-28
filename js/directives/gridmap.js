@@ -20,6 +20,8 @@ function($filter, searchService, mapService) {
 
             var currentGridLayers = [];
             var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
+            var currentQuery = searchService.currentQuery();
+            if (!currentQuery.q) currentQuery.q = '*';
 
             /**
              * Set map view to center coords with zoomlevel
@@ -147,7 +149,7 @@ function($filter, searchService, mapService) {
                 currentQuery.ghprec = getGhprecFromZoom(map.getZoom());
                 currentQuery.bbox = getBboxFromBounds(map.getBounds()).join(',');
 
-                searchService.setCurrentQuery(currentQuery);
+                searchService.markDirty();
                 searchService.getCurrentPage().then(function(entities){
 
                     removeCurrentGridLayers();
@@ -162,15 +164,6 @@ function($filter, searchService, mapService) {
             };
 
 
-
-
-            // on link
-
-            var currentQuery = searchService.currentQuery();
-            if (!currentQuery.q) currentQuery.q = '*';
-
-            var baselayerName = currentQuery.baselayer || "osm";
-
             var map = mapService.initializeMap(
                 element.attr('id'),
                 {minZoom: 3} // 3 is to prevent wrong bbox searches
@@ -179,10 +172,9 @@ function($filter, searchService, mapService) {
             // Add baselayers and activate one, given by url
             // parameter "baselayer" or a default value
             mapService.setBaselayers(scope.baselayers);
-            mapService.activateBaselayer(baselayerName);
+            mapService.activateBaselayer(currentQuery.baselayer || "osm");
             initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
             recalculateGridForViewport();
-
 
             // Hook for redrawing the grid on zoom and move events
             map.on('moveend', function() {
