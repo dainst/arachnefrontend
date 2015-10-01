@@ -60,6 +60,7 @@ In order to set up the submodule you have to run the following commands after th
 ```
 git submodule init
 git submodule update
+git checkout master
 ```
 
 Subsequent updates can be loaded by running `git pull origin master` inside the directory `con10t`.
