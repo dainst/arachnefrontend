@@ -1,0 +1,23 @@
+<form>
+<div class="modal-header">
+	<h4 class="modal-title">
+		<div ng-if="msg == 'emailValidation'">
+			E-Mail nicht identisch!
+		</div>
+		<div ng-if="msg == 'iAmHuman'">
+			Keine Maschine!
+		</div>
+	</h4>
+</div>
+<div class="modal-body">
+	<div ng-if="msg == 'emailValidation'">
+			Bitte eingegebene E-Mail Adressen überprüfen.
+	</div>
+	<div ng-if="msg == 'iAmHuman'">
+			Bitte Häckchen bei "Ich bin keine Maschine" setzen.
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="$dismiss()">ok</button>
+</div>
+</form>
