@@ -18,15 +18,13 @@ function($location, Entity, $rootScope, Query, $q) {
     var CHUNK_SIZE = 50;
     var chunkPromise = false;
 
-    // check if query changed in a way that requires a new backend call
-    $rootScope.$on("$locationChangeSuccess", function(event, newState, oldState) {
-        if (Object.keys($location.search()).length > 0) {
-            var newQuery = Query.fromSearch($location.search());
-            if (!angular.equals(newQuery.toFlatObject(),_currentQuery.toFlatObject())) {
-                _result = { entities: [] };
-            }
-            _currentQuery = newQuery;
+    $rootScope.$on("$locationChangeSuccess", function() {
+
+        var newQuery = Query.fromSearch($location.search());
+        if (!angular.equals(newQuery.toFlatObject(),_currentQuery.toFlatObject())) {
+            _result = { entities: [] };
         }
+        _currentQuery = newQuery;
     });
 
     // wait for other retrieve operations to be finished
