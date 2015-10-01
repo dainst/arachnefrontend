@@ -25,7 +25,12 @@ function($modal, $location, searchService, placesService, mapService) {
                 port = (port == 80) ? "" : ":"+port;
                 var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
                 var path = $location.path().substring(1);
-                var query = mapService.getMapQuery(searchService.currentQuery()).toString();
+
+                if (scope.que)
+                    var query=scope.que
+                else
+                    var query = mapService.getMapQuery(searchService.currentQuery()).toString();
+
                 scope.linkText = host + port + baseLinkRef + path + query;
 
                 var modalInstance = $modal.open({
@@ -45,11 +50,21 @@ function($modal, $location, searchService, placesService, mapService) {
                 })
             }
 
+            var sizeListener = function(size){
+                scope.entityCount=size;
+            };
+
+            var queryListener = function(query) {
+                scope.que=query;
+            };
+
             // basic information about the search depends on the type of the map
             // (either a geogrid or a map with Place objects)
             scope.entityCount = null;
             scope.placesCount = null;
             if (scope.type == "grid") {
+                mapService.registerSizeListener(sizeListener);
+                mapService.registerQueryListener(queryListener);
                 searchService.getCurrentPage().then(function (entities) {
                     scope.entityCount = searchService.getSize();
                 });

@@ -36,9 +36,12 @@ return {
         if (!currentQuery.q) {
             currentQuery.q = '*';
         }
-        if ($scope.lat)  currentQuery.lat=$scope.lat;
-        if ($scope.lng)  currentQuery.lng=$scope.lng;
-        if ($scope.zoom) currentQuery.zoom=$scope.zoom;
+        if (!currentQuery.lat)
+            if ($scope.lat)  currentQuery.lat=$scope.lat;
+        if (!currentQuery.lng)
+            if ($scope.lng)  currentQuery.lng=$scope.lng;
+        if (!currentQuery.zoom)
+            if ($scope.zoom) currentQuery.zoom=$scope.zoom;
 
 
         // Add a limit to the search if defined in the attribute
