@@ -29,8 +29,6 @@ function($scope, $http, $location, arachneSettings,message) {
 	var MSG_UNAVAILABLE = 'The system reports that the backend is temporarily unavailable. ';
 	var MSG_UNAUTHORIZED = 'The system rejects your request. You have not the necessary permissions. Please log in with admin rights. ';
 
-    message.addMessageForCode('backend_missing','warning')
-
 	/**
 	 * All $scope functions accesible from within the view must call anotherRequestPending() at first.
 	 * @return false to indicate the $scope function is allowed to get executed. true otherwise.

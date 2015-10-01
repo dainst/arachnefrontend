@@ -1,6 +1,16 @@
 module.exports = function(grunt) {
 
 	grunt.initConfig({
+        concat: {
+            dist: {
+                src: [
+                    'js/**/*.js',
+                    '!js/app.js',
+                    '!js/concat.js',
+                ],
+                dest: 'js/concat.js'
+            }
+        },
 		watch: {
 	        livereload: {
 	            options: {
@@ -11,8 +21,10 @@ module.exports = function(grunt) {
 	                'css/**/*.css',
 	                'img/{,*/}*',
 	                'js/**/*.js',
-	                'lib/**/*.js'
-	            ]
+	                'lib/**/*.js',
+                    '!js/concat.js'
+	            ],
+                tasks: ['concat']
 	        }
 	    },
 		connect: {
@@ -81,7 +93,7 @@ module.exports = function(grunt) {
 
 
 
-
+    grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-connect-proxy');
 	grunt.loadNpmTasks('grunt-contrib-watch');
