@@ -134,56 +134,6 @@ angular.module('arachne.services', [])
 			}
 		}
 	}])
-	
-	.factory('messageService', ['$http', '$rootScope', function($http, $rootScope) {
-
-		var messageTypes;
-		$http.get('config/messageTypes.json').success(function(response) {
-			messageTypes = response;
-		});
-		var messages = {};
-
-		// check age and close old messages when location changes
-		$rootScope.$on("$locationChangeSuccess", function(event, newState, oldState) {
-			angular.forEach(messages, function(msg, key) {
-				messages[key].age++;
-				if (msg.age >= 1) delete messages[key];
-			});
-		});
-
-		return {
-
-			addMessage: function(id, heading, body, level) {
-				var message = {
-					heading: heading,
-					body: body,
-					level: level,
-					age: 0
-				};
-				messages[id] = message;
-			},
-
-			addMessageForCode: function(code) {
-				if (code in messageTypes) {
-					messages[code] = messageTypes[code];
-					messages[code].age = 0;
-				} else {
-					messages['default'] = messageTypes['default'];
-					messages['default'].age = 0;
-				}
-			},
-
-			removeMessage: function(code) {
-				delete messages[code];
-			},
-
-			getMessages: function() {
-				return messages;
-			}
-
-		}
-
-	}])
 
 	.factory('Catalog', ['$resource', 'arachneSettings', function($resource, arachneSettings) {
 

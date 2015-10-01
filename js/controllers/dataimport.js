@@ -15,8 +15,8 @@ angular.module('arachne.controllers')
  * 
  * @author: Daniel M. de Oliveira
  */
-.controller('DataimportController',['$scope','$http','$location','arachneSettings',
-function($scope, $http, $location, arachneSettings) {
+.controller('DataimportController',['$scope','$http','$location','arachneSettings','message',
+function($scope, $http, $location, arachneSettings,message) {
 
 	var dataimportUri = arachneSettings.dataserviceUri + '/admin/dataimport';
 	var requestPending = false; // true as long as a server request is pending and waiting for an answer or timeout
@@ -28,6 +28,8 @@ function($scope, $http, $location, arachneSettings) {
 
 	var MSG_UNAVAILABLE = 'The system reports that the backend is temporarily unavailable. ';
 	var MSG_UNAUTHORIZED = 'The system rejects your request. You have not the necessary permissions. Please log in with admin rights. ';
+
+    message.addMessageForCode('backend_missing','warning')
 
 	/**
 	 * All $scope functions accesible from within the view must call anotherRequestPending() at first.

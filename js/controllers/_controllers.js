@@ -267,8 +267,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('SearchController', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'Catalog','messageService', '$modal', '$http', 'Entity', 'authService',
-	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, messageService, $modal, $http, Entity, authService){
+.controller('SearchController', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'Catalog','message', '$modal', '$http', 'Entity', 'authService',
+	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $modal, $http, Entity, authService){
 
 		$rootScope.hideFooter = false;
 		$scope.user = authService.getUser();
@@ -388,8 +388,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}, function(response) {
 			$scope.resultSize = 0;
 			$scope.error = true;
-			if (response.status == '404') messageService.addMessageForCode('backend_missing');
-			else messageService.addMessageForCode('search_' +  response.status);
+			if (response.status == '404') message.addMessageForCode('backend_missing');
+			else message.addMessageForCode('search_' +  response.status);
 		});
 
 		$scope.go = function(path) {
@@ -450,8 +450,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('EntityController', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
-	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messageService) {
+.controller('EntityController', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'message',
+	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, message) {
 
 		$rootScope.hideFooter = false;
 		
@@ -526,7 +526,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				document.title = $scope.entity.title + " | Arachne";
 			}, function(response) {
 				$scope.error = true;
-				messageService.addMessageForCode("entity_"+response.status);
+				message.addMessageForCode("entity_"+response.status);
 			});
 				
 			$scope.contextQuery = new Query();
@@ -543,7 +543,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					$scope.resultSize = searchService.getSize();
 				}, function(response) {
 					$scope.searchresults = {size: 0};
-					messageService.addMessageForCode('search_' + response.status);
+					message.addMessageForCode('search_' + response.status);
 				});
 
 				var prevIndex = $scope.resultIndex-1;
@@ -701,8 +701,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageController', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'messageService',
-	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, messageService) {
+.controller('EntityImageController', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'message',
+	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, message) {
 
 		$rootScope.hideFooter = true;
 		$scope.allow = true;
@@ -761,7 +761,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.entity = data;
 			$scope.refreshImageIndex();
 		}, function(response) {
-			messageService.addMessageForCode("entity_"+response.status);
+			message.addMessageForCode("entity_"+response.status);
 		});
 		Entity.imageProperties({id: $scope.imageId}, function(data) {
 			$scope.imageProperties = data;
@@ -770,7 +770,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if (response.status == '403') {
 				$scope.allow = false;
 			} else {
-				messageService.addMessageForCode('image_' + response.status);
+				message.addMessageForCode('image_' + response.status);
 			}
 		});
 
@@ -780,8 +780,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImagesController', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'messageService',
-	function($routeParams, $scope, Entity, $filter, searchService, $rootScope, messageService) {
+.controller('EntityImagesController', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'message',
+	function($routeParams, $scope, Entity, $filter, searchService, $rootScope, message) {
 
 		$rootScope.hideFooter = true;
 		$scope.currentQuery = searchService.currentQuery();
@@ -792,12 +792,12 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.entity = data;
 			$scope.cells = $filter('cellsFromImages')(data.images, data.entityId, $scope.currentQuery);
 		}, function(response) {
-			messageService.addMessageForCode("entity_"+response.status);
+			message.addMessageForCode("entity_"+response.status);
 		});
 
 	}
-]).controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'messageService',
-	function ($rootScope, $scope, $http, arachneSettings, messageService) {
+]).controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'message',
+	function ($rootScope, $scope, $http, arachneSettings, message) {
 
 		$rootScope.hideFooter = false;
 
@@ -822,7 +822,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$http.get(arachneSettings.dataserviceUri + "/entity/count").success(function(data) {
 			$scope.entityCount = data.entityCount;
 		}).error(function(data) {
-			messageService.addMessageForCode("backend_missing");
+			message.addMessageForCode("backend_missing");
 		});
 
 	}
@@ -870,13 +870,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('MessageController', ['$scope', 'messageService',
-	function ($scope, messageService) {
+.controller('MessageController', ['$scope', 'message',
+	function ($scope, message) {
 
-		$scope.messages = messageService.getMessages();
+		$scope.messages = message.getMessages();
 
 		$scope.removeMessage = function(index) {
-			messageService.removeMessage(index);
+			message.removeMessage(index);
 		}
 
 	}
