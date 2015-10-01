@@ -101,13 +101,6 @@ h6 { font-size: 12px; }
 .ar-map * {
   box-sizing: content-box;
 }
-.ar-fullscreenmap {
-  height: 100%;
-  position: absolute;
-}
-.ar-halfscreenmap {
-  height: 50%;
-}
 
 *[ar-map-popup] ul {
   padding-left: 10px;
@@ -131,6 +124,14 @@ h6 { font-size: 12px; }
 
 *[ar-grid-map] .leaflet-popup {
   bottom: 0px !important;
+}
+
+.con10t-map {
+  height: 250px;
+}
+
+.con10t-map .ar-map {
+  height: 100%;
 }
 
 
@@ -431,6 +432,16 @@ h6 { font-size: 12px; }
   right: 15px;
   bottom: 0;
   top: 40px;
+  height: 100%;
+  padding-bottom: 50px;
+}
+
+.con10t-page .con10t-fullscreen .con10t-map {
+  height: 100%;
+}
+
+.con10t-page .con10t-fullscreen .con10t-map .ar-map {
+  height: 100%;
 }
 
 .catalog-entry {
