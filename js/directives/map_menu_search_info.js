@@ -4,6 +4,7 @@ angular.module('arachne.directives')
 
 /**
  * @author: David Neugebauer
+ * @author: Daniel M. de Oliveira
  */
 .directive('arMapMenuSearchInfo', ['$modal', '$location', 'searchService', 'placesService', 'mapService',
 function($modal, $location, searchService, placesService, mapService) {

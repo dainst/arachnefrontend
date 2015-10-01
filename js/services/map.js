@@ -1,6 +1,5 @@
 'use strict';
 
-/* Services */
 angular.module('arachne.services')
 
 
@@ -10,6 +9,7 @@ angular.module('arachne.services')
  * Provides convenience methods to alter the map's state.
  *
  * @author: David Neugebauer
+ * @author: Daniel M. de Oliveira
  */
 .factory('mapService', ['searchService'
     , function(searchService){
@@ -27,12 +27,7 @@ angular.module('arachne.services')
     var sizeListener = null;
     var queryListener = null;
 
-    /*
-     * Returns a Query object copied from currentQuery and
-     * enriched with all parameters needed to recreate the current map
-     * @param stripExtraParams boolean
-     */
-    var gtMapQuery= function(query,stripExtraParams) {
+    var _getMapQuery= function(query,stripExtraParams) {
         var newQuery = query.removeParams('lat', 'lng', 'zoom', 'overlays', 'baselayers');
 
         newQuery.zoom = map.getZoom();
@@ -94,9 +89,9 @@ angular.module('arachne.services')
             var agg_geogrid = searchService.getFacet("agg_geogrid");
             if (agg_geogrid) boxesToDraw=agg_geogrid.values;
 
-            if (queryListener) queryListener(gtMapQuery(searchService.currentQuery()).toString());
+            if (queryListener) queryListener(_getMapQuery(searchService.currentQuery()).toString());
             if (boxesListener) boxesListener(getGhprecFromZoom(),getBboxFromBounds(),boxesToDraw);
-            if (sizeListener) sizeListener(searchService.getSize());
+            if (sizeListener)  sizeListener(searchService.getSize());
         });
     };
 
@@ -204,7 +199,7 @@ angular.module('arachne.services')
          * @param stripExtraParams boolean
          */
         getMapQuery: function(query,stripExtraParams) {
-            return gtMapQuery(query,stripExtraParams);
+            return _getMapQuery(query,stripExtraParams);
         }
     }
 }]);
