@@ -24,6 +24,8 @@ function($filter, searchService, mapService) {
             if (!currentQuery.q) currentQuery.q = '*';
 
             /**
+             * TODO: this one should get moved over to services/map.js. The map should be not visible from here.
+             *
              * Set map view to center coords with zoomlevel
              */
             var initializeView = function(lat,lng,zoom) {

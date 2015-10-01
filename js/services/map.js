@@ -106,11 +106,15 @@ angular.module('arachne.services')
             sizeListener=sl;
         },
 
-        // initialize the Map given an Attribute id of an
-        // HTML-Element.
-        // Params are the same as those of Learflet's L.map():
-        // http://leafletjs.com/reference.html#map-constructor
-        // Returns the map governed by the mapService.
+        /**
+         * Initialize the Map given an Attribute id of an
+         * HTML-Element.
+         *  Params are the same as those of Learflet's L.map():
+         * http://leafletjs.com/reference.html#map-constructor
+         *
+         * TODO: This thing here should absolutely not return the map object. Instead the service should encapsulate it.
+         * @return the map governed by the mapService.
+         */
         initializeMap: function(id, options, bl) {
             map = L.map(id, options);
             L.Icon.Default.imagePath = 'img';
@@ -123,6 +127,8 @@ angular.module('arachne.services')
                     feedListenersWithUpdates();
                 });
             }
+
+            // see comment in apidoc above
             return map;
         },
 
