@@ -62,7 +62,7 @@ git submodule init
 git submodule update
 ```
 
-Subsequent updates can be loaded by running `git pull` inside the directory `con10t`.
+Subsequent updates can be loaded by running `git pull origin master` inside the directory `con10t`.
 
 ### Running the development server
 
