@@ -2,6 +2,10 @@
 	
 	<div class="catalog-entry" ng-init="entry.show = false">
 
+		<span ui-tree-handle>
+			<span class="glyphicon glyphicon-menu-hamburger" style="color: grey;"></span>
+		</span>
+
 		<a ng-if="entry.expanded"
 			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
 			class="glyphicon glyphicon-folder-open"
@@ -24,10 +28,6 @@
 			<span ng-if="entry.text" class="glyphicon glyphicon-book"></span>
 		</a>
 		<span ng-if="entry.arachneEntityId" class="glyphicon glyphicon-link"></span>
-
-		<span ui-tree-handle class="pull-right">
-			<span class="glyphicon glyphicon-menu-hamburger" style="color: grey;"></span>
-		</span>
 		
 		<a class="edit-btn text-danger pull-right" ng-click="removeEntry(entry, $parent.$parent.entry)">
 			<span class="glyphicon glyphicon-remove-sign"></span>
