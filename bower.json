@@ -16,6 +16,6 @@
     "angular-resource": "~1.4.3",
     "angular-route": "~1.4.3",
     "angular-sanitize": "~1.4.3",
-    "idai-components": "codarchlab/idai-components#~0.9.4"
+    "idai-components": "codarchlab/idai-components#~0.9.5"
   }
 }
