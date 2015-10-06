@@ -12,7 +12,6 @@ angular.module('arachne.controllers')
 
 		$scope.catalogs = [];
 		$scope.user = authService.getUser();
-		$scope.tobig = false;
 
 		$scope.treeOptions = {
 			dropped: function(event) {
