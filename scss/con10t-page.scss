@@ -1,0 +1,36 @@
+.con10t-page .con10t-row {
+    @include make-row();
+}
+
+.con10t-page .con10t-row .con10t-content {
+    @include make-md-column(8);
+    @include make-md-column-pull(4);
+}
+
+.con10t-page .con10t-row .con10t-sidebar {
+    @media (min-width: $screen-md) {
+        padding-top: 90px;
+    }
+    @include make-md-column(4);
+    @include make-md-column-push(8);
+}
+
+/* add search icon to link */
+.con10t-page a[con10t-search-query]:before {
+    content: "\e003";
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    padding-right: 0.3em;
+}
+
+/* add file icon to link */
+.con10t-page a[con10t-page]:before {
+    content: "\e022";
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    padding-right: 0.3em;
+}
