@@ -1,6 +1,25 @@
 module.exports = function(grunt) {
 
+	var paths = {
+		bootstrap: 'bower_components/bootstrap-sass/assets/',
+		idaicomponents: 'bower_components/idai-components/'
+	};
+
 	grunt.initConfig({
+		sass: {
+			options: {				
+				includePaths: [
+					paths.bootstrap + 'stylesheets/',
+					paths.idaicomponents + 'src/scss/',
+					'.'
+				]
+			},
+			dist: {
+				files: {
+					'dist/css/app.css': 'scss/app.scss'
+				}
+			}
+		},
         concat: {
             dist: {
                 src: [
@@ -11,6 +30,14 @@ module.exports = function(grunt) {
                 dest: 'js/concat.js'
             }
         },
+		copy: {
+			dist: {
+				expand: true,
+				cwd: paths.bootstrap,
+				src: 'fonts/bootstrap/**',
+				dest: 'dist/'
+			}
+		},
 		watch: {
 	        livereload: {
 	            options: {
@@ -18,13 +45,13 @@ module.exports = function(grunt) {
 	            },
 	            files: [
 	                '**/*.html',
-	                'css/**/*.css',
+	                'scss/**/*.scss',
 	                'img/{,*/}*',
 	                'js/**/*.js',
 	                'lib/**/*.js',
                     '!js/concat.js'
 	            ],
-                tasks: ['concat']
+                tasks: ['concat','sass']
 	        }
 	    },
 		connect: {
@@ -98,8 +125,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-connect-proxy');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-protractor-runner');
+	grunt.loadNpmTasks('grunt-sass');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	grunt.registerTask('server', [
+		'copy',
+		'concat',
+		'sass',
         'configureProxies:server',
 		'connect:server',
 		'watch'
