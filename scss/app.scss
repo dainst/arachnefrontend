@@ -483,16 +483,6 @@ h6 { font-size: 12px; }
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 1);
 }
 
-/* fix search field width in collapsed navbar */
-.navbar-form .form-control {
-  width: 100%;
-}
-@media (min-width: 1200px) {
-  .navbar-form .form-control {
-    width: auto;
-  }
-}
-
 /* OVERWRITING MARKER CLUSTER STYLING FOR LEAFLET PLUGIN MARKERCLUSTER */
 
 
