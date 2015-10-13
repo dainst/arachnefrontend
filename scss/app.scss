@@ -3,6 +3,7 @@
 @import "con10t-page";
 @import "con10t-widgets";
 @import "leaflet";
+@import "map";
 
 body {
 	margin-top: 50px;
@@ -130,53 +131,9 @@ h6 { font-size: 12px; }
   bottom: 0px !important;
 }
 
-.con10t-map {
-  height: 250px;
-}
-
-.con10t-map .ar-map {
-  height: 100%;
-}
 
 
-/* map menu items and controls */
 
-#map-right-menu, #map-left-menu, #ar-map-zoomcontrol {
-  background-color: rgba(248, 248, 248, 0.9);
-  position: absolute;
-  top: 60px;
-  text-align: left;
-  z-index:500;
-}
-
-#map-right-menu {
-  right: 10px;
-}
-
-#map-left-menu {
-  left: 10px;
-}
-
-#ar-map-zoomcontrol {
-  left:10px;
-  text-align: center;
-}
-
-.con10t-page #map-right-menu, .con10t-page #map-left-menu, .con10t-page #ar-map-zoomcontrol {
-  top: 10px;
-}
-
-#map-right-menu.toggled, #map-left-menu.toggled {
-  bottom:10px;
-  overflow-y:auto;
-}
-
-.ar-map-zoomcontrol-box {
-  border: 1px solid #e3e3e3;
-  padding: 4px 10px 4px 10px;
-  font-weight: bold;
-  cursor: pointer;
-}
 
 .single-line {
   overflow: hidden;
@@ -428,24 +385,6 @@ h6 { font-size: 12px; }
 
 .con10t-page img[align="left"] {
   padding: 0 15px 0 0;
-}
-
-.con10t-page .con10t-fullscreen {
-  position: fixed;
-  left: 15px;
-  right: 15px;
-  bottom: 0;
-  top: 40px;
-  height: 100%;
-  padding-bottom: 50px;
-}
-
-.con10t-page .con10t-fullscreen .con10t-map {
-  height: 100%;
-}
-
-.con10t-page .con10t-fullscreen .con10t-map .ar-map {
-  height: 100%;
 }
 
 .catalog-entry {

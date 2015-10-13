@@ -7,6 +7,7 @@
 .Trashes
 .htaccess
 .idea
+dist
 ehthumbs.db
 Thumbs.db
 npm-debug.log

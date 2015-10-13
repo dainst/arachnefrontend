@@ -1,20 +1,26 @@
+<div hide-footer class="row map-fullscreen">
 
-<div ng-init="baselayers = {
-        osm: {
-            name: 'OpenStreetMap',
-            type: 'xyz',
-            url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            layerOptions: {
-                subdomains: ['a', 'b', 'c'],
-                attribution: '<a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
-                continuousWorld: false,
-                maxZoom: 18
+    <div ng-init="baselayers = {
+            osm: {
+                name: 'OpenStreetMap',
+                type: 'xyz',
+                url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                layerOptions: {
+                    subdomains: ['a', 'b', 'c'],
+                    attribution: '<a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
+                    continuousWorld: false,
+                    maxZoom: 18
+                }
             }
-        }
-    }">
-</div>
+        }">
+    </div>
 
-<div hide-footer class="row fullscreenrow">
+    <div con10t-map
+         id="map"
+         type="grid"
+         class="map"
+         baselayers="baselayers">
+    </div>
 
     <div id="map-right-menu" class="col-md-2 well well-sm toggled">
         <h3 class="text-muted uppercase">
@@ -25,6 +31,4 @@
         <div ar-map-menu-search-field heading="{{'ui_current_search'|transl8}}"></div>
         <div ar-map-menu-facet-search></div>
     </div>
-
-    <div ar-grid-map id="map" class="col-md-12 ar-map ar-fullscreenmap" baselayers="baselayers"></div>
 </div>

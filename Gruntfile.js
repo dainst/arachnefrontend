@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 				includePaths: [
 					paths.bootstrap + 'stylesheets/',
 					paths.idaicomponents + 'src/scss/',
-					'.'
+					'scss/'
 				]
 			},
 			dist: {
