@@ -108,20 +108,18 @@ function($filter, searchService, mapService) {
 
                 for (var i = 0; i < boxesToDraw.length; i++) {
                     var coords = angular.fromJson(boxesToDraw[i].value);
-                    var count = boxesToDraw[i].count;
 
                     var box = createRectangleForBox(
-                        coords, count, findMaximumFacetValue(boxesToDraw), ghprec);
+                        coords, boxesToDraw[i].count,
+                        findMaximumFacetValue(boxesToDraw), ghprec);
+                    box.addTo(map);
 
                     // XXX Hack. this one modifies the current query's bbox
                     var queryString = searchService.currentQuery().setParam(
                         'bbox', mapService.bBoxFromBounds(box.getBounds())).toString();
-
                     var label = createLabelForBox(
-                        coords, count, queryString);
-
+                        coords, boxesToDraw[i].count, queryString);
                     label.addTo(map);
-                    box.addTo(map);
 
                     currentGridLayers.push(box);
                     currentGridLayers.push(label);
