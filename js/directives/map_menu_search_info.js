@@ -52,12 +52,14 @@ function($modal, $location, searchService, placesService, mapService) {
             }
 
             var sizeListener = function(size){
-                scope.entityCount=size;
+                scope.viewportCount=size;
             };
 
             var queryListener = function(query) {
                 scope.que=query;
             };
+
+            console.log("hallo")
 
             // basic information about the search depends on the type of the map
             // (either a geogrid or a map with Place objects)
@@ -66,7 +68,7 @@ function($modal, $location, searchService, placesService, mapService) {
             if (scope.type == "grid") {
                 mapService.registerSizeListener(sizeListener);
                 mapService.registerQueryListener(queryListener);
-                searchService.getCurrentPage().then(function (entities) {
+                searchService.getCurrentPage().then(function () {
                     scope.entityCount = searchService.getSize();
                 });
             } else if (scope.type == "places") {

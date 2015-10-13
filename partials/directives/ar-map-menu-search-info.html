@@ -7,11 +7,22 @@
         <span title="{{'ui_map_link_heading' | transl8}}" class="clickable glyphicon glyphicon-link" ng-click="showLinkModal()"></span>
     </div>
 
+
     <small>
-        <b>{{ entityCount | number }}</b>
-        {{(entityCount > 1 ? 'ui_object_plural' : 'ui_object') | transl8}}
-        {{'ui_total_small' | transl8}}
-        <br>
+        <span ng-if="type!='grid'">
+            <b>{{ entityCount | number }}</b>
+            {{(entityCount > 1 ? 'ui_object_plural' : 'ui_object') | transl8}}
+            {{'ui_total_small' | transl8}}
+            <br>
+        </span>
+        <span ng-if="type=='grid'">
+            {{'ui_objects_shown' | transl8}}:<br>
+            <b>{{ viewportCount | number }}</b>
+            {{'ui_of' | transl8}}
+            <b>{{ entityCount | number }}</b>
+            {{'ui_total_small' | transl8}}
+        </span>
+
         <span ng-if="placesCount">
             {{'ui_at' | transl8}}
             <b>{{ placesCount |number }}</b>
@@ -19,6 +30,7 @@
         </span>
     </small>
 </div>
+
 
 <div ng-if="entityCount > 0" style="margin-bottom:10px;">
     <a href="search/{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']).toString()}}" type="button"
