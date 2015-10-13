@@ -67,20 +67,18 @@ angular.module('arachne.services')
         return ghprecForZoomLevel[zl];
     };
 
-    var getBboxFromBounds = function() {
-        var bounds=map.getBounds();
 
+    var _bBoxFromBounds = function(bounds) {
         var southEast = bounds.getSouthEast();
         var northWest = bounds.getNorthWest();
         return [northWest.lat, northWest.lng, southEast.lat, southEast.lng].join(',');
     };
 
-
     var feedListenersWithUpdates = function() {
 
-        var cq=searchService.currentQuery();
-        cq.bbox=getBboxFromBounds();
-        cq.ghprec=getGhprecFromZoom();
+        var cq = searchService.currentQuery();
+        cq.bbox = _bBoxFromBounds(map.getBounds());
+        cq.ghprec = getGhprecFromZoom();
 
         searchService.markDirty();
         searchService.getCurrentPage().then(function(){
@@ -90,13 +88,18 @@ angular.module('arachne.services')
             if (agg_geogrid) boxesToDraw=agg_geogrid.values;
 
             if (queryListener) queryListener(_getMapQuery(searchService.currentQuery()).toString());
-            if (boxesListener) boxesListener(getGhprecFromZoom(),getBboxFromBounds(),boxesToDraw);
+            if (boxesListener) boxesListener(getGhprecFromZoom(),_bBoxFromBounds(map.getBounds()),boxesToDraw);
             if (sizeListener)  sizeListener(searchService.getSize());
         });
     };
 
 
     return {
+
+
+        bBoxFromBounds: function(bounds) {
+            return _bBoxFromBounds(bounds);
+        },
 
         registerQueryListener: function(ql){
             queryListener=ql;

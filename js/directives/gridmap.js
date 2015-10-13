@@ -55,7 +55,7 @@ function($filter, searchService, mapService) {
                 };
             };
 
-            var makeBoxesLayer = function(coords, count, max, ghprec) {
+            var createRectangleForBox = function(coords, count, max, ghprec) {
                 var halfHeight=calculateHalfHeight(ghprec)
                 var halfWidth =calculateHalfWidth(ghprec)
 
@@ -69,15 +69,17 @@ function($filter, searchService, mapService) {
                 return rect;
             };
 
-            var makeLabelsLayer = function(coords, count, gridElementBounds,bbox) {
+            var createLabelForBox = function(coords, count, queryString) {
                 var countStr = $filter('number')(count);
                 var opts = {
                     className: 'ar-map-geogrid-label',
                     html: '<div class="ar-map-geogrid-label-inner">' + countStr + '</div>',
                 };
                 var label = L.marker(coords, { icon: L.divIcon(opts) });
-                var query = searchService.currentQuery().setParam('bbox', bbox);
-                label.bindPopup('<a href="' + baseLinkRef + 'search' + query.toString() + '" title="Objekte suchen"><b>' + countStr + '</b> Objekte</a> bei (' + coords[0] + ', ' + coords[1] + ')');
+
+                label.bindPopup('<a href="' + baseLinkRef + 'search' + queryString
+                    + '" title="Objekte suchen"><b>' + countStr
+                    + '</b> Objekte</a> bei (' + coords[0] + ', ' + coords[1] + ')');
 
                 label.on('mouseover', function(e) {
                     label.openPopup();
@@ -101,30 +103,39 @@ function($filter, searchService, mapService) {
                 return Math.max.apply(null, counts);
             };
 
-            var drawBoxes = function(boxesToDraw,ghprec,bbox) {
+
+            var drawBoxes = function(boxesToDraw,ghprec) {
 
                 for (var i = 0; i < boxesToDraw.length; i++) {
                     var coords = angular.fromJson(boxesToDraw[i].value);
                     var count = boxesToDraw[i].count;
 
-                    var boxesLayer = makeBoxesLayer(
+                    var box = createRectangleForBox(
                         coords, count, findMaximumFacetValue(boxesToDraw), ghprec);
-                    var labelsLayer = makeLabelsLayer(
-                        coords, count, boxesLayer.getBounds(),bbox)
 
-                    labelsLayer.addTo(map);
-                    boxesLayer.addTo(map);
+                    // XXX Hack. this one modifies the current query's bbox
+                    var queryString = searchService.currentQuery().setParam(
+                        'bbox', mapService.bBoxFromBounds(box.getBounds())).toString();
 
-                    currentGridLayers.push(boxesLayer);
-                    currentGridLayers.push(labelsLayer);
+                    var label = createLabelForBox(
+                        coords, count, queryString);
+
+                    label.addTo(map);
+                    box.addTo(map);
+
+                    currentGridLayers.push(box);
+                    currentGridLayers.push(label);
                 }
             };
 
             var drawGrid = function(ghprec,bbox,boxesToDraw){
 
                 removeCurrentGridLayers();
-                if (boxesToDraw)
-                    drawBoxes(boxesToDraw,ghprec,bbox);
+                if (boxesToDraw){
+                    drawBoxes(boxesToDraw,ghprec);
+                    searchService.currentQuery().setParam('bbox', bbox); // XXX Hack. See above.
+                }
+
             };
 
             var map = mapService.initializeMap(
