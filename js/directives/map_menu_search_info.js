@@ -59,8 +59,6 @@ function($modal, $location, searchService, placesService, mapService) {
                 scope.que=query;
             };
 
-            console.log("hallo")
-
             // basic information about the search depends on the type of the map
             // (either a geogrid or a map with Place objects)
             scope.entityCount = null;
