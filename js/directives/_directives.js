@@ -414,8 +414,7 @@ angular.module('arachne.directives', [])
         return {
             restrict: 'A',
             scope: {
-                found:"=",
-                depo:"="
+                places:"="
             },
             link: function(scope, element, attrs) {
 
@@ -431,54 +430,33 @@ angular.module('arachne.directives', [])
                 map.trackResize = true;
                 L.Icon.Default.imagePath = 'img';
 
-                var foundMarker = null;
-                var depoMarker = null;
+                var markers = new Array;
 
                 var loadMarkers = function() {
 
                     var group = new L.featureGroup();
+                    if(scope.places){
+                        console.log(scope.places);
+                        for(var place in scope.places){
+                            var curplace = scope.places[place];
 
-                    if(scope.found){
-                        var item = scope.found[0];
-                        var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
-                        var coords = coordsString.split(',');
-                        var facetI18n = $filter('transl8')("facet_fundort");
-                        var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
-                        var text = item.substring(0, item.indexOf("[", 1)) + " ";
-                        // Popup-Title auf Karte für Suchergebnis
-                        title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
-                        text = facetI18n + ": " + text;
+                            var name = curplace.name;
+                            var relation = curplace.relation;
+                            var location = curplace.location;
 
-                        foundMarker = L.marker(new L.LatLng(coords[0], coords[1]), { title: text });
-                        foundMarker.bindPopup(title);
-                        map.addLayer(foundMarker);
+                            console.log(curplace.name);
+                            var title = "<b>" + relation + "</b><br/>" + name;
+                            var text = name;
+                            var newMarker = L.marker(new L.LatLng(location.lat, location.lon), { title: text });
+                            newMarker.bindPopup(title);
+                            markers.push(newMarker);
+                            map.addLayer(newMarker);
+                        }
+
                     }
-
-                    if(scope.depo){
-                        var item = scope.depo[0];
-                        var coordsString = item.substring(item.indexOf("[", 1)+1, item.length - 1);
-                        var coords = coordsString.split(',');
-                        var facetI18n = $filter('transl8')("facet_aufbewahrungsort");
-                        var title = "<b>" + item.substring(0, item.indexOf("[", 1)) + "</b><br/>";
-                        var text = item.substring(0, item.indexOf("[", 1)) + " ";
-                        // Popup-Title auf Karte für Suchergebnis
-                        title = '<h4 class="text-info centered">' + facetI18n + '</h4>' + title;
-                        text = facetI18n + ": " + text;
-
-                        depoMarker = new L.marker(new L.LatLng(coords[0], coords[1]), { title: text });
-                        depoMarker.bindPopup(title);
-                        map.addLayer(depoMarker);
-                    }
-
-                    if(!scope.depo)
-                        var mark = L.featureGroup([foundMarker]);
-                    else if(!scope.found)
-                        var mark = new L.featureGroup([depoMarker]);
-                    else {
-                        var mark = new L.featureGroup([foundMarker, depoMarker]);
-                    }
+                    var mark = L.featureGroup(markers);
                     map.fitBounds(mark.getBounds());
-                    //map.setZoom(8);
+                    map.setZoom(9);
 
                     map._onResize();
                 }
