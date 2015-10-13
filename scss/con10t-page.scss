@@ -2,15 +2,16 @@
     @include make-row();
 }
 
+.con10t-page .con10t-row .con10t-title {
+    @include make-md-column(12);
+}
+
 .con10t-page .con10t-row .con10t-content {
     @include make-md-column(8);
     @include make-md-column-pull(4);
 }
 
 .con10t-page .con10t-row .con10t-sidebar {
-    @media (min-width: $screen-md) {
-        padding-top: 90px;
-    }
     @include make-md-column(4);
     @include make-md-column-push(8);
 }
