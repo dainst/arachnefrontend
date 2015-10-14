@@ -6,9 +6,6 @@ It describes the behaviour of the projects overview page.
 From there, the project title links lead to specific project pages,
 which appear in the same language in which the project title is shown.
 
-
-See also: [Localization of user interface elements](feature_localization.md)
-
 ## Background:
 
 ```gherkin
