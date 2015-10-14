@@ -43,7 +43,6 @@ in the [Artifacts](#artifacts) section.
 
 Here are the main artifacts comprising the content / localization system:
 
-1. Projects Page [specification](feature_localization_con10t.md)
-1. Content Delivery [specification](feature_localization.md)
+1. Language rule example [specification](feature_localization_con10t.md) for projects page.
 1. The content delivery [code](../js/controllers/static_content.js)
 1. The projects overview [code](../js/controllers/projects.js)
