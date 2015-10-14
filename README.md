@@ -2,7 +2,7 @@
 
 ## Development
 
-The repository includes a [grunt](http://gruntjs.com/) configuration for setting up a local server, preconfigured with:
+The repository includes a [gulp](http://gulpjs.com/) configuration for setting up a local server, preconfigured with:
 * proxying to the backend running on the development server
 * url rewriting for AngularJS' HTML5 mode
 * live reloading
@@ -11,12 +11,12 @@ The repository includes a [grunt](http://gruntjs.com/) configuration for setting
 
 You need the following components in order for the local server to work:
 * [NodeJS](https://nodejs.org/download/)
-* [Grunt](http://gruntjs.com/getting-started)
+* [gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md)
 
 To install the necessary dependencies for the app run the following command in the working directory:
 ```
 npm install
-npm install -g bower
+npm install -g bower gulp
 bower install
 ```
 
@@ -33,11 +33,11 @@ webdriver-manager update
 
 You may need root permissions on your machine in order to perform these commands successfully.
 
-On Debian-based systems, if you have trouble installing dependencies use the 'nodejs-legacy'-package instead of 'nodejs'. Also the grunt-cli needs to be installed globally to run 'grunt server'.
+On Debian-based systems, if you have trouble installing dependencies use the 'nodejs-legacy'-package instead of 'nodejs'. Also gulp needs to be installed globally to run 'gulp server'.
 
 ```
 sudo apt-get install nodejs-legacy
-sudo npm install -g grunt-cli
+sudo npm install -g gulp
 ```
 
 ### Running the tests
@@ -45,7 +45,7 @@ sudo npm install -g grunt-cli
 Two types of tests are supported at the moment. User Interface (UI) and unit tests. To run the unit tests, call
 
 ```bash
-karma start test/karma.conf.js
+gulp test
 ```
 
 which will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
@@ -69,15 +69,21 @@ Subsequent updates can be loaded by running `git pull origin master` inside the 
 
 In order to run the frontend in the development server use the following command:
 ```
-grunt server
+gulp server
 ```
 
 After that you should be able to access the frontend under [http://localhost:1234/](http://localhost:1234/).
 
-Any changes made to HTML, CSS or JS files should automatically trigger a browser reload.
+Any changes made to HTML, SCSS or JS files should automatically trigger a browser reload.
 
 
 ## Deployment
+
+Build the application by running
+
+```
+gulp
+```
 
 In order for AngularJS' HTML5 mode to work use the following configurations:
 
