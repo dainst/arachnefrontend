@@ -1,78 +1,26 @@
-# Localizable Static Content
+# Static Content
 
 Arachne frontend at the moment contains two resources from which it provides static content.
-The folder "static" contains the material for the links of the navigation bar and the footer
+The folder "info" contains the material for the links of the navigation bar and the footer
 section, "con10t" (which is a separate git repository) contains the projects, reachable
 from the projects overview page.
 
 The links from the navigation bar and footer route to /info/[title].html. Following this route
-the content from the "static" folders language sub directories are served. The links from the projects page route
+the content from the "info" folders language sub directories are served. The links from the projects page route
 to /project/[title].html. This route serves content from the "con10t" language folders.
 
-The contents can be localized, which means, the language in which the link titles are visible and
-in which the content is delivered, is
- automatically determined by the system. This is explained in the paragraph on
- [Automatic Localization](#automatic-localization).
-But first lets have a look on the basic data structure and folder layout for localizable static content.
+The content is localized using the content localization system of idai-components (docs found under i18n if the sample app gets executed). The organization principle (basically the content.json) described there is used, and
+is enhanced here by using a certain directory structure in which the different language specific version of 
+content (html) is stored.
 
-## Data and Content Structure
+Note that the projects overview page also gets localized and 
+generated from the data structure at con10t/content.json.
 
-The links from the footer and navigation bar section are directly generated from the contents
-of static/content.json. The links from the project overview get generated from
-con10t/content.json.
+## Organization of static content
 
-The following excerpt shows a valid example of such a data structure:
-
-```json
-{
-	"children": [
-	{
-		"id": "navbar",
-		"children":[{
-			"id": "about",
-			"title": {
-				"de": "Über Arachne",
-				"en": "About Arachne"
-			}
-		},
-	      ...
-```
-
-A few things to note:
-
-1. There must be exactly one root node.
-1. The identifiers must be unique.
-1. Each node can have and array of nodes as children.
-1. Each node can have the id and title fields, which make are the precondition for localization.
-1. The structure itself and the program code is of recursive nature, so nodes can theoretically be nested infinitely.
- Practically the nesting is limited due to practical concerns. (See artifacts using the core localization system
- in section [artifacts](#artifacts))
-
-
-The directory structure of a content dir matching the json example from the top
-of the page is as follows:
-
-```
-static/content.json
-static/de/about.html
-static/en/about.html
-```
-
-Again, a few things to note:
-
-1. "about" corresponds to an identifier of a node in content.json.
-1. The de/about.html and en/about.html files correspond to german / english versions of the same content.
-1. The file system structure does not reflect the nesting. This is no problem since the identifiers are required
-  to be unique.
-
-## Automatic Localization
-
-The system is able to automatically determine a suitable language for links and contents. The selection is performed
- based on a rule, taking into consideration the browsers primary language and the availability of the language for
- items.
-
-From a usage or content management perspective it is important to make follow some guidelines for the system to behave
-properly as far as localization concerns:
+As described in idai-components documentation, a content file is named content.json. In our case, we have
+info/content.json and con10t/content.json. In addition to this and in order for the localization system to
+work properly, files containing the actual content need to be organized in the following manner:
 
 1. Every content, identified by its id, must at least be present in german (de).
 1. There should be a html named de/id.html and a corresponding node in content.json.
@@ -95,14 +43,7 @@ in the [Artifacts](#artifacts) section.
 
 Here are the main artifacts comprising the content / localization system:
 
-1. The language selection rule [specification](feature_localization_con10t.md)
-1. The language selection rule [code](../js/services_language_selection.js)
-1. The data structure handling [code](../js/services_localized_content.js)
-1. The browsers language determination [code](../js/services_language.js)
-
-Here are further artifacts using the core components:
-
-1. The content delivery [code](../js/static_content.js)
-1. The navbar [code](../js/directives_navbar.js)
-1. The footer [code](../js/directives_footer.js)
-1. The projects overview [code](../js/projects.js)
+1. Projects Page [specification](feature_localization_con10t.md)
+1. Content Delivery [specification](feature_localization.md)
+1. The content delivery [code](../js/controllers/static_content.js)
+1. The projects overview [code](../js/controllers/projects.js)
