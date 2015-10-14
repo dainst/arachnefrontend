@@ -23,18 +23,6 @@ function($filter, searchService, mapService) {
             var currentQuery = searchService.currentQuery();
             if (!currentQuery.q) currentQuery.q = '*';
 
-            /**
-             * TODO: this one should get moved over to services/map.js. The map should be not visible from here.
-             *
-             * Set map view to center coords with zoomlevel
-             */
-            var initializeView = function(lat,lng,zoom) {
-                var lt = lat || 40;
-                var lg = lng || -10;
-                var zm = zoom || 3;
-                map.setView([lt, lg], zm);
-            };
-
             var calculateHalfWidth = function(ghprec) {
                 var parity = ghprec % 2;
                 return 90 / Math.pow(2, ((5*ghprec + parity - 2) / 2) );
@@ -147,7 +135,7 @@ function($filter, searchService, mapService) {
             // parameter "baselayer" or a default value
             mapService.setBaselayers(scope.baselayers);
             mapService.activateBaselayer(currentQuery.baselayer || "osm");
-            initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
+            mapService.initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
         }
     };
 }]);

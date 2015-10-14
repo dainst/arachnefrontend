@@ -203,6 +203,16 @@ angular.module('arachne.services')
         },
 
         /**
+         * Set map view to center coords with zoomlevel
+         */
+        initializeView: function(lat,lng,zoom) {
+            var lt = lat || 40;
+            var lg = lng || -10;
+            var zm = zoom || 3;
+            map.setView([lt, lg], zm);
+        },
+
+        /**
          * Returns a Query object copied from currentQuery and
          * enriched with all parameters needed to recreate the current map
          * @param stripExtraParams boolean
