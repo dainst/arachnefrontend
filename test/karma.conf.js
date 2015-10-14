@@ -17,18 +17,18 @@ module.exports = function(config) {
     plugins : [
       'karma-phantomjs-launcher',
       'karma-jasmine',
-	  'karma-ng-html2js-preprocessor'
+      'karma-ng-html2js-preprocessor'
     ],
     // list of files / patterns to load in the browser
     files: [
 
-      'node_modules/angular/angular.js',
+      'bower_components/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'bower_components/angular-bootstrap/ui-bootstrap.js',
-      'lib/idai-components-0.9.0.min.js',
+      'bower_components/idai-components/dist/idai-components.min.js',
       'js/**/*.js',
       'test/*_spec.js',
-	'partials/directives/*.html'
+      'partials/directives/*.html'
     ],
 
 

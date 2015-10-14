@@ -1,0 +1,7 @@
+{
+	"backendUri": "http://lakota.archaeologie.uni-koeln.de/data",
+	"paths": {
+		"build": "dist/",
+		"lib": "bower_components/"
+	}
+}
