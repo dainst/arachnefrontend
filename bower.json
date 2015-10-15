@@ -17,6 +17,7 @@
     "angular-route": "~1.4.3",
     "angular-sanitize": "~1.4.3",
     "angular-ui-tree": "~2.9.0",
-    "idai-components": "codarchlab/idai-components#~0.10.0"
+    "idai-components": "codarchlab/idai-components#~0.10.0",
+    "3dviewer": "codarchlab/3dviewer"
   }
 }

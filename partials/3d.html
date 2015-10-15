@@ -1,17 +1,18 @@
-<div class="row fullscreenrow"  ng-controller="ThreeDimensionalController">
+<div class="threedviewer" ng-controller="ThreeDimensionalController">
 
-		<div threedimensional id="3dcontainer" style="visibility: hidden; position: absolute; top:0px; left:0px; right: 0px; background: linear-gradient(to top, #1e5799 0%,#7db9e8 100%);">
+	<!-- three.js container -->
+	<div three-d-viewer id="3d-container"></div>
 
-		</div>
+	<div id="loader" style="position: absolute; top: 50%; left: 50%; margin:-40px 0 0 -40px;">
+		<div id="progress" style="positition: bottom; text-align: center"></div>
+	</div>
 
-	    <div class="loading" style="display:none"></div>
+	<!-- info on screen display -->
+	<div id="info" style="text-align:center; top:50px;">
+		<div class="top" id="title"></div>
+		<div class="topLeft" id="data"></div>
+		<div class="bottomRight" id="help"></div>
+	</div>
 
-	    <div class="btn-group-vertical" id="3dControls" style="opacity:0.8; position:absolute; right:10px; top: 60px;">
-			
-			<button class="btn btn-default btn-sm" id="controlMode" value="0"><span class="glyphicon glyphicon-retweet"></span> Flug-Steuerung</button>
-
-			<button class="btn btn-info btn-sm" ng-click="showInfo()">Hilfe und Informationen</button>
-
-		</btn>
 </div>
 
