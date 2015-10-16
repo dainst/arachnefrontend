@@ -295,7 +295,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.catalogEntries = [];
 
 			if(count >= 1000)
-				alert("Die Suchmenge ist sehr groß, wir empfehlen den Vorgang abzubrechen");
+				return;
 
 			while(count >= 0){
 				var query = angular.extend({offset: off, limit:50}, $scope.currentQuery.toFlatObject());

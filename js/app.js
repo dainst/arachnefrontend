@@ -3,7 +3,6 @@
 angular.module('arachne',[
 	'ui.bootstrap',
 	'ui.bootstrap.tpls',
-    'ui.utils',
 	'ngRoute',
 	'ngSanitize',
 	'ngResource',

@@ -16,13 +16,21 @@
 			</a>
 		</div>
 		<div class="btn-group" ng-if="user.username">
-				<div ng-if="resultSize <= 1000 && resultSize >= 2">
-					<a class="btn btn-sm btn-default" ng-click="toCatalog()">Ergebnis als Katalog speichern</a>
-				</div>
-				<div ng-if="resultSize >= 1000">
-					Suche weiter einschränken zum Anlegen eines Katalogs!
-				</div>
- 			</div>
+			<div ng-if="resultSize <= 1000">
+				<a class="btn btn-sm btn-default" ng-click="toCatalog()"
+						tooltip="{{'search_catalog_create' | transl8}}"
+						tooltip-placement="bottom">
+					<span class="glyphicon glyphicon-inbox"></span>
+				</a>
+			</div>
+			<div ng-if="resultSize > 1000">
+				<a class="btn btn-sm btn-default" disabled 
+						tooltip="{{'search_catalog_too-big' | transl8}}"
+						tooltip-placement="bottom">
+					<span class="glyphicon glyphicon-inbox"></span>
+				</a>
+			</div>
+		</div>
 	</div>
 
 	<div class="col-sm-4 text-center">
