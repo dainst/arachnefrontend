@@ -39,6 +39,12 @@
 	box-shadow: 3px 3px 3px #0c0c0c; 
 }
 
+.threedviewer #info .topRight {
+	position: fixed;
+    top: $navbar-height;
+    right: 0;
+}
+
 .threedviewer #info .bottomRight {
 	position           : absolute;
 	bottom             : 0px;

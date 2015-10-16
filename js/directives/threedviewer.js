@@ -6,6 +6,7 @@ angular.module('arachne.directives', [])
     return {
 
         restrict: 'A',
+        scope: { options: '=' },
 
         link: function (scope, element, attrs) {
             var load_script = function() {
@@ -38,6 +39,7 @@ angular.module('arachne.directives', [])
 
                 var deferred = $q.defer();
                 $window.initialize = function () {
+                    _3dviewer(scope.options);
                     deferred.resolve();
                 };
                 if ($window.attachEvent) {
