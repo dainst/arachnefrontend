@@ -29,7 +29,7 @@
 
 #map-right-menu, #map-left-menu, #ar-map-zoomcontrol {
   background-color: rgba(248, 248, 248, 0.9);
-  position: absolute;
+  position: fixed;
   top: 60px;
   text-align: left;
   z-index:500;
