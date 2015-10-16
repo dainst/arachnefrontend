@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.directives', [])
+angular.module('arachne.directives')
 
 .directive('threeDViewer', ['$window', '$q', function ($window, $q) {
     return {
