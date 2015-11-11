@@ -10,6 +10,7 @@
     "test"
   ],
   "dependencies": {
+    "angular": "1.4.7",
     "angular-bootstrap": "~0.13.3",
     "bootstrap": "~3.3.5",
     "angular-cookies": "~1.4.3",
@@ -21,5 +22,8 @@
     "3dviewer": "codarchlab/3dviewer#~1.0.1",
     "angulartics-google-analytics": "~0.1.1",
     "leaflet": "~0.7.5"
+  },
+  "resolutions": {
+    "angular": "~1.4.5"
   }
 }
