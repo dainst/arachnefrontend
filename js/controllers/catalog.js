@@ -7,11 +7,19 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy, Oliver Bensch
  */
-.controller('CatalogController',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry',
-	function ($scope, $modal, authService, Entity, Catalog, CatalogEntry) {
+.controller('CatalogController',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings',
+	function ($scope, $modal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings) {
 
 		$scope.catalogs = [];
 		$scope.user = authService.getUser();
+
+		//Pagination
+		$scope.pageBool = false;
+		$scope.curPage = 1;
+		$scope.pages = 0;
+		$scope.pageSize = 10;
+		$scope.offset = 0;
+		$scope.originalCatalog = {};
 
 		$scope.treeOptions = {
 			dropped: function(event) {
@@ -30,21 +38,67 @@ angular.module('arachne.controllers')
 
 		$scope.refreshCatalogs();
 
+		$scope.paging = function(forward){
+			var children = [];
+
+			if(forward){
+				$scope.offset = $scope.offset+$scope.pageSize; $scope.curPage++;
+			}else{
+				$scope.offset = $scope.offset-$scope.pageSize; $scope.curPage--;
+			}
+
+			for(var i = $scope.offset; i<=($scope.offset+$scope.pageSize); i++){
+				if($scope.originalCatalog.root.children[i])
+					children[i-$scope.offset] = $scope.originalCatalog.root.children[i];
+			}
+			$scope.activeCatalog.root.children = children;
+		}
 		$scope.setActiveCatalog = function(catalog) {
-			$scope.activeCatalog = catalog;
+			$scope.refreshCatalogs();
+			if(catalog.root.children.length >= $scope.pageSize){
+				$scope.curPage = 1;
+				$scope.offset = 0;
+				$scope.originalCatalog = angular.copy(catalog);
+				$scope.activeCatalog = catalog;
+				$scope.pageBool = true;
+				$scope.pages = Math.ceil(catalog.root.children.length / $scope.pageSize);
+				
+				var children = [];
+
+				for(var i = $scope.offset; i<=($scope.offset+$scope.pageSize); i++){
+					children[i] = catalog.root.children[i];
+				}	
+
+				$scope.activeCatalog.root.children = children;
+			}else{
+				$scope.curPage = 1;
+				$scope.pages = 0;
+				$scope.pageBool = false;
+				$scope.activeCatalog = catalog;
+				$scope.offset = 0;
+				$scope.originalCatalog = {};
+			}
+		}
+
+		$scope.getFullCatalog = function(){
+			$http.get(arachneSettings.dataserviceUri + "/Catalog/:" + $scope.activeCatalog.id, { params: { full : true }}).success (function(data){
+					$scope.setActiveCatalog(data);
+				});
 		}
 
 		$scope.addChild = function(entry) {
 			if (!entry.children) {
 				entry.children = [];
 			}
+			console.log(entry);
 			var editEntryModal = $modal.open({
 				templateUrl: 'partials/Modals/editEntry.html'
 			});
 			editEntryModal.close = function(newEntry) {
 				entry.children.push(newEntry);
 				entry.expanded = true;
-				updateActiveCatalog();
+				//updateActiveCatalog();
+				$http.post(arachneSettings.dataserviceUri + "/catalogentry/" + entry.id +"/add", newEntry)
 				editEntryModal.dismiss();
 			}			
 		}
@@ -141,7 +195,14 @@ angular.module('arachne.controllers')
 		}
 
 		function updateActiveCatalog() {
-			Catalog.update({ id: $scope.activeCatalog.id }, $scope.activeCatalog);
+			if(!$scope.pageBool)
+				Catalog.update({ id: $scope.activeCatalog.id }, $scope.activeCatalog);
+			else{
+				for(var i = $scope.offset; i<=($scope.offset+$scope.pageSize); i++){
+					$scope.originalCatalog.root.children[i] = $scope.activeCatalog.root.children[i-$scope.offset];
+				}
+				Catalog.update({ id: $scope.activeCatalog.id }, $scope.originalCatalog);
+			}
 		}
 
 	}

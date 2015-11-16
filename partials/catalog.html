@@ -15,7 +15,7 @@
 			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
 			class="glyphicon glyphicon-folder-close"
 			style="cursor: pointer; text-decoration: none;"
-			ng-click="entry.expanded = true"></a>
+			ng-click="entry.expanded = true; getFullCatalog()"></a>
 
 		<a ng-if="entry.arachneEntityId" ng-href="entity/{{entry.arachneEntityId}}">
 			{{entry.label}}
@@ -52,7 +52,7 @@
 
 </script>
 
-<div ng-controller="CatalogController">
+<div class="row" ng-controller="CatalogController">
 	<div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
 		Für Kataloge bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 	</div>
@@ -87,12 +87,19 @@
 						</button>
 					</div>
 				</h3>
-				<div ng-if="activeCatalog.root.children.length > 500">
-					Katalog zu groß zur Darstelleung 
-					<a ng-href="search?q={{activeCatalog.id}}">Als Suche anzeigen</a>
+				<div ng-if="pageBool">
+					<div class="btn-group btn-group-xs pull-left">
+						<button class="btn btn-default" ng-click="paging(false)" ng-disabled="curPage == 1">
+							<span class="glyphicon glyphicon-chevron-left"></span> 
+						</button>
+						<button class="btn btn-default" ng-click="paging(true)" ng-disabled="curPage == pages">
+							<span class="glyphicon glyphicon-chevron-right"></span> 
+						</button>
+					</div>
+					&nbsp Seite {{curPage}}/{{pages}}
 				</div>
 
-				<div ng-if="activeCatalog.root.children.length > 0 && activeCatalog.root.children.length < 500" ui-tree="treeOptions">
+				<div ng-if="activeCatalog.root.children.length > 0" ui-tree="treeOptions">
 					<ol ui-tree-nodes="" ng-model="activeCatalog.root.children">
 						<li ng-repeat="entry in activeCatalog.root.children"
 								ui-tree-node
@@ -112,7 +119,7 @@
 			<div class="col-md-2">
 				<h4>Ihre Kataloge</h4>
 				<ul class="nav nav-pills nav-stacked">
-					<li ng-repeat="catalog in catalogs" ng-class="{ active: activeCatalog == catalog }">
+					<li ng-repeat="catalog in catalogs" ng-class="{ active: activeCatalog.root.id == catalog.root.id }">
 						<a ng-click="setActiveCatalog(catalog)" style="cursor:pointer">
 							{{catalog.root.label}}
 						</a>
