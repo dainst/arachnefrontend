@@ -52,7 +52,7 @@ function($location, $filter) {
                 }
                 var mark = L.featureGroup(markers);
                 map.fitBounds(mark.getBounds());
-                map.setZoom(9);
+                //map.setZoom(9);
 
                 map._onResize();
             }
