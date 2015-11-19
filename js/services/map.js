@@ -19,8 +19,20 @@ angular.module('arachne.services')
     var overlays = null; // { key: LayerConfig }
     var activeOverlays = {}; // { key: TileLayer }
 
-    var baselayers = null; // { key: LayerConfig }
-    var activeBaselayer = null; // TileLayer
+    var baselayers = {
+        'osm': {
+            'name': 'OpenStreetMap',
+            'type': 'xyz',
+            'url': 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
+            'yayerOptions': {
+                'subdomains': ['a', 'b', 'c'],
+                'attribution': '&copy; <a href=\'http://www.opencyclemap.org\'>OpenCycleMap</a>, &copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
+                'continuousWorld': false,
+                'maxZoom': 18
+            }
+        }
+    }; // { key: LayerConfig }
+    var activeBaselayer = 'osm'; // TileLayer
     var activeBaselayerKey = "";
 
     var boxesListener = null;
@@ -93,7 +105,6 @@ angular.module('arachne.services')
         });
     };
 
-
     return {
 
 
@@ -160,7 +171,9 @@ angular.module('arachne.services')
         // Sets the baselayers available for this map
         // { key: LayerConfig, ... }
         setBaselayers: function(baselayersToSet) {
-            baselayers = baselayersToSet;
+            if (baselayersToSet) {
+                baselayers = baselayersToSet;
+            }
         },
 
         // Adds an overlay to the map

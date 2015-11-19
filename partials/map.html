@@ -1,25 +1,9 @@
 <div hide-footer class="row map-fullscreen">
 
-    <div ng-init="baselayers = {
-            osm: {
-                name: 'OpenStreetMap',
-                type: 'xyz',
-                url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                layerOptions: {
-                    subdomains: ['a', 'b', 'c'],
-                    attribution: '<a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
-                    continuousWorld: false,
-                    maxZoom: 18
-                }
-            }
-        }">
-    </div>
-
     <div con10t-map
          id="map"
          type="grid"
-         class="map"
-         baselayers="baselayers">
+         class="map">
     </div>
 
     <div id="map-right-menu" class="col-md-2 well well-sm toggled">
