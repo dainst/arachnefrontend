@@ -21,7 +21,8 @@
     "idai-components": "codarchlab/idai-components#~0.10.1",
     "3dviewer": "codarchlab/3dviewer#~1.0.1",
     "angulartics-google-analytics": "~0.1.1",
-    "leaflet": "~0.7.5"
+    "leaflet": "~0.7.5",
+    "leaflet.markercluster": "~0.4.0"
   },
   "resolutions": {
     "angular": "~1.4.5"
