@@ -21,6 +21,7 @@ function($compile, mapService, searchService, placesService) {
         },
         link: function(scope, element, attrs) {
 
+            // create the actual places' markers
             var selectFacetsAndCreateMarkers = function(markerClusterGroup, map, places, showClustered) {
 
                 markerClusterGroup = new L.MarkerClusterGroup({
@@ -99,37 +100,7 @@ function($compile, mapService, searchService, placesService) {
                 return result
             }
 
-            // always cluster if not explicitely defined otherwise
-            if (scope.clustered != false) {
-                scope.clustered = true;
-            }
-
-            var currentQuery = searchService.currentQuery();
-
-            // Set the available overlays and baselayers
-            mapService.setOverlays(extractOverlays());
-            mapService.setBaselayers(scope.baselayers);
-
-            // the layer with markers (has to be recreated when places change)
-            var markerClusterGroup = null;
-
-            // intitalize a basic map
-            var map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
-
-            // add the baselayer
-            var baselayerName = currentQuery.baselayer || scope.defaultBaselayer;
-            mapService.activateBaselayer(baselayerName);
-
-            // which overlays are to be created is given by their keys in the URL
-            var keys = currentQuery.getArrayParam('overlays');
-            for (var i = 0; i < keys.length; i++) {
-                mapService.activateOverlay(keys[i]);
-            }
-
-            placesService.getCurrentPlaces().then(function(places) {
-                // create the actual places' markers
-                selectFacetsAndCreateMarkers(markerClusterGroup, map, places, scope.clustered);
-
+            var setView= function(places) {
                 // set the map's view:
                 // fit bounds to entities only when zoom or coordinates are not explicitely
                 // required by the url, else use the url settings
@@ -138,7 +109,7 @@ function($compile, mapService, searchService, placesService) {
                         if (place.location) {
                             return [place.location.lat, place.location.lon];
                         }
-                    })
+                    });
                     map.fitBounds(latLngs);
 
                     // Sets zoom, such that it is not too detailed when few entities are shown.
@@ -150,12 +121,43 @@ function($compile, mapService, searchService, placesService) {
                         map.setZoom(zoom -1);
                     }
                 } else {
-                    var lat = currentQuery.lat || 40;
-                    var lng = currentQuery.lng || -10;
-                    var zoom = currentQuery.zoom || 3;
-                    map.setView([lat, lng], zoom);
+                    mapService.initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
                 }
-            })
+            };
+
+            var selectFacetsCreateMarkersSetView = function(places) {
+
+                selectFacetsAndCreateMarkers(markerClusterGroup, map, places, scope.clustered);
+                setView(places);
+            };
+
+            // which overlays are to be created is given by their keys in the URL
+            var activateOverlays= function() {
+                var keys = currentQuery.getArrayParam('overlays');
+                for (var i = 0; i < keys.length; i++) {
+                    mapService.activateOverlay(keys[i]);
+                }
+            };
+
+            // always cluster if not explicitely defined otherwise
+            if (scope.clustered != false) {
+                scope.clustered = true;
+            }
+
+            var currentQuery = searchService.currentQuery();
+
+            // the layer with markers (has to be recreated when places change)
+            var markerClusterGroup = null;
+
+            var map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
+            // Set the available overlays and baselayers
+            mapService.setOverlays(extractOverlays());
+            mapService.setBaselayers(scope.baselayers);
+
+            mapService.initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
+            mapService.activateBaselayer(currentQuery.baselayer || scope.defaultBaselayer);
+            activateOverlays();
+            placesService.getCurrentPlaces().then(selectFacetsCreateMarkersSetView)
         }
     };
 }])
