@@ -7,6 +7,7 @@ angular.module('arachne',[
 	'ngSanitize',
 	'ngResource',
 	'ngCookies',
+	'ng-showdown',
 	'angulartics', 
 	'angulartics.google.analytics',
 	'relativePathsInPartial',

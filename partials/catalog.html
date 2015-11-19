@@ -41,7 +41,7 @@
 
 		<span ng-if="entry.text && entry.show">
 			<br>
-			{{entry.text}}
+			<span markdown-to-html="entry.text"></span>
 		</span>
 
 	</div>
