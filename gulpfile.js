@@ -8,6 +8,8 @@ var modRewrite = require('connect-modrewrite');
 var reload = browserSync.reload;
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
+var sort = require('gulp-sort');
+var addSrc = require('gulp-add-src');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var Server = require('karma').Server;
@@ -43,7 +45,9 @@ gulp.task('minify-css', ['sass'], function() {
 
 // concatenates all js files in src into a single file in build dir
 gulp.task('concat-js', function() {
-	return gulp.src(['js/**/*.js'])
+	return gulp.src(['js/**/*.js', '!js/app.js'])
+		.pipe(sort())
+		.pipe(addSrc.append('js/app.js'))
 		.pipe(concat(pkg.name + '.js'))
 		.pipe(gulp.dest(paths.build))
     	.pipe(reload({ stream:true }));
