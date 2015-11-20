@@ -19,6 +19,7 @@ angular.module('arachne.controllers')
 		$scope.pages = 0;
 		$scope.pageSize = 10;
 		$scope.offset = 0;
+		$scope.loading = 0;
 		$scope.originalCatalog = {};
 
 		$scope.treeOptions = {
@@ -28,7 +29,10 @@ angular.module('arachne.controllers')
 		}
 
 		$scope.refreshCatalogs = function(){
-			Catalog.query(function(result) {
+			$scope.loading++;
+			Catalog.query({full:false}, function(result) {
+				$scope.loading--;
+				console.log(result);
 				$scope.catalogs = result;
 				if (!$scope.activeCatalog) {
 					$scope.activeCatalog = $scope.catalogs[0];
@@ -80,10 +84,12 @@ angular.module('arachne.controllers')
 			}
 		}
 
-		$scope.getFullCatalog = function(){
-			$http.get(arachneSettings.dataserviceUri + "/Catalog/:" + $scope.activeCatalog.id, { params: { full : true }}).success (function(data){
-					$scope.setActiveCatalog(data);
-				});
+		$scope.loadCatalog = function(){
+			$scope.loading++;
+			Catalog.get({id:$scope.activeCatalog.id, full : true }, function(data){
+				$scope.loading--;
+				$scope.setActiveCatalog(data);
+			});
 		}
 
 		$scope.addChild = function(entry) {

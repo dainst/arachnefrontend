@@ -15,7 +15,7 @@
 			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
 			class="glyphicon glyphicon-folder-close"
 			style="cursor: pointer; text-decoration: none;"
-			ng-click="entry.expanded = true; getFullCatalog()"></a>
+			ng-click="entry.expanded = true; loadCatalog()"></a>
 
 		<a ng-if="entry.arachneEntityId" ng-href="entity/{{entry.arachneEntityId}}">
 			{{entry.label}}
@@ -53,11 +53,17 @@
 </script>
 
 <div class="row" ng-controller="CatalogController">
+
+	<!-- Loading-Icon -->
+	<div ng-show="loading > 0">
+		<div class="loading" style="margin-top:70px;"></div>
+	</div>
+
 	<div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
 		Für Kataloge bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
 	</div>
 	
-	<div class="col-md-10 col-md-offset-1" ng-if="user.username">
+	<div class="col-md-10 col-md-offset-1" ng-if="user.username && loading <= 0">
 		<div class="page-header">
 			<h3>
 				<span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"></span>
