@@ -3,11 +3,22 @@
 angular.module('arachne.controllers')
 
 /**
+ * Handles the layout for viewing a catalog.
+ *
+ * @author: Sebastian Cuy
+ */
+ .controller('CatalogController', ['$scope','$routeParams',
+ 	function($scope, $routeParams) {
+ 		$scope.id = $routeParams.id;
+ 	}
+ ])
+
+/**
  * Handles the layout for editing the catalog structure.
  *
  * @author: Sebastian Cuy, Oliver Bensch
  */
-.controller('CatalogController',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings',
+.controller('CatalogsController',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings',
 	function ($scope, $modal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings) {
 
 		$scope.catalogs = [];

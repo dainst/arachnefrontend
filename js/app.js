@@ -27,7 +27,8 @@ angular.module('arachne',[
 
 	$routeProvider
 		.when('/', {templateUrl: 'partials/startSite.html'})
-		.when('/catalog', {templateUrl: 'partials/catalog.html'})
+		.when('/catalogs', {templateUrl: 'partials/catalogs.html'})		
+		.when('/catalog/:id', {templateUrl: 'partials/catalog.html'})
 		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
 		.when('/entity/:entityId/images', {templateUrl: 'partials/entity_images.html'})
 		.when('/entity/:entityId/image/:imageId', {templateUrl: 'partials/entity_image.html'})

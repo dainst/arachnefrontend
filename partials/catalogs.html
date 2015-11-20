@@ -1,0 +1,146 @@
+<script type="text/ng-template" id="entries_renderer.html">
+	
+	<div class="catalog-entry" ng-init="entry.show = false">
+
+		<span ui-tree-handle>
+			<span class="glyphicon glyphicon-menu-hamburger" style="color: grey;"></span>
+		</span>
+
+		<a ng-if="entry.expanded"
+			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
+			class="glyphicon glyphicon-folder-open"
+			style="cursor: pointer; text-decoration: none;"
+			ng-click="entry.expanded = false"></a>
+		<a ng-if="!entry.expanded"
+			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
+			class="glyphicon glyphicon-folder-close"
+			style="cursor: pointer; text-decoration: none;"
+			ng-click="entry.expanded = true; loadCatalog()"></a>
+
+		<a ng-if="entry.arachneEntityId" ng-href="entity/{{entry.arachneEntityId}}">
+			{{entry.label}}
+		</a>
+		<span ng-if="!entry.arachneEntityId">
+			{{entry.label}}
+		</span>
+
+		<a class="btn" ng-click="entry.show = !entry.show">
+			<span ng-if="entry.text" class="glyphicon glyphicon-book"></span>
+		</a>
+		<span ng-if="entry.arachneEntityId" class="glyphicon glyphicon-link"></span>
+		
+		<a class="edit-btn text-danger pull-right" ng-click="removeEntry(entry, $parent.$parent.entry)">
+			<span class="glyphicon glyphicon-remove-sign"></span>
+		</a>
+		<a class="edit-btn text-success pull-right" ng-click="addChild(entry)">
+			<span class="glyphicon glyphicon-plus-sign"></span>
+		</a>
+		<a class="edit-btn pull-right" ng-click="editEntry(entry)">
+			<span class="glyphicon glyphicon-edit"></span>
+		</a>
+
+		<span ng-if="entry.text && entry.show">
+			<br>
+			<span markdown-to-html="entry.text"></span>
+		</span>
+
+	</div>
+
+	<ol ng-show="entry.expanded" ui-tree-nodes="" ng-model="entry.children">
+		<li ng-repeat="entry in entry.children" ui-tree-node ng-include="'entries_renderer.html'"></li>
+	</ol>
+
+</script>
+
+<div class="row" ng-controller="CatalogsController">
+
+	<!-- Loading-Icon -->
+	<div ng-show="loading > 0">
+		<div class="loading" style="margin-top:70px;"></div>
+	</div>
+
+	<div ng-if="!user.username" class="col-md-12 text-right alert alert-info">
+		Für Kataloge bitte anmelden <span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 35px; font-size: 20px;"></span>
+	</div>
+	
+	<div class="col-md-10 col-md-offset-1" ng-if="user.username && loading <= 0">
+		<div class="page-header">
+			<h3>
+				<span style="color: rgb(66,139,202); margin-right:10px" class="glyphicon glyphicon-inbox"></span>
+				Katalogverwaltung
+			</h3>
+		</div>
+		
+		<div class="row">
+			<div ng-hide="catalogs.length >= 0" class="col-md-10">
+				<div class="loading" style="margin-top:70px;"></div>
+			</div>
+			<div ng-if="activeCatalog" class="col-md-10 catalog-edit">
+				<h3>
+					<b>{{activeCatalog.root.label}}</b> <small>Autor: {{activeCatalog.author}}</small>
+					<div class="btn-group btn-group-xs pull-right">
+						<button class="btn btn-default" ng-click="editCatalog()">
+							<span class="glyphicon glyphicon-edit"></span> Katalog bearbeiten
+						</button>
+						<button class="btn btn-default" ng-click="expandAll(activeCatalog.root)">
+							<span class="glyphicon glyphicon-folder-open"></span> Alle aufklappen
+						</button>
+						<button class="btn btn-default" ng-click="collapseAll(activeCatalog.root)">
+							<span class="glyphicon glyphicon-folder-close"></span> Alle einklappen
+						</button>
+						<button class="btn btn-default" ng-click="removeCatalog()">
+							<span class="glyphicon glyphicon-remove"></span> Katalog löschen
+						</button>
+					</div>
+				</h3>
+				<div ng-if="pageBool">
+					<div class="btn-group btn-group-xs pull-left">
+						<button class="btn btn-default" ng-click="paging(false)" ng-disabled="curPage == 1">
+							<span class="glyphicon glyphicon-chevron-left"></span> 
+						</button>
+						<button class="btn btn-default" ng-click="paging(true)" ng-disabled="curPage == pages">
+							<span class="glyphicon glyphicon-chevron-right"></span> 
+						</button>
+					</div>
+					&nbsp Seite {{curPage}}/{{pages}}
+				</div>
+
+				<div ng-if="activeCatalog.root.children.length > 0" ui-tree="treeOptions">
+					<ol ui-tree-nodes="" ng-model="activeCatalog.root.children">
+						<li ng-repeat="entry in activeCatalog.root.children"
+								ui-tree-node
+								ng-include="'entries_renderer.html'">
+						</li>
+					</ol>
+				</div>
+
+				<div class="catalog-entry">
+					<a ng-click="addChild(activeCatalog.root)" style="cursor:pointer; display:block;">
+						<em><span class="glyphicon glyphicon-plus-sign"></span> Neuen Eintrag hinzufügen</em>
+					</a>
+				</div>
+
+			</div>
+
+			<div class="col-md-2">
+				<h4>Ihre Kataloge</h4>
+				<ul class="nav nav-pills nav-stacked">
+					<li ng-repeat="catalog in catalogs" ng-class="{ active: activeCatalog.root.id == catalog.root.id }">
+						<a ng-click="setActiveCatalog(catalog)" style="cursor:pointer">
+							{{catalog.root.label}}
+						</a>
+					</li>
+				</ul>
+				<div ng-if="catalogs.length == 0">
+					<em>Keine Kataloge vorhanden</em>
+				</div>
+				<br>
+				<button type="button" class="btn btn-default btn-sm" ng-click="createCatalog()">
+					<span class="glyphicon glyphicon-plus"></span> Katalog hinzufügen
+				</button>
+			</div>
+
+		</div>
+
+  	</div>
+</div>
