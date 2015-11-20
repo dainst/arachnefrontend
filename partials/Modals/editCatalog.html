@@ -3,17 +3,26 @@
 	</h4>
 </div>
 <div class="modal-body">
-	Titel des Katalogs:
+	{{ 'catalog_title' | transl8 }}:
 	<div class="form-group">
 		<input type="label" class="form-control" ng-model="catalog.root.label" placeholder="Überschrift">
 	</div>
-	Autor:
+	{{ 'catalog_author' | transl8 }}:
 	<div class="form-group">
 		<input type="text" class="form-control" ng-model="catalog.author">
 	</div>
-	Beschreibung:
+	{{ 'catalog_description' | transl8 }}:
 	<div class="form-group">
 		<input type="text" class="form-control" ng-model="catalog.root.text" placeholder="Beschreibung">
+	</div>
+	{{ 'catalog_visibility' | transl8 }}:
+	<div class="form-group">
+		<select ng-model="catalog.public"
+				class="form-control"
+				convert-to-bool>
+			<option value="false">{{ 'catalog_visibility_private' | transl8 }}</option>
+			<option value="true">{{ 'catalog_visibility_public' | transl8 }}</option>
+		</select>
 	</div>
 </div>
 <div class="modal-footer">
