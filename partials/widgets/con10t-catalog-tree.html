@@ -1,19 +1,19 @@
 <script type="text/ng-template" id="catalogNode">
     <div class="con10t-catalog-tree-child">
 
-        <span ng-if="node.children" ng-click="toggleCollapse(node.label)">
-            <span ng-if="checkIfShown(node.label)"
+        <span ng-if="node.hasChildren" ng-click="toggleCollapse(node)">
+            <span ng-if="checkIfShown(node)"
                     class="glyphicon glyphicon-folder-open"
                     style="color:grey; cursor:pointer;"
                     aria-hidden="true">
             </span>
-            <span ng-if="!checkIfShown(node.label)"
+            <span ng-if="!checkIfShown(node)"
                     class="glyphicon glyphicon-folder-close"
                     style="color:grey; cursor:pointer;"
                     aria-hidden="true">
             </span>
         </span>
-        <span ng-if="node.children.length == 0"
+        <span ng-if="!node.hasChildren"
                 class="glyphicon glyphicon-file"
                 style="color:grey;"
                 aria-hidden="true">
@@ -24,14 +24,14 @@
         </a>
         <span ng-if="node.arachneEntityId == null">{{ node.label }}</span>
         
-        <a ng-if="node.children" ng-href="search/?q=catalogPaths:{{escapePath(node.path)}}">
+        <a ng-if="node.hasChildren" ng-href="search/?q=catalogPaths:{{escapePath(node.path)}}">
             <span class="glyphicon glyphicon-search"
                     aria-hidden="true"
                     title="{{'ui_showall' | transl8}}">
             </span>
         </a>
 
-        <div ng-if="node.children" collapse="!checkIfShown(node.label)" class="con10t-catalog-tree-children">
+        <div ng-if="node.hasChildren" collapse="!checkIfShown(node)" class="con10t-catalog-tree-children">
             <div ng-repeat="node in node.children" ng-include="'catalogNode'"></div>
         </div>
 

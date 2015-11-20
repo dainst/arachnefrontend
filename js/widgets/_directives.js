@@ -86,35 +86,6 @@ angular.module('arachne.widgets.directives', [])
 		};
 	}])
 
-	.directive('con10tCatalogTree', ['Catalog', '$filter', function(Catalog, $filter) {
-		return {
-			restrict: 'E',
-			scope: {
-				catalogId: '@',
-				heading: '='
-			},
-			templateUrl: 'partials/widgets/con10t-catalog-tree.html',
-			link: function(scope) {
-				
-				scope.catalog = Catalog.get({id:scope.catalogId});
-				scope.isShown = {};
-				
-				scope.escapePath = function(path){
-					return $filter('escapeSlashes')(path)
-				};
-				
-				scope.toggleCollapse = function(label){
-					scope.isShown[label] = !scope.isShown[label];
-				};
-				
-				scope.checkIfShown = function(label){
-					return scope.isShown[label]; // at first load -> undefined, so it gets hidden but: ugly?
-				};
-
-			}
-		};
-	}])
-
     .directive('con10tSearch', ['$location', '$filter', function($location, $filter) {
 
         return {
