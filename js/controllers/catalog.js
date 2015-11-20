@@ -28,14 +28,7 @@ angular.module('arachne.controllers')
 			$scope.user = user;
 		});
 
-		//Pagination
-		$scope.pageBool = false;
-		$scope.curPage = 1;
-		$scope.pages = 0;
-		$scope.pageSize = 10;
-		$scope.offset = 0;
 		$scope.loading = 0;
-		$scope.originalCatalog = {};
 
 		$scope.treeOptions = {
 			dropped: function(event) {
@@ -49,61 +42,16 @@ angular.module('arachne.controllers')
 				$scope.loading--;
 				$scope.catalogs = result;
 				if (!$scope.activeCatalog) {
-					$scope.activeCatalog = $scope.catalogs[0];
+					$scope.setActiveCatalog($scope.catalogs[0]);
 				}
 			});
 		}
 
 		$scope.refreshCatalogs();
 
-		$scope.paging = function(forward){
-			var children = [];
-
-			if(forward){
-				$scope.offset = $scope.offset+$scope.pageSize; $scope.curPage++;
-			}else{
-				$scope.offset = $scope.offset-$scope.pageSize; $scope.curPage--;
-			}
-
-			for(var i = $scope.offset; i<=($scope.offset+$scope.pageSize); i++){
-				if($scope.originalCatalog.root.children[i])
-					children[i-$scope.offset] = $scope.originalCatalog.root.children[i];
-			}
-			$scope.activeCatalog.root.children = children;
-		}
 		$scope.setActiveCatalog = function(catalog) {
-			$scope.refreshCatalogs();
-			if(catalog.root.children.length >= $scope.pageSize){
-				$scope.curPage = 1;
-				$scope.offset = 0;
-				$scope.originalCatalog = angular.copy(catalog);
-				$scope.activeCatalog = catalog;
-				$scope.pageBool = true;
-				$scope.pages = Math.ceil(catalog.root.children.length / $scope.pageSize);
-				
-				var children = [];
-
-				for(var i = $scope.offset; i<=($scope.offset+$scope.pageSize); i++){
-					children[i] = catalog.root.children[i];
-				}	
-
-				$scope.activeCatalog.root.children = children;
-			}else{
-				$scope.curPage = 1;
-				$scope.pages = 0;
-				$scope.pageBool = false;
-				$scope.activeCatalog = catalog;
-				$scope.offset = 0;
-				$scope.originalCatalog = {};
-			}
-		}
-
-		$scope.loadCatalog = function(){
-			$scope.loading++;
-			Catalog.get({id:$scope.activeCatalog.id, full : true }, function(data){
-				$scope.loading--;
-				$scope.setActiveCatalog(data);
-			});
+			createChildrenArray(catalog.root);
+			$scope.activeCatalog = catalog;
 		}
 
 		$scope.addChild = function(entry) {
@@ -115,23 +63,22 @@ angular.module('arachne.controllers')
 			});
 			editEntryModal.close = function(newEntry) {
 				entry.children.push(newEntry);
-				entry.expanded = true;
-				//updateActiveCatalog();
-				$http.post(arachneSettings.dataserviceUri + "/catalogentry/" + entry.id +"/add", newEntry)
+				updateActiveCatalog();
+				//$http.post(arachneSettings.dataserviceUri + "/catalogentry/" + entry.id +"/add", newEntry)
 				editEntryModal.dismiss();
 			}			
 		}
 
-		$scope.removeEntry = function(entry, parent) {
-			if (parent == undefined) {
-				parent = $scope.activeCatalog.root;
-			}
+		$scope.toggle = function(scope) {
+			scope.toggle();
+		}
+
+		$scope.remove = function(scope) {
 			var deleteModal = $modal.open({
 				templateUrl: 'partials/Modals/delete.html'
 			});
 			deleteModal.close = function() {
-				var index = parent.children.indexOf(entry);
-				parent.children.splice(index, 1);
+				scope.remove();
 				updateActiveCatalog();
 				deleteModal.dismiss();
 			}
@@ -198,33 +145,33 @@ angular.module('arachne.controllers')
 			}
 		}
 
-		$scope.expandAll = function(entry) {
-			entry.expanded = true;
-			if (entry.children || entry.children.length > 0) {
-				for (var i = 0; i < entry.children.length; i++) {
-					$scope.expandAll(entry.children[i]);
-				}
-			}
+		$scope.expandAll = function() {
+			getRootNodesScope().expandAll();
 		}
 
 		$scope.collapseAll = function(entry) {
-			entry.expanded = false;
-			if (entry.children || entry.children.length > 0) {
-				for (var i = 0; i < entry.children.length; i++) {
-					$scope.collapseAll(entry.children[i]);
-				}
-			}
+			getRootNodesScope().collapseAll();
 		}
 
 		function updateActiveCatalog() {
-			if(!$scope.pageBool)
-				Catalog.update({ id: $scope.activeCatalog.id }, $scope.activeCatalog);
-			else{
-				for(var i = $scope.offset; i<=($scope.offset+$scope.pageSize); i++){
-					$scope.originalCatalog.root.children[i] = $scope.activeCatalog.root.children[i-$scope.offset];
-				}
-				Catalog.update({ id: $scope.activeCatalog.id }, $scope.originalCatalog);
+			for(var i = $scope.offset; i<=($scope.offset+$scope.pageSize); i++){
+				$scope.originalCatalog.root.children[i] = $scope.activeCatalog.root.children[i-$scope.offset];
 			}
+			Catalog.update({ id: $scope.activeCatalog.id }, $scope.activeCatalog);
+		}
+
+		function getRootNodesScope() {
+			return angular.element(document.getElementById("tree-root")).scope();
+		}
+
+		// recursively creates empty children arrays
+		// needed to enable dragging to entries without children
+		// see https://github.com/angular-ui-tree/angular-ui-tree/issues/203
+		function createChildrenArray(entry) {
+			entry.children.forEach(function(child) {
+				if (!child.hasChildren) child.children = [];
+				else createChildrenArray(child);
+			})
 		}
 
 	}

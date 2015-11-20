@@ -1,41 +1,32 @@
 <script type="text/ng-template" id="entries_renderer.html">
 	
-	<div class="catalog-entry" ng-init="entry.show = false">
+	<div ui-tree-handle class="catalog-entry" ng-init="entry.show = false">
 
-		<span ui-tree-handle>
-			<span class="glyphicon glyphicon-menu-hamburger" style="color: grey;"></span>
-		</span>
-
-		<a ng-if="entry.expanded"
-			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
-			class="glyphicon glyphicon-folder-open"
+		<a data-nodrag
+			ng-class="{'text-muted': !entry.hasChildren, 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed}"
+			class="glyphicon"
 			style="cursor: pointer; text-decoration: none;"
-			ng-click="entry.expanded = false"></a>
-		<a ng-if="!entry.expanded"
-			ng-class="{'text-muted': (!entry.children || entry.children.length == 0)}"
-			class="glyphicon glyphicon-folder-close"
-			style="cursor: pointer; text-decoration: none;"
-			ng-click="entry.expanded = true; loadCatalog()"></a>
+			ng-click="toggle(this)"></a>
 
-		<a ng-if="entry.arachneEntityId" ng-href="entity/{{entry.arachneEntityId}}">
+		<a ng-if="entry.arachneEntityId" ng-href="entity/{{entry.arachneEntityId}}" data-nodrag>
 			{{entry.label}}
 		</a>
 		<span ng-if="!entry.arachneEntityId">
 			{{entry.label}}
 		</span>
-
+ 		
 		<a class="btn" ng-click="entry.show = !entry.show">
 			<span ng-if="entry.text" class="glyphicon glyphicon-book"></span>
 		</a>
 		<span ng-if="entry.arachneEntityId" class="glyphicon glyphicon-link"></span>
 		
-		<a class="edit-btn text-danger pull-right" ng-click="removeEntry(entry, $parent.$parent.entry)">
+		<a class="edit-btn text-danger pull-right" ng-click="remove(this)" data-nodrag>
 			<span class="glyphicon glyphicon-remove-sign"></span>
 		</a>
-		<a class="edit-btn text-success pull-right" ng-click="addChild(entry)">
+		<a class="edit-btn text-success pull-right" ng-click="addChild(entry)" data-nodrag>
 			<span class="glyphicon glyphicon-plus-sign"></span>
 		</a>
-		<a class="edit-btn pull-right" ng-click="editEntry(entry)">
+		<a class="edit-btn pull-right" ng-click="editEntry(entry)" data-nodrag>
 			<span class="glyphicon glyphicon-edit"></span>
 		</a>
 
@@ -46,8 +37,8 @@
 
 	</div>
 
-	<ol ng-show="entry.expanded" ui-tree-nodes="" ng-model="entry.children">
-		<li ng-repeat="entry in entry.children" ui-tree-node ng-include="'entries_renderer.html'"></li>
+	<ol ng-class="{hidden:collapsed}" ui-tree-nodes ng-model="entry.children">
+		<li ng-repeat="entry in entry.children" ui-tree-node collapsed="true" ng-include="'entries_renderer.html'"></li>
 	</ol>
 
 </script>
@@ -82,10 +73,10 @@
 						<button class="btn btn-default" ng-click="editCatalog()">
 							<span class="glyphicon glyphicon-edit"></span> Katalog bearbeiten
 						</button>
-						<button class="btn btn-default" ng-click="expandAll(activeCatalog.root)">
+						<button class="btn btn-default" ng-click="expandAll(nodes)">
 							<span class="glyphicon glyphicon-folder-open"></span> Alle aufklappen
 						</button>
-						<button class="btn btn-default" ng-click="collapseAll(activeCatalog.root)">
+						<button class="btn btn-default" ng-click="collapseAll(nodes)">
 							<span class="glyphicon glyphicon-folder-close"></span> Alle einklappen
 						</button>
 						<button class="btn btn-default" ng-click="removeCatalog()">
@@ -93,22 +84,11 @@
 						</button>
 					</div>
 				</h3>
-				<div ng-if="pageBool">
-					<div class="btn-group btn-group-xs pull-left">
-						<button class="btn btn-default" ng-click="paging(false)" ng-disabled="curPage == 1">
-							<span class="glyphicon glyphicon-chevron-left"></span> 
-						</button>
-						<button class="btn btn-default" ng-click="paging(true)" ng-disabled="curPage == pages">
-							<span class="glyphicon glyphicon-chevron-right"></span> 
-						</button>
-					</div>
-					&nbsp Seite {{curPage}}/{{pages}}
-				</div>
 
-				<div ng-if="activeCatalog.root.children.length > 0" ui-tree="treeOptions">
-					<ol ui-tree-nodes="" ng-model="activeCatalog.root.children">
+				<div ng-if="activeCatalog.root.children.length > 0" ui-tree="treeOptions" id="tree-root">
+					<ol ui-tree-nodes="nodes" ng-model="activeCatalog.root.children" ng-class="{hidden: collapsed}">
 						<li ng-repeat="entry in activeCatalog.root.children"
-								ui-tree-node
+								ui-tree-node collapsed="true"
 								ng-include="'entries_renderer.html'">
 						</li>
 					</ol>

@@ -17,7 +17,7 @@
     "angular-resource": "~1.4.3",
     "angular-route": "~1.4.3",
     "angular-sanitize": "~1.4.3",
-    "angular-ui-tree": "~2.9.0",
+    "angular-ui-tree": "~2.10.0",
     "ng-showdown": "~1.1.0",
     "idai-components": "codarchlab/idai-components#~0.10.1",
     "3dviewer": "codarchlab/3dviewer#~1.0.1",
