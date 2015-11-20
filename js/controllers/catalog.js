@@ -24,6 +24,10 @@ angular.module('arachne.controllers')
 		$scope.catalogs = [];
 		$scope.user = authService.getUser();
 
+		$http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username).success(function(user) {
+			$scope.user = user;
+		});
+
 		//Pagination
 		$scope.pageBool = false;
 		$scope.curPage = 1;
@@ -43,7 +47,6 @@ angular.module('arachne.controllers')
 			$scope.loading++;
 			Catalog.query({full:false}, function(result) {
 				$scope.loading--;
-				console.log(result);
 				$scope.catalogs = result;
 				if (!$scope.activeCatalog) {
 					$scope.activeCatalog = $scope.catalogs[0];
@@ -107,7 +110,6 @@ angular.module('arachne.controllers')
 			if (!entry.children) {
 				entry.children = [];
 			}
-			console.log(entry);
 			var editEntryModal = $modal.open({
 				templateUrl: 'partials/Modals/editEntry.html'
 			});
@@ -152,6 +154,9 @@ angular.module('arachne.controllers')
 			var catalogBuffer = {
 				author: $scope.user.username
 			};
+			if($scope.user.firstname && $scope.user.lastname) {
+				catalogBuffer.author = $scope.user.firstname + " " + $scope.user.lastname;
+			}
 			var editCatalogModal = $modal.open({
 				templateUrl: 'partials/Modals/editCatalog.html',
 				controller: 'EditCatalogController',
