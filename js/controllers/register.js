@@ -20,14 +20,15 @@ function ($rootScope, $scope, $http, $filter, arachneSettings, registerService) 
             $scope.user.passwordValidation = $filter('md5')($scope.passwordValidation);
         }
         registerService.sendContact($scope.user,
-            function(data){
+            function (data) {
                 $scope.error = "";
                 $scope.success = true;
             },
-            function(error){
+            function (error) {
                 $scope.error = data.message;
             }
         );
+    }
         /*$http.post(arachneSettings.dataserviceUri + "/user/register", $scope.user, {
          "headers": { "Content-Type": "application/json" }
          }).success(function(data) {
@@ -36,6 +37,6 @@ function ($rootScope, $scope, $http, $filter, arachneSettings, registerService) 
          }).error(function(data) {
          $scope.error = data.message;
          });*/
-    }
+
 }
 ]);
