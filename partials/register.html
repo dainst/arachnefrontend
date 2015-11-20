@@ -2,12 +2,6 @@
 
 	<div class="col-md-6 col-md-offset-3 col-xs-12 page-header">
 		<h2>{{'register_register'|transl8}}</h2>
-		<div class="alert alert-danger" ng-show="error">
-			Error: {{error | transl8}}
-		</div>
-		<div class="alert alert-success" ng-show="success">
-			{{'register_success'|transl8}}
-		</div>
 	</div>
 
 	<div class="col-md-6 col-md-offset-3 col-xs-12 well" ng-hide="success">
@@ -29,11 +23,11 @@
 		  <div class="form-group">
 		    <label for="inputPassword3" class="col-sm-4 control-label">{{'ui_password'|transl8}}*</label>
 		    <div class="col-sm-4">
-		      <input required type="password" class="form-control" placeholder="{{'ui_password'|transl8}}" ng-model="password">
+		      <input required type="password" class="form-control" placeholder="{{'ui_password'|transl8}}" ng-model="user.password">
 		    </div>
 		    <div class="col-sm-4">
 		      <input required type="password" class="form-control" placeholder="{{'ui_repeat_password'|transl8}}"
-		      		ng-model="passwordValidation">
+		      		ng-model="user.passwordValidation">
 		    </div>
 		  </div>
 
