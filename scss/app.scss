@@ -241,7 +241,7 @@ h6 { font-size: 12px; }
   padding-bottom: 4px;
 }
 
-.sections a:after {
+.sections a[target="_blank"]:after {
   content: "\e164 ";
   margin-left: 4px;
   font: 10px 'Glyphicons Halflings';
