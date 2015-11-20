@@ -30,7 +30,7 @@
 #map-right-menu, #map-left-menu, #ar-map-zoomcontrol {
   background-color: rgba(248, 248, 248, 0.9);
   position: fixed;
-  top: 60px;
+  top: 10px;
   text-align: left;
   z-index:500;
 }
@@ -48,8 +48,10 @@
   text-align: center;
 }
 
-.con10t-page #map-right-menu, .con10t-page #map-left-menu, .con10t-page #ar-map-zoomcontrol {
-  top: 10px;
+.map-fullscreen #map-right-menu,
+.map-fullscreen #map-left-menu,
+.map-fullscreen #ar-map-zoomcontrol {
+  top: 60px;
 }
 
 #map-right-menu.toggled, #map-left-menu.toggled {
