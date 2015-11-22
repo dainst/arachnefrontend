@@ -13,9 +13,7 @@
 			<input autofocus type="arachneId" class="form-control" ng-model="entry.arachneEntityId" placeholder="Entity ID">
 		</div>
 		Katalogtext / Notiz <small>(Optional)</small>
-		<div class="form-group">
-			<textarea type="text" class="form-control" ng-model="entry.text" placeholder="Katalogtext"></textarea>
-		</div>
+		<div ar-markdown-text-editor markdown-text="entry.text" placeholder="Katalogtext"></div>
 	</div>
 	<div class="modal-footer">
     	<input class="btn btn-primary"

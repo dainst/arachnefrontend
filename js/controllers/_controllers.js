@@ -553,5 +553,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ($scope, $modalInstance, catalog) {
 		$scope.catalog = catalog;
 	}
+)
+.controller('AddMarkdownLinkController',
+	function ($scope, $modalInstance, link) {
+		$scope.link = link;
+	}
 );
-

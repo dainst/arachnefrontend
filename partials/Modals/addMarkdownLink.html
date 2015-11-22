@@ -1,0 +1,24 @@
+<form>
+	<div class="modal-header">
+		<h4 class="modal-title">Link anlegen:
+		</h4>
+	</div>
+	<div class="modal-body">
+		Ziel-URL:
+		<div class="form-group">
+			<input autofocus type="label" class="form-control" ng-model="link.url" placeholder="http://www.example.com">
+		</div>
+		Linkbeschreibung:
+		<div class="form-group">
+			<input autofocus type="label" class="form-control" ng-model="link.description" placeholder="">
+		</div>
+	</div>
+	<div class="modal-footer">
+    	<input class="btn btn-primary"
+    			type="submit"
+    			ng-click="$close(link)"
+    			ng-class="{ disabled: !link.url || !link.description }"
+    			value="OK">
+    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+	</div>
+</form>

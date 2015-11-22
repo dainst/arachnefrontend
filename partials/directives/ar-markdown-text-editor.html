@@ -1,0 +1,29 @@
+<div class="form-group">
+	<div class="btn-group btn-group-xs markdown-editor-button-group">
+		<button class="btn btn-default" ng-click="formatText('bold')">
+			<span class="glyphicon glyphicon-bold"></span>
+		</button>
+		<button class="btn btn-default" ng-click="formatText('italic')">
+			<span class="glyphicon glyphicon-italic"></span>
+		</button>
+		<button class="btn btn-default" ng-click="formatText('heading1')">
+			<span class="glyphicon glyphicon-header"><b>1</b></span>
+		</button>
+		<button class="btn btn-default" ng-click="formatText('heading2')">
+			<span class="glyphicon glyphicon-header"><b>2</b></span>
+		</button>
+		<button class="btn btn-default" ng-click="formatText('heading3')">
+			<span class="glyphicon glyphicon-header"><b>3</b></span>
+		</button>
+		<button class="btn btn-default" ng-click="formatText('listBullets')">
+			<span class="glyphicon glyphicon-list"></span>
+		</button>
+		<button class="btn btn-default" ng-click="formatText('listNumbers')">
+			<span class="glyphicon glyphicon-th-list"></span>
+		</button>
+		<button class="btn btn-default" ng-click="formatText('link')">
+			<span class="glyphicon glyphicon-link"></span>
+		</button>
+	</div>
+	<textarea type="text" class="form-control" ng-model="markdownText" placeholder="{{placeholder}}"></textarea>
+</div>
