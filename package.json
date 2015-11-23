@@ -6,6 +6,7 @@
     "browser-sync": "^2.9.10",
     "connect-modrewrite": "^0.8.2",
     "del": "^2.0.2",
+    "font-awesome": "^4.4.0",
     "gulp": "^3.9.0",
     "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.0",
