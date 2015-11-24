@@ -268,6 +268,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.currentQuery = searchService.currentQuery();
 
+		$scope.catalogEntries = [];
+
 		$scope.go = function(path) {
 			$location.url(path);
 		};
@@ -314,6 +316,26 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			return false;
 		}
 
+		var loadCatalogEntry = function(catalogPath) {
+			var catalogEntryIds = catalogPath.split("/");
+			if (catalogEntryIds.length < 3)
+				return;
+			
+			var rootEntryId = catalogEntryIds[1];
+			var entryId = catalogEntryIds[catalogEntryIds.length - 1];
+			var catalogEntry = {};
+			$scope.catalogEntries.push(catalogEntry);
+
+			CatalogEntry.get({ id: rootEntryId }, function(rootEntry) {
+				catalogEntry.catalogLabel = rootEntry.label;
+			});
+
+			CatalogEntry.get({ id: entryId }, function(entry) {
+				catalogEntry.label = entry.label;
+				catalogEntry.text = entry.text;
+			});
+		};
+
 		// if no id given, but query get id from search and reload
 		if (!$routeParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
 
@@ -328,6 +350,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			Entity.get({id:$routeParams.id}, function(data) {
 				$scope.entity = data;
 				document.title = $scope.entity.title + " | Arachne";
+				for (var i in $scope.entity.catalogPaths) {
+					loadCatalogEntry($scope.entity.catalogPaths[i]);
+				}
+
 			}, function(response) {
 				$scope.error = true;
 				message.addMessageForCode("entity_"+response.status);
