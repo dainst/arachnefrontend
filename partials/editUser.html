@@ -1,21 +1,10 @@
 <div class="row" style="margin-top:0px;"  ng-controller="EditUserController">
 
 	<div class="col-md-6 col-md-offset-3 col-xs-12 page-header">
-		<h2>User Profil Verwalten</h2>
-		<div class="alert alert-danger" ng-show="error">
-			Error: {{error | transl8}}
-		</div>
-		<div class="alert alert-success" ng-show="success">
-			Erfolgreich aktuallisiert.
-		</div>
+		<h2>{{'ui.update.manage'|transl8}}</h2>
 	</div>
 
 	<div class="col-md-6 col-md-offset-3 col-xs-12 well" ng-hide="success">
-
-		<div>
-			Daten ausfüllen/aktuallisieren:
-		</div>
-		<br>
 
 		<form novalidate show-validation class="form-horizontal register-form" role="form">
 
@@ -109,11 +98,9 @@
 
 		  <div class="form-group">
 		    <div class="col-sm-offset-4 col-sm-8">
-		      <button type="submit" ng-click="submit()" class="btn btn-primary">Aktuallisieren</button>
+		      <button type="submit" ng-click="submit()" class="btn btn-primary">{{'ui.update.perform'|transl8}}</button>
 		    </div>
 		  </div>
 		</form>
-
 	</div>
-
 </div>

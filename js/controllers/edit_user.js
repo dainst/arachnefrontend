@@ -2,93 +2,78 @@
 
 angular.module('arachne.controllers')
 
-//Edit User Form
-.controller('EditUserController', ['$rootScope', '$scope', '$http', '$filter', 'arachneSettings', 'registerService', 'authService', '$modal',
-function ($rootScope, $scope, $http, $filter, arachneSettings, registerService, authService, $modal) {
+/**
+ * Edit User Form.
+ *
+ * $scope
+ *   user the logged in users personal information.
+ *   submit function which sends the user data to the backend in order to update personal information.
+ */
+.controller('EditUserController', [ '$scope', '$http', 'arachneSettings', 'authService', 'message',
+function ($scope, $http, arachneSettings, authService, message) {
 
-    $rootScope.hideFooter = false;
+    var HEADERS = {
+        "headers": { "Content-Type": "application/json" }
+    };
 
-    $scope.userBuffer = authService.getUser();
+    /**
+     * The last message this controller pushed to the message service.
+     * @type {null}
+     */
+    var lastMsgKey= null;
 
-    var buffer = {};
-    $scope.user = {};
-    $scope.success = false;
-    $scope.error = "";
+    /**
+     * Pushes a new message to the message service
+     * and removes the last shown message.
+     *
+     * @param msgKey
+     * @param level
+     */
+    var putMsg= function(msgKey,level) {
+        if (lastMsgKey!=null) message.removeMessage(lastMsgKey);
+        lastMsgKey= msgKey;
+        message.addMessageForCode(msgKey,level);
+    };
 
-    $http.get(arachneSettings.dataserviceUri + "/userinfo/" + $scope.userBuffer.username
+    /**
+     * The backend will reject modification of some fields. These
+     * will be filtered out here.
+     *
+     * @param user
+     * @return a new user object without non writable properties.
+     */
+    var filterWriteProtectedProperties= function(user) {
+        var newUser= JSON.parse(JSON.stringify(user));
+        delete newUser.groupID;
+        delete newUser.datasetGroups;
+        delete newUser.emailValidation;
+        return newUser;
+    };
+
+
+    $http.get(arachneSettings.dataserviceUri + "/userinfo/" + authService.getUser().username
     ).success(function(data) {
-
-            //Original values -> Values the User can change
-            buffer.email = data.email;
-            buffer.firstname = data.firstname;
-            buffer.lastname = data.lastname;
-            buffer.institution = data.institution;
-            buffer.homepage = data.homepage;
-            buffer.country = data.country;
-            buffer.place = data.place;
-            buffer.street = data.street;
-            buffer.zip = data.zip;
-            buffer.username = data.username;
-            buffer.phone = data.phone;
-
-            //Values to change
             $scope.user = data;
+            $scope.user.emailValidation= $scope.user.email;
+    }).error(function(data) {
+            console.log("no user info found for user "+ authService.getUser().username);
+    });
 
-        }).error(function(data) {
-            $scope.error = data.message;
-        });
 
     $scope.submit = function() {
 
-        //check E-Mail validation
-        if($scope.user.email != $scope.user.emailValidation && $scope.user.email != buffer.email)
-        {
-            console.log("emailValidation failed");
-            var msg = "emailValidation";
-            var emailFail = $modal.open({
-                templateUrl: 'partials/Modals/errorModal.html',
-                controller: function ($scope) { $scope.msg = msg},
-                resolve: { msg: function() { return msg } }
-            });
-            emailFail.close = function() {
-                emailFail.dismiss();
-            };
+        if($scope.user.email != $scope.user.emailValidation) {
+            putMsg('ui.update.emailNotSame','danger');
+            return;
         }
-        else if(!$scope.user.iAmHuman)
-        {
-            //check Human Validation
-            console.log("HumanValidation failed");
-            var msg = "iAmHuman";
-            var iAmHuman = $modal.open({
-                templateUrl: 'partials/Modals/errorModal.html',
-                controller: function ($scope) { $scope.msg = msg},
-                resolve: { msg: function() { return msg } }
-            });
-            iAmHuman.close = function() {
-                iAmHuman.dismiss();
-            };
-        }
-        else
-        {
-            var sendUser = {};
-            sendUser.iAmHuman = $scope.user.iAmHuman;
 
-            //check for updates
-            for(var item in buffer)
-            {
-                if($scope.user[item] != buffer[item])
-                    sendUser[item] = $scope.user[item];
-            }
-
-            //send changed Data to Backend
-            $http.put(arachneSettings.dataserviceUri + "/userinfo/" + $scope.userBuffer.username, sendUser, {
-                "headers": { "Content-Type": "application/json" }
-            }).success(function(data) {
-                $scope.error = "";
-                $scope.success = true;
-            }).error(function(data) {
-                $scope.error = data.message;
-            });
-        }
+        $http.put(arachneSettings.dataserviceUri + "/userinfo/" + authService.getUser().username,
+            filterWriteProtectedProperties($scope.user),
+            HEADERS
+        ).success(function(data) {
+            putMsg('ui.update.success','success')
+        }).error(function(data) {
+            putMsg(data.message,'danger');
+        });
     }
 }]);
