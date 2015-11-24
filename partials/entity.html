@@ -183,7 +183,7 @@
 
 				<br>
 				<!-- Editor Section -->
-				<div ng-if="entity.editorSection">
+				<div class="sections" ng-if="entity.editorSection">
 					<li ng-if="!entity.editorSection.value" ng-class="{'thumbnail' : entity.editorSection.contextEntity}" style="list-style-type:none;">
 					<b ng-if="entity.editorSection.label">{{entity.editorSection.label}}</b>
 						<ul ng-repeat="section in (entity.editorSection.content || entity.editorSection.contextEntity)" ng-include="'section_template.html'"></ul>
