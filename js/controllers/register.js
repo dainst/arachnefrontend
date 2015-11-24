@@ -5,6 +5,9 @@ angular.module('arachne.controllers')
 /**
  * Register Form Controller.
  * @see partials/register.html.
+ *
+ * $scope
+ *   success set to true to signal success to the view.
  */
 .controller('RegisterController', [ '$scope', '$http', '$filter', 'message', 'arachneSettings',
 function ( $scope, $http, $filter, message, arachneSettings) {
@@ -46,10 +49,14 @@ function ( $scope, $http, $filter, message, arachneSettings) {
     $scope.submit = function() {
         register($scope.user,
             function(isSuccess,msg){
-            if(isSuccess)
-                message.addMessageForCode('register_success', 'success');
-            else
-                message.addMessageForCode(msg, 'danger');
+
+                message.clear();
+                if(isSuccess) {
+                    message.addMessageForCode('register_success', 'success');
+                    $scope.success=true;
+                }
+                else
+                    message.addMessageForCode(msg, 'danger', false);
         });
     };
 }]);
