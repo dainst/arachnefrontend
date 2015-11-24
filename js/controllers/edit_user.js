@@ -17,12 +17,6 @@ function ($scope, $http, arachneSettings, authService, message) {
     };
 
     /**
-     * The last message this controller pushed to the message service.
-     * @type {null}
-     */
-    var lastMsgKey= null;
-
-    /**
      * Pushes a new message to the message service
      * and removes the last shown message.
      *
@@ -30,9 +24,8 @@ function ($scope, $http, arachneSettings, authService, message) {
      * @param level
      */
     var putMsg= function(msgKey,level) {
-        if (lastMsgKey!=null) message.removeMessage(lastMsgKey);
-        lastMsgKey= msgKey;
-        message.addMessageForCode(msgKey,level);
+        message.clear();
+        message.addMessageForCode(msgKey,level,false);
     };
 
     /**
