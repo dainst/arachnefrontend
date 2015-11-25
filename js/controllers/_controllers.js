@@ -573,6 +573,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 .controller('EditCatalogEntryController',
 	function ($scope, $modalInstance, entry) {
 		$scope.entry = entry;
+		$scope.edit = true;
 	}
 )
 .controller('EditCatalogController',

@@ -1,10 +1,10 @@
 <form>
 	<div class="modal-header">
-		<h4 class="modal-title">Neuen Eintrag anlegen:
-		</h4>
+		<h4 class="modal-title" ng-if="!edit">Neuen Eintrag anlegen:</h4>
+		<h4 class="modal-title" ng-if="edit">Eintrag bearbeiten:</h4>
 	</div>
 	<div class="modal-body">
-		Überschrift des neuen Eintrags
+		Überschrift des <span ng-if="!edit">neuen </span>Eintrags
 		<div class="form-group">
 			<input autofocus type="label" class="form-control" ng-model="entry.label" placeholder="Überschrift">
 		</div>
