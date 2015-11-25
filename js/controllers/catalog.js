@@ -168,10 +168,12 @@ angular.module('arachne.controllers')
 		// needed to enable dragging to entries without children
 		// see https://github.com/angular-ui-tree/angular-ui-tree/issues/203
 		function createChildrenArray(entry) {
-			entry.children.forEach(function(child) {
-				if (!child.hasChildren) child.children = [];
-				else createChildrenArray(child);
-			})
+			if (entry.children) {
+				entry.children.forEach(function(child) {
+					if (!child.hasChildren) child.children = [];
+					else createChildrenArray(child);
+				});
+			}
 		}
 
 	}
