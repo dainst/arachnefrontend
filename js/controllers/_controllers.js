@@ -269,12 +269,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.currentQuery = searchService.currentQuery();
 
 		$scope.catalogEntries = [];
+		$scope.activeCatalogEntry = $location.search().catalogEntry;
 
 		$scope.go = function(path) {
 			$location.url(path);
 		};
-
-
 
 		$scope.catalogs = Catalog.query();
 		var catalog = Catalog.query();
@@ -316,6 +315,13 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			return false;
 		}
 
+		$scope.updateCatalogEntryParameter = function(catalogEntry) {
+			if (catalogEntry)
+				$location.search("catalogEntry", catalogEntry.id);
+			else
+				$location.search("catalogEntry", undefined);
+		};
+
 		var loadCatalogEntry = function(catalogPath) {
 			var catalogEntryIds = catalogPath.split("/");
 			if (catalogEntryIds.length < 3)
@@ -323,8 +329,11 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			
 			var rootEntryId = catalogEntryIds[1];
 			var entryId = catalogEntryIds[catalogEntryIds.length - 1];
-			var catalogEntry = {};
+			var catalogEntry = { id: entryId };
 			$scope.catalogEntries.push(catalogEntry);
+
+			if ($scope.activeCatalogEntry == entryId)
+				catalogEntry.active = true;
 
 			CatalogEntry.get({ id: rootEntryId }, function(rootEntry) {
 				catalogEntry.catalogLabel = rootEntry.label;
@@ -332,7 +341,10 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 			CatalogEntry.get({ id: entryId }, function(entry) {
 				catalogEntry.label = entry.label;
-				catalogEntry.text = entry.text;
+				if (entry.text)
+					catalogEntry.text = entry.text;
+				else
+					catalogEntry.text = "";
 			});
 		};
 

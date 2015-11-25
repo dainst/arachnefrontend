@@ -19,7 +19,7 @@
                 aria-hidden="true">
         </span>
 
-        <a ng-if="node.arachneEntityId != null" ng-href="entity/{{node.arachneEntityId}}">
+        <a ng-if="node.arachneEntityId != null" ng-href="entity/{{node.arachneEntityId}}?catalogEntry={{node.id}}">
             {{ node.label }}
         </a>
         <span ng-if="node.arachneEntityId == null">{{ node.label }}</span>

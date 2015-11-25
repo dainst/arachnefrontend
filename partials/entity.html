@@ -207,15 +207,15 @@
 				<hr>
 
 				<tabset ng-if="catalogEntries.length > 0">
-					<tab ng-if="!entity.sections" heading="{{'entity_no_further_info'|transl8}}">
+					<tab ng-if="!entity.sections" heading="{{'entity_no_further_info'|transl8}}" select="updateCatalogEntryParameter()">
 						<div ng-if="!entity.sections">
 							<em>{{'entity_no_further_info'|transl8}}</em>
 						</div>
 					</tab>
-					<tab ng-if="entity.sections" heading="{{entity.sections[0].label}}">
+					<tab ng-if="entity.sections" heading="{{entity.sections[0].label}}" select="updateCatalogEntryParameter()">
 						<div ng-include="'sections_template.html'"></div>
 					</tab>
-					<tab ng-repeat="catalogEntry in catalogEntries" heading="{{catalogEntry.catalogLabel}}">
+					<tab ng-repeat="catalogEntry in catalogEntries" heading="{{catalogEntry.catalogLabel}}" active="catalogEntry.active" select="updateCatalogEntryParameter(catalogEntry)">
 						<div class="sections">
 							<li><b>{{catalogEntry.label}}</b></li>
 						</div>	

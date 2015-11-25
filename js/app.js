@@ -29,7 +29,7 @@ angular.module('arachne',[
 		.when('/', {templateUrl: 'partials/startSite.html'})
 		.when('/catalogs', {templateUrl: 'partials/catalogs.html'})		
 		.when('/catalog/:id', {templateUrl: 'partials/catalog.html'})
-		.when('/entity/:id?', {templateUrl: 'partials/entity.html'})
+		.when('/entity/:id?/:params?', {templateUrl: 'partials/entity.html', reloadOnSearch: false})
 		.when('/entity/:entityId/images', {templateUrl: 'partials/entity_images.html'})
 		.when('/entity/:entityId/image/:imageId', {templateUrl: 'partials/entity_image.html'})
 		.when('/search/:params?', {templateUrl: 'partials/search.html'})
