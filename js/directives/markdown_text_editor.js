@@ -99,7 +99,9 @@ angular.module('arachne.directives')
                         case "listBullets":
                             var lines = selectedText.split("\n");
                             for (var i = 0; i < lines.length; i++) {
-                                modifiedText += "* " + lines[i] + "\n";
+                                modifiedText += "* " + lines[i];
+                                if (i != lines.length - 1)
+                                    modifiedText += "\n"
                                 additionalCharacters += 2;
                             }
                             break;
@@ -107,7 +109,9 @@ angular.module('arachne.directives')
                         case "listNumbers":
                             var lines = selectedText.split("\n");
                             for (var i = 0; i < lines.length; i++) {
-                                modifiedText += (i + 1).toString() + ". " + lines[i] + "\n";
+                                modifiedText += (i + 1).toString() + ". " + lines[i];
+                                if (i != lines.length - 1)
+                                    modifiedText += "\n"
                                 if (i < 9)
                                     additionalCharacters += 3;
                                 else
