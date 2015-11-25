@@ -52,7 +52,12 @@ angular.module('arachne',[
 		dataserviceUri: "http://" + document.location.host + "/data",
 		openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 		sortableFields : ["entityId", "title", "subtitle"]
-}).run(['$rootScope', function($rootScope) {
+})
+.constant('componentsSettings', {
+		transl8Uri: "http://bogusman01.dai-cloud.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK"
+	}
+)
+.run(['$rootScope', function($rootScope) {
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
     	// resetting the default page title for controller changes
     	document.title = "Arachne"
