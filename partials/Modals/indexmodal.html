@@ -1,67 +1,38 @@
 <form>
-   <div class="modal-header">
-       <h4 class="modal-title"><b>Index:</b> {{ facetName | transl8 }} </h4>
-   </div>
-   <div class="modal-body">
-    <div class="btn-group btn-group-xs">
-        <label class="btn btn-primary" ng-click="changeData('<')"><</label>
-        <label class="btn btn-primary" ng-click="changeData('$')">$</label>
-        <label class="btn btn-primary" ng-click="changeData('a')">A</label>
-        <label class="btn btn-primary" ng-click="changeData('b')">B</label>
-        <label class="btn btn-primary" ng-click="changeData('c')">C</label>
-        <label class="btn btn-primary" ng-click="changeData('d')">D</label>
-        <label class="btn btn-primary" ng-click="changeData('e')">E</label>
-        <label class="btn btn-primary" ng-click="changeData('f')">F</label>
-        <label class="btn btn-primary" ng-click="changeData('g')">G</label>
-        <label class="btn btn-primary" ng-click="changeData('h')">H</label>
-        <label class="btn btn-primary" ng-click="changeData('i')">I</label>
-        <label class="btn btn-primary" ng-click="changeData('j')">J</label>
-        <label class="btn btn-primary" ng-click="changeData('k')">K</label>
-        <label class="btn btn-primary" ng-click="changeData('l')">L</label>
-        <label class="btn btn-primary" ng-click="changeData('m')">M</label>
-        <label class="btn btn-primary" ng-click="changeData('n')">N</label>
-        <label class="btn btn-primary" ng-click="changeData('o')">O</label>
-        <label class="btn btn-primary" ng-click="changeData('p')">P</label>
-        <label class="btn btn-primary" ng-click="changeData('q')">Q</label>
-        <label class="btn btn-primary" ng-click="changeData('r')">R</label>
-        <label class="btn btn-primary" ng-click="changeData('s')">S</label>
-        <label class="btn btn-primary" ng-click="changeData('t')">T</label>
-        <label class="btn btn-primary" ng-click="changeData('u')">U</label>
-        <label class="btn btn-primary" ng-click="changeData('v')">V</label>
-        <label class="btn btn-primary" ng-click="changeData('w')">W</label>
-        <label class="btn btn-primary" ng-click="changeData('x')">X</label>
-        <label class="btn btn-primary" ng-click="changeData('y')">Y</label>
-        <label class="btn btn-primary" ng-click="changeData('z')">Z</label>
-        <label class="btn btn-primary" ng-click="changeData('>')">></label>
-    </div>
-    <div class="row">
-      <div class="col-md-offset-1 col-md-7">
-        <pagination class="pagination-sm"total-items="totalItems" items-per-page="itemsperpage" max-size="6" ng-model="currentPage" ng-change="pageChanged()"></pagination>
-      </div>
-      <div class="input-group col-md-3">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button" ng-click="setPage(currentPage)">Go to Page:</button>
-        </span>
-        <input type="number" class="form-control" ng-model="currentPage" max="(totalItems/10)">
-      </div>
-    </div>
-
-          <table class="table table-hover">
-            <tr>
-              <th>#</th>
-              <th>Search</th>
-              <th>Titel</th>
-            </tr> 
-            <tr ng-repeat="item in akList" class="small">
-              <td>{{ item.id }}</td>
-              <td><a type="button" href="/search?q=*&fq={{curFacet}}:'{{item.name}}'">Search</a>
-              <td>{{ item.name }}</td>
-            </tr>
-          </table>
-   <div class="modal-footer">
-       <input class="btn btn-primary"
-               type="submit" ng-click="$dismiss()"
-               value="OK">
-       <button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
-   </div>
+	<div class="modal-header">
+		<h4 class="modal-title"><b>Index:</b> {{ facetName | transl8 }} </h4>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="btn-group" role="group">
+					  <button type="button" class="btn btn-default" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+					  <button type="button" class="btn btn-default" ng-disabled="true">{{currentPage}}/{{numPages}}</button>
+					  <button type="button" class="btn btn-default" ng-disabled="currentPage >= facetIndex.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="input-group">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" type="button" ng-click="currentPage=gotoPage">Go to Page:</button>
+				      </span>
+				      <input type="text" class="form-control" ng-model="gotoPage">
+				</div><!-- /input-group -->
+			</div>
+		</div>
+    	<div class="row">
+    		<div class="col-md-12">
+		    	<ul>
+					<div ng-repeat="item in facetIndex | startFrom:currentPage*pageSize | limitTo:pageSize">
+			  			<a type="button" href="/search?q=*&fq={{facetName}}:'{{item}}'" class="list-group-item" ng-click="$dismiss()">{{item}}</a>
+				    </div>
+			    </ul>
+			</div>
+		</div>
+	<div class="modal-footer">
+    	<input class="btn btn-primary"
+    			type="submit" ng-click="$dismiss()"
+    			value="OK">
+    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+	</div>
 </form>
