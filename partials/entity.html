@@ -217,9 +217,11 @@
 					</tab>
 					<tab ng-repeat="catalogEntry in catalogEntries" heading="{{catalogEntry.catalogLabel}}" active="catalogEntry.active" select="updateCatalogEntryParameter(catalogEntry)">
 						<div class="sections">
-							<li><b>{{catalogEntry.label}}</b></li>
+							<li><b>{{catalogEntry.label}}</b></li><br>
+							<em>{{'entity_catalog_info'|transl8}} </em><a ng-href="catalog/{{catalogEntry.catalogId}}">{{catalogEntry.catalogLabel}}</a> <em>.</em><br>
+							<em>{{'catalog_author'|transl8}}: </em>{{catalogEntry.author}}<br>
 						</div>	
-						<br/>
+						<br>
 						<span markdown-to-html="catalogEntry.text"></span>
 					</tab>
 				</tabset>

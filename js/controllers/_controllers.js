@@ -327,13 +327,18 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			if (catalogEntryIds.length < 3)
 				return;
 			
+			var catalogId = catalogEntryIds[0];
 			var rootEntryId = catalogEntryIds[1];
 			var entryId = catalogEntryIds[catalogEntryIds.length - 1];
-			var catalogEntry = { id: entryId };
+			var catalogEntry = { id: entryId, catalogId: catalogId };
 			$scope.catalogEntries.push(catalogEntry);
 
 			if ($scope.activeCatalogEntry == entryId)
 				catalogEntry.active = true;
+
+			Catalog.get({ id: catalogId }, function(catalogObj) {
+				catalogEntry.author = catalogObj.author;
+			});
 
 			CatalogEntry.get({ id: rootEntryId }, function(rootEntry) {
 				catalogEntry.catalogLabel = rootEntry.label;
