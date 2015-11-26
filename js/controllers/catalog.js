@@ -63,8 +63,7 @@ angular.module('arachne.controllers')
 			});
 			editEntryModal.close = function(newEntry) {
 				entry.children.push(newEntry);
-				updateActiveCatalog();
-				//$http.post(arachneSettings.dataserviceUri + "/catalogentry/" + entry.id +"/add", newEntry)
+				$http.post(arachneSettings.dataserviceUri + "/catalogentry/" + entry.id +"/add", newEntry);
 				editEntryModal.dismiss();
 			}			
 		}
