@@ -18,7 +18,7 @@ function($http, arachneSettings, $filter, $cookieStore) {
 
         setCredentials: function (username, password, successMethod, errorMethod) {
             var encoded = $filter('base64')(username + ':' + $filter('md5')(password));
-            $http.get(arachneSettings.dataserviceUri + '/', { headers: { 'Authorization': 'Basic ' + encoded } })
+            $http.get(arachneSettings.dataserviceUri + '/userinfo/'+username, { headers: { 'Authorization': 'Basic ' + encoded } })
                 .success(function(response) {
                     $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
                     $cookieStore.put('ar-authdata', encoded);
