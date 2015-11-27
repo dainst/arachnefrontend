@@ -3,7 +3,7 @@
 angular.module('arachne',[
 	'ui.bootstrap',
 	'ui.bootstrap.tpls',
-	'ngRoute',
+	'ui.router',
 	'ngSanitize',
 	'ngResource',
 	'ngCookies',
@@ -20,35 +20,38 @@ angular.module('arachne',[
 	'arachne.controllers',
 	'arachne.widgets.directives'
 ])
-.config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider) {
-	$locationProvider.html5Mode(true);
+.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider',
+	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider) {
+		$locationProvider.html5Mode(true);
 
-	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|blob):/)
+		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|blob):/)
 
-	$routeProvider
-		.when('/', {templateUrl: 'partials/startSite.html'})
-		.when('/catalogs', {templateUrl: 'partials/catalogs.html'})		
-		.when('/catalog/:id', {templateUrl: 'partials/catalog.html'})
-		.when('/entity/:id?/:params?', {templateUrl: 'partials/entity.html', reloadOnSearch: false})
-		.when('/entity/:entityId/images', {templateUrl: 'partials/entity_images.html'})
-		.when('/entity/:entityId/image/:imageId', {templateUrl: 'partials/entity_image.html'})
-		.when('/search/:params?', {templateUrl: 'partials/search.html'})
-		.when('/category/:params?', {templateUrl: 'partials/category.html'})	
-		.when('/map', {templateUrl: 'partials/map.html'})
-		.when('/gridmap', {templateUrl: 'partials/gridmap.html'})
-		.when('/3d', {templateUrl: 'partials/3d.html'})
-		.when('/allCategories', {templateUrl: 'partials/allCategories.html'})
-		.when('/projects', {templateUrl: 'partials/projects.html'})
-		.when('/register', {templateUrl: 'partials/register.html'})
-		.when('/editUser', {templateUrl: 'partials/editUser.html'})
-		.when('/apis', {templateUrl: 'partials/apis.html'})
-		.when('/contact', {templateUrl: 'partials/contact.html'})
-		.when('/admin/dataimport', {templateUrl: 'partials/dataimport.html'})
-		.when('/pwdreset', {templateUrl: 'partials/pwdreset.html'})
-		.when('/user/activation/:token', {templateUrl: 'partials/activation.html'})
-		.when('/project/:title', {templateUrl: 'partials/static.html'})
-		.when('/info/:title', {templateUrl: 'partials/static.html'}); // Named it info, not static, to sound not too technical.
-}]).constant('arachneSettings', {
+		$urlRouterProvider.otherwise('/');
+		$stateProvider
+			.state('start', { url: '/', templateUrl: 'partials/startSite.html'})
+			.state('catalogs', { url: '/catalogs', templateUrl: 'partials/catalogs.html'})		
+			.state('catalog/:id', { url: '/catalog/:id', templateUrl: 'partials/catalog.html'})
+			.state('entity', { url: '/entity/:id?/:params?', templateUrl: 'partials/entity.html', reloadOnSearch: false})
+			.state('entityImages', { url: '/entity/:entityId/images', templateUrl: 'partials/entity_images.html'})
+			.state('entityImage', { url: '/entity/:entityId/image/:imageId', templateUrl: 'partials/entity_image.html'})
+			.state('search', { url: '/search?q&fq&view&sort&offset&limit', templateUrl: 'partials/search.html'})
+			.state('category', { url: '/category/:category', templateUrl: 'partials/category.html'})	
+			.state('map', { url: '/map?q&fq', templateUrl: 'partials/map.html'})
+			.state('gridmap', { url: '/gridmap', templateUrl: 'partials/gridmap.html'})
+			.state('3d', { url: '/3d', templateUrl: 'partials/3d.html'})
+			.state('allCategories', { url: '/allCategories', templateUrl: 'partials/allCategories.html'})
+			.state('projects', { url: '/projects', templateUrl: 'partials/projects.html'})
+			.state('register', { url: '/register', templateUrl: 'partials/register.html'})
+			.state('editUser', { url: '/editUser', templateUrl: 'partials/editUser.html'})
+			.state('apis', { url: '/apis', templateUrl: 'partials/apis.html'})
+			.state('contact', { url: '/contact', templateUrl: 'partials/contact.html'})
+			.state('dataimport', { url: '/admin/dataimport', templateUrl: 'partials/dataimport.html'})
+			.state('pwdreset', { url: '/pwdreset', templateUrl: 'partials/pwdreset.html'})
+			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'partials/activation.html'})
+			.state('project', { url: '/project/:title', templateUrl: 'partials/static.html'})
+			.state('info', { url: '/info/:title', templateUrl: 'partials/static.html'}); // Named it info, not static, to sound not too technical.
+	}
+]).constant('arachneSettings', {
 		dataserviceUri: "http://" + document.location.host + "/data",
 		openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 		sortableFields : ["entityId", "title", "subtitle"]
@@ -57,9 +60,4 @@ angular.module('arachne',[
 		transl8Uri: "http://bogusman01.dai-cloud.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK"
 	}
 )
-.run(['$rootScope', function($rootScope) {
-    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-    	// resetting the default page title for controller changes
-    	document.title = "Arachne"
-    });
-}]);
+;

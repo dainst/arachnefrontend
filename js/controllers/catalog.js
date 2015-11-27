@@ -7,9 +7,9 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  */
- .controller('CatalogController', ['$scope','$routeParams',
- 	function($scope, $routeParams) {
- 		$scope.id = $routeParams.id;
+ .controller('CatalogController', ['$scope','$stateParams',
+ 	function($scope, $stateParams) {
+ 		$scope.id = $stateParams.id;
  	}
  ])
 
@@ -63,8 +63,7 @@ angular.module('arachne.controllers')
 			});
 			editEntryModal.close = function(newEntry) {
 				entry.children.push(newEntry);
-				updateActiveCatalog();
-				//$http.post(arachneSettings.dataserviceUri + "/catalogentry/" + entry.id +"/add", newEntry)
+				$http.post(arachneSettings.dataserviceUri + "/catalogentry/" + entry.id +"/add", newEntry);
 				editEntryModal.dismiss();
 			}			
 		}
