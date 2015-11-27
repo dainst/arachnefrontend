@@ -30,8 +30,6 @@
 </head>
 <body ng-controller="MenuController">
 
-
-
 	<idai-navbar
         project-id="arachne"
 		login-function="openLoginModal()"
@@ -42,7 +40,10 @@
 	<div class="container-fluid">
 
 		<div style="min-height:500px;">
-            <idai-message></idai-message>
+            
+			<div class="messages">
+            	<idai-message></idai-message>
+            </div>
 
 			<!-- VIEWS -->	
 			<div ng-cloak ui-view autoscroll></div>

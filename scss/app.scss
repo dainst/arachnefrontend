@@ -14,6 +14,16 @@ body {
     padding-top: 50px;
 }
 
+.messages {
+    margin-top: 60px;
+    position: fixed;
+    width: 100%;
+    z-index: 500;
+    .alert {
+      box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+    }
+}
+
 h1, h2, h3, h4, h5, h6 {
     line-height: 1.3;
     font-weight: 400;
