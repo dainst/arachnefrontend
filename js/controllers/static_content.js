@@ -20,8 +20,8 @@ angular.module('arachne.controllers')
  * @author: Daniel M. de Oliveira
  */
 
-.controller('StaticContentController', ['$scope', '$routeParams', '$http', '$location', 'localizedContent',
-function ($scope, $routeParams, $http, $location, localizedContent) {
+.controller('StaticContentController', ['$scope', '$stateParams', '$http', '$location', 'localizedContent',
+function ($scope, $stateParams, $http, $location, localizedContent) {
 
 	var CONTENT_URL = '{LOCATION}/{LANG}/{NAME}.html';
 	var CONTENT_TOC = '{LOCATION}/content.json'
@@ -34,7 +34,7 @@ function ($scope, $routeParams, $http, $location, localizedContent) {
 		contentDir = 'con10t';
 
 	var content_url = CONTENT_URL.
-		replace('{NAME}',$routeParams.title).
+		replace('{NAME}',$stateParams.title).
 		replace('{LOCATION}',contentDir);
 
 
@@ -45,7 +45,7 @@ function ($scope, $routeParams, $http, $location, localizedContent) {
 	} else {
 
 		$http.get(CONTENT_TOC.replace('{LOCATION}',contentDir)).success(function (data) {
-			var lang = localizedContent.determineLanguage(data, $routeParams.title);
+			var lang = localizedContent.determineLanguage(data, $stateParams.title);
 			$scope.templateUrl = content_url.replace('{LANG}', lang);
 		});
 	}

@@ -5,9 +5,9 @@ angular.module('arachne.controllers')
 /**
  * set new Passwort
  */
-.controller('PwdActivationController', ['$scope', '$routeParams', '$filter', '$http',  'arachneSettings',
-function ($scope, $routeParams, $filter, $http, arachneSettings) {
-    var token = $routeParams.token;
+.controller('PwdActivationController', ['$scope', '$stateParams', '$filter', '$http',  'arachneSettings',
+function ($scope, $stateParams, $filter, $http, arachneSettings) {
+    var token = $stateParams.token;
     $scope.success = false;
     $scope.error = "";
 

@@ -7,8 +7,11 @@
 @import "threedviewer";
 
 body {
-	margin-top: 50px;
   overflow-y: scroll; /* always show scrollbar */
+}
+
+[ui-view] {
+    padding-top: 50px;
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -49,7 +49,7 @@ angular.module('arachne.widgets.directives', [])
 		}
 	})
 
-	.directive('con10tToc', ['$location', '$anchorScroll', function ($location, $anchorScroll) {
+	.directive('con10tToc', [ function () {
 		return {
 			restrict: 'E',
 			scope: {
@@ -70,17 +70,6 @@ angular.module('arachne.widgets.directives', [])
 					};
 					headings[i].id = headingID;
 					scope.toc.push(heading);
-				}
-
-				// Angular seems to do anchorScroll() directly on load. But without the scope initialized, the targets are not yet
-				// existing. Therefore: Try a delayed anchorScroll() after the scope is initialized, if there is an existing hash.
-				if($location.hash() != ""){
-                    $anchorScroll();
-				}
-
-				scope.scrollTo = function(id) {
-                    $location.hash(id);
-					$anchorScroll()
 				}
 			}
 		};

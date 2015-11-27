@@ -6,7 +6,7 @@
     </div>
     <div class="panel-body">
         <div class="{{heading.depth}}" ng-repeat='heading in toc'>
-		    <a ng-click="scrollTo(heading.target)">{{heading.text}}</a>
+		    <a href="#{{heading.target}}">{{heading.text}}</a>
 		</div>
     </div>
 </div>

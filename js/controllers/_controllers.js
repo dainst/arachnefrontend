@@ -4,14 +4,6 @@
 
 angular.module('arachne.controllers', ['ui.bootstrap'])
 
-
-
-
-
-
-
-
-
 .controller('SearchFormController', ['$scope', '$location',
 	function($scope, $location) {
 
@@ -254,8 +246,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('EntityController', ['$rootScope', '$routeParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'message',
-	function ($rootScope, $routeParams, searchService, $scope, $modal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, message) {
+.controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'message',
+	function ($rootScope, $stateParams, searchService, $scope, $modal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, message) {
 
 		$rootScope.hideFooter = false;
 		
@@ -354,7 +346,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		};
 
 		// if no id given, but query get id from search and reload
-		if (!$routeParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
+		if (!$stateParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
 
 			var resultIndex = parseInt($scope.currentQuery.resultIndex);
 			searchService.getEntity(resultIndex).then(function(entity) {
@@ -364,7 +356,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		} else {
 			
-			Entity.get({id:$routeParams.id}, function(data) {
+			Entity.get({id:$stateParams.id}, function(data) {
 				$scope.entity = data;
 				document.title = $scope.entity.title + " | Arachne";
 				for (var i in $scope.entity.catalogPaths) {
@@ -377,8 +369,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 				
 			$scope.contextQuery = new Query();
-			$scope.contextQuery.label = "Mit " + $routeParams.id + " verknüpfte Objekte";
-			$scope.contextQuery.q = "connectedEntities:" + $routeParams.id;
+			$scope.contextQuery.label = "Mit " + $stateParams.id + " verknüpfte Objekte";
+			$scope.contextQuery.q = "connectedEntities:" + $stateParams.id;
 			$scope.contextQuery.limit = 0;
 
 			if ($scope.currentQuery.hasOwnProperty('resultIndex')) {
@@ -407,8 +399,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageController', ['$routeParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'message',
-	function($routeParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, message) {
+.controller('EntityImageController', ['$stateParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'message',
+	function($stateParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, message) {
 
 		$rootScope.hideFooter = true;
 		$scope.allow = true;
@@ -460,9 +452,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.user = authService.getUser();
 		$scope.currentQuery = searchService.currentQuery();
-		$scope.entityId = $routeParams.entityId;
-		$scope.imageId = $routeParams.imageId;
-		Entity.get({id:$routeParams.entityId}, function(data) {
+		$scope.entityId = $stateParams.entityId;
+		$scope.imageId = $stateParams.imageId;
+		Entity.get({id:$stateParams.entityId}, function(data) {
 
 			$scope.entity = data;
 			$scope.refreshImageIndex();
@@ -486,14 +478,14 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImagesController', ['$routeParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'message',
-	function($routeParams, $scope, Entity, $filter, searchService, $rootScope, message) {
+.controller('EntityImagesController', ['$stateParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'message',
+	function($stateParams, $scope, Entity, $filter, searchService, $rootScope, message) {
 
 		$rootScope.hideFooter = true;
 		$scope.currentQuery = searchService.currentQuery();
-		$scope.entityId = $routeParams.entityId;
-		$scope.imageId = $routeParams.imageId;
-		Entity.get({id:$routeParams.entityId}, function(data) {
+		$scope.entityId = $stateParams.entityId;
+		$scope.imageId = $stateParams.imageId;
+		Entity.get({id:$stateParams.entityId}, function(data) {
 			// call to filter detached from view in order to prevent unnecessary calls
 			$scope.entity = data;
 			$scope.cells = $filter('cellsFromImages')(data.images, data.entityId, $scope.currentQuery);

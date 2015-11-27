@@ -7,9 +7,9 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  */
- .controller('CatalogController', ['$scope','$routeParams',
- 	function($scope, $routeParams) {
- 		$scope.id = $routeParams.id;
+ .controller('CatalogController', ['$scope','$stateParams',
+ 	function($scope, $stateParams) {
+ 		$scope.id = $stateParams.id;
  	}
  ])
 
