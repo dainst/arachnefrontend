@@ -12,10 +12,6 @@
 
 ## TEST: Reject changing username to username in use by another user.
 
-* 1) Create an account with email username abc
-* 2) Create a second account with email abc2
-* 3) Log in as user using the second account.
-* 4) Visit the update profile page.
-* 5) Change the username to abc
-* 6) If the change is successful, the test is FAILED.
-* 7) If the change gets rejected with a proper message, the test is PASSED.
+* 1) Visit the update profile page.
+* 2) The username must not be editable.
+* 3) If it is, the test ist FAILED.
