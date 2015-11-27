@@ -161,7 +161,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.onSelectPage = function() {
 			var newOffset = ($scope.currentPage-1) * $scope.currentQuery.limit;
-			$location.url('search/' + $scope.currentQuery.setParam('offset', newOffset).toString());
+			$location.url('search' + $scope.currentQuery.setParam('offset', newOffset).toString());
 		};
 
 	}
