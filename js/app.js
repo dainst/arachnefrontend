@@ -36,7 +36,7 @@ angular.module('arachne',[
 			.state('entityImage', { url: '/entity/:entityId/image/:imageId', templateUrl: 'partials/entity_image.html'})
 			.state('search', { url: '/search?q&fq&view&sort&offset&limit', templateUrl: 'partials/search.html'})
 			.state('category', { url: '/category/:category', templateUrl: 'partials/category.html'})	
-			.state('map', { url: '/map', templateUrl: 'partials/map.html'})
+			.state('map', { url: '/map?q&fq', templateUrl: 'partials/map.html'})
 			.state('gridmap', { url: '/gridmap', templateUrl: 'partials/gridmap.html'})
 			.state('3d', { url: '/3d', templateUrl: 'partials/3d.html'})
 			.state('allCategories', { url: '/allCategories', templateUrl: 'partials/allCategories.html'})
