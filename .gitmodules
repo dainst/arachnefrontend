@@ -1,6 +1,3 @@
 [submodule "con10t"]
 	path = con10t
 	url = https://github.com/codarchlab/con10t.git
-[submodule "lib/httParrot"]
-	path = lib/httParrot
-	url = https://github.com/danielmarreirosdeoliveira/httParrot
