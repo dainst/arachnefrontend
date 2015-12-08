@@ -178,15 +178,17 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$scope.imgUri = categories[$scope.category].imgUri;
 			$scope.subtitle = categories[$scope.category].subtitle;
 			$scope.mapfacet = categories[$scope.category].geoFacet;
+
+			$scope.currentQuery = new Query().addFacet("facet_kategorie", $scope.title);
+			$scope.currentQuery.q = "*";
+
+			Entity.query($scope.currentQuery.toFlatObject(), function(response) {
+				$scope.facets = response.facets;
+				$scope.resultSize = response.size;
+			});
 		});
 
-		$scope.currentQuery = new Query().addFacet("facet_kategorie", $scope.category);
-		$scope.currentQuery.q = "*";
-
-		Entity.query($scope.currentQuery.toFlatObject(), function(response) {
-			$scope.facets = response.facets;
-			$scope.resultSize = response.size;
-		});
+		
 
 		$scope.test = function(facetname){
 				var indexModal = $modal.open({
