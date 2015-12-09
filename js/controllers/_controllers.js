@@ -549,6 +549,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	function ($scope, $location, $http, $modal, arachneSettings, $rootScope) {
 
 		$rootScope.hideFooter = true;
+		$scope.backendUri = arachneSettings.dataserviceUri;
 		
 		this.showInfo = function () {
 		
