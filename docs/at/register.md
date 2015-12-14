@@ -10,7 +10,7 @@ The test has to be done with primary selected browser languages 'de' and 'en'.
 * 4) Is there a proper and descriptive error message what is missing?
 * 4a) If yes, follow the advice and go back to 3.
 * 4b) If no, the test is to considered FAILED:
-* 6) Repeat steps 3 to 4 until there is a mail that the registration has been successful.
+* 5) Repeat steps 3 to 4 until the location changes to the start page and there is a mail that the registration has been successful.
 
 ## TEST2 : Account Activation
 

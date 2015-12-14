@@ -7,12 +7,11 @@ angular.module('arachne.controllers')
  * @see partials/register.html.
  *
  * $scope
- *   success {boolean} set to true to signal success to the view.
  *   user {object} the user object
  *   submit {function} the submit function
  */
-.controller('RegisterController', [ '$scope', '$http', '$filter', 'message', 'arachneSettings',
-function ( $scope, $http, $filter, message, arachneSettings) {
+.controller('RegisterController', [ '$scope', '$http', '$filter', 'message', 'arachneSettings','$location',
+function ( $scope, $http, $filter, message, arachneSettings, $location) {
 
 
     /**
@@ -57,18 +56,20 @@ function ( $scope, $http, $filter, message, arachneSettings) {
         });
     };
 
-    var registerCallback= function(isSuccess,msg){
+    var handleRegisterResult= function(isSuccess,msg){
 
         message.clear();
+
         if(isSuccess) {
+            message.dontClearOnNextLocationChange();
             message.addMessageForCode('register_success', 'success');
-            $scope.success=true;
+            $location.path("/");
         }
         else
             message.addMessageForCode(msg, 'danger', false);
     };
 
     $scope.submit = function() {
-        register($scope.user, registerCallback);
+        register($scope.user, handleRegisterResult);
     };
 }]);
