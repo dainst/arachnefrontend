@@ -7,10 +7,33 @@ angular.module('arachne.controllers')
  * @see partials/register.html.
  *
  * $scope
- *   success set to true to signal success to the view.
+ *   success {boolean} set to true to signal success to the view.
+ *   user {object} the user object
+ *   submit {function} the submit function
  */
 .controller('RegisterController', [ '$scope', '$http', '$filter', 'message', 'arachneSettings',
 function ( $scope, $http, $filter, message, arachneSettings) {
+
+
+    /**
+     * The original user object will be copied so the original does not get modified.
+     * The copy get send to the backend and will contain the md5 encrypted pwd. If that would
+     * modify the reference which is bound to the scope
+     * and the request would be rejected, the md5 passes would enter
+     * the form and upon a successful request it would be encrypted again and as a result
+     * unusable as it would be different from what the user entered.
+     */
+    var copyUser= function(user) {
+
+        var newUser= JSON.parse(JSON.stringify(user));
+
+        if (user.password)
+            newUser.password = $filter('md5')(user.password);
+        if (user.passwordValidation)
+            newUser.passwordValidation = $filter('md5')(user.passwordValidation);
+
+        return newUser;
+    };
 
     /**
      * Sends the account registration request to the backend
@@ -22,22 +45,11 @@ function ( $scope, $http, $filter, message, arachneSettings) {
      */
     var register= function(user,callback){
 
-        // The original user object will be copied so the original does not get modified.
-        // The copy get send to the backend and will contain the md5 encrypted pwd. If that would
-        // modify the reference which is bound to the scope
-        // and the request would be rejected, the md5 passes would enter
-        // the form and upon a successful request it would be encrypted again and as a result
-        // unusable as it would be different from what the user entered.
-        var newUser= JSON.parse(JSON.stringify(user))
-
-        if (user.password)
-            newUser.password = $filter('md5')(user.password);
-        if (user.passwordValidation)
-            newUser.passwordValidation = $filter('md5')(user.passwordValidation);
+        if (!user) return callback(false,"ui.register.fieldsMissing");
+        var newUser= copyUser(user);
 
         $http.post(arachneSettings.dataserviceUri + "/user/register", newUser, {
             "headers": { "Content-Type": "application/json" }
-
         }).success(function(data) {
             return callback(true,null);
         }).error(function(data) {
@@ -45,18 +57,18 @@ function ( $scope, $http, $filter, message, arachneSettings) {
         });
     };
 
+    var registerCallback= function(isSuccess,msg){
+
+        message.clear();
+        if(isSuccess) {
+            message.addMessageForCode('register_success', 'success');
+            $scope.success=true;
+        }
+        else
+            message.addMessageForCode(msg, 'danger', false);
+    };
 
     $scope.submit = function() {
-        register($scope.user,
-            function(isSuccess,msg){
-
-                message.clear();
-                if(isSuccess) {
-                    message.addMessageForCode('register_success', 'success');
-                    $scope.success=true;
-                }
-                else
-                    message.addMessageForCode(msg, 'danger', false);
-        });
+        register($scope.user, registerCallback);
     };
 }]);

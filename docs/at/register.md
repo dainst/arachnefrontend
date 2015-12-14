@@ -1,6 +1,6 @@
 # Arachne Acceptance Tests:
 
-## TEST: Register form error handling
+## TEST1: Register form error handling
 
 The test has to be done with primary selected browser languages 'de' and 'en'.
 
@@ -10,11 +10,19 @@ The test has to be done with primary selected browser languages 'de' and 'en'.
 * 4) Is there a proper and descriptive error message what is missing?
 * 4a) If yes, follow the advice and go back to 3.
 * 4b) If no, the test is to considered FAILED:
-* 6) Repeat steps 3 to 4 until registration has been successful.
-* 7a) Try to log in as the user you created. If is not possible, the test FAILS.
-* 7b) If it is possible, the test is a SUCCESS.
+* 6) Repeat steps 3 to 4 until there is a mail that the registration has been successful.
+
+## TEST2 : Account Activation
+
+After TEST1, the account is not yet activated.
+With the user created in test1,
+
+* 1) Try to log in.
+* 2) It should not be possible, otherwise FAIL.
+* 3) As an admin, unlock the user.
+* 4) Login should be possible, otherwise FAIL.
  
-## TEST: Reject registration with existing email
+## TEST3: Reject registration with existing email
 
 * 1) Open register form.
 * 2) Register with email abc@trash-mail.com. The registration must be successful.
