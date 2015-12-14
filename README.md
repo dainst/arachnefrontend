@@ -27,8 +27,6 @@ npm install -g karma
 npm install -g karma-jasmine
 npm install -g karma-ng-html2js-preprocessor
 npm install -g karma@canary phantomjs karma-phantomjs-launcher
-npm install -g protractor
-webdriver-manager update
 ```
 
 You may need root permissions on your machine in order to perform these commands successfully.
@@ -42,15 +40,13 @@ sudo npm install -g gulp
 
 ### Running the tests
 
-Two types of tests are supported at the moment. User Interface (UI) and unit tests. To run the unit tests, call
+To run the unit tests, call
 
 ```bash
 gulp test
 ```
 
-which will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
-
-The somewhat more complex test setup for e2e testing is described [here](docs/development_e2e_testing.md).
+This will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
 
 ### con10t submodule
 
