@@ -8,7 +8,7 @@
 * 4) Visit the update profile page.
 * 5) Change the email to abc@trash-mail.com
 * 6) If the change is successful, the test is FAILED.
-* 7) If the change gets rejected with a proper message, the test is PASSED.
+* 7) If the change gets rejected with a proper message (for de,en), the test is PASSED.
 
 ## TEST: Reject changing username to username in use by another user.
 
