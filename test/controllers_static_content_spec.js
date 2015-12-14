@@ -19,7 +19,7 @@ describe ('StaticContentController', function() {
 					return route+'/'+title;
 				}
 			});
-			$provide.constant('$routeParams', {
+			$provide.constant('$stateParams', {
 				"title" : title
 			});
 			$provide.value('language', {
