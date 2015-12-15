@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<h4 class="modal-title">Katalog bearbeiten:
+	<h4 class="modal-title">{{ 'catalog_edit' | transl8 }}:
 	</h4>
 </div>
 <div class="modal-body">
@@ -31,5 +31,5 @@
 			ng-class="{disabled:!catalog.root.label || !catalog.author}">
 		OK
 	</button>
-	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+	<button class="btn btn-default" ng-click="$dismiss()">{{'ui_dismiss' | transl8}}</button>
 </div>
