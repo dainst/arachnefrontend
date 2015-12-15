@@ -22,14 +22,17 @@ angular.module('arachne',[
 ])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider',
 	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider) {
+
 		$locationProvider.html5Mode(true);
 
 		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|blob):/)
 
-		$urlRouterProvider.otherwise('/');
+		$urlRouterProvider.when('', '/');
+		$urlRouterProvider.otherwise('/404');
 		$stateProvider
+			.state('404', { url: '/404', templateUrl: 'partials/404.html'})
 			.state('start', { url: '/', templateUrl: 'partials/startSite.html'})
-			.state('catalogs', { url: '/catalogs', templateUrl: 'partials/catalogs.html'})		
+			.state('catalogs', { url: '/catalogs', templateUrl: 'partials/catalogs.html'})
 			.state('catalog/:id', { url: '/catalog/:id', templateUrl: 'partials/catalog.html'})
 			.state('entity', { url: '/entity/:id?/:params?', templateUrl: 'partials/entity.html', reloadOnSearch: false})
 			.state('entityImages', { url: '/entity/:entityId/images', templateUrl: 'partials/entity_images.html'})
