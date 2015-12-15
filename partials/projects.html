@@ -1,10 +1,17 @@
 <div ng-controller="ProjectsController as projectsController" style="width: 90%; margin: 0 5%;">
-	<h1>
-		Alle Projekte in Arachne
-		<form class="form-inline pull-right" style="margin-bottom:0">
-			<input class="form-control" type="text" placeholder="Filter" ng-model="filter">
-		</form>
-	</h1>
+
+	<div class="row">
+		<div class="col-sm-10">
+			<h1>
+				Alle Projekte in Arachne
+			</h1>
+		</div>
+		<div class="col-sm-2">
+			<form class="form-inline" style="margin-bottom:0">
+				<input class="form-control" style="width: 100%; margin-top: 20px;" type="text" placeholder="Filter" ng-model="filter">
+			</form>
+		</div>
+	</div>
 	<hr>
 	<div class="row">
 
