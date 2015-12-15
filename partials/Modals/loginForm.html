@@ -1,10 +1,10 @@
 <div class="modal-header">
 	<button type="button" class="close"  ng-click="cancel()" aria-hidden="true">&times;</button>
-	<h4 class="modal-title">Arachne-Anmeldung</h4>
+	<h4 class="modal-title">Arachne {{'ui_login' | transl8}}</h4>
 </div>
 <div class="modal-body">
-	<p class="alert alert-success" ng-if="user.username">Erfolgreich angemeldet. Nutzer: {{ user.username }}</p>
-	<p class="alert alert-warning" ng-if="loginerror == true">Die Anmeldung ist fehlgeschlagen. Versuchen Sie es erneut!</p>
+	<p class="alert alert-success" ng-if="user.username">{{ 'ui_login_successfull' | transl8 }}: {{ user.username }}</p>
+	<p class="alert alert-warning" ng-if="loginerror == true">{{'ui_login_failed' | transl8 }}</p>
 	<form ng-if="!user.username" class="form-inline" role="form" ng-submit="login()" autofillfix>
 		<div class="form-group">
 			<input focus-me type="username" id="input-username" class="form-control" id="exampleInputEmail2" ng-model="loginData.user" placeholder="Benutzername">
@@ -12,7 +12,7 @@
 		<div class="form-group">
 			<input type="password" class="form-control" id="exampleInputPassword2" ng-model="loginData.password" placeholder="Passwort">
 		</div>
-		<button class="btn btn-primary" type="submit">Anmelden</button>
+		<button class="btn btn-primary" type="submit">{{'ui_login' | transl8}}</button>
 	</form>
-	<a href="pwdreset" ng-click="cancel()">Passwort vergessen?</a>
+	<a href="pwdreset" ng-click="cancel()">{{ 'ui_forgot_password' | transl8 }} ? </a>
 </div>

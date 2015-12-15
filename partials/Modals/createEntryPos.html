@@ -1,12 +1,12 @@
 <form>
 	<div class="modal-header">
-		<h4 class="modal-title">Bitte den Katalog wählen in dem der Eintrag angelegt werden soll:
+		<h4 class="modal-title">{{'catalog_choose_catalog' | transl8}}:
 		</h4>
 	</div>
 	<div class="modal-body">
 		
 		<div ng-if="catalogs.length == 0">
-			<a href="catalog" ng-click="$dismiss()">Keine Kataloge vorhanden. Bitte erst einen Anlegen!</a>
+			<a href="catalog" ng-click="$dismiss()">{{ 'catalog_no_catalog' | transl8 }}</a>
 		</div>
 		<div id="custom-catalog">
 			<div ng-repeat="catalog in catalogs" >
@@ -15,6 +15,6 @@
 	  	</div>
 	</div>
 	<div class="modal-footer">
-    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+    	<button class="btn btn-default" ng-click="$dismiss()">{{'ui_dismiss' | transl8}}</button>
 	</div>
 </form>
