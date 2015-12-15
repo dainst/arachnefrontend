@@ -1,10 +1,10 @@
 <form>
 	<div class="modal-header">
-		<h4 class="modal-title" ng-if="!edit">Neuen Eintrag anlegen:</h4>
-		<h4 class="modal-title" ng-if="edit">Eintrag bearbeiten:</h4>
+		<h4 class="modal-title" ng-if="!edit">{{ 'catalog_create_entry' | transl8 }}:</h4>
+		<h4 class="modal-title" ng-if="edit">{{'catalog_edit_entry' | transl8}}:</h4>
 	</div>
 	<div class="modal-body">
-		Überschrift des <span ng-if="!edit">neuen </span>Eintrags
+		{{ 'catalog_entry_title' | transl8}}:
 		<div class="form-group">
 			<input autofocus type="label" class="form-control" ng-model="entry.label" placeholder="Überschrift">
 		</div>
@@ -12,7 +12,7 @@
 		<div class="form-group">
 			<input autofocus type="arachneId" class="form-control" ng-model="entry.arachneEntityId" placeholder="Entity ID">
 		</div>
-		Katalogtext / Notiz <small>(Optional)</small>
+		{{ 'catalog_description' | transl8 }}: <small>(Optional)</small>
 		<div ar-markdown-text-editor markdown-text="entry.text" placeholder="Katalogtext"></div>
 	</div>
 	<div class="modal-footer">
@@ -21,6 +21,6 @@
     			ng-click="$close(entry)"
     			ng-class="{ disabled: !entry.label }"
     			value="OK">
-    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+    	<button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8}}</button>
 	</div>
 </form>
