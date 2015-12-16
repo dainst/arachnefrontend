@@ -10,6 +10,14 @@ body {
   overflow-y: scroll; /* always show scrollbar */
 }
 
+@media screen and (max-width: 415px) {
+
+  #projectLogo {
+
+    display: none;
+  }
+}
+
 [ui-view] {
     padding-top: 50px;
 }
