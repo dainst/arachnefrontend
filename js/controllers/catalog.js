@@ -62,8 +62,9 @@ angular.module('arachne.controllers')
 				templateUrl: 'partials/Modals/editEntry.html'
 			});
 			editEntryModal.close = function(newEntry) {
+
 				entry.children.push(newEntry);
-				$http.post(arachneSettings.dataserviceUri + "/catalogentry/" + entry.id +"/add", newEntry);
+                updateActiveCatalog();
 				editEntryModal.dismiss();
 			}			
 		}
@@ -153,9 +154,6 @@ angular.module('arachne.controllers')
 		}
 
 		function updateActiveCatalog() {
-			for(var i = $scope.offset; i<=($scope.offset+$scope.pageSize); i++){
-				$scope.originalCatalog.root.children[i] = $scope.activeCatalog.root.children[i-$scope.offset];
-			}
 			Catalog.update({ id: $scope.activeCatalog.id }, $scope.activeCatalog);
 		}
 
