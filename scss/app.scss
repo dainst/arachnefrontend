@@ -18,6 +18,11 @@ body {
   }
 }
 
+.navbar-collapse {
+
+  max-height: auto;
+}
+
 [ui-view] {
     padding-top: 50px;
 }
