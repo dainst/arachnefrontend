@@ -18,9 +18,11 @@ body {
   }
 }
 
-.navbar-collapse {
+.navbar-fixed-top .navbar-collapse,
+.navbar-fixed-bottom .navbar-collapse {
 
-  max-height: auto;
+  max-height: 375px;
+
 }
 
 [ui-view] {
