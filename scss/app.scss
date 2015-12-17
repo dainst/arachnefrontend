@@ -485,10 +485,15 @@ h6 { font-size: 12px; }
   font-size:11px;
 }
 
+:-moz-full-screen.fullscreenrow {
+  padding-top: 0;
+}
+
  /* NEEDED FOR CHROME FULLSCREEN MODE, USED ON ENTITYIMAGESCONTROLLER */
 :-webkit-full-screen {
   width: 100%;
   height: 100%;
+  padding-top: 0;
 }
 
 con10t-catalog-tree {
