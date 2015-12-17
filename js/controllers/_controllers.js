@@ -407,6 +407,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$rootScope.hideFooter = true;
 		$scope.allow = true;
 
+		var fullscreen = false;
+
 		$scope.refreshImageIndex = function() {
 			if($scope.entity && $scope.entity.images) {
 				for (var i = 0; i < $scope.entity.images.length; i++) {
@@ -420,15 +422,30 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.requestFullscreen = function() {
 			var element = document.getElementById('theimage');
-			// Find the right method, call on correct element			
-			if(element.requestFullscreen) {
-			    element.requestFullscreen();
-			} else if(element.mozRequestFullScreen) {
-			    element.mozRequestFullScreen();
-			} else if(element.webkitRequestFullscreen) {
-			    element.webkitRequestFullscreen();
-			} else if(element.msRequestFullscreen) {
-			    element.msRequestFullscreen();
+			// Find the right method, call on correct element
+
+			if (fullscreen) {
+				if(document.exitFullscreen) {
+				    document.exitFullscreen();
+				} else if(document.mozCancelFullScreen) {
+				    document.mozCancelFullScreen();
+				} else if(document.webkitExitFullscreen) {
+				    document.webkitExitFullscreen();
+				} else if(document.msExitFullscreen) {
+				    document.msExitFullscreen();
+				}
+				fullscreen = false;
+			} else {	
+				if(element.requestFullscreen) {
+				    element.requestFullscreen();
+				} else if(element.mozRequestFullScreen) {
+				    element.mozRequestFullScreen();
+				} else if(element.webkitRequestFullscreen) {
+				    element.webkitRequestFullscreen();
+				} else if(element.msRequestFullscreen) {
+				    element.msRequestFullscreen();
+				}
+				fullscreen = true;
 			}
 		};
 
