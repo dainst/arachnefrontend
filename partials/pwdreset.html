@@ -1,57 +1,51 @@
-<div class="row" style="margin-top:0px;" ng-controller="PwdController as pwdController">
+<div class="row" style="margin-top:0px;" ng-controller="PwdResetController as pwdResetController">
     <div class="col-md-6 col-md-offset-3 col-xs-12 page-header">
-		<h2>Passwort zurücksetzten</h2>
-		<div class="alert alert-danger" ng-show="error">
-			Error: {{error | transl8}}
-		</div>
-		<div class="alert alert-success" ng-show="success">
-			Passwort zurück gesetzt. Sie sollten in Kürze eine eMail von uns erhalten.
-		</div>
+		<h2>{{'ui.passwordreset.reset'|transl8}}</h2>
 	</div>
 	<div class="col-md-6 col-md-offset-3 col-xs-12 well" ng-hide="success">
 		<form novalidate show-validation class="form-horizontal register-form" role="form" name="contactForm">
 
 			<div class="form-group" style="padding-top: 10px;">
-	        	<label class="col-sm-4 control-label">Benutzername </label>
+	        	<label class="col-sm-4 control-label">{{'ui.passwordreset.username'|transl8}}</label>
 	        	<div class="col-sm-8">
-	        		<input type="text" ng-model="usrData.username" class="form-control" placeholder="Benutzername" required />
+	        		<input type="text" ng-model="user.username" class="form-control" placeholder="{{'ui.passwordreset.username'|transl8}}" required />
 	        	</div>
 			</div>
 			<div class="form-group">
-	        	<label class="col-sm-4 control-label">eMail </label>
+	        	<label class="col-sm-4 control-label">{{'ui.passwordreset.email'|transl8}} </label>
 	        	<div class="col-sm-8">
-	        		<input type="email" ng-model="usrData.email" placeholder="eMail" class="form-control" required />  
+	        		<input type="email" ng-model="user.email" placeholder="{{'ui.passwordreset.email'|transl8}}" class="form-control" required />
 	        	</div>
 			</div>
 			<div class="form-group">
-	        	<label class="col-sm-4 control-label">Vorname </label>
+	        	<label class="col-sm-4 control-label">{{'ui.passwordreset.first-name'|transl8}}</label>
 	        	<div class="col-sm-8">
-	        		<input type="text" name="name" ng-model="usrData.firstname" class="form-control" placeholder="Vorname" required />
+	        		<input type="text" name="name" ng-model="user.firstname" class="form-control" placeholder="{{'ui.passwordreset.first-name'|transl8}}" required />
 	        	</div>
 			</div><div class="form-group">
-	        	<label class="col-sm-4 control-label">Nachname </label>
+	        	<label class="col-sm-4 control-label">{{'ui.passwordreset.surname'|transl8}}</label>
 	        	<div class="col-sm-8">
-	        		<input type="text" name="name" ng-model="usrData.lastname" class="form-control" placeholder="Nachname" required />
+	        		<input type="text" name="name" ng-model="user.lastname" class="form-control" placeholder="{{'ui.passwordreset.surname'|transl8}}" required />
 	        	</div>
 			</div>
 			<div class="form-group">
-	        	<label class="col-sm-4 control-label">PLZ </label>
+	        	<label class="col-sm-4 control-label">{{'ui.passwordreset.zip'|transl8}}</label>
 	        	<div class="col-sm-8">
-	        		<input name="zip" ng-model="usrData.zip" class="form-control" placeholder="Zip" required />
+	        		<input name="zip" ng-model="user.zip" class="form-control" placeholder="{{'ui.passwordreset.zip'|transl8}}" required />
 	        	</div>
 			</div>
 			<div class="form-group">
 			    <div class="col-sm-offset-4 col-sm-8">
 			      <div class="checkbox">
 			        <label>
-			          <input type="checkbox" ng-model="usrData.iAmHuman" ng-true-value="humanIAm"> Ich bin keine Maschine
+			          <input type="checkbox" ng-model="user.iAmHuman" ng-true-value="'humanIAm'">{{'ui.passwordreset.iamhuman'|transl8}}
 			        </label>
 			      </div>
 			    </div>
 		  	</div>
 			<div class="form-group">
 		    	<div class="col-sm-offset-4 col-sm-8">
-		      		<button type="submit" ng-click="submit()" class="btn btn-primary">Senden</button>
+		      		<button type="submit" ng-click="submit()" class="btn btn-primary">{{'ui.passwordreset.send'|transl8}}</button>
 		    	</div>
 		  	</div>
 		</form>
