@@ -146,6 +146,11 @@ h6 { font-size: 12px; }
     border-color: #ddd;
 }
 
+.page-title {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .page-title .title {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -266,6 +271,11 @@ h6 { font-size: 12px; }
   top: 0;
   left: 0;
   padding-top: 50px;
+}
+
+hr {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .sections {

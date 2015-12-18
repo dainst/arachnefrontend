@@ -54,92 +54,92 @@
 	<div class="col-md-3" ng-show="entity.entityId">
 
 		<!-- CURRENT QUERY STATUS -->
-		<div ng-if="resultSize">
+		<div class="row"><div class="col-md-12">
 
-			<h5 ng-if="currentQuery.q" class="text-muted">
-				<strong class="uppercase">{{"ui_current_query"|transl8}}</strong>
-			</h5>
+			<div ng-if="resultSize">
 
-			<div ng-if="currentQuery.q" class="panel panel-default">
+				<div ng-if="currentQuery.q" class="panel panel-default">
 
-				<div class="panel-heading">
+					<div class="panel-heading">
 
-					<a ng-href="search{{currentQuery.removeParam('resultIndex').removeParam('offset').toString()}}"
-							class="btn btn-xs pull-right btn-primary">
-						<span class="glyphicon glyphicon-arrow-left"></span> {{"ui_to_search_result"|transl8}}
-					</a>
+						<a ng-href="search{{currentQuery.removeParam('resultIndex').removeParam('offset').toString()}}"
+								class="btn btn-xs pull-right btn-primary">
+							<span class="glyphicon glyphicon-arrow-left"></span> {{"ui_to_search_result"|transl8}}
+						</a>
 
-					<div>
-						<b class="text-muted uppercase small">{{"ui_current_query"|transl8}}</b><br>
-						<span ng-if="!currentQuery.label">{{currentQuery.q}}</span>
-						<i ng-if="currentQuery.label">{{currentQuery.label}}</i>
+						<div>
+							<b class="text-muted uppercase small">{{"ui_current_query"|transl8}}</b><br>
+							<span ng-if="!currentQuery.label">{{currentQuery.q}}</span>
+							<i ng-if="currentQuery.label">{{currentQuery.label}}</i>
+						</div>
+
+						<div ng-if="currentQuery.hasFacets()">
+							<b class="text-muted uppercase small">{{"entity_active_filters"|transl8}}</b>
+							<ul>
+								<li ng-repeat="facet in currentQuery.facets">
+									<small>
+										<i>{{facet.key | transl8}}</i>
+										<b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b>
+									</small>
+								</li>
+							</ul>
+						</div>
+
 					</div>
 
-					<div ng-if="currentQuery.hasFacets()">
-						<b class="text-muted uppercase small">{{"entity_active_filters"|transl8}}</b>
-						<ul>
-							<li ng-repeat="facet in currentQuery.facets">
-								<small>
-									<i>{{facet.key | transl8}}</i>
-									<b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b>
-								</small>
-							</li>
-						</ul>
-					</div>
+					<ul class="list-group">
+
+						<a ng-if="prevEntity"
+								ng-href="entity/{{prevEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex-1).toString()}}"
+								class="list-group-item"
+								style="height:75px; overflow:hidden">
+							<div>
+								<b class="text-muted uppercase small">
+									<span class="glyphicon glyphicon-chevron-left" style="color:black" ></span>
+									&nbsp; {{"entity_previous_result"|transl8}}
+								</b>
+							</div>
+							<div ar-entity-title entity="prevEntity"></div>
+							
+						</a>
+
+						<li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
+							<b class="text-muted uppercase small">{{"entity_shown_result"|transl8}}</b>
+							<form ng-submit="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">
+								<div class="input-group"
+										ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
+							    	<input ng-model="resultIndexInput"
+							    			type="number" size="4"
+							    			min="1" max="{{resultSize}}" class="form-control input-sm">
+							    	<span ng-if="resultIndex == resultIndexInput" class="input-group-addon" style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>von</small> <strong>{{resultSize|number}}</strong></span>
+							    	<span ng-hide="resultIndex == resultIndexInput" class="input-group-btn">
+							    		<button class="btn btn-primary btn-sm" ng-click="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">Springe</button>
+							    	</span>
+							    </div>
+							</form>
+						</li>
+
+						<a ng-if="nextEntity"
+								ng-href="entity/{{nextEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex+1).toString()}}"
+								class="list-group-item text-right"
+								style="height:75px; overflow:hidden">
+							<div>
+								<b class="text-muted uppercase small">
+									&nbsp; {{"entity_next_result"|transl8}}
+									<span class="glyphicon glyphicon-chevron-right" style="color:black" ></span>
+								</b>
+							</div>
+							<div ar-entity-title entity="nextEntity"></div>
+							
+						</a>
+
+					</ul>
 
 				</div>
 
-				<ul class="list-group">
-
-					<a ng-if="prevEntity"
-							ng-href="entity/{{prevEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex-1).toString()}}"
-							class="list-group-item"
-							style="height:75px; overflow:hidden">
-						<div>
-							<b class="text-muted uppercase small">
-								<span class="glyphicon glyphicon-chevron-left" style="color:black" ></span>
-								&nbsp; {{"entity_previous_result"|transl8}}
-							</b>
-						</div>
-						<div ar-entity-title entity="prevEntity"></div>
-						
-					</a>
-
-					<li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
-						<b class="text-muted uppercase small">{{"entity_shown_result"|transl8}}</b>
-						<form ng-submit="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">
-							<div class="input-group"
-									ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
-						    	<input ng-model="resultIndexInput"
-						    			type="number" size="4"
-						    			min="1" max="{{resultSize}}" class="form-control input-sm">
-						    	<span ng-if="resultIndex == resultIndexInput" class="input-group-addon" style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>von</small> <strong>{{resultSize|number}}</strong></span>
-						    	<span ng-hide="resultIndex == resultIndexInput" class="input-group-btn">
-						    		<button class="btn btn-primary btn-sm" ng-click="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">Springe</button>
-						    	</span>
-						    </div>
-						</form>
-					</li>
-
-					<a ng-if="nextEntity"
-							ng-href="entity/{{nextEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex+1).toString()}}"
-							class="list-group-item text-right"
-							style="height:75px; overflow:hidden">
-						<div>
-							<b class="text-muted uppercase small">
-								&nbsp; {{"entity_next_result"|transl8}}
-								<span class="glyphicon glyphicon-chevron-right" style="color:black" ></span>
-							</b>
-						</div>
-						<div ar-entity-title entity="nextEntity"></div>
-						
-					</a>
-
-				</ul>
-
 			</div>
 
-		</div>
+		</div></div>
 
 		<!-- END CURRENT QUERY STATUS -->
 
@@ -164,47 +164,49 @@
 
 		<div class="row">
 
-			<!-- CONTENT SECTION -->
 			<div class="col-md-8">
-
 				<h2 class="page-title">
 					<div class="title">
 						{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type}}</span>
 					</div>
 					<div class="subtitle"><small>{{ entity.subtitle }}</small></div>
 				</h2>
-
-				<hr>
-				<div class="row">
-					<div class="col-md-3">
-						<b>{{ 'entityId' | transl8 }}:</b><br>{{ entity.entityId }}
-					</div>
-					<div class="col-md-3">
-						<b>{{'ui_category'|transl8}}:</b><br>{{ categories[entity.type]["singular"] }}
-					</div>
-					<div class="col-md-3">
-						<b>{{'ui_serial_number'|transl8}}:</b><br>{{ entity.internalId }}
-					</div>
-					<div class="col-md-3">
-						
-						<div class="btn-group-vertical pull-right">
-							<button style="text-align:left"
-									ng-click="permaLink=!permaLink"
-									ng-class="{'active':permaLink}"
-									class="btn btn-default btn-xs">
-								<span class="glyphicon glyphicon-link"></span>
-								&nbsp;Perma-Link
-							</button>
-						</div>
-					</div>
+				<div>
+					<small>
+						<a ng-href="{{ serverUri }}entity/{{entity.entityId}}">
+							arachne.dainst.org/entity/{{entity.entityId}}
+						</a>
+					</small>
 				</div>
-				<div class="row" ng-hide="!permaLink">
-					<div class="col-md-12">
-						<hr>
-						<b>Perma-Link: </b><a href="{{ serverUri }}entity/{{entity.entityId}}">{{ serverUri }}entity/{{entity.entityId}}</a>
-					</div>
-				</div>	  
-				<hr>
+			</div>
+
+			<div class="col-md-4">
+				<table class="table table-condensed" style="margin-bottom:0">
+					<thead>
+						<tr>
+							<td><b>{{ 'entityId' | transl8 }}:</b></td>
+							<td>{{ entity.entityId }}</td>
+						</tr>
+					</thead>
+					<tr>
+						<td><b>{{'ui_category'|transl8}}:</b></td>
+						<td>{{ categories[entity.type]["singular"] }}</td>
+					</tr>
+					<tr>
+						<td><b>{{'ui_serial_number'|transl8}}:</b></td>
+						<td>{{ entity.internalId }}</td>
+					</tr>
+				</table>
+			</div>
+
+		</div>
+
+		<hr>
+
+		<div class="row">
+
+			<!-- CONTENT SECTION -->
+			<div class="col-md-8">
 
 				<tabset ng-if="catalogEntries.length > 0">
 					<tab ng-if="!entity.sections" heading="{{'entity_no_further_info'|transl8}}" select="updateCatalogEntryParameter()">
@@ -234,50 +236,39 @@
 			<!-- CONTEXT & IMAGE SECTION -->
 			<div class="col-md-4">
 
-				<div class="row">
-					<div class="col-md-12">
-						<h3 ng-if="entity.images.length > 1">
-							<a ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}">
-								{{'entity_images'|transl8}} <small>({{entity.images.length}})</small>
-							</a>
-						</h3>
-						<h3 ng-if="entity.images.length == 1">{{'entity_image'|transl8}}</h3>
-						<div ar-imageslider ng-if="entity.images" entity="entity" current-query="currentQuery"></div>
-					</div>
-				</div>
+				<h3 ng-if="entity.images.length > 1">
+					<a ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}">
+						{{'entity_images'|transl8}} <small>({{entity.images.length}})</small>
+					</a>
+				</h3>
+				<h3 ng-if="entity.images.length == 1">{{'entity_image'|transl8}}</h3>
+				<div ar-imageslider ng-if="entity.images" entity="entity" current-query="currentQuery"></div>
 
-				<div class="row" ng-if="entity.externalLinks">
-					<div class="col-md-12">
-						<h3>{{'entity_other_views'|transl8}}</h3>
-						<div class="list-group">
-							<a ng-repeat="externalLink in entity.externalLinks"
-									ng-href="{{ externalLink.url }}"
-									type="button"
-									class="list-group-item"
-									target="_blank">
-								<span class="glyphicon glyphicon-new-window pull-right"></span>
-								{{externalLink.label}}
-							</a>
-						</div>
+				<div ng-if="entity.externalLinks">
+					<h3>{{'entity_other_views'|transl8}}</h3>
+					<div class="list-group">
+						<a ng-repeat="externalLink in entity.externalLinks"
+								ng-href="{{ externalLink.url }}"
+								type="button"
+								class="list-group-item"
+								target="_blank">
+							<span class="glyphicon glyphicon-new-window pull-right"></span>
+							{{externalLink.label}}
+						</a>
 					</div>
 				</div>
 				
-				<div class="row" ng-show="contextSize">
-					<div class="col-md-12">
-						
-						<h3>
-							<a ng-href="search{{contextQuery.toString()}}">
-								{{'entity_linked_objects'|transl8}}
-								<small>({{contextSize}})</small>
-							</a>
-						</h3>
-
-						<div ar-facet-browser
-								query="contextQuery"
-								facet-name="facet_kategorie"
-								context-size="contextSize">
-						</div>
-
+				<div ng-show="contextSize">						
+					<h3>
+						<a ng-href="search{{contextQuery.toString()}}">
+							{{'entity_linked_objects'|transl8}}
+							<small>({{contextSize}})</small>
+						</a>
+					</h3>
+					<div ar-facet-browser
+							query="contextQuery"
+							facet-name="facet_kategorie"
+							context-size="contextSize">
 					</div>
 				</div>
 

@@ -14,6 +14,8 @@ function($http, arachneSettings, $filter, $cookieStore) {
         delete $http.defaults.headers.common['Authorization'];
     }
 
+    console.log($http.defaults.headers.common['Authorization']);
+
     return {
 
         setCredentials: function (username, password, successMethod, errorMethod) {
