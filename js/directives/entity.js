@@ -14,12 +14,11 @@ function($location, $filter) {
         },
         link: function(scope, element, attrs) {
 
-
             var map = L.map('entitymap').setView([40, -10], 3);
 
-            var layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            var layer = L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', {
                 maxZoom: 18,
-                minZoom: 3
+                minZoom: 2
             });
 
             map.addLayer(layer);
@@ -32,7 +31,6 @@ function($location, $filter) {
 
                 var group = new L.featureGroup();
                 if(scope.places){
-                    console.log(scope.places);
                     for(var place in scope.places){
                         var curplace = scope.places[place];
 
@@ -40,8 +38,10 @@ function($location, $filter) {
                         var relation = curplace.relation;
                         var location = curplace.location;
 
-                        console.log(curplace.name);
-                        var title = "<b>" + relation + "</b><br/>" + name;
+                        var title = "";
+                        if (relation) title += "<b>" + relation + "</b><br/>";
+                        title += "<a href='http://gazetteer.dainst.org/place/" + curplace.gazetteerId
+                            + "' target='_blank'>" + name + "</a>";
                         var text = name;
                         var newMarker = L.marker(new L.LatLng(location.lat, location.lon), { title: text });
                         newMarker.bindPopup(title);
@@ -51,8 +51,14 @@ function($location, $filter) {
 
                 }
                 var mark = L.featureGroup(markers);
-                map.fitBounds(mark.getBounds());
-                //map.setZoom(9);
+
+                // workaround, see https://github.com/Leaflet/Leaflet/issues/2021
+                map.whenReady(function () {
+                    window.setTimeout(function () {
+                        if (markers.length > 1) map.fitBounds(mark.getBounds(), { padding: [20, 20] });
+                        else map.fitBounds(mark.getBounds(), { maxZoom: 5 });
+                    }.bind(this), 200);
+                }, this);
 
                 map._onResize();
             }
