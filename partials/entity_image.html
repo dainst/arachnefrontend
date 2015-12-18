@@ -20,22 +20,23 @@
 			style="opacity:0.8; position:absolute; right:10px; top:60px;">
 		<a class="btn btn-default btn-sm" href="entity/{{entity.entityId}}{{currentQuery.toString()}}">
 			<div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">
-				{{entity.title}}<br><i>anzeigen</i>
+				<span class="glyphicon glyphicon-arrow-left"></span>
+				{{ 'entity.image.back_to' | transl8 }}<br>{{entity.title}}<br>
 			</div>
 		</a>
 		<a class="btn btn-default btn-sm"  ng-click="downloadImage()">
-			<i class="glyphicon glyphicon-download-alt"></i> Download
+			<span class="glyphicon glyphicon-download-alt"></span> {{ 'entity.image.download' | transl8 }}
 		</a>
-		<a class="btn btn-default btn-sm" ng-href="entity/{{imageId}}">
-			Bild-Metadaten
+		<a class="btn btn-default btn-sm" ng-href="entity/{{imageId}}" ng-hide="entity.type == 'Bilder'">
+			<span class="glyphicon glyphicon-list"></span> {{ 'entity.image.metadata' | transl8 }}
 		</a>
 		<button class="btn btn-default btn-sm" ng-click="requestFullscreen()">
-			<span class="glyphicon glyphicon-fullscreen"></span> Vollbild
+			<span class="glyphicon glyphicon-fullscreen"></span> {{ 'entity.image.fullscreen' | transl8 }}
 		</button>
 		<a ng-if="entity.images.length > 1"
 				ng-href="entity/{{entity.entityId}}/images"
 				 class="btn btn-default btn-sm ">
-			<span class="glyphicon glyphicon-th"></span> Alle Bilder ({{entity.images.length}})
+			<span class="glyphicon glyphicon-th"></span> {{ 'entity.image.all_images' | transl8 }} ({{entity.images.length}})
 		</a>
 	</div>
 
