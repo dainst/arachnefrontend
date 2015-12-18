@@ -18,8 +18,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('SearchController', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'Catalog','message', '$modal', '$http', 'Entity', 'authService',
-	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $modal, $http, Entity, authService){
+.controller('SearchController', ['$rootScope','$scope','searchService','categoryService', '$filter', 'arachneSettings', '$location', 'Catalog','message', '$uibModal', '$http', 'Entity', 'authService',
+	function($rootScope,$scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService){
 
 		$rootScope.hideFooter = false;
 		$scope.user = authService.getUser();
@@ -100,7 +100,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 							children: $scope.catalogEntries
 						}
 					};
-					var catalogFromSearch = $modal.open({
+					var catalogFromSearch = $uibModal.open({
 						templateUrl: 'partials/Modals/editCatalog.html',
 						controller: 'EditCatalogController',
 						resolve: { catalog: function() {  return bufferCatalog } }
@@ -166,8 +166,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('CategoryController', ['$rootScope','$scope', '$modal', 'Query', '$http','arachneSettings', 'categoryService', '$location', 'Entity',
-	function($rootScope, $scope, $modal, Query, $http, arachneSettings, categoryService, $location, Entity) {
+.controller('CategoryController', ['$rootScope','$scope', '$uibModal', 'Query', '$http','arachneSettings', 'categoryService', '$location', 'Entity',
+	function($rootScope, $scope, $uibModal, Query, $http, arachneSettings, categoryService, $location, Entity) {
 
 		$rootScope.hideFooter = false;
 
@@ -191,7 +191,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		
 
 		$scope.test = function(facetname){
-				var indexModal = $modal.open({
+				var indexModal = $uibModal.open({
 		            templateUrl: 'partials/Modals/indexModal.html',
 		            controller: function ($scope) {
 		                $scope.facetName = facetname;
@@ -248,8 +248,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 	}
 ])
-.controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$modal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'message',
-	function ($rootScope, $stateParams, searchService, $scope, $modal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, message) {
+.controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$uibModal', 'Entity', '$location','arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'message',
+	function ($rootScope, $stateParams, searchService, $scope, $uibModal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, message) {
 
 		$rootScope.hideFooter = false;
 		
@@ -275,7 +275,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 		$scope.createEntry = function() {
 			//TODO: Parse Secitons in entry.text
-			var createEntryPos = $modal.open({
+			var createEntryPos = $uibModal.open({
 				templateUrl: 'partials/Modals/createEntryPos.html',
 				controller: function ($scope) { $scope.catalogs = Catalog.query()}
 			});
@@ -286,7 +286,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 					arachneEntityId: $scope.entity.entityId,
 					label: $scope.entity.title
 				};
-				var editEntryModal = $modal.open({
+				var editEntryModal = $uibModal.open({
 					templateUrl: 'partials/Modals/editEntry.html',
 					controller: 'EditCatalogEntryController',
 					resolve: { entry: function() { return entry } }
@@ -401,8 +401,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('EntityImageController', ['$stateParams', '$scope', '$modal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'message',
-	function($stateParams, $scope, $modal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, message) {
+.controller('EntityImageController', ['$stateParams', '$scope', '$uibModal', 'Entity', 'authService', 'searchService', '$location','arachneSettings', '$http', '$window', '$rootScope', 'message',
+	function($stateParams, $scope, $uibModal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, message) {
 
 		$rootScope.hideFooter = true;
 		$scope.allow = true;
@@ -561,8 +561,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 
 	}
 ])
-.controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$modal', 'arachneSettings', '$rootScope',
-	function ($scope, $location, $http, $modal, arachneSettings, $rootScope) {
+.controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$uibModal', 'arachneSettings', '$rootScope',
+	function ($scope, $location, $http, $uibModal, arachneSettings, $rootScope) {
 
 		$rootScope.hideFooter = true;
 		$scope.backendUri = arachneSettings.dataserviceUri;
@@ -575,7 +575,7 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				});
 			}
 
-			var modalInstance = $modal.open({
+			var modalInstance = $uibModal.open({
 				templateUrl: 'partials/Modals/3dInfoModal.html',
 				scope: $scope
 			});
@@ -599,18 +599,18 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 ])
 .controller('EditCatalogEntryController',
-	function ($scope, $modalInstance, entry) {
+	function ($scope, $uibModalInstance, entry) {
 		$scope.entry = entry;
 		$scope.edit = true;
 	}
 )
 .controller('EditCatalogController',
-	function ($scope, $modalInstance, catalog) {
+	function ($scope, $uibModalInstance, catalog) {
 		$scope.catalog = catalog;
 	}
 )
 .controller('AddMarkdownLinkController',
-	function ($scope, $modalInstance, link) {
+	function ($scope, $uibModalInstance, link) {
 		$scope.link = link;
 	}
 );

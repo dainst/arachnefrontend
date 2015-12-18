@@ -5,7 +5,7 @@ angular.module('arachne.directives')
 /**
  * @author: Thomas Kleinke
  */
-.directive('arMarkdownTextEditor', ['$timeout', '$modal', function($timeout, $modal) {
+.directive('arMarkdownTextEditor', ['$timeout', '$uibModal', function($timeout, $uibModal) {
     return {
         restrict: 'A',
         scope: {
@@ -45,7 +45,7 @@ angular.module('arachne.directives')
 
                 if (formatOption == "link") {
                     var link = { description: selectedText };
-                    var addLinkModal = $modal.open({
+                    var addLinkModal = $uibModal.open({
                         templateUrl: 'partials/Modals/addMarkdownLink.html',
                         controller: 'AddMarkdownLinkController',
                         resolve: { link: function() { return link; } }

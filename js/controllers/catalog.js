@@ -18,8 +18,8 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy, Oliver Bensch
  */
-.controller('CatalogsController',['$scope', '$modal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings',
-	function ($scope, $modal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings) {
+.controller('CatalogsController',['$scope', '$uibModal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings',
+	function ($scope, $uibModal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings) {
 
 		$scope.catalogs = [];
 		$scope.user = authService.getUser();
@@ -58,7 +58,7 @@ angular.module('arachne.controllers')
 			if (!entry.children) {
 				entry.children = [];
 			}
-			var editEntryModal = $modal.open({
+			var editEntryModal = $uibModal.open({
 				templateUrl: 'partials/Modals/editEntry.html'
 			});
 			editEntryModal.close = function(newEntry) {
@@ -74,7 +74,7 @@ angular.module('arachne.controllers')
 		}
 
 		$scope.remove = function(scope) {
-			var deleteModal = $modal.open({
+			var deleteModal = $uibModal.open({
 				templateUrl: 'partials/Modals/delete.html'
 			});
 			deleteModal.close = function() {
@@ -85,7 +85,7 @@ angular.module('arachne.controllers')
 		}
 
 		$scope.editEntry = function(entry) {
-			var editEntryModal = $modal.open({
+			var editEntryModal = $uibModal.open({
 				templateUrl: 'partials/Modals/editEntry.html',
 				controller: 'EditCatalogEntryController',
 				resolve: { entry: function() { return entry } }
@@ -104,7 +104,7 @@ angular.module('arachne.controllers')
 			if($scope.user.firstname && $scope.user.lastname) {
 				catalogBuffer.author = $scope.user.firstname + " " + $scope.user.lastname;
 			}
-			var editCatalogModal = $modal.open({
+			var editCatalogModal = $uibModal.open({
 				templateUrl: 'partials/Modals/editCatalog.html',
 				controller: 'EditCatalogController',
 				resolve: { catalog: function() { return catalogBuffer } }
@@ -120,7 +120,7 @@ angular.module('arachne.controllers')
 		}
 
 		$scope.editCatalog = function() {
-			var editCatalogModal = $modal.open({
+			var editCatalogModal = $uibModal.open({
 				templateUrl: 'partials/Modals/editCatalog.html',
 				controller: 'EditCatalogController',
 				resolve: { catalog: function() { return $scope.activeCatalog } }
@@ -133,7 +133,7 @@ angular.module('arachne.controllers')
 		}
 
 		$scope.removeCatalog = function() {
-			var deleteModal = $modal.open({
+			var deleteModal = $uibModal.open({
 				templateUrl: 'partials/Modals/delete.html'
 			});
 			deleteModal.close = function() {

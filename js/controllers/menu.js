@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-.controller('MenuController',	[ '$scope', '$modal', 'authService', '$location', '$window',
-function ($scope,  $modal, authService, $location, $window) {
+.controller('MenuController',	[ '$scope', '$uibModal', 'authService', '$location', '$window',
+function ($scope,  $uibModal, authService, $location, $window) {
 
     $scope.user = authService.getUser();
 
@@ -13,7 +13,7 @@ function ($scope,  $modal, authService, $location, $window) {
     });
 
     $scope.openLoginModal = function() {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'partials/Modals/loginForm.html',
             controller: 'LoginController'
         });

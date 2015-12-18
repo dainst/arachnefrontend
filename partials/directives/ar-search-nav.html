@@ -18,15 +18,15 @@
 		<div class="btn-group" ng-if="user.username">
 			<div ng-if="resultSize <= 1000">
 				<a class="btn btn-sm btn-default" ng-click="toCatalog()"
-						tooltip="{{'search_catalog_create' | transl8}}"
-						tooltip-placement="bottom">
+						uib-uib-tooltip="{{'search_catalog_create' | transl8}}"
+						uib-tooltip-placement="bottom">
 					<span class="glyphicon glyphicon-inbox"></span>
 				</a>
 			</div>
 			<div ng-if="resultSize > 1000">
 				<a class="btn btn-sm btn-default" disabled 
-						tooltip="{{'search_catalog_too-big' | transl8}}"
-						tooltip-placement="bottom">
+						uib-tooltip="{{'search_catalog_too-big' | transl8}}"
+						uib-tooltip-placement="bottom">
 					<span class="glyphicon glyphicon-inbox"></span>
 				</a>
 			</div>
@@ -52,20 +52,20 @@
 
 	<div class="col-sm-4 text-right">
 		<small class="text-muted">{{"ui_sort_order"|transl8}}:</small>
-		<div class="btn-group" dropdown>
-			<button type="button" class="btn btn-sm btn-default dropdown-toggle">
+		<div class="btn-group" uib-dropdown>
+			<button type="button" class="btn btn-sm btn-default" uib-dropdown-toggle>
 				<span ng-show="currentQuery.sort">{{ currentQuery.sort | transl8 }}</span>
 				<span ng-hide="currentQuery.sort">Relevanz</span>
 				<span class="caret"></span>
 			</button>
-			<ul class="dropdown-menu" role="menu">
+			<ul class="uib-dropdown-menu pull-right" role="menu">
 				<li>
 					<a ng-href="search{{currentQuery.removeParam('sort').removeParam('offset').toString()}}">
 						Relevanz
 					</a>
 				</li>
 				<li ng-repeat="sortableField in sortableFields">
-					<a ng-href="search/{{currentQuery.setParam('sort',sortableField).removeParam('offset').toString()}}">
+					<a ng-href="search{{currentQuery.setParam('sort',sortableField).removeParam('offset').toString()}}">
 						{{ sortableField | transl8 }}
 					</a>
 				</li>

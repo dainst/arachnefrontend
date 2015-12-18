@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-.controller('LoginController', ['$scope', '$modalInstance', 'authService', '$timeout', '$modal', '$window',
-function($scope, $modalInstance, authService, $timeout, $modal, $window){
+.controller('LoginController', ['$scope', '$uibModalInstance', 'authService', '$timeout', '$uibModal', '$window',
+function($scope, $uibModalInstance, authService, $timeout, $uibModal, $window){
 
     $scope.loginData = {};
     $scope.loginerror = false;
@@ -13,7 +13,7 @@ function($scope, $modalInstance, authService, $timeout, $modal, $window){
         authService.setCredentials($scope.loginData.user, $scope.loginData.password, function(response) {
             $scope.loginerror = false;
             var closeModal = function () {
-                $modalInstance.close(authService.getUser());
+                $uibModalInstance.close(authService.getUser());
                 $route.reload();
             }
             $timeout(closeModal, 500);
@@ -24,6 +24,6 @@ function($scope, $modalInstance, authService, $timeout, $modal, $window){
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss();
+        $uibModalInstance.dismiss();
     };
 }]);

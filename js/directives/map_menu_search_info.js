@@ -6,8 +6,8 @@ angular.module('arachne.directives')
  * @author: David Neugebauer
  * @author: Daniel M. de Oliveira
  */
-.directive('arMapMenuSearchInfo', ['$modal', '$location', 'searchService', 'placesService', 'mapService',
-function($modal, $location, searchService, placesService, mapService) {
+.directive('arMapMenuSearchInfo', ['$uibModal', '$location', 'searchService', 'placesService', 'mapService',
+function($uibModal, $location, searchService, placesService, mapService) {
     return {
         restrict: 'A',
         scope: {
@@ -34,7 +34,7 @@ function($modal, $location, searchService, placesService, mapService) {
 
                 scope.linkText = host + port + baseLinkRef + path + query;
 
-                var modalInstance = $modal.open({
+                var modalInstance = $uibModal.open({
                     templateUrl: 'partials/Modals/mapLink.html',
                     scope: scope
                 });
