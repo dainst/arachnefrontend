@@ -60,6 +60,7 @@ function($location, Entity, $rootScope, Query, $q) {
         } else {
             dirty=false;
             var query = angular.extend({offset:offset,limit:CHUNK_SIZE},_currentQuery.toFlatObject());
+            if (!query.q) query.q = "*";
             var entities = Entity.query(query);
             return entities.$promise.then(function(data) {
                 _result.size = data.size;

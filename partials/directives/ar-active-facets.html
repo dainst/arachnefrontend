@@ -1,14 +1,14 @@
 <div ng-if="(facets.length > 0) || (currentQuery.restrict && route == 'search')">
 	<h5 class="text-muted uppercase"><b>Aktive Filter</b></h5>
 	<a ng-if="currentQuery.restrict && route == 'search'"
-			ng-href="{{route}}/{{currentQuery.removeParam('restrict').toString()}}"
+			ng-href="{{route}}{{currentQuery.removeParam('restrict').toString()}}"
 			class="btn btn-sm btn-block btn-warning linethrough-hover"
 			style="white-space:normal;">
 		<i>Nur Objekte mit</i><br>
 	    <b style="text-transform:capitalize;">{{currentQuery.restrict | transl8}}</b>
 	</a>
 	<a ng-repeat="facet in facets"
-			ng-href="{{route}}/{{currentQuery.removeFacet(facet.key).removeParam('restrict').toString()}}"
+			ng-href="{{route}}{{currentQuery.removeFacet(facet.key).removeParam('restrict').toString()}}"
 			class="btn btn-sm btn-block btn-primary linethrough-hover">
 		<i>{{facet.key | transl8}}</i><br>
 		<b>{{facet.value}}</b>
