@@ -18,6 +18,79 @@ body {
   }
 }
 
+/* Breakpoints for project logos in footer */
+@media screen and (max-width: 760px) {
+
+  idai-footer .logoImage {
+
+    height: 55px;
+  }
+}
+
+@media screen and (max-width: 708px) {
+
+  idai-footer .logoImage {
+
+    height: 50px;
+  }
+}
+
+@media screen and (max-width: 656px) {
+
+  idai-footer .logoImage {
+
+    height: 45px;
+  }
+}
+
+@media screen and (max-width: 645px) {
+
+  idai-footer .logoImage {
+
+    height: 40px;
+  }
+}
+
+@media screen and (max-width: 553px) {
+
+  idai-footer .logoImage {
+
+    height: 35px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+
+  idai-footer .logoImage {
+
+    height: 30px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+
+  idai-footer .logoImage {
+
+    height: 25px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+
+  idai-footer .logoImage {
+
+    height: 20px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+
+  idai-footer .logoImage {
+
+    height: 15px;
+  }
+}
+
 .navbar-fixed-top .navbar-collapse,
 .navbar-fixed-bottom .navbar-collapse {
 
