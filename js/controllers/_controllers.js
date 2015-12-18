@@ -269,15 +269,15 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			$location.url(path);
 		};
 
-		$scope.catalogs = Catalog.query();
-		var catalog = Catalog.query();
+		if(authService.getUser()) {
+			$scope.catalogs = Catalog.query();
+		}
 
 		$scope.createEntry = function() {
 			//TODO: Parse Secitons in entry.text
 			var createEntryPos = $modal.open({
 				templateUrl: 'partials/Modals/createEntryPos.html',
-				controller: function ($scope) { $scope.catalogs = catalog},
-				resolve: { catalog: function() { return catalog } }
+				controller: function ($scope) { $scope.catalogs = Catalog.query()}
 			});
 			createEntryPos.close = function(catalog) {
 				var entry = {
