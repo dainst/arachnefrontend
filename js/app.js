@@ -15,6 +15,7 @@ angular.module('arachne',[
 	'idai.templates',
 	'idai.components',
 	'arachne.filters',
+	'arachne.resources',
 	'arachne.services',
 	'arachne.directives',
 	'arachne.controllers',

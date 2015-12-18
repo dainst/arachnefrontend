@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.services')
+angular.module('arachne.resources')
 
 .factory('CatalogEntry', ['$resource', 'arachneSettings',
 function($resource, arachneSettings) {
