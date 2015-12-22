@@ -5,35 +5,35 @@
 </div>
 <div class="modal-body">
 	<dl class="dl-horizontal">
-		<dt>Titel</dt> <dd>{{metainfos.title}}</dd>
-		<dt>Modeller</dt> <dd>{{metainfos.modeller}}</dd>
-	    <dt>License</dt><dd> {{metainfos.license}}</dd>
-		<dt>File format</dt> <dd>{{metainfos.format}} </dd>
+		<dt>{{ 'title' | transl8 }}</dt> <dd>{{metainfos.title}}</dd>
+		<dt>{{ '3Dinfo_modeller' | transl8 }}</dt> <dd>{{metainfos.modeller}}</dd>
+	    <dt>{{ 'ui_license' | transl8 }}</dt><dd> {{metainfos.license}}</dd>
+		<dt>{{ '3Dinfo_file_format' | transl8 }}</dt> <dd>{{metainfos.format}} </dd>
 	</dl>
 </div>
 <hr style="margin:0px">
 <div class="modal-body">
 
-	<b>Flugsteuerung: </b>
+	<b>{{ '3Dinfo_flight_control' | transl8 }}</b>
 	<table class="table table-condensed" style="font-size:12px;">
-		<tr><td>Mouse pointer</td><td>=</td><td>Look</td></tr>
-        <tr><td>Left mouse button/W/Up</td><td>=</td><td>Move forward</td></tr>
-        <tr><td>Right mouse button/S/Down</td><td>=</td><td>Move backward</td></tr>
-        <tr><td>A/Left</td><td>=</td><td>Strafe left</td></tr>
-        <tr><td>D/Right</td><td>=</td><td>Strafe right</td></tr>
-        <tr><td>R</td><td>=</td><td>Fly up</td></tr>
-        <tr><td>F</td><td>=</td><td>Fly down</td></tr>
-        <tr><td>Q</td><td>=</td><td>Freeze/Unfreeze camera</td></tr>
+		<tr><td>{{ 'ui_mouse_pointer' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_look' | transl8 }}</td></tr>
+        <tr><td>{{ '3Dinfo_left_mouse_button' | transl8 }}/W/{{ 'ui_up' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_forward' | transl8 }}</td></tr>
+        <tr><td>{{ '3Dinfo_right_mouse_button' | transl8 }}/S/{{ 'ui_down' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_backward' | transl8 }}</td></tr>
+        <tr><td>A/{{ 'ui_left' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_left' | transl8 }}</td></tr>
+        <tr><td>D/{{ 'ui_right' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_right' | transl8 }}</td></tr>
+        <tr><td>R</td><td>=</td><td>{{ '3Dinfo_move_up' | transl8 }}</td></tr>
+        <tr><td>F</td><td>=</td><td>{{ '3Dinfo_move_down' | transl8 }}</td></tr>
+        <tr><td>Q</td><td>=</td><td>{{ '3Dinfo_freeze' | transl8 }}</td></tr>
 	</table>
 
 
 
-	<b>Trackball-Steuerung: </b>
+	<b>{{ '3Dinfo_trackball_control' | transl8 }}</b>
 
 	<table class="table table-condensed" style="font-size:12px;">
-		<tr><td>Left mouse button</td><td>=</td><td>Move camera</td></tr>
-        <tr><td>Right mouse button</td><td>=</td><td>Move camera target</td></tr>
-        <tr><td>Mouse wheel/Middle mouse button</td><td>=</td><td>Zoom</td></tr>
+		<tr><td>{{ '3Dinfo_left_mouse_button' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_look' | transl8 }}</td></tr>
+        <tr><td>{{ '3Dinfo_right_mouse_button' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_target' | transl8 }}</td></tr>
+        <tr><td>{{ '3Dinfo_middle_mouse_button' | transl8 }}</td><td>=</td><td>Zoom</td></tr>
 	</table>
 
 </div>

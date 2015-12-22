@@ -1,18 +1,18 @@
 <div class="modal-header">
-	<h4 class="modal-title">Neuen Katalogtext eingeben:
+	<h4 class="modal-title">{{'catalog_edit_entry' | transl8}}:
 	</h4>
 </div>
 <div class="modal-body">
-	Überschrift des Eintrags:
+	{{ 'catalog_entry_title' | transl8}}:
 	<div class="form-group">
 		<input autofocus type="label" class="form-control" ng-model="entry.label">
 	</div>
-	Eintrag Text:
+	{{ 'catalog_description' | transl8 }}:
 	<div class="form-group">
 		<textarea class="form-control" ng-model="entry.text"></textarea>
 	</div>
 </div>
 <div class="modal-footer">
 	<button class="btn btn-primary" ng-click="$close(entry.label, entry.text)">OK</button>
-    <button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>            	
+    <button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8 }}</button>            	
 </div>

@@ -9,11 +9,10 @@
 	<div ng-if="resultSize == 0 && !error">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2 text-center">
-				Keine Ergebnisse zu <b>"{{q}}"</b>
+				 {{ 'search_no_results' | transl8 }}<b>"{{q}}"</b>
 				<span ng-if="currentQuery.hasFacets()">
-					mit den aktuellen Filtern
+					{{ 'search_current_filters' | transl8 }}.
 				</span>
-				gefunden.
 			</div>
 		</div>
 	</div>
@@ -79,8 +78,8 @@
 					<table class="table table-hover">
 					<tr>
 						<th>#</th>
-						<th>Kategorie</th>
-						<th>Titel</th>
+						<th>{{ 'facet_kategorie' | transl8 }}</th>
+						<th>{{ 'title' | transl8 }}</th>
 						<th></th>
 					</tr>	
 					<tr ng-repeat="entity in entities" class="small">
@@ -89,7 +88,7 @@
 						<td>
 							<a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index+1).toString()}}">
 								<div ng-if="entity.title==''">
-									({{categories[entity.type]["singular"]}} hat keinen Titel)
+									({{categories[entity.type]["singular"]}} {{ 'ui_no_title' | transl8 }})
 								</div>
 								<div ng-if="entity.title!=''">
 									{{entity.title}}

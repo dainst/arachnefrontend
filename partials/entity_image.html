@@ -2,7 +2,7 @@
 
 	<!-- message for anonymous users -->
 	<div ng-if="!allow" class="col-md-12 text-right alert alert-info">
-		Sie müssen angemeldet sein um dieses Bild in hoher Auflösung betrachten zu können.<span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 75px 0 10px; font-size: 20px;"></span>
+		{{ 'entity_resolution_login' | transl8 }}<span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 75px 0 10px; font-size: 20px;"></span>
 	</div>
 
 	<!-- image viewer -->

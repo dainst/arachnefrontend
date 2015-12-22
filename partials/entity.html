@@ -111,9 +111,9 @@
 							    	<input ng-model="resultIndexInput"
 							    			type="number" size="4"
 							    			min="1" max="{{resultSize}}" class="form-control input-sm">
-							    	<span ng-if="resultIndex == resultIndexInput" class="input-group-addon" style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>von</small> <strong>{{resultSize|number}}</strong></span>
+							    	<span ng-if="resultIndex == resultIndexInput" class="input-group-addon" style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>{{ 'ui_of' | transl8 }}</small> <strong>{{resultSize|number}}</strong></span>
 							    	<span ng-hide="resultIndex == resultIndexInput" class="input-group-btn">
-							    		<button class="btn btn-primary btn-sm" ng-click="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">Springe</button>
+							    		<button class="btn btn-primary btn-sm" ng-click="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">{{ 'ui_goto' | transl8}}</button>
 							    	</span>
 							    </div>
 							</form>
@@ -248,7 +248,7 @@
 					<h3>{{'entity_other_views'|transl8}}</h3>
 					<div class="list-group">
 						<a ng-repeat="externalLink in entity.externalLinks"
-								ng-href="{{ externalLink.url }}"
+								ng-href="{{ externalLink.url }}"ui_goto
 								type="button"
 								class="list-group-item"
 								target="_blank">

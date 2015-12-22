@@ -1,14 +1,14 @@
 <form>
 	<div class="modal-header">
-		<h4 class="modal-title">Link anlegen:
+		<h4 class="modal-title">{{ 'ui_create_link' | transl8}}:
 		</h4>
 	</div>
 	<div class="modal-body">
-		Ziel-URL:
+		{{ 'ui_target' | transl8}}-URL:
 		<div class="form-group">
 			<input autofocus type="label" class="form-control" ng-model="link.url" placeholder="http://www.example.com">
 		</div>
-		Linkbeschreibung:
+		{{ 'ui_linkdescription' | transl8}}:
 		<div class="form-group">
 			<input autofocus type="label" class="form-control" ng-model="link.description" placeholder="">
 		</div>
@@ -19,6 +19,6 @@
     			ng-click="$close(link)"
     			ng-class="{ disabled: !link.url || !link.description }"
     			value="OK">
-    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+    	<button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8}}</button>
 	</div>
 </form>

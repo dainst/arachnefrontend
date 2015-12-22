@@ -6,15 +6,15 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="btn-group" role="group">
-					  <button type="button" class="btn btn-default" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+					  <button type="button" class="btn btn-default" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">{{ 'ui_previous' | transl8 }}</button>
 					  <button type="button" class="btn btn-default" ng-disabled="true">{{currentPage}}/{{numPages}}</button>
-					  <button type="button" class="btn btn-default" ng-disabled="currentPage >= facetIndex.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+					  <button type="button" class="btn btn-default" ng-disabled="currentPage >= facetIndex.length/pageSize - 1" ng-click="currentPage=currentPage+1">{{ 'ui_next' | transl8 }}</button>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="input-group">
 				      <span class="input-group-btn">
-				        <button class="btn btn-default" type="button" ng-click="currentPage=gotoPage">Go to Page:</button>
+				        <button class="btn btn-default" type="button" ng-click="currentPage=gotoPage">{{ 'ui_goto' | transl8 }} {{ 'ui_page' | transl8 }}:</button>
 				      </span>
 				      <input type="text" class="form-control" ng-model="gotoPage">
 				</div><!-- /input-group -->
@@ -33,6 +33,6 @@
     	<input class="btn btn-primary"
     			type="submit" ng-click="$dismiss()"
     			value="OK">
-    	<button class="btn btn-default" ng-click="$dismiss()">Abbrechen</button>
+    	<button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8 }} </button>
 	</div>
 </form>
