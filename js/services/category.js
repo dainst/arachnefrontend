@@ -30,7 +30,7 @@ function($http, $filter){
     };
 
     factory.getSingular = function(category) {
-        if (category in categories && "singular" in categories[category]) {
+        if (categories && category in categories && "singular" in categories[category]) {
             return categories[category].singular;
         } else {
             return category;

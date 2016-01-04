@@ -18,6 +18,8 @@ function($uibModal, $location, searchService, placesService, mapService) {
         templateUrl: 'partials/directives/ar-map-menu-search-info.html',
         link: function(scope) {
 
+            scope.currentQuery = searchService.currentQuery();
+
             // renders a modal that contains a link to the current map's view
             scope.showLinkModal = function() {
                 // construct the link's reference from the current location and the map's query

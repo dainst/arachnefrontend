@@ -33,7 +33,7 @@
 
 
 <div ng-if="entityCount > 0" style="margin-bottom:10px;">
-    <a href="search/{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']).toString()}}" type="button"
+    <a href="search{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']).toString()}}" type="button"
             class="btn btn-primary btn-sm btn-block">
         {{'ui_showobjects' | transl8}} <i class="glyphicon glyphicon-search"> </i>
     </a>
