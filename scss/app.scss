@@ -95,7 +95,12 @@ body {
 .navbar-fixed-bottom .navbar-collapse {
 
   max-height: 375px;
+}
 
+.navbar-fixed-top .pull-left {
+
+  position: relative;
+  z-index: 1000;
 }
 
 [ui-view] {
