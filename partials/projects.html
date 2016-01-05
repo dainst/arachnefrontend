@@ -33,14 +33,11 @@
 							<span ng-hide="project.id">{{project.title}}</span>
 						</span>
 						<ul ng-show="project.children">
-							<li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;">
-								<span ng-hide="project.hidden || (filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1)">
+							<li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;" ng-hide="project.hidden || (filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1)">
 									<a ng-show="project.id" href="project/{{project.id}}">
 										{{project.title}}
 									</a>
 									<span ng-hide="project.id">{{project.title}}</span>
-								</span>
-
 							</li>
 						</ul>
 					</li>
