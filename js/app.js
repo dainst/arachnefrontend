@@ -52,7 +52,7 @@ angular.module('arachne',[
 			.state('dataimport', { url: '/admin/dataimport', templateUrl: 'partials/dataimport.html'})
 			.state('pwdreset', { url: '/pwdreset', templateUrl: 'partials/pwdreset.html'})
 			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'partials/activation.html'})
-			.state('project', { url: '/project/:title', templateUrl: 'partials/static.html'})
+			.state('project', { url: '/project/:title?q&fq', templateUrl: 'partials/static.html'})
 			.state('info', { url: '/info/:title', templateUrl: 'partials/static.html'}); // Named it info, not static, to sound not too technical.
 	}
 ]).constant('arachneSettings', {
