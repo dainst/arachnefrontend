@@ -64,7 +64,7 @@ function($location, Entity, $rootScope, Query, $q) {
             var entities = Entity.query(query);
             return entities.$promise.then(function(data) {
                 _result.size = data.size;
-                _result.facets = data.facets;
+                _result.facets = data.facets ? data.facets : [];
                 if (data.size == 0) {
                     deferred.resolve([]);
                 } else {

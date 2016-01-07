@@ -282,14 +282,16 @@ angular.module('arachne.directives', [])
 
                 Entity.query(scope.query.toFlatObject(), function(data) {
                     scope.contextSize = data.size;
-                    for (var i = 0; i < data.facets.length; i++) {
-                        if (scope.facetName == data.facets[i].name) {
-                            scope.facetValues = data.facets[i].values;
-                            for (var k = 0; k < scope.facetValues.length; k++) {
-                                scope.facetQueries[k] = scope.query.addFacet(scope.facetName, scope.facetValues[k].value);
-                                // ugly exception for sorting book pages when showing contexts of a book
-                                if (scope.facetValues[k].value == 'Buchseiten' && scope.query.q.lastIndexOf('connectedEntities', 0) === 0) {
-                                    scope.facetQueries[k] = scope.facetQueries[k].setParam('sort','subtitle');
+                    if (data.facets) {
+                        for (var i = 0; i < data.facets.length; i++) {
+                            if (scope.facetName == data.facets[i].name) {
+                                scope.facetValues = data.facets[i].values;
+                                for (var k = 0; k < scope.facetValues.length; k++) {
+                                    scope.facetQueries[k] = scope.query.addFacet(scope.facetName, scope.facetValues[k].value);
+                                    // ugly exception for sorting book pages when showing contexts of a book
+                                    if (scope.facetValues[k].value == 'Buchseiten' && scope.query.q.lastIndexOf('connectedEntities', 0) === 0) {
+                                        scope.facetQueries[k] = scope.facetQueries[k].setParam('sort','subtitle');
+                                    }
                                 }
                             }
                         }
