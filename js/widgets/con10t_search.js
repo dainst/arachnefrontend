@@ -18,7 +18,7 @@ return {
             scope.placeholder = $filter('transl8')('ui_projectsearchplaceholder');
 
         scope.search = function() {
-            var url = "search/?q=";
+            var url = "search?q=";
             if(scope.catalogId != undefined && scope.catalogId != "")
                 url += "catalogPaths:"+$filter('escapeSlashes')(scope.catalogId)+"+";
 
