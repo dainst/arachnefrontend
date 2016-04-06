@@ -10,7 +10,7 @@ The repository includes a [gulp](http://gulpjs.com/) configuration for setting u
 ### Prerequisites
 
 You need the following components in order for the local server to work:
-* [NodeJS](https://nodejs.org/download/)
+* [NodeJS](https://nodejs.org/)
 * [gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md)
 
 To install the necessary dependencies for the app run the following command in the working directory:
