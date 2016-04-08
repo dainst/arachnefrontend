@@ -1,8 +1,10 @@
 <accordion close-others="true" class="accordion-with-list">
 	<accordion-group ng-repeat="facetValue in facetValues" ng-click="loadEntities($index)">
 		<accordion-heading>
-			<span class="badge pull-right">{{facetValue.count}}</span>
-			{{facetValue.value}}
+			<a href="search{{facetQueries[$index].toString()}}">
+				<span class="badge pull-right">{{facetValue.count}}</span>
+				{{facetValue.value}}
+			</a>
 		</accordion-heading>
 		<div>
 			<a ng-show="facetValue.count > 1"
