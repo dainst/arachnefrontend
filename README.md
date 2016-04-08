@@ -72,6 +72,24 @@ After that you should be able to access the frontend under [http://localhost:123
 
 Any changes made to HTML, SCSS or JS files should automatically trigger a browser reload.
 
+### Updating submodule con10t
+
+Within the folder of the submodule exec
+```
+git pull origin master
+```
+
+Then go to the root directory and exec
+```
+git status
+```
+to ensure that you're now using the right version. After that exec
+```
+git add con10t
+git commit -m "Submodule con10t updated"
+git push origin master
+```
+
 
 ## Deployment
 
