@@ -61,7 +61,7 @@ git checkout master
 
 Subsequent updates can be loaded by running `git pull origin master` inside the directory `con10t`.
 
-## Updating the submodule con10t
+#### Updating the submodule con10t
 
 Within the folder of the submodule execute
 ```
