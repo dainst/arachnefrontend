@@ -61,6 +61,26 @@ git checkout master
 
 Subsequent updates can be loaded by running `git pull origin master` inside the directory `con10t`.
 
+## Updating the submodule con10t
+
+Within the folder of the submodule execute
+```
+git pull origin master
+```
+to get the latest con10t version.
+
+Then go to the root directory of Arachne 4 Frontend and run 
+```
+git status
+```
+to ensure that you're now using the right version. After that execute
+```
+git add con10t
+git commit -m "Submodule con10t updated"
+git push origin master
+```
+to use the latest con10t version in Arachne 4 Frontend.
+
 ### Running the development server
 
 In order to run the frontend in the development server use the following command:
@@ -71,25 +91,6 @@ gulp server
 After that you should be able to access the frontend under [http://localhost:1234/](http://localhost:1234/).
 
 Any changes made to HTML, SCSS or JS files should automatically trigger a browser reload.
-
-### Updating submodule con10t
-
-Within the folder of the submodule exec
-```
-git pull origin master
-```
-
-Then go to the root directory and exec
-```
-git status
-```
-to ensure that you're now using the right version. After that exec
-```
-git add con10t
-git commit -m "Submodule con10t updated"
-git push origin master
-```
-
 
 ## Deployment
 
