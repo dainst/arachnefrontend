@@ -25,7 +25,7 @@ function($location, $filter) {
             map.trackResize = true;
             L.Icon.Default.imagePath = 'img';
 
-            var markers = new Array;
+            var markers = [];
 
             var loadMarkers = function() {
 
@@ -61,7 +61,8 @@ function($location, $filter) {
                 }, this);
 
                 map._onResize();
-            }
+            };
+
             loadMarkers();
 
         }

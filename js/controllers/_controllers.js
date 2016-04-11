@@ -359,7 +359,26 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		} else {
 			
 			Entity.get({id:$stateParams.id}, function(data) {
+
 				$scope.entity = data;
+
+				/**
+				 * Hide map widget if no marker coordinates are provided
+				 * Jan G. Wieners
+				 */
+				var cur, locationsExist = false, len = data.places.length;
+				for (var j = len; j--;) {
+
+					cur = data.places[j].location;
+					if (cur && cur.lat && cur.lon) {
+						locationsExist = true;
+						break;
+					}
+				}
+				if (!locationsExist) {
+					$scope.entity.places = false;
+				}
+
 				document.title = $scope.entity.title + " | Arachne";
 				for (var i in $scope.entity.catalogPaths) {
 					loadCatalogEntry($scope.entity.catalogPaths[i]);
