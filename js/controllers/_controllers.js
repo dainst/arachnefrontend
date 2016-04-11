@@ -471,19 +471,27 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		$scope.downloadImage = function() {
 			var imgUri = arachneSettings.dataserviceUri + "/image/" + $scope.imageId;
 			var entityUri = arachneSettings.dataserviceUri + "/entity/" + $scope.imageId;
-			
+
 			$http.get(imgUri, { responseType: 'blob' }).success(function(data) {
-				var document = $window.document;
-				var a = document.createElement('a');
-				document.body.appendChild(a);
-				a.setAttribute('style', 'display:none');
+
 				var blob = new Blob([data], {type: 'image/jpeg'});
 				var blobUri = $window.URL.createObjectURL(blob);
-				a.href = blobUri;
+
 				$http.get(entityUri).success(function(data) {
-					a.download = data.title;
-					a.click();
+
+					if (navigator.appVersion.toString().indexOf('.NET') > 0)
+						window.navigator.msSaveBlob(blob, data.title);
+					else {
+						var document = $window.document;
+						var a = document.createElement('a');
+						document.body.appendChild(a);
+						a.setAttribute('style', 'display:none');
+						a.href = blobUri;
+						a.download = data.title;
+						a.click();
+					}
 				});
+
 			});
 		}
 
