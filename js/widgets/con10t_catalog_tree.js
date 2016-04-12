@@ -4,7 +4,8 @@
 angular.module('arachne.widgets.directives')
 
 /**
- * @autor: Sebastian Cuy
+ * @author: Sebastian Cuy
+ * @author: Thomas Kleinke
  */
 .directive('con10tCatalogTree', ['Catalog', 'CatalogEntry', '$filter',
 	function(Catalog, CatalogEntry, $filter) {
@@ -26,7 +27,7 @@ angular.module('arachne.widgets.directives')
 				
 				scope.toggleCollapse = function(node){
 				    if (node.hasChildren) {
-						scope.isShown[node.label] = !scope.isShown[node.label];
+						scope.isShown[node.id] = !scope.isShown[node.id];
 				    	if (!node.hasOwnProperty('children')) {
 				    		CatalogEntry.get({id:node.id}, function(newNode) {
 				    			node.children = newNode.children;
@@ -36,7 +37,7 @@ angular.module('arachne.widgets.directives')
 				};
 				
 				scope.checkIfShown = function(node){
-					return scope.isShown[node.label]; // at first load -> undefined, so it gets hidden but: ugly?
+					return scope.isShown[node.id]; // at first load -> undefined, so it gets hidden but: ugly?
 				};
 
 			}
