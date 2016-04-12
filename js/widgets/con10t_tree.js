@@ -66,11 +66,11 @@ angular.module('arachne.widgets.directives')
                     var lvl = parseInt(lastFacet[lastFacet.length-1]) + 1;
                     treeQuery.sf = lastFacet.substr(0, lastFacet.length-1) + lvl;
                 }
-                
+
                 Entity.query(treeQuery.toFlatObject(), function(response) {
 
                     if (!response.facets) {
-                        console.error('[con10t_tree.js] No facets in response');
+                        console.error('[con10t_tree.js] No facets in response because of missing user rights or wrong facet query.');
                         return false;
                     }
 
