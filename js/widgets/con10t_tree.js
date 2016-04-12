@@ -38,6 +38,7 @@ angular.module('arachne.widgets.directives')
 
             scope.getNodeChildren = function(node) {
 
+                // TODO add proper object check
                 if (node.children != 0) {
                     return;
                 }
@@ -65,9 +66,16 @@ angular.module('arachne.widgets.directives')
                     var lvl = parseInt(lastFacet[lastFacet.length-1]) + 1;
                     treeQuery.sf = lastFacet.substr(0, lastFacet.length-1) + lvl;
                 }
-
+                
                 Entity.query(treeQuery.toFlatObject(), function(response) {
+
+                    if (!response.facets) {
+                        console.error('[con10t_tree.js] No facets in response');
+                        return false;
+                    }
+
                     for (var i = 0; i < response.facets.length; i++) {
+
                         var currentResultFacet = response.facets[i];
                         // try to find custom hierarchy-facet or wildcard
                         if ( (scope.hierarchyFacets.length > 0 && currentResultFacet.name == (scope.hierarchyFacets[node.depth]))
