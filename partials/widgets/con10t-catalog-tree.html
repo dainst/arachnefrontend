@@ -24,7 +24,7 @@
         </a>
         <span ng-if="node.arachneEntityId == null">{{ node.label }}</span>
         
-        <a ng-if="node.hasChildren" ng-href="search/?q=catalogPaths:{{escapePath(node.path)}}">
+        <a ng-if="node.hasChildren" ng-href="search?q=catalogPaths:{{escapePath(node.path)}}">
             <span class="glyphicon glyphicon-search"
                     title="{{'ui_showall' | transl8}}">
             </span>
