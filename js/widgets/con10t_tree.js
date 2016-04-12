@@ -4,7 +4,7 @@
 angular.module('arachne.widgets.directives')
 
 /**
- * @autor: Sebastian Cuy
+ * @author: Sebastian Cuy
  */
 .directive('con10tTree', ['Query', 'Entity', '$location', function(Query, Entity, $location) {
     return {
@@ -20,7 +20,7 @@ angular.module('arachne.widgets.directives')
                 scope.staticFacets.push(fq_facets[i].split(':'));
             }
             scope.wildcardFacet = attrs.wildcardFacet;
-            scope.hierarchyFacets = []
+            scope.hierarchyFacets = [];
 
             if (attrs.hierarchyFacets)
                 scope.hierarchyFacets = attrs.hierarchyFacets.split(',');
@@ -81,7 +81,7 @@ angular.module('arachne.widgets.directives')
                                     facet: [currentResultFacet.name, value],
                                     parent: node,
                                     id: node.id + "_" + j
-                                }
+                                };
                                 node.children.push(child);
                             }
                         }
@@ -136,4 +136,4 @@ angular.module('arachne.widgets.directives')
 
         }
     }
-}])
+}]);
