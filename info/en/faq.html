@@ -1,0 +1,188 @@
+<div class="row">
+	<div class="col-md-10 col-md-offset-1" style="margin-top:20px">
+		<h1>FAQ <small>Häufig gestellte Fragen</small></h1>
+		<hr>
+	</div>
+	<div class="col-md-8 col-md-offset-1 faq" style="margin-top:20px">
+
+		<h2 id="Suche">Search</h2>
+		<accordion>
+			<accordion-group>
+				<accordion-heading>
+					How to combine multiple keywords?
+				</accordion-heading>
+				<p>
+					If you enter multiple keywords, every object that reflects the content of all keywords, will be
+					found. By default, keywords are linked with a logical AND.
+				</p>
+				<p class="query-example">Example: <a href="search?q=Akropolis Athen">Akropolis Athen</a></p>
+	    	</accordion-group>
+
+	    	<accordion-group>
+				<accordion-heading>
+					How to exclude keywords?
+				</accordion-heading>
+				<p>
+					By placing a hyphen in front of a keyword, you can exclude any objects from the search result, which
+					include the latter.
+				</p>
+
+				<p class="query-example">Example: <a href="search?q=Akropolis -Athen">Akropolis -Athen</a></p>
+	    	</accordion-group>
+
+	    	<accordion-group>
+				<accordion-heading>
+                    How to enter complex logical operators in a search query?
+				</accordion-heading>
+				<p>
+                    Arachne supports the logical operators AND, OR and NOT. Pay attention to the usual operator precedence:
+                    NOT has priority to AND has priority to OR. You can use brackets to alter the precedence of the concatenation.
+                </p>
+
+				<p class="query-example">Example: <a href="search?q=Herakles AND (Dionysos OR Bacchus)">Herakles AND (Dionysos OR Bacchus)</a></p>
+	    	</accordion-group>
+
+	    	<accordion-group>
+				<accordion-heading>
+                    How to search for entire phrases instead of multiple loose words?
+				</accordion-heading>
+				<p>
+                    Put the entered phrase between quotation marks. Hereby only objects that contain all keywords in said
+                    sequence can be found.
+                </p>
+
+				<p class="query-example">Example: <a href="search?q=&quot;Akropolis von Athen&quot;">"Akropolis von Athen"</a></p>
+	    	</accordion-group>
+
+	    	<accordion-group>
+				<accordion-heading>
+                    How to specifically search in single fields rather than searching the entire content of an object?
+				</accordion-heading>
+				<p>
+                    This can be achieved by prefixing the searched fields, separated by a colon. Following fields for
+                    object of all categories are currently available:
+                </p>
+
+				<ul>
+					<li><code>entityId</code>: The global, unique ID of an object</li>
+					<li><code>internalId</code>: The category-specific serial number</li>
+					<li><code>type</code>: The category</li>
+					<li><code>title</code>: The title</li>
+					<li><code>subtitle</code>: The subtitle</li>
+					<li><code>datasetGroup</code>: The recordset(dataset)</li>
+				</ul>
+
+				<p class="query-example">Example: <a href="search?q=title:&quot;Akropolis von Athen&quot;">title:"Akropolis von Athen"</a>,
+                    <a href="search?q=entityId:1">entityId:1</a>, <a href="search?q=internalId:500000">internalId:500000</a>,
+                    <a href="search?q=type:Topographien">type:Topographien</a>,
+                    <a href="search?q=subtitle:&quot;Attika %2F Athēnai&quot;">subtitle:"Attika / Athēnai"</a>,
+                    <a href="search?q=datasetGroup:Arachne">datasetGroup:Arachne</a></p>
+			</accordion-group>
+
+			<accordion-group>
+				<accordion-heading>
+				Which wildcards are supported?
+				</accordion-heading>
+				<p>
+                    The search query can contain the following wildcards:
+                </p>
+
+				<ul>
+					<li><code>?</code> as any single symbol</li>
+					<li><code>*</code> as none or multiple successive random symbols</li>
+				</ul>
+
+				<p class="query-example">Example: <a href="search?q=Akropolis*">Akropolis*</a><br/>
+                    <small>(finds next to "Akropolis" terms like "Akropolismuseum" or "Akropolisberg")</small>
+                </p>
+			</accordion-group>
+
+			<accordion-group>
+				<accordion-heading>
+				Are regular expressions supported?
+				</accordion-heading>
+				<p>
+                    Yes, the search engine supports all common operators to formulate regular expressions. Latter must be
+                    placed between two slashes.
+                </p>
+
+				<p class="query-example">Example: <a href="search?q=/Pompe[ij]/">/Pompe[ij]/</a><br/>
+                    <small>(finds results for “Pompeii” as well as for “Pompeji”)</small>
+                </p>
+			</accordion-group>
+
+			<accordion-group>
+				<accordion-heading>
+                   Are exclusively objects found, that contain the exact entered keywords?
+				</accordion-heading>
+				<p>
+                    No, the keywords are adapted to the point that similar notations can be found. For example, words
+                    are reduced to their respective families, so that "cow" ("Kuh") also finds "cows" ("Kühe") and
+                    vice versa.
+                </p>
+
+				<p>
+                    Furthermore, the operator "~" allows for a rough, approximate search. That means that terms with a
+                    similar spelling than the specified keyword can also be found.
+                </p>
+
+				<p class="query-example">Example: <a href="search?q=Pompei~">Pompei~</a><br/>
+                    <small>(finds “Pompei”, as well as “Pompeji” or “Pompeii”)</small></p>
+			</accordion-group>
+
+		</accordion>
+			
+		<h2 id="Suchergebnis">Search result view</h2>
+
+		<accordion>
+			<accordion-group>
+				<accordion-heading>
+                    What determines the order of search results?
+				</accordion-heading>
+				<p>
+                    By default search results in Arachne are ordered by relevance. This depends on one hand on the relevance of an
+                    object in relation to the keywords. So objects appear earlier if they contain the keyword several times or in the title.
+                    On the other hand, the quality of a record flows into the relevance measurement. This gives highly
+                    contextualized, extensively illustrated and described objects a better position in search results.
+                </p>
+
+				<p>The default sorting can be changed right above the display of search results</p>
+			</accordion-group>
+
+			<accordion-group>
+				<accordion-heading>
+                    Why are there sometimes more sometimes less filters being offered?
+				</accordion-heading>
+				<p>
+                    There are a bunch of default filters, that are offered for any search. This includes "Location" and "Dating".
+                    In addition there are filters that only exist in certain categories, for example "Function" in the category "Object".
+                    Those filters are only shown, if the filter "Category" has the corresponding category selected.
+                </p>
+
+				<p>
+                    In a specific search only filters that can actually help filtering the search result are shown.
+                    If, for example in the search results no results are included for which a location is specified, the
+                    corresponding filter is not displayed.
+                </p>
+			</accordion-group>
+
+			<accordion-group>
+				<accordion-heading>
+                    Do filters show all available values?
+				</accordion-heading>
+				<p>No. Only the most common values for the specific search result are displayed</p>
+			</accordion-group>
+		</accordion>
+
+	</div>
+	<div class="col-md-2">              
+      	<ul ui-scrollfix="+100" class="nav nav-stacked faq-nav hidden-xs hidden-sm">
+			<li><a href="#Suche">Search</a></li>
+			<li><a href="#Suchergebnis">Search result view</a></li>
+		</ul>
+	</div>
+	<div class="col-md-8 col-md-offset-2">
+		<br/><br/>
+		<p>If you have a question, that isn't answered here, please send it to <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>.</p>
+	</div>
+</div>
