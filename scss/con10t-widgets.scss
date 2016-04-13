@@ -70,3 +70,11 @@ con10t-toc a, con10t-tree a,con10t-catalog-tree a {
 .con10t-catalog-tree-child .searchinteraction:hover {
     color: rgba(85, 114, 161, 0.9);
 }
+
+.con10t-sidebar .well {
+    padding: 19px 19px 10px;
+}
+
+.con10t-catalog-tree-children {
+    height: auto !important;
+}

@@ -25,7 +25,7 @@
             {{ node.label }}
         </a>
         <span class="childcontent" ng-if="node.arachneEntityId == null">{{ node.label }}</span>
-        
+
         <a class="searchinteraction" ng-if="node.hasChildren" ng-href="search?q=catalogPaths:{{escapePath(node.path)}}">
             <span class="glyphicon glyphicon-search"
                     title="{{'ui_showall' | transl8}}">
@@ -33,7 +33,9 @@
         </a>
 
         <div ng-if="node.hasChildren" collapse="!checkIfShown(node)" class="con10t-catalog-tree-children">
-            <div ng-repeat="node in node.children" ng-include="'catalogNode'"></div>
+            <div ng-repeat="node in node.children"
+                 ng-include="'catalogNode'"
+                 class="catalognode"></div>
         </div>
 
     </div>
