@@ -32,7 +32,8 @@
       {
         "id": "about",
         "title": {
-          "de": "Über Arachne"
+          "de": "Über Arachne",
+          "en": "About Arachne"
         }
       }
 	  
@@ -53,7 +54,8 @@
       {
         "id": "privacy",
         "title": {
-          "de": "Datenschutz"
+          "de": "Datenschutz",
+          "en": "Privacy"
         }
       }]
     }
