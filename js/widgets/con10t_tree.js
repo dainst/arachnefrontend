@@ -77,9 +77,14 @@ angular.module('arachne.widgets.directives')
                     for (var i = 0; i < response.facets.length; i++) {
 
                         var currentResultFacet = response.facets[i];
+
+                        console.log(currentResultFacet)
                         // try to find custom hierarchy-facet or wildcard
-                        if ( (scope.hierarchyFacets.length > 0 && currentResultFacet.name == (scope.hierarchyFacets[node.depth]))
+                        if ((scope.hierarchyFacets.length > 0 && currentResultFacet.name == (scope.hierarchyFacets[node.depth]))
                                 || (scope.wildcardFacet && currentResultFacet.name.indexOf(scope.wildcardFacet) > -1)) {
+
+                            console.log(currentResultFacet)
+
                             for (var j = 0; j < currentResultFacet.values.length; j++) {
                                 var value = currentResultFacet.values[j].value;
                                 var child = {

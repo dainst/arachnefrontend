@@ -50,5 +50,23 @@ con10t-toc a, con10t-tree a,con10t-catalog-tree a {
     padding-left: 0.6em;
 }
 .con10t-catalog-tree-child a, .con10t-tree-child a {
-    text-indent: 0em;
+    text-indent: 0;
+}
+
+.con10t-catalog-tree-child .folderinteraction {
+}
+
+.con10t-catalog-tree-child .childcontent {
+    padding-left: 10px;
+    margin: 3px 0 3px 0;
+}
+
+.con10t-catalog-tree-child .searchinteraction {
+    margin-left: 5px;
+    font-size: 11px;
+    color: #aaa;
+}
+
+.con10t-catalog-tree-child .searchinteraction:hover {
+    color: rgba(85, 114, 161, 0.9);
 }

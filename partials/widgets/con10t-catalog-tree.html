@@ -1,7 +1,9 @@
 <script type="text/ng-template" id="catalogNode">
     <div class="con10t-catalog-tree-child">
 
-        <span ng-if="node.hasChildren" ng-click="toggleCollapse(node)">
+        <span class="folderinteraction"
+              ng-if="node.hasChildren"
+              ng-click="toggleCollapse(node)">
             <span ng-if="checkIfShown(node)"
                     class="glyphicon glyphicon-folder-open"
                     style="color:grey; cursor:pointer;"
@@ -19,12 +21,12 @@
                 aria-hidden="true">
         </span>
 
-        <a ng-if="node.arachneEntityId != null" ng-href="entity/{{node.arachneEntityId}}?catalogEntry={{node.id}}">
+        <a class="childcontent"  ng-if="node.arachneEntityId != null" ng-href="entity/{{node.arachneEntityId}}?catalogEntry={{node.id}}">
             {{ node.label }}
         </a>
-        <span ng-if="node.arachneEntityId == null">{{ node.label }}</span>
+        <span class="childcontent" ng-if="node.arachneEntityId == null">{{ node.label }}</span>
         
-        <a ng-if="node.hasChildren" ng-href="search?q=catalogPaths:{{escapePath(node.path)}}">
+        <a class="searchinteraction" ng-if="node.hasChildren" ng-href="search?q=catalogPaths:{{escapePath(node.path)}}">
             <span class="glyphicon glyphicon-search"
                     title="{{'ui_showall' | transl8}}">
             </span>

@@ -1,7 +1,8 @@
 <script type="text/ng-template" id="nodeTemplate">
     <div class="con10t-tree-child">
 
-        <span ng-click="toggleCollapse(node)" ng-if="!node.isLeaf">
+        <span ng-click="toggleCollapse(node)"
+              ng-if="!node.isLeaf">
             <span ng-if="checkIfShown(node)">
                 <span class="glyphicon glyphicon-folder-open" aria-hidden="true" style="color:grey; cursor:pointer;"></span>
             </span>
