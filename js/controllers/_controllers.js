@@ -188,53 +188,6 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 			});
 		});
 
-		
-
-		$scope.test = function(facetname){
-				var indexModal = $uibModal.open({
-		            templateUrl: 'partials/Modals/indexModal.html',
-		            controller: function ($scope) {
-		                $scope.facetName = facetname;
- 						$scope.itemsperpage = 10;
-
- 						$scope.setPage = function (pageNo) {
-		   					$scope.currentPage = pageNo;
-		   					$scope.pageChanged();
-		  				};
-
-		  				$scope.changeData = function (letter) {
-		  					console.log("changed to: " + letter);
-		  					$http.get(arachneSettings.dataserviceUri + "/index/" + $scope.facetName, { params: { group: letter } }).success(function(data){
-		  						$scope.facetIndex = data;
-		                		$scope.totalItems = data.length;
- 								$scope.currentPage = 1;
-		  						$scope.pageChanged();
-		  					}).error(function(data) {
-								console.log("Error loading Facet Index");
-							});
-		  				}
-
-		 				$scope.pageChanged = function() {
-		 					$scope.fromitem = ($scope.currentPage-1)*$scope.itemsperpage;
-		   					var curArray = [];
-		   					for(var i=0; i < $scope.itemsperpage; i++){	
-		   						curArray[i] = {
-									    id: ($scope.fromitem+i),
-									    name: $scope.facetIndex [($scope.fromitem+i)]
-									};
-		   					};
-		   				    $scope.akList = curArray;
-
-		  				};
-		  				$scope.changeData('a');
-
-			           }
-			       });
-			    indexModal.close = function() {
-			        indexModal.dismiss();
-			    };
-		}
-
 	}
 ])
 .controller('MapMenuController', ['$scope', 'searchService',
