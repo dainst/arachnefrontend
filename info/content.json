@@ -11,7 +11,8 @@
 	      {
 	        "id": "faq",
 	        "title": {
-	          "de": "FAQ"
+	          "de": "FAQ",
+              "en": "FAQ"
 	        }
 	      },
 	      {
