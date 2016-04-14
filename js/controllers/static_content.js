@@ -20,8 +20,8 @@ angular.module('arachne.controllers')
  * @author: Daniel M. de Oliveira
  */
 
-.controller('StaticContentController', ['$scope', '$stateParams', '$http', '$location', 'localizedContent',
-function ($scope, $stateParams, $http, $location, localizedContent) {
+.controller('StaticContentController', ['$scope', '$stateParams', '$http', '$location', 'localizedContent', '$anchorScroll', '$timeout',
+function ($scope, $stateParams, $http, $location, localizedContent, $anchorScroll, $timeout) {
 
 	var CONTENT_URL = '{LOCATION}/{LANG}/{NAME}.html';
 	var CONTENT_TOC = '{LOCATION}/content.json'
@@ -47,6 +47,17 @@ function ($scope, $stateParams, $http, $location, localizedContent) {
 		$http.get(CONTENT_TOC.replace('{LOCATION}',contentDir)).success(function (data) {
 			var lang = localizedContent.determineLanguage(data, $stateParams.title);
 			$scope.templateUrl = content_url.replace('{LANG}', lang);
+			if($stateParams.id) $timeout(function(){
+				var element = document.getElementById($stateParams.id);
+				element.scrollIntoView();
+				var clickEvent = new MouseEvent("click", {
+					bubbles: false,
+					cancelable: true,
+					view: window
+				});
+				var link = element.parentElement.parentElement;
+				link.dispatchEvent(clickEvent);
+			}, 1000);
 		});
 	}
 }]);

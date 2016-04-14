@@ -56,7 +56,7 @@ angular.module('arachne',[
 			.state('pwdreset', { url: '/pwdreset', templateUrl: 'partials/pwdreset.html', data: { pageTitle: title }})
 			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'partials/activation.html', data: { pageTitle: title }})
 			.state('project', { url: '/project/:title?q&fq', templateUrl: 'partials/static.html', data: { pageTitle: title }})
-			.state('info', { url: '/info/:title', templateUrl: 'partials/static.html', data: { pageTitle: title }}); // Named it info, not static, to sound not too technical.
+			.state('info', { url: '/info/:title?id', templateUrl: 'partials/static.html', data: { pageTitle: title }}); // Named it info, not static, to sound not too technical.
 	}
 ])
 /**
