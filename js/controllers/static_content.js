@@ -57,7 +57,7 @@ function ($scope, $stateParams, $http, $location, localizedContent, $anchorScrol
 				});
 				var link = element.parentElement.parentElement;
 				link.dispatchEvent(clickEvent);
-			}, 1000);
+			}, 500);
 		});
 	}
 }]);
