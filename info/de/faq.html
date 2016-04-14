@@ -120,6 +120,19 @@
                 </p>
             </accordion-group>
 
+            <accordion-group>
+                <accordion-heading>
+                    Meine Suchanfrage verursacht einen Syntaxfehler, was kann ich tun?
+                </accordion-heading>
+                <p>Syntaxfehler können auftreten, wenn die Anfrage reservierte Suchoperatoren (bspw. `/` oder `~`)
+                    enthält.
+                    Sollen diese Operatoren innerhalb eines Suchbegriffs verwendet werden, so können diese mit `\`
+                    maskiert
+                    werden oder als Teil einer Phrasensuche innerhalb von `"` verwendet werden.</p>
+                <p class="query-example">Beispiel: <a href="search?q=87\/243">87\/243</a>
+                </p>
+            </accordion-group>
+
         </accordion>
 
         <h2 id="Suchergebnis">Suchergebnisansicht</h2>
@@ -159,6 +172,7 @@
                 </accordion-heading>
                 <p>Nein. Es werden nur die für das konkrete Suchergebnis häufigsten Werte angezeigt.</p>
             </accordion-group>
+
         </accordion>
 
     </div>
