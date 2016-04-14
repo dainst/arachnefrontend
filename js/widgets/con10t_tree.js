@@ -78,12 +78,9 @@ angular.module('arachne.widgets.directives')
 
                         var currentResultFacet = response.facets[i];
 
-                        console.log(currentResultFacet)
                         // try to find custom hierarchy-facet or wildcard
                         if ((scope.hierarchyFacets.length > 0 && currentResultFacet.name == (scope.hierarchyFacets[node.depth]))
                                 || (scope.wildcardFacet && currentResultFacet.name.indexOf(scope.wildcardFacet) > -1)) {
-
-                            console.log(currentResultFacet)
 
                             for (var j = 0; j < currentResultFacet.values.length; j++) {
                                 var value = currentResultFacet.values[j].value;
@@ -136,12 +133,11 @@ angular.module('arachne.widgets.directives')
 
                 facets = facets.concat(scope.staticFacets);
 
-                var url = "search/?q=*";
+                var url = "search?q=";
 
                 for (var i = 0; i < facets.length; i++) {
                     url += "&fq=" + facets[i][0] + ':"' + facets[i][1] + '"';
                 }
-
                 $location.url(url);
             };
 
