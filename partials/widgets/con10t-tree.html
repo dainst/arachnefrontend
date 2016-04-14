@@ -1,21 +1,26 @@
 <script type="text/ng-template" id="nodeTemplate">
     <div class="con10t-tree-child">
 
-        <span ng-click="toggleCollapse(node)"
+        <span class="folderinteraction"
+              ng-click="toggleCollapse(node)"
               ng-if="!node.isLeaf">
+
             <span ng-if="checkIfShown(node)">
                 <span class="glyphicon glyphicon-folder-open" aria-hidden="true" style="color:grey; cursor:pointer;"></span>
             </span>
             <span ng-if="!checkIfShown(node)">
                 <span class="glyphicon glyphicon-folder-close" aria-hidden="true" style="color:grey; cursor:pointer;"></span>
             </span>
+
         </span>
         <span ng-if="node.isLeaf">
             <span class="glyphicon glyphicon-file" aria-hidden="true" style="color:grey; cursor:pointer;"></span>
         </span>
 
-        <span>{{node.name}}
-            <a ng-click="startFacetedSearch(node)">
+        <span class="childcontent">
+            {{node.name}}
+            <a class="searchinteraction"
+               ng-click="startFacetedSearch(node)">
                 <span class="glyphicon glyphicon-search" aria-hidden="true" title="{{'ui_showall' | transl8}}"></span>
             </a>
         </span>
