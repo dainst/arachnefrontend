@@ -58,8 +58,7 @@
 			<div class="col-md-12">
 
 				<div ng-if="resultSize">
-
-					<div ng-if="currentQuery.q" class="panel panel-default">
+					<div ng-if="currentQuery.q || currentQuery.facets.length > 0" class="panel panel-default">
 
 						<div class="panel-heading">
 
