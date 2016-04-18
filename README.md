@@ -50,13 +50,13 @@ This will run all tests matching the filename pattern test/*_spec.js. Jasmine is
 
 ### con10t submodule
 
-The static files representing the project pages are stored in the directory `con10t`. The repository comes preconfigured with the Arachne project pages configured as a git submodule.
+The static files representing the project pages are stored in the directory `con10t`. 
 
-In order to set up the submodule you have to run the following commands after the initial checkout:
+In order to set up con10t you have to run the following commands after the initial checkout:
+
 ```
-git submodule init
-git submodule update
-git checkout master
+cd (this-repo)
+git clone https://github.com/codarchlab/con10t.git
 ```
 
 Subsequent updates can be loaded by running `git pull origin master` inside the directory `con10t`.
@@ -68,18 +68,6 @@ Within the folder of the submodule execute
 git pull origin master
 ```
 to get the latest con10t version.
-
-Then go to the root directory of Arachne 4 Frontend and run 
-```
-git status
-```
-to ensure that you're now using the right version. After that execute
-```
-git add con10t
-git commit -m "Submodule con10t updated"
-git push origin master
-```
-to use the latest con10t version in Arachne 4 Frontend.
 
 ### Running the development server
 
