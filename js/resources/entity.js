@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.services')
+angular.module('arachne.resources')
 
 /**
  * Resource interface for backend requests to entity- and search-endpoints.
