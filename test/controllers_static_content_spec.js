@@ -17,6 +17,9 @@ describe ('StaticContentController', function() {
 				},
 				path : function () {
 					return route+'/'+title;
+				},
+				hash : function() {
+					return "";
 				}
 			});
 			$provide.constant('$stateParams', {
