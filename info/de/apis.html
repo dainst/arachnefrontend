@@ -1,105 +1,68 @@
 <div class="row con10t-page">
-  <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
-    <h1>About Arachne Interfaces</h1>
-    <hr>
-  </div>
-  <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
+    <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
+        <h1>Über Arachne Interfaces</h1>
+        <hr>
+    </div>
+    <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
 
-  <p>In order to guarantee highest data interoperability the Arachne database
-  provides its data mapped to several metadata formats delivered through
-  different application interfaces.</p>
+        <p>Um höchste Daten-Interoperabilität zu gewährleisten, stellt die Arachne Datenbank ihre Daten,
+            zu mehreren Metadatenformaten zugeordnet, durch verschiedene Anwendungsschnittstellen zur Verfügung.</p>
 
-  <h2>Books via OAI-PMH</h2>
+        <h2>OAI-PMH</h2>
 
-  <p>The contents of the Arachne bookbrowser can be harvested via an OAI-PMH
-  interface based on <a href="http://www.dlese.org/oai/" target=
-  "_blank">jOAI</a> serialized in METS/MODS.</p>
+        <p>
+            Die Basis-URI der OAI PMH-Schnittstelle ist:
+            <a href="http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml">http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml</a>
+            Das OAI PMH-Protokoll wird in dem <a
+                href="http://www.openarchives.org/OAI/openarchivesprotocol.html">
+            Open Archives Protocol </a>angegeben. Beachten Sie jedoch, dass wir derzeit an einer neuen Schnittstelle
+            für den Datenexport arbeiten.
+        </p>
 
-  <p>The base URI of the interface is:</p><p><a href=
-  "http://arachne.uni-koeln.de:8080/oai/provider" target=
-  "_blank">http://arachne.uni-koeln.de:8080/oai/provider</a></p>
+        <h3>Bücher via OAI-PMH</h3>
 
-  <p>For specifications see:</p><p><a href=
-  "http://www.openarchives.org/OAI/openarchivesprotocol.html" target=
-  "_blank">http://www.openarchives.org/OAI/openarchivesprotocol.html</a></p>
-  <p><a href="http://www.loc.gov/standards/mets/" target=
-  "_blank">http://www.loc.gov/standards/mets/</a></p> <p><a href=
-  "http://www.loc.gov/standards/mods/" target=
-  "_blank">http://www.loc.gov/standards/mods/</a></p> <p><a href=
-  "http://dfg-viewer.de/profil-der-metadaten/" target=
-  "_blank">http://dfg-viewer.de/profil-der-metadaten/</a></p>
+        <p>Der Inhalt des Arachne Buch Browers kann, basierend auf <a href="http://www.dlese.org/oai/" target="_blank">
+            jOAI</a>, über eine OAI-PMH Schnittstelle ausgelesen und in METS/MODS serialisiert werden.</p>
 
-  <h2>Arachne Atom Feeds</h2>
+        <p>Die Basis-URI der Schnittstelle ist:</p>
+        <p><a href=
+                      "http://arachne.uni-koeln.de:8080/oai/provider" target=
+                      "_blank">http://arachne.uni-koeln.de:8080/oai/provider</a></p>
 
-  <p>As a low level access we offer an Atom-based data interface for all of the
-  data in Arachne. The widely accepted Atom Syndication format provides a
-  relatively simple approach to interoperability and is easily accessible
-  through many different sorts of clients.</p>
+        <p><a href="http://arachne.uni-koeln.de/oai/provider?verb=ListIdentifiers&metadataPrefix=mets">Hier klicken um
+            ein Beispiel zu sehen</a>
+        </p>
 
-  <p>Our service allows querying our full-text index and provides paged feeds
-  of the search results. These results include the title, the persistent
-  identifier and location, and the date of the last modification and therefore
-  are independent of any complex metadata format.</p>
+        <p>Weitere Spezifikationen finden Sie unter:</p>
 
-  <p>In the near future the interface will be expanded to include several
-  extensions described in the Open Search Standard, such as relevance scoring
-  and geospatial and time-based query options.</p>
+        <p><a href="http://www.loc.gov/standards/mets/" target=
+                "_blank">http://www.loc.gov/standards/mets/</a></p>
+        <p><a href=
+                      "http://www.loc.gov/standards/mods/" target=
+                      "_blank">http://www.loc.gov/standards/mods/</a></p>
+        <p><a href=
+                      "http://dfg-viewer.de/profil-der-metadaten/" target=
+                      "_blank">http://dfg-viewer.de/profil-der-metadaten/</a></p>
 
-  <p>The Atom Interface can be accessed at the URL:
-  "http://arachne.uni-koeln.de/solr/atom/"</p>
+        <h2>Arachne Atom Feeds</h2>
 
-  <p>Example: Basilica Aemilia</p>
+        <p>Als low level Zugriff bieten wir eine Atom-basierte Datenschnittstelle für alle Daten in Arachne. Das weithin
+            akzeptierte Atom Syndication Format bietet einen relativ einfachen Ansatz zur Interoperabilität und ist
+            leicht durch viele verschiedene Arten von cleints erreichbar.</p>
 
-  <p><a href="http://arachne.uni-koeln.de/solr/atom/?q=basilica+aemilia"
-  target="blank">http://arachne.uni-koeln.de/solr/atom/?q=basilica+aemilia</a></p>
+        <p>Unser Service ermöglicht es unseren Volltextindex abzufragen und liefert ausgelagerte Feeds der
+            Suchergebnisse. Diese Ergebnisse enthalten den Titel, den persistenten Identifier und den Ort, sowie das
+            Datum der letzten Änderung und sind daher unabhängig von einem komplexen Metadatenformat.</p>
 
-  <h2>Pelagios Arachne cooperation Results</h2>
+        <p>In naher Zukunft wird die Schnittstelle erweitert werden, um mehrere im Open Search Standard beschriebenen
+            Erweiterungen wie relevance scoring und geospatial und zeitbasierten Abfrageoptionen zu enthalten.</p>
 
-  <p>"PELAGIOS stands for 'Pelagios: Enable Linked Ancient Geodata In Open
-  Systems' - its aim is to help introduce Linked Open Data goodness into online
-  resources that refer to places in the Ancient World." <a href=
-  "http://pelagios-project.blogspot.de/p/about-pelagios.html">see</a></p>
+        <p>Das Atom Interface kann über folgende URL erreicht werden:
+            <a href="http://arachne.uni-koeln.de/solr/atom/">http://arachne.uni-koeln.de/solr/atom/</a></p>
 
-  <p>In cooperation with the <a href=
-  "http://pelagios-project.blogspot.com/">Pelagios Project</a> Arachne places
-  where cross referenced with <a href="http://pleiades.stoa.org/">Pleiades</a>
-  in <a href="http://www.w3.org/DesignIssues/LinkedData.html">Linked Open
-  Data</a> way. The reference dataset that is used by <a href=
-  "http://pelagios-project.blogspot.com/">Pelagios</a> is <a href=
-  "http://pleiades.stoa.org/">Pleiades</a>. The Dataset that has been created
-  for this Purpose is an series of <a href="http://www.w3.org/RDF/">RDF</a>
-  triples using the <a href="http://www.openannotation.org">OAC</a>
-  standard.</p>
+        <p>Beispiel: Basilica Aemilia</p>
 
-  <p>These OAC triples describe the connections between Arachne Places to
-  Pleiades Places and Arachne Objects to Pleiades Places.</p>
-
-  <p>To see how this has been achieved read the Pelagios blog entries <a href=
-  "http://pelagios-project.blogspot.com/2011/07/creating-pleiades-to-arachne-annotation.html">
-  1</a>, <a href=
-  "http://pelagios-project.blogspot.com/2011/08/update-for-arachne-pleiades-annotations.html">
-  2</a> .</p>
-
-  <p><big>Update:</big></p>
-
-  <p>The Arachne Pleiades matching has been improved and now features VoID
-  Dataset Descriptions.</p>
-
-  <p>The Change has been documented in these Blogposts:</p>
-
-  <p><a href=
-  "http://pelagios-project.blogspot.de/2012/06/improving-arachne-pleiades-matching.html">
-  Improving the Arachne-Pleiades matching</a></p>
-
-  <p><a href=
-  "http://pelagios-project.blogspot.de/2012/06/arachne-void-descriptions.html">Arachne
-  Void descriptions</a></p>
-
-  <p class="c1"><a href=
-  "http://arachne.uni-koeln.de/downloads/dumps/pelagios/120509/PleiadesArachneMapping.zip">
-  new download 09.05.2012</a></p>
-
-  <p class="c1"><a href=
-  "http://arachne.uni-koeln.de/downloads/dumps/pelagios/110818/PleiadesArachneMapping.zip">
-  old download 18.08.2011</a></p>
+        <p><a href="http://arachne.uni-koeln.de/solr/atom/?q=basilica+aemilia"
+              target="blank">http://arachne.uni-koeln.de/solr/atom/?q=basilica+aemilia</a></p>
+    </div>
 </div>
