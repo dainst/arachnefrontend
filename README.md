@@ -56,7 +56,7 @@ In order to set up con10t you have to run the following commands after the initi
 
 ```
 cd (this-repo)
-git clone https://github.com/codarchlab/con10t.git
+git clone https://github.com/dainst/con10t.git
 ```
 
 Subsequent updates can be loaded by running `git pull origin master` inside the directory `con10t`.
