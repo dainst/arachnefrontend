@@ -5,6 +5,8 @@ angular.module('arachne.resources')
 .factory('CatalogEntry', ['$resource', 'arachneSettings',
 function($resource, arachneSettings) {
 
-    return $resource(arachneSettings.dataserviceUri + '/catalogentry/:id');
+    return $resource(arachneSettings.dataserviceUri + '/catalog/entry/:id', null, {
+        'update': { method:'PUT' }
+    });
 
 }]);

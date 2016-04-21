@@ -3,10 +3,10 @@
 	<div ui-tree-handle class="catalog-entry" ng-init="entry.show = false">
 
 		<a data-nodrag
-			ng-class="{'text-muted': !entry.hasChildren, 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed}"
+			ng-class="{'text-muted': entry.totalChildren == 0, 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed}"
 			class="glyphicon"
-			style="cursor: pointer; text-decoration: none;"
-			ng-click="toggle(this)"></a>
+			style="cursor: pointer; text-decoration: none; margin-right: 5px;"
+			ng-click="toggleNode(this, entry)"></a>
 
 		<a ng-if="entry.arachneEntityId" ng-href="entity/{{entry.arachneEntityId}}" data-nodrag>
 			{{entry.label}}
@@ -15,15 +15,15 @@
 			{{entry.label}}
 		</span>
  		
-		<a class="btn" ng-click="entry.show = !entry.show" data-nodrag>
-			<span ng-if="entry.text" class="glyphicon glyphicon-book"></span>
+		<a ng-if="entry.text" class="btn" ng-click="entry.show = !entry.show" data-nodrag>
+			<span class="glyphicon glyphicon-book"></span>
 		</a>
 		<span ng-if="entry.arachneEntityId" class="glyphicon glyphicon-link"></span>
 		
-		<a class="edit-btn text-danger pull-right" ng-click="remove(this)" data-nodrag>
+		<a class="edit-btn text-danger pull-right" ng-click="removeEntry(this, entry)" data-nodrag>
 			<span class="glyphicon glyphicon-remove-sign"></span>
 		</a>
-		<a class="edit-btn text-success pull-right" ng-click="addChild(entry)" data-nodrag>
+		<a class="edit-btn text-success pull-right" ng-click="addChild(this, entry)" data-nodrag>
 			<span class="glyphicon glyphicon-plus-sign"></span>
 		</a>
 		<a class="edit-btn pull-right" ng-click="editEntry(entry)" data-nodrag>
@@ -39,6 +39,13 @@
 
 	<ol ng-class="{hidden:collapsed}" ui-tree-nodes ng-model="entry.children">
 		<li ng-repeat="entry in entry.children" ui-tree-node collapsed="true" ng-include="'entries_renderer.html'"></li>
+
+		<div ng-if="entry.children.length < entry.totalChildren" class="catalog-entry" style="cursor: pointer;"
+			 	ng-click="loadChildren(entry)">
+			<a style="display: block;">
+				<em>{{ 'ui_show_more' | transl8 }}</em>
+			</a>
+		</div>
 	</ol>
 
 </script>
@@ -73,12 +80,6 @@
 						<button class="btn btn-default" ng-click="editCatalog()">
 							<span class="glyphicon glyphicon-edit"></span> {{ 'catalog_edit' | transl8 }}
 						</button>
-						<button class="btn btn-default" ng-click="expandAll(nodes)">
-							<span class="glyphicon glyphicon-folder-open"></span> {{ 'catalog_expand_all' |transl8 }}
-						</button>
-						<button class="btn btn-default" ng-click="collapseAll(nodes)">
-							<span class="glyphicon glyphicon-folder-close"></span> {{ 'catalog_collapse_all' | transl8}}
-						</button>
 						<button class="btn btn-default" ng-click="removeCatalog()">
 							<span class="glyphicon glyphicon-remove"></span> {{ 'catalogIds' | transl8 }} {{ 'ui_delete' | transl8 }}
 						</button>
@@ -94,8 +95,8 @@
 					</ol>
 				</div>
 
-				<div class="catalog-entry">
-					<a ng-click="addChild(activeCatalog.root)" style="cursor:pointer; display:block;">
+				<div class="catalog-entry" style="cursor: pointer;" ng-click="addChild(null, activeCatalog.root)">
+					<a style="display: block;">
 						<em><span class="glyphicon glyphicon-plus-sign"></span> {{ 'catalog_create_entry' | transl8 }}</em>
 					</a>
 				</div>

@@ -585,8 +585,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 	}
 )
 .controller('EditCatalogController',
-	function ($scope, $uibModalInstance, catalog) {
+	function ($scope, $uibModalInstance, catalog, edit) {
 		$scope.catalog = catalog;
+		$scope.edit = edit;
 	}
 )
 .controller('AddMarkdownLinkController',
