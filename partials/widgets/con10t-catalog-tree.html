@@ -2,7 +2,7 @@
     <div class="con10t-catalog-tree-child">
 
         <span class="folderinteraction"
-              ng-if="node.hasChildren"
+              ng-if="node.totalChildren > 0"
               ng-click="toggleCollapse(node)">
             <span ng-if="checkIfShown(node)"
                     class="glyphicon glyphicon-folder-open"
@@ -15,7 +15,7 @@
                     aria-hidden="true">
             </span>
         </span>
-        <span ng-if="!node.hasChildren"
+        <span ng-if="node.totalChildren == 0"
                 class="glyphicon glyphicon-file"
                 style="color:grey;"
                 aria-hidden="true">
@@ -26,16 +26,22 @@
         </a>
         <span class="childcontent" ng-if="node.arachneEntityId == null">{{ node.label }}</span>
 
-        <a class="searchinteraction" ng-if="node.hasChildren" ng-href="search?q=catalogPaths:{{escapePath(node.path)}}">
+        <a class="searchinteraction" ng-if="node.totalChildren > 0" ng-href="search?q=catalogPaths:{{escapePath(node.path)}}">
             <span class="glyphicon glyphicon-search"
                     title="{{'ui_showall' | transl8}}">
             </span>
         </a>
 
-        <div ng-if="node.hasChildren" collapse="!checkIfShown(node)" class="con10t-catalog-tree-children">
+        <div ng-if="node.totalChildren > 0" collapse="!checkIfShown(node)" class="con10t-catalog-tree-children">
             <div ng-repeat="node in node.children"
                  ng-include="'catalogNode'"
                  class="catalognode"></div>
+            <div ng-if="node.children.length < node.totalChildren && !node.loading">
+                <a class="btn btn-link" ng-click="loadMore(node)">{{ 'ui_show_more' | transl8 }}</a>
+            </div>
+            <div ng-show="node.loading">
+                <div class="loading"></div>
+            </div>
         </div>
 
     </div>
@@ -49,9 +55,13 @@
         </h3>
     </div>
     <div class="panel-body">
-        <div ng-hide="catalog.root">
+        <div ng-repeat="node in catalog.root.children" ng-include="'catalogNode'"></div>
+        <div ng-if="catalog.root.children.length < catalog.root.totalChildren && !catalog.root.loading">
+            <a class="btn btn-link" ng-click="loadMore(catalog.root)">{{ 'ui_show_more' | transl8 }}</a>
+        </div>
+        <div ng-show="catalog.root.loading">
             <div class="loading"></div>
         </div>
-        <div ng-repeat="node in catalog.root.children" ng-include="'catalogNode'"></div>
     </div>
+
 </div>
