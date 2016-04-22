@@ -319,17 +319,19 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 				 * Hide map widget if no marker coordinates are provided
 				 * Jan G. Wieners
 				 */
-				var cur, locationsExist = false, len = data.places.length;
-				for (var j = len; j--;) {
+				if ($scope.entity.places) {
+					var cur, locationsExist = false, len = $scope.entity.places.length;
+					for (var j = len; j--;) {
 
-					cur = data.places[j].location;
-					if (cur && cur.lat && cur.lon) {
-						locationsExist = true;
-						break;
+						cur = $scope.entity.places[j].location;
+						if (cur && cur.lat && cur.lon) {
+							locationsExist = true;
+							break;
+						}
 					}
-				}
-				if (!locationsExist) {
-					$scope.entity.places = false;
+					if (!locationsExist) {
+						$scope.entity.places = false;
+					}
 				}
 
 				document.title = $scope.entity.title + " | Arachne";
