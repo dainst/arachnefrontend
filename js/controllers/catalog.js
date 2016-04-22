@@ -47,7 +47,7 @@ angular.module('arachne.controllers')
 
 		$scope.refreshCatalogs = function(){
 			$scope.loading++;
-			Catalog.query({ full: false }, function(result) {
+			Catalog.query({ full: false, limit: 0 }, function(result) {
 				$scope.loading--;
 				$scope.catalogs = result;
 				if (!$scope.activeCatalog) {
@@ -60,6 +60,9 @@ angular.module('arachne.controllers')
 
 		$scope.setActiveCatalog = function(catalog) {
 			initialize(catalog.root);
+			if (catalog.root.children.length == 0 && catalog.root.totalChildren > 0) {
+				$scope.loadChildren(catalog.root);
+			}
 			$scope.activeCatalog = catalog;
 		};
 
@@ -87,7 +90,7 @@ angular.module('arachne.controllers')
 			if (entry.totalChildren > 0 && (!entry.children || entry.children.length == 0)) {
 				CatalogEntry.get({ id: entry.id, limit: $scope.childrenLimit, offset: 0 }, function(result) {
 					entry.children = result.children;
-					initialize(entry);
+					for (var i in entry.children) initialize(entry.children[i]);
 					scope.toggle();
 				});
 			} else scope.toggle();
@@ -176,15 +179,10 @@ angular.module('arachne.controllers')
 
 		function initialize(entry) {
 			$scope.entryMap[entry.id] = entry;
-			if (entry.children) {
-				entry.children.forEach(function(child) {
-					$scope.entryMap[child.id] = child;
 
-					// needed to enable dragging to entries without children
-					// see https://github.com/angular-ui-tree/angular-ui-tree/issues/203
-					if (!child.children) child.children = [];
-				});
-			}
+			// needed to enable dragging to entries without children
+			// see https://github.com/angular-ui-tree/angular-ui-tree/issues/203
+			if (!entry.children) entry.children = [];
 		}
 
 		function getIndexParent(entry) {

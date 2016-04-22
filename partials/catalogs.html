@@ -92,6 +92,12 @@
 								ui-tree-node collapsed="true"
 								ng-include="'entries_renderer.html'">
 						</li>
+						<div ng-if="activeCatalog.root.children.length < activeCatalog.root.totalChildren" class="catalog-entry"
+							 style="cursor: pointer;" ng-click="loadChildren(activeCatalog.root)">
+							<a style="display: block;">
+								<em>{{ 'ui_show_more' | transl8 }}</em>
+							</a>
+						</div>
 					</ol>
 				</div>
 
