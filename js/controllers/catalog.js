@@ -35,11 +35,17 @@ angular.module('arachne.controllers')
 		$scope.treeOptions = {
 			dropped: function(event) {
 				var movedEntry = $scope.entryMap[event.source.nodeScope.$modelValue.id];
+				var newParentId;
 				if (event.dest.nodesScope.$parent.$modelValue) {
-					movedEntry.parentId = event.dest.nodesScope.$parent.$modelValue.id;
+					newParentId = event.dest.nodesScope.$parent.$modelValue.id;
 				} else {
-					movedEntry.parentId = $scope.activeCatalog.root.id;
+					newParentId = $scope.activeCatalog.root.id;
 				}
+				if (movedEntry.parentId != newParentId) {
+					$scope.entryMap[movedEntry.parentId].totalChildren -= 1;
+					$scope.entryMap[newParentId].totalChildren += 1;
+				}
+				movedEntry.parentId = newParentId;
 				movedEntry.indexParent = getIndexParent(movedEntry);
 				CatalogEntry.update({ id: movedEntry.id }, movedEntry);
 			}
