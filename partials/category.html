@@ -62,7 +62,7 @@
 					<ul class="list-unstyled facet"	ng-show="facet.open">
 						<li ng-repeat="facetValue in facet.values">
 							<small>
-								<a ng-href="search/{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+								<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
 									<b class="pull-right text-muted">{{facetValue.count | number}}</b>
 									{{facetValue.value | stripCoords}}
 								</a>
@@ -83,7 +83,7 @@
 					<ul class="list-unstyled facet"	ng-show="facet.open">
 						<li ng-repeat="facetValue in facet.values">
 							<small>
-								<a ng-href="search/{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+								<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
 									<b class="pull-right text-muted">{{facetValue.count | number}}</b>
 									{{facetValue.value | stripCoords}}
 								</a>
