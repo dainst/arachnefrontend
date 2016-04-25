@@ -6,7 +6,14 @@ describe ('StaticContentController', function() {
 	var TEMPLATE_URL = "con10t/{LANG}/title.html";
 	var PROJECTS_JSON = 'con10t/content.json';
 
-	var scope = {};
+	var callback = undefined;
+	var targetPage = undefined;
+	var scope = {
+		$on : function(p,cb) {
+			if (p==="$includeContentError")
+				callback=cb;
+		}
+	};
 
 	var prepare = function (route,title,primaryLanguage,searchParam) {
 		module('arachne.controllers');
@@ -15,7 +22,8 @@ describe ('StaticContentController', function() {
 				search : function () {
 					return searchParam;
 				},
-				path : function () {
+				path : function (target) {
+					targetPage=target;
 					return route+'/'+title;
 				},
 				hash : function() {
@@ -32,12 +40,11 @@ describe ('StaticContentController', function() {
 			});
 		});
 
-		
 		inject(function ($controller, _$httpBackend_) {
 			$httpBackend = _$httpBackend_;
 			$controller('StaticContentController', {'$scope': scope});
 		});
-	}
+	};
 
 	var setUpSimpleProjectJson = function(jsonFile,itemName,itemLang) {
 		$httpBackend.expectGET(jsonFile).respond(200,'{\
@@ -47,7 +54,16 @@ describe ('StaticContentController', function() {
 					"'+itemLang+'": "DAI - Objectdatabase"\
 				}}]}');
 		$httpBackend.flush();
-	}
+	};
+
+	it ('should register a hook for redirect', function() {
+
+		prepare('/project','title','de',{ "lang" : "de" });
+		if (callback === undefined) fail();
+		callback();
+		expect(targetPage).toBe('/404')
+	});
+
 
 	it ('should provide a german templateUrl with search param lang=de',function(){
 		prepare('/project','title','de',{ "lang" : "de" });
