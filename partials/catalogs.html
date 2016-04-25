@@ -57,9 +57,10 @@
 	</div>
 
 	<ol ng-class="{hidden:collapsed}" ui-tree-nodes ng-model="entry.children">
+
 		<li ng-repeat="entry in entry.children" ui-tree-node collapsed="true" ng-include="'entries_renderer.html'"></li>
 
-		<div ng-if="entry.children.length < entry.totalChildren" class="catalog-entry" style="cursor: pointer;"
+		<div ng-if="!entry.loading && entry.children.length < entry.totalChildren" class="catalog-entry" style="cursor: pointer;"
 			 	ng-click="loadChildren(entry)">
 			<a style="display: block;">
 				<em ng-if="entry.totalChildren - entry.children.length == 1">
@@ -71,6 +72,10 @@
 			</a>
 		</div>
 	</ol>
+
+	<div ng-show="entry.loading">
+		<div class="loading"></div>
+	</div>
 
 </script>
 
@@ -125,8 +130,9 @@
 								ui-tree-node collapsed="true"
 								ng-include="'entries_renderer.html'">
 						</li>
-						<div ng-if="activeCatalog.root.children.length < activeCatalog.root.totalChildren" class="catalog-entry"
-							 style="cursor: pointer;" ng-click="loadChildren(activeCatalog.root)">
+
+						<div ng-if="!activeCatalog.root.loading && activeCatalog.root.children.length < activeCatalog.root.totalChildren"
+							 class="catalog-entry" style="cursor: pointer;" ng-click="loadChildren(activeCatalog.root)">
 							<a style="display: block;">
 								<em ng-if="activeCatalog.root.totalChildren - activeCatalog.root.children.length == 1">
 									{{ 'ui_show_more' | transl8 }} ({{activeCatalog.root.totalChildren -
@@ -139,6 +145,9 @@
 							</a>
 						</div>
 					</ol>
+				</div>
+				<div ng-show="activeCatalog.root.loading">
+					<div class="loading"></div>
 				</div>
 
 				<div ng-if="activeCatalog.root.children.length == activeCatalog.root.totalChildren" class="catalog-entry"
