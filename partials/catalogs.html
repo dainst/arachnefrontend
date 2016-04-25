@@ -129,7 +129,8 @@
 					</ol>
 				</div>
 
-				<div class="catalog-entry" style="cursor: pointer;" ng-click="addChild(null, activeCatalog.root)">
+				<div ng-if="activeCatalog.root.children.length == activeCatalog.root.totalChildren" class="catalog-entry"
+							style="cursor: pointer;" ng-click="addChild(null, activeCatalog.root)">
 					<a style="display: block;">
 						<em><span class="glyphicon glyphicon-file"></span> {{ 'catalog_create_entry' | transl8 }}</em>
 					</a>
