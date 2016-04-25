@@ -5,6 +5,7 @@
 @import "leaflet";
 @import "map";
 @import "threedviewer";
+@import "tabs";
 
 body {
   overflow-y: scroll; /* always show scrollbar */
@@ -524,6 +525,15 @@ hr {
   border-radius: 4px;
   border: 1px dashed #bed2db;
   margin: 0;
+}
+
+.catalog-edit .angular-ui-tree-handle {
+  font-weight: normal;
+}
+
+.catalog-edit .entry-label {
+  font-weight: bold;
+  padding-right: 10px;
 }
 
 .carousel-caption {
