@@ -24,7 +24,7 @@ angular.module('arachne.controllers')
 		$scope.catalogs = [];
 		$scope.entryMap = {};
 		$scope.user = authService.getUser();
-		$scope.childrenLimit = 3;
+		$scope.childrenLimit = 10;
 
 		$http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username).success(function(user) {
 			$scope.user = user;
