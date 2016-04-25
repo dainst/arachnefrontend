@@ -18,13 +18,18 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  * @author: Daniel M. de Oliveira
+ * @author: Jan G. Wieners
  */
 
 .controller('StaticContentController', ['$scope', '$stateParams', '$http', '$location', 'localizedContent', '$anchorScroll', '$timeout',
 function ($scope, $stateParams, $http, $location, localizedContent, $anchorScroll, $timeout) {
 
+	$scope.$on("$includeContentError", function(event, templateName){
+		$location.path('/404');
+	});
+
 	var CONTENT_URL = '{LOCATION}/{LANG}/{NAME}.html';
-	var CONTENT_TOC = '{LOCATION}/content.json'
+	var CONTENT_TOC = '{LOCATION}/content.json';
 
 	// Map route to contentDir
 	var contentDir = '';
@@ -37,13 +42,11 @@ function ($scope, $stateParams, $http, $location, localizedContent, $anchorScrol
 		replace('{NAME}',$stateParams.title).
 		replace('{LOCATION}',contentDir);
 
-
 	if ($location.search()['lang']!=undefined){
 
 		$scope.templateUrl = content_url.replace('{LANG}',$location.search()['lang']);
 
 	} else {
-
 		$http.get(CONTENT_TOC.replace('{LOCATION}',contentDir)).success(function (data) {
 			var lang = localizedContent.determineLanguage(data, $stateParams.title);
 			$scope.templateUrl = content_url.replace('{LANG}', lang);
