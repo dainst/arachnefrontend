@@ -122,13 +122,16 @@ angular.module('arachne.controllers')
 		};
 
 		$scope.editEntry = function(entry) {
+			var editableEntry = { label: entry.label, arachneEntityId: entry.arachneEntityId, text: entry.text };
 			var editEntryModal = $uibModal.open({
 				templateUrl: 'partials/Modals/editEntry.html',
 				controller: 'EditCatalogEntryController',
-				resolve: { entry: function() { return entry } }
+				resolve: { entry: function() { return editableEntry } }
 			});
 			editEntryModal.close = function(editedEntry) {
-				entry = editedEntry;
+				entry.label = editedEntry.label;
+				entry.arachneEntityId = editedEntry.arachneEntityId;
+				entry.text = editedEntry.text;
 				entry.indexParent = getIndexParent(entry);
 				CatalogEntry.update({ id: entry.id }, entry);
 				editEntryModal.dismiss();
@@ -158,14 +161,27 @@ angular.module('arachne.controllers')
 		};
 
 		$scope.editCatalog = function() {
+			var editableCatalog = {
+				author: $scope.activeCatalog.author,
+				public: $scope.activeCatalog.public,
+				root: {
+					label: $scope.activeCatalog.root.label,
+					text: $scope.activeCatalog.root.text
+				}
+			};
 			var editCatalogModal = $uibModal.open({
 				templateUrl: 'partials/Modals/editCatalog.html',
 				controller: 'EditCatalogController',
-				resolve: { catalog: function() { return $scope.activeCatalog }, edit: true }
+				resolve: { catalog: function() { return editableCatalog }, edit: true }
 			});
-			editCatalogModal.close = function(result) {
-				$scope.activeCatalog = result;
-				Catalog.update({id: $scope.activeCatalog.id}, result);
+			editCatalogModal.close = function(editedCatalog) {
+				$scope.activeCatalog.author = editedCatalog.author;
+				$scope.activeCatalog.public = editedCatalog.public;
+				$scope.activeCatalog.root.label = editedCatalog.root.label;
+				$scope.activeCatalog.root.text = editedCatalog.root.text;
+
+				Catalog.update({id: $scope.activeCatalog.id}, $scope.activeCatalog);
+				CatalogEntry.update({id: $scope.activeCatalog.root.id}, $scope.activeCatalog.root);
 				editCatalogModal.dismiss();
 			}
 		};
