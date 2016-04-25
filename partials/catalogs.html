@@ -62,7 +62,12 @@
 		<div ng-if="entry.children.length < entry.totalChildren" class="catalog-entry" style="cursor: pointer;"
 			 	ng-click="loadChildren(entry)">
 			<a style="display: block;">
-				<em>{{ 'ui_show_more' | transl8 }}</em>
+				<em ng-if="entry.totalChildren - entry.children.length == 1">
+					{{ 'ui_show_more' | transl8 }} ({{entry.totalChildren - entry.children.length}} {{ 'ui_more_entry' | transl8 }})
+				</em>
+				<em ng-if="entry.totalChildren - entry.children.length > 1">
+					{{ 'ui_show_more' | transl8 }} ({{entry.totalChildren - entry.children.length}} {{ 'ui_more_entries' | transl8 }})
+				</em>
 			</a>
 		</div>
 	</ol>
@@ -123,7 +128,14 @@
 						<div ng-if="activeCatalog.root.children.length < activeCatalog.root.totalChildren" class="catalog-entry"
 							 style="cursor: pointer;" ng-click="loadChildren(activeCatalog.root)">
 							<a style="display: block;">
-								<em>{{ 'ui_show_more' | transl8 }}</em>
+								<em ng-if="activeCatalog.root.totalChildren - activeCatalog.root.children.length == 1">
+									{{ 'ui_show_more' | transl8 }} ({{activeCatalog.root.totalChildren -
+										activeCatalog.root.children.length}} {{ 'ui_more_entry' | transl8 }})
+								</em>
+								<em ng-if="activeCatalog.root.totalChildren - activeCatalog.root.children.length > 1">
+									{{ 'ui_show_more' | transl8 }} ({{activeCatalog.root.totalChildren -
+										activeCatalog.root.children.length}} {{ 'ui_more_entries' | transl8 }})
+								</em>
 							</a>
 						</div>
 					</ol>
