@@ -579,21 +579,4 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
 		}
 
 	}
-])
-.controller('EditCatalogEntryController',
-	function ($scope, $uibModalInstance, entry) {
-		$scope.entry = entry;
-		$scope.edit = true;
-	}
-)
-.controller('EditCatalogController',
-	function ($scope, $uibModalInstance, catalog, edit) {
-		$scope.catalog = catalog;
-		$scope.edit = edit;
-	}
-)
-.controller('AddMarkdownLinkController',
-	function ($scope, $uibModalInstance, link) {
-		$scope.link = link;
-	}
-);
+]);

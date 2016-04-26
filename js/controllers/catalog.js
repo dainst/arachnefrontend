@@ -88,7 +88,9 @@ angular.module('arachne.controllers')
 			var editEntryModal = $uibModal.open({
 				templateUrl: 'partials/Modals/editEntry.html'
 			});
-			editEntryModal.close = function(newEntry) {
+			editEntryModal.close = function(newEntry, entity) {
+                if (entity) newEntry.arachneEntityId = entity.entityId;
+                else newEntry.arachneEntityId = null;
 				newEntry.parentId = entry.id;
 				newEntry.indexParent = entry.children.length;
 				CatalogEntry.save({}, newEntry, function(result) {
@@ -152,7 +154,9 @@ angular.module('arachne.controllers')
 				controller: 'EditCatalogEntryController',
 				resolve: { entry: function() { return editableEntry } }
 			});
-			editEntryModal.close = function(editedEntry) {
+			editEntryModal.close = function(editedEntry, entity) {
+                if (entity) editedEntry.arachneEntityId = entity.entityId;
+                else editedEntry.arachneEntityId = null;
 				angular.copy(editedEntry, entry);
 				entry.indexParent = getIndexParent(entry);
 				CatalogEntry.update({ id: entry.id }, entry, function() {
@@ -249,3 +253,23 @@ angular.module('arachne.controllers')
 
 	}
 ])
+.controller('EditCatalogEntryController', ['$scope', '$uibModalInstance', 'Entity', 'entry',
+    function ($scope, $uibModalInstance, Entity, entry) {
+        $scope.entry = entry;
+        $scope.edit = true;
+        if ($scope.entry.arachneEntityId) {
+            $scope.entity = Entity.get({id:$scope.entry.arachneEntityId});
+        }
+    }
+])
+.controller('EditCatalogController',
+    function ($scope, $uibModalInstance, catalog, edit) {
+        $scope.catalog = catalog;
+        $scope.edit = edit;
+    }
+)
+.controller('AddMarkdownLinkController',
+    function ($scope, $uibModalInstance, link) {
+        $scope.link = link;
+    }
+);

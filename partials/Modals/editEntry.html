@@ -8,9 +8,12 @@
 		<div class="form-group">
 			<input autofocus type="label" class="form-control" ng-model="entry.label" placeholder="Überschrift">
 		</div>
-		Entity-ID <small>(Optional)</small>
+		{{ 'catalog_entry_entity' | transl8 }}: <small>({{ 'ui_optional' | transl8 }})</small>
 		<div class="form-group">
-			<input autofocus type="arachneId" class="form-control" ng-model="entry.arachneEntityId" placeholder="Entity ID">
+			<idai-picker search-uri="data/search"
+						 result-field="entities"
+						 total-field="size"
+						 selected-item="entity" />
 		</div>
 		{{ 'catalog_description' | transl8 }}: <small>(Optional)</small>
 		<div ar-markdown-text-editor markdown-text="entry.text" placeholder="Katalogtext"></div>
@@ -18,7 +21,7 @@
 	<div class="modal-footer">
     	<input class="btn btn-primary"
     			type="submit"
-    			ng-click="$close(entry)"
+    			ng-click="$close(entry, entity)"
     			ng-class="{ disabled: !entry.label }"
     			value="OK">
     	<button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8}}</button>
