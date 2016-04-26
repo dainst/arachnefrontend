@@ -18,8 +18,8 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy, Oliver Bensch, Thomas Kleinke
  */
-.controller('CatalogsController',['$scope', '$uibModal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings',
-	function ($scope, $uibModal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings) {
+.controller('CatalogsController',['$scope', '$uibModal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings', 'message',
+	function ($scope, $uibModal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings, message) {
 
 		$scope.catalogs = [];
 		$scope.entryMap = {};
@@ -33,21 +33,32 @@ angular.module('arachne.controllers')
 		$scope.loading = 0;
 
 		$scope.treeOptions = {
-			dropped: function(event) {
+			beforeDrop: function(event) {
 				var movedEntry = $scope.entryMap[event.source.nodeScope.$modelValue.id];
+                var tempEntry = angular.copy(movedEntry);
 				var newParentId;
 				if (event.dest.nodesScope.$parent.$modelValue) {
 					newParentId = event.dest.nodesScope.$parent.$modelValue.id;
 				} else {
 					newParentId = $scope.activeCatalog.root.id;
 				}
-				if (movedEntry.parentId != newParentId) {
-					$scope.entryMap[movedEntry.parentId].totalChildren -= 1;
-					$scope.entryMap[newParentId].totalChildren += 1;
-				}
-				movedEntry.parentId = newParentId;
-				movedEntry.indexParent = getIndexParent(movedEntry);
-				CatalogEntry.update({ id: movedEntry.id }, movedEntry);
+                tempEntry.parentId = newParentId;
+                tempEntry.indexParent = event.dest.index;
+                if (tempEntry.indexParent != movedEntry.indexParent || tempEntry.parentId != movedEntry.parentId) {
+                    var promise = CatalogEntry.update({id: movedEntry.id}, tempEntry).$promise.then(function () {
+                        if (movedEntry.parentId != newParentId) {
+                            $scope.entryMap[movedEntry.parentId].totalChildren -= 1;
+                            $scope.entryMap[newParentId].totalChildren += 1;
+                        }
+                        movedEntry.parentId = newParentId;
+                        movedEntry.indexParent = getIndexParent(movedEntry);
+                    }, function () {
+                        message.addMessageForCode('default');
+                    });
+                    return promise;
+                } else {
+                    return true;
+                }
 			}
 		};
 
@@ -87,7 +98,9 @@ angular.module('arachne.controllers')
 					if (scope && scope.collapsed) {
 						$scope.toggleNode(scope, entry);
 					}
-				});
+				}, function() {
+                    message.addMessageForCode('default');
+                });
 				editEntryModal.dismiss();
 			}
 		};
@@ -100,7 +113,9 @@ angular.module('arachne.controllers')
 					for (var i in entry.children) initialize(entry.children[i]);
 					scope.toggle();
 					entry.loading = undefined;
-				});
+				}, function() {
+                    message.addMessageForCode('backend_missing');
+                });
 			} else scope.toggle();
 		};
 
@@ -110,7 +125,9 @@ angular.module('arachne.controllers')
 				entry.children = entry.children.concat(result.children);
 				for (var i in entry.children) initialize(entry.children[i]);
 				entry.loading = undefined;
-			});
+			}, function() {
+                message.addMessageForCode('backend_missing');
+            });
 		};
 
 		$scope.removeEntry = function(scope, entry) {
@@ -120,25 +137,29 @@ angular.module('arachne.controllers')
 			deleteModal.close = function() {
 				scope.remove();
 				$scope.entryMap[entry.parentId].totalChildren -= 1;
-				CatalogEntry.remove({ id: entry.id });
-				deleteModal.dismiss();
+				CatalogEntry.remove({ id: entry.id }, function() {
+                    deleteModal.dismiss();
+                }, function() {
+                    message.addMessageForCode('default');
+                });
 			}
 		};
 
 		$scope.editEntry = function(entry) {
-			var editableEntry = { label: entry.label, arachneEntityId: entry.arachneEntityId, text: entry.text };
+			var editableEntry = angular.copy(entry);
 			var editEntryModal = $uibModal.open({
 				templateUrl: 'partials/Modals/editEntry.html',
 				controller: 'EditCatalogEntryController',
 				resolve: { entry: function() { return editableEntry } }
 			});
 			editEntryModal.close = function(editedEntry) {
-				entry.label = editedEntry.label;
-				entry.arachneEntityId = editedEntry.arachneEntityId;
-				entry.text = editedEntry.text;
+				angular.copy(editedEntry, entry);
 				entry.indexParent = getIndexParent(entry);
-				CatalogEntry.update({ id: entry.id }, entry);
-				editEntryModal.dismiss();
+				CatalogEntry.update({ id: entry.id }, entry, function() {
+					editEntryModal.dismiss();
+				}, function() {
+                    message.addMessageForCode('default');
+				});
 			}
 		};
 
@@ -159,8 +180,10 @@ angular.module('arachne.controllers')
 				Catalog.save({}, newCatalog, function(result) {
 					$scope.catalogs.push(result);
 					$scope.activeCatalog = result;
-				});
-				editCatalogModal.dismiss();
+                    editCatalogModal.dismiss();
+				}, function() {
+                    message.addMessageForCode('default');
+                });
 			}
 		};
 
@@ -184,9 +207,17 @@ angular.module('arachne.controllers')
 				$scope.activeCatalog.root.label = editedCatalog.root.label;
 				$scope.activeCatalog.root.text = editedCatalog.root.text;
 
-				Catalog.update({id: $scope.activeCatalog.id}, $scope.activeCatalog);
-				CatalogEntry.update({id: $scope.activeCatalog.root.id}, $scope.activeCatalog.root);
-				editCatalogModal.dismiss();
+				Catalog.update({id: $scope.activeCatalog.id}, $scope.activeCatalog, function() {
+                    CatalogEntry.update({id: $scope.activeCatalog.root.id}, $scope.activeCatalog.root, function() {
+                        editCatalogModal.dismiss();
+                    }, function() {
+                        message.addMessageForCode('default');
+                    });
+                }, function() {
+                    message.addMessageForCode('default');
+                });
+
+
 			}
 		};
 
