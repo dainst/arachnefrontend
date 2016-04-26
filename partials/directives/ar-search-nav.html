@@ -18,7 +18,7 @@
 		<div class="btn-group" ng-if="user.username">
 			<div ng-if="resultSize <= 1000">
 				<a class="btn btn-sm btn-default" ng-click="toCatalog()"
-						uib-uib-tooltip="{{'search_catalog_create' | transl8}}"
+						uib-tooltip="{{'search_catalog_create' | transl8}}"
 						uib-tooltip-placement="bottom">
 					<span class="glyphicon glyphicon-inbox"></span>
 				</a>
@@ -58,7 +58,7 @@
 				<span ng-hide="currentQuery.sort">Relevanz</span>
 				<span class="caret"></span>
 			</button>
-			<ul class="uib-dropdown-menu pull-right" role="menu">
+			<ul uib-dropdown-menu class="pull-right" role="menu">
 				<li>
 					<a ng-href="search{{currentQuery.removeParam('sort').removeParam('offset').toString()}}">
 						Relevanz
@@ -73,11 +73,11 @@
 		</div>
 		<a ng-href="search{{currentQuery.setParam('desc','true').removeParam('offset').toString()}}"
 				ng-show="currentQuery.sort && !currentQuery.desc" type="button" class="btn btn-sm btn-default">
-			<span class="glyphicon glyphicon-sort-by-alphabet">
+			<span class="glyphicon glyphicon-sort-by-alphabet"></span>
 		</a>
 		<a ng-href="search{{currentQuery.removeParam('desc').removeParam('offset').toString()}}"
 				ng-show="currentQuery.sort && currentQuery.desc" type="button" class="btn btn-sm btn-default">
-			<span class="glyphicon glyphicon-sort-by-alphabet-alt">
+			<span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
 		</a>
 	</div>
 

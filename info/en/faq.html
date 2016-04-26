@@ -8,34 +8,34 @@
     <div class="col-md-8 col-md-offset-1 faq" style="margin-top:20px">
 
         <h2 id="Suche">Search</h2>
-        <accordion>
-            <accordion-group>
-                <accordion-heading>
+        <uib-accordion>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     How to combine multiple keywords?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     If you enter multiple keywords, every object that reflects the content of all keywords, will be
                     found. By default, keywords are linked with a logical AND.
                 </p>
                 <p class="query-example">Example: <a href="search?q=Akropolis Athen">Akropolis Athen</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     How to exclude keywords?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     By placing a hyphen in front of a keyword, you can exclude any objects from the search result, which
                     include the latter.
                 </p>
 
                 <p class="query-example">Example: <a href="search?q=Akropolis -Athen">Akropolis -Athen</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     How to enter complex logical operators in a search query?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     Arachne supports the logical operators AND, OR and NOT. Pay attention to the usual operator
                     precedence:
@@ -45,12 +45,12 @@
 
                 <p class="query-example">Example: <a href="search?q=Herakles AND (Dionysos OR Bacchus)">Herakles AND
                     (Dionysos OR Bacchus)</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     How to search for entire phrases instead of multiple loose words?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     Put the entered phrase between quotation marks. Hereby only objects that contain all keywords in
                     said
@@ -59,12 +59,12 @@
 
                 <p class="query-example">Example: <a href="search?q=&quot;Akropolis von Athen&quot;">"Akropolis von
                     Athen"</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     How to specifically search in single fields rather than searching the entire content of an object?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     This can be achieved by prefixing the searched fields, separated by a colon. Following fields for
                     object of all categories are currently available:
@@ -86,12 +86,12 @@
                     <a href="search?q=type:Topographien">type:Topographien</a>,
                     <a href="search?q=subtitle:&quot;Attika&quot;">subtitle:"Attika"</a>,
                     <a href="search?q=datasetGroup:Arachne">datasetGroup:Arachne</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Which wildcards are supported?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     The search query can contain the following wildcards:
                 </p>
@@ -104,12 +104,12 @@
                 <p class="query-example">Example: <a href="search?q=Akropolis*">Akropolis*</a><br/>
                     <small>(finds next to "Akropolis" terms like "Akropolismuseum" or "Akropolisberg")</small>
                 </p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Are regular expressions supported?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     Yes, the search engine supports all common operators to formulate regular expressions. Latter must
                     be
@@ -119,12 +119,12 @@
                 <p class="query-example">Example: <a href="search?q=/Pompe[ij]/">/Pompe[ij]/</a><br/>
                     <small>(finds results for “Pompeii” as well as for “Pompeji”)</small>
                 </p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Are exclusively objects found, that contain the exact entered keywords?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     No, the keywords are adapted to the point that similar notations can be found. For example, words
                     are reduced to their respective families, so that "cow" ("Kuh") also finds "cows" ("Kühe") and
@@ -139,29 +139,29 @@
                 <p class="query-example">Example: <a href="search?q=Pompei~">Pompei~</a><br/>
                     <small>(finds “Pompei”, as well as “Pompeji” or “Pompeii”)</small>
                 </p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading >
+            <uib-accordion-group>
+                <uib-accordion-heading >
                     <span id="syntax_error"></span>
                     The search query caused a syntax error, what to do?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Syntax errors may occur if the request contains reserved search operators (eg. `/` or `~`). If these
                     operators are used within a search, they can be escaped with `\` or be used as part of a search
                     phrase within `"`.</p>
                 <p class="query-example">Example: <a href="search?q=87\/243">87\/243</a>
                 </p>
-            </accordion-group>
+            </uib-accordion-group>
 
-        </accordion>
+        </uib-accordion>
 
         <h2 id="Suchergebnis">Search result view</h2>
 
-        <accordion>
-            <accordion-group>
-                <accordion-heading>
+        <uib-accordion>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     What determines the order of search results?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     By default search results in Arachne are ordered by relevance. This depends on one hand on the
                     relevance of an
@@ -172,12 +172,12 @@
                 </p>
 
                 <p>The default sorting can be changed right above the display of search results</p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Why are there sometimes more sometimes less filters being offered?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>
                     There are a bunch of default filters, that are offered for any search. This includes "Location" and
                     "Dating".
@@ -191,16 +191,16 @@
                     If, for example in the search results no results are included for which a location is specified, the
                     corresponding filter is not displayed.
                 </p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Do filters show all available values?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>No. Only the most common values for the specific search result are displayed</p>
-            </accordion-group>
+            </uib-accordion-group>
 
-        </accordion>
+        </uib-accordion>
 
     </div>
     <div class="col-md-2">

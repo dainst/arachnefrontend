@@ -8,55 +8,55 @@
     <div class="col-md-8 col-md-offset-1 faq" style="margin-top:20px">
 
         <h2 id="Suche">Suche</h2>
-        <accordion>
-            <accordion-group>
-                <accordion-heading>
+        <uib-accordion>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Wie kann ich mehrere Suchbegriffe miteinander kombinieren?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Wenn Sie mehrere Begriffe eingeben, werden alle Objekte gefunden, in deren Inhalt alle Suchbegriffe
                     vorkommen. Standardmäßig werden Suchbegriffe also mit einem logischen UND verknüpft.</p>
 
                 <p class="query-example">Beispiel: <a href="search?q=Akropolis Athen">Akropolis Athen</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Wie kann ich Suchbegriffe ausschließen?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Durch Voranstellen eines Bindestrichs können Sie alle Objekte aus dem Suchergebnis ausschließen, die
                     den unmittelbar darauf folgenden Suchbegriff beinhalten.</p>
 
                 <p class="query-example">Beispiel: <a href="search?q=Akropolis -Athen">Akropolis -Athen</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Wie kann ich komplexere logische Verknüpfungen in der Suchanfrage formulieren?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Arachne unterstützt die logischen Operatoren AND, OR und NOT. Beachten Sie dabei die übliche
                     Operatorrangfolge: NOT hat Vorrang vor AND hat Vorrang vor OR. Sie können Klammern nutzen, um die
                     Rangfolge der Verkettung festzulegen.</p>
 
                 <p class="query-example">Beispiel: <a href="search?q=Herakles AND (Dionysos OR Bacchus)">Herakles AND
                     (Dionysos OR Bacchus)</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Wie kann ich nach einer festen Phrase statt nach mehreren unverbundenen Wörtern suchen?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Setzen Sie die Phrase in Anführungszeichen. Dadurch werden nur Objekte gefunden, die die Suchbegriffe
                     in der angegebenen Reihenfolge enthalten.</p>
 
                 <p class="query-example">Beispiel: <a href="search?q=&quot;Akropolis von Athen&quot;">"Akropolis von
                     Athen"</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Gibt es die Möglichkeit, statt im gesamten Inhalt eines Objekts gezielt in einzelnen Feldern zu
                     suchen?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Ja, die durchsuchten Felder können dem Suchbegriff, getrennt von einem Doppelpunkt, vorangestellt
                     werden. Die folgenden Felder sind momentan für Objekte aller Kategorien verfügbar:</p>
 
@@ -74,12 +74,12 @@
                     <a href="search?q=type:Topographien">type:Topographien</a>, <a
                             href="search?q=subtitle:&quot;Attika&quot;">subtitle:"Attika"</a>, <a
                             href="search?q=datasetGroup:Arachne">datasetGroup:Arachne</a></p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Welche Wildcards werden unterstützt?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Die Suchanfrage kann folgende Platzhalter beinhalten:</p>
 
                 <ul>
@@ -90,24 +90,24 @@
                 <p class="query-example">Beispiel: <a href="search?q=Akropolis*">Akropolis*</a><br/>
                     <small>(findet neben "Akropolis" auch Begriffe wie "Akropolismuseum" oder "Akropolisberg")</small>
                 </p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Werden reguläre Ausdrücke unterstützt?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Ja, die Suche unterstützt die gängigen Operatoren zur Formulierung regulärer Ausdrücke. Diese müssen
                     zwischen zwei Slashes gesetzt werden.</p>
 
                 <p class="query-example">Beispiel: <a href="search?q=/Pompe[ij]/">/Pompe[ij]/</a><br/>
                     <small>(findet sowohl Ergebnisse zu “Pompeii” als auch zu “Pompeji”)</small>
                 </p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Werden ausschließlich Objekte gefunden, die exakt den eingegebenen Suchbegriff enthalten?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Nein, die Suchbegriffe werden so angepasst, dass auch ähnliche Schreibweisen gefunden werden. Zum
                     Beispiel werden Wörter auf ihren Stamm reduziert, so dass “Kuh” auch “Kühe” findet und
                     umgekehrt.</p>
@@ -118,13 +118,13 @@
                 <p class="query-example">Beispiel: <a href="search?q=Pompei~">Pompei~</a><br/>
                     <small>(findet sowohl “Pompei”, als auch “Pompeji” oder “Pompeii”)</small>
                 </p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     <span id="syntax_error"></span>
                     Meine Suchanfrage verursacht einen Syntaxfehler, was kann ich tun?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Syntaxfehler können auftreten, wenn die Anfrage reservierte Suchoperatoren (bspw. `/` oder `~`)
                     enthält.
                     Sollen diese Operatoren innerhalb eines Suchbegriffs verwendet werden, so können diese mit `\`
@@ -132,17 +132,17 @@
                     werden oder als Teil einer Phrasensuche innerhalb von `"` verwendet werden.</p>
                 <p class="query-example">Beispiel: <a href="search?q=87\/243">87\/243</a>
                 </p>
-            </accordion-group>
+            </uib-accordion-group>
 
-        </accordion>
+        </uib-accordion>
 
         <h2 id="Suchergebnis">Suchergebnisansicht</h2>
 
-        <accordion>
-            <accordion-group>
-                <accordion-heading>
+        <uib-accordion>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Wonach richtet sich die Sortierung der Suchergebnisse?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Standardmäßig werden Suchergebnisse in Arachne nach ihrer Relevanz sortiert. Diese richtet sich zum
                     einen nach der Relevanz eines Objekts in Bezug auf die Suchbegriffe. So werden bspw. Objekte weiter
                     vorne angezeigt, wenn diese den Suchbegriff mehrfach oder im Titel enthalten. Außerdem fließt die
@@ -151,12 +151,12 @@
                     Suchergebnis.</p>
 
                 <p>Die Standardsortierung können Sie rechts über der Anzeige der Suchergebnisse verändern.</p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Warum werden mal mehr und mal weniger Filter angeboten?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Es gibt eine Reihe von Standardfiltern, die bei jeder Suche angeboten werden. Dazu gehören “Ort” und
                     “Datierung”. Zusätzlich gibt es Filter, die es nur in bestimmten Kategorien gibt, zum Beispiel
                     “Funktion” in der Kategorie “Objekt”. Diese Filter werden nur angezeigt, wenn beim Filter
@@ -165,16 +165,16 @@
                 <p>Bei einer konkreten Suche werden außerdem nur die Filter angezeigt, die tatsächlich helfen können,
                     das Suchergebnis zu filtern. Wenn also zum Beispiel im Suchergebnis gar keine Treffer enthalten
                     sind, für die ein Ort angegeben ist, wird der entsprechende Filter auch nicht angezeigt.</p>
-            </accordion-group>
+            </uib-accordion-group>
 
-            <accordion-group>
-                <accordion-heading>
+            <uib-accordion-group>
+                <uib-accordion-heading>
                     Zeigen die Filter alle verfügbaren Werte?
-                </accordion-heading>
+                </uib-accordion-heading>
                 <p>Nein. Es werden nur die für das konkrete Suchergebnis häufigsten Werte angezeigt.</p>
-            </accordion-group>
+            </uib-accordion-group>
 
-        </accordion>
+        </uib-accordion>
 
     </div>
     <div class="col-md-2">
