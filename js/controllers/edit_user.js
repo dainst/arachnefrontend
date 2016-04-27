@@ -9,8 +9,8 @@ angular.module('arachne.controllers')
  *   user the logged in users personal information.
  *   submit function which sends the user data to the backend in order to update personal information.
  */
-.controller('EditUserController', [ '$scope', '$http', 'arachneSettings', 'authService', 'message',
-function ($scope, $http, arachneSettings, authService, message) {
+.controller('EditUserController', [ '$scope', '$http', 'arachneSettings', 'authService', 'message', '$timeout',
+function ($scope, $http, arachneSettings, authService, message, $timeout) {
 
     var HEADERS = {
         "headers": { "Content-Type": "application/json" }
@@ -44,13 +44,21 @@ function ($scope, $http, arachneSettings, authService, message) {
     };
 
 
-    $http.get(arachneSettings.dataserviceUri + "/userinfo/" + authService.getUser().username
-    ).success(function(data) {
+    $scope.user = authService.getUser();
+
+    if($scope.user) {
+        $http.get(arachneSettings.dataserviceUri + "/userinfo/" + authService.getUser().username
+        ).success(function (data) {
             $scope.user = data;
-            $scope.user.emailValidation= $scope.user.email;
-    }).error(function(data) {
-            console.log("no user info found for user "+ authService.getUser().username);
-    });
+            $scope.user.emailValidation = $scope.user.email;
+        }).error(function (data) {
+            console.log("no user info found for user " + authService.getUser().username);
+        });
+    } else {
+        $timeout(function(){
+            putMsg('ui_not_logged_in','warning')
+        }, 500);
+    }
 
 
     $scope.submit = function() {
