@@ -32,7 +32,7 @@
             </span>
         </a>
 
-        <div ng-if="node.totalChildren > 0" collapse="!checkIfShown(node)" class="con10t-catalog-tree-children">
+        <div ng-if="node.totalChildren > 0" uib-collapse="!checkIfShown(node)" class="con10t-catalog-tree-children">
             <div ng-repeat="node in node.children"
                  ng-include="'catalogNode'"
                  class="catalognode"></div>
