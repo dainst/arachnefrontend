@@ -37,7 +37,12 @@
                  ng-include="'catalogNode'"
                  class="catalognode"></div>
             <div ng-if="node.children.length < node.totalChildren && !node.loading">
-                <a class="btn btn-link" ng-click="loadMore(node)">{{ 'ui_show_more' | transl8 }}</a>
+                <em ng-if="node.totalChildren - node.children.length == 1">
+                    {{ 'ui_show_more' | transl8 }} ({{node.totalChildren - node.children.length}} {{ 'ui_more_entry' | transl8 }})
+                </em>
+                <em ng-if="node.totalChildren - node.children.length > 1">
+                    {{ 'ui_show_more' | transl8 }} ({{node.totalChildren - node.children.length}} {{ 'ui_more_entries' | transl8 }})
+                </em>
             </div>
             <div ng-show="node.loading">
                 <div class="loading"></div>
@@ -57,7 +62,14 @@
     <div class="panel-body">
         <div ng-repeat="node in catalog.root.children" ng-include="'catalogNode'"></div>
         <div ng-if="catalog.root.children.length < catalog.root.totalChildren && !catalog.root.loading">
-            <a class="btn btn-link" ng-click="loadMore(catalog.root)">{{ 'ui_show_more' | transl8 }}</a>
+            <a class="btn btn-link" ng-click="loadMore(catalog.root)">
+                <em ng-if="catalog.root.totalChildren - catalog.root.children.length == 1">
+                    {{ 'ui_show_more' | transl8 }} ({{catalog.root.totalChildren - catalog.root.children.length}} {{ 'ui_more_entry' | transl8 }})
+                </em>
+                <em ng-if="catalog.root.totalChildren - catalog.root.children.length > 1">
+                    {{ 'ui_show_more' | transl8 }} ({{catalog.root.totalChildren - catalog.root.children.length}} {{ 'ui_more_entries' | transl8 }})
+                </em>
+            </a>
         </div>
         <div ng-show="catalog.root.loading">
             <div class="loading"></div>
