@@ -1,68 +1,70 @@
-<div class="row con10t-page">
-    <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
-        <h1>Über Arachne Interfaces</h1>
-        <hr>
-    </div>
-    <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
+<div class="container">
+    <div class="row con10t-page">
+        <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
+            <h1>Über Arachne Interfaces</h1>
+            <hr>
+        </div>
+        <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
 
-        <p>Um höchste Daten-Interoperabilität zu gewährleisten, stellt die Arachne Datenbank ihre Daten,
-            zu mehreren Metadatenformaten zugeordnet, durch verschiedene Anwendungsschnittstellen zur Verfügung.</p>
+            <p>Um höchste Daten-Interoperabilität zu gewährleisten, stellt die Arachne Datenbank ihre Daten,
+                zu mehreren Metadatenformaten zugeordnet, durch verschiedene Anwendungsschnittstellen zur Verfügung.</p>
 
-        <h2>OAI-PMH</h2>
+            <h2>OAI-PMH</h2>
 
-        <p>
-            Die Basis-URI der OAI PMH-Schnittstelle ist:
-            <a href="http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml">http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml</a>
-            Das OAI PMH-Protokoll wird in dem <a
-                href="http://www.openarchives.org/OAI/openarchivesprotocol.html">
-            Open Archives Protocol </a>angegeben. Beachten Sie jedoch, dass wir derzeit an einer neuen Schnittstelle
-            für den Datenexport arbeiten.
-        </p>
+            <p>
+                Die Basis-URI der OAI PMH-Schnittstelle ist:
+                <a href="http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml">http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml</a>
+                Das OAI PMH-Protokoll wird in dem <a
+                    href="http://www.openarchives.org/OAI/openarchivesprotocol.html">
+                Open Archives Protocol </a>angegeben. Beachten Sie jedoch, dass wir derzeit an einer neuen Schnittstelle
+                für den Datenexport arbeiten.
+            </p>
 
-        <h3>Bücher via OAI-PMH</h3>
+            <h3>Bücher via OAI-PMH</h3>
 
-        <p>Der Inhalt des Arachne Buch Browers kann, basierend auf <a href="http://www.dlese.org/oai/" target="_blank">
-            jOAI</a>, über eine OAI-PMH Schnittstelle ausgelesen und in METS/MODS serialisiert werden.</p>
+            <p>Der Inhalt des Arachne Buch Browers kann, basierend auf <a href="http://www.dlese.org/oai/" target="_blank">
+                jOAI</a>, über eine OAI-PMH Schnittstelle ausgelesen und in METS/MODS serialisiert werden.</p>
 
-        <p>Die Basis-URI der Schnittstelle ist:</p>
-        <p><a href=
-                      "http://arachne.uni-koeln.de:8080/oai/provider" target=
-                      "_blank">http://arachne.uni-koeln.de:8080/oai/provider</a></p>
+            <p>Die Basis-URI der Schnittstelle ist:</p>
+            <p><a href=
+                          "http://arachne.uni-koeln.de:8080/oai/provider" target=
+                          "_blank">http://arachne.uni-koeln.de:8080/oai/provider</a></p>
 
-        <p><a href="http://arachne.uni-koeln.de/oai/provider?verb=ListIdentifiers&metadataPrefix=mets">Hier klicken um
-            ein Beispiel zu sehen</a>
-        </p>
+            <p><a href="http://arachne.uni-koeln.de/oai/provider?verb=ListIdentifiers&metadataPrefix=mets">Hier klicken um
+                ein Beispiel zu sehen</a>
+            </p>
 
-        <p>Weitere Spezifikationen finden Sie unter:</p>
+            <p>Weitere Spezifikationen finden Sie unter:</p>
 
-        <p><a href="http://www.loc.gov/standards/mets/" target=
-                "_blank">http://www.loc.gov/standards/mets/</a></p>
-        <p><a href=
-                      "http://www.loc.gov/standards/mods/" target=
-                      "_blank">http://www.loc.gov/standards/mods/</a></p>
-        <p><a href=
-                      "http://dfg-viewer.de/profil-der-metadaten/" target=
-                      "_blank">http://dfg-viewer.de/profil-der-metadaten/</a></p>
+            <p><a href="http://www.loc.gov/standards/mets/" target=
+                    "_blank">http://www.loc.gov/standards/mets/</a></p>
+            <p><a href=
+                          "http://www.loc.gov/standards/mods/" target=
+                          "_blank">http://www.loc.gov/standards/mods/</a></p>
+            <p><a href=
+                          "http://dfg-viewer.de/profil-der-metadaten/" target=
+                          "_blank">http://dfg-viewer.de/profil-der-metadaten/</a></p>
 
-        <h2>Arachne Atom Feeds</h2>
+            <h2>Arachne Atom Feeds</h2>
 
-        <p>Als low level Zugriff bieten wir eine Atom-basierte Datenschnittstelle für alle Daten in Arachne. Das weithin
-            akzeptierte Atom Syndication Format bietet einen relativ einfachen Ansatz zur Interoperabilität und ist
-            leicht durch viele verschiedene Arten von cleints erreichbar.</p>
+            <p>Als low level Zugriff bieten wir eine Atom-basierte Datenschnittstelle für alle Daten in Arachne. Das weithin
+                akzeptierte Atom Syndication Format bietet einen relativ einfachen Ansatz zur Interoperabilität und ist
+                leicht durch viele verschiedene Arten von cleints erreichbar.</p>
 
-        <p>Unser Service ermöglicht es unseren Volltextindex abzufragen und liefert ausgelagerte Feeds der
-            Suchergebnisse. Diese Ergebnisse enthalten den Titel, den persistenten Identifier und den Ort, sowie das
-            Datum der letzten Änderung und sind daher unabhängig von einem komplexen Metadatenformat.</p>
+            <p>Unser Service ermöglicht es unseren Volltextindex abzufragen und liefert ausgelagerte Feeds der
+                Suchergebnisse. Diese Ergebnisse enthalten den Titel, den persistenten Identifier und den Ort, sowie das
+                Datum der letzten Änderung und sind daher unabhängig von einem komplexen Metadatenformat.</p>
 
-        <p>In naher Zukunft wird die Schnittstelle erweitert werden, um mehrere im Open Search Standard beschriebenen
-            Erweiterungen wie relevance scoring und geospatial und zeitbasierten Abfrageoptionen zu enthalten.</p>
+            <p>In naher Zukunft wird die Schnittstelle erweitert werden, um mehrere im Open Search Standard beschriebenen
+                Erweiterungen wie relevance scoring und geospatial und zeitbasierten Abfrageoptionen zu enthalten.</p>
 
-        <p>Das Atom Interface kann über folgende URL erreicht werden:
-            <a href="http://arachne.uni-koeln.de/solr/atom/">http://arachne.uni-koeln.de/solr/atom/</a></p>
+            <p>Das Atom Interface kann über folgende URL erreicht werden:
+                <a href="http://arachne.uni-koeln.de/solr/atom/">http://arachne.uni-koeln.de/solr/atom/</a></p>
 
-        <p>Beispiel: Basilica Aemilia</p>
+            <p>Beispiel: Basilica Aemilia</p>
 
-        <p><a href="http://arachne.uni-koeln.de/solr/atom/?q=basilica+aemilia"
-              target="blank">http://arachne.uni-koeln.de/solr/atom/?q=basilica+aemilia</a></p>
+            <p><a href="http://arachne.uni-koeln.de/solr/atom/?q=basilica+aemilia"
+                  target="blank">http://arachne.uni-koeln.de/solr/atom/?q=basilica+aemilia</a></p>
+        </div>
     </div>
 </div>
