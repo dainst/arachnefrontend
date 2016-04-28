@@ -509,8 +509,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
         }
     ])
 
-    .controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'message',
-        function ($rootScope, $scope, $http, arachneSettings, message) {
+    .controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'message', '$timeout',
+        function ($rootScope, $scope, $http, arachneSettings, message, $timeout) {
 
             $rootScope.hideFooter = false;
 
@@ -530,7 +530,9 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
             $http.get(arachneSettings.dataserviceUri + "/entity/count").success(function (data) {
                 $scope.entityCount = data.entityCount;
             }).error(function (data) {
-                message.addMessageForCode("backend_missing");
+                $timeout(function(){
+                    message.addMessageForCode("backend_missing");
+                }, 500);
             });
 
         }
