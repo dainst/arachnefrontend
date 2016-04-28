@@ -20,21 +20,6 @@ npm install -g bower gulp
 bower install
 ```
 
-To install the testing tools run
-
-```
-npm install -g karma
-npm install -g karma-jasmine
-npm install -g karma-ng-html2js-preprocessor
-npm install -g karma@canary phantomjs karma-phantomjs-launcher
-```
-
-You may need root permissions on your machine in order to perform these commands successfully.
-If global installation (switch "-g") of karma fails please install karma with
-```
-npm install karma
-```
-
 On Debian-based systems, if you have trouble installing dependencies use the 'nodejs-legacy'-package instead of 'nodejs'. Also gulp needs to be installed globally to run 'gulp server'.
 
 ```
