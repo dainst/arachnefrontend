@@ -15,7 +15,6 @@
     "bootstrap": "~3.3.5",
     "angular-cookies": "~1.5.5",
     "angular-resource": "~1.5.5",
-    "angular-route": "~1.5.5",
     "angular-sanitize": "~1.5.5",
     "angular-ui-tree": "~2.14.0",
     "ng-showdown": "~1.1.0",
