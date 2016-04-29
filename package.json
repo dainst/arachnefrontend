@@ -1,17 +1,18 @@
 {
   "name": "arachnefrontend",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "devDependencies": {
     "angular-mocks": "1.5.5",
     "browser-sync": "^2.9.10",
     "connect-modrewrite": "^0.8.2",
     "del": "^2.0.2",
-    "font-awesome": "^4.4.0",
     "gulp": "^3.9.0",
     "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.0",
     "gulp-minify-css": "^1.2.1",
-    "gulp-minify-html": "^1.0.4",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-ng-html2js": "^0.2.2",
+    "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.0.4",
     "gulp-sort": "^1.1.1",
     "gulp-uglify": "^1.4.1",
@@ -25,6 +26,7 @@
     "phantomjs-prebuilt": "^2.1.7",
     "proxy-middleware": "^0.14.0",
     "run-sequence": "^1.1.4",
-    "url": "^0.11.0"
+    "url": "^0.11.0",
+    "yargs": "^4.6.0"
   }
 }

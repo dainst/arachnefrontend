@@ -12,7 +12,11 @@ var sort = require('gulp-sort');
 var addSrc = require('gulp-add-src');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
+var ngHtml2Js = require("gulp-ng-html2js");
+var minifyHtml = require("gulp-minify-html");
 var Server = require('karma').Server;
+var argv = require('yargs').argv;
+var replace = require('gulp-replace');
 
 var pkg = require('./package.json');
 
@@ -20,8 +24,31 @@ var cfg = require('./dev-config.json');
 
 var paths = cfg.paths;
 
+var cssDeps = [
+    paths.lib + '/angular-ui-tree/dist/angular-ui-tree.css',
+    paths.lib + '/font-awesome/css/font-awesome.min.css'
+];
+
+var jsDeps = [
+    paths.lib + 'angular/angular.min.js',
+    paths.lib + 'angular-ui-router/release/angular-ui-router.min.js',
+    paths.lib + 'angular-bootstrap/ui-bootstrap-tpls.js',
+    paths.lib + 'angular-bootstrap/ui-bootstrap.min.js',
+    paths.lib + 'leaflet/dist/leaflet.js',
+    paths.lib + 'angulartics/dist/angulartics.min.js',
+    paths.lib + 'angulartics-google-analytics/dist/angulartics-google-analytics.min.js',
+    paths.lib + 'angular-resource/angular-resource.min.js',
+    paths.lib + 'angular-sanitize/angular-sanitize.min.js',
+    paths.lib + 'angular-cookies/angular-cookies.min.js',
+    paths.lib + 'idai-components/dist/idai-components.min.js',
+    paths.lib + 'angular-ui-tree/dist/angular-ui-tree.min.js',
+    paths.lib + 'showdown/dist/showdown.min.js',
+    paths.lib + 'ng-showdown/dist/ng-showdown.min.js',
+    'lib/relative-paths-in-partial.js'
+];
+
 // compile sass and concatenate to single css file in build dir
-gulp.task('sass', function() {
+gulp.task('compile-css', function() {
 	return gulp.src('scss/app.scss')
 	  	.pipe(sass({
 	  		includePaths: [
@@ -30,13 +57,14 @@ gulp.task('sass', function() {
 	  		],
 	  		precision: 8
 	  	}))
+        .pipe(addSrc(cssDeps))
 	  	.pipe(concat(pkg.name + '.css'))
 	    .pipe(gulp.dest(paths.build + '/css'))
 	    .pipe(reload({ stream:true }));
 });
 
 // minify css files in build dir
-gulp.task('minify-css', ['sass'], function() {
+gulp.task('minify-css', ['compile-css'], function() {
 	return gulp.src(paths.build + '/css/*.css')
 		.pipe(minifyCss())
   		.pipe(concat(pkg.name + '.min.css'))
@@ -55,21 +83,15 @@ gulp.task('concat-js', function() {
 
 // concatenates and minifies all dependecies into a single file in build dir
 gulp.task('concat-deps', function() {
-	return gulp.src([
-			paths.lib + 'angular/angular.min.js',
-			paths.lib + 'angular-bootstrap/ui-bootstrap-tpls.min.js',
-			paths.lib + 'angular-route/angular-route.min.js',
-			paths.lib + 'angular-animate/angular-animate.min.js'
-			// TODO more deps
-		])
+	return gulp.src(jsDeps)
 		.pipe(concat(pkg.name + '-deps.js'))
-    	.pipe(uglify())
+    	//.pipe(uglify())
 		.pipe(gulp.dest(paths.build));
 });
 
 // minifies and concatenates js files in build dir
-gulp.task('minify-js', ['concat-js'], function() {
-	return gulp.src([paths.build + '/' + pkg.name + '-no-tpls.js',
+gulp.task('minify-js', ['concat-js', 'html2js'], function() {
+	return gulp.src([paths.build + '/' + pkg.name + '.js',
 			paths.build + '/' + pkg.name + '-tpls.js'])
 		.pipe(concat(pkg.name + '.js'))
     	.pipe(gulp.dest(paths.build))
@@ -78,10 +100,48 @@ gulp.task('minify-js', ['concat-js'], function() {
     	.pipe(gulp.dest(paths.build));
 });
 
+// converts, minifies and concatenates html partials
+// to a single js file in build dir
+gulp.task('html2js', function() {
+    return gulp.src('partials/**/*.html')
+        .pipe(minifyHtml())
+        .pipe(ngHtml2Js({ moduleName: 'arachne.templates', prefix: 'partials/' }))
+        .pipe(concat(pkg.name + '-tpls.js'))
+        .pipe(gulp.dest(paths.build));
+});
+
+gulp.task('copy-resources', ['copy-fonts', 'copy-imgs', 'copy-index', 'copy-info', 'copy-con10t']);
+
 gulp.task('copy-fonts', function() {
 	var bsFontPath = paths.lib + 'bootstrap-sass/assets/fonts/';
 	return gulp.src(bsFontPath + '**/*', { base: bsFontPath })
   		.pipe(gulp.dest(paths.build + '/fonts'));
+});
+
+gulp.task('copy-imgs', function() {
+    return gulp.src('img/**/*', { base: 'img' })
+        .pipe(gulp.dest(paths.build + '/img'));
+});
+
+// copy index.html to dist and set version
+gulp.task('copy-index', function() {
+    var buildNo = "SNAPSHOT";
+    if (argv.build) buildNo = argv.build;
+    var versionString = pkg.version + " (build #" + buildNo + ")";
+    gulp.src(['index.html'])
+        .pipe(replace(/version="[^"]*"/g, 'version="' + versionString + '"'))
+        .pipe(replace(/build=BUILD_NO/g, 'build=' + buildNo))
+        .pipe(gulp.dest(paths.build));
+});
+
+gulp.task('copy-info', function() {
+    return gulp.src('info/**/*', { base: 'info' })
+        .pipe(gulp.dest(paths.build + '/info'));
+});
+
+gulp.task('copy-con10t', function() {
+    return gulp.src('con10t/**/*', { base: 'con10t' })
+        .pipe(gulp.dest(paths.build + '/con10t'));
 });
 
 gulp.task('test', function (done) {
@@ -92,12 +152,10 @@ gulp.task('test', function (done) {
 });
 
 gulp.task('build', [
-	'sass',
 	'minify-css',
-	'concat-js',
 	'concat-deps',
 	'minify-js',
-	'copy-fonts'
+	'copy-resources'
 ]);
 
 // clean
@@ -106,13 +164,13 @@ gulp.task('clean', function() {
 });
 
 // runs the development server and sets up browser reloading
-gulp.task('server', ['sass', 'concat-js', 'copy-fonts'], function() {
+gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources'], function() {
 	var proxyOptions = url.parse(cfg.backendUri);
     proxyOptions.route = '/data';
 
 	browserSync({
 		server: {
-			baseDir: '.',
+			baseDir: 'dist',
         	middleware: [
         		proxy(proxyOptions),
         		// rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
@@ -122,8 +180,9 @@ gulp.task('server', ['sass', 'concat-js', 'copy-fonts'], function() {
 		port: 1234
 	});
 
-	gulp.watch('scss/**/*.scss', ['sass']);
+	gulp.watch('scss/**/*.scss', ['compile-css']);
 	gulp.watch('js/**/*.js', ['concat-js']);
+    gulp.watch('partials/**/*.html', ['html2js']);
 
 	gulp.watch(['index.html', 'partials/**/*.html', 'js/**/*.js'], reload);
 });

@@ -14,6 +14,7 @@ angular.module('arachne',[
 	'ui.tree',
 	'idai.templates',
 	'idai.components',
+	'arachne.templates',
 	'arachne.filters',
 	'arachne.resources',
 	'arachne.services',
