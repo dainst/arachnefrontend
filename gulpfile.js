@@ -129,7 +129,7 @@ gulp.task('copy-index', function() {
     if (argv.build) buildNo = argv.build;
     var versionString = pkg.version + " (build #" + buildNo + ")";
     gulp.src(['index.html'])
-        .pipe(replace(/version="[^"]*"/g, 'version="' + versionString + '"'))
+        .pipe(replace(/version="[^"]*"/g, 'version="v' + versionString + '"'))
         .pipe(replace(/build=BUILD_NO/g, 'build=' + buildNo))
         .pipe(gulp.dest(paths.build));
 });
