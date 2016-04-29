@@ -6,45 +6,40 @@
         </div>
         <div class="col-md-8 col-md-offset-2" style="margin-top:20px">
 
-            <p>In order to guarantee highest data interoperability, the Arachne database provides its data in several
-                metadata formats delivered through different application interfaces.
+            <p>In order to guarantee the highest data interoperability, the Arachne database provides its data in 
+            	several metadata formats delivered through different application interfaces.
             </p>
 
             <h2>OAI PMH</h2>
-            <p>
-                The base URI of the OAI PMH interface is: <a
-                    href="http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml">http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml</a>
-                The OAI PMH protocol is specified in the <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html">
-                Open Archives Protocol</a>. Note, however, that we are currently working on a new interface for the data
-                export.
 
+            <p>
+                The base URI of the OAI PMH interface is http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml. 
+				An example can be found 
+				<a href="http://arachne.uni-koeln.de/OAI-PMH/oai-pmh.xml?verb=GetRecord&identifier=oai:arachne.uni-koeln.de:bauwerk/2100062&metadataPrefix=origin">here</a>.
+                Note, however, that we are currently working on a new interface for the data export.
+            </p>
+
+            <p>
+                The OAI PMH interface is specified in the 
+                <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html">
+                Open Archives Protocol</a>. 
             </p>
 
             <h3>Books via OAI PMH</h3>
 
-            <p>The contents of the Arachne bookbrowser can be harvested via an OAI-PMH
-                interface based on <a href="http://www.dlese.org/oai/" target=
-                        "_blank">jOAI</a> serialized in METS/MODS.</p>
+            <p>The contents of the Arachne bookbrowser can be harvested in the METS/MODS format 
+            	via a separate OAI PMH interface (based on 
+                <a href="http://www.dlese.org/oai/" target="_blank">jOAI</a>).
+            </p>
 
-            <p>The base URI of the interface is:</p>
-            <p><a href=
-                          "http://arachne.uni-koeln.de:8080/oai/provider" target=
-                          "_blank">http://arachne.uni-koeln.de:8080/oai/provider</a></p>
-
-            <p><a href="http://arachne.uni-koeln.de/oai/provider?verb=ListIdentifiers&metadataPrefix=mets">Click here for
-                example</a>
+            <p>The base URI of this interface is http://arachne.uni-koeln.de/oai/provider. An example can be found 
+				<a href="http://arachne.uni-koeln.de/oai/provider?verb=ListIdentifiers&metadataPrefix=mets">here</a>.
             </p>
 
             <p>For specifications see:</p>
-
-            <p><a href="http://www.loc.gov/standards/mets/" target=
-                    "_blank">http://www.loc.gov/standards/mets/</a></p>
-            <p><a href=
-                          "http://www.loc.gov/standards/mods/" target=
-                          "_blank">http://www.loc.gov/standards/mods/</a></p>
-            <p><a href=
-                          "http://dfg-viewer.de/profil-der-metadaten/" target=
-                          "_blank">http://dfg-viewer.de/profil-der-metadaten/</a></p>
+            <p><a href="http://www.loc.gov/standards/mets/" target="_blank">http://www.loc.gov/standards/mets/</a></p>
+            <p><a href="http://www.loc.gov/standards/mods/" target="_blank">http://www.loc.gov/standards/mods/</a></p>
+            <p><a href="http://dfg-viewer.de/profil-der-metadaten/" target="_blank">http://dfg-viewer.de/profil-der-metadaten/</a></p>
 
             <h2>Arachne Atom Feeds</h2>
 
