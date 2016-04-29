@@ -223,7 +223,7 @@ angular.module('arachne.directives', [])
 
             },
 
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
 
                 $scope.placeholder = new Image();
                 $scope.placeholder.src = 'img/imagePlaceholder.png';
@@ -254,7 +254,7 @@ angular.module('arachne.directives', [])
 
                 });
 
-            }
+            }]
         }
     }])
 
