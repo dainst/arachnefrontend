@@ -64,12 +64,12 @@ angular.module('arachne',[
  * Change <title> after page change
  * Jan G. Wieners
  */
-.run(function($rootScope) {
+.run(['$rootScope',function($rootScope) {
 
 	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 		document.title = toState.data.pageTitle;
 	});
-})
+}])
 .constant('arachneSettings', {
 	dataserviceUri: "http://" + document.location.host + "/data",
 	openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],

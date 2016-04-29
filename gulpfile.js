@@ -181,8 +181,8 @@ gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources'
 	});
 
 	gulp.watch('scss/**/*.scss', ['compile-css']);
-	gulp.watch('js/**/*.js', ['concat-js']);
-    gulp.watch('partials/**/*.html', ['html2js']);
+	gulp.watch('js/**/*.js', ['minify-js']);
+    gulp.watch('partials/**/*.html', ['minify-js']);
 
 	gulp.watch(['index.html', 'partials/**/*.html', 'js/**/*.js'], reload);
 });

@@ -262,14 +262,14 @@ angular.module('arachne.controllers')
         }
     }
 ])
-.controller('EditCatalogController',
-    function ($scope, $uibModalInstance, catalog, edit) {
-        $scope.catalog = catalog;
-        $scope.edit = edit;
-    }
-)
-.controller('AddMarkdownLinkController',
-    function ($scope, $uibModalInstance, link) {
-        $scope.link = link;
-    }
-);
+.controller('EditCatalogController', ['$scope', '$uibModalInstance', 'Entity', 'entry',
+	function ($scope, $uibModalInstance, catalog, edit) {
+		$scope.catalog = catalog;
+		$scope.edit = edit;
+	}
+])
+.controller('AddMarkdownLinkController', ['$scope', '$uibModalInstance', 'link',
+	function ($scope, $uibModalInstance, link) {
+		$scope.link = link;
+	}
+]);
