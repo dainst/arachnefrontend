@@ -27,7 +27,7 @@ return {
         if (attr.type=="grid") return 'partials/widgets/con10t-map_grid.html';
         if (attr.type=="places") return 'partials/widgets/con10t-map_places.html';
     },
-    controller : function($scope) {
+    controller : ['$scope', function($scope) {
 
         var currentQuery = searchService.currentQuery();
 
@@ -65,5 +65,5 @@ return {
                 currentQuery.facets.push({key: 'catalogIds',value: $scope.catalogId});
             }
         }
-    }
+    }]
 }}]);
