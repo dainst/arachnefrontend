@@ -538,8 +538,8 @@ angular.module('arachne.controllers', ['ui.bootstrap'])
         }
     ])
 
-    .controller('AllCategoriesController', ['$rootScope', '$scope', '$http', 'categoryService', '$timeout',
-        function ($rootScope, $scope, $http, categoryService, $timeout) {
+    .controller('CategoriesController', ['$rootScope', '$scope', '$http', 'categoryService',
+        function ($rootScope, $scope, $http, categoryService) {
 
             $rootScope.hideFooter = false;
 
