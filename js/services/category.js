@@ -2,27 +2,30 @@
 
 angular.module('arachne.services')
 
-.factory('categoryService', ['$http', '$filter',
-function($http, $filter){
+.factory('categoryService', ['$http', '$filter', '$q', 'transl8',
+function($http, $filter, $q, transl8){
 
     var categories = null;
 
-    var promise = $http.get('config/category.json').then(function(response) {
-        categories = {};
-        for (var key in response.data) {
-            categories[key] = response.data[key];
-            categories[key]['title'] = $filter('transl8')('type_' + key);
-            categories[key]['singular'] = $filter('transl8')('type_singular_' + key);
-            categories[key]['subtitle'] = $filter('transl8')('type_subtitle_' + key);
-            categories[key]['href'] = 'category/?c=' + key;
-        }
-        return categories;
+    var deferred = $q.defer();
+    transl8.onLoaded().then(function() {
+        $http.get('config/category.json').then(function (response) {
+            categories = {};
+            for (var key in response.data) {
+                categories[key] = response.data[key];
+                categories[key]['title'] = $filter('transl8')('type_' + key);
+                categories[key]['singular'] = $filter('transl8')('type_singular_' + key);
+                categories[key]['subtitle'] = $filter('transl8')('type_subtitle_' + key);
+                categories[key]['href'] = 'category/?c=' + key;
+            }
+            deferred.resolve(categories);
+        });
     });
 
     var factory = {};
 
     factory.getCategoriesAsync = function() {
-        return promise;
+        return deferred.promise;
     };
 
     factory.getCategories = function() {
