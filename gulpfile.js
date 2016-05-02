@@ -110,7 +110,7 @@ gulp.task('html2js', function() {
         .pipe(gulp.dest(paths.build));
 });
 
-gulp.task('copy-resources', ['copy-fonts', 'copy-imgs', 'copy-index', 'copy-info', 'copy-con10t']);
+gulp.task('copy-resources', ['copy-fonts', 'copy-imgs', 'copy-index', 'copy-info', 'copy-con10t', 'copy-config']);
 
 gulp.task('copy-fonts', function() {
 	var bsFontPath = paths.lib + 'bootstrap-sass/assets/fonts/';
@@ -137,6 +137,11 @@ gulp.task('copy-index', function() {
 gulp.task('copy-info', function() {
     return gulp.src('info/**/*', { base: 'info' })
         .pipe(gulp.dest(paths.build + '/info'));
+});
+
+gulp.task('copy-config', function() {
+    return gulp.src('config/**/*', { base: 'config' })
+        .pipe(gulp.dest(paths.build + '/config'));
 });
 
 gulp.task('copy-con10t', function() {
