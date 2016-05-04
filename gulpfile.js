@@ -189,6 +189,7 @@ gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources'
 	gulp.watch('js/**/*.js', ['minify-js']);
     gulp.watch('partials/**/*.html', ['minify-js']);
     gulp.watch('index.html', ['copy-index']);
+    gulp.watch('con10t/**/*', ['copy-con10t']);
 
 	gulp.watch(['index.html', 'partials/**/*.html', 'js/**/*.js'], reload);
 });
