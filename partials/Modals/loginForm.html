@@ -5,14 +5,31 @@
 <div class="modal-body">
 	<p class="alert alert-success" ng-if="user.username">{{ 'ui_login_successfull' | transl8 }}: {{ user.username }}</p>
 	<p class="alert alert-warning" ng-if="loginerror == true">{{'ui_login_failed' | transl8 }}</p>
-	<form ng-if="!user.username" class="form-inline" role="form" ng-submit="login()" autofillfix>
+
+	<form ng-if="!user.username" class="form-horizontal" role="form" ng-submit="login()" autofillfix>
+
 		<div class="form-group">
-			<input focus-me type="username" id="input-username" class="form-control" id="exampleInputEmail2" ng-model="loginData.user" placeholder="Benutzername">
+			<label class="col-sm-3 control-label" for="input-username">{{ 'ui_username' | transl8 }}:</label>
+			<div class="col-sm-9">
+				<input focus-me type="username" id="input-username" class="form-control" id="exampleInputEmail2" ng-model="loginData.user" placeholder="{{ 'ui_username' | transl8 }}">
+			</div>
 		</div>
+
 		<div class="form-group">
-			<input type="password" class="form-control" id="exampleInputPassword2" ng-model="loginData.password" placeholder="Passwort">
+			<label class="col-sm-3 control-label">{{ 'ui_password' | transl8 }}:</label>
+			<div class="col-sm-9">
+				<input type="password" class="form-control" id="exampleInputPassword2" ng-model="loginData.password" placeholder="{{ 'ui_password' | transl8 }}">
+			</div>
 		</div>
-		<button class="btn btn-primary" type="submit">{{'ui_login' | transl8}}</button>
+
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button class="btn btn-primary" type="submit">{{'ui_login' | transl8}}</button>
+				<br>
+				<a href="pwdreset" ng-click="cancel()">{{ 'ui_forgot_password' | transl8 }}? </a>
+			</div>
+		</div>
+
 	</form>
-	<a href="pwdreset" ng-click="cancel()">{{ 'ui_forgot_password' | transl8 }}? </a>
+
 </div>
