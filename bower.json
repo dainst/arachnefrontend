@@ -18,7 +18,7 @@
     "angular-sanitize": "~1.5.5",
     "angular-ui-tree": "~2.14.0",
     "ng-showdown": "~1.1.0",
-    "idai-components": "codarchlab/idai-components#~1.4.3",
+    "idai-components": "codarchlab/idai-components#~1.4.4",
     "3dviewer": "codarchlab/3dviewer#~1.0.1",
     "angulartics-google-analytics": "~0.1.4",
     "leaflet": "~0.7.7",
