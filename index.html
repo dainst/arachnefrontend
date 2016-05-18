@@ -37,18 +37,11 @@
 		hide-search-form="currentPath == '/'"></idai-navbar>
 
 	<div class="container-fluid">
-
-		<div style="min-height:500px;">
-            
-			<div class="messages">
-            	<idai-message></idai-message>
-            </div>
-
-			<!-- VIEWS -->	
-			<div ng-cloak ui-view autoscroll></div>
-
+		<div class="messages">
+			<idai-message></idai-message>
 		</div>
-
+		<!-- VIEWS -->
+		<div ng-cloak ui-view autoscroll></div>
 	</div>
 	<idai-footer ng-hide="$root.hideFooter"
 				 institutions="{'dai': 'http://www.dainst.de/', 'unikoeln': 'http://archaeologie.uni-koeln.de', 'codarchlab': 'http://archaeologie.uni-koeln.de/node/23'}"
