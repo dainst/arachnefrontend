@@ -16,8 +16,6 @@ You need the following components in order for the local server to work:
 To install the necessary dependencies for the app run the following command in the working directory:
 ```
 npm install
-npm install -g bower gulp
-bower install
 ```
 
 On Debian-based systems, if you have trouble installing dependencies use the 'nodejs-legacy'-package instead of 'nodejs'. Also gulp needs to be installed globally to run 'gulp server'.
