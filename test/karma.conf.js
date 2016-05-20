@@ -22,10 +22,10 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 
-      'bower_components/angular/angular.js',
+      'node_modules/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      'bower_components/angular-bootstrap/ui-bootstrap.js',
-      'bower_components/idai-components/dist/idai-components.min.js',
+      'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
+      'node_modules/idai-components/dist/idai-components.min.js',
       'js/**/*.js',
       'test/*_spec.js',
       'partials/directives/*.html'

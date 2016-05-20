@@ -2,6 +2,6 @@
 	"backendUri": "http://bogusman02.dai-cloud.uni-koeln.de/data",
 	"paths": {
 		"build": "dist/",
-		"lib": "bower_components/"
+		"lib": "node_modules/"
 	}
 }

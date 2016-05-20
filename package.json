@@ -1,8 +1,32 @@
 {
   "name": "arachnefrontend",
   "version": "0.8.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dainst/arachnefrontend.git"
+  },
+  "dependencies": {
+    "3dviewer": "https://github.com/dainst/3dviewer.git#v1.0.1",
+    "angular": "^1.5.5",
+    "angular-cookies": "^1.5.5",
+    "angular-resource": "^1.5.5",
+    "angular-sanitize": "^1.5.5",
+    "angular-ui-bootstrap": "^1.3.2",
+    "angular-ui-router": "^0.3.0",
+    "angular-ui-tree": "^2.14.0",
+    "angulartics": "^1.0.3",
+    "angulartics-google-analytics": "^0.1.4",
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.6.1",
+    "idai-components": "git://github.com/dainst/idai-components.git#v1.4.7",
+    "leaflet": "^0.7.7",
+    "leaflet.markercluster": "^0.5.0",
+    "ng-showdown": "^1.1.0",
+    "showdown": "^1.4.1"
+  },
   "devDependencies": {
     "angular-mocks": "1.5.5",
+    "bootstrap-sass": "^3.3.6",
     "browser-sync": "^2.12.5",
     "connect-modrewrite": "^0.9.0",
     "del": "^2.2.0",

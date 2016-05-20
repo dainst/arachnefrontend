@@ -25,15 +25,15 @@ var cfg = require('./dev-config.json');
 var paths = cfg.paths;
 
 var cssDeps = [
-    paths.lib + '/angular-ui-tree/dist/angular-ui-tree.css',
-    paths.lib + '/font-awesome/css/font-awesome.min.css'
+    paths.lib + 'angular-ui-tree/dist/angular-ui-tree.css',
+    paths.lib + 'font-awesome/css/font-awesome.min.css'
 ];
 
 var jsDeps = [
     paths.lib + 'angular/angular.min.js',
     paths.lib + 'angular-ui-router/release/angular-ui-router.min.js',
-    paths.lib + 'angular-bootstrap/ui-bootstrap-tpls.js',
-    paths.lib + 'angular-bootstrap/ui-bootstrap.min.js',
+    paths.lib + 'angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+    paths.lib + 'angular-ui-bootstrap/dist/ui-bootstrap.js',
     paths.lib + 'leaflet/dist/leaflet.js',
     paths.lib + 'angulartics/dist/angulartics.min.js',
     paths.lib + 'angulartics-google-analytics/dist/angulartics-google-analytics.min.js',

@@ -11,7 +11,7 @@ angular.module('arachne.directives')
         link: function (scope, element, attrs) {
             var load_script = function() {
                 var paths = [
-                    "bower_components/3dviewer/dist/3dviewer.js"
+                    "node_modules/3dviewer/dist/3dviewer.js"
                 ];
 
                 var pathsCount = paths.length
