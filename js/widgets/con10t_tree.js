@@ -138,7 +138,8 @@ angular.module('arachne.widgets.directives')
                 for (var i = 0; i < facets.length; i++) {
                     url += "&fq=" + facets[i][0] + ':"' + facets[i][1] + '"';
                 }
-                $location.url(url);
+                return url;
+                //$location.url(url);
             };
 
             scope.toggleCollapse(scope.treeRoot[0]);
