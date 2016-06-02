@@ -26,7 +26,7 @@
         </span>
 
         <span ng-if="node.children.length > 0">
-            <div class="con10t-tree-children" ng-if="node.children" collapse="!checkIfShown(node)">
+            <div class="con10t-tree-children" ng-if="node.children" uib-collapse="!checkIfShown(node)">
                 <div ng-repeat="node in node.children" ng-include="'nodeTemplate'"></div>
             </div>
         </span>
