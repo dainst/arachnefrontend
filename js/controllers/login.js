@@ -2,28 +2,28 @@
 
 angular.module('arachne.controllers')
 
-.controller('LoginController', ['$scope', '$uibModalInstance', 'authService', '$timeout', '$uibModal', '$window',
-function($scope, $uibModalInstance, authService, $timeout, $uibModal, $window){
+    .controller('LoginController', ['$scope', '$uibModalInstance', 'authService', '$timeout', '$uibModal', '$window',
+        function ($scope, $uibModalInstance, authService, $timeout, $uibModal, $window) {
 
-    $scope.loginData = {};
-    $scope.loginerror = false;
-
-    $scope.login = function() {
-
-        authService.setCredentials($scope.loginData.user, $scope.loginData.password, function(response) {
+            $scope.loginData = {};
             $scope.loginerror = false;
-            var closeModal = function () {
-                $uibModalInstance.close(authService.getUser());
-                $route.reload();
-            }
-            $timeout(closeModal, 500);
-        }, function(response) {
-            $scope.loginerror = true;
-        });
 
-    };
+            $scope.login = function () {
 
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss();
-    };
-}]);
+                authService.setCredentials($scope.loginData.user, $scope.loginData.password, function (response) {
+                    $scope.loginerror = false;
+                    var closeModal = function () {
+                        $uibModalInstance.close(authService.getUser());
+                        $route.reload();
+                    };
+                    $timeout(closeModal, 500);
+                }, function (response) {
+                    $scope.loginerror = true;
+                });
+
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss();
+            };
+        }]);
