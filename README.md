@@ -30,7 +30,7 @@ sudo npm install -g gulp
 To run the unit tests, call
 
 ```bash
-gulp test
+npm run tests
 ```
 
 This will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
@@ -60,7 +60,7 @@ to get the latest con10t version.
 
 In order to run the frontend in the development server use the following command:
 ```
-gulp server
+npm run server
 ```
 
 After that you should be able to access the frontend under [http://localhost:1234/](http://localhost:1234/).
@@ -72,7 +72,7 @@ Any changes made to HTML, SCSS or JS files should automatically trigger a browse
 Build the application by running
 
 ```
-gulp
+npm run build
 ```
 
 In order for AngularJS' HTML5 mode to work use the following configurations:
