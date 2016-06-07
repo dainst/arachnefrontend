@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.controllers', ['ui.bootstrap'])
+angular.module('arachne.controllers')
 
     .controller('EditCatalogController', ['$scope', '$uibModalInstance', 'Entity', 'entry',
         function ($scope, $uibModalInstance, catalog, edit) {

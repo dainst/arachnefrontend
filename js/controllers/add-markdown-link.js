@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.controllers', ['ui.bootstrap'])
+angular.module('arachne.controllers')
 
     .controller('AddMarkdownLinkController', ['$scope', '$uibModalInstance', 'link',
         function ($scope, $uibModalInstance, link) {
