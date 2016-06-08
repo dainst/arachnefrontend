@@ -65,6 +65,9 @@ angular.module('arachne.controllers')
             $scope.refreshCatalogs();
 
             $scope.setActiveCatalog = function(catalog) {
+
+                if (!catalog) return false;
+                
                 initialize(catalog.root);
                 if (catalog.root.children.length == 0 && catalog.root.totalChildren > 0) {
                     $scope.loadChildren(catalog.root);
