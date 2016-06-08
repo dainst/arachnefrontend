@@ -1,7 +1,5 @@
 'use strict';
 
-/* Filters */
-
 angular.module('arachne.filters', [])
 
 	.filter('errorMessage', function() {
