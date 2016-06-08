@@ -30,7 +30,7 @@ var cssDeps = [
 ];
 
 var jsDeps = [
-    paths.lib + 'angular/angular.min.js',
+    paths.lib + 'angular/angular.js',
     paths.lib + 'angular-ui-router/release/angular-ui-router.min.js',
     paths.lib + 'angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
     paths.lib + 'angular-ui-bootstrap/dist/ui-bootstrap.js',
@@ -114,7 +114,7 @@ gulp.task('copy-resources', ['copy-fonts', 'copy-imgs', 'copy-index', 'copy-info
 
 gulp.task('copy-fonts', function() {
 	var bsFontPath = paths.lib + 'bootstrap-sass/assets/fonts/';
-	return gulp.src(bsFontPath + '**/*', { base: bsFontPath })
+	return gulp.src([paths.lib + 'font-awesome/fonts/**', bsFontPath + '**/*'])
   		.pipe(gulp.dest(paths.build + '/fonts'));
 });
 
