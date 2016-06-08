@@ -9,7 +9,8 @@
     "tests": "gulp test",
     "clean": "gulp clean",
     "build": "gulp build",
-    "server": "gulp server"
+    "server": "gulp server",
+    "start": "npm run server"
   },
   "dependencies": {
     "3dviewer": "https://github.com/dainst/3dviewer.git#v1.0.1",

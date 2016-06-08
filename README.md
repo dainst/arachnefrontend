@@ -60,7 +60,7 @@ to get the latest con10t version.
 
 In order to run the frontend in the development server use the following command:
 ```
-npm run server
+npm start
 ```
 
 After that you should be able to access the frontend under [http://localhost:1234/](http://localhost:1234/).
