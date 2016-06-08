@@ -67,7 +67,7 @@ angular.module('arachne.controllers')
             $scope.setActiveCatalog = function(catalog) {
 
                 if (!catalog) return false;
-                
+
                 initialize(catalog.root);
                 if (catalog.root.children.length == 0 && catalog.root.totalChildren > 0) {
                     $scope.loadChildren(catalog.root);
@@ -160,18 +160,21 @@ angular.module('arachne.controllers')
             };
 
             $scope.createCatalog = function() {
-                var catalogBuffer = {
-                    author: $scope.user.username
-                };
+
+                var catalogBuffer = { author: $scope.user.username };
+
                 if ($scope.user.firstname && $scope.user.lastname) {
                     catalogBuffer.author = $scope.user.firstname + " " + $scope.user.lastname;
                 }
+
                 var editCatalogModal = $uibModal.open({
                     templateUrl: 'partials/Modals/editCatalog.html',
                     controller: 'EditCatalogController',
                     resolve: { catalog: function() { return catalogBuffer }, edit: false }
                 });
+                
                 editCatalogModal.close = function(newCatalog) {
+
                     newCatalog.public = false;
                     Catalog.save({}, newCatalog, function(result) {
                         $scope.catalogs.push(result);
@@ -180,7 +183,7 @@ angular.module('arachne.controllers')
                     }, function() {
                         message.addMessageForCode('default');
                     });
-                }
+                };
             };
 
             $scope.editCatalog = function() {
