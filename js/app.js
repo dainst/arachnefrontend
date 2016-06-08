@@ -71,12 +71,12 @@ angular.module('arachne',[
 	});
 }])
 .constant('arachneSettings', {
-	dataserviceUri: "http://" + document.location.host + "/data",
+	dataserviceUri: "//" + document.location.host + "/data",
 	openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 	sortableFields : ["entityId", "title", "subtitle"]
 })
 .constant('componentsSettings', {
-		transl8Uri: "http://bogusman01.dai-cloud.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK"
+		transl8Uri: "//bogusman01.dai-cloud.uni-koeln.de/transl8/translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK"
 	}
 )
 ;
