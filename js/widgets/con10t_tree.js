@@ -97,7 +97,8 @@ angular.module('arachne.widgets.directives')
                                     children: [],
                                     facet: [currentResultFacet.name, value],
                                     parent: node,
-                                    id: node.id + "_" + j
+                                    id: node.id + "_" + j,
+                                    count: currentResultFacet.values[j].count
                                 });
                             }
                         }
