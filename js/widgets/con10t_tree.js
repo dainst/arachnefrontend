@@ -43,15 +43,18 @@ angular.module('arachne.widgets.directives')
                     return;
                 }
 
-                var treeQuery = new Query();
+                var treeQuery = new Query(),
+                    len = scope.staticFacets.length;
 
-                for (var i = 0; i < scope.staticFacets.length; i++) {
+                for (var i = 0; i < len; i++) {
                     treeQuery = treeQuery.addFacet(scope.staticFacets[i][0], scope.staticFacets[i][1]);
                 }
 
                 var collectedFacets = this.collectAllFacets(node);
 
-                for (var i = 0; i < collectedFacets.length; i++) {
+                len = collectedFacets.length;
+
+                for (var i = 0; i < len; i++) {
                     treeQuery = treeQuery.addFacet(collectedFacets[i][0], collectedFacets[i][1]);
                 }
 
@@ -82,21 +85,24 @@ angular.module('arachne.widgets.directives')
                         if ((scope.hierarchyFacets.length > 0 && currentResultFacet.name == (scope.hierarchyFacets[node.depth]))
                                 || (scope.wildcardFacet && currentResultFacet.name.indexOf(scope.wildcardFacet) > -1)) {
 
-                            for (var j = 0; j < currentResultFacet.values.length; j++) {
-                                var value = currentResultFacet.values[j].value;
-                                var child = {
+                            var len = currentResultFacet.values.length,
+                                value;
+
+                            for (var j = 0; j < len; j++) {
+
+                                value = currentResultFacet.values[j].value;
+                                node.children.push({
                                     name: value,
                                     depth: node.depth + 1,
                                     children: [],
                                     facet: [currentResultFacet.name, value],
                                     parent: node,
                                     id: node.id + "_" + j
-                                };
-                                node.children.push(child);
+                                });
                             }
                         }
                     }
-                    if (node.children == 0) {
+                    if (node.children === 0) {
                         node.isLeaf = true;
                     }
                     scope.isShown[node.id] = true;
@@ -133,9 +139,10 @@ angular.module('arachne.widgets.directives')
 
                 facets = facets.concat(scope.staticFacets);
 
-                var url = "search?q=";
+                var url = "search?q=",
+                    len = facets.length;
 
-                for (var i = 0; i < facets.length; i++) {
+                for (var i = 0; i < len; i++) {
                     url += "&fq=" + facets[i][0] + ':"' + facets[i][1] + '"';
                 }
                 return url;
