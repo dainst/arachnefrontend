@@ -38,7 +38,7 @@
 				class="btn btn-sm btn-default"
 				style="border-radius:15px"
 				ng-class="{ 'disabled': currentPage == 1 }">
-			<span aria-hidden="true">&larr;</span> Zurück
+			<span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> Zurück
 		</a>
 		<small class="text-muted" style="padding: 0px 8px;"><b>Seite {{currentPage}} / {{totalPages}}</b></small>
 		<a ng-click="nextPage()"
@@ -46,7 +46,7 @@
 				style="border-radius:15px"
 				ng-class="{ 'disabled': currentPage >= totalPages }"
 				style="margin-top: -3px;">
-			Vor <span aria-hidden="true">&rarr;</span>
+			Vor <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
 		</a>
 	</div>
 
