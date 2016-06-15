@@ -89,7 +89,7 @@ angular.module('arachne.widgets.directives')
                                 value;
 
                             for (var j = 0; j < len; j++) {
-
+                                
                                 value = currentResultFacet.values[j].value;
                                 node.children.push({
                                     name: value,

@@ -10,12 +10,13 @@ angular.module('arachne.controllers')
             $scope.category = $location.search().c;
 
             categoryService.getCategoriesAsync().then(function (categories) {
+
                 $scope.title = categories[$scope.category].title;
+                $scope.queryTitle = categories[$scope.category].queryTitle;
                 $scope.imgUri = categories[$scope.category].imgUri;
                 $scope.subtitle = categories[$scope.category].subtitle;
                 $scope.mapfacet = categories[$scope.category].geoFacet;
-
-                $scope.currentQuery = new Query().addFacet("facet_kategorie", $scope.title);
+                $scope.currentQuery = new Query().addFacet("facet_kategorie", $scope.queryTitle);
                 $scope.currentQuery.q = "*";
 
                 Entity.query($scope.currentQuery.toFlatObject(), function (response) {

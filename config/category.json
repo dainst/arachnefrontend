@@ -1,72 +1,87 @@
 {
 	"bauwerk": {
+		"queryTitle": "Bauwerke",
 		"imgUri": "img/categories/bauwerke_sw.jpg",
 		"status": "start",
 		"geoFacet": "facet_aufbewahrungsort"
 	},
 	"bauwerksteil": {
+		"queryTitle": "Bauwerksteile",
 		"imgUri": "img/categories/bauwerksteile.jpg",
 		"status": "start",
 		"geoFacet": "facet_aufbewahrungsort"
 	},
 	"objekt": {
+		"queryTitle": "Einzelobjekte",
 		"imgUri": "img/categories/objekte_sw.jpg",
 		"status": "start",
 		"geoFacet": "facet_aufbewahrungsort"
 	},
 	"relief": {
+		"queryTitle": "Szenen",
 		"imgUri": "img/categories/szene.jpg",
 		"status": "start",
 		"geoFacet": "facet_geo"
 	},
 	"marbilder": {
+		"queryTitle": "Bilder",
 		"imgUri": "img/categories/bilder.jpg",
 		"status": "start",
 		"geoFacet": "facet_geo"
 	},
 	"typus": {
+		"queryTitle": "Typen",
 		"imgUri": "img/categories/typen_sw.jpg",
 		"status": "start"
 	},
 	"sammlung": {
+		"queryTitle": "Sammlungen",
 		"imgUri": "img/categories/sammlungen_sw.jpg",
 		"status": "sub",
 		"geoFacet": "facet_aufbewahrungsort"
 	},
 	"topographie": {
+		"queryTitle": "Topographien",
 		"imgUri": "img/categories/topographie_sw.jpg",
 		"status": "sub",
 		"geoFacet": "facet_geo"
 	},
 	"rezeption": {
+		"queryTitle": "Rezeptionen",
 		"imgUri": "img/categories/rezeptionen_sw.jpg",
 		"status": "sub"
 	},
 	"reproduktion": {
+		"queryTitle": "Reproduktionen",
 		"imgUri": "img/categories/Reproduktionen.jpg",
 		"status": "sub",
 		"geoFacet": "facet_aufbewahrungsort"
 	},
 	"realien": {
+		"queryTitle": "Einzelmotive",
 		"imgUri": "img/categories/einzelmotive.jpg",
 		"status": "sub",
 		"geoFacet": "facet_geo"
 	},
 	"gruppen": {
+		"queryTitle": "Mehrteilige Denkmäler",
 		"imgUri": "img/categories/mehrteiligdenk.jpg",
 		"status": "sub",
 		"geoFacet": "facet_aufbewahrungsort"
 	},
 	"inschrift": {
+		"queryTitle": "Inschriften",
 		"imgUri": "img/categories/Inschriften.jpg",
 		"status": "sub"
 	},
 	"buch": {
+		"queryTitle": "Bücher",
 		"imgUri": "img/categories/buecher_sw.jpg",
 		"status": "sub",
 		"geoFacet": "facet_geo"
 	},
 	"buchseite": {
+		"queryTitle": "Buchseiten",
 		"imgUri": "img/categories/Buchseiten_sw.jpg",
 		"status": "sub"
 	},

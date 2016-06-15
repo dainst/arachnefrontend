@@ -30,12 +30,12 @@
 					{{"ui_entries"|transl8}}
 				</li>
 				<li>
-					<a ng-href="search?q=*&fq=facet_kategorie:'{{title}}'">
+					<a ng-href="search?q=*&fq=facet_kategorie:'{{queryTitle}}'">
 						<span class="glyphicon glyphicon-search"></span> {{'ui_showall'|transl8}}
 					</a>
 				</li>
 				<li ng-show="mapfacet">
-					<a ng-href="map?q=*&fq=facet_kategorie:'{{title}}'&restrict={{mapfacet}}">
+					<a ng-href="map?q=*&fq=facet_kategorie:'{{queryTitle}}'&restrict={{mapfacet}}">
 						<span class="glyphicon glyphicon-map-marker"></span> {{'ui_map'|transl8}}
 					</a>
 				</li>
