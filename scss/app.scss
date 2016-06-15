@@ -179,8 +179,12 @@ h6 { font-size: 12px; }
   line-height: 1.2;
 }
 
+.ar-imagegrid-cell-link {
+  transition: all .3s ease;
+}
+
 .ar-imagegrid-cell-link:hover {
-  box-shadow: 0 0 10px #888888;
+  box-shadow: 0 0 10px #777;
   z-index: 500;
   position: absolute;
   text-decoration: none;
