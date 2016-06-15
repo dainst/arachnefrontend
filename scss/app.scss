@@ -7,8 +7,11 @@
 @import "threedviewer";
 @import "tabs";
 
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
 body {
   overflow-y: scroll; /* always show scrollbar */
+  font-family : 'Source Sans Pro', 'Helvetica', sans-serif;
 }
 
 @media screen and (max-width: 415px) {
@@ -304,20 +307,20 @@ hr {
 .sections li {
   list-style:none;
 }
-.sections li b {
+.sections li strong {
   margin-top: 8px;
   margin-bottom: -4px;
   margin-left: -20px;
   display: block;
 }
-.sections li > b {
-  font-size: 1.4em;
+.sections li > strong {
+  font-size: 1.3em;
 }
-.sections li li > b {
+.sections li li > strong {
   font-size: 1.1em;
 }
 /* deeply nested sections should display inline */
-.sections li li li > b {
+.sections li li li > strong {
   font-size: 1em;
   display: inline;
   font-weight: normal;
@@ -325,7 +328,7 @@ hr {
   margin-left: 0px;
   margin-right: 2px;
 }
-.sections li li li li > b {
+.sections li li li li > strong {
   font-style: normal;
   margin-right: 0px;
 }
@@ -340,7 +343,7 @@ hr {
   content: "";
   display: none;
 }
-.sections li li li > b::after {
+.sections li li li > strong::after {
   content: ': ';
 }
 .sections li li li ul {
