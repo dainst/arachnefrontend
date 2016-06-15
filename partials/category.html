@@ -26,7 +26,7 @@
 			<ul class="list-inline text-muted">
 				<li ng-show="resultSize">
 					{{"ui_total"|transl8}}
-					<b ng-bind="resultSize | number"></b>
+					<strong ng-bind="resultSize | number"></strong>
 					{{"ui_entries"|transl8}}
 				</li>
 				<li>
@@ -63,7 +63,7 @@
 						<li ng-repeat="facetValue in facet.values">
 							<small>
 								<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-									<b class="pull-right text-muted">{{facetValue.count | number}}</b>
+									<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
 									{{facetValue.value | stripCoords}}
 								</a>
 							</small>
@@ -84,7 +84,7 @@
 						<li ng-repeat="facetValue in facet.values">
 							<small>
 								<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-									<b class="pull-right text-muted">{{facetValue.count | number}}</b>
+									<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
 									{{facetValue.value | stripCoords}}
 								</a>
 							</small>

@@ -1,15 +1,15 @@
-<b>{{place.name}}</b>
+<strong>{{place.name}}</strong>
 
 <div ng-if="listLength > 0">
 
     <br>
     <!-- small lists do not page -->
-    <b ng-if="listLength <= limit">
+    <strong ng-if="listLength <= limit">
         {{listLength}} {{(listLength > 1 ? 'entity_linked_objects' : 'entity_linked_object') | transl8 | decapitalize}}
-    </b>
+    </strong>
 
     <!-- bigger lists do page -->
-    <b ng-if="listLength > limit">
+    <strong ng-if="listLength > limit">
         {{listLength}} {{'entity_linked_objects' | transl8 | decapitalize}}:<br>
         <span ng-if="offset > 0">
             <span class="clickable small glyphicon glyphicon-chevron-left" ng-click="get(offset-3, limit)"></span>
@@ -26,7 +26,7 @@
         <span ng-if="(offset + limit) >= listLength">
             <span class="clickable small glyphicon glyphicon-chevron-right text-muted"></span>
         </span>
-    </b>
+    </strong>
 
     <ul style="margin-left:0px">
         <li ng-repeat="entity in shownEntities track by $index">

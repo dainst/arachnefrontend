@@ -9,7 +9,7 @@
 	<div ng-if="resultSize == 0 && !error">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2 text-center">
-				 {{ 'search_no_results' | transl8 }}<b>"{{q}}"</b>
+				 {{ 'search_no_results' | transl8 }}<strong>"{{q}}"</strong>
 				<span ng-if="currentQuery.hasFacets()">
 					{{ 'search_current_filters' | transl8 }}.
 				</span>
@@ -21,25 +21,25 @@
 	<div class="col-md-2 col-sm-3" ng-if="resultSize">
 		<div>
 		<small class="text-muted">
-			{{"ui_total"|transl8}} <b>{{ resultSize|number }}</b>
+			{{"ui_total"|transl8}} <strong>{{ resultSize|number }}</strong>
 			<span ng-show="resultSize > 1"> {{"ui_entries"|transl8}}</span>
 			<span ng-hide="resultSize > 1"> {{"ui_entry"|transl8}}</span>
-			<span ng-show="numPages > 1"><br> auf <b>{{numPages|number}}</b> {{"ui_pages"|transl8}}</span>
+			<span ng-show="numPages > 1"><br> auf <strong>{{numPages|number}}</strong> {{"ui_pages"|transl8}}</span>
 		</small>
 		</div>
 		<small>
 
-			<h5 class="text-muted uppercase"><b>{{"ui_current_query"|transl8}}</b></h5>
+			<h5 class="text-muted uppercase"><strong>{{"ui_current_query"|transl8}}</strong></h5>
 			<form ng-if="!currentQuery.label" ng-submit="go('/search' + currentQuery.setParam('q',q).toString())">
 				<input type="text" class="form-control" ng-model="q">
 			</form>
 			<button ng-if="currentQuery.label" type="button" class="btn btn-sm btn-block btn-info" style="white-space:normal;" disabled="disabled">
-			    <b>{{currentQuery.label}}</b>
+			    <strong>{{currentQuery.label}}</strong>
 			</button>
 
 			<div ar-active-facets route="search" current-query="currentQuery"></div>
 
-			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><b>Filter</b></h5>
+			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
 			<div ng-if="facet.values" ng-hide="resultSize < 2"
 					ng-repeat="facet in facets"
 					class="panel panel-default facet">
@@ -53,7 +53,7 @@
 				<ul class="list-unstyled facet"	ng-show="facet.open">
 					<li ng-repeat="facetValue in facet.values">
 						<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-							<b class="pull-right text-muted">{{facetValue.count | number}}</b>
+							<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
 							{{facetValue.value | stripCoords}}
 						</a>
 					</li>

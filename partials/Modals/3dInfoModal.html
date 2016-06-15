@@ -1,42 +1,89 @@
 <div class="modal-header">
-	<h4 class="modal-title">	
-		{{metainfos.title}}
-	</h4>
+    <h4 class="modal-title">
+        {{metainfos.title}}
+    </h4>
 </div>
 <div class="modal-body">
-	<dl class="dl-horizontal">
-		<dt>{{ 'title' | transl8 }}</dt> <dd>{{metainfos.title}}</dd>
-		<dt>{{ '3Dinfo_modeller' | transl8 }}</dt> <dd>{{metainfos.modeller}}</dd>
-	    <dt>{{ 'ui_license' | transl8 }}</dt><dd> {{metainfos.license}}</dd>
-		<dt>{{ '3Dinfo_file_format' | transl8 }}</dt> <dd>{{metainfos.format}} </dd>
-	</dl>
+    <dl class="dl-horizontal">
+        <dt>{{ 'title' | transl8 }}</dt>
+        <dd>{{metainfos.title}}</dd>
+        <dt>{{ '3Dinfo_modeller' | transl8 }}</dt>
+        <dd>{{metainfos.modeller}}</dd>
+        <dt>{{ 'ui_license' | transl8 }}</dt>
+        <dd> {{metainfos.license}}</dd>
+        <dt>{{ '3Dinfo_file_format' | transl8 }}</dt>
+        <dd>{{metainfos.format}}</dd>
+    </dl>
 </div>
 <hr style="margin:0px">
 <div class="modal-body">
 
-	<b>{{ '3Dinfo_flight_control' | transl8 }}</b>
-	<table class="table table-condensed" style="font-size:12px;">
-		<tr><td>{{ 'ui_mouse_pointer' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_look' | transl8 }}</td></tr>
-        <tr><td>{{ '3Dinfo_left_mouse_button' | transl8 }}/W/{{ 'ui_up' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_forward' | transl8 }}</td></tr>
-        <tr><td>{{ '3Dinfo_right_mouse_button' | transl8 }}/S/{{ 'ui_down' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_backward' | transl8 }}</td></tr>
-        <tr><td>A/{{ 'ui_left' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_left' | transl8 }}</td></tr>
-        <tr><td>D/{{ 'ui_right' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_right' | transl8 }}</td></tr>
-        <tr><td>R</td><td>=</td><td>{{ '3Dinfo_move_up' | transl8 }}</td></tr>
-        <tr><td>F</td><td>=</td><td>{{ '3Dinfo_move_down' | transl8 }}</td></tr>
-        <tr><td>Q</td><td>=</td><td>{{ '3Dinfo_freeze' | transl8 }}</td></tr>
-	</table>
+    <strong>{{ '3Dinfo_flight_control' | transl8 }}</strong>
+    <table class="table table-condensed" style="font-size:12px;">
+        <tr>
+            <td>{{ 'ui_mouse_pointer' | transl8 }}</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_look' | transl8 }}</td>
+        </tr>
+        <tr>
+            <td>{{ '3Dinfo_left_mouse_button' | transl8 }}/W/{{ 'ui_up' | transl8 }}</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_move_forward' | transl8 }}</td>
+        </tr>
+        <tr>
+            <td>{{ '3Dinfo_right_mouse_button' | transl8 }}/S/{{ 'ui_down' | transl8 }}</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_move_backward' | transl8 }}</td>
+        </tr>
+        <tr>
+            <td>A/{{ 'ui_left' | transl8 }}</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_move_left' | transl8 }}</td>
+        </tr>
+        <tr>
+            <td>D/{{ 'ui_right' | transl8 }}</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_move_right' | transl8 }}</td>
+        </tr>
+        <tr>
+            <td>R</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_move_up' | transl8 }}</td>
+        </tr>
+        <tr>
+            <td>F</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_move_down' | transl8 }}</td>
+        </tr>
+        <tr>
+            <td>Q</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_freeze' | transl8 }}</td>
+        </tr>
+    </table>
 
 
+    <strong>{{ '3Dinfo_trackball_control' | transl8 }}</strong>
 
-	<b>{{ '3Dinfo_trackball_control' | transl8 }}</b>
-
-	<table class="table table-condensed" style="font-size:12px;">
-		<tr><td>{{ '3Dinfo_left_mouse_button' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_look' | transl8 }}</td></tr>
-        <tr><td>{{ '3Dinfo_right_mouse_button' | transl8 }}</td><td>=</td><td>{{ '3Dinfo_move_target' | transl8 }}</td></tr>
-        <tr><td>{{ '3Dinfo_middle_mouse_button' | transl8 }}</td><td>=</td><td>Zoom</td></tr>
-	</table>
+    <table class="table table-condensed" style="font-size:12px;">
+        <tr>
+            <td>{{ '3Dinfo_left_mouse_button' | transl8 }}</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_look' | transl8 }}</td>
+        </tr>
+        <tr>
+            <td>{{ '3Dinfo_right_mouse_button' | transl8 }}</td>
+            <td>=</td>
+            <td>{{ '3Dinfo_move_target' | transl8 }}</td>
+        </tr>
+        <tr>
+            <td>{{ '3Dinfo_middle_mouse_button' | transl8 }}</td>
+            <td>=</td>
+            <td>Zoom</td>
+        </tr>
+    </table>
 
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="$close(selected)">OK</button>
+    <button class="btn btn-primary" ng-click="$close(selected)">OK</button>
 </div>

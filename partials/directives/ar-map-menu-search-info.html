@@ -10,22 +10,22 @@
 
     <small>
         <span ng-if="type!='grid'">
-            <b>{{ entityCount | number }}</b>
+            <strong>{{ entityCount | number }}</strong>
             {{(entityCount > 1 ? 'ui_object_plural' : 'ui_object') | transl8}}
             {{'ui_total_small' | transl8}}
             <br>
         </span>
         <span ng-if="type=='grid'">
             {{'ui_objects_shown' | transl8}}:<br>
-            <b>{{ viewportCount | number }}</b>
+            <strong>{{ viewportCount | number }}</strong>
             {{'ui_of' | transl8}}
-            <b>{{ entityCount | number }}</b>
+            <strong>{{ entityCount | number }}</strong>
             {{'ui_total_small' | transl8}}
         </span>
 
         <span ng-if="placesCount">
             {{'ui_at' | transl8}}
-            <b>{{ placesCount |number }}</b>
+            <strong>{{ placesCount |number }}</strong>
             {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
         </span>
     </small>

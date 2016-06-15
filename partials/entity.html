@@ -12,7 +12,7 @@
 	<!-- Editor Section -->
 	<div class="sections" ng-if="entity.editorSection">
 		<li ng-if="!entity.editorSection.value" ng-class="{'thumbnail' : entity.editorSection.contextEntity}" style="list-style-type:none;">
-		<b ng-if="entity.editorSection.label">{{entity.editorSection.label}}</b>
+		<strong ng-if="entity.editorSection.label">{{entity.editorSection.label}}</strong>
 			<ul ng-repeat="section in (entity.editorSection.content || entity.editorSection.contextEntity)" ng-include="'section_template.html'"></ul>
 		</li>
 
@@ -34,7 +34,7 @@
 <script type="text/ng-template" id="section_template.html">
 
 	<li ng-if="!section.value" ng-class="{'thumbnail' : section.contextEntity}" style="list-style-type:none;">
-		<b ng-if="section.label">{{section.label}}</b>
+		<strong ng-if="section.label">{{section.label}}</strong>
 		<ul ng-repeat="section in (section.content || section.contextEntity)" ng-include="'section_template.html'"></ul>
 	</li>
 
@@ -68,18 +68,18 @@
 							</a>
 
 							<div>
-								<b class="text-muted uppercase small">{{"ui_current_query"|transl8}}</b><br>
+								<strong class="text-muted uppercase small">{{"ui_current_query"|transl8}}</strong><br>
 								<span ng-if="!currentQuery.label">{{currentQuery.q}}</span>
 								<i ng-if="currentQuery.label">{{currentQuery.label}}</i>
 							</div>
 
 							<div ng-if="currentQuery.hasFacets()">
-								<b class="text-muted uppercase small">{{"entity_active_filters"|transl8}}</b>
+								<strong class="text-muted uppercase small">{{"entity_active_filters"|transl8}}</strong>
 								<ul>
 									<li ng-repeat="facet in currentQuery.facets">
 										<small>
 											<i>{{facet.key | transl8}}</i>
-											<b style="text-transform:capitalize;"> &nbsp; {{facet.value}}</b>
+											<strong style="text-transform:capitalize;"> &nbsp; {{facet.value}}</strong>
 										</small>
 									</li>
 								</ul>
@@ -94,17 +94,17 @@
 							   class="list-group-item"
 							   style="height:75px; overflow:hidden">
 								<div>
-									<b class="text-muted uppercase small">
+									<strong class="text-muted uppercase small">
 										<span class="glyphicon glyphicon-chevron-left" style="color:black" ></span>
 										&nbsp; {{"entity_previous_result"|transl8}}
-									</b>
+									</strong>
 								</div>
 								<div ar-entity-title entity="prevEntity"></div>
 
 							</a>
 
 							<li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
-								<b class="text-muted uppercase small">{{"entity_shown_result"|transl8}}</b>
+								<strong class="text-muted uppercase small">{{"entity_shown_result"|transl8}}</strong>
 								<form ng-submit="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">
 									<div class="input-group"
 										 ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
@@ -124,10 +124,10 @@
 							   class="list-group-item text-right"
 							   style="height:75px; overflow:hidden">
 								<div>
-									<b class="text-muted uppercase small">
+									<strong class="text-muted uppercase small">
 										&nbsp; {{"entity_next_result"|transl8}}
 										<span class="glyphicon glyphicon-chevron-right" style="color:black" ></span>
-									</b>
+									</strong>
 								</div>
 								<div ar-entity-title entity="nextEntity"></div>
 
@@ -185,16 +185,16 @@
 				<table class="table table-condensed" style="margin-bottom:0">
 					<thead>
 						<tr>
-							<td><b>{{ 'entityId' | transl8 }}:</b></td>
+							<td><strong>{{ 'entityId' | transl8 }}:</strong></td>
 							<td>{{ entity.entityId }}</td>
 						</tr>
 					</thead>
 					<tr>
-						<td><b>{{'ui_category'|transl8}}:</b></td>
+						<td><strong>{{'ui_category'|transl8}}:</strong></td>
 						<td>{{entity.type}}</td>
 					</tr>
 					<tr>
-						<td><b>{{'ui_serial_number'|transl8}}:</b></td>
+						<td><strong>{{'ui_serial_number'|transl8}}:</strong></td>
 						<td>{{ entity.internalId }}</td>
 					</tr>
 				</table>
@@ -220,7 +220,7 @@
 					</uib-tab>
 					<uib-tab ng-repeat="catalogEntry in catalogEntries" heading="{{catalogEntry.catalogLabel}}" active="catalogEntry.active" select="updateCatalogEntryParameter(catalogEntry)">
 						<div class="sections">
-							<li><b>{{catalogEntry.label}}</b></li><br>
+							<li><strong>{{catalogEntry.label}}</strong></li><br>
 							<em>{{'entity_catalog_info'|transl8}} </em><a ng-href="catalog/{{catalogEntry.catalogId}}">{{catalogEntry.catalogLabel}}</a> <em>.</em><br>
 							<em>{{'catalog_author'|transl8}}: </em>{{catalogEntry.author}}<br>
 						</div>	
