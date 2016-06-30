@@ -13,7 +13,7 @@
     "start": "npm run server"
   },
   "dependencies": {
-    "3dviewer": "https://github.com/dainst/3dviewer.git#v1.0.1",
+    "3dviewer": "git://github.com/dainst/3dviewer.git#v1.0.1",
     "angular": "^1.5.5",
     "angular-cookies": "^1.5.5",
     "angular-resource": "^1.5.5",
