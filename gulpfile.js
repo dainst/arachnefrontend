@@ -35,6 +35,7 @@ var jsDeps = [
     paths.lib + 'angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
     paths.lib + 'angular-ui-bootstrap/dist/ui-bootstrap.js',
     paths.lib + 'leaflet/dist/leaflet.js',
+    paths.lib + 'leaflet.markercluster/dist/leaflet.markercluster.js',
     paths.lib + 'angulartics/dist/angulartics.min.js',
     paths.lib + 'angulartics-google-analytics/dist/angulartics-google-analytics.min.js',
     paths.lib + 'angular-resource/angular-resource.min.js',
