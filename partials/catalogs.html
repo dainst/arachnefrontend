@@ -58,7 +58,7 @@
 
 	<ol ng-class="{hidden:collapsed}" ui-tree-nodes ng-model="entry.children">
 
-		<li ng-repeat="entry in entry.children" ui-tree-node collapsed="true" ng-include="'entries_renderer.html'"></li>
+		<li ng-repeat="entry in entry.children" ui-tree-node collapsed="{{entry.totalChildren > 0}}" ng-include="'entries_renderer.html'"></li>
 
 		<div ng-if="!entry.loading && entry.children.length < entry.totalChildren" class="catalog-entry" style="cursor: pointer;"
 			 	ng-click="loadChildren(entry)">
@@ -127,7 +127,7 @@
 				<div ng-if="activeCatalog.root.children.length > 0" ui-tree="treeOptions" id="tree-root">
 					<ol ui-tree-nodes="nodes" ng-model="activeCatalog.root.children" ng-class="{hidden: collapsed}">
 						<li ng-repeat="entry in activeCatalog.root.children"
-								ui-tree-node collapsed="true"
+								ui-tree-node collapsed="{{entry.totalChildren > 0}}"
 								ng-include="'entries_renderer.html'">
 						</li>
 
