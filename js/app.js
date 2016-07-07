@@ -76,7 +76,7 @@ angular.module('arachne',[
 	sortableFields : ["entityId", "title", "subtitle"]
 })
 .constant('componentsSettings', {
-		transl8Uri: "//arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK"
+		transl8Uri: "https://arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK"
 	}
 )
 ;
