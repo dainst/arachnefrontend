@@ -27,10 +27,12 @@ return {
             else
                 url += "*";
 
-            if(scope.fq != undefined && scope.fq != "")
-            {
-                var split = scope.fq.split(':');
-                url += '&fq='+split[0]+':"'+split[1]+'"';
+            if(scope.fq != undefined && scope.fq != "") {
+                var fqs = scope.fq.split(',');
+                fqs.forEach(function(fq) {
+                    var split = fq.split(':');
+                    url += '&fq='+split[0]+':"'+split[1]+'"';
+                });
             }
             $location.url(url);
         };
