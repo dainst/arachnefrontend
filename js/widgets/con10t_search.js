@@ -8,7 +8,8 @@ return {
     templateUrl: 'partials/widgets/con10t-search.html',
     scope: {
         catalogId: '@',
-        fq: '@'
+        fq: '@',
+        appendQuery: '@'
     },
     link: function(scope, element, attrs) {
         scope.placeholder = attrs.searchPlaceholder;
@@ -26,6 +27,9 @@ return {
                 url += scope.q;
             else
                 url += "*";
+
+            if (scope.appendQuery)
+                url += " AND " + scope.appendQuery;
 
             if(scope.fq != undefined && scope.fq != "") {
                 var fqs = scope.fq.split(',');
