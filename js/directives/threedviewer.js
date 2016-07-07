@@ -9,6 +9,11 @@ angular.module('arachne.directives')
         scope: { options: '=' },
 
         link: function (scope, element, attrs) {
+
+            var init = function() {
+                _3dviewer(scope.options);
+            };
+
             var load_script = function() {
                 var paths = [
                     "node_modules/3dviewer/dist/3dviewer.js"
@@ -39,7 +44,7 @@ angular.module('arachne.directives')
 
                 var deferred = $q.defer();
                 $window.initialize = function () {
-                    _3dviewer(scope.options);
+                    init();
                     deferred.resolve();
                 };
                 if ($window.attachEvent) {
@@ -61,6 +66,7 @@ angular.module('arachne.directives')
             } else {
                 lazyLoadApi();
             }
+            
         }
     }
 }])
