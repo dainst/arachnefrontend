@@ -6,28 +6,56 @@
 
     <div class="col-md-6 col-md-offset-3 col-xs-12 well">
 		
-        <h3>Dataimport:
-        </h3>
-        <br>
-        <button ng-click="requestRefresh();">Refresh</button>
-        <abc ng-show="lastActionOutcome"><abc ng-hide="lastAction">&nbsp;&nbsp;</abc>{{lastActionOutcome}}</abc>
-        <br>
-        <br>
+        <h3>Dataimport:</h3>
+        
+        <div class="row">
 
-        <div ng-hide="dataimportInfo">No information available at the moment ...</div>
+            <div class="col-md-6">
+                <span ng-show="lastActionOutcome"><span ng-hide="lastAction">&nbsp;&nbsp;</span>{{lastActionOutcome}}</span>
+                <div ng-hide="dataimportInfo">No information available at the moment ...</div>
+                <dl class="dl-horizontal">
+                    <span id="dataimport_status" ng-show="dataimportInfo.status">
+                        <dt>Dataimport status:</dt>
+                        <dd>{{dataimportInfo.status}}</dd>
+                    </span>
+                    <span ng-show="dataimportInfo.elapsedTime">
+                        <dt>Elapsed time:</dt>
+                        <dd>{{dataimportInfo.elapsedTime}}</dd>
+                    </span>
+                    <span ng-show="dataimportInfo.estimatedTimeRemaining">
+                        <dt>Est. time remaining:</dt>
+                        <dd>{{dataimportInfo.estimatedTimeRemaining}}</dd>
+                    </span>
+                    <span ng-show="dataimportInfo.count">
+                        <dt>Total documents:</dt>
+                        <dd>{{dataimportInfo.count | number}}</dd>
+                    </span>
+                    <span ng-show="dataimportInfo.indexedDocuments">
+                        <dt>Indexed documents:</dt>
+                        <dd>{{dataimportInfo.indexedDocuments | number}}</dd>
+                    </span>
+                    <span ng-show="dataimportInfo.documentsPerSecond">
+                        <dt>Documents per second:</dt>
+                        <dd>{{dataimportInfo.documentsPerSecond}}</dd>
+                    </span>
+                </dl>
+            </div>
 
+            <div class="col-md-6">
+                <button class="btn btn-primary" ng-click="startDataimport();">
+                    <span class="glyphicon glyphicon-play"></span> Start
+                </button>
+                <button class="btn btn-danger" ng-click="stopDataimport();">
+                    <span class="glyphicon glyphicon-stop"></span> Stop
+                </button>
+                <button class="btn btn-default" ng-click="requestRefresh();">
+                    <span class="glyphicon glyphicon-refresh"></span> Refresh
+                </button>
+                <input type="checkbox" ng-model="constantlyRefresh"> Constantly refresh
+            </div>
 
-        <div id="dataimport_status" ng-show="dataimportInfo.status">Dataimport status: {{dataimportInfo.status}}</div>
-        <div ng-show="dataimportInfo.elapsedTime">Elapsed time: {{dataimportInfo.elapsedTime}}</div>
-        <div ng-show="dataimportInfo.estimatedTimeRemaining">Estimated time remaining:
-            {{dataimportInfo.estimatedTimeRemaining}}</div>
-        <div ng-show="dataimportInfo.count">Dataimport count: {{dataimportInfo.count}}</div>
-        <div ng-show="dataimportInfo.indexedDocuments">Indexed documents: {{dataimportInfo.indexedDocuments}}</div>
-        <div ng-show="dataimportInfo.documentsPerSecond">Documents per second: {{dataimportInfo.documentsPerSecond}}</div>
+        </div>
 
-
-        <br>
-        <button ng-click="startDataimport();">Start Dataimport</button>
-        <button ng-click="stopDataimport();">Stop Dataimport</button>
     </div>
+
 </div>

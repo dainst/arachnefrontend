@@ -15,8 +15,8 @@ angular.module('arachne.controllers')
  *
  * @author: Daniel M. de Oliveira
  */
-    .controller('DataimportController', ['$scope', '$http', '$location', 'arachneSettings', 'message',
-        function ($scope, $http, $location, arachneSettings, message) {
+    .controller('DataimportController', ['$scope', '$http', '$location', '$interval', 'arachneSettings', 'message',
+        function ($scope, $http, $location, $interval, arachneSettings, message) {
 
             var dataimportUri = arachneSettings.dataserviceUri + '/admin/dataimport';
             var requestPending = false; // true as long as a server request is pending and waiting for an answer or timeout
@@ -29,6 +29,8 @@ angular.module('arachne.controllers')
             var MSG_UNAVAILABLE = 'The system reports that the backend is temporarily unavailable. ';
             var MSG_UNAUTHORIZED = 'The system rejects your request. You have not the necessary permissions. Please log in with admin rights. ';
 
+            var interval = undefined;
+
             /**
              * All $scope functions accesible from within the view must call anotherRequestPending() at first.
              * @return false to indicate the $scope function is allowed to get executed. true otherwise.
@@ -40,7 +42,6 @@ angular.module('arachne.controllers')
                     return true;
                 }
                 requestPending = true;
-                $scope.lastActionOutcome = 'Request pending. ';
                 return false;
             }
 
@@ -135,6 +136,14 @@ angular.module('arachne.controllers')
                     requestPending = false;
                 });
             }
+
+            $scope.$watch('constantlyRefresh', function(constantlyRefresh) {
+                if (constantlyRefresh) {
+                    interval = $interval($scope.requestRefresh, 1000);
+                } else {
+                    if (interval) $interval.cancel(interval);
+                }
+            });
 
             fetchDataimportInfo();
         }]);
