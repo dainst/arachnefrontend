@@ -31,7 +31,7 @@ describe ('DataimportController', function() {
 	beforeEach(inject(function($controller,_$httpBackend_,arachneSettings){
 
 		$httpBackend=_$httpBackend_;
-		scope = {};
+		scope = { $watch: function() {} };
 		$controller('DataimportController',{'$scope':scope});
 
 	}));
@@ -205,34 +205,4 @@ describe ('DataimportController', function() {
 		expect(scope.lastActionOutcome).toBe(OUTCOME_DATAIMPORT_RUNNING);
 	});
 
-
-	it ('should show when a request is pending', function() {
-
-		scope.requestRefresh();
-		expect(scope.lastActionOutcome).toBe('Request pending. ');
-	});
-
-	it ('should not begin to start the dataimport when a request is still pending', function() {
-
-		scope.requestRefresh();
-
-		scope.startDataimport();
-		expect(scope.lastActionOutcome).toBe('Request pending. Please wait. ');
-	});
-
-	it ('should not begin to stop the dataimport when a request is still pending', function() {
-
-		scope.requestRefresh();
-
-		scope.stopDataimport();
-		expect(scope.lastActionOutcome).toBe('Request pending. Please wait. ');
-	});
-
-	it ('should not begin to start the dataimport when a request is still pending', function() {
-
-		scope.startDataimport();
-
-		scope.requestRefresh();
-		expect(scope.lastActionOutcome).toBe('Request pending. Please wait. ');
-	});
 });
