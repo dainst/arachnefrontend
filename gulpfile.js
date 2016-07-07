@@ -44,6 +44,7 @@ var jsDeps = [
     paths.lib + 'angular-ui-tree/dist/angular-ui-tree.min.js',
     paths.lib + 'showdown/dist/showdown.min.js',
     paths.lib + 'ng-showdown/dist/ng-showdown.min.js',
+    paths.lib + '3dviewer/dist/3dviewer.js',
     'lib/relative-paths-in-partial.js'
 ];
 
