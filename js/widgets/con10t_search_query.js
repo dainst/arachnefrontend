@@ -22,7 +22,8 @@ return {
             if (scope.fq) {
                 var fqs = scope.fq.split(',');
                 fqs.forEach(function(fq) {
-                    href += "&fq=" + fq;
+                    var split = fq.split(':');
+                    href += '&fq='+split[0]+':"'+split[1]+'"';
                 });
             }
             element.attr("href", href);
