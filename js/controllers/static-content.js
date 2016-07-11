@@ -21,8 +21,8 @@ angular.module('arachne.controllers')
  * @author: Jan G. Wieners
  */
 
-    .controller('StaticContentController', ['$scope', '$stateParams', '$http', '$location', 'localizedContent', '$anchorScroll', '$timeout',
-        function ($scope, $stateParams, $http, $location, localizedContent, $anchorScroll, $timeout) {
+    .controller('StaticContentController', ['$scope', '$stateParams', '$http', '$location', 'localizedContent', '$timeout',
+        function ($scope, $stateParams, $http, $location, localizedContent, $timeout) {
 
             $scope.$on("$includeContentError", function (event, templateName) {
                 $location.path('/404');
