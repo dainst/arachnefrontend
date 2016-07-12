@@ -21,8 +21,8 @@ angular.module('arachne.controllers')
  * @author: Jan G. Wieners
  */
 
-    .controller('StaticContentController', ['$scope', '$stateParams', '$http', '$location', 'localizedContent', '$timeout',
-        function ($scope, $stateParams, $http, $location, localizedContent, $timeout) {
+    .controller('StaticContentController', ['$scope', '$stateParams', '$http', '$location', 'localizedContent', '$timeout', '$templateCache',
+        function ($scope, $stateParams, $http, $location, localizedContent, $timeout, $templateCache) {
 
             $scope.$on("$includeContentError", function (event, templateName) {
                 $location.path('/404');
@@ -44,10 +44,17 @@ angular.module('arachne.controllers')
 
                 $scope.templateUrl = content_url.replace('{LANG}', $location.search()['lang']);
 
+                // Ensure that images are loaded correctly
+                $templateCache.remove($scope.templateUrl);
+
             } else {
                 $http.get(CONTENT_TOC.replace('{LOCATION}', contentDir)).success(function (data) {
                     var lang = localizedContent.determineLanguage(data, $stateParams.title);
                     $scope.templateUrl = content_url.replace('{LANG}', lang);
+
+                    // Ensure that images are loaded correctly
+                    $templateCache.remove($scope.templateUrl);
+
                     if ($stateParams.id) $timeout(function () {
                         var element = document.getElementById($stateParams.id);
                         element.scrollIntoView();
