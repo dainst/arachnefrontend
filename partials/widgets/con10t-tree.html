@@ -1,4 +1,5 @@
 <script type="text/ng-template" id="nodeTemplate">
+
     <div class="con10t-tree-child">
 
         <span class="folderinteraction"
@@ -34,7 +35,13 @@
     </div>
 </script>
 
-<div class="panel panel-default">
+<div class="panel panel-default" style="position: relative; z-index: 0;">
+
+    <div class="missingRightsOverlay"
+         ng-if="!permittedToView">
+        Sie verfügen nicht über ausreichende Berechtigungen zur Betrachtung und Nutzung dieses Inhaltes.
+    </div>
+
     <div class="panel-heading" ng-show="heading">
         <h3 class="panel-title">
             {{heading}}
@@ -46,6 +53,7 @@
         </div>
         <div ng-repeat="node in treeRoot" ng-include="'nodeTemplate'"></div>
     </div>
+
 </div>
 
 <!--<div ng-click="closeAll()" title="{{'ui_hideall' | transl8}}">{{'ui_hideall' | transl8}}</div>-->

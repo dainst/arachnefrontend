@@ -50,8 +50,12 @@ return {
 
         // Add restrictions for facets to the search if defined
         if ($scope.facetsSelect) {
-            for (var i = 0; i < $scope.facetsSelect.length; i++) {
-                var facet = $scope.facetsSelect[i];
+
+            var facet, len = $scope.facetsSelect.length;
+
+            for (var i = 0; i < len; i++) {
+
+                facet = $scope.facetsSelect[i];
 
                 if (!currentQuery.hasFacet(facet.key)) {
                     currentQuery.facets.push(facet);
