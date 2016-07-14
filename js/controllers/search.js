@@ -10,7 +10,6 @@ angular.module('arachne.controllers')
 
             $scope.currentQuery = searchService.currentQuery();
             $scope.q = angular.copy($scope.currentQuery.q);
-            //$scope.user = authService.getUser();
 
             $scope.sortableFields = arachneSettings.sortableFields;
             // ignore unknown sort fields
