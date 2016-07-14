@@ -25,12 +25,13 @@ angular.module('arachne.controllers')
             //-------------------- Query to Catalog --------------
             $scope.toCatalog = function () {
                 var count = searchService.getSize();
-                var off = 0;
-                var error = false;
-                $scope.catalogEntries = [];
 
                 if (count >= 1000)
                     return;
+
+                var off = 0;
+                var error = false;
+                $scope.catalogEntries = [];
 
                 while (count >= 0) {
                     var query = angular.extend({offset: off, limit: 50}, $scope.currentQuery.toFlatObject());
@@ -38,7 +39,7 @@ angular.module('arachne.controllers')
 
                     setTimeout(function () {
                         if (!entities.entities) {
-                            //zu lagsam, mehr Zeit
+                            //zu langsam, mehr Zeit
                             setTimeout(function () {
                                 for (var i = 0; i <= entities.entities.length - 1; i++) {
                                     $scope.catalogEntries[off + i] = {
@@ -104,9 +105,12 @@ angular.module('arachne.controllers')
                 $scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
                 $scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
                 $scope.facets = searchService.getFacets();
-                var insert = [];
-                for (var i = 0; i < $scope.facets.length; i++) {
-                    var facet = $scope.facets[i];
+
+                var facet, insert = [], len = $scope.facets.length;
+
+                for (var i = 0; i < len; i++) {
+
+                    facet = $scope.facets[i];
                     facet.open = false;
                     arachneSettings.openFacets.forEach(function (openName) {
                         if (facet.name.slice(0, openName.length) == openName) {
