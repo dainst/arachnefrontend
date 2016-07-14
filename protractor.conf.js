@@ -1,5 +1,5 @@
 exports.config = {
-    baseUrl: 'http://localhost:8081',
+    baseUrl: 'http://localhost:1234',
     specs: ['e2e/**/*.spec.js'],
     directConnect: true,
     exclude: [],
@@ -17,13 +17,5 @@ exports.config = {
     },
     onPrepare: function() {
         browser.manage().window().setSize(800, 600);
-    },
-    /**
-     * ng2 related configuration
-     *
-     * useAllAngular2AppRoots: tells Protractor to wait for any angular2 apps on the page instead of just the one matching
-     * `rootEl`
-     *
-     */
-    useAllAngular2AppRoots: true
+    }
 };
