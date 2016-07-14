@@ -1,95 +1,105 @@
 .missingRightsOverlay {
-    position: absolute;
-    background-color: rgba(85, 114, 161, 0.9);
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0 0 0;
-    font-size: 1.1em;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  background-color: rgba(85, 114, 161, 0.8);
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9em;
+}
+
+con10t-show-if {
+  position: relative;
 }
 
 con10t-toc .panel,
 con10t-tree .panel {
-    text-align: left;
-    margin-bottom: 15px;
+  text-align: left;
+  margin-bottom: 15px;
 }
 
 con10t-catalog-tree .panel {
-    text-align: left;
-    margin-bottom: 15px;
+  text-align: left;
+  margin-bottom: 15px;
 }
 
-con10t-toc a, con10t-tree a,con10t-catalog-tree a {
-    cursor: pointer;
-    cursor: hand;
+con10t-toc a, con10t-tree a, con10t-catalog-tree a {
+  cursor: pointer;
+  cursor: hand;
 }
 
 .con10t-toc-entry {
-    padding-top: 55px;   /* Hack:                                                                */
-    margin-top:  -55px;  /* Offset headings, because anchors for toc lie under navbar otherwise. */
+  padding-top: 55px; /* Hack:                                                                */
+  margin-top: -55px; /* Offset headings, because anchors for toc lie under navbar otherwise. */
 }
 
 .con10t-toc-item {
-    margin-left: 1.5em;
-    text-indent: -1.5em;
-    margin-bottom: 4px;
+  margin-left: 1.5em;
+  text-indent: -1.5em;
+  margin-bottom: 4px;
 }
 
 .con10t-toc-item {
 }
+
 .con10t-toc-item.level-2 {
-    padding-left: 1em;
+  padding-left: 1em;
 }
+
 .con10t-toc-item.level-3 {
-    padding-left: 2em;
+  padding-left: 2em;
 }
+
 .con10t-toc-item.level-4 {
-    padding-left: 3em;
+  padding-left: 3em;
 }
+
 .con10t-toc-item.level-5 {
-    padding-left: 4em;
+  padding-left: 4em;
 }
+
 .con10t-toc-item.level-6 {
-    padding-left: 5em;
+  padding-left: 5em;
 }
 
 .con10t-catalog-tree-child, .con10t-tree-child {
-    text-indent: -0.6em;
-    margin-top: 5px;
-    margin-left: 0.6em;
-    padding-left: 0.6em;
+  text-indent: -0.6em;
+  margin-top: 5px;
+  margin-left: 0.6em;
+  padding-left: 0.6em;
 }
+
 .con10t-catalog-tree-child a, .con10t-tree-child a {
-    text-indent: 0;
+  text-indent: 0;
 }
 
 .con10t-catalog-tree-child .childcontent,
 .con10t-tree-child .childcontent {
-    padding-left: 10px;
-    margin: 3px 0 3px 0;
+  padding-left: 10px;
+  margin: 3px 0 3px 0;
 }
 
 .con10t-catalog-tree-child .searchinteraction,
 .con10t-tree-child .searchinteraction {
-    margin-left: 5px;
-    font-size: 11px;
-    color: #aaa;
+  margin-left: 5px;
+  font-size: 11px;
+  color: #aaa;
 }
 
 .con10t-catalog-tree-child .searchinteraction:hover,
 .con10t-tree-child .searchinteraction:hover {
-    color: rgba(85, 114, 161, 0.9);
+  color: rgba(85, 114, 161, 0.9);
 }
 
 .con10t-catalog-tree-children,
 .con10t-tree-children {
-    height: auto !important;
+  height: auto !important;
 }
 
 .con10t-sidebar .well {
-    padding: 19px 19px 10px;
+  padding: 19px 19px 10px;
 }

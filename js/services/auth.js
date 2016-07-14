@@ -23,6 +23,8 @@ function($http, arachneSettings, $filter, $cookieStore) {
                     $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
                     $cookieStore.put('ar-authdata', encoded);
                     $cookieStore.put('ar-user', { username: username });
+                    $cookieStore.put('ar-datasetgroups', response.datasetGroups);
+
                     successMethod();
                 }).error(function(response) {
                     errorMethod(response);
@@ -33,11 +35,16 @@ function($http, arachneSettings, $filter, $cookieStore) {
             document.execCommand("ClearAuthenticationCache");
             $cookieStore.remove('ar-authdata');
             $cookieStore.remove('ar-user');
+            $cookieStore.remove('ar-datasetgroups');
             delete $http.defaults.headers.common['Authorization'];
         },
 
         getUser: function() {
             return $cookieStore.get('ar-user');
+        },
+
+        getDatasetGroups: function() {
+            return $cookieStore.get('ar-datasetgroups') || [];
         }
 
     };

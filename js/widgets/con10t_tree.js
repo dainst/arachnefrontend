@@ -35,7 +35,6 @@ angular.module('arachne.widgets.directives')
                 id: "0"
             }];
             scope.isShown = {};
-            scope.permittedToView = true;
 
             scope.getNodeChildren = function(node) {
 
@@ -75,7 +74,6 @@ angular.module('arachne.widgets.directives')
 
                     if (!response.facets) {
                         console.error('[con10t_tree.js] No facets in response because of missing user rights or wrong facet query.');
-                        scope.permittedToView = false;
                         return false;
                     }
 
