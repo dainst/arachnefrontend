@@ -1,5 +1,5 @@
 {
-	"backendUri": "http://bogusman02.dai-cloud.uni-koeln.de/data",
+	"backendUri": "http://bogusman01.dai-cloud.uni-koeln.de/data",
 	"paths": {
 		"build": "dist/",
 		"lib": "node_modules/"
