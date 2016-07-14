@@ -20,9 +20,9 @@ return {
         function updateHref() {
             var href = "http://arachne.dainst.org/search?q=" + scope.q;
             if (scope.fq) {
-                var fqs = scope.fq.split(',');
+                var split, fqs = scope.fq.split(',');
                 fqs.forEach(function(fq) {
-                    var split = fq.split(':');
+                    split = fq.split(':');
                     href += '&fq='+split[0]+':"'+split[1]+'"';
                 });
             }
