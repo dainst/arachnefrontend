@@ -151,13 +151,6 @@ gulp.task('copy-con10t', function() {
         .pipe(gulp.dest(paths.build + '/con10t'));
 });
 
-gulp.task('test', function (done) {
-	new Server({
-		configFile: __dirname + '/test/karma.conf.js',
-		singleRun: true
-	}, done).start();
-});
-
 gulp.task('build', [
 	'minify-css',
 	'concat-deps',

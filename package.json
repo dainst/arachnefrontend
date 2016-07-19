@@ -6,7 +6,7 @@
     "url": "https://github.com/dainst/arachnefrontend.git"
   },
   "scripts": {
-    "tests": "karma start test/karma.conf",
+    "test": "karma start test/karma.conf",
     "e2e": "webdriver-manager update && protractor protractor.conf.js",
     "clean": "rimraf dist",
     "build": "gulp build",

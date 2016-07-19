@@ -30,7 +30,7 @@ sudo npm install -g gulp
 To run the unit tests, call
 
 ```bash
-npm run tests
+npm test
 ```
 
 This will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
