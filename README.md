@@ -63,7 +63,7 @@ In order to run the frontend in the development server use the following command
 npm start
 ```
 
-After that you should be able to access the frontend under [http://localhost:1234/](http://localhost:1234/).
+After that you should be able to access the frontend under [http://localhost:8082/](http://localhost:8082/).
 
 Any changes made to HTML, SCSS or JS files should automatically trigger a browser reload.
 

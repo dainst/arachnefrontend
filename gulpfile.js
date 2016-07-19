@@ -184,7 +184,7 @@ gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources'
 				modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.woff2|\\.woff|\\.ttf$ /index.html [L]']),
         	]
 		},
-		port: 1234
+		port: 8082
 	});
 
 	gulp.watch('scss/**/*.scss', ['compile-css']);
