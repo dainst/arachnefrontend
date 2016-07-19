@@ -14,7 +14,6 @@ var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var ngHtml2Js = require("gulp-ng-html2js");
 var minifyHtml = require("gulp-minify-html");
-var Server = require('karma').Server;
 var argv = require('yargs').argv;
 var replace = require('gulp-replace');
 
@@ -187,8 +186,4 @@ gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources'
     gulp.watch('con10t/**/*', ['copy-con10t']);
 
 	gulp.watch(['index.html', 'partials/**/*.html', 'js/**/*.js'], reload);
-});
-
-gulp.task('default', function() {
-	runSequence('clean', 'test', 'build');
 });
