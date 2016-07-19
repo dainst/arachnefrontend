@@ -73,7 +73,7 @@ angular.module('arachne.widgets.directives')
                 Entity.query(treeQuery.toFlatObject(), function(response) {
 
                     if (!response.facets) {
-                        console.error('[con10t_tree.js] No facets in response because of missing user rights or wrong facet query.');
+                        // Missing user rights or wrong facet query
                         return false;
                     }
 
