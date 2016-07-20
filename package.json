@@ -9,7 +9,7 @@
     "test": "karma start test/karma.conf",
     "e2e": "webdriver-manager update && protractor protractor.conf.js",
     "clean": "rimraf dist",
-    "build": "gulp build",
+    "build": "npm run clean && gulp build",
     "server": "gulp server",
     "start": "npm run server"
   },
