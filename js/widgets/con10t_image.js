@@ -12,6 +12,8 @@ angular.module('arachne.widgets.directives')
                 src: '@',
                 alt: '@',
                 align: '@',
+                width: '@',
+                height: '@',
                 entityId: '@'
             },
             transclude: true,

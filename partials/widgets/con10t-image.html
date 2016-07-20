@@ -1,4 +1,15 @@
 <div class="con10t-image con10t-image-{{align}}">
-    <img src="{{src}}" alt="{{alt}}" class="img-responsive">
+
+    <!-- Either show an image from a arachne with a specific entity identifier -->
+    <img ar-img
+         img-id="{{entityId}}"
+         img-width="{{width}}"
+         img-height="{{height}}"
+         class="img-responsive"
+         ng-if="entityId">
+
+    <!-- Or show an image from an url / src -->
+    <img ng-if="src" src="{{src}}" alt="{{alt}}" class="img-responsive">
     <div ng-if="showCaption" class="caption" ng-transclude></div>
+
 </div>
