@@ -108,6 +108,11 @@ angular.module('arachne.controllers')
                 for (var i = 0; i < $scope.facets.length; i++) {
                     var facet = $scope.facets[i];
                     facet.open = false;
+                    if (facet.values.length < $scope.currentQuery.fl) {
+                        facet.hasMore = false;
+                    } else {
+                        facet.hasMore = true;
+                    }
                     arachneSettings.openFacets.forEach(function (openName) {
                         if (facet.name.slice(0, openName.length) == openName) {
                             insert.unshift($scope.facets.splice(i--, 1)[0]);
@@ -145,6 +150,16 @@ angular.module('arachne.controllers')
             $scope.onSelectPage = function () {
                 var newOffset = ($scope.currentPage - 1) * $scope.currentQuery.limit;
                 $location.url('search' + $scope.currentQuery.setParam('offset', newOffset).toString());
+            };
+
+            $scope.loadMoreFacetValues = function(facet) {
+                searchService.loadMoreFacetValues(facet).then(function(hasMore) {
+                    facet.hasMore = hasMore;
+                    console.log(facet.name, facet.hasMore);
+                }, function (response) {
+                    if (response.status == '404') message.addMessageForCode('backend_missing');
+                    else message.addMessageForCode('search_' + response.status);
+                });
             };
 
         }

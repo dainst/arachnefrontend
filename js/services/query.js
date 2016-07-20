@@ -9,12 +9,13 @@ angular.module('arachne.services')
  *
  * @author: Sebastian Cuy
  */
-.factory('Query', function() {
+.factory('Query', ['arachneSettings', function(arachneSettings) {
 
     function Query() {
         this.facets = [];
         this.offset = 0;
-        this.limit = 50;
+        this.limit = arachneSettings.limit || 50;
+        this.fl = arachneSettings.facetLimit || 20;
     }
 
     Query.prototype = {
@@ -138,7 +139,7 @@ angular.module('arachne.services')
                     queries.push("catalogIds:" + this[key]);
                 } else if (key == 'q') {
                     queries.push(this[key]);
-                } else if (['fl','limit','sort','desc','ghprec','bbox','sf'].indexOf(key) != -1) {
+                } else if (['fl','limit','sort','desc','ghprec','bbox','sf','fo','facet'].indexOf(key) != -1) {
                     object[key] = this[key];
                 }
             }
@@ -172,4 +173,4 @@ angular.module('arachne.services')
 
     return Query;
 
-});
+}]);

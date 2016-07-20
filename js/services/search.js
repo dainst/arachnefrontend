@@ -126,6 +126,29 @@ function($location, Entity, $rootScope, Query, $q) {
             return result;
         },
 
+        // retrieve more facet values for the given facet
+        // returns a promise that resolves to true if more values
+        // were present and resolves to false otherwise
+        loadMoreFacetValues: function(facet) {
+            var query = angular.extend({limit:0},_currentQuery.toFlatObject());
+            query.fo = facet.values.length;
+            query.facet = facet.name;
+            if (!query.q) query.q = "*";
+            var deferred = $q.defer();
+            Entity.query(query, function(data) {
+                if (data.facets && data.facets.length && data.facets[0].values.length) {
+                    facet.values = facet.values.concat(data.facets[0].values);
+                    if (data.facets[0].values.length < query.fl) deferred.resolve(false);
+                    else deferred.resolve(true);
+                } else {
+                    deferred.resolve(false);
+                }
+            }, function(data) {
+                deferred.reject(data);
+            });
+            return deferred.promise;
+        },
+
         // get current results size
         getSize: function() {
             return _result.size;
