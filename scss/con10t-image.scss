@@ -1,3 +1,15 @@
+.con10t-image img {
+  padding: 0!important;
+}
+
+.con10t-image .caption {
+  border-bottom: 2px solid rgba(85, 114, 161, 0.3);
+  background-color: rgba(85, 114, 161, 0.2);
+  padding: 10px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
 .con10t-image-left {
   float: left;
   padding: 5px 25px 25px 0 !important;
