@@ -19,7 +19,7 @@ var replace = require('gulp-replace');
 
 var pkg = require('./package.json');
 
-var cfg = require('./dev-config.json');
+var cfg = require('./config/dev-config.json');
 
 var paths = cfg.paths;
 
