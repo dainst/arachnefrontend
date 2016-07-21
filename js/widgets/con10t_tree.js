@@ -36,21 +36,26 @@ angular.module('arachne.widgets.directives')
             }];
             scope.isShown = {};
 
-            scope.getNodeChildren = function(node) {
-
-                // TODO add proper object check
-                if (node.children != 0) {
-                    return;
+            var collectAllFacets = function(node) {
+                var result = [];
+                if (node.parent != null) {
+                    result.push(node.facet);
+                    result = result.concat(collectAllFacets(node.parent));
+                    return result;
                 }
+                return result;
+            };
 
-                var treeQuery = new Query(),
-                    len = scope.staticFacets.length;
+            var retrieveFacetValues = function(node) {
+
+                var treeQuery = new Query();
+                var len = scope.staticFacets.length;
 
                 for (var i = 0; i < len; i++) {
                     treeQuery = treeQuery.addFacet(scope.staticFacets[i][0], scope.staticFacets[i][1]);
                 }
 
-                var collectedFacets = this.collectAllFacets(node);
+                var collectedFacets = collectAllFacets(node);
 
                 len = collectedFacets.length;
 
@@ -62,12 +67,20 @@ angular.module('arachne.widgets.directives')
                 treeQuery.limit = 0;
 
                 // sorting of facet values
+                var currentFacet = null;
                 if (scope.hierarchyFacets.length > 0) {
-                    treeQuery.sf = scope.hierarchyFacets[node.depth];
+                    currentFacet = scope.hierarchyFacets[node.depth];
                 } else if (scope.wildcardFacet && collectedFacets.length > 0) {
                     var lastFacet = collectedFacets[0][0];
                     var lvl = parseInt(lastFacet[lastFacet.length-1]) + 1;
-                    treeQuery.sf = lastFacet.substr(0, lastFacet.length-1) + lvl;
+                    currentFacet = lastFacet.substr(0, lastFacet.length-1) + lvl;
+                }
+                treeQuery.sf = currentFacet;
+                treeQuery.facet = currentFacet;
+
+                // set offset if there are already children
+                if (node.children.length > 0) {
+                    treeQuery.fo = node.children.length;
                 }
 
                 Entity.query(treeQuery.toFlatObject(), function(response) {
@@ -87,6 +100,11 @@ angular.module('arachne.widgets.directives')
 
                             var len = currentResultFacet.values.length,
                                 value;
+
+                            node.hasMore = true;
+                            if (len < treeQuery.fl) {
+                                node.hasMore = false;
+                            }
 
                             for (var j = 0; j < len; j++) {
                                 
@@ -108,16 +126,17 @@ angular.module('arachne.widgets.directives')
                     }
                     scope.isShown[node.id] = true;
                 });
+
             };
 
-            scope.collectAllFacets = function(node) {
-                var result = [];
-                if (node.parent != null) {
-                    result.push(node.facet);
-                    result = result.concat(this.collectAllFacets(node.parent));
-                    return result;
+            scope.getNodeChildren = function(node) {
+
+                if (node.children != 0) {
+                    return;
                 }
-                return result;
+
+                retrieveFacetValues(node);
+               
             };
 
             scope.toggleCollapse = function(node) {
@@ -135,8 +154,12 @@ angular.module('arachne.widgets.directives')
                     scope.isShown[key] = false;
             };
 
+            scope.loadMoreValues = function(node) {
+                retrieveFacetValues(node);
+            };
+
             scope.startFacetedSearch = function(node) {
-                var facets = this.collectAllFacets(node);
+                var facets = collectAllFacets(node);
 
                 facets = facets.concat(scope.staticFacets);
 
@@ -147,7 +170,6 @@ angular.module('arachne.widgets.directives')
                     url += "&fq=" + facets[i][0] + ':"' + facets[i][1] + '"';
                 }
                 return url;
-                //$location.url(url);
             };
 
             scope.toggleCollapse(scope.treeRoot[0]);

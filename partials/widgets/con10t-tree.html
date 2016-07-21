@@ -29,6 +29,13 @@
         <span ng-if="node.children.length > 0">
             <div class="con10t-tree-children" ng-if="node.children" uib-collapse="!checkIfShown(node)">
                 <div ng-repeat="node in node.children" ng-include="'nodeTemplate'"></div>
+                <div ng-show="node.hasMore" class="more">
+                    <em>
+                        <a class="btn btn-link" href="#" ng-click="loadMoreValues(node)">
+                            {{ 'ui_show_more' | transl8 }}
+                        </a>
+                    </em>
+                </div>
             </div>
         </span>
 
