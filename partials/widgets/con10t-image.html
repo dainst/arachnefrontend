@@ -4,7 +4,6 @@
     <div ng-if="entityId">
         <a href="https://arachne.dainst.org/entity/{{entityId}}">
             <img ar-img
-                 ng-if="entityId"
                  img-id="{{entityId}}"
                  img-width="{{width}}"
                  img-height="{{height}}"
@@ -13,12 +12,19 @@
     </div>
 
     <!-- Or show an image from an url / src -->
-    <img ng-if="src"
-         src="{{src}}"
-         alt="{{alt}}"
-         width="{{width}}"
-         height="{{height}}"
-         class="img-responsive con10t-image-fromsrc">
+    <div ng-if="src">
+        <a href="#{{src}}">
+            <img src="{{src}}"
+                 alt="{{alt}}"
+                 width="{{width}}"
+                 height="{{height}}"
+                 class="img-responsive con10t-image-fromsrc">
+        </a>
+
+        <a href="#_" class="capsicum" id="{{src}}">
+            <img src="{{src}}">
+        </a>
+    </div>
 
     <div ng-if="showCaption" class="caption" ng-transclude></div>
 
