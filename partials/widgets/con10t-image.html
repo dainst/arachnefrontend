@@ -9,7 +9,12 @@
          class="img-responsive con10t-image-fromentityid">
 
     <!-- Or show an image from an url / src -->
-    <img ng-if="src" src="{{src}}" alt="{{alt}}" class="img-responsive con10t-image-fromsrc">
+    <img ng-if="src" src="{{src}}"
+         alt="{{alt}}"
+         width="{{width}}"
+         height="{{height}}"
+         class="img-responsive con10t-image-fromsrc">
+    
     <div ng-if="showCaption" class="caption" ng-transclude></div>
 
 </div>
