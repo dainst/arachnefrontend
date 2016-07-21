@@ -1,12 +1,16 @@
 <div class="con10t-image con10t-image-{{align}}">
 
     <!-- Either show an image from a arachne with a specific entity identifier -->
-    <img ar-img
-         ng-if="entityId"
-         img-id="{{entityId}}"
-         img-width="{{width}}"
-         img-height="{{height}}"
-         class="img-responsive con10t-image-fromentityid">
+    <div ng-if="entityId">
+        <a href="https://arachne.dainst.org/entity/{{entityId}}">
+            <img ar-img
+                 ng-if="entityId"
+                 img-id="{{entityId}}"
+                 img-width="{{width}}"
+                 img-height="{{height}}"
+                 class="img-responsive con10t-image-fromentityid">
+        </a>
+    </div>
 
     <!-- Or show an image from an url / src -->
     <img ng-if="src"
