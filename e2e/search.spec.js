@@ -25,4 +25,14 @@ describe('search result page', function() {
         expect(moreButton.isDisplayed()).toBe(false);
     });
 
+    it('should show a msg when searchresults exceed 10000', function(done) {
+        browser.get('/search?offset=9995&limit=6&q=*');
+
+        var messageBox = element(by.css('.alert-warning'));
+        expect(messageBox.isDisplayed()).toBe(true);
+        messageBox.element(by.css("b")).getText().then(function(text){
+            expect(text).toContain("10000");
+            done();
+        });
+    })
 });

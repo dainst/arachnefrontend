@@ -1,7 +1,7 @@
 <div class="row" ng-controller="SearchController">
 	
 	<!-- Loading-Icon -->
-	<div ng-hide="resultSize >= 0">
+	<div ng-hide="illegalQuery || resultSize >= 0">
 		<div class="loading" style="margin-top:70px;"></div>
 	</div>
 

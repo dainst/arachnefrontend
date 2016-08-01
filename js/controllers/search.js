@@ -2,13 +2,17 @@
 
 angular.module('arachne.controllers')
 
-    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService',
-        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService) {
-
+    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService','$timeout',
+        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService,$timeout) {
+            
             $rootScope.hideFooter = false;
             $scope.user = authService.getUser();
 
+            $scope.illegalQuery=false; // to indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.currentQuery = searchService.currentQuery();
+
+
+
             $scope.q = angular.copy($scope.currentQuery.q);
 
             $scope.sortableFields = arachneSettings.sortableFields;
@@ -98,38 +102,7 @@ angular.module('arachne.controllers')
                 }
             };
 
-            searchService.getCurrentPage().then(function (entities) {
-                $scope.entities = entities;
-                $scope.resultSize = searchService.getSize();
-                $scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
-                $scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
-                $scope.facets = searchService.getFacets();
-                var insert = [];
-                for (var i = 0; i < $scope.facets.length; i++) {
-                    var facet = $scope.facets[i];
-                    facet.open = false;
-                    if (facet.values.length < $scope.currentQuery.fl) {
-                        facet.hasMore = false;
-                    } else {
-                        facet.hasMore = true;
-                    }
-                    arachneSettings.openFacets.forEach(function (openName) {
-                        if (facet.name.slice(0, openName.length) == openName) {
-                            insert.unshift($scope.facets.splice(i--, 1)[0]);
-                            facet.open = true;
-                        }
-                    });
-                }
-                insert.forEach(function (facet) {
-                    $scope.facets.unshift(facet);
-                });
-                $scope.cells = $filter('cellsFromEntities')(entities, $scope.currentQuery);
-            }, function (response) {
-                $scope.resultSize = 0;
-                $scope.error = true;
-                if (response.status == '404') message.addMessageForCode('backend_missing');
-                else message.addMessageForCode('search_' + response.status);
-            });
+
 
             $scope.go = function (path) {
                 $location.url(path);
@@ -161,6 +134,53 @@ angular.module('arachne.controllers')
                     else message.addMessageForCode('search_' + response.status);
                 });
             };
+
+
+            if (parseInt($scope.currentQuery.limit)+parseInt($scope.currentQuery.offset)>10000) {
+
+                $timeout(function() { // unfortunately we have to do this to wait for the translations to load.
+                    message.clear();
+                    message.addMessageForCode('ui_search_too_big','warning',false);
+                    $scope.illegalQuery=true;
+                },1000);
+
+            } else {
+
+                searchService.getCurrentPage().then(function (entities) {
+
+                    $scope.entities = entities;
+                    $scope.resultSize = searchService.getSize();
+                    $scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
+                    $scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
+                    $scope.facets = searchService.getFacets();
+                    var insert = [];
+                    for (var i = 0; i < $scope.facets.length; i++) {
+                        var facet = $scope.facets[i];
+                        facet.open = false;
+                        if (facet.values.length < $scope.currentQuery.fl) {
+                            facet.hasMore = false;
+                        } else {
+                            facet.hasMore = true;
+                        }
+                        arachneSettings.openFacets.forEach(function (openName) {
+                            if (facet.name.slice(0, openName.length) == openName) {
+                                insert.unshift($scope.facets.splice(i--, 1)[0]);
+                                facet.open = true;
+                            }
+                        });
+                    }
+                    insert.forEach(function (facet) {
+                        $scope.facets.unshift(facet);
+                    });
+                    $scope.cells = $filter('cellsFromEntities')(entities, $scope.currentQuery);
+                }, function (response) {
+                    $scope.resultSize = 0;
+                    $scope.error = true;
+                    if (response.status == '404') message.addMessageForCode('backend_missing');
+                    else message.addMessageForCode('search_' + response.status);
+                });
+
+            }
 
         }
     ]);
