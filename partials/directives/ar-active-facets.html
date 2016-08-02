@@ -9,7 +9,7 @@
 	</a>
 	<a ng-repeat="facet in facets"
 			ng-href="{{route}}{{currentQuery.removeFacet(facet.key).removeParam('restrict').toString()}}"
-			class="btn btn-sm btn-block btn-primary linethrough-hover">
+			class="btn btn-sm btn-block btn-primary linethrough-hover" style="white-space: normal;">
 		<i>{{facet.key | transl8}}</i><br>
 		<strong>{{facet.value}}</strong>
 	</a>
