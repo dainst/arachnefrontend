@@ -18,6 +18,8 @@
 			<small ng-hide="cellTitle"><i>Ohne Titel</i></small>
 			<br/>
 			<small class="text-muted" ng-show="cellSubtitle">{{cellSubtitle}}</small>
+			<div ng-if="cellHighlighting" ng-bind-html="cellHighlighting">&nbsp;</div>
+
 		</div>
 	</a>
 </div>

@@ -11,6 +11,13 @@ angular.module('arachne.filters')
                 if (typeof entities[i].thumbnailId != 'undefined') {
                     entities[i].imgUri = arachneSettings.dataserviceUri + "/image/height/" + entities[i].thumbnailId + "?height=300";
                 }
+                if (typeof entities[i].highlights != 'undefined') {
+                    var highlights = []
+                    for (var highlightedField in entities[i].highlights) {
+                        highlights.push(entities[i].highlights[highlightedField].join('...'))
+                    }
+                    entities[i].highlighting = highlights.join(', ')
+                }
             }
             return entities;
         }
