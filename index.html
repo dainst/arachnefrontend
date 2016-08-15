@@ -1,55 +1,73 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="arachne" ng-strict-di="true">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<base id="baseLink" href="/">
+    <base id="baseLink" href="/">
 
-	<title>Arachne</title>
-	<link rel="shortcut icon" href="img/arachnelogo.png?build=BUILD_NO">
+    <title>Arachne</title>
+    <link rel="shortcut icon" href="img/arachnelogo.png?build=BUILD_NO">
 
-	<link rel="stylesheet" href="css/arachnefrontend.min.css?build=BUILD_NO">
+    <link rel="stylesheet" href="css/arachnefrontend.min.css?build=BUILD_NO">
 
-	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-	  ga('set', 'anonymizeIp', true);
+        ga('set', 'anonymizeIp', true);
 
-	  if(document.location.host === "arachne.dainst.org")
-  		ga('create', 'UA-53355031-1', 'auto');
-	  else
-	  	ga('create', 'UA-53342162-1', 'auto');
-	</script>
-
+        if (document.location.host === "arachne.dainst.org")
+            ga('create', 'UA-53355031-1', 'auto');
+        else
+            ga('create', 'UA-53342162-1', 'auto');
+    </script>
 </head>
 <body ng-controller="MenuController">
 
-	<idai-navbar
+<idai-navbar
         project-id="arachne"
-		login-function="openLoginModal()"
-		logout-function="logout()"
-		user-object="user"
-		hide-search-form="currentPath == '/'"></idai-navbar>
+        login-function="openLoginModal()"
+        logout-function="logout()"
+        user-object="user"
+        hide-search-form="currentPath == '/'"></idai-navbar>
 
-	<div class="container-fluid">
-		<div class="messages">
-			<idai-message></idai-message>
-		</div>
-		<!-- VIEWS -->
-		<div ng-cloak ui-view autoscroll></div>
-	</div>
-	<idai-footer ng-hide="$root.hideFooter"
-				 institutions="{'dai': 'http://www.dainst.de/', 'unikoeln': 'http://archaeologie.uni-koeln.de', 'codarchlab': 'http://archaeologie.uni-koeln.de/node/23'}"
-				 mailto="idai.objects@dainst.org"
-	             version="-VERSION-STRING-"></idai-footer>
+<div class="container-fluid">
+    <div class="messages">
+        <idai-message></idai-message>
+    </div>
+    <!-- VIEWS -->
+    <div ng-cloak ui-view autoscroll></div>
+</div>
+<idai-footer ng-hide="$root.hideFooter"
+             institutions="{'dai': 'http://www.dainst.de/', 'unikoeln': 'http://archaeologie.uni-koeln.de', 'codarchlab': 'http://archaeologie.uni-koeln.de/node/23'}"
+             mailto="idai.objects@dainst.org"
+             version="-VERSION-STRING-"></idai-footer>
 
-	<script src="arachnefrontend-deps.js?build=BUILD_NO"></script>
-	<script src="arachnefrontend.js?build=BUILD_NO"></script>
+<script src="arachnefrontend-deps.js?build=BUILD_NO"></script>
+<script src="arachnefrontend.js?build=BUILD_NO"></script>
+
+<noscript>
+    <div id="noscriptinfo">
+        <h1>
+            JavaScript ist in Ihrem Browser deaktiviert.<br>Um den vollen Funktionsumfang von <i>Arachne</i> zu nutzen,
+            aktivieren Sie bitte die JavaScript-Unterstützung Ihres Browsers.
+        </h1>
+        <h2>
+            JavaScript is disabled in your Webbrowser. Please enable JavaScript to use <i>Arachne</i> in its intended way.
+        </h2>
+    </div>
+</noscript>
 
 </body>
 </html>
