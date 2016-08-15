@@ -26,7 +26,8 @@
                         How to exclude keywords?
                     </uib-accordion-heading>
                     <p>
-                        By placing a hyphen in front of a keyword, you can exclude any objects from the search result, which
+                        By placing a hyphen in front of a keyword, you can exclude any objects from the search result,
+                        which
                         include the latter.
                     </p>
 
@@ -64,10 +65,12 @@
 
                 <uib-accordion-group>
                     <uib-accordion-heading>
-                        How to specifically search in single fields rather than searching the entire content of an object?
+                        How to specifically search in single fields rather than searching the entire content of an
+                        object?
                     </uib-accordion-heading>
                     <p>
-                        This can be achieved by prefixing the searched fields, separated by a colon. Following fields for
+                        This can be achieved by prefixing the searched fields, separated by a colon. Following fields
+                        for
                         object of all categories are currently available:
                     </p>
 
@@ -112,7 +115,8 @@
                         Are regular expressions supported?
                     </uib-accordion-heading>
                     <p>
-                        Yes, the search engine supports all common operators to formulate regular expressions. Latter must
+                        Yes, the search engine supports all common operators to formulate regular expressions. Latter
+                        must
                         be
                         placed between two slashes.
                     </p>
@@ -127,13 +131,15 @@
                         Are exclusively objects found, that contain the exact entered keywords?
                     </uib-accordion-heading>
                     <p>
-                        No, the keywords are adapted to the point that similar notations can be found. For example, words
+                        No, the keywords are adapted to the point that similar notations can be found. For example,
+                        words
                         are reduced to their respective families, so that "cow" ("Kuh") also finds "cows" ("Kühe") and
                         vice versa.
                     </p>
 
                     <p>
-                        Furthermore, the operator "~" allows for a rough, approximate search. That means that terms with a
+                        Furthermore, the operator "~" allows for a rough, approximate search. That means that terms with
+                        a
                         similar spelling than the specified keyword can also be found.
                     </p>
 
@@ -143,11 +149,12 @@
                 </uib-accordion-group>
 
                 <uib-accordion-group>
-                    <uib-accordion-heading >
+                    <uib-accordion-heading>
                         <span id="syntax_error"></span>
                         The search query caused a syntax error, what to do?
                     </uib-accordion-heading>
-                    <p>Syntax errors may occur if the request contains reserved search operators (eg. `/` or `~`). If these
+                    <p>Syntax errors may occur if the request contains reserved search operators (eg. `/` or `~`). If
+                        these
                         operators are used within a search, they can be escaped with `\` or be used as part of a search
                         phrase within `"`.</p>
                     <p class="query-example">Example: <a href="search?q=87\/243">87\/243</a>
@@ -166,10 +173,13 @@
                     <p>
                         By default search results in Arachne are ordered by relevance. This depends on one hand on the
                         relevance of an
-                        object in relation to the keywords. So objects appear earlier if they contain the keyword several
+                        object in relation to the keywords. So objects appear earlier if they contain the keyword
+                        several
                         times or in the title.
-                        On the other hand, the quality of a record flows into the relevance measurement. This gives highly
-                        contextualized, extensively illustrated and described objects a better position in search results.
+                        On the other hand, the quality of a record flows into the relevance measurement. This gives
+                        highly
+                        contextualized, extensively illustrated and described objects a better position in search
+                        results.
                     </p>
 
                     <p>The default sorting can be changed right above the display of search results</p>
@@ -180,16 +190,19 @@
                         Why are there sometimes more sometimes less filters being offered?
                     </uib-accordion-heading>
                     <p>
-                        There are a bunch of default filters, that are offered for any search. This includes "Location" and
+                        There are a bunch of default filters, that are offered for any search. This includes "Location"
+                        and
                         "Dating".
-                        In addition there are filters that only exist in certain categories, for example "Function" in the
+                        In addition there are filters that only exist in certain categories, for example "Function" in
+                        the
                         category "Object".
                         Those filters are only shown, if the filter "Category" has the corresponding category selected.
                     </p>
 
                     <p>
                         In a specific search only filters that can actually help filtering the search result are shown.
-                        If, for example in the search results no results are included for which a location is specified, the
+                        If, for example in the search results no results are included for which a location is specified,
+                        the
                         corresponding filter is not displayed.
                     </p>
                 </uib-accordion-group>
@@ -203,16 +216,38 @@
 
             </uib-accordion>
 
+            <h2 id="Troubleshooting">Troubleshooting</h2>
+
+            <uib-accordion>
+                <uib-accordion-group>
+                    <uib-accordion-heading>
+                        Why isn't Arachne displayed correctly in my webbrowser?
+                    </uib-accordion-heading>
+                    <p>
+                        Please ensure that you're using a modern web browser. Arachne supports current versions of
+                        Firefox, Chrome, Safari or the Internet Explorer / Edge. If Arachne contents aren't displayed
+                        correctly, make sure that
+                    </p>
+                    <ul>
+                        <li>Arachne-Cookies are accepted from your browser</li>
+                        <li>JavaScript is enabled in your webbrowser</li>
+                        <li>your ad blocking software isn't acting against Arachne.</li>
+                    </ul>
+                </uib-accordion-group>
+            </uib-accordion>
+
         </div>
         <div class="col-md-2">
             <ul ui-scrollfix="+100" class="nav nav-stacked faq-nav hidden-xs hidden-sm">
                 <li><a href="#Suche">Search</a></li>
                 <li><a href="#Suchergebnis">Search result view</a></li>
+                <li><a href="#Troubleshooting">Troubleshooting</a></li>
             </ul>
         </div>
         <div class="col-md-8 col-md-offset-2">
             <br/><br/>
-            <p>If you have a question, that isn't answered here, please send it to <a href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>.
+            <p>If you have a question, that isn't answered here, please send it to <a
+                    href="mailto:arachne@uni-koeln.de">arachne@uni-koeln.de</a>.
             </p>
         </div>
     </div>

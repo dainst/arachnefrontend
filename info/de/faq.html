@@ -14,7 +14,8 @@
                     <uib-accordion-heading>
                         Wie kann ich mehrere Suchbegriffe miteinander kombinieren?
                     </uib-accordion-heading>
-                    <p>Wenn Sie mehrere Begriffe eingeben, werden alle Objekte gefunden, in deren Inhalt alle Suchbegriffe
+                    <p>Wenn Sie mehrere Begriffe eingeben, werden alle Objekte gefunden, in deren Inhalt alle
+                        Suchbegriffe
                         vorkommen. Standardmäßig werden Suchbegriffe also mit einem logischen UND verknüpft.</p>
 
                     <p class="query-example">Beispiel: <a href="search?q=Akropolis Athen">Akropolis Athen</a></p>
@@ -24,7 +25,8 @@
                     <uib-accordion-heading>
                         Wie kann ich Suchbegriffe ausschließen?
                     </uib-accordion-heading>
-                    <p>Durch Voranstellen eines Bindestrichs können Sie alle Objekte aus dem Suchergebnis ausschließen, die
+                    <p>Durch Voranstellen eines Bindestrichs können Sie alle Objekte aus dem Suchergebnis ausschließen,
+                        die
                         den unmittelbar darauf folgenden Suchbegriff beinhalten.</p>
 
                     <p class="query-example">Beispiel: <a href="search?q=Akropolis -Athen">Akropolis -Athen</a></p>
@@ -35,10 +37,12 @@
                         Wie kann ich komplexere logische Verknüpfungen in der Suchanfrage formulieren?
                     </uib-accordion-heading>
                     <p>Arachne unterstützt die logischen Operatoren AND, OR und NOT. Beachten Sie dabei die übliche
-                        Operatorrangfolge: NOT hat Vorrang vor AND hat Vorrang vor OR. Sie können Klammern nutzen, um die
+                        Operatorrangfolge: NOT hat Vorrang vor AND hat Vorrang vor OR. Sie können Klammern nutzen, um
+                        die
                         Rangfolge der Verkettung festzulegen.</p>
 
-                    <p class="query-example">Beispiel: <a href="search?q=Herakles AND (Dionysos OR Bacchus)">Herakles AND
+                    <p class="query-example">Beispiel: <a href="search?q=Herakles AND (Dionysos OR Bacchus)">Herakles
+                        AND
                         (Dionysos OR Bacchus)</a></p>
                 </uib-accordion-group>
 
@@ -46,7 +50,8 @@
                     <uib-accordion-heading>
                         Wie kann ich nach einer festen Phrase statt nach mehreren unverbundenen Wörtern suchen?
                     </uib-accordion-heading>
-                    <p>Setzen Sie die Phrase in Anführungszeichen. Dadurch werden nur Objekte gefunden, die die Suchbegriffe
+                    <p>Setzen Sie die Phrase in Anführungszeichen. Dadurch werden nur Objekte gefunden, die die
+                        Suchbegriffe
                         in der angegebenen Reihenfolge enthalten.</p>
 
                     <p class="query-example">Beispiel: <a href="search?q=&quot;Akropolis von Athen&quot;">"Akropolis von
@@ -71,7 +76,8 @@
                     </ul>
 
                     <p class="query-example">Beispiele: <a href="search?q=title:&quot;Akropolis von Athen&quot;">title:"Akropolis
-                        von Athen"</a>, <a href="search?q=entityId:1">entityId:1</a>, <a href="search?q=internalId:500000">internalId:500000</a>,
+                        von Athen"</a>, <a href="search?q=entityId:1">entityId:1</a>, <a
+                            href="search?q=internalId:500000">internalId:500000</a>,
                         <a href="search?q=type:Topographien">type:Topographien</a>, <a
                                 href="search?q=subtitle:&quot;Attika&quot;">subtitle:"Attika"</a>, <a
                                 href="search?q=datasetGroup:Arachne">datasetGroup:Arachne</a></p>
@@ -89,7 +95,8 @@
                     </ul>
 
                     <p class="query-example">Beispiel: <a href="search?q=Akropolis*">Akropolis*</a><br/>
-                        <small>(findet neben "Akropolis" auch Begriffe wie "Akropolismuseum" oder "Akropolisberg")</small>
+                        <small>(findet neben "Akropolis" auch Begriffe wie "Akropolismuseum" oder "Akropolisberg")
+                        </small>
                     </p>
                 </uib-accordion-group>
 
@@ -97,7 +104,8 @@
                     <uib-accordion-heading>
                         Werden reguläre Ausdrücke unterstützt?
                     </uib-accordion-heading>
-                    <p>Ja, die Suche unterstützt die gängigen Operatoren zur Formulierung regulärer Ausdrücke. Diese müssen
+                    <p>Ja, die Suche unterstützt die gängigen Operatoren zur Formulierung regulärer Ausdrücke. Diese
+                        müssen
                         zwischen zwei Slashes gesetzt werden.</p>
 
                     <p class="query-example">Beispiel: <a href="search?q=/Pompe[ij]/">/Pompe[ij]/</a><br/>
@@ -144,9 +152,12 @@
                     <uib-accordion-heading>
                         Wonach richtet sich die Sortierung der Suchergebnisse?
                     </uib-accordion-heading>
-                    <p>Standardmäßig werden Suchergebnisse in Arachne nach ihrer Relevanz sortiert. Diese richtet sich zum
-                        einen nach der Relevanz eines Objekts in Bezug auf die Suchbegriffe. So werden bspw. Objekte weiter
-                        vorne angezeigt, wenn diese den Suchbegriff mehrfach oder im Titel enthalten. Außerdem fließt die
+                    <p>Standardmäßig werden Suchergebnisse in Arachne nach ihrer Relevanz sortiert. Diese richtet sich
+                        zum
+                        einen nach der Relevanz eines Objekts in Bezug auf die Suchbegriffe. So werden bspw. Objekte
+                        weiter
+                        vorne angezeigt, wenn diese den Suchbegriff mehrfach oder im Titel enthalten. Außerdem fließt
+                        die
                         Qualität eines Datensatzes in das Relevanzmaß mit ein. Dadurch erhalten stark kontextualisierte,
                         umfangreich bebilderte und ausführlich beschriebene Objekte eine bessere Position im
                         Suchergebnis.</p>
@@ -158,12 +169,14 @@
                     <uib-accordion-heading>
                         Warum werden mal mehr und mal weniger Filter angeboten?
                     </uib-accordion-heading>
-                    <p>Es gibt eine Reihe von Standardfiltern, die bei jeder Suche angeboten werden. Dazu gehören “Ort” und
+                    <p>Es gibt eine Reihe von Standardfiltern, die bei jeder Suche angeboten werden. Dazu gehören “Ort”
+                        und
                         “Datierung”. Zusätzlich gibt es Filter, die es nur in bestimmten Kategorien gibt, zum Beispiel
                         “Funktion” in der Kategorie “Objekt”. Diese Filter werden nur angezeigt, wenn beim Filter
                         “Kategorie” die entsprechende Kategorie ausgewählt ist.</p>
 
-                    <p>Bei einer konkreten Suche werden außerdem nur die Filter angezeigt, die tatsächlich helfen können,
+                    <p>Bei einer konkreten Suche werden außerdem nur die Filter angezeigt, die tatsächlich helfen
+                        können,
                         das Suchergebnis zu filtern. Wenn also zum Beispiel im Suchergebnis gar keine Treffer enthalten
                         sind, für die ein Ort angegeben ist, wird der entsprechende Filter auch nicht angezeigt.</p>
                 </uib-accordion-group>
@@ -177,11 +190,41 @@
 
             </uib-accordion>
 
+            <h2 id="Troubleshooting">Troubleshooting</h2>
+
+            <uib-accordion>
+                <uib-accordion-group>
+                    <uib-accordion-heading>
+                        Warum wird Arachne in meinem Webbrowser nicht korrekt dargestellt?
+                    </uib-accordion-heading>
+                    <p>
+                        Arachne basiert auf den Technologien MySQL/PHP/Apache; um Arachne benutzen zu können, benötigen
+                        Sie einen modernen Web-Browser. Unterstützt werden insbesondere aktuelle Versionen von Firefox,
+                        Chrome und Safari. Moderne Versionen des Internet Explorer werden ebenfalls unterstützt.
+                    </p>
+                    <p>
+                        Bitte stellen Sie sicher, dass in Ihrem Internet-Browser bestimmte Einstellungen aktiv sind: Zum
+                        einen müssen Sie "Cookies" von Arachne akzeptieren, zum anderen muss "JavaScript" aktiviert
+                        sein. Beide Einstellungen sind heutzutage automatisch aktiv, falls Sie sie nicht explizit
+                        abgeschaltet haben. Haben Sie einen Werbe-Blocker installiert und wird Ihnen bei Arachne 4 nur
+                        eine leere Seite angezeigt, so schalten Sie Ihren AdBlocker bitte probehalber ab.
+                    </p>
+                    <p>
+                        Arachne 4 wird in der Sprache angezeigt, die in Ihrem Browser als bevorzugte Sprache eingetragen
+                        ist, in Ihrem Falle also deutsch. Angezeigt wird Arachne in der Textkodierung "Unicode (UTF-8)"
+                        - Ihr Browser erkennt diese Textkodierung normalerweise automatisch. Zur optimalen
+                        Bilddarstellung beachten Sie bitte die Kalibration von Eye One für Gamma 2.2 und nativen
+                        Weißpunkt.
+                    </p>
+                </uib-accordion-group>
+            </uib-accordion>
+
         </div>
         <div class="col-md-2">
             <ul ui-scrollfix="+100" class="nav nav-stacked faq-nav hidden-xs hidden-sm">
                 <li><a href="#Suche">Suche</a></li>
                 <li><a href="#Suchergebnis">Suchergebnisansicht</a></li>
+                <li><a href="#Troubleshooting">Troubleshooting</a></li>
             </ul>
         </div>
         <div class="col-md-8 col-md-offset-2">
