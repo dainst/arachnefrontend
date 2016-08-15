@@ -3,7 +3,7 @@
 angular.module('arachne.directives')
 
 /**
- *
+ * @author: Jan G. Wieners
  */
 .directive('entitymap', ['$location', '$filter',
 function($location, $filter) {
@@ -16,9 +16,29 @@ function($location, $filter) {
 
             var map = L.map('entitymap').setView([40, -10], 3);
 
+            // Disable dragging functionality if outside of container bounds
+            L.Draggable.prototype._freeze=false;
+            L.Draggable.prototype._updatePosition= function () {
+                if(this._freeze) {
+                    return;
+                }
+
+                this.fire('predrag');
+                L.DomUtil.setPosition(this._element, this._newPos);
+                this.fire('drag');
+            };
+
             var layer = L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', {
                 maxZoom: 18,
                 minZoom: 2
+            });
+            // / Disable dragging functionality if outside of container bounds
+
+            map.on('mouseout', function() {
+                map.dragging._draggable._freeze=true;
+            });
+            map.on('mouseover', function() {
+                map.dragging._draggable._freeze=false;
             });
 
             map.addLayer(layer);
