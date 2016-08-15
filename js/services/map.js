@@ -133,6 +133,26 @@ angular.module('arachne.services')
             map = L.map(id, options);
             L.Icon.Default.imagePath = 'img';
 
+            // Disable dragging functionality if outside of container bounds
+            L.Draggable.prototype._freeze=false;
+            L.Draggable.prototype._updatePosition= function () {
+                if(this._freeze) {
+                    return;
+                }
+
+                this.fire('predrag');
+                L.DomUtil.setPosition(this._element, this._newPos);
+                this.fire('drag');
+            };
+
+            map.on('mouseout', function() {
+                map.dragging._draggable._freeze=true;
+            });
+            map.on('mouseover', function() {
+                map.dragging._draggable._freeze=false;
+            });
+            // / Disable dragging functionality if outside of container bounds
+
             if (bl){
                 boxesListener=bl;
 

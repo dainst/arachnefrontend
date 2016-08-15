@@ -28,17 +28,17 @@ function($location, $filter) {
                 this.fire('drag');
             };
 
-            var layer = L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                minZoom: 2
-            });
-            // / Disable dragging functionality if outside of container bounds
-
             map.on('mouseout', function() {
                 map.dragging._draggable._freeze=true;
             });
             map.on('mouseover', function() {
                 map.dragging._draggable._freeze=false;
+            });
+            // / Disable dragging functionality if outside of container bounds
+
+            var layer = L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                minZoom: 2
             });
 
             map.addLayer(layer);
