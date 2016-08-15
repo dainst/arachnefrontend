@@ -15,16 +15,16 @@
   },
   "dependencies": {
     "3dviewer": "https://github.com/dainst/3dviewer.git#v1.0.1",
-    "angular": "^1.5.7",
-    "angular-cookies": "^1.5.7",
-    "angular-resource": "^1.5.7",
-    "angular-sanitize": "^1.5.7",
+    "angular": "^1.5.8",
+    "angular-cookies": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular-sanitize": "^1.5.8",
     "angular-ui-bootstrap": "^1.3.2",
     "angular-ui-router": "^0.3.0",
     "angular-ui-tree": "^2.16.0",
     "angulartics": "~1.0.3",
     "angulartics-google-analytics": "^0.1.4",
-    "bootstrap": "^3.3.6",
+    "bootstrap": "^3.3.7",
     "font-awesome": "^4.6.1",
     "idai-components": "git://github.com/dainst/idai-components.git#v1.4.7",
     "leaflet": "^0.7.7",
@@ -33,11 +33,11 @@
     "showdown": "^1.4.2"
   },
   "devDependencies": {
-    "angular-mocks": "1.5.7",
-    "bootstrap-sass": "^3.3.6",
-    "browser-sync": "^2.12.5",
+    "angular-mocks": "1.5.8",
+    "bootstrap-sass": "^3.3.7",
+    "browser-sync": "^2.14.0",
     "connect-modrewrite": "^0.9.0",
-    "del": "^2.2.1",
+    "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.0",
@@ -58,10 +58,10 @@
     "phantomjs-prebuilt": "^2.1.7",
     "protractor": "^4.0.0",
     "proxy-middleware": "^0.14.0",
-    "rimraf": "^2.5.3",
+    "rimraf": "^2.5.4",
     "run-sequence": "^1.2.2",
     "url": "^0.11.0",
     "webdriver-manager": "^10.2.1",
-    "yargs": "^4.8.0"
+    "yargs": "^4.8.1"
   }
 }
