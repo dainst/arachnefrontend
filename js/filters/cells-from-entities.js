@@ -14,7 +14,11 @@ angular.module('arachne.filters')
                 if (typeof entities[i].highlights != 'undefined') {
                     var highlights = []
                     for (var highlightedField in entities[i].highlights) {
-                        highlights.push(entities[i].highlights[highlightedField].join('...'))
+                        if (highlightedField == "subtitle" || highlightedField == "title") {
+                            entities[i][highlightedField] = entities[i].highlights[highlightedField].join('...')
+                        } else {
+                            highlights.push(entities[i].highlights[highlightedField].join('...'))
+                        }
                     }
                     entities[i].highlighting = highlights.join(', ')
                 }

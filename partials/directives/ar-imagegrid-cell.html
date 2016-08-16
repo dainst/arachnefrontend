@@ -14,10 +14,10 @@
 		<div ng-hide="hideTitle"
 				class="ar-imagegrid-cell-title"
 				ng-style="{'width':cellWidth+'px'};">
-			<small>{{cellTitle}}</small>
+			<small ng-bind-html="cellTitle">{{cellTitle}}</small>
 			<small ng-hide="cellTitle"><i>Ohne Titel</i></small>
 			<br/>
-			<small class="text-muted" ng-show="cellSubtitle">{{cellSubtitle}}</small>
+			<small class="text-muted" ng-show="cellSubtitle" ng-bind-html="cellSubtitle">{{cellSubtitle}}</small>
 			<div ng-if="cellHighlighting" ng-bind-html="cellHighlighting">&nbsp;</div>
 
 		</div>
