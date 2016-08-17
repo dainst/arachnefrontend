@@ -33,6 +33,14 @@ To run the unit tests, call
 npm test
 ```
 
+Call
+
+```
+npm run e2e
+```
+
+to run the e2e tests.
+
 This will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
 
 ### con10t submodule
