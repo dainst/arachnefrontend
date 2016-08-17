@@ -2,7 +2,7 @@
 
 angular.module('arachne.directives')
 
-    .directive('focusMe', function ($timeout) {
+    .directive('focusMe', ['$timeout', function ($timeout) {
         return {
             link: function (scope, element, attrs, model) {
                 $timeout(function () {
@@ -10,4 +10,4 @@ angular.module('arachne.directives')
                 });
             }
         };
-    });
+    }]);

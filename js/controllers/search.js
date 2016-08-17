@@ -4,14 +4,12 @@ angular.module('arachne.controllers')
 
     .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService','$timeout',
         function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService,$timeout) {
-            
+
             $rootScope.hideFooter = false;
             $scope.user = authService.getUser();
 
             $scope.illegalQuery=false; // to indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.currentQuery = searchService.currentQuery();
-
-
 
             $scope.q = angular.copy($scope.currentQuery.q);
 
