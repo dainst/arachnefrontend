@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-    .controller('LoginController', ['$scope', '$uibModalInstance', 'authService', '$timeout', '$uibModal', '$window',
-        function ($scope, $uibModalInstance, authService, $timeout, $uibModal, $window) {
+    .controller('LoginController', ['$scope', '$uibModalInstance', 'authService', '$timeout',
+        function ($scope, $uibModalInstance, authService, $timeout) {
 
             $scope.loginData = {};
             $scope.loginerror = false;

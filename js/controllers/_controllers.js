@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('arachne.controllers', ['ui.bootstrap']);
+angular.module('arachne.controllers', []);
