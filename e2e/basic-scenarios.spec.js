@@ -12,7 +12,7 @@ describe('arachne 4 frontend', function() {
         browser.get('/');
     });
 
-    it('should have the total numver of entities listed on the front page', function() {
+    it('should have the total number of entities listed on the front page', function() {
         var entityCount = element(by.binding('entityCount'));
         expect(entityCount.isPresent()).toBe(true);
         expect(entityCount.getText()).toMatch(/[0-9,.]/);
