@@ -76,7 +76,10 @@ function($location, $filter) {
                 map.whenReady(function () {
                     window.setTimeout(function () {
                         if (markers.length > 1) map.fitBounds(mark.getBounds(), { padding: [20, 20] });
-                        else map.fitBounds(mark.getBounds(), { maxZoom: 5 });
+                        else {
+                            map.fitBounds(mark.getBounds(), { maxZoom: 5 });
+                            map.setMaxBounds(mark.getBounds());
+                        }
                     }.bind(this), 200);
                 }, this);
 
