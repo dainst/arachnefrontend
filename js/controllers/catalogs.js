@@ -10,9 +10,14 @@ angular.module('arachne.controllers')
     .controller('CatalogsController',['$scope', '$uibModal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings', 'message',
         function ($scope, $uibModal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings, message) {
 
+            $scope.user = authService.getUser();
+            if ($scope.user === undefined) {
+                return false;
+            }
+
             $scope.catalogs = [];
             $scope.entryMap = {};
-            $scope.user = authService.getUser();
+
             $scope.childrenLimit = 10;
 
             $http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username).success(function(user) {
