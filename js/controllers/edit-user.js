@@ -36,9 +36,16 @@ angular.module('arachne.controllers')
              * @return a new user object without non writable properties.
              */
             var filterWriteProtectedProperties = function (user) {
+
                 var newUser = JSON.parse(JSON.stringify(user));
                 delete newUser.groupID;
-                delete newUser.datasetGroups;
+
+                console.log(newUser.datasetGroups)
+
+                if (newUser.datasetGroups !== undefined) {
+                    delete newUser.datasetGroups;
+                }
+
                 delete newUser.emailValidation;
                 return newUser;
             };
