@@ -149,14 +149,41 @@
 			<h5 class="text-muted uppercase"><strong>{{'entity_places'|transl8}}</strong></h5>
         	<div class="well" entitymap places="entity.places" id="entitymap" style="height:200px;"></div>
     	</div>
-
-		<!-- NOTES -->
+    	
+		<!-- CATALOGES -->
 		<div ng-if="user.username">
-			<h5 class="text-muted uppercase"><strong>{{'entity_catalogs'|transl8}}</strong></h5>
-			<button type="button" class="btn btn-default btn-sm" ng-click="createEntry()">
-				<span class="glyphicon glyphicon-pushpin"></span> {{'entity_create_entry'|transl8}}
-			</button>
+			<h5 class="text-muted uppercase">
+				<strong>{{'entity_catalogs'|transl8}}</strong>	
+			</h5>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					{{'entity_catalog_info'|transl8}}
+				</div>
+				<ul class="list-group">
+					<a ng-repeat="catalogEntry in catalogEntries" ng-href="catalog/{{catalogEntry.catalogId}}" class="list-group-item">
+						<em>{{catalogEntry.author}}:</em><br>
+						<span class="text-muted uppercase">
+							<span class="glyphicon glyphicon-inbox" style="font-size:10px"></span>
+							<b>{{catalogEntry.catalogLabel}}</b>
+						</span>
+						<p class="small" style="font-style:italic;" ng-if="catalogEntry.text" markdown-to-html="catalogEntry.text"></p>
+					</a>					
+				</ul>
+
+				<div class="panel-footer">
+					<button type="button" class="list-group-item btn" style="text-align:center"  ng-click="createEntry()">
+						<span class="text-primary">
+							<span class="glyphicon glyphicon-plus"></span> {{'entity_create_entry'|transl8}}
+						</span>
+					</button>
+				</div>
+
+			</div>
+
 		</div>
+		
+
+	
 		<!-- END NOTES -->
 
 	</div>
@@ -209,25 +236,7 @@
 			<!-- CONTENT SECTION -->
 			<div class="col-md-8">
 
-				<uib-tabset ng-if="catalogEntries.length > 0">
-					<uib-tab ng-if="!entity.sections" heading="{{'entity_no_further_info'|transl8}}" select="updateCatalogEntryParameter()">
-						<div ng-if="!entity.sections">
-							<em>{{'entity_no_further_info'|transl8}}</em>
-						</div>
-					</uib-tab>
-					<uib-tab ng-if="entity.sections" heading="{{entity.sections[0].label}}" select="updateCatalogEntryParameter()">
-						<div ng-include="'sections_template.html'"></div>
-					</uib-tab>
-					<uib-tab ng-repeat="catalogEntry in catalogEntries" heading="{{catalogEntry.catalogLabel}}" active="catalogEntry.active" select="updateCatalogEntryParameter(catalogEntry)">
-						<div class="sections">
-							<li><strong>{{catalogEntry.label}}</strong></li><br>
-							<em>{{'entity_catalog_info'|transl8}} </em><a ng-href="catalog/{{catalogEntry.catalogId}}">{{catalogEntry.catalogLabel}}</a> <em>.</em><br>
-							<em>{{'catalog_author'|transl8}}: </em>{{catalogEntry.author}}<br>
-						</div>	
-						<br>
-						<span markdown-to-html="catalogEntry.text"></span>
-					</uib-tab>
-				</uib-tabset>
+				<div ng-include="'sections_template.html'"></div>
 
 				<div ng-if="catalogEntries.length == 0" ng-include="'sections_template.html'"></div>
 
