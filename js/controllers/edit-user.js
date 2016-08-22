@@ -38,11 +38,12 @@ angular.module('arachne.controllers')
             var filterWriteProtectedProperties = function (user) {
                 var newUser = JSON.parse(JSON.stringify(user));
                 delete newUser.groupID;
-                delete newUser.datasetGroups;
+                if (newUser.datasetGroups !== undefined) {
+                    delete newUser.datasetGroups;
+                }
                 delete newUser.emailValidation;
                 return newUser;
             };
-
 
             $scope.user = authService.getUser();
 

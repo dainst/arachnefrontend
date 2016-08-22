@@ -20,11 +20,15 @@ function($http, arachneSettings, $filter, $cookieStore) {
             var encoded = $filter('base64')(username + ':' + $filter('md5')(password));
             $http.get(arachneSettings.dataserviceUri + '/userinfo/'+username, { headers: { 'Authorization': 'Basic ' + encoded } })
                 .success(function(response) {
+
                     $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
                     $cookieStore.put('ar-authdata', encoded);
                     $cookieStore.put('ar-user', { username: username });
-                    $cookieStore.put('ar-datasetgroups', response.datasetGroups);
 
+                    if (response.datasetGroups !== undefined) {
+                        $cookieStore.put('ar-datasetgroups', response.datasetGroups);
+                    }
+                    
                     successMethod();
                 }).error(function(response) {
                     errorMethod(response);
