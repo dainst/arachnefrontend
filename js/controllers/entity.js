@@ -28,12 +28,13 @@ angular.module('arachne.controllers')
             }
 
             $scope.createEntry = function () {
-                //TODO: Parse Secitons in entry.text
+
+                //TODO: Parse Sections in entry.text
                 var createEntryPos = $uibModal.open({
                     templateUrl: 'partials/Modals/createEntryPos.html',
-                    controller: function ($scope) {
+                    controller: ['$scope', function ($scope) {
                         $scope.catalogs = Catalog.query()
-                    }
+                    }]
                 });
                 createEntryPos.close = function (catalog) {
                     var entry = {
