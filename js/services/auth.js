@@ -28,7 +28,7 @@ function($http, arachneSettings, $filter, $cookieStore) {
                     if (response.datasetGroups !== undefined) {
                         $cookieStore.put('ar-datasetgroups', response.datasetGroups);
                     }
-                    
+
                     successMethod();
                 }).error(function(response) {
                     errorMethod(response);
