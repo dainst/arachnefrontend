@@ -2,7 +2,7 @@
 
 angular.module('arachne.directives')
 
-    .directive('arFacetBrowser', ['Entity', '$location', function (Entity, $location) {
+    .directive('arFacetBrowser', ['Entity', function(Entity) {
         return {
 
             scope: {query: '=', facetName: '@', contextSize: '='},
