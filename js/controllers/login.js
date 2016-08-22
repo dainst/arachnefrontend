@@ -14,7 +14,6 @@ angular.module('arachne.controllers')
                     $scope.loginerror = false;
                     var closeModal = function () {
                         $uibModalInstance.close(authService.getUser());
-                        $route.reload();
                     };
                     $timeout(closeModal, 500);
                 }, function (response) {
