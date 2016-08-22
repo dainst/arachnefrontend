@@ -5,8 +5,7 @@ angular.module('arachne.directives')
 /**
  * @author: Jan G. Wieners
  */
-    .directive('entitymap', ['$location', '$filter',
-        function ($location, $filter) {
+    .directive('entitymap', [function() {
             return {
                 restrict: 'A',
                 scope: {
