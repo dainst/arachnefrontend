@@ -15,8 +15,8 @@ angular.module('arachne.controllers')
  *
  * @author: Daniel M. de Oliveira
  */
-    .controller('DataimportController', ['$scope', '$http', '$location', '$interval', 'arachneSettings', 'message',
-        function ($scope, $http, $location, $interval, arachneSettings, message) {
+    .controller('DataimportController', ['$scope', '$http', '$location', '$interval', 'arachneSettings',
+        function ($scope, $http, $location, $interval, arachneSettings) {
 
             var dataimportUri = arachneSettings.dataserviceUri + '/admin/dataimport';
             var requestPending = false; // true as long as a server request is pending and waiting for an answer or timeout
@@ -77,10 +77,10 @@ angular.module('arachne.controllers')
 
                 var clear = function () {
                     $scope.lastActionOutcome = undefined;
-                }
+                };
 
                 fetchDataimportInfo(clear);
-            }
+            };
 
 
             /**
@@ -106,7 +106,7 @@ angular.module('arachne.controllers')
                     }).finally(function () {
                     requestPending = false;
                 });
-            }
+            };
 
 
             /**
@@ -135,7 +135,7 @@ angular.module('arachne.controllers')
                     }).finally(function () {
                     requestPending = false;
                 });
-            }
+            };
 
             $scope.$watch('constantlyRefresh', function(constantlyRefresh) {
                 if (constantlyRefresh) {
