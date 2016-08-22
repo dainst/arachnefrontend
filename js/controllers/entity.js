@@ -127,13 +127,16 @@ angular.module('arachne.controllers')
                      * Hide map widget if no marker coordinates are provided
                      * Jan G. Wieners
                      */
-                    var cur, locationsExist = false, len = data.places.length;
-                    for (var j = len; j--;) {
+                    if (data.places !== undefined) {
 
-                        cur = data.places[j].location;
-                        if (cur && cur.lat && cur.lon) {
-                            locationsExist = true;
-                            break;
+                        var cur, locationsExist = false, len = data.places.length;
+                        for (var j = len; j--;) {
+
+                            cur = data.places[j].location;
+                            if (cur && cur.lat && cur.lon) {
+                                locationsExist = true;
+                                break;
+                            }
                         }
                     }
                     if (!locationsExist) {
