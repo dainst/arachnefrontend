@@ -8,7 +8,7 @@ angular.module('arachne',[
 	'ngResource',
 	'ngCookies',
 	'ng-showdown',
-	'angulartics', 
+	'angulartics',
 	'angulartics.google.analytics',
 	'relativePathsInPartial',
 	'ui.tree',
@@ -27,13 +27,13 @@ angular.module('arachne',[
 
 		$locationProvider.html5Mode(true);
 
-		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|blob):/)
+		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|blob):/);
 
 		$urlRouterProvider.when('', '/');
 		$urlRouterProvider.otherwise('/404');
-		
+
 		var title = "Arachne";
-		
+
 		$stateProvider
 			.state('404', { url: '/404', templateUrl: 'partials/404.html', data: { pageTitle: 'Arachne | 404' }})
 			.state('start', { url: '/', templateUrl: 'partials/startSite.html', data: { pageTitle: title }})
@@ -80,5 +80,4 @@ angular.module('arachne',[
 .constant('componentsSettings', {
 		transl8Uri: "https://arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK"
 	}
-)
-;
+);
