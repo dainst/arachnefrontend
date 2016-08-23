@@ -1,30 +1,36 @@
 <uib-accordion close-others="true" class="accordion-with-list">
-	<uib-accordion-group ng-repeat="facetValue in facetValues" ng-click="loadEntities($index)">
-		<uib-accordion-heading>
-			<a href="search{{facetQueries[$index].toString()}}">
-				<span class="badge pull-right">{{facetValue.count}}</span>
-				{{facetValue.value}}
-			</a>
-		</uib-accordion-heading>
-		<div>
-			<a ng-show="facetValue.count > 1"
-					ng-href="search{{facetQueries[$index].toString()}}"
-					style="cursor:pointer;"
-					class="text-center list-group-item">
-				<span class="glyphicon glyphicon-search"></span>
-				<strong>Alle Anzeigen</strong>
-			</a>
-		</div>
-		<div style="max-height:400px; overflow-y: auto;">
-			<a class="list-group-item" ng-repeat="entity in entities[$index]" ng-href="entity/{{entity.entityId}}{{facetQueries[$parent.$index].setParam('resultIndex',$index+1).toString()}}">
-				<div ar-entity-title entity="entity"></div>
-			</a>
-			<a ng-show="facetValue.count > entities[$index].length"
-					ng-href="search{{facetQueries[$index].toString()}}"
-					style="cursor:pointer;"
-					class="text-center list-group-item">
-				...
-			</a>
-		</div>
-	</uib-accordion-group>
+
+    <div uib-accordion-group class="uib-accordion-group"
+         ng-repeat="facetValue in facetValues" ng-click="loadEntities($index)">
+
+        <uib-accordion-heading>
+            <a href="search{{facetQueries[$index].toString()}}">
+                <span class="badge pull-right">{{facetValue.count}}</span>
+                {{facetValue.value}}
+            </a>
+        </uib-accordion-heading>
+        <div>
+            <a ng-show="facetValue.count > 1"
+               ng-href="search{{facetQueries[$index].toString()}}"
+               style="cursor:pointer;"
+               class="text-center list-group-item">
+                <span class="glyphicon glyphicon-search"></span>
+                <strong>Alle Anzeigen</strong>
+            </a>
+        </div>
+        <div style="max-height:400px; overflow-y: auto;">
+            <a class="list-group-item" ng-repeat="entity in entities[$index]"
+               ng-href="entity/{{entity.entityId}}{{facetQueries[$parent.$index].setParam('resultIndex',$index+1).toString()}}">
+                <div ar-entity-title entity="entity"></div>
+            </a>
+            <a ng-show="facetValue.count > entities[$index].length"
+               ng-href="search{{facetQueries[$index].toString()}}"
+               style="cursor:pointer;"
+               class="text-center list-group-item">
+                ...
+            </a>
+        </div>
+
+    </div>
+
 </uib-accordion>

@@ -447,6 +447,10 @@ hr {
   content:url("../img/arachnelogo.png");
 }
 
+.uib-accordion-group.panel {
+  border-color: #ddd;
+}
+
 /* Für Filter-Seite, an den Facetten */
 .accordion-with-list .panel-body {
   padding: 0px;
@@ -455,7 +459,9 @@ hr {
   cursor: pointer;
 }
 .accordion-with-list .list-group-item {
-  border:0px;border-bottom:1px solid #DDDDDD; margin-bottom:0px;
+  border: 0;
+  border-bottom: 1px solid #DDDDDD;
+  margin-bottom: 0;
 }
 #projectTeaser {
   padding-bottom: 15px;
