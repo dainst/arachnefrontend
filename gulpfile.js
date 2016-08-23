@@ -29,7 +29,7 @@ var cssDeps = [
 ];
 
 var jsDeps = [
-    paths.lib + 'angular/angular.min.js',
+    paths.lib + 'angular/angular.js',
     paths.lib + 'angular-ui-router/release/angular-ui-router.min.js',
     paths.lib + 'angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
     paths.lib + 'angular-ui-bootstrap/dist/ui-bootstrap.js',
