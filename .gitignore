@@ -21,6 +21,10 @@ node_modules/
 ###################
 dist
 
+# config #
+##########
+config/dev-config.json
+
 
 
 
