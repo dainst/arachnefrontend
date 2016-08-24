@@ -55,13 +55,13 @@
     "karma-jasmine": "^1.0.2s",
     "karma-ng-html2js-preprocessor": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.1",
-    "phantomjs-prebuilt": "^2.1.7",
-    "protractor": "^4.0.0",
+    "phantomjs-prebuilt": "^2.1.12",
+    "protractor": "^4.0.3",
     "proxy-middleware": "^0.15.0",
     "rimraf": "^2.5.4",
     "run-sequence": "^1.2.2",
     "url": "^0.11.0",
-    "webdriver-manager": "^10.2.1",
+    "webdriver-manager": "^10.2.2",
     "yargs": "^5.0.0"
   }
 }
