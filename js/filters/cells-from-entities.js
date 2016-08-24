@@ -4,29 +4,31 @@ angular.module('arachne.filters')
         return function (entities, query) {
 
             for (var i in entities) {
+
+                var currentEntity = entities[i];
                 
-                entities[i].label = categoryService.getSingular(entities[i].type);
-                entities[i].href = 'entity/' + entities[i].entityId;
+                currentEntity.label = categoryService.getSingular(currentEntity.type);
+                currentEntity.href = 'entity/' + currentEntity.entityId;
 
                 if (typeof query != 'undefined') {
-                    entities[i].href += query.setParam("resultIndex", (parseInt(query.offset) + parseInt(i) + 1)).toString();
+                    currentEntity.href += query.setParam("resultIndex", (parseInt(query.offset) + parseInt(i) + 1)).toString();
                 }
-                if (typeof entities[i].thumbnailId != 'undefined') {
-                    entities[i].imgUri = arachneSettings.dataserviceUri + "/image/height/" + entities[i].thumbnailId + "?height=300";
+                if (typeof currentEntity.thumbnailId != 'undefined') {
+                    currentEntity.imgUri = arachneSettings.dataserviceUri + "/image/height/" + currentEntity.thumbnailId + "?height=300";
                 }
 
-                if (typeof entities[i].highlights != 'undefined') {
+                if (typeof currentEntity.highlights != 'undefined') {
 
                     var highlights = [];
-                    for (var highlightedField in entities[i].highlights) {
+                    for (var highlightedField in currentEntity.highlights) {
 
                         if (highlightedField === "subtitle" || highlightedField === "title") {
-                            entities[i][highlightedField] = entities[i].highlights[highlightedField].join('...')
+                            currentEntity[highlightedField] = currentEntity.highlights[highlightedField].join('...')
                         } else {
-                            highlights.push(entities[i].highlights[highlightedField].join('...<hr>'))
+                            highlights.push(currentEntity.highlights[highlightedField].join('...<hr>'))
                         }
                     }
-                    entities[i].highlighting = highlights.join(', ');
+                    currentEntity.highlighting = highlights.join(', ');
                 }
             }
             return entities;
