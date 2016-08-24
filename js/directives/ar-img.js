@@ -21,8 +21,10 @@ angular.module('arachne.directives')
                         var imgUri = arachneSettings.dataserviceUri + "/image/";
                         if (scope.imgWidth) {
                             imgUri += "width/" + scope.imgId + "?width=" + scope.imgWidth;
-                        } else {
+                        } else if (scope.imgHeight) {
                             imgUri += "height/" + scope.imgId + "?height=" + scope.imgHeight;
+                        } else {
+                            imgUri += scope.imgId;
                         }
                         $http.get(imgUri, {responseType: 'arraybuffer'})
                             .success(function (data) {
