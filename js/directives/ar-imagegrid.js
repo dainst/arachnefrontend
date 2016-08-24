@@ -16,6 +16,7 @@ angular.module('arachne.directives')
             link: function (scope, element, attrs) {
 
                 scope.loadImage = function (cell) {
+
                     cell.img = new Image();
                     cell.img.addEventListener("load", function () {
                         // custom event handlers need to be wrapped in $apply
@@ -42,49 +43,61 @@ angular.module('arachne.directives')
 
                 scope.resizeRow = function (row) {
 
+                    var i, len;
+                    
+                    len = row.length;
+
                     // only resize if every cell in the row is complete
-                    for (var i = 0; i < row.length; i++) {
+                    for (i = 0; i < len; i++) {
                         if (!row[i].complete) return;
                     }
 
                     var imagesWidth = 0;
                     var maxHeight = 0;
 
-                    for (var i = 0; i < row.length; i++) {
+                    for (i = 0; i < len; i++) {
                         imagesWidth += row[i].img.naturalWidth;
                     }
 
                     var columns = scope.columns;
                     var totalWidth = element[0].clientWidth - 1;
                     totalWidth -= columns * scope.margin * 2;
+                    
                     // fill rows with fewer columns
-                    if (row.length < columns) {
-                        imagesWidth += (columns - row.length) * (totalWidth / columns)
+                    if (len < columns) {
+                        imagesWidth += (columns - len) * (totalWidth / columns)
                     }
                     var scalingFactor = totalWidth / imagesWidth;
 
-                    for (var i = 0; i < row.length; i++) {
-                        row[i].width = row[i].img.naturalWidth * scalingFactor;
+                    var currentRow;
+                    for (i = 0; i < len; i++) {
+
+                        currentRow = row[i];
+                        
+                        currentRow.width = currentRow.img.naturalWidth * scalingFactor;
                         if (scalingFactor > 1) {
-                            row[i].imgWidth = row[i].img.naturalWidth;
+                            currentRow.imgWidth = currentRow.img.naturalWidth;
                         } else {
-                            row[i].imgWidth = row[i].width;
+                            currentRow.imgWidth = currentRow.width;
                         }
                         var height;
                         if (scalingFactor > 1) {
-                            height = row[i].img.naturalHeight;
+                            height = currentRow.img.naturalHeight;
                         } else {
-                            height = row[i].img.naturalHeight * scalingFactor;
+                            height = currentRow.img.naturalHeight * scalingFactor;
                         }
                         if (height > maxHeight) maxHeight = height;
                     }
 
-                    for (var i = 0; i < row.length; i++) {
+                    for (i = 0; i < len; i++) {
                         row[i].height = maxHeight;
                     }
 
                     row.complete = true;
-                    for (var i = 0; i < scope.grid.length; i++) {
+                    len = scope.grid.length;
+                    
+                    for (i = 0; i < len; i++) {
+                        
                         if (!scope.grid[i].complete) {
                             scope.complete = false;
                             break;
@@ -97,9 +110,13 @@ angular.module('arachne.directives')
 
                 angular.element($window).bind('resize', function () {
                     scope.$apply(function () {
+
                         scope.complete = false;
-                        for (var i = 0; i < scope.grid.length; i++) {
-                            var row = scope.grid[i];
+                        var row, len = scope.grid.length;
+
+                        for (var i = 0; i < len; i++) {
+
+                            row = scope.grid[i];
                             row.complete = false;
                             scope.resizeRow(row);
                         }
@@ -121,9 +138,13 @@ angular.module('arachne.directives')
                     var columns = $scope.columns;
                     var rows = Math.ceil($scope.cells.length / columns);
                     $scope.grid = new Array(rows);
+
                     for (var i = 0; i < rows; i++) {
+
                         $scope.grid[i] = new Array(columns);
+
                         for (var k = 0; k < columns; k++) {
+
                             if (i * columns + k >= $scope.cells.length) break;
                             var index = i * columns + k;
                             var cell = $scope.cells[index];
