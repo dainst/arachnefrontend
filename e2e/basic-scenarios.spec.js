@@ -18,7 +18,7 @@ describe('arachne 4 frontend', function() {
         expect(entityCount.getText()).toMatch(/[0-9,.]/);
     });
 
-    fit('should open a login modal when the login button has been clicked on display devices with screenwidth >= 1280', function() {
+    it('should open a login modal when the login button has been clicked on display devices with screenwidth >= 1280', function() {
 
         browser.driver.manage().window().setSize(1280, 1024);
         var loginButton = element(by.css('#loginbutton'));
