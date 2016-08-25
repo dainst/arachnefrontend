@@ -1,11 +1,11 @@
 <div ng-controller="EntityImageController" id="theimage" class="row fullscreenrow">
 
 	<!-- message for anonymous users -->
-	<div ng-if="!allow" class="col-md-12 text-right alert alert-info">
-		{{ 'entity_resolution_login' | transl8 }}<span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 75px 0 10px; font-size: 20px;"></span>
+	<div ng-if="!allow" class="col-md-12 text-right alert alert-info" style="padding: 5px; border-radius:0; z-index:500;">
+		{{ 'entity_resolution_login' | transl8 }}<span class="glyphicon glyphicon-share-alt" style="-webkit-transform:rotate(90deg) scaleX(-1); transform:rotate(90deg) scaleX(-1); margin: 0 125px 0 10px; font-size: 14px;"></span>
 	</div>
 
-	<!-- image viewer -->
+	<!-- zoomable image viewer for logged in users -->
 	<div zoomifyimg ng-if="allow && imageProperties.width"
 			entityid="{{imageId}}"
 			imageProperties="{{imageProperties}}"
@@ -14,10 +14,15 @@
 			style="height:100%">
 	</div>
 
+	<!-- low res image for anonymous users -->
+	<div ng-if="!allow || imageProperties.width" style="height:100%; position:relative; background-color:#ddd;">
+		<img ar-img img-id="{{imageId}}" style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
+	</div>
+
 	<!-- toolbox in upper right corner -->
-	<div ng-if="allow && entity" 
+	<div ng-if="entity" 
 			class="btn-group-vertical"
-			style="opacity:0.8; position:absolute; right:10px; top:60px;">
+			style="opacity:0.8; position:absolute; right:10px; top:90px;">
 		<a class="btn btn-default btn-sm" href="entity/{{entity.entityId}}{{currentQuery.toString()}}">
 			<div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">
 				<span class="glyphicon glyphicon-arrow-left"></span>
@@ -41,7 +46,7 @@
 	</div>
 
 	<!-- paging -->
-	<div ng-if="allow && entity.images"
+	<div ng-if="entity.images"
 			style="opacity:0.8; position:absolute; bottom:10px; left:50%; margin-left:-80px">
 
 		<a ng-if="imageIndex == 0"

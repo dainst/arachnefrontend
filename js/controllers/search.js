@@ -2,13 +2,17 @@
 
 angular.module('arachne.controllers')
 
-    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService','$timeout',
-        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService,$timeout) {
+/**
+ * @author: Jan G. Wieners
+ */
+
+    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
+        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService, $timeout) {
 
             $rootScope.hideFooter = false;
             $scope.user = authService.getUser();
 
-            $scope.illegalQuery=false; // to indicate that the query will not be performed because it violates one or more constraints of some sort
+            $scope.illegalQuery = false; // to indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.currentQuery = searchService.currentQuery();
 
             $scope.q = angular.copy($scope.currentQuery.q);
@@ -25,7 +29,13 @@ angular.module('arachne.controllers')
 
             //-------------------- Query to Catalog --------------
             $scope.toCatalog = function () {
+
+                return;
+
+                // ToDo: Query
+
                 var count = searchService.getSize();
+                console.log('COUNT', count);
 
                 if (count >= 1000)
                     return;
@@ -34,15 +44,33 @@ angular.module('arachne.controllers')
                 var error = false;
                 $scope.catalogEntries = [];
 
+                // ToDo: Use ONE query...
+                var query = angular.extend({offset: off, limit: 50}, $scope.currentQuery.toFlatObject());
+                var entityQuery = Entity.query(query);
+
+                var entities;
+
+                // ToDo: ...and work asynchronously with the query results
+                entityQuery.$promise.then(function (result) {
+                    console.log('ENTITIESQUERIED', result)
+                    entities = result;
+                }, function (err) {
+                    console.log('Error in retrieving entities.');
+                });
+
+                // ToDo: Query entities only once
                 while (count >= 0) {
-                    var query = angular.extend({offset: off, limit: 50}, $scope.currentQuery.toFlatObject());
-                    var entities = Entity.query(query);
+
+                    var len;
 
                     setTimeout(function () {
+
                         if (!entities.entities) {
-                            //zu lagsam, mehr Zeit
+                            //zu langsam, mehr Zeit
                             setTimeout(function () {
-                                for (var i = 0; i <= entities.entities.length - 1; i++) {
+
+                                len = entities.entities.length;
+                                for (var i = 0; i <= len - 1; i++) {
                                     $scope.catalogEntries[off + i] = {
                                         "arachneEntityId": entities.entities[i].entityId,
                                         "label": entities.entities[i].title,
@@ -53,6 +81,8 @@ angular.module('arachne.controllers')
                             }, 1000);
 
                         } else {
+
+                            len = entities.entities.length;
                             for (var i = 0; i <= entities.entities.length - 1; i++) {
                                 $scope.catalogEntries[off + i] = {
                                     "arachneEntityId": entities.entities[i].entityId,
@@ -74,6 +104,9 @@ angular.module('arachne.controllers')
                     text = text + " " + $scope.currentQuery.toFlatObject().fq[i];
                 }
                 if (!error) {
+
+                    // ToDo: Ensure that all catalog entries were loaded
+                    // console.log('ENTRIES', $scope.catalogEntries);
                     var bufferCatalog = {
                         author: $scope.user.username,
                         root: {
@@ -100,8 +133,6 @@ angular.module('arachne.controllers')
                 }
             };
 
-
-
             $scope.go = function (path) {
                 $location.url(path);
             };
@@ -123,8 +154,8 @@ angular.module('arachne.controllers')
                 $location.url('search' + $scope.currentQuery.setParam('offset', newOffset).toString());
             };
 
-            $scope.loadMoreFacetValues = function(facet) {
-                searchService.loadMoreFacetValues(facet).then(function(hasMore) {
+            $scope.loadMoreFacetValues = function (facet) {
+                searchService.loadMoreFacetValues(facet).then(function (hasMore) {
                     facet.hasMore = hasMore;
                     console.log(facet.name, facet.hasMore);
                 }, function (response) {
@@ -134,13 +165,13 @@ angular.module('arachne.controllers')
             };
 
 
-            if (parseInt($scope.currentQuery.limit)+parseInt($scope.currentQuery.offset)>10000) {
+            if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
 
-                $timeout(function() { // unfortunately we have to do this to wait for the translations to load.
+                $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
                     message.clear();
-                    message.addMessageForCode('ui_search_too_big','warning',false);
-                    $scope.illegalQuery=true;
-                },1000);
+                    message.addMessageForCode('ui_search_too_big', 'warning', false);
+                    $scope.illegalQuery = true;
+                }, 1000);
 
             } else {
 
