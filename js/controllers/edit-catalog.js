@@ -2,9 +2,9 @@
 
 angular.module('arachne.controllers')
 
-    .controller('EditCatalogController', ['$scope', '$uibModalInstance', 'catalog', 'edit',
-        function ($scope, $uibModalInstance, catalog, edit) {
+    .controller('EditCatalogController', ['$scope', '$uibModalInstance', 'catalog', 'Entity',
+        function ($scope, $uibModalInstance, catalog, Entity) {
             $scope.catalog = catalog;
-            $scope.edit = edit;
+            $scope.edit = Entity;
         }
     ]);
