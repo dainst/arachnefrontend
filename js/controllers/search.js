@@ -9,16 +9,15 @@ angular.module('arachne.controllers')
     .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
         function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService, $timeout) {
 
+            // To indicate that the query will not be performed because it violates one or more constraints of some sort
+            $scope.illegalQuery = false;
             $rootScope.hideFooter = false;
             $scope.user = authService.getUser();
-
-            $scope.illegalQuery = false; // to indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.currentQuery = searchService.currentQuery();
-
             $scope.q = angular.copy($scope.currentQuery.q);
-
             $scope.sortableFields = arachneSettings.sortableFields;
-            // ignore unknown sort fields
+
+            // Ignore unknown sort fields
             if (arachneSettings.sortableFields.indexOf($scope.currentQuery.sort) == -1) {
                 delete $scope.currentQuery.sort;
             }
@@ -27,110 +26,78 @@ angular.module('arachne.controllers')
                 $scope.categories = categories;
             });
 
-            //-------------------- Query to Catalog --------------
-            $scope.toCatalog = function () {
+            $scope.createCatalogTextForCurrentQuery = function () {
 
-                return;
+                var curQuery = $scope.currentQuery,
+                    text = curQuery.toFlatObject().q,
+                    facets = curQuery.toFlatObject().fq,
+                    len = facets.length;
 
-                // ToDo: Query
+                for (var i = 0; i < len; i++) {
+                    text += " " + curQuery.toFlatObject().fq[i];
+                }
 
-                var count = searchService.getSize();
-                console.log('COUNT', count);
+                return text;
+            };
 
-                if (count >= 1000)
-                    return;
+            $scope.processCatalogEntities = function (entities) {
 
-                var off = 0;
-                var error = false;
-                $scope.catalogEntries = [];
+                var entity, len = entities.length;
 
-                // ToDo: Use ONE query...
-                var query = angular.extend({offset: off, limit: 50}, $scope.currentQuery.toFlatObject());
-                var entityQuery = Entity.query(query);
+                for (var i = len; i--;) {
 
-                var entities;
+                    entity = entities[i];
 
-                // ToDo: ...and work asynchronously with the query results
-                entityQuery.$promise.then(function (result) {
-                    console.log('ENTITIESQUERIED', result)
-                    entities = result;
-                }, function (err) {
-                    console.log('Error in retrieving entities.');
+                    $scope.catalogEntries.push({
+                        "arachneEntityId": entity.entityId,
+                        "label": entity.title,
+                        "text": entity.subtitle
+                    });
+                }
+
+                var catalogFromSearch = $uibModal.open({
+                    templateUrl: 'partials/Modals/editCatalog.html',
+                    controller: 'EditCatalogController',
+                    resolve: {
+                        catalog: function () {
+                            return {
+                                author: $scope.user.username,
+                                root: {
+                                    label: $scope.currentQuery.label,
+                                    text: $scope.createCatalogTextForCurrentQuery(),
+                                    children: $scope.catalogEntries
+                                }
+                            }
+                        }
+                    }
                 });
 
-                // ToDo: Query entities only once
-                while (count >= 0) {
+                catalogFromSearch.close = function (newCatalog) {
 
-                    var len;
-
-                    setTimeout(function () {
-
-                        if (!entities.entities) {
-                            //zu langsam, mehr Zeit
-                            setTimeout(function () {
-
-                                len = entities.entities.length;
-                                for (var i = 0; i <= len - 1; i++) {
-                                    $scope.catalogEntries[off + i] = {
-                                        "arachneEntityId": entities.entities[i].entityId,
-                                        "label": entities.entities[i].title,
-                                        "text": entities.entities[i].subtitle
-                                    }
-                                }
-                                off += 50;
-                            }, 1000);
-
-                        } else {
-
-                            len = entities.entities.length;
-                            for (var i = 0; i <= entities.entities.length - 1; i++) {
-                                $scope.catalogEntries[off + i] = {
-                                    "arachneEntityId": entities.entities[i].entityId,
-                                    "label": entities.entities[i].title,
-                                    "text": entities.entities[i].subtitle
-                                }
-                            }
-                            off += 50;
-                        }
-
-                    }, 500);
-
-                    count -= 50;
-                }
-
-                var text = $scope.currentQuery.toFlatObject().q;
-
-                for (var i = 0; i <= $scope.currentQuery.toFlatObject().fq.length - 1; i++) {
-                    text = text + " " + $scope.currentQuery.toFlatObject().fq[i];
-                }
-                if (!error) {
-
-                    // ToDo: Ensure that all catalog entries were loaded
-                    // console.log('ENTRIES', $scope.catalogEntries);
-                    var bufferCatalog = {
-                        author: $scope.user.username,
-                        root: {
-                            label: $scope.currentQuery.label,
-                            text: text,
-                            children: $scope.catalogEntries
-                        }
-                    };
-                    var catalogFromSearch = $uibModal.open({
-                        templateUrl: 'partials/Modals/editCatalog.html',
-                        controller: 'EditCatalogController',
-                        resolve: {
-                            catalog: function () {
-                                return bufferCatalog
-                            }
-                        }
+                    //newCatalog.public = false;
+                    Catalog.save({}, newCatalog, function (result) {
                     });
-                    catalogFromSearch.close = function (newCatalog) {
-                        newCatalog.public = false;
-                        Catalog.save({}, newCatalog, function (result) {
-                        });
-                        catalogFromSearch.dismiss();
-                    }
+                    catalogFromSearch.dismiss();
                 }
+            };
+
+            $scope.createCatalogFromSearch = function () {
+
+                if (searchService.getSize() > 999) {
+                    return;
+                }
+
+                $scope.catalogEntries = [];
+
+                var entityQuery = Entity.query(angular.extend($scope.currentQuery.toFlatObject(), {
+                    offset: 0, limit: 1000
+                }));
+
+                entityQuery.$promise.then(function (result) {
+                    $scope.processCatalogEntities(result.entities)
+                }, function (err) {
+                    console.log('Error in retrieving entities.', err);
+                });
             };
 
             $scope.go = function (path) {
