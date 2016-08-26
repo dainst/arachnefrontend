@@ -15,7 +15,7 @@
 	</div>
 
 	<!-- low res image for anonymous users -->
-	<div ng-if="!allow || imageProperties.width" style="height:100%; position:relative; background-color:#ddd;">
+	<div ng-if="!allow" style="height:100%; position:relative; background-color:#ddd;">
 		<img ar-img img-id="{{imageId}}" style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
 	</div>
 
@@ -37,6 +37,10 @@
 		</a>
 		<button class="btn btn-default btn-sm" ng-click="requestFullscreen()">
 			<span class="glyphicon glyphicon-fullscreen"></span> {{ 'entity.image.fullscreen' | transl8 }}
+		</button>
+
+		<button class="btn btn-default btn-sm" ng-click="rotateRight()">
+			<span class="glyphicon glyphicon-repeat"></span> {{ 'entity.image.rotate' | transl8 }}
 		</button>
 		<a ng-if="entity.images.length > 1"
 				ng-href="entity/{{entity.entityId}}/images"
