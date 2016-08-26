@@ -156,7 +156,7 @@
 				<strong>{{'entity_catalogs'|transl8}}</strong>	
 			</h5>
 			<div class="panel panel-default">
-				<div class="panel-heading">
+				<div ng-if="catalogEntries[0]" class="panel-heading">
 					{{'entity_catalog_info'|transl8}}
 				</div>
 				<ul class="list-group">
@@ -169,7 +169,6 @@
 						<p class="small" style="font-style:italic;" ng-if="catalogEntry.text" markdown-to-html="catalogEntry.text"></p>
 					</a>					
 				</ul>
-
 				<div class="panel-footer">
 					<button type="button" class="list-group-item btn" style="text-align:center"  ng-click="createEntry()">
 						<span class="text-primary">
@@ -177,15 +176,8 @@
 						</span>
 					</button>
 				</div>
-
 			</div>
-
 		</div>
-		
-
-	
-		<!-- END NOTES -->
-
 	</div>
 
 	<div ng-show="entity.entityId" class="col-md-9">
