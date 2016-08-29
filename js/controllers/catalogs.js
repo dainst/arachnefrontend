@@ -43,6 +43,7 @@ angular.module('arachne.controllers')
                         message.addMessageForCode('default');
                     });
                 };
+
             }
 
             $scope.user = authService.getUser();

@@ -1,5 +1,5 @@
 {
-	"backendUri": "https://arachne.dainst.org/data",
+	"backendUri": "http://bogusman02.dai-cloud.uni-koeln.de/data",
 	"paths": {
 		"build": "dist/",
 		"lib": "node_modules/"
