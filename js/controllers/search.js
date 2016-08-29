@@ -5,9 +5,10 @@ angular.module('arachne.controllers')
 /**
  * @author: Jan G. Wieners
  */
-
-    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
-        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService, $timeout) {
+    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter',
+        'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
+        function ($rootScope, $scope, searchService, categoryService, $filter,
+                  arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService, $timeout) {
 
             // To indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.illegalQuery = false;
@@ -60,6 +61,7 @@ angular.module('arachne.controllers')
                     controller: 'EditCatalogController',
                     resolve: {
                         catalog: function () {
+
                             return {
                                 author: $scope.user.username,
                                 root: {
@@ -74,7 +76,6 @@ angular.module('arachne.controllers')
 
                 catalogFromSearch.close = function (newCatalog) {
 
-                    //newCatalog.public = false;
                     Catalog.save({}, newCatalog, function (result) {
                     });
                     catalogFromSearch.dismiss();
@@ -124,13 +125,11 @@ angular.module('arachne.controllers')
             $scope.loadMoreFacetValues = function (facet) {
                 searchService.loadMoreFacetValues(facet).then(function (hasMore) {
                     facet.hasMore = hasMore;
-                    console.log(facet.name, facet.hasMore);
                 }, function (response) {
                     if (response.status == '404') message.addMessageForCode('backend_missing');
                     else message.addMessageForCode('search_' + response.status);
                 });
             };
-
 
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
 
@@ -149,8 +148,10 @@ angular.module('arachne.controllers')
                     $scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
                     $scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
                     $scope.facets = searchService.getFacets();
-                    var insert = [];
-                    for (var i = 0; i < $scope.facets.length; i++) {
+                    var insert = [], len = $scope.facets.length;
+
+                    for (var i = 0; i < len; i++) {
+
                         var facet = $scope.facets[i];
                         facet.open = false;
                         if (facet.values.length < $scope.currentQuery.fl) {
@@ -170,6 +171,7 @@ angular.module('arachne.controllers')
                     });
                     $scope.cells = $filter('cellsFromEntities')(entities, $scope.currentQuery);
                 }, function (response) {
+
                     $scope.resultSize = 0;
                     $scope.error = true;
                     if (response.status == '404') message.addMessageForCode('backend_missing');

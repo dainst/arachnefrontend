@@ -192,6 +192,9 @@ angular.module('arachne.controllers')
             };
 
             $scope.editCatalog = function() {
+
+                console.log($scope.activeCatalog)
+
                 var editableCatalog = {
                     author: $scope.activeCatalog.author,
                     public: $scope.activeCatalog.public,
