@@ -96,7 +96,7 @@ angular.module('arachne.services')
             if (agg_geogrid) bucketsToDraw = agg_geogrid.values;
 
             if (queryListener) queryListener(_getMapQuery(searchService.currentQuery()).toString());
-            if (bucketsListener) bucketsListener(getGhprecFromZoom(), _bBoxFromBounds(map.getBounds()), bucketsToDraw, map);
+            if (bucketsListener) bucketsListener(_bBoxFromBounds(map.getBounds()), bucketsToDraw, map);
             if (sizeListener)  sizeListener(searchService.getSize());
         });
     };
