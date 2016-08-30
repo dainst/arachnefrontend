@@ -1,6 +1,6 @@
 <script type="text/ng-template" id="entries_renderer.html">
 	
-	<div ui-tree-handle class="catalog-entry" ng-init="entry.show = false">
+	<div ui-tree-handle class="catalog-entry" ng-class="{ moveable: editable }" ng-init="entry.show = false">
 
 		<a data-nodrag
 			ng-class="{'text-muted': entry.totalChildren == 0, 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed}"
@@ -28,27 +28,29 @@
             <span class="glyphicon glyphicon-link"></span>
         </a>
 		
-		<a class="edit-btn pull-right"
-                ng-click="removeEntry(this, entry)"
-                uib-tooltip="{{ 'catalog_delete_entry' | transl8 }}"
-                tooltip-append-to-body="true"
-                data-nodrag>
-			<span class="glyphicon glyphicon-trash"></span>
-		</a>
-		<a class="edit-btn pull-right"
-                ng-click="addChild(this, entry)"
-                uib-tooltip="{{ 'catalog_create_entry_child' | transl8 }}"
-                tooltip-append-to-body="true"
-                data-nodrag>
-			<span class="glyphicon glyphicon-file"></span>
-		</a>
-		<a class="edit-btn pull-right"
-                ng-click="editEntry(entry)"
-                uib-tooltip="{{ 'catalog_edit_entry' | transl8 }}"
-                tooltip-append-to-body="true"
-                data-nodrag>
-			<span class="glyphicon glyphicon-edit"></span>
-		</a>
+		<span ng-show="editable">
+			<a class="edit-btn pull-right"
+	                ng-click="removeEntry(this, entry)"
+	                uib-tooltip="{{ 'catalog_delete_entry' | transl8 }}"
+	                tooltip-append-to-body="true"
+	                data-nodrag>
+				<span class="glyphicon glyphicon-trash"></span>
+			</a>
+			<a class="edit-btn pull-right"
+	                ng-click="addChild(this, entry)"
+	                uib-tooltip="{{ 'catalog_create_entry_child' | transl8 }}"
+	                tooltip-append-to-body="true"
+	                data-nodrag>
+				<span class="glyphicon glyphicon-file"></span>
+			</a>
+			<a class="edit-btn pull-right"
+	                ng-click="editEntry(entry)"
+	                uib-tooltip="{{ 'catalog_edit_entry' | transl8 }}"
+	                tooltip-append-to-body="true"
+	                data-nodrag>
+				<span class="glyphicon glyphicon-edit"></span>
+			</a>
+		</span>
 
 		<div ng-if="entry.text && entry.show" class="well well-sm">
 			<span markdown-to-html="entry.text"></span>
@@ -81,11 +83,16 @@
 
 <div class="row" ng-controller="CatalogController">
 
-	<div class="col-md-5 catalog-edit">
+	<div ng-hide="catalog">
+		<div class="loading"></div>
+	</div>
+
+	<div class="col-md-5 catalog-edit" ng-show="catalog">
 
 		<h3 class="page-header">
 			<strong>{{catalog.root.label}}</strong> <small>{{ 'catalog_author' | transl8 }}: {{catalog.author}}</small>
-			<div class="btn-group btn-group-sm pull-right">
+			
+			<div ng-show="editable" class="btn-group btn-group-sm pull-right">
 				<button class="btn btn-default" ng-click="editCatalog()"
                         uib-tooltip="{{ 'catalog_edit' | transl8 }}"
                         tooltip-append-to-body="true">
@@ -102,9 +109,10 @@
 					<span class="glyphicon glyphicon-trash"></span>
 				</button>
 			</div>
+
 		</h3>
 
-		<div ng-if="catalog.root.children.length > 0" ui-tree="treeOptions" id="tree-root">
+		<div ng-if="catalog.root.children.length > 0" ui-tree="treeOptions" data-drag-enabled="editable" id="tree-root">
 			<ol ui-tree-nodes="nodes" ng-model="catalog.root.children" ng-class="{hidden: collapsed}">
 				<li ng-repeat="entry in catalog.root.children"
 						ui-tree-node collapsed="{{entry.totalChildren > 0}}"
@@ -127,11 +135,7 @@
 			</ol>
 		</div>
 
-		<div ng-hide="catalog">
-			<div class="loading"></div>
-		</div>
-
-		<div ng-if="catalog.root.children.length == catalog.root.totalChildren" class="catalog-entry"
+		<div ng-show="editable && catalog.root.children.length == catalog.root.totalChildren" class="catalog-entry"
 					style="cursor: pointer;" ng-click="addChild(null, catalog.root)">
 			<a style="display: block;">
 				<em><span class="glyphicon glyphicon-file"></span> {{ 'catalog_create_entry' | transl8 }}</em>

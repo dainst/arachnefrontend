@@ -7,8 +7,8 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  */
-.controller('CatalogController', ['$scope', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry',
-	function ($scope, $stateParams, $uibModal, Catalog, CatalogEntry) {
+.controller('CatalogController', ['$scope', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings',
+	function ($scope, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings) {
 
 		$scope.entryMap = {};
 
@@ -185,17 +185,29 @@ angular.module('arachne.controllers')
 	        return parent.children.indexOf(entry);
 	    }
 
-	    Catalog.get({ id: $stateParams.id }, function(result) {
-	    	initialize(result.root);
-            if (result.root.children.length == 0 && result.root.totalChildren > 0) {
-                $scope.loadChildren(result.root);
-            } else {
-            	result.root.children.forEach(initialize);
-            }
-            $scope.catalog = result;
-	    }, function() {
-            message.addMessageForCode('default');
-        });
+	    function retrieveCatalog(id) {
+	    	Catalog.get({ id: id }, function(result) {
+		    	initialize(result.root);
+	            if (result.root.children.length == 0 && result.root.totalChildren > 0) {
+	                $scope.loadChildren(result.root);
+	            } else {
+	            	result.root.children.forEach(initialize);
+	            }
+	            $scope.catalog = result;
+	            checkIfEditable();
+		    }, function() {
+	            message.addMessageForCode('default');
+	        });
+	    }
+
+	    function checkIfEditable() {
+	    	var user = authService.getUser();
+	    	$http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username).success(function(user) {
+                $scope.editable = ($scope.catalog.userIds.indexOf(user.id) != -1);
+            });
+	    }
+
+	    retrieveCatalog($stateParams.id);
 
 	}
 ]);

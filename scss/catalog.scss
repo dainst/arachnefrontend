@@ -1,0 +1,43 @@
+.catalog-entry {
+  padding: 10px;
+  border-radius: 4px;
+  cursor: auto;
+}
+
+.catalog-entry:hover {
+  background-color: #EEEEEE;
+}
+
+.catalog-entry.moveable {
+  cursor: move;
+}
+
+.catalog-entry .angular-ui-tree-handle {
+  padding: 2px;
+}
+
+.catalog-entry .edit-btn {
+  padding: 2px 3px;
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.catalog-entry:hover .edit-btn {
+  visibility: visible;
+}
+
+.catalog-edit .angular-ui-tree-placeholder {
+  background: #f0f9ff;
+  border-radius: 4px;
+  border: 1px dashed #bed2db;
+  margin: 0;
+}
+
+.catalog-edit .angular-ui-tree-handle {
+  font-weight: normal;
+}
+
+.catalog-edit .entry-label {
+  font-weight: bold;
+  padding-right: 10px;
+}
