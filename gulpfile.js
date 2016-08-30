@@ -148,10 +148,7 @@ gulp.task('build', [
     'minify-css',
     'concat-deps',
     'minify-js',
-    'copy-resources',
-    'compile-css',
-    'minify-js',
-    'concat-deps'
+    'copy-resources'
 ]);
 
 // clean
