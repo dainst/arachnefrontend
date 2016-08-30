@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var del = require('del');
-var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var url = require('url');
 var proxy = require('proxy-middleware');
@@ -17,7 +16,8 @@ var minifyHtml = require("gulp-minify-html");
 var argv = require('yargs').argv;
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
-var fileExists = require('file-exists');
+var fs = require('fs');
+var git = require('gulp-git');
 
 var pkg = require('./package.json');
 
@@ -61,13 +61,6 @@ gulp.task('compile-css', function () {
         .pipe(concat(pkg.name + '.css'))
         .pipe(gulp.dest('dist/' + '/css'))
         .pipe(reload({stream: true}));
-});
-
-gulp.task('copy-config', function () {
-
-    return gulp.src('config/dev-config.json.template')
-        .pipe(rename('dev-config.json'))
-        .pipe(gulp.dest('./config', {overwrite: false}));
 });
 
 // minify css files in build dir
@@ -117,7 +110,7 @@ gulp.task('html2js', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('copy-resources', ['copy-fonts', 'copy-imgs', 'copy-index', 'copy-info', 'copy-con10t', 'copy-config']);
+gulp.task('copy-resources', ['copy-fonts', 'copy-imgs', 'copy-index', 'copy-info', 'copy-con10t']);
 
 gulp.task('copy-fonts', function () {
     var bsFontPath = 'node_modules/' + 'bootstrap-sass/assets/fonts/';
@@ -146,11 +139,6 @@ gulp.task('copy-info', function () {
         .pipe(gulp.dest('dist/' + '/info'));
 });
 
-gulp.task('copy-config', function () {
-    return gulp.src('config/**/*', {base: 'config'})
-        .pipe(gulp.dest('dist/' + '/config'));
-});
-
 gulp.task('copy-con10t', function () {
     return gulp.src('con10t/**/*', {base: 'con10t'})
         .pipe(gulp.dest('dist/' + '/con10t'));
@@ -168,11 +156,22 @@ gulp.task('clean', function () {
     return del('dist/' + '/**/*');
 });
 
-var fs = require('fs');
+gulp.task('clone-con10t', function () {
 
-function processConfiguration() {
+    fs.access('./con10t', fs.F_OK, function (err) {
 
-    return new Promise(function(resolve, reject) {
+        // Only clone con10t if con10t-files aren't already in place
+        if (err) {
+            git.clone('https://github.com/dainst/con10t.git', function (err) {
+                if (err) throw err;
+            });
+        }
+    });
+});
+
+gulp.task('copy-config', function () {
+
+    return new Promise(function (resolve, reject) {
 
         fs.access('./config/dev-config.json', fs.F_OK, function (err) {
 
@@ -207,33 +206,31 @@ function processConfiguration() {
         });
 
     });
-}
+});
 
-gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources', 'copy-config'], function () {
+gulp.task('server', function () {
 
-    processConfiguration().then(function(config) {
+    var config = require('./config/dev-config.json');
+    var proxyOptions = url.parse(config.backendUri);
 
-        var proxyOptions = url.parse(config.backendUri);
-        proxyOptions.route = '/data';
+    proxyOptions.route = '/data';
 
-        browserSync({
-            server: {
-                baseDir: 'dist',
-                middleware: [
-                    proxy(proxyOptions),
-                    // rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
-                    modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
-                ]
-            },
-            port: 8082
-        });
-
-        gulp.watch('scss/**/*.scss', ['compile-css']);
-        gulp.watch('js/**/*.js', ['minify-js']);
-        gulp.watch('partials/**/*.html', ['minify-js']);
-        gulp.watch('index.html', ['copy-index']);
-        gulp.watch('con10t/**/*', ['copy-con10t']);
-
-        gulp.watch(['index.html', 'partials/**/*.html', 'js/**/*.js'], reload);
+    browserSync({
+        server: {
+            baseDir: 'dist',
+            middleware: [
+                proxy(proxyOptions),
+                // rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
+                modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
+            ]
+        },
+        port: 8082
     });
+
+    gulp.watch('scss/**/*.scss', ['compile-css']);
+    gulp.watch('js/**/*.js', ['minify-js']);
+    gulp.watch('partials/**/*.html', ['minify-js']);
+    gulp.watch('index.html', ['copy-index']);
+    gulp.watch('con10t/**/*', ['copy-con10t']);
+    gulp.watch(['index.html', 'partials/**/*.html', 'js/**/*.js'], reload);
 });

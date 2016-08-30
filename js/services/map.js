@@ -103,6 +103,29 @@ angular.module('arachne.services')
 
     return {
 
+        // Sets the overlays available for this map
+        setOverlays: function (ols) {
+
+            var result = {};
+            // overlays are either grouped at .groups
+            if (ols && ols.groups) {
+                for (var i = 0; i < ols.groups.length; i++) {
+                    var group = ols.groups[i];
+
+                    for (var j = 0; j < group.overlays.length; j++) {
+                        var overlay = group.overlays[j];
+                        result[overlay.key] = overlay;
+                    }
+                }
+                // or just listed directly
+            } else if (ols) {
+                for (var i = 0; i < ols.length; i++) {
+                    var overlay = ols[i];
+                    result[overlay.key] = overlay;
+                }
+            }
+            overlays=result;
+        },
 
         bBoxFromBounds: function (bounds) {
             return _bBoxFromBounds(bounds);
@@ -179,11 +202,6 @@ angular.module('arachne.services')
             map.setZoom(lvl);
         },
 
-        // Sets the overlays available for this map
-        // { key: LayerConfig, ... }
-        setOverlays: function (overlaysToSet) {
-            overlays = overlaysToSet;
-        },
 
         // Sets the baselayers available for this map
         // { key: LayerConfig, ... }
