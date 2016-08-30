@@ -110,8 +110,6 @@ gulp.task('html2js', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('copy-resources', ['copy-fonts', 'copy-imgs', 'copy-index', 'copy-info', 'copy-con10t']);
-
 gulp.task('copy-fonts', function () {
     var bsFontPath = 'node_modules/' + 'bootstrap-sass/assets/fonts/';
     return gulp.src(['node_modules/' + 'font-awesome/fonts/**', bsFontPath + '**/*'])
@@ -145,10 +143,15 @@ gulp.task('copy-con10t', function () {
 });
 
 gulp.task('build', [
+    'copy-con10t',
+    'copy-config',
     'minify-css',
     'concat-deps',
     'minify-js',
-    'copy-resources'
+    'copy-fonts',
+    'copy-imgs',
+    'copy-index',
+    'copy-info'
 ]);
 
 // clean
@@ -156,24 +159,27 @@ gulp.task('clean', function () {
     return del('dist/' + '/**/*');
 });
 
-gulp.task('clone-con10t', function () {
+gulp.task('clone-con10t', function(callback) {
 
     fs.access('./con10t', fs.F_OK, function (err) {
 
         // Only clone con10t if con10t-files aren't already in place
         if (err) {
             git.clone('https://github.com/dainst/con10t.git', function (err) {
-                if (err) throw err;
+                if (err) {
+                    return callback(err);
+                }
             });
         }
+        callback();
     });
 });
 
-gulp.task('copy-config', function () {
+gulp.task('copy-config', function (callback) {
 
     return new Promise(function (resolve, reject) {
 
-        fs.access('./config/dev-config.json', fs.F_OK, function (err) {
+        fs.access('./config/dev-config.json', fs.F_OK, function(err) {
 
             if (err) {
 
@@ -182,24 +188,24 @@ gulp.task('copy-config', function () {
                 copyFile.on('finish', function () {
 
                     // Finished copying
-                    fs.readFile('./config/dev-config.json', 'utf-8', function read(err, config) {
+                    fs.readFile('./config/dev-config.json', 'utf-8', function read(err) {
 
                         if (err) {
-                            reject(err);
+                            return callback(err);
                         }
-                        resolve(JSON.parse(config));
+                        callback();
                     });
                 });
 
             } else {
 
                 // Template and config file exist
-                fs.readFile('./config/dev-config.json', 'utf-8', function read(err, config) {
+                fs.readFile('./config/dev-config.json', 'utf-8', function read(err) {
 
                     if (err) {
-                        reject(err);
+                        return callback(err);
                     }
-                    resolve(JSON.parse(config));
+                    callback();
                 });
             }
 
