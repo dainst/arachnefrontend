@@ -40,22 +40,18 @@ angular.module('arachne.services')
         return heatPoints;
     };
 
-    var drawBuckets = function(ghprec,bbox,bucketsToDraw,map){
-        if (!bucketsToDraw) return;
-
-        var hps=heatPoints(bucketsToDraw);
-
-        L.heatLayer(hps, {
-            radius: ghprec*6,
-            max: max(bucketsToDraw),
-            gradient: generateGradient(0.7),
-            minOpacity: 0.3
-        }).addTo(map);
-    };
-
     return {
         drawBuckets: function (ghprec,bbox,bucketsToDraw,map) {
-            return drawBuckets(ghprec,bbox,bucketsToDraw,map);
+            if (!bucketsToDraw) return;
+
+            var hps=heatPoints(bucketsToDraw);
+
+            L.heatLayer(hps, {
+                radius: ghprec*6,
+                max: max(bucketsToDraw),
+                gradient: generateGradient(0.7),
+                minOpacity: 0.3
+            }).addTo(map);
         }
     }
 });
