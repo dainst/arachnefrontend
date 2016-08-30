@@ -41,13 +41,13 @@ angular.module('arachne.services')
     };
 
     return {
-        drawBuckets: function (ghprec,bbox,bucketsToDraw,map) {
+        drawBuckets: function (bbox,bucketsToDraw,map) {
             if (!bucketsToDraw) return;
 
             var hps=heatPoints(bucketsToDraw);
 
             L.heatLayer(hps, {
-                radius: ghprec*6,
+                radius: 10,
                 max: max(bucketsToDraw),
                 gradient: generateGradient(0.7),
                 minOpacity: 0.3
