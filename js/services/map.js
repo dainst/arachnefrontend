@@ -34,6 +34,7 @@ angular.module('arachne.services')
     var bucketsListener = null;
     var sizeListener = null;
     var queryListener = null;
+    var moveListener = null;
 
     var _getMapQuery = function (query, stripExtraParams) {
         var newQuery = query.removeParams('lat', 'lng', 'zoom', 'overlays', 'baselayers');
@@ -98,6 +99,7 @@ angular.module('arachne.services')
             if (queryListener) queryListener(_getMapQuery(searchService.currentQuery()).toString());
             if (bucketsListener) bucketsListener(_bBoxFromBounds(map.getBounds()), bucketsToDraw, map);
             if (sizeListener)  sizeListener(searchService.getSize());
+            if (moveListener)  moveListener();
         });
     };
 
@@ -118,6 +120,10 @@ angular.module('arachne.services')
 
         registerBucketsListener: function(bl) {
             bucketsListener = bl;
+        },
+
+        registerMoveListener: function(ml) {
+            moveListener = ml;
         },
 
         /**

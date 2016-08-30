@@ -24,11 +24,17 @@ function($filter, searchService, mapService, heatmapPainter) {
             var currentQuery = searchService.currentQuery();
             if (!currentQuery.q) currentQuery.q = '*';
 
+            function mapOnMove() {
+                console.log("size",searchService.getSize());
+            }
+
             mapService.registerBucketsListener(heatmapPainter.drawBuckets);
+            mapService.registerMoveListener(mapOnMove);
+
             mapService.initializeMap(
                 element.attr('id'),
                 {minZoom: 3} // 3 is to prevent wrong bbox searches
-                // when the window is bigger than the world
+                // when the window is bigger than the world,
             );
 
             // Add baselayers and activate one, given by url
