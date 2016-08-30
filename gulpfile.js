@@ -168,11 +168,6 @@ gulp.task('clean', function () {
     return del('dist/' + '/**/*');
 });
 
-function startServer(config) {
-
-
-}
-
 var fs = require('fs');
 
 function processConfiguration() {
@@ -217,8 +212,6 @@ function processConfiguration() {
 gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources', 'copy-config'], function () {
 
     processConfiguration().then(function(config) {
-
-        console.log('HERE')
 
         var proxyOptions = url.parse(config.backendUri);
         proxyOptions.route = '/data';
