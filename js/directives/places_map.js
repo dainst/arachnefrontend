@@ -48,7 +48,7 @@ function(mapService, searchService, placesService,placesClusterPainter) {
 
             var selectFacetsCreateMarkersSetView = function(places) {
 
-                placesClusterPainter.selectFacetsAndCreateMarkers(
+                placesClusterPainter.drawPlaces(
                     places, scope);
                 setView(places);
             };
