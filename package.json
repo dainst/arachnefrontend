@@ -9,7 +9,7 @@
     "test": "karma start test/karma.conf",
     "e2e": "webdriver-manager update && protractor protractor.conf.js",
     "clean": "rimraf dist",
-    "build": "npm run clean && gulp build",
+    "build": "gulp copy-config && npm run clean && gulp build",
     "server": "gulp server",
     "start": "npm run server"
   },
@@ -43,6 +43,7 @@
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.0",
+    "gulp-git": "^1.11.3",
     "gulp-minify-css": "^1.2.4",
     "gulp-minify-html": "^1.0.6",
     "gulp-ng-html2js": "^0.2.2",

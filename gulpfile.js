@@ -63,13 +63,6 @@ gulp.task('compile-css', function () {
         .pipe(reload({stream: true}));
 });
 
-gulp.task('copy-config', function () {
-
-    return gulp.src('config/dev-config.json.template')
-        .pipe(rename('dev-config.json'))
-        .pipe(gulp.dest('./config', {overwrite: false}));
-});
-
 // minify css files in build dir
 gulp.task('minify-css', ['compile-css'], function () {
     return gulp.src('dist/' + '/css/*.css')
@@ -146,11 +139,6 @@ gulp.task('copy-info', function () {
         .pipe(gulp.dest('dist/' + '/info'));
 });
 
-gulp.task('copy-config', function () {
-    return gulp.src('config/**/*', {base: 'config'})
-        .pipe(gulp.dest('dist/' + '/config'));
-});
-
 gulp.task('copy-con10t', function () {
     return gulp.src('con10t/**/*', {base: 'con10t'})
         .pipe(gulp.dest('dist/' + '/con10t'));
@@ -160,6 +148,10 @@ gulp.task('build', [
     'minify-css',
     'concat-deps',
     'minify-js',
+    'copy-resources',
+    'compile-css',
+    'minify-js',
+    'concat-deps',
     'copy-resources'
 ]);
 
@@ -169,10 +161,9 @@ gulp.task('clean', function () {
 });
 
 var fs = require('fs');
+gulp.task('copy-config', function() {
 
-function processConfiguration() {
-
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
 
         fs.access('./config/dev-config.json', fs.F_OK, function (err) {
 
@@ -207,33 +198,31 @@ function processConfiguration() {
         });
 
     });
-}
+});
 
-gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources', 'copy-config'], function () {
+gulp.task('server', function() {
 
-    processConfiguration().then(function(config) {
+    var config = require('./config/dev-config.json');
+    var proxyOptions = url.parse(config.backendUri);
 
-        var proxyOptions = url.parse(config.backendUri);
-        proxyOptions.route = '/data';
+    proxyOptions.route = '/data';
 
-        browserSync({
-            server: {
-                baseDir: 'dist',
-                middleware: [
-                    proxy(proxyOptions),
-                    // rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
-                    modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
-                ]
-            },
-            port: 8082
-        });
-
-        gulp.watch('scss/**/*.scss', ['compile-css']);
-        gulp.watch('js/**/*.js', ['minify-js']);
-        gulp.watch('partials/**/*.html', ['minify-js']);
-        gulp.watch('index.html', ['copy-index']);
-        gulp.watch('con10t/**/*', ['copy-con10t']);
-
-        gulp.watch(['index.html', 'partials/**/*.html', 'js/**/*.js'], reload);
+    browserSync({
+        server: {
+            baseDir: 'dist',
+            middleware: [
+                proxy(proxyOptions),
+                // rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
+                modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
+            ]
+        },
+        port: 8082
     });
+
+    gulp.watch('scss/**/*.scss', ['compile-css']);
+    gulp.watch('js/**/*.js', ['minify-js']);
+    gulp.watch('partials/**/*.html', ['minify-js']);
+    gulp.watch('index.html', ['copy-index']);
+    gulp.watch('con10t/**/*', ['copy-con10t']);
+    gulp.watch(['index.html', 'partials/**/*.html', 'js/**/*.js'], reload);
 });
