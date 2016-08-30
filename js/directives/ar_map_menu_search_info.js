@@ -66,8 +66,8 @@ function($uibModal, $location, searchService, placesService, mapService) {
             scope.entityCount = null;
             scope.placesCount = null;
             if (scope.type == "grid") {
-                mapService.registerSizeListener(sizeListener);
-                mapService.registerQueryListener(queryListener);
+                mapService.setSizeListener(sizeListener);
+                mapService.setQueryListener(queryListener);
                 searchService.getCurrentPage().then(function () {
                     scope.entityCount = searchService.getSize();
                 });

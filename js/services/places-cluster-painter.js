@@ -9,13 +9,25 @@ angular.module('arachne.services')
 .factory('placesClusterPainter', ['$compile', function ($compile) {
 
     var markerClusterGroup;
-
+    var markers=[];
+    var map;
+    
     return {
 
+        setMap : function(mp) {
+          map = mp;  
+        },
+        
+        clear : function () {
+            for (var i in markers) {
+                map.removeLayer(markers[i])
+            }
+            markers=[];
+            if (markerClusterGroup) map.removeLayer(markerClusterGroup);
+        },
 
         // create the actual places' markers
-        selectFacetsAndCreateMarkers : function(
-            map,
+        drawPlaces : function(
             places, // : Place
             scope) {
 
@@ -68,6 +80,7 @@ angular.module('arachne.services')
                         markerClusterGroup.addLayer(marker);
                     } else {
                         map.addLayer(marker);
+                        markers.push(marker);
                     }
                 }
             }

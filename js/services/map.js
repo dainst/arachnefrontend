@@ -92,12 +92,7 @@ angular.module('arachne.services')
         searchService.markDirty();
         searchService.getCurrentPage().then(function () {
 
-            var bucketsToDraw = null;
-            var agg_geogrid = searchService.getFacet("agg_geogrid");
-            if (agg_geogrid) bucketsToDraw = agg_geogrid.values;
-
             if (queryListener) queryListener(_getMapQuery(searchService.currentQuery()).toString());
-            if (bucketsListener) bucketsListener(_bBoxFromBounds(map.getBounds()), bucketsToDraw, map);
             if (sizeListener)  sizeListener(searchService.getSize());
             if (moveListener)  moveListener();
         });
@@ -110,19 +105,19 @@ angular.module('arachne.services')
             return _bBoxFromBounds(bounds);
         },
 
-        registerQueryListener: function (ql) {
+        setQueryListener: function (ql) {
             queryListener = ql;
         },
 
-        registerSizeListener: function (sl) {
+        setSizeListener: function (sl) {
             sizeListener = sl;
         },
 
-        registerBucketsListener: function(bl) {
+        setBucketsListener: function(bl) {
             bucketsListener = bl;
         },
 
-        registerMoveListener: function(ml) {
+        setMoveListener: function(ml) {
             moveListener = ml;
         },
 

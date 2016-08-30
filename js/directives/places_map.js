@@ -49,7 +49,7 @@ function(mapService, searchService, placesService,placesClusterPainter) {
             var selectFacetsCreateMarkersSetView = function(places) {
 
                 placesClusterPainter.selectFacetsAndCreateMarkers(
-                    map, places, scope);
+                    places, scope);
                 setView(places);
             };
 
@@ -70,6 +70,9 @@ function(mapService, searchService, placesService,placesClusterPainter) {
             };
             
             var map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
+
+            placesClusterPainter.setMap(map);
+
             mapService.setOverlays(scope.overlays);
             mapService.setBaselayers(scope.baselayers);
 
