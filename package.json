@@ -9,7 +9,7 @@
     "test": "karma start test/karma.conf",
     "e2e": "webdriver-manager update && protractor protractor.conf.js",
     "clean": "rimraf dist",
-    "build": "gulp copy-config && npm run clean && gulp build",
+    "build": "gulp copy-config && gulp clone-con10t && npm run clean && gulp build",
     "server": "gulp server",
     "start": "npm run server"
   },
@@ -39,7 +39,6 @@
     "browser-sync": "^2.14.0",
     "connect-modrewrite": "^0.9.0",
     "del": "^2.2.2",
-    "file-exists": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.0",
@@ -63,7 +62,6 @@
     "protractor": "^4.0.4",
     "proxy-middleware": "^0.15.0",
     "rimraf": "^2.5.4",
-    "run-sequence": "^1.2.2",
     "url": "^0.11.0",
     "webdriver-manager": "^10.2.3",
     "yargs": "^5.0.0"

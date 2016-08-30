@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var del = require('del');
-var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var url = require('url');
 var proxy = require('proxy-middleware');
@@ -17,7 +16,8 @@ var minifyHtml = require("gulp-minify-html");
 var argv = require('yargs').argv;
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
-var fileExists = require('file-exists');
+var fs = require('fs');
+var git = require('gulp-git');
 
 var pkg = require('./package.json');
 
@@ -110,7 +110,7 @@ gulp.task('html2js', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('copy-resources', ['copy-fonts', 'copy-imgs', 'copy-index', 'copy-info', 'copy-con10t', 'copy-config']);
+gulp.task('copy-resources', ['copy-fonts', 'copy-imgs', 'copy-index', 'copy-info', 'copy-con10t']);
 
 gulp.task('copy-fonts', function () {
     var bsFontPath = 'node_modules/' + 'bootstrap-sass/assets/fonts/';
@@ -151,8 +151,7 @@ gulp.task('build', [
     'copy-resources',
     'compile-css',
     'minify-js',
-    'concat-deps',
-    'copy-resources'
+    'concat-deps'
 ]);
 
 // clean
@@ -160,8 +159,20 @@ gulp.task('clean', function () {
     return del('dist/' + '/**/*');
 });
 
-var fs = require('fs');
-gulp.task('copy-config', function() {
+gulp.task('clone-con10t', function () {
+
+    fs.access('./con10t', fs.F_OK, function (err) {
+
+        // Only clone con10t if con10t-files aren't already in place
+        if (err) {
+            git.clone('https://github.com/dainst/con10t.git', function (err) {
+                if (err) throw err;
+            });
+        }
+    });
+});
+
+gulp.task('copy-config', function () {
 
     return new Promise(function (resolve, reject) {
 
@@ -200,7 +211,7 @@ gulp.task('copy-config', function() {
     });
 });
 
-gulp.task('server', function() {
+gulp.task('server', function () {
 
     var config = require('./config/dev-config.json');
     var proxyOptions = url.parse(config.backendUri);
