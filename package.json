@@ -1,6 +1,6 @@
 {
   "name": "arachnefrontend",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/dainst/arachnefrontend.git"
@@ -9,7 +9,7 @@
     "test": "karma start test/karma.conf",
     "e2e": "webdriver-manager update && protractor protractor.conf.js",
     "clean": "rimraf dist",
-    "build": "npm run clean && gulp build",
+    "build": "gulp copy-config && gulp clone-con10t && npm run clean && gulp build",
     "server": "gulp server",
     "start": "npm run server"
   },
@@ -19,15 +19,16 @@
     "angular-cookies": "^1.5.8",
     "angular-resource": "^1.5.8",
     "angular-sanitize": "^1.5.8",
-    "angular-ui-bootstrap": "^2.1.2",
-    "angular-ui-router": "^0.3.0",
+    "angular-ui-bootstrap": "^2.1.3",
+    "angular-ui-router": "^0.3.1",
     "angular-ui-tree": "^2.16.0",
     "angulartics": "~1.1.3",
     "angulartics-google-analytics": "^0.2.1",
     "bootstrap": "^3.3.7",
-    "font-awesome": "^4.6.1",
+    "font-awesome": "^4.6.3",
     "idai-components": "git://github.com/dainst/idai-components.git#v1.4.8",
     "leaflet": "^0.7.7",
+    "leaflet.heat": "^0.2.0",
     "leaflet.markercluster": "^0.5.0",
     "ng-showdown": "^1.1.0",
     "showdown": "^1.4.3"
@@ -41,9 +42,11 @@
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.0",
+    "gulp-git": "^1.11.3",
     "gulp-minify-css": "^1.2.4",
     "gulp-minify-html": "^1.0.6",
     "gulp-ng-html2js": "^0.2.2",
+    "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
     "gulp-sort": "^2.0.0",
@@ -56,12 +59,11 @@
     "karma-ng-html2js-preprocessor": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.1",
     "phantomjs-prebuilt": "^2.1.12",
-    "protractor": "^4.0.3",
+    "protractor": "^4.0.4",
     "proxy-middleware": "^0.15.0",
     "rimraf": "^2.5.4",
-    "run-sequence": "^1.2.2",
     "url": "^0.11.0",
-    "webdriver-manager": "^10.2.2",
+    "webdriver-manager": "^10.2.3",
     "yargs": "^5.0.0"
   }
 }

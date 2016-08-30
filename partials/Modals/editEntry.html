@@ -21,7 +21,7 @@
 	<div class="modal-footer">
     	<input class="btn btn-primary"
     			type="submit"
-    			ng-click="$close(entry, entity)"
+    			ng-click="!entry.label || $close(entry, entity)"
     			ng-class="{ disabled: !entry.label }"
     			value="OK">
     	<button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8}}</button>

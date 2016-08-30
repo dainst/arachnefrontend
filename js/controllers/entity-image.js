@@ -9,6 +9,7 @@ angular.module('arachne.controllers')
             $scope.allow = true;
 
             var fullscreen = false;
+            var rotation = 0;
 
             $scope.refreshImageIndex = function () {
                 if ($scope.entity && $scope.entity.images) {
@@ -98,6 +99,20 @@ angular.module('arachne.controllers')
                     message.addMessageForCode('image_' + response.status);
                 }
             });
+
+
+            $scope.rotateRight = function () {
+                var container = document.getElementsByClassName('leaflet-tile-pane')[0];
+                var leafletContainer = document.getElementsByClassName('leaflet-container')[0];
+                
+                rotation += 90;
+                if (rotation > 360) rotation = 0;
+                
+
+                container.style.width = leafletContainer.offsetWidth + "px";
+                container.style.height = leafletContainer.offsetHeight + "px";
+                container.style.transform = "rotate("+ rotation + "deg)";
+            }
 
             $scope.$watch("imageId", function () {
                 $scope.refreshImageIndex();

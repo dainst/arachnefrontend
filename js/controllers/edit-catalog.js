@@ -2,9 +2,9 @@
 
 angular.module('arachne.controllers')
 
-    .controller('EditCatalogController', ['$scope', '$uibModalInstance', 'catalog', 'Entity',
-        function ($scope, $uibModalInstance, catalog, Entity) {
+    .controller('EditCatalogController', ['$scope', '$uibModalInstance', 'catalog',
+        function ($scope, $uibModalInstance, catalog) {
             $scope.catalog = catalog;
-            $scope.edit = Entity;
+            $scope.edit = catalog.hasOwnProperty("public");
         }
     ]);

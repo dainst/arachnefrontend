@@ -29,7 +29,7 @@
 </div>
 <div class="modal-footer">
 	<button class="btn btn-primary"
-			ng-click="$close(catalog)"
+			ng-click="(!catalog.root.label || !catalog.author) || $close(catalog)"
 			ng-class="{disabled:!catalog.root.label || !catalog.author}">
 		OK
 	</button>
