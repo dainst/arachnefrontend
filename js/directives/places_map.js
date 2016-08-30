@@ -21,35 +21,6 @@ function(mapService, searchService, placesService,placesClusterPainter) {
         },
         link: function(scope, element, attrs) {
 
-            console.log("link places map")
-
-
-            // Returns an object containing all overlays ordered by their keys
-            // regardless of them being grouped or not
-            // returns { key: overlay, ... }
-            var extractOverlays = function() {
-                var result = {}
-                var overlays = scope.overlays;
-                // overlays are either grouped at .groups
-                if (overlays && overlays.groups) {
-                    for (var i = 0; i < overlays.groups.length; i++) {
-                        var group = overlays.groups[i];
-
-                        for (var j = 0; j < group.overlays.length; j++) {
-                            var overlay = group.overlays[j];
-                            result[overlay.key] = overlay;
-                        }
-                    }
-                    // or just listed directly
-                } else if (overlays) {
-                    for (var i = 0; i < overlays.length; i++) {
-                        var overlay = overlays[i];
-                        result[overlay.key] = overlay;
-                    }
-                }
-                return result
-            }
-
             var setView= function(places) {
                 // set the map's view:
                 // fit bounds to entities only when zoom or coordinates are not explicitely
@@ -82,14 +53,7 @@ function(mapService, searchService, placesService,placesClusterPainter) {
                 setView(places);
             };
 
-            // which overlays are to be created is given by their keys in the URL
-            var activateOverlays= function() {
-                var keys = currentQuery.getArrayParam('overlays');
-                for (var i = 0; i < keys.length; i++) {
-                    mapService.activateOverlay(keys[i]);
-                }
-            };
-
+            
             // always cluster if not explicitely defined otherwise
             if (scope.clustered != false) {
                 scope.clustered = true;
@@ -97,12 +61,16 @@ function(mapService, searchService, placesService,placesClusterPainter) {
 
             var currentQuery = searchService.currentQuery();
 
-            // the layer with markers (has to be recreated when places change)
-            // var markerClusterGroup = null;
-
+            // which overlays are to be created is given by their keys in the URL
+            var activateOverlays= function() {
+                var keys = currentQuery.getArrayParam('overlays');
+                for (var i = 0; i < keys.length; i++) {
+                    mapService.activateOverlay(keys[i]);
+                }
+            };
+            
             var map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
-            // Set the available overlays and baselayers
-            mapService.setOverlays(extractOverlays());
+            mapService.setOverlays(scope.overlays);
             mapService.setBaselayers(scope.baselayers);
 
             mapService.initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
