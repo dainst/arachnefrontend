@@ -10,8 +10,8 @@ angular.module('arachne.directives')
  * @author Daniel de Oliveira
  * @author David Neugebauer
  */
-.directive('arHeatMap', ['$filter', 'searchService', 'mapService', 'heatmapService',
-function($filter, searchService, mapService, heatmapService) {
+.directive('arHeatMap', ['$filter', 'searchService', 'mapService', 'heatmapPainter',
+function($filter, searchService, mapService, heatmapPainter) {
     return {
         restrict: 'A',
         scope: {
@@ -24,7 +24,7 @@ function($filter, searchService, mapService, heatmapService) {
             var currentQuery = searchService.currentQuery();
             if (!currentQuery.q) currentQuery.q = '*';
 
-            mapService.registerBucketsListener(heatmapService.drawBuckets);
+            mapService.registerBucketsListener(heatmapPainter.drawBuckets);
             mapService.initializeMap(
                 element.attr('id'),
                 {minZoom: 3} // 3 is to prevent wrong bbox searches
