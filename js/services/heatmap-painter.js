@@ -6,7 +6,7 @@ angular.module('arachne.services')
  * @author Daniel de Oliveira
  * @author Sebastian Cuy
  */
-.factory('heatmapService', function () {
+.factory('heatmapPainter', function () {
 
     var heatLayer;
 
