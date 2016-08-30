@@ -9,8 +9,8 @@ angular.module('arachne.directives')
  *
  * @author: David Neugebauer
  */
-.directive('arPlacesMap', ['$compile', 'mapService', 'searchService', 'placesService',
-function($compile, mapService, searchService, placesService) {
+.directive('arPlacesMap', [ 'mapService', 'searchService', 'placesService','placesClusterPainter',
+function(mapService, searchService, placesService,placesClusterPainter) {
     return {
         restrict: 'A',
         scope: {
@@ -21,58 +21,8 @@ function($compile, mapService, searchService, placesService) {
         },
         link: function(scope, element, attrs) {
 
-            // create the actual places' markers
-            var selectFacetsAndCreateMarkers = function(markerClusterGroup, map, places, showClustered) {
+            console.log("link places map")
 
-                markerClusterGroup = new L.MarkerClusterGroup({
-                    iconCreateFunction: function(cluster) {
-
-                        var markers = cluster.getAllChildMarkers();
-                        var entityCount = 0;
-                        for (var i = 0; i < markers.length; i++) {
-                            entityCount += markers[i].options.entityCount;
-                        }
-
-                        var childCount = cluster.getChildCount();
-
-                        var c = ' marker-cluster-';
-                        if (childCount < 10) {
-                            c += 'small';
-                        } else if (childCount < 100) {
-                            c += 'medium';
-                        } else {
-                            c += 'large';
-                        }
-
-                        return new L.DivIcon({ html: '<div><span>' + entityCount+ ' at ' + childCount + ' Places</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
-                    }
-                });
-
-                if(places) {
-                    for(var i=0; i < places.length; i++){
-                        var place = places[i];
-
-                        if (place.hasCoordinates()) {
-                            // Dom-Element für Popup bauen und in Link-Funktion kompilieren
-                            var html = '<div ar-map-popup place="place"></div>';
-                            var linkFunction = $compile(angular.element(html));
-                            var newScope = scope.$new(true);
-                            newScope.place = place;
-
-                            // Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
-                            var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), { entityCount : place.entityCount });
-                            marker.bindPopup(linkFunction(newScope)[0]);
-                            if (showClustered) {
-                                markerClusterGroup.addLayer(marker);
-                            } else {
-                                map.addLayer(marker);
-                            }
-                        }
-                    }
-                }
-
-                map.addLayer(markerClusterGroup);
-            }
 
             // Returns an object containing all overlays ordered by their keys
             // regardless of them being grouped or not
@@ -127,7 +77,8 @@ function($compile, mapService, searchService, placesService) {
 
             var selectFacetsCreateMarkersSetView = function(places) {
 
-                selectFacetsAndCreateMarkers(markerClusterGroup, map, places, scope.clustered);
+                placesClusterPainter.selectFacetsAndCreateMarkers(
+                    map, places, scope);
                 setView(places);
             };
 
@@ -147,7 +98,7 @@ function($compile, mapService, searchService, placesService) {
             var currentQuery = searchService.currentQuery();
 
             // the layer with markers (has to be recreated when places change)
-            var markerClusterGroup = null;
+            // var markerClusterGroup = null;
 
             var map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
             // Set the available overlays and baselayers
@@ -160,4 +111,4 @@ function($compile, mapService, searchService, placesService) {
             placesService.getCurrentPlaces().then(selectFacetsCreateMarkersSetView)
         }
     };
-}])
+}]);
