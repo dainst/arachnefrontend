@@ -60,14 +60,6 @@ function(mapService, searchService, placesService,placesClusterPainter) {
             }
 
             var currentQuery = searchService.currentQuery();
-
-            // which overlays are to be created is given by their keys in the URL
-            var activateOverlays= function() {
-                var keys = currentQuery.getArrayParam('overlays');
-                for (var i = 0; i < keys.length; i++) {
-                    mapService.activateOverlay(keys[i]);
-                }
-            };
             
             var map = mapService.initializeMap(element.attr('id'), { zoomControl: false });
 
@@ -78,7 +70,7 @@ function(mapService, searchService, placesService,placesClusterPainter) {
 
             mapService.initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
             mapService.activateBaselayer(currentQuery.baselayer || scope.defaultBaselayer);
-            activateOverlays();
+            mapService.activateOverlays(currentQuery.getArrayParam('overlays'));
             placesService.getCurrentPlaces().then(selectFacetsCreateMarkersSetView)
         }
     };

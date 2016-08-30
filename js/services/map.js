@@ -203,6 +203,13 @@ angular.module('arachne.services')
             }
         },
 
+        // which overlays are to be created is given by their keys in the URL
+        activateOverlays: function(keys) {
+            for (var i = 0; i < keys.length; i++) {
+                activateOverlay(keys[i]);
+            }
+        },
+
         // Removes the old baselayer if neccessary and sets a new one
         // identified by it's key
         activateBaselayer: function (key) {
