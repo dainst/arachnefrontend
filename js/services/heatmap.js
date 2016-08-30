@@ -46,7 +46,7 @@ angular.module('arachne.services')
         var hps=heatPoints(bucketsToDraw);
 
         L.heatLayer(hps, {
-            radius: ghprec*25,
+            radius: ghprec*6,
             max: max(bucketsToDraw),
             gradient: generateGradient(0.7),
             minOpacity: 0.3

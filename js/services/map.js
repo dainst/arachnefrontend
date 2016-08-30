@@ -69,7 +69,7 @@ angular.module('arachne.services')
         var zl = map.getZoom();
 
         var ghprecForZoomLevel =
-            [1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 6, 6, 6, 7, 7, 7];
+            [3,3,3,3,4,4,5,5,6,6,6,7,7,8,8,8,9,9,9];
 
         if (zl > 18) zl = 18;
         return ghprecForZoomLevel[zl];
