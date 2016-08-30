@@ -8,6 +8,7 @@ angular.module('arachne.services')
  */
 .factory('heatmapPainter', function () {
 
+    var map;
     var heatLayer;
 
     function heatMapColorForValue(value) {
@@ -42,21 +43,22 @@ angular.module('arachne.services')
         return heatPoints;
     };
 
-    var removeHeatLayer = function(map) {
-        if (heatLayer) map.removeLayer(heatLayer);
-    };
-
     return {
-        drawBuckets: function (bbox,bucketsToDraw,map) {
+        setMap: function(mp) {
+            map=mp;
+        },
+        drawBuckets: function (bbox,bucketsToDraw) {
             if (!bucketsToDraw) return;
 
-            removeHeatLayer(map);
             heatLayer = L.heatLayer(heatPoints(bucketsToDraw), {
                 radius: 10,
                 max: max(bucketsToDraw),
                 gradient: generateGradient(0.7),
                 minOpacity: 0.3
             }).addTo(map);
+        },
+        clear: function() {
+            if (heatLayer) map.removeLayer(heatLayer);
         }
     }
 });

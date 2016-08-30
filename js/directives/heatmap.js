@@ -10,8 +10,8 @@ angular.module('arachne.directives')
  * @author Daniel de Oliveira
  * @author David Neugebauer
  */
-.directive('arHeatMap', ['$filter', 'searchService', 'mapService', 'heatmapPainter',
-function($filter, searchService, mapService, heatmapPainter) {
+.directive('arHeatMap', ['$filter', 'searchService', 'mapService', 'heatmapPainter', 'placesService','placesClusterPainter',
+function($filter, searchService, mapService, heatmapPainter, placesService, placesClusterPainter) {
     return {
         restrict: 'A',
         scope: {
@@ -19,23 +19,51 @@ function($filter, searchService, mapService, heatmapPainter) {
         },
         link: function(scope, element) {
 
-            var currentGridLayers = [];
-            var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
             var currentQuery = searchService.currentQuery();
             if (!currentQuery.q) currentQuery.q = '*';
 
+            // TODO remove duplicate code (with map.js)
+            var _bBoxFromBounds = function (bounds) {
+                var southEast = bounds.getSouthEast();
+                var northWest = bounds.getNorthWest();
+                return [northWest.lat, northWest.lng, southEast.lat, southEast.lng].join(',');
+            };
+
             function mapOnMove() {
-                console.log("size",searchService.getSize());
+                if (searchService.getSize()<5000) {
+
+                    placesClusterPainter.clear();
+                    heatmapPainter.clear();
+
+                    scope.clustered = false;
+                    placesService.getCurrentPlaces().then(function(places) {
+                        placesClusterPainter.drawPlaces(
+                            places, scope);
+                    });
+                }
+                else {
+                    placesClusterPainter.clear();
+                    heatmapPainter.clear();
+
+                    searchService.getCurrentPage().then(function () {
+                        var bucketsToDraw = null;
+                        var agg_geogrid = searchService.getFacet("agg_geogrid");
+                        if (agg_geogrid) bucketsToDraw = agg_geogrid.values;
+                        heatmapPainter.drawBuckets(_bBoxFromBounds(mapService.getMap().getBounds()), bucketsToDraw);
+                    });
+
+                }
             }
 
-            mapService.registerBucketsListener(heatmapPainter.drawBuckets);
-            mapService.registerMoveListener(mapOnMove);
+            mapService.setMoveListener(mapOnMove);
 
             mapService.initializeMap(
                 element.attr('id'),
                 {minZoom: 3} // 3 is to prevent wrong bbox searches
                 // when the window is bigger than the world,
             );
+            heatmapPainter.setMap(mapService.getMap());
+            placesClusterPainter.setMap(mapService.getMap());
 
             // Add baselayers and activate one, given by url
             // parameter "baselayer" or a default value
