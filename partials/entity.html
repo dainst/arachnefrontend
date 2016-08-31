@@ -182,44 +182,7 @@
 
 	<div ng-show="entity.entityId" class="col-md-9">
 
-		<div class="row">
-
-			<div class="col-md-8">
-				<h2 class="page-title">
-					<div class="title">
-						{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type}}</span>
-					</div>
-					<div class="subtitle"><small>{{ entity.subtitle }}</small></div>
-				</h2>
-				<div>
-					<small>
-						<a ng-href="{{ serverUri }}entity/{{entity.entityId}}" target="_self">
-							arachne.dainst.org/entity/{{entity.entityId}}
-						</a>
-					</small>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<table class="table table-condensed" style="margin-bottom:0">
-					<thead>
-						<tr>
-							<td><strong>{{ 'entityId' | transl8 }}:</strong></td>
-							<td>{{ entity.entityId }}</td>
-						</tr>
-					</thead>
-					<tr>
-						<td><strong>{{'ui_category'|transl8}}:</strong></td>
-						<td>{{entity.type}}</td>
-					</tr>
-					<tr>
-						<td><strong>{{'ui_serial_number'|transl8}}:</strong></td>
-						<td>{{ entity.internalId }}</td>
-					</tr>
-				</table>
-			</div>
-
-		</div>
+		<ar-entity-header entity="entity"></ar-entity-header>
 
 		<hr>
 
@@ -234,27 +197,9 @@
 			<!-- CONTEXT & IMAGE SECTION -->
 			<div class="col-md-4">
 
-				<h3 ng-if="entity.images.length > 1">
-					<a ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}">
-						{{'entity_images'|transl8}} <small>({{entity.images.length}})</small>
-					</a>
-				</h3>
-				<h3 ng-if="entity.images.length == 1">{{'entity_image'|transl8}}</h3>
 				<div ar-imageslider ng-if="entity.images" entity="entity" current-query="currentQuery"></div>
 
-				<div ng-if="entity.externalLinks">
-					<h3>{{'entity_other_views'|transl8}}</h3>
-					<div class="list-group">
-						<a ng-repeat="externalLink in entity.externalLinks"
-								ng-href="{{ externalLink.url }}"
-								type="button"
-								class="list-group-item"
-								target="_blank">
-							<span class="glyphicon glyphicon-new-window pull-right"></span>
-							{{externalLink.label}}
-						</a>
-					</div>
-				</div>
+				<ar-entity-links entity="entity"></ar-entity-links>
 				
 				<div ng-show="contextSize">						
 					<h3>

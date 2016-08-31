@@ -180,18 +180,18 @@ h6 { font-size: 12px; }
     border-color: #ddd;
 }
 
-.page-title {
+.entity-title {
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-.page-title .title {
+.entity-title .title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.page-title .title:hover{
+.entity-title .title:hover{
   width: inherit;
   height: auto;
   white-space: normal;

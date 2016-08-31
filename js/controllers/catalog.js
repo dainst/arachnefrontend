@@ -7,8 +7,8 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  */
-.controller('CatalogController', ['$scope', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings',
-	function ($scope, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings) {
+.controller('CatalogController', ['$scope', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity',
+	function ($scope, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity) {
 
 		$scope.entryMap = {};
 
@@ -172,6 +172,20 @@ angular.module('arachne.controllers')
 	            $scope.catalog = $scope.catalogs[0];
 	            deleteModal.dismiss();
 	        }
+	    };
+
+	    $scope.selectEntry = function(entry) {
+	    	$scope.activeEntry = entry;
+	    	if (entry.arachneEntityId) {
+	    		Entity.get({id: entry.arachneEntityId}, function(entity) {
+	    			$scope.activeEntity = entity;
+	    		}, function() {
+	    			message.addMessageForCode('default');
+	    		});
+	    	} else {
+	    		$scope.activeEntity = null;
+	    	}
+	    	// TODO: change URL
 	    };
 
 	    function initialize(entry) {

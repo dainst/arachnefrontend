@@ -1,18 +1,23 @@
 <script type="text/ng-template" id="entries_renderer.html">
 	
-	<div ui-tree-handle class="catalog-entry" ng-class="{ moveable: editable }" ng-init="entry.show = false">
+	<div class="catalog-entry" ui-tree-handle
+			ng-class="{ moveable: editable, clickable: !editable, active: activeEntry.id == entry.id }"
+			ng-init="entry.show = false"
+			ng-click="!editable && selectEntry(entry);">
 
-		<a data-nodrag
-			ng-class="{
-				'glyphicon-file': entry.totalChildren == 0,
-				'glyphicon-folder-open': !collapsed && entry.totalChildren > 0,
-				'glyphicon-folder-close': collapsed && entry.totalChildren > 0
-			}"
-			class="glyphicon text-muted"
-			style="cursor: pointer; text-decoration: none; margin-right: 5px;"
-			ng-click="toggleNode(this, entry)"></a>
+		<a data-nodrag ng-show="entry.totalChildren > 0"
+				ng-class="{ 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed }"
+				class="glyphicon text-muted clickable"
+				style="text-decoration: none; margin-right: 5px;"
+				ng-click="toggleNode(this, entry); $event.stopPropagation();"></a>
 
-        <span class="entry-label">
+		<span data-nodrag ng-show="entry.totalChildren == 0"
+			class="glyphicon text-muted glyphicon-file clickable"
+			style="text-decoration: none; margin-right: 5px;"
+			ng-click="selectEntry(entry)"></span>
+
+        <span data-nodrag class="entry-label clickable"
+				ng-click="selectEntry(entry)">
             {{entry.label}}
         </span>
 		
@@ -69,15 +74,15 @@
 
 </script>
 
-<div class="row" ng-controller="CatalogController">
+<div class="row catalog" ng-controller="CatalogController">
 
 	<div ng-hide="catalog">
 		<div class="loading"></div>
 	</div>
 
-	<div class="col-md-5 catalog-edit" ng-show="catalog">
+	<div class="col-md-4 catalog-tree" ng-show="catalog">
 
-		<h3 class="page-header">
+		<h3 class="page-header" ng-click="selectEntry(catalog.root)">
 			<strong>{{catalog.root.label}}</strong> <small>{{ 'catalog_author' | transl8 }}: {{catalog.author}}</small>
 			
 			<div ng-show="editable" class="btn-group btn-group-sm pull-right">
@@ -132,8 +137,39 @@
 
 	</div>
 
-	<div class="col-md-7">
-		<!-- TODO: show catalog text here -->
+	<div class="col-md-8">
+	
+		<div ng-if="activeEntry">
+
+			<h3 class="page-header">
+				{{activeEntry.label}}
+			</h3>
+
+			<div ng-show="activeEntity">
+				<ar-entity-header entity="activeEntity"></ar-entity-header>
+				<hr>
+			</div>
+			<div class="row">
+
+				<div class="col-md-8 catalog-text">
+					<div ng-if="activeEntry.text">
+						<div class="catalog-text-heading">{{ 'catalog_description' | transl8 }}</div>
+						<span markdown-to-html="activeEntry.text"></span>
+					</div>
+					<div ng-if="!activeEntry.text">
+						<i>- {{ 'catalog_no_description' | transl8 }} -</i>
+					</div>
+				</div>
+
+				<div ng-show="activeEntity" class="col-md-4">
+					<div ar-imageslider ng-if="activeEntity.images" entity="activeEntity" current-query="currentQuery"></div>
+					<ar-entity-links entity="activeEntity"></ar-entity-links>
+				</div>
+
+			</div>
+
+		</div>
+
 	</div>
 
 </div>

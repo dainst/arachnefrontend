@@ -1,3 +1,10 @@
+<h3 ng-if="entity.images.length > 1">
+	<a ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}">
+		{{'entity_images'|transl8}} <small>({{entity.images.length}})</small>
+	</a>
+</h3>
+<h3 ng-if="entity.images.length == 1">{{'entity_image'|transl8}}</h3>
+
 <div class="ar-imageslider">
 	<div ng-if="currentImgNo >= 0" class="panel panel-default"
 			style="text-align:center; position: relative; padding: 4px;">
