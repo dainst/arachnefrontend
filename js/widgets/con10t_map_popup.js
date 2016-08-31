@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('arachne.directives')
+angular.module('arachne.widgets.directives')
 
 /**
  * @author: David Neugebauer
  */
-.directive('arMapPopup', function() {
+.directive('con10tMapPopup', function() {
 return {
     restrict: 'A',
     scope: {
