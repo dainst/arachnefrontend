@@ -1,11 +1,11 @@
 var gulp = require('gulp');
 var del = require('del');
 var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
+var browserSync = require('browser-sync').create();
+var reload = browserSync.reload;
 var url = require('url');
 var proxy = require('proxy-middleware');
 var modRewrite = require('connect-modrewrite');
-var reload = browserSync.reload;
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var sort = require('gulp-sort');
@@ -60,13 +60,12 @@ gulp.task('compile-css', function() {
 	  	}))
         .pipe(addSrc(cssDeps))
 	  	.pipe(concat(pkg.name + '.css'))
-	    .pipe(gulp.dest(paths.build + '/css'))
-	    .pipe(reload({ stream:true }));
+	    .pipe(gulp.dest(paths.build + '/css'));
 });
 
 // minify css files in build dir
 gulp.task('minify-css', ['compile-css'], function() {
-	return gulp.src(paths.build + '/css/*.css')
+	return gulp.src(paths.build + '/css/' + pkg.name + '.css')
 		.pipe(minifyCss())
   		.pipe(concat(pkg.name + '.min.css'))
 		.pipe(gulp.dest(paths.build + '/css'));
@@ -78,8 +77,7 @@ gulp.task('concat-js', function() {
 		.pipe(sort())
 		.pipe(addSrc.append('js/app.js'))
 		.pipe(concat(pkg.name + '.js'))
-		.pipe(gulp.dest(paths.build))
-    	.pipe(reload({ stream:true }));
+		.pipe(gulp.dest(paths.build));
 });
 
 // concatenates and minifies all dependecies into a single file in build dir
@@ -129,7 +127,7 @@ gulp.task('copy-index', function() {
     var buildNo = "SNAPSHOT";
     if (argv.build) buildNo = argv.build;
     var versionString = pkg.version + " (build #" + buildNo + ")";
-    gulp.src(['index.html'])
+    return gulp.src(['index.html'])
         .pipe(replace(/version="[^"]*"/g, 'version="v' + versionString + '"'))
         .pipe(replace(/build=BUILD_NO/g, 'build=' + buildNo))
         .pipe(gulp.dest(paths.build));
@@ -162,12 +160,17 @@ gulp.task('clean', function() {
 	return del(paths.build + '/**/*');
 });
 
+gulp.task('watch-css', ['minify-css'], function(done) { reload(); done(); });
+gulp.task('watch-js', ['minify-js'], function(done) { reload(); done(); });
+gulp.task('watch-index', ['copy-index'], function(done) { reload(); done(); });
+gulp.task('watch-content', ['copy-con10t'], function(done) { reload(); done(); });
+
 // runs the development server and sets up browser reloading
-gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources'], function() {
+gulp.task('server', ['minify-css', 'minify-js', 'concat-deps', 'copy-resources'], function() {
 	var proxyOptions = url.parse(cfg.backendUri);
     proxyOptions.route = '/data';
 
-	browserSync({
+	browserSync.init({
 		server: {
 			baseDir: 'dist',
         	middleware: [
@@ -179,11 +182,9 @@ gulp.task('server', ['compile-css', 'minify-js', 'concat-deps', 'copy-resources'
 		port: 8082
 	});
 
-	gulp.watch('scss/**/*.scss', ['compile-css']);
-	gulp.watch('js/**/*.js', ['minify-js']);
-    gulp.watch('partials/**/*.html', ['minify-js']);
-    gulp.watch('index.html', ['copy-index']);
-    gulp.watch('con10t/**/*', ['copy-con10t']);
-
-	gulp.watch(['index.html', 'partials/**/*.html', 'js/**/*.js'], reload);
+	gulp.watch('scss/**/*.scss', ['watch-css']);
+	gulp.watch('js/**/*.js', ['watch-js']);
+    gulp.watch('partials/**/*.html', ['watch-js']);
+    gulp.watch('index.html', ['watch-index']);
+    gulp.watch('con10t/**/*', ['watch-con10t']);
 });
