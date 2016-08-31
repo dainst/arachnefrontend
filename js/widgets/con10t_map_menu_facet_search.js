@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('arachne.directives')
+angular.module('arachne.widgets.directives')
 
 /**
  * @author: David Neugebauer
  */
-.directive('arMapMenuFacetSearch', ['$location', 'searchService', 'mapService', function($location, searchService, mapService) {
+.directive('con10tMapMenuFacetSearch', ['$location', 'searchService', 'mapService', function($location, searchService, mapService) {
 return {
     restrict: 'A',
     scope: {

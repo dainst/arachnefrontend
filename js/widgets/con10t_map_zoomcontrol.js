@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.directives')
+angular.module('arachne.widgets.directives')
 
 /**
  * Directive implements a simple Zoomcontrol box instead of the one provided by leaflet. This is done
@@ -9,7 +9,7 @@ angular.module('arachne.directives')
  *
  * @author: David Neugebauer
  */
-.directive('arMapZoomcontrol', ['searchService', 'mapService', function(searchService, mapService) {
+.directive('con10tMapZoomcontrol', ['searchService', 'mapService', function(searchService, mapService) {
 return{
     restrict: 'A',
     scope: {},
