@@ -67,17 +67,19 @@ angular.module('arachne.controllers')
 	    };
 
 	    $scope.toggleNode = function(scope, entry) {
-	        if (entry.totalChildren > 0 && (!entry.children || entry.children.length == 0)) {
-	            entry.loading = true;
-	            CatalogEntry.get({ id: entry.id, limit: $scope.childrenLimit, offset: 0 }, function(result) {
-	                entry.children = result.children;
-	                for (var i in entry.children) initialize(entry.children[i]);
-	                scope.toggle();
-	                entry.loading = undefined;
-	            }, function() {
-	                message.addMessageForCode('backend_missing');
-	            });
-	        } else scope.toggle();
+	    	if (entry.totalChildren > 0) {
+		        if (!entry.children || entry.children.length == 0) {
+		            entry.loading = true;
+		            CatalogEntry.get({ id: entry.id, limit: $scope.childrenLimit, offset: 0 }, function(result) {
+		                entry.children = result.children;
+		                for (var i in entry.children) initialize(entry.children[i]);
+		                scope.toggle();
+		                entry.loading = undefined;
+		            }, function() {
+		                message.addMessageForCode('backend_missing');
+		            });
+		        } else scope.toggle();
+		    }
 	    };
 
 	    $scope.loadChildren = function(entry) {

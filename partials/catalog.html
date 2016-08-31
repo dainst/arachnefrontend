@@ -3,30 +3,18 @@
 	<div ui-tree-handle class="catalog-entry" ng-class="{ moveable: editable }" ng-init="entry.show = false">
 
 		<a data-nodrag
-			ng-class="{'text-muted': entry.totalChildren == 0, 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed}"
-			class="glyphicon"
+			ng-class="{
+				'glyphicon-file': entry.totalChildren == 0,
+				'glyphicon-folder-open': !collapsed && entry.totalChildren > 0,
+				'glyphicon-folder-close': collapsed && entry.totalChildren > 0
+			}"
+			class="glyphicon text-muted"
 			style="cursor: pointer; text-decoration: none; margin-right: 5px;"
 			ng-click="toggleNode(this, entry)"></a>
 
         <span class="entry-label">
             {{entry.label}}
         </span>
-
-		<a ng-if="entry.text"
-                ng-href="#"
-                ng-click="entry.show = !entry.show"
-                uib-tooltip="{{ 'catalog_show_text' | transl8 }}"
-                data-nodrag>
-			<span class="glyphicon glyphicon-book"></span>
-		</a>
-
-		<a ng-if="entry.arachneEntityId"
-                ng-href="entity/{{entry.arachneEntityId}}"
-                uib-tooltip="{{ 'catalog_show_entity' | transl8 }}"
-                target="_blank"
-                data-nodrag>
-            <span class="glyphicon glyphicon-link"></span>
-        </a>
 		
 		<span ng-show="editable">
 			<a class="edit-btn pull-right"
