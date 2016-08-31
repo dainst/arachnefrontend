@@ -13,33 +13,6 @@ angular.module('arachne.widgets.directives')
 .directive('con10tMap', ['$filter', 'searchService', 'mapService', 'heatmapPainter', 'placesService','placesClusterPainter',
     function($filter, searchService, mapService, heatmapPainter, placesService, placesClusterPainter) {
 
-
-        // var setView= function(places) {
-        //     // set the map's view:
-        //     // fit bounds to entities only when zoom or coordinates are not explicitely
-        //     // required by the url, else use the url settings
-        //     if ((places && places.length > 0) && !(currentQuery.zoom || currentQuery.lat || currentQuery.lng)) {
-        //         var latLngs = places.map(function(place) {
-        //             if (place.location) {
-        //                 return [place.location.lat, place.location.lon];
-        //             }
-        //         });
-        //         map.fitBounds(latLngs);
-        //
-        //         // Sets zoom, such that it is not too detailed when few entities are shown.
-        //         // Zooms out a little bit to prevent all markers being hidden behind menus on the side.
-        //         var zoom = map.getZoom();
-        //         if(zoom > 9) {
-        //             map.setZoom(9);
-        //         } else if(zoom > 4) {
-        //             map.setZoom(zoom -1);
-        //         }
-        //     } else {
-        //         mapService.initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
-        //     }
-        // };
-        
-        
         function enrichQuery(currentQuery,scope) {
 
             if (!currentQuery.q) currentQuery.q = '*';
@@ -79,13 +52,6 @@ angular.module('arachne.widgets.directives')
             }
         }
 
-        // TODO remove duplicate code (with map.js)
-        var _bBoxFromBounds = function (bounds) {
-            var southEast = bounds.getSouthEast();
-            var northWest = bounds.getNorthWest();
-            return [northWest.lat, northWest.lng, southEast.lat, southEast.lng].join(',');
-        };
-
         return {
             restrict: 'A',
             scope: {
@@ -99,41 +65,77 @@ angular.module('arachne.widgets.directives')
                 lng: '@',
                 zoom: '@',
                 clustered: '=',  		// true|false
-                disableZoomControl: '@?' // true|false
+                disableZoomControl: '@?' // true|false - disables the standard leaflet zoom control
             },
             // menu elements may appear in the transcluded html
             transclude: true,
             template: '<ng-transclude></ng-transclude>',
             link : function(scope,element) {
 
+                var fitViewToMarkersAllowed=true;
+                
+                /**
+                 * Set the map's view:
+                 * fit bounds to entities only when zoom or coordinates are not explicitely
+                 * required by the url, else use the url settings
+                 */
+                function fitViewToMarkers(currentQuery,places,mapOnMoveFn) {
+
+                    if ((places && places.length > 0) && !(currentQuery.zoom || currentQuery.lat || currentQuery.lng)) {
+
+                        var latLngs = places.map(function (place) {
+                            if (place.location) {
+                                return [place.location.lat, place.location.lon];
+                            }
+                        });
+
+                        // Sets zoom, such that it is not too detailed when few entities are shown.
+                        // Zooms out a little bit to prevent all markers being hidden behind menus on the side.
+                        if (mapService.getMap().getZoom() > 9) {
+                            mapService.getMap().fitBounds(latLngs).setZoom(9);
+                        } else if (mapService.getMap().getZoom() > 4) {
+                            mapService.getMap().fitBounds(latLngs).setZoom(mapService.getMap().getZoom() - 1);
+                        } else
+                            mapService.getMap().fitBounds(latLngs);
+                    }
+                }
+
                 var currentQuery = searchService.currentQuery();
                 enrichQuery(currentQuery,scope);
 
 
-                function mapOnMove() {
-                    if (searchService.getSize()<500) {
+                function mapOnMove(bbox,ghprec) {
 
-                        placesClusterPainter.clear();
-                        heatmapPainter.clear();
+                    currentQuery = searchService.currentQuery();
+                    currentQuery.bbox = bbox;
+                    currentQuery.ghprec = ghprec;
 
-                        // scope.clustered = false;
-                        placesService.getCurrentPlaces().then(function(places) {
+                    searchService.getCurrentPage().then(function (entities) {
+
+                        if (searchService.getSize()<300) {
+
+                            placesClusterPainter.clear();
+                            heatmapPainter.clear();
+
+                            var places = placesService.makePlaces(entities);
+
                             placesClusterPainter.drawPlaces(
                                 places, scope);
-                        });
-                    }
-                    else {
-                        placesClusterPainter.clear();
-                        heatmapPainter.clear();
 
-                        searchService.getCurrentPage().then(function () {
+                            if (fitViewToMarkersAllowed) fitViewToMarkers(currentQuery, places,mapOnMove);
+                        }
+                        else {
+                            placesClusterPainter.clear();
+                            heatmapPainter.clear();
+
                             var bucketsToDraw = null;
                             var agg_geogrid = searchService.getFacet("agg_geogrid");
                             if (agg_geogrid) bucketsToDraw = agg_geogrid.values;
-                            heatmapPainter.drawBuckets(_bBoxFromBounds(mapService.getMap().getBounds()), bucketsToDraw);
-                        });
+                            heatmapPainter.drawBuckets(bbox, bucketsToDraw);
+                        }
 
-                    }
+                        fitViewToMarkersAllowed=false;
+                    });
                 }
 
                 mapService.setMoveListener(mapOnMove);
@@ -146,17 +148,21 @@ angular.module('arachne.widgets.directives')
                     } // 3 is to prevent wrong bbox searches
                     // when the window is bigger than the world,
                 );
+
                 heatmapPainter.setMap(mapService.getMap());
                 placesClusterPainter.setMap(mapService.getMap());
 
-                mapService.setOverlays(scope.overlays);
                 // Add baselayers and activate one, given by url
                 // parameter "baselayer" or a default value
                 mapService.setBaselayers(scope.baselayers);
                 mapService.activateBaselayer(currentQuery.baselayer || "osm");
+
+                mapService.setOverlays(scope.overlays);
                 mapService.activateOverlays(currentQuery.getArrayParam('overlays')); // TODO this is undefined
 
                 mapService.initializeView(currentQuery.lat,currentQuery.lng,currentQuery.zoom);
+
+                mapService.getMap().setZoom(mapService.getMap().getZoom()); // to trigger mapOnMove
             }
         }
     }

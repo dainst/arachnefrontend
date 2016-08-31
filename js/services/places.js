@@ -63,22 +63,28 @@ angular.module('arachne.services')
 
     return {
 
+        
+        makePlaces: function(entities) {
+            return buildPlacesListFromEntityList(entities);
+        },
+        
+        
         // returns a promise for a list of places corresponding
         // to the current search result
-        getCurrentPlaces: function() {
-            var oldPromise = promise;
-
-            promise = searchService.getCurrentPage().then(function(entities) {
-                if (oldPromise && lastQuery && angular.equals(lastQuery, searchService.currentQuery().toFlatObject())) {
-                    return oldPromise;
-                } else {
-                    lastQuery = searchService.currentQuery().toFlatObject();
-                    return buildPlacesListFromEntityList(entities);
-                }
-            });
-
-            return promise;
-        },
+        // getCurrentPlaces: function() {
+        //     var oldPromise = promise;
+        //
+        //     promise = searchService.getCurrentPage().then(function(entities) {
+        //         if (oldPromise && lastQuery && angular.equals(lastQuery, searchService.currentQuery().toFlatObject())) {
+        //             return oldPromise;
+        //         } else {
+        //             lastQuery = searchService.currentQuery().toFlatObject();
+        //             return buildPlacesListFromEntityList(entities);
+        //         }
+        //     });
+        //
+        //     return promise;
+        // },
 
         // the number of entities in the current search
         // that are connected to places
