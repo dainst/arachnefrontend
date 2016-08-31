@@ -21,7 +21,7 @@ return {
         // [{facet_name: 'string'}, ...]
         facetsAppend: '=?'
     },
-    templateUrl: 'partials/directives/ar-map-menu-facet-search.html',
+    templateUrl: 'partials/widgets/con10t-map-menu-facet-search.html',
     link: function(scope) {
 
         var geofacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'agg_geogrid']

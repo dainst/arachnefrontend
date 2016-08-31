@@ -11,7 +11,7 @@ return {
     scope: {
         overlays: '='
     },
-    templateUrl: 'partials/directives/ar-map-menu-overlays.html',
+    templateUrl: 'partials/widgets/con10t-map-menu-overlays.html',
     link: function(scope) {
 
         var currentQuery = searchService.currentQuery();
