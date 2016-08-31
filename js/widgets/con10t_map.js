@@ -95,11 +95,11 @@ angular.module('arachne.widgets.directives')
                 defaultBaselayer: '=',	// "key"
                 limit: '@',				// "500"
                 facetsSelect: '=',		// {facetName: facetValue, ...}
-                clustered: '=',  		// true|false
                 lat: '@',
                 lng: '@',
-                zoom: '@'
-
+                zoom: '@',
+                clustered: '=',  		// true|false
+                disableZoomControl: '@?' // true|false
             },
             // menu elements may appear in the transcluded html
             transclude: true,
@@ -140,7 +140,10 @@ angular.module('arachne.widgets.directives')
 
                 mapService.initializeMap(
                     element.attr('id'),
-                    {minZoom: 3} // 3 is to prevent wrong bbox searches
+                    {
+                        zoomControl: !scope.disableZoomControl,
+                        minZoom: 3
+                    } // 3 is to prevent wrong bbox searches
                     // when the window is bigger than the world,
                 );
                 heatmapPainter.setMap(mapService.getMap());
