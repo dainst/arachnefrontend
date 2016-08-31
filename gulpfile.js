@@ -166,7 +166,7 @@ gulp.task('watch-index', ['copy-index'], function(done) { reload(); done(); });
 gulp.task('watch-content', ['copy-con10t'], function(done) { reload(); done(); });
 
 // runs the development server and sets up browser reloading
-gulp.task('server', ['minify-css', 'minify-js', 'concat-deps', 'copy-resources'], function() {
+gulp.task('server', function() {
 	var proxyOptions = url.parse(cfg.backendUri);
     proxyOptions.route = '/data';
 
