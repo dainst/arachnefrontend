@@ -29,10 +29,11 @@ function($uibModal, $location, searchService, placesService, mapService) {
                 var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
                 var path = $location.path().substring(1);
 
+                var query;
                 if (scope.que)
-                    var query=scope.que
+                    query=scope.que;
                 else
-                    var query = mapService.getMapQuery(searchService.currentQuery()).toString();
+                    query = mapService.getMapQuery(searchService.currentQuery()).toString();
 
                 scope.linkText = host + port + baseLinkRef + path + query;
 
@@ -51,18 +52,25 @@ function($uibModal, $location, searchService, placesService, mapService) {
                     elem.setSelectionRange(0, elem.firstChild.length);
                     elem.focus();
                 })
-            }
-
-            var sizeListener = function(size){
-                scope.viewportCount=size;
             };
 
-            var queryListener = function(query) {
-                scope.que=query;
+            var sizeListener = function(){
+                searchService.getCurrentPage().then(function(){
+                    scope.viewportCount=searchService.getSize();
+                });
+            };
+
+            var queryListener = function() {
+                searchService.getCurrentPage().then(function(){
+                    scope.que=mapService.getMapQuery(searchService.currentQuery()).toString();
+                });
             };
 
             // basic information about the search depends on the type of the map
             // (either a geogrid or a map with Place objects)
+
+            // TODO places count vs entity count since there is no gridmap anymore
+
             scope.entityCount = null;
             scope.placesCount = null;
             if (scope.type == "grid") {

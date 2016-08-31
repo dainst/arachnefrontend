@@ -9,7 +9,7 @@ angular.module('arachne.services')
  * @author: David Neugebauer
  * @author: Daniel de Oliveira
  */
-.factory('mapService', ['searchService', function (searchService) {
+.factory('mapService', [ 'searchService', function (searchService) {
 
     var map = null;
     var overlays = null; // { key: LayerConfig }
@@ -31,34 +31,11 @@ angular.module('arachne.services')
     var activeBaselayer = 'osm'; // TileLayer
     var activeBaselayerKey = "";
 
-    var bucketsListener = null;
     var sizeListener = null;
     var queryListener = null;
     var moveListener = null;
 
-    var _getMapQuery = function (query, stripExtraParams) {
-        var newQuery = query.removeParams('lat', 'lng', 'zoom', 'overlays', 'baselayers');
 
-        newQuery.zoom = map.getZoom();
-        newQuery.lat = map.getCenter().lat;
-        newQuery.lng = map.getCenter().lng;
-
-        var overlays = [];
-        for (var key in activeOverlays) {
-            overlays.push(key);
-        }
-        if (overlays.length > 0) {
-            newQuery.overlays = overlays;
-        }
-
-        if (activeBaselayerKey != "") {
-            newQuery.baselayer = activeBaselayerKey;
-        }
-
-        if (stripExtraParams)
-            return query.removeParams(['lat', 'lng', 'zoom', 'bbox', 'ghprec', 'baselayer']);
-        return newQuery;
-    };
 
 
     /**
@@ -83,19 +60,15 @@ angular.module('arachne.services')
         return [northWest.lat, northWest.lng, southEast.lat, southEast.lng].join(',');
     };
 
+
+    // TODO make it an array of onMove observers
     var feedListenersWithUpdates = function () {
 
-        var cq = searchService.currentQuery();
-        cq.bbox = _bBoxFromBounds(map.getBounds());
-        cq.ghprec = getGhprecFromZoom();
+        searchService.markDirty(); // TODO can we get rid of it here?
 
-        searchService.markDirty();
-        searchService.getCurrentPage().then(function () {
-
-            if (queryListener) queryListener(_getMapQuery(searchService.currentQuery()).toString());
-            if (sizeListener)  sizeListener(searchService.getSize());
-            if (moveListener)  moveListener();
-        });
+        if (queryListener) queryListener();
+        if (sizeListener)  sizeListener();
+        if (moveListener) moveListener(_bBoxFromBounds(map.getBounds()),getGhprecFromZoom());
     };
 
     return {
@@ -113,9 +86,6 @@ angular.module('arachne.services')
             sizeListener = sl;
         },
 
-        setBucketsListener: function(bl) {
-            bucketsListener = bl;
-        },
 
         setMoveListener: function(ml) {
             moveListener = ml;
@@ -256,7 +226,29 @@ angular.module('arachne.services')
          * @param stripExtraParams boolean
          */
         getMapQuery: function (query, stripExtraParams) {
-            return _getMapQuery(query, stripExtraParams);
+
+            var newQuery = query.removeParams('lat', 'lng', 'zoom', 'overlays', 'baselayers');
+
+            newQuery.zoom = map.getZoom();
+            newQuery.lat = map.getCenter().lat;
+            newQuery.lng = map.getCenter().lng;
+
+            var overlays = [];
+            for (var key in activeOverlays) {
+                overlays.push(key);
+            }
+            if (overlays.length > 0) {
+                newQuery.overlays = overlays;
+            }
+
+            if (activeBaselayerKey != "") {
+                newQuery.baselayer = activeBaselayerKey;
+            }
+
+            if (stripExtraParams)
+                return query.removeParams(['lat', 'lng', 'zoom', 'bbox', 'ghprec', 'baselayer']);
+
+            return newQuery;
         }
     }
 }]);

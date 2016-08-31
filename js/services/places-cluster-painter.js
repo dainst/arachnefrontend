@@ -68,7 +68,7 @@ angular.module('arachne.services')
 
                 if (place.hasCoordinates()) {
                     // Dom-Element für Popup bauen und in Link-Funktion kompilieren
-                    var html = '<div ar-map-popup place="place"></div>';
+                    var html = '<div con10t-map-popup place="place"></div>';
                     var linkFunction = $compile(angular.element(html));
                     var newScope = scope.$new(true);
                     newScope.place = place;
