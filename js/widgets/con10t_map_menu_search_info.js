@@ -58,8 +58,6 @@ function($uibModal, $location, searchService, placesService, mapService) {
                 // basic information about the search depends on the type of the map
                 // (either a geogrid or a map with Place objects)
 
-                console.log("listener")
-
                 scope.placesCount = placesService.makePlaces(entities).length;
                 scope.entityCount=searchService.getSize();
 
@@ -72,7 +70,6 @@ function($uibModal, $location, searchService, placesService, mapService) {
                 scope.entityCount = searchService.getSize();
                 scope.placesCount = placesService.makePlaces(entities).length;
                 mapService.registerOnMoveListener(queryListener);
-                console.log("link",searchService.getSize());
             });
         }
     }

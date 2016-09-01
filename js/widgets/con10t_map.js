@@ -10,8 +10,8 @@ angular.module('arachne.widgets.directives')
  * @author Daniel de Oliveira
  * @author David Neugebauer
  */
-.directive('con10tMap', ['$filter', 'searchService', 'mapService', 'heatmapPainter', 'placesService','placesClusterPainter',
-    function($filter, searchService, mapService, heatmapPainter, placesService, placesClusterPainter) {
+.directive('con10tMap', ['$filter', 'searchService', 'mapService', 'heatmapPainter', 'placesService','placesPainter',
+    function($filter, searchService, mapService, heatmapPainter, placesService, placesPainter) {
 
         function enrichQuery(currentQuery,scope) {
 
@@ -111,12 +111,12 @@ angular.module('arachne.widgets.directives')
 
                         if (searchService.getSize()<scope.limit) {
 
-                        placesClusterPainter.clear();
+                        placesPainter.clear(); // TODO implement map.removeLayers
                         heatmapPainter.clear();
 
                         var places = placesService.makePlaces(entities);
 
-                        placesClusterPainter.drawPlaces(
+                        placesPainter.drawPlaces(
                             places, scope);
 
                         if (fitViewToMarkersAllowed)
@@ -126,7 +126,7 @@ angular.module('arachne.widgets.directives')
                             );
                     }
                     else {
-                        placesClusterPainter.clear();
+                        placesPainter.clear();
                         heatmapPainter.clear();
 
                         var bucketsToDraw = null;
@@ -152,7 +152,7 @@ angular.module('arachne.widgets.directives')
                 );
 
                 heatmapPainter.setMap(mapService.getMap());
-                placesClusterPainter.setMap(mapService.getMap());
+                placesPainter.setMap(mapService.getMap());
 
                 // Add baselayers and activate one, given by url
                 // parameter "baselayer" or a default value

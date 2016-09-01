@@ -6,9 +6,8 @@ angular.module('arachne.services')
  * @author: David Neugebauer
  * @author: Daniel de Oliveira
  */
-.factory('placesClusterPainter', ['$compile', function ($compile) {
+.factory('placesPainter', ['$compile', function ($compile) {
 
-    var markerClusterGroup;
     var markers=[];
     var map;
     
@@ -23,7 +22,6 @@ angular.module('arachne.services')
                 map.removeLayer(markers[i])
             }
             markers=[];
-            if (markerClusterGroup) map.removeLayer(markerClusterGroup);
         },
 
         // create the actual places' markers
@@ -31,38 +29,8 @@ angular.module('arachne.services')
             places, // : Place
             scope) {
 
-            markerClusterGroup = new L.MarkerClusterGroup({
-                iconCreateFunction: function (cluster) {
-
-                    var markers = cluster.getAllChildMarkers();
-                    var entityCount = 0;
-                    for (var i = 0; i < markers.length; i++) {
-                        entityCount += markers[i].options.entityCount;
-                    }
-
-                    var childCount = cluster.getChildCount();
-
-                    var c = ' marker-cluster-';
-                    if (childCount < 10) {
-                        c += 'small';
-                    } else if (childCount < 100) {
-                        c += 'medium';
-                    } else {
-                        c += 'large';
-                    }
-
-                    return new L.DivIcon({
-                        html: '<div><span>' + entityCount + ' at ' + childCount + ' Places</span></div>',
-                        className: 'marker-cluster' + c,
-                        iconSize: new L.Point(40, 40)
-                    });
-                }
-            });
-
             if (!places) return;
-
-
-
+            
             for (var i = 0; i < places.length; i++) {
                 var place = places[i];
 
@@ -84,8 +52,6 @@ angular.module('arachne.services')
                     }
                 }
             }
-
-            map.addLayer(markerClusterGroup);
         }
     }
 }]);
