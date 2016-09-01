@@ -11,7 +11,7 @@ angular.module('arachne.resources')
 function($resource, arachneSettings, $q) {
 
     return $resource(
-        arachneSettings.dataserviceUri + "/:endpoint/:id",
+        arachneSettings.dataserviceUri + "/:endpoint/:id?live=true",
         { id: '@entityId' },
         {
             get: {

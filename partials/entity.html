@@ -150,7 +150,7 @@
         	<div class="well" entitymap places="entity.places" id="entitymap" style="height:200px;"></div>
     	</div>
     	
-		<!-- CATALOGES -->
+		<!-- CATALOG ENTRIES -->
 		<div ng-if="user.username">
 			<h5 class="text-muted uppercase">
 				<strong>{{'entity_catalogs'|transl8}}</strong>	
@@ -160,14 +160,14 @@
 					{{'entity_catalog_info'|transl8}}
 				</div>
 				<ul class="list-group">
-					<a ng-repeat="catalogEntry in catalogEntries" ng-href="catalog/{{catalogEntry.catalogId}}" class="list-group-item">
+					<li ng-repeat="catalogEntry in catalogEntries"  class="list-group-item">
+						<span ng-if="catalogEntry.text" class="btn btn-primary btn-xs pull-right" ng-click="previewCatalogEntry(catalogEntry)">PREVIEW</span>
 						<em>{{catalogEntry.author}}:</em><br>
 						<span class="text-muted uppercase">
 							<span class="glyphicon glyphicon-inbox" style="font-size:10px"></span>
-							<b>{{catalogEntry.catalogLabel}}</b>
+							<b><a ng-href="catalog/{{catalogEntry.catalogId}}">{{catalogEntry.catalogLabel}}</a></b>
 						</span>
-						<p class="small" style="font-style:italic;" ng-if="catalogEntry.text" markdown-to-html="catalogEntry.text"></p>
-					</a>					
+					</li>					
 				</ul>
 				<div class="panel-footer">
 					<button type="button" class="list-group-item btn" style="text-align:center"  ng-click="createEntry()">

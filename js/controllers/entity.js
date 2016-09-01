@@ -27,6 +27,21 @@ angular.module('arachne.controllers')
                 $scope.catalogs = Catalog.query();
             }
 
+            $scope.previewCatalogEntry = function (catalogEntry) {
+                var entityPreview = {
+                    title: $scope.entity.title,
+                    subtitle: $scope.entity.subtitle,
+                    thumbnailId: $scope.entity.thumbnailId
+                };
+                var preview = $uibModal.open({
+                    templateUrl: 'partials/Modals/previewCatalogEntry.html',
+                    controller: ['$scope', function ($scope) {
+                        $scope.catalogEntry = catalogEntry;
+                        $scope.entity = entityPreview;
+                    }]
+                });
+            };
+
             $scope.createEntry = function () {
 
                 //TODO: Parse Sections in entry.text
