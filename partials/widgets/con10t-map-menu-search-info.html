@@ -2,39 +2,43 @@
     {{'ui_no_places_found' | transl8}}.
 </div>
 
-<div ng-if="entityCount > 0" style="margin-bottom:10px;position:relative">
+<div ng-if="entitiesTotal > 0" style="margin-bottom:10px;position:relative">
     <div style="position: absolute;top:5px;right:5px">
         <span title="{{'ui_map_link_heading' | transl8}}" class="clickable glyphicon glyphicon-link" ng-click="showLinkModal()"></span>
     </div>
 
 
     <small>
-        <span ng-if="type!='grid'">
-            <strong>{{ entityCount | number }}</strong>
-            {{(entityCount > 1 ? 'ui_object_plural' : 'ui_object') | transl8}}
-            {{'ui_total_small' | transl8}}
-            <br>
-        </span>
-        <span ng-if="type=='grid'">
-            {{'ui_objects_shown' | transl8}}:<br>
-            <strong>{{ viewportCount | number }}</strong>
-            {{'ui_of' | transl8}}
-            <strong>{{ entityCount | number }}</strong>
-            {{'ui_total_small' | transl8}}
+
+
+        <span>
+            <a href="search{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']).toString()}}"
+               class="btn btn-primary btn-sm btn-block">
+                {{'ui_objects_shown' | transl8}}:
+
+                <i class="glyphicon glyphicon-search"> </i>
+            </a>
         </span>
 
         <span ng-if="placesCount">
+
+            <strong>{{ entityCount | number }}</strong>
+
+            <span ng-if="entityCount>1">{{'ui_object_plural' | transl8}}</span>
+            <span ng-if="entityCount==1">{{'ui_object' | transl8}}</span>
+
             {{'ui_at' | transl8}}
+
             <strong>{{ placesCount |number }}</strong>
             {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
         </span>
+
+
+        <br><br><br>
+
+        <span>
+            {{'ui_objects_total' | transl8}}: <strong>{{ entitiesTotal | number }}</strong><br>
+        </span>
+
     </small>
-</div>
-
-
-<div ng-if="entityCount > 0" style="margin-bottom:10px;">
-    <a href="search{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']).toString()}}" type="button"
-            class="btn btn-primary btn-sm btn-block">
-        {{'ui_showobjects' | transl8}} <i class="glyphicon glyphicon-search"> </i>
-    </a>
 </div>
