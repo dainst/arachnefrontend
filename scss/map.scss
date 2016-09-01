@@ -8,22 +8,17 @@
   padding-bottom: 50px;
 }
 
-.map-fullscreen .map {
+.map-fullscreen #map {
   height: 100%;
 }
 
-.map-fullscreen .map .ar-map {
-  height: 100%;
-}
-
-.map {
+#map {
   height: 250px;
 }
 
-.map .ar-map {
-  height: 100%;
+#map img {
+  padding: 0;
 }
-
 
 /* map menu items and controls */
 
