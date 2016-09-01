@@ -7,8 +7,8 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  */
-.controller('CatalogController', ['$scope', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity',
-	function ($scope, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity) {
+.controller('CatalogController', ['$scope', '$state', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity',
+	function ($scope, $state, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity) {
 
 		$scope.entryMap = {};
 
@@ -175,17 +175,8 @@ angular.module('arachne.controllers')
 	    };
 
 	    $scope.selectEntry = function(entry) {
-	    	$scope.activeEntry = entry;
-	    	if (entry.arachneEntityId) {
-	    		Entity.get({id: entry.arachneEntityId}, function(entity) {
-	    			$scope.activeEntity = entity;
-	    		}, function() {
-	    			message.addMessageForCode('default');
-	    		});
-	    	} else {
-	    		$scope.activeEntity = null;
-	    	}
-	    	// TODO: change URL
+	    	$state.transitionTo('catalog.entry', { id: $scope.catalog.id, entryId: entry.id }, { notify: false });
+	    	showEntry(entry);
 	    };
 
 	    function initialize(entry) {
@@ -216,6 +207,19 @@ angular.module('arachne.controllers')
 	        });
 	    }
 
+	    function showEntry(entry) {
+	    	$scope.activeEntry = entry;
+	    	if (entry.arachneEntityId) {
+	    		Entity.get({id: entry.arachneEntityId}, function(entity) {
+	    			$scope.activeEntity = entity;
+	    		}, function() {
+	    			message.addMessageForCode('default');
+	    		});
+	    	} else {
+	    		$scope.activeEntity = null;
+	    	}
+	    }
+
 	    function checkIfEditable() {
 	    	var user = authService.getUser();
 	    	$http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username).success(function(user) {
@@ -224,6 +228,12 @@ angular.module('arachne.controllers')
 	    }
 
 	    retrieveCatalog($stateParams.id);
+
+	    if ($stateParams.entryId) {
+	    	CatalogEntry.get({ id: $stateParams.entryId }, function(entry) {
+	    		showEntry(entry);
+	    	});
+	    }
 
 	}
 ]);
