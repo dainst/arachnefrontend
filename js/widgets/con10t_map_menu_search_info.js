@@ -55,8 +55,14 @@ function($uibModal, $location, searchService, placesService, mapService) {
             };
 
             function placesCount(entities) {
+
                 if (mapService.underLimit()) {
-                    return placesService.makePlaces(entities).length;
+                    var placesCount=placesService.makePlaces(entities).length;
+
+                    if (searchService.getFacet('facet_geo').values.length>placesCount)
+                        placesCount=searchService.getFacet('facet_geo').values.length;
+
+                    return placesCount;
                 } else
                     return undefined;
             }

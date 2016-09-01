@@ -99,8 +99,9 @@ angular.module('arachne.services')
         
         underLimit: function() {
             return (searchService.getSize()<limit ||
-                searchService.getFacet("facet_ort").values.length<limit)
+                searchService.getFacet("facet_geo").values.length<limit)
         },
+        
 
         /**
          * Initialize the Map given an Attribute id of an

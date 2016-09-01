@@ -112,7 +112,8 @@ angular.module('arachne.widgets.directives')
 
                         console.log(
                             "*entities.length:"+entities.length+
-                            "*searchService.getFacet(\"facet_ort\").values.length:"+searchService.getFacet("facet_ort").values.length);
+                            "\n*placesService.makePlaces(entities).length:"+placesService.makePlaces(entities).length+
+                            "\n*searchService.getFacet(\"facet_geo\").values.length:"+searchService.getFacet("facet_geo").values.length);
 
 
                         placesPainter.clear(); // TODO implement map.removeLayers
