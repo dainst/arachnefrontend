@@ -20,17 +20,18 @@
             </a>
         </span>
 
-        <span ng-if="placesCount">
-
+        <span>
             <strong>{{ entityCount | number }}</strong>
 
             <span ng-if="entityCount>1">{{'ui_object_plural' | transl8}}</span>
             <span ng-if="entityCount==1">{{'ui_object' | transl8}}</span>
 
-            {{'ui_at' | transl8}}
+            <span ng-if="placesCount">
+                {{'ui_at' | transl8}}
 
-            <strong>{{ placesCount |number }}</strong>
-            {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
+                <strong>{{ placesCount |number }}</strong>
+                {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
+            </span>
         </span>
 
 

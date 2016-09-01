@@ -54,11 +54,18 @@ function($uibModal, $location, searchService, placesService, mapService) {
                 })
             };
 
+            function placesCount(entities) {
+                if (mapService.underLimit()) {
+                    return placesService.makePlaces(entities).length;
+                } else
+                    return undefined;
+            }
+
             var queryListener = function(entities) {
                 // basic information about the search depends on the type of the map
                 // (either a geogrid or a map with Place objects)
 
-                scope.placesCount = placesService.makePlaces(entities).length;
+                scope.placesCount = placesCount(entities);
                 scope.entityCount=searchService.getSize();
 
                 // scope.que=mapService.getMapQuery(searchService.currentQuery()).toString();
@@ -68,7 +75,7 @@ function($uibModal, $location, searchService, placesService, mapService) {
             searchService.getCurrentPage().then(function(entities){
                 scope.entitiesTotal = searchService.getSize();
                 scope.entityCount = searchService.getSize();
-                scope.placesCount = placesService.makePlaces(entities).length;
+                scope.placesCount = placesCount(entities);
                 mapService.registerOnMoveListener(queryListener);
             });
         }

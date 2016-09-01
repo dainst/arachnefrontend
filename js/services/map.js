@@ -62,9 +62,14 @@ angular.module('arachne.services')
 
     var getCurrentPage = function () {
 
+        if (!limit) {
+            console.warn("no limit defined")
+        }
+
+        searchService.currentQuery().fl=1000;
         searchService.currentQuery().bbox = bBoxFromBounds(map.getBounds());
         searchService.currentQuery().ghprec = getGhprecFromZoom();
-        searchService.currentQuery().limit = 300;
+        searchService.currentQuery().limit = limit;
         searchService.markDirty(); 
         return searchService.getCurrentPage();
     };
@@ -90,6 +95,11 @@ angular.module('arachne.services')
 
         setLimit: function(lim) {
             limit = lim;
+        },
+        
+        underLimit: function() {
+            return (searchService.getSize()<limit ||
+                searchService.getFacet("facet_ort").values.length<limit)
         },
 
         /**
