@@ -54,37 +54,26 @@ function($uibModal, $location, searchService, placesService, mapService) {
                 })
             };
 
-            var sizeListener = function(){
-                searchService.getCurrentPage().then(function(){
-                    scope.viewportCount=searchService.getSize();
-                });
+            var queryListener = function(entities) {
+                // basic information about the search depends on the type of the map
+                // (either a geogrid or a map with Place objects)
+
+                console.log("listener")
+
+                scope.placesCount = placesService.makePlaces(entities).length;
+                scope.entityCount=searchService.getSize();
+
+                // scope.que=mapService.getMapQuery(searchService.currentQuery()).toString();
+                // scope.entityCount = searchService.getSize();
             };
-
-            var queryListener = function() {
-                searchService.getCurrentPage().then(function(){
-                    scope.que=mapService.getMapQuery(searchService.currentQuery()).toString();
-                });
-            };
-
-            // basic information about the search depends on the type of the map
-            // (either a geogrid or a map with Place objects)
-
-            // TODO places count vs entity count since there is no gridmap anymore
-
-            scope.entityCount = null;
-            scope.placesCount = null;
-            if (scope.type == "grid") {
-                mapService.setSizeListener(sizeListener);
-                mapService.setQueryListener(queryListener);
-                searchService.getCurrentPage().then(function () {
-                    scope.entityCount = searchService.getSize();
-                });
-            } else if (scope.type == "places") {
-                placesService.getCurrentPlaces().then(function(places) {
-                    scope.entityCount = placesService.getEntityCount();
-                    scope.placesCount = places.length;
-                });
-            }
+            
+            searchService.getCurrentPage().then(function(entities){
+                scope.entitiesTotal = searchService.getSize();
+                scope.entityCount = searchService.getSize();
+                scope.placesCount = placesService.makePlaces(entities).length;
+                mapService.registerOnMoveListener(queryListener);
+                console.log("link",searchService.getSize());
+            });
         }
     }
 }]);

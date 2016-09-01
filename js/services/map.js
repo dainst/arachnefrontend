@@ -9,7 +9,7 @@ angular.module('arachne.services')
  * @author: David Neugebauer
  * @author: Daniel de Oliveira
  */
-.factory('mapService', [ 'searchService', function (searchService) {
+.factory('mapService', [ 'searchService' , function (searchService) {
 
     var map = null;
     var overlays = null; // { key: LayerConfig }
@@ -31,10 +31,9 @@ angular.module('arachne.services')
     var activeBaselayer = 'osm'; // TileLayer
     var activeBaselayerKey = "";
 
-    var sizeListener = null;
-    var queryListener = null;
-    var moveListener = null;
+    var onMoveListeners = [];
 
+    var limit = undefined;
 
 
 
@@ -54,22 +53,29 @@ angular.module('arachne.services')
     };
 
 
-    var _bBoxFromBounds = function (bounds) {
+    var bBoxFromBounds = function (bounds) {
         var southEast = bounds.getSouthEast();
         var northWest = bounds.getNorthWest();
         return [northWest.lat, northWest.lng, southEast.lat, southEast.lng].join(',');
     };
 
 
-    // TODO make it an array of onMove observers
-    var feedListenersWithUpdates = function () {
+    var getCurrentPage = function () {
 
-        searchService.markDirty(); // TODO can we get rid of it here?
-
-        if (queryListener) queryListener();
-        if (sizeListener)  sizeListener();
-        if (moveListener) moveListener(_bBoxFromBounds(map.getBounds()),getGhprecFromZoom());
+        searchService.currentQuery().bbox = bBoxFromBounds(map.getBounds());
+        searchService.currentQuery().ghprec = getGhprecFromZoom();
+        searchService.currentQuery().limit = 300;
+        searchService.markDirty(); 
+        return searchService.getCurrentPage();
     };
+
+
+    var feedListenersWithUpdates = function (entities) {
+        for (var i in onMoveListeners)
+            onMoveListeners[i](entities);
+    };
+    
+    
 
     return {
 
@@ -78,17 +84,12 @@ angular.module('arachne.services')
             return _bBoxFromBounds(bounds);
         },
 
-        setQueryListener: function (ql) {
-            queryListener = ql;
+        registerOnMoveListener: function (oml) {
+            onMoveListeners.push(oml);
         },
 
-        setSizeListener: function (sl) {
-            sizeListener = sl;
-        },
-
-
-        setMoveListener: function(ml) {
-            moveListener = ml;
+        setLimit: function(lim) {
+            limit = lim;
         },
 
         /**
@@ -127,7 +128,7 @@ angular.module('arachne.services')
 
             // Hook for redrawing the grid on zoom and move events
             map.on('moveend', function () {
-                feedListenersWithUpdates();
+                getCurrentPage().then(feedListenersWithUpdates);
             });
 
             // see comment in apidoc above
