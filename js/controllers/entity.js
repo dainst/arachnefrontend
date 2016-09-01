@@ -23,10 +23,6 @@ angular.module('arachne.controllers')
                 $location.url(path);
             };
 
-            if (authService.getUser()) {
-                $scope.catalogs = Catalog.query();
-            }
-
             $scope.createEntry = function () {
 
                 //TODO: Parse Sections in entry.text
