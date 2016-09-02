@@ -1,0 +1,38 @@
+<div class="row">
+
+	<div class="col-md-8">
+		<h2 class="entity-title">
+			<div class="title">
+				{{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type}}</span>
+			</div>
+			<div class="subtitle"><small>{{ entity.subtitle }}</small></div>
+		</h2>
+		<div>
+			<small>
+				<a ng-href="{{ serverUri }}entity/{{entity.entityId}}" target="_self">
+					arachne.dainst.org/entity/{{entity.entityId}}
+				</a>
+			</small>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<table class="table table-condensed" style="margin-bottom:0">
+			<thead>
+				<tr>
+					<td><strong>{{ 'entityId' | transl8 }}:</strong></td>
+					<td>{{ entity.entityId }}</td>
+				</tr>
+			</thead>
+			<tr>
+				<td><strong>{{'ui_category'|transl8}}:</strong></td>
+				<td>{{entity.type}}</td>
+			</tr>
+			<tr>
+				<td><strong>{{'ui_serial_number'|transl8}}:</strong></td>
+				<td>{{ entity.internalId }}</td>
+			</tr>
+		</table>
+	</div>
+
+</div>

@@ -150,7 +150,9 @@ angular.module('arachne.controllers')
                     $scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
                     $scope.facets = searchService.getFacets();
                     var insert = [];
+
                     for (var i = 0; i < $scope.facets.length; i++) {
+
                         var facet = $scope.facets[i];
                         facet.open = false;
                         if (facet.values.length < $scope.currentQuery.fl) {

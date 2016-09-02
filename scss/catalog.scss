@@ -1,0 +1,80 @@
+.catalog {
+
+  .catalog-text {
+
+    h1, h2, h3, h4 { font-weight: 700; margin: 8px 0; }
+    h1 { font-size: 17px; }
+    h2 { font-size: 16px; }
+    h3 { font-size: 15px; }
+    h3 { font-size: 14px; }
+
+  }
+
+  .catalog-text-heading {
+    font-weight: 700;
+    font-size: 1.3em;
+  }
+
+  .catalog-tree {
+
+    .angular-ui-tree-placeholder {
+      background: #f0f9ff;
+      border-radius: 4px;
+      border: 1px dashed #bed2db;
+      margin: 0;
+    }
+
+    .angular-ui-tree-handle {
+      font-weight: normal;
+    }
+
+    .entry-label {
+      padding-right: 10px;
+    }
+
+  }
+
+}
+
+.catalog-entry {
+  padding: 10px;
+  border-radius: 4px;
+
+  &.active {
+    background-color: $component-active-bg !important;
+    color: $component-active-color !important;
+
+    .text-muted {
+      color: $component-active-color !important;
+    }
+
+    .edit-btn {
+      color: $component-active-color !important;
+      visibility: visible;
+    }
+
+  }
+
+  &:hover {
+    background-color: #EEEEEE;
+
+    .edit-btn {
+      visibility: visible;
+    }
+  }
+
+  &.moveable {
+    cursor: move;
+  }
+
+  .angular-ui-tree-handle {
+    padding: 2px;
+  }
+
+  .edit-btn {
+    padding: 2px 3px;
+    visibility: hidden;
+    cursor: pointer;
+  }
+
+}

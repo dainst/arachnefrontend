@@ -1,0 +1,24 @@
+<div class="modal-header">
+	<h2 class="modal-title">
+		<small><i>{{ 'catalog_public_by' | transl8 }}</i> {{ catalogEntry.author }}</small><br>
+		<a uib-tooltip="{{ 'catalog_view_full_entry' | transl8 }}" ng-href="catalog/{{catalogEntry.catalogId}}">
+			<span class="glyphicon glyphicon-inbox"> </span> {{ catalogEntry.catalogLabel }}
+		</a>
+	</h2>
+</div>
+<div class="modal-body">
+	<div class="well well-sm media">
+			<div class="media-left">
+			<img ar-img img-id="{{entity.thumbnailId}}" img-height="40">
+		</div>
+		<div class="media-body">
+			<small>{{ entity.subtitle}}</small><br>
+			{{entity.title}}
+		</div>
+	</div>
+	<p ng-if="catalogEntry.text" markdown-to-html="catalogEntry.text"></p>
+</div>
+<div class="modal-footer">
+	<a class="btn btn-default" ng-href="catalog/{{catalogEntry.catalogId}}">{{ 'catalog_view_full_entry' | transl8 }}</a>
+	<button class="btn btn-primary" ng-click="$dismiss()">{{ 'ui_close' | transl8 }}</button>
+</div>
