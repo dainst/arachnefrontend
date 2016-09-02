@@ -74,16 +74,17 @@
 
 </script>
 
-<div class="row catalog" ng-controller="CatalogController">
+<div class="row catalog fullscreenrow" ng-controller="CatalogController">
 
 	<div ng-hide="catalog">
 		<div class="loading"></div>
 	</div>
 
-	<div class="col-md-4 catalog-tree" ng-show="catalog">
+	<div class="col-md-4 catalog-tree fullscreencol" ng-show="catalog">
 
-		<h3 class="page-header" ng-click="selectEntry(catalog.root)">
-			<strong>{{catalog.root.label}}</strong> <small>{{ 'catalog_author' | transl8 }}: {{catalog.author}}</small>
+		<h3 ng-click="selectEntry(catalog.root)">
+			<span class="glyphicon glyphicon-inbox text-muted"></span>
+			{{catalog.root.label}} <small>{{ 'catalog_author' | transl8 }}: {{catalog.author}}</small>
 			
 			<div ng-show="editable" class="btn-group btn-group-sm pull-right">
 				<button class="btn btn-default" ng-click="editCatalog()"
@@ -104,6 +105,8 @@
 			</div>
 
 		</h3>
+
+		<hr>
 
 		<div ng-if="catalog.root.children.length > 0" ui-tree="treeOptions" data-drag-enabled="editable" id="tree-root">
 			<ol ui-tree-nodes="nodes" ng-model="catalog.root.children" ng-class="{hidden: collapsed}">
@@ -137,13 +140,9 @@
 
 	</div>
 
-	<div class="col-md-8">
+	<div class="col-md-8 fullscreencol">
 	
 		<div ng-if="activeEntry">
-
-			<h3 class="page-header">
-				{{activeEntry.label}}
-			</h3>
 
 			<div ng-show="activeEntity">
 				<ar-entity-header entity="activeEntity"></ar-entity-header>
@@ -151,10 +150,17 @@
 			</div>
 			<div class="row">
 
-				<div class="col-md-8 catalog-text">
-					<div ng-if="activeEntry.text">
-						<div class="catalog-text-heading">{{ 'catalog_description' | transl8 }}</div>
-						<span markdown-to-html="activeEntry.text"></span>
+				<div class="col-md-8">
+					<div ng-if="activeEntry.text" class="panel panel-default">
+						<div class="panel-heading">
+							<h2 class="panel-title">
+								<span class="glyphicon glyphicon-file"></span>
+								{{ 'catalog_description' | transl8 }}
+							</h2>
+						</div>
+						<div class="panel-body catalog-text">
+							<span markdown-to-html="activeEntry.text"></span>
+						</div>
 					</div>
 					<div ng-if="!activeEntry.text">
 						<i>- {{ 'catalog_no_description' | transl8 }} -</i>

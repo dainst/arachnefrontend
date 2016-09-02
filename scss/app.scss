@@ -315,6 +315,10 @@ h6 { font-size: 12px; }
   left: 0;
   padding-top: 50px;
 }
+.fullscreencol {
+  height: 100%;
+  overflow-y: auto;
+}
 
 hr {
   margin-top: 0.5em;
