@@ -66,7 +66,7 @@ angular.module('arachne.services')
             console.warn("no limit defined")
         }
 
-        searchService.currentQuery().fl=1000;
+        searchService.currentQuery().fl=limit;
         searchService.currentQuery().bbox = bBoxFromBounds(map.getBounds());
         searchService.currentQuery().ghprec = getGhprecFromZoom();
         searchService.currentQuery().limit = limit;
