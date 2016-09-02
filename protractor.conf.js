@@ -16,6 +16,6 @@ exports.config = {
         defaultTimeoutInterval: 400000
     },
     onPrepare: function() {
-        browser.manage().window().setSize(1000, 600);
+        browser.manage().window().setSize(800, 600);
     }
 };
