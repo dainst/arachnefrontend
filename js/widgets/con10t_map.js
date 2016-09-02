@@ -99,7 +99,6 @@ angular.module('arachne.widgets.directives')
             link : function(scope,element) {
 
                 if (scope.limit==undefined||scope.limit>500) scope.limit=500;
-                console.log("scope.limit",scope.limit)
 
                 var fitViewToMarkersAllowed=true;
 
