@@ -7,9 +7,10 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  */
-.controller('CatalogController', ['$scope', '$state', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity',
-	function ($scope, $state, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity) {
+.controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity',
+	function ($rootScope, $scope, $state, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity) {
 
+		$rootScope.hideFooter = true;
 		$scope.entryMap = {};
 
 	    $scope.treeOptions = {
