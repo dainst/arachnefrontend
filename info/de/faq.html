@@ -10,7 +10,7 @@
 
             <h2 id="Suche">Suche</h2>
             <uib-accordion>
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Wie kann ich mehrere Suchbegriffe miteinander kombinieren?
                     </uib-accordion-heading>
@@ -19,9 +19,9 @@
                         vorkommen. Standardmäßig werden Suchbegriffe also mit einem logischen UND verknüpft.</p>
 
                     <p class="query-example">Beispiel: <a href="search?q=Akropolis Athen">Akropolis Athen</a></p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Wie kann ich Suchbegriffe ausschließen?
                     </uib-accordion-heading>
@@ -30,9 +30,9 @@
                         den unmittelbar darauf folgenden Suchbegriff beinhalten.</p>
 
                     <p class="query-example">Beispiel: <a href="search?q=Akropolis -Athen">Akropolis -Athen</a></p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Wie kann ich komplexere logische Verknüpfungen in der Suchanfrage formulieren?
                     </uib-accordion-heading>
@@ -44,9 +44,9 @@
                     <p class="query-example">Beispiel: <a href="search?q=Herakles AND (Dionysos OR Bacchus)">Herakles
                         AND
                         (Dionysos OR Bacchus)</a></p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Wie kann ich nach einer festen Phrase statt nach mehreren unverbundenen Wörtern suchen?
                     </uib-accordion-heading>
@@ -55,9 +55,9 @@
 
                     <p class="query-example">Beispiel: <a href="search?q=&quot;Akropolis von Athen&quot;">"Akropolis von
                         Athen"</a></p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Gibt es die Möglichkeit, statt im gesamten Inhalt eines Objekts gezielt in einzelnen Feldern zu
                         suchen?
@@ -81,14 +81,14 @@
                                 href="search?q=subtitle:&quot;Attika&quot;">subtitle:"Attika"</a>, <a
                                 href="search?q=datasetGroup:Arachne">datasetGroup:Arachne</a></p>
 
-                    <p>Bei <code>type</code> muss der Name der Kategorie genau wiedergegeben werden, zum Beispiel 
-                    "Topographien" und nicht "topographien" oder "Topographie". Eine bequemere Alternative ist der Link 
+                    <p>Bei <code>type</code> muss der Name der Kategorie genau wiedergegeben werden, zum Beispiel
+                    "Topographien" und nicht "topographien" oder "Topographie". Eine bequemere Alternative ist der Link
                     "alle anzeigen" auf der entsprechenden Kategorienseite, z.B. für
                     <a href="category/?c=Topographien">Topographien</a>.
                     Eine Liste aller Kategorien finden Sie <a href="categories">hier</a>.</p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Welche Wildcards werden unterstützt?
                     </uib-accordion-heading>
@@ -103,9 +103,9 @@
                         <small>(findet neben "Akropolis" auch Begriffe wie "Akropolismuseum" oder "Akropolisberg")
                         </small>
                     </p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Werden reguläre Ausdrücke unterstützt?
                     </uib-accordion-heading>
@@ -115,9 +115,9 @@
                     <p class="query-example">Beispiel: <a href="search?q=/Pompe[ij]/">/Pompe[ij]/</a><br/>
                         <small>(findet sowohl Ergebnisse zu “Pompeii” als auch zu “Pompeji”)</small>
                     </p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Werden ausschließlich Objekte gefunden, die exakt den eingegebenen Suchbegriff enthalten?
                     </uib-accordion-heading>
@@ -131,9 +131,9 @@
                     <p class="query-example">Beispiel: <a href="search?q=Pompei~">Pompei~</a><br/>
                         <small>(findet sowohl “Pompei”, als auch “Pompeji” oder “Pompeii”)</small>
                     </p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         <span id="syntax_error"></span>
                         Meine Suchanfrage verursacht einen Syntaxfehler, was kann ich tun?
@@ -145,14 +145,14 @@
                         werden oder als Teil einer Phrasensuche innerhalb von `"` verwendet werden.</p>
                     <p class="query-example">Beispiel: <a href="search?q=87\/243">87\/243</a>
                     </p>
-                </uib-accordion-group>
+                </div>
 
             </uib-accordion>
 
             <h2 id="Suchergebnis">Suchergebnisansicht</h2>
 
             <uib-accordion>
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Wonach richtet sich die Sortierung der Suchergebnisse?
                     </uib-accordion-heading>
@@ -167,9 +167,9 @@
                         Suchergebnis.</p>
 
                     <p>Die Standardsortierung können Sie rechts über der Anzeige der Suchergebnisse verändern.</p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Warum werden mal mehr und mal weniger Filter angeboten?
                     </uib-accordion-heading>
@@ -183,21 +183,21 @@
                         können,
                         das Suchergebnis zu filtern. Wenn also zum Beispiel im Suchergebnis gar keine Treffer enthalten
                         sind, für die ein Ort angegeben ist, wird der entsprechende Filter auch nicht angezeigt.</p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Zeigen die Filter alle verfügbaren Werte?
                     </uib-accordion-heading>
                     <p>Nein. Es werden nur die für das konkrete Suchergebnis häufigsten Werte angezeigt.</p>
-                </uib-accordion-group>
+                </div>
 
             </uib-accordion>
 
             <h2 id="Troubleshooting">Troubleshooting</h2>
 
             <uib-accordion>
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Warum wird Arachne in meinem Webbrowser nicht korrekt dargestellt?
                     </uib-accordion-heading>
@@ -220,7 +220,7 @@
                         Bilddarstellung beachten Sie bitte die Kalibration von Eye One für Gamma 2.2 und nativen
                         Weißpunkt.
                     </p>
-                </uib-accordion-group>
+                </div>
             </uib-accordion>
 
         </div>
