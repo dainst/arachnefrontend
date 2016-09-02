@@ -154,11 +154,6 @@ gulp.task('build', [
     'copy-info'
 ]);
 
-// clean
-gulp.task('clean', function () {
-    return del('dist/' + '/**/*');
-});
-
 gulp.task('clone-con10t', function(callback) {
 
     fs.access('./con10t', fs.F_OK, function (err) {
