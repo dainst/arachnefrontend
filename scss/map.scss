@@ -1,18 +1,32 @@
 .map-fullscreen {
+  //position: fixed;
+  //padding-left: 115px;
+  //right: 15px;
+  //bottom: 0;
+  //top: 40px;
+  height: 100%;
+  //padding-bottom: 50px;
+}
+
+.map-fullscreen #map {
   position: fixed;
-  left: 15px;
+  padding-left: 115px;
   right: 15px;
   bottom: 0;
   top: 40px;
   height: 100%;
   padding-bottom: 50px;
+
 }
 
-.map-fullscreen #map {
-  height: 100%;
+.map-fullscreen #map #map-right-menu {
+  z-index:200;
+  position: absolute;
+  right:10px;
+  top: 20px;
 }
 
-#map {
+.con10t-page #map {
   height: 250px;
 }
 
@@ -20,38 +34,22 @@
   padding: 0;
 }
 
-/* map menu items and controls */
-
-#map-right-menu, #map-left-menu, #ar-map-zoomcontrol {
-  background-color: rgba(248, 248, 248, 0.9);
-  position: fixed;
-  top: 10px;
-  text-align: left;
-  z-index:500;
-}
-
-#map-right-menu {
-  right: 10px;
-}
-
-#map-left-menu {
-  left: 10px;
-}
-
 #ar-map-zoomcontrol {
-  left:10px;
+  left:0px;
   text-align: center;
 }
 
-.map-fullscreen #map-right-menu,
-.map-fullscreen #map-left-menu,
-.map-fullscreen #ar-map-zoomcontrol {
-  top: 60px;
-}
 
-#map-right-menu.toggled, #map-left-menu.toggled {
-  bottom:10px;
+
+.map-fullscreen #menu {
+  bottom:0px;
+  left: 0;
   overflow-y:auto;
+  top: 0;
+  text-align: left;
+  padding-right: 30px;
+  z-index:500;
+  left: 0;
 }
 
 .ar-map-zoomcontrol-box {
@@ -59,4 +57,8 @@
   padding: 4px 10px 4px 10px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.map-fullscreen #map{
+  top: 50px;
 }

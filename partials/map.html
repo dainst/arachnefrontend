@@ -1,10 +1,6 @@
 <div hide-footer class="row map-fullscreen">
 
-    <div con10t-map
-         id="map">
-    </div>
-
-    <div id="map-right-menu" class="col-md-2 well well-sm toggled">
+    <div id="menu" class="col-md-2">
         <h3 class="text-muted uppercase">
             {{'ui_gridmap_heading'|transl8}}
         </h3>
@@ -12,5 +8,10 @@
         <div con10t-map-menu-search-info type="grid"></div>
         <div con10t-map-menu-search-field heading="{{'ui_current_search'|transl8}}"></div>
         <div con10t-map-menu-facet-search></div>
+    </div>
+
+    <div con10t-map
+         class="col-md-10 rhs"
+         id="map">
     </div>
 </div>
