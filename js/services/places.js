@@ -12,16 +12,13 @@ angular.module('arachne.services')
     // A promise for an Array of Place objects with corresponding entities
     var promise = null;
 
-    // Keep the last query used to construct the places list
-    // to check if the current query is different
-    var lastQuery = null;
-
     // Keep a count of all entities that have connected places
     var entityCount = 0;
 
     // reads a list of entities with connected places
     // returns a list of places with connected entities
-    var buildPlacesListFromEntityList = function(entities) {
+    var buildPlacesListFromEntityList = function(entities,bbox) {
+
         var places = {};
         var placesList = [];
         entityCount = 0;
@@ -36,20 +33,29 @@ angular.module('arachne.services')
                     var place = new Place();
                     place.merge(entity.places[j]);
 
-                    // If there already is a place with the same id, use
-                    // that one instead and just add the entity
-                    var key = place.getId();
-                    if (places[key]) {
-                        places[key].addEntity(entity, place.relation);
-                    } else {
-                        place.addEntity(entity, place.relation);
-                        places[key] = place;
-                    }
+                    if ( bbox && place.location && place.location.lat && place.location.lon && (
+                            parseFloat(bbox[0])>parseFloat(place.location.lat) &&
+                            parseFloat(place.location.lat)>parseFloat(bbox[2]) &&
+                            parseFloat(bbox[1])<parseFloat(place.location.lon) &&
+                            parseFloat(place.location.lon) < parseFloat(bbox[3])
+                        )) {
 
-                    if (!place.query && place.gazetteerId) {
-                        place.query = searchService.currentQuery().removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']);
-                        place.query.q = place.query.q + " places.gazetteerId:" + place.gazetteerId;
-                    }
+                        // If there already is a place with the same id, use
+                        // that one instead and just add the entity
+                        var key = place.getId();
+                        if (places[key]) {
+                            places[key].addEntity(entity, place.relation);
+                        } else {
+                            place.addEntity(entity, place.relation);
+                            places[key] = place;
+                        }
+
+                        if (!place.query && place.gazetteerId) {
+                            place.query = searchService.currentQuery().removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays']);
+                            place.query.q = place.query.q + " places.gazetteerId:" + place.gazetteerId;
+                        }
+
+                    } 
                 }
             }
         }
@@ -63,35 +69,14 @@ angular.module('arachne.services')
 
     return {
 
-        
-        makePlaces: function(entities) {
-            return buildPlacesListFromEntityList(entities);
+        makePlaces: function(entities,bbox) {
+            return buildPlacesListFromEntityList(entities,bbox);
         },
-        
-        
-        // returns a promise for a list of places corresponding
-        // to the current search result
-        // getCurrentPlaces: function() {
-        //     var oldPromise = promise;
-        //
-        //     promise = searchService.getCurrentPage().then(function(entities) {
-        //         if (oldPromise && lastQuery && angular.equals(lastQuery, searchService.currentQuery().toFlatObject())) {
-        //             return oldPromise;
-        //         } else {
-        //             lastQuery = searchService.currentQuery().toFlatObject();
-        //             return buildPlacesListFromEntityList(entities);
-        //         }
-        //     });
-        //
-        //     return promise;
-        // },
 
         // the number of entities in the current search
         // that are connected to places
         getEntityCount: function() {
             return entityCount;
         }
-
     }
-
 }]);

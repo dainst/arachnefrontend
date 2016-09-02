@@ -98,7 +98,9 @@ angular.module('arachne.widgets.directives')
             template: '<ng-transclude></ng-transclude>',
             link : function(scope,element) {
 
-                scope.limit=scope.limit|999;
+                if (scope.limit==undefined||scope.limit>500) scope.limit=500;
+                console.log("scope.limit",scope.limit)
+
                 var fitViewToMarkersAllowed=true;
 
                 var cq = searchService.currentQuery();
@@ -110,16 +112,10 @@ angular.module('arachne.widgets.directives')
 
                     if (mapService.underLimit()) {
 
-                        console.log(
-                            "*entities.length:"+entities.length+
-                            "\n*placesService.makePlaces(entities).length:"+placesService.makePlaces(entities).length+
-                            "\n*searchService.getFacet(\"facet_geo\").values.length:"+searchService.getFacet("facet_geo").values.length);
-
-
                         placesPainter.clear(); // TODO implement map.removeLayers
 
                         heatmapPainter.clear();
-                        var places = placesService.makePlaces(entities);
+                        var places = placesService.makePlaces(entities,cq.bbox.split(","));
 
                         placesPainter.drawPlaces(
                             places, scope);

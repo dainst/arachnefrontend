@@ -57,11 +57,7 @@ function($uibModal, $location, searchService, placesService, mapService) {
             function placesCount(entities) {
 
                 if (mapService.underLimit()) {
-                    var placesCount=placesService.makePlaces(entities).length;
-
-                    if (searchService.getFacet('facet_geo').values.length>placesCount)
-                        placesCount=searchService.getFacet('facet_geo').values.length;
-
+                    var placesCount=placesService.makePlaces(entities,searchService.currentQuery().bbox.split(",")).length;
                     return placesCount;
                 } else
                     return undefined;
