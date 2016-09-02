@@ -18,18 +18,25 @@
             </div>
             <div class="panel-body">
                 <div class="row" style="margin-top:0px;">
-                    <div class="col-md-7">
+                    <div class="col-md-5">
                         <h6 ng-if="catalog.root.text.length" class="text-muted uppercase" style="margin-top:0px;">
                             <strong>{{ 'catalog_description' | transl8 }}</strong>
                         </h6>
                         <p>{{ catalog.root.text }}</p>
 
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         <h6 class="text-muted uppercase" style="margin-top:0px;">
                             <strong>{{catalog.root.totalChildren}} {{ 'ui_entries' | transl8 }}</strong>
                         </h6>
-                        <span class="text-info" ng-repeat="catalogEntry in catalog.root.children">{{catalogEntry.label.substring(0,20) + "..." }}</span>
+                        <ul ng-if="catalog.root.totalChildren">
+                            <li ng-repeat="catalogEntry in catalog.root.children" ng-if="$index < 10">
+                               <small> {{catalogEntry.label }}</small>
+                            </li>
+                            <li style="list-style:none">
+                                <small ng-if="catalog.root.totalChildren > 10">...</small>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="row">
