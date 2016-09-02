@@ -83,8 +83,6 @@
 	<div class="col-md-4 catalog-tree fullscreencol" ng-show="catalog">
 
 		<h3 ng-click="selectEntry(catalog.root)">
-			<span class="glyphicon glyphicon-inbox text-muted"></span>
-			{{catalog.root.label}} <small>{{ 'catalog_author' | transl8 }}: {{catalog.author}}</small>
 			
 			<div ng-show="editable" class="btn-group btn-group-sm pull-right">
 				<button class="btn btn-default" ng-click="editCatalog()"
@@ -103,7 +101,10 @@
 					<span class="glyphicon glyphicon-trash"></span>
 				</button>
 			</div>
-
+			<span class="glyphicon glyphicon-inbox text-muted"></span>
+			{{catalog.root.label}}
+			<br><small>{{ 'catalog_author' | transl8 }}: {{catalog.author}}</small>
+			
 		</h3>
 
 		<hr>
