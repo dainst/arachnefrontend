@@ -6,7 +6,7 @@ describe('con10t pages', function() {
     function click() {
         
         browser.waitForAngular();
-        return element.all(by.css('.ar-map-zoomcontrol-box')).get(0).getText().click();
+        return element.all(by.css('.leaflet-control-zoom-in')).get(0).getText().click();
     }
 
     it('should contain markers on the grako_map page', function(done) {
