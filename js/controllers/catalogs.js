@@ -12,7 +12,7 @@ angular.module('arachne.controllers')
 
             $scope.refreshCatalogs = function(){
                 $scope.loading++;
-                Catalog.query({ full: false, limit: 0 }, function(result) {
+                Catalog.query({}, function(result) {
                     $scope.loading--;
                     $scope.catalogs = result;
                 });
