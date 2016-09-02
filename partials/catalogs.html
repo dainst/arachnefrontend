@@ -18,14 +18,13 @@
             </div>
             <div class="panel-body">
                 <div class="row" style="margin-top:0px;">
-                    <div class="col-md-5">
-                        <h6 ng-if="catalog.root.text.length" class="text-muted uppercase" style="margin-top:0px;">
+                    <div class="col-md-6">
+                        <h6 ng-if="catalog.root.text" class="text-muted uppercase" style="margin-top:0px;">
                             <strong>{{ 'catalog_description' | transl8 }}</strong>
                         </h6>
-                        <p>{{ catalog.root.text }}</p>
-
+                        <p class="small" ng-if="catalog.root.text" markdown-to-html="catalog.root.text"></p>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-6">
                         <h6 class="text-muted uppercase" style="margin-top:0px;">
                             <strong>{{catalog.root.totalChildren}} {{ 'ui_entries' | transl8 }}</strong>
                         </h6>

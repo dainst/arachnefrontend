@@ -5,15 +5,15 @@
 <div class="modal-body">
 	{{ 'catalog_title' | transl8 }}:
 	<div class="form-group">
-		<input type="label" class="form-control" ng-model="catalog.root.label" placeholder="Überschrift">
+		<input type="label" class="form-control" ng-model="catalog.root.label" placeholder="{{ 'catalog_title' | transl8 }}">
 	</div>
 	{{ 'catalog_author' | transl8 }}:
 	<div class="form-group">
-		<input type="text" class="form-control" ng-model="catalog.author">
+		<input type="text" class="form-control" ng-model="catalog.author" placeholder="{{ 'catalog_author' | transl8 }}">
 	</div>
 	{{ 'catalog_description' | transl8 }}:
 	<div class="form-group">
-		<input type="text" class="form-control" ng-model="catalog.root.text" placeholder="Beschreibung">
+		<div ar-markdown-text-editor markdown-text="catalog.root.text" placeholder="{{ 'catalog_description' | transl8 }}"></div>
 	</div>
 	<div ng-if="edit">
 		{{ 'catalog_visibility' | transl8 }}:
