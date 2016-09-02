@@ -1,4 +1,12 @@
-# Arachne 4 Frontend     
+# Arachne 4 Frontend   
+  
+## tl;dr
+Use the following commands to get your local instance of the Arachne 4 Frontend running after checking out this repository:
+```
+npm install
+npm run build
+npm start
+```
 
 ## Development
 
@@ -25,36 +33,19 @@ sudo apt-get install nodejs-legacy
 sudo npm install -g gulp
 ```
 
-### Running the tests
+### Deployment
 
-To run the unit tests, call
-
-```bash
-npm test
-```
-
-Call
+Build the application by running
 
 ```
-npm run e2e
+npm run build
 ```
-
-to run the e2e tests.
-
-This will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
 
 ### con10t submodule
 
-The static files representing the project pages are stored in the directory `con10t`. 
+The static files representing the project pages are stored in the directory `con10t`.
 
-In order to set up con10t you have to run the following commands after the initial checkout:
-
-```
-cd (this-repo)
-git clone https://github.com/dainst/con10t.git
-```
-
-Subsequent updates can be loaded by running `git pull origin master` inside the directory `con10t`.
+The `con10t`-repository (https://github.com/dainst/con10t) is automatically checked out when building Arachne 4 Frontend with "npm run build".
 
 #### Updating the submodule con10t
 
@@ -66,26 +57,39 @@ to get the latest con10t version.
 
 ### Running the development server
 
-In order to run the frontend in the development server use the following command:
+In order to run the frontend in the development server use the following command after building the Arachne 4 Frontend:
+
 ```
 npm start
 ```
 
 After that you should be able to access the frontend under [http://localhost:8082/](http://localhost:8082/).
 
-Any changes made to HTML, SCSS or JS files should automatically trigger a browser reload.
+Any changes made to HTML, SCSS or JS files automatically trigger a browser reload.
 
-## Deployment
+### Running the tests
 
-Build the application by running
+To run the unit tests, call
+
+```bash
+npm test
+```
+
+This will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
+
+Call
 
 ```
-npm run build
+npm run e2e
 ```
+
+to run the e2e tests.
+
+### Server Configuration
 
 In order for AngularJS' HTML5 mode to work use the following configurations:
 
-### nginx
+#### nginx
 ```
 server {
         listen   80;
@@ -94,7 +98,7 @@ server {
 }
 ```
 
-### Apache
+#### Apache
 
 ```
 <IfModule mod_rewrite.c>
