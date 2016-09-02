@@ -45,7 +45,7 @@ npm run build
 
 The static files representing the project pages are stored in the directory `con10t`.
 
-The `con10t`-repository (https://github.com/dainst/con10t) is automatically checked out when building Arachne 4 Frontend with "npm run build".
+The `con10t`-repository (https://github.com/dainst/con10t) is automatically checked out when building Arachne 4 Frontend with "npm run build" if the con10t-folder doesn't already exist.
 
 #### Updating the submodule con10t
 
@@ -54,6 +54,16 @@ Within the folder of the submodule execute
 git pull origin master
 ```
 to get the latest con10t version.
+
+### Configurating the Development Server
+
+The Arachne 4 Frontend uses the development server configured in the config file template "dev-config.json.template" in the folder "/config".
+  
+Change the template if you want to use another server than the default development server.
+
+When running "npm run build", the template file "/config/dev-config.json.template" get's initially copied to "/config/dev-config.json".
+
+In each run of "npm run build", the script checks if "dev-config.js" exists. If it doesn't exist, the template file will be copied and renamed to "dev-config.js". If "dev-config.js" already exists, the file won't be overwritten.
 
 ### Running the development server
 
