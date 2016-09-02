@@ -8,8 +8,7 @@
   "scripts": {
     "test": "karma start test/karma.conf",
     "e2e": "webdriver-manager update && protractor protractor.conf.js",
-    "clean": "rimraf dist",
-    "build": "gulp clone-con10t && npm run clean && gulp build --build $1",
+    "build": "rimraf dist && gulp clone-con10t && gulp build --build $1",
     "server": "gulp server",
     "start": "npm run server"
   },

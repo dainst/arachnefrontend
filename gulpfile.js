@@ -160,7 +160,7 @@ gulp.task('build', [
     'copy-info'
 ]);
 
-gulp.task('clone-con10t', function(callback) {
+gulp.task('clone-con10t', function (callback) {
 
     fs.access('./con10t', fs.F_OK, function (err) {
 
@@ -171,6 +171,8 @@ gulp.task('clone-con10t', function(callback) {
                     return callback(err);
                 }
             });
+        } else {
+            console.log('Will not clone con10t because the con10t-folder already exists.');
         }
         callback();
     });
@@ -180,7 +182,7 @@ gulp.task('copy-config', function (callback) {
 
     return new Promise(function (resolve, reject) {
 
-        fs.access('./config/dev-config.json', fs.F_OK, function(err) {
+        fs.access('./config/dev-config.json', fs.F_OK, function (err) {
 
             if (err) {
 
@@ -206,6 +208,8 @@ gulp.task('copy-config', function (callback) {
                     if (err) {
                         return callback(err);
                     }
+
+                    console.log('Will not copy template configuration to dev-config.json because both files already exist.');
                     callback();
                 });
             }
