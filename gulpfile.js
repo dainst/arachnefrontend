@@ -123,9 +123,15 @@ gulp.task('copy-imgs', function () {
 
 // copy index.html to dist and set version
 gulp.task('copy-index', function () {
+
     var buildNo = "SNAPSHOT";
-    if (argv.build) buildNo = argv.build;
+
+    if (argv.build !== true && argv.build !== false) {
+        buildNo = argv.build;
+    }
+
     var versionString = pkg.version + " (build #" + buildNo + ")";
+
     gulp.src(['index.html'])
         .pipe(replace(/version="[^"]*"/g, 'version="v' + versionString + '"'))
         .pipe(replace(/build=BUILD_NO/g, 'build=' + buildNo))
