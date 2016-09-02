@@ -51,8 +51,7 @@
                         Wie kann ich nach einer festen Phrase statt nach mehreren unverbundenen Wörtern suchen?
                     </uib-accordion-heading>
                     <p>Setzen Sie die Phrase in Anführungszeichen. Dadurch werden nur Objekte gefunden, die die
-                        Suchbegriffe
-                        in der angegebenen Reihenfolge enthalten.</p>
+                        genau diese Phrase enthalten.</p>
 
                     <p class="query-example">Beispiel: <a href="search?q=&quot;Akropolis von Athen&quot;">"Akropolis von
                         Athen"</a></p>
@@ -81,6 +80,12 @@
                         <a href="search?q=type:Topographien">type:Topographien</a>, <a
                                 href="search?q=subtitle:&quot;Attika&quot;">subtitle:"Attika"</a>, <a
                                 href="search?q=datasetGroup:Arachne">datasetGroup:Arachne</a></p>
+
+                    <p>Bei <code>type</code> muss der Name der Kategorie genau wiedergegeben werden, zum Beispiel 
+                    "Topographien" und nicht "topographien" oder "Topographie". Eine bequemere Alternative ist der Link 
+                    "alle anzeigen" auf der entsprechenden Kategorienseite, z.B. für
+                    <a href="category/?c=Topographien">Topographien</a>.
+                    Eine Liste aller Kategorien finden Sie <a href="categories">hier</a>.</p>
                 </uib-accordion-group>
 
                 <uib-accordion-group>
@@ -105,8 +110,7 @@
                         Werden reguläre Ausdrücke unterstützt?
                     </uib-accordion-heading>
                     <p>Ja, die Suche unterstützt die gängigen Operatoren zur Formulierung regulärer Ausdrücke. Diese
-                        müssen
-                        zwischen zwei Slashes gesetzt werden.</p>
+                        müssen zwischen zwei Slashes gesetzt werden.</p>
 
                     <p class="query-example">Beispiel: <a href="search?q=/Pompe[ij]/">/Pompe[ij]/</a><br/>
                         <small>(findet sowohl Ergebnisse zu “Pompeii” als auch zu “Pompeji”)</small>

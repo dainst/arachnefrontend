@@ -54,9 +54,8 @@
                         How to search for entire phrases instead of multiple loose words?
                     </uib-accordion-heading>
                     <p>
-                        Put the entered phrase between quotation marks. Hereby only objects that contain all keywords in
-                        said
-                        sequence can be found.
+                        Put the entered phrase between quotation marks. Hereby only objects that contain exactly this 
+                        phrase can be found.
                     </p>
 
                     <p class="query-example">Example: <a href="search?q=&quot;Akropolis von Athen&quot;">"Akropolis von
@@ -90,6 +89,12 @@
                         <a href="search?q=type:Topographien">type:Topographien</a>,
                         <a href="search?q=subtitle:&quot;Attika&quot;">subtitle:"Attika"</a>,
                         <a href="search?q=datasetGroup:Arachne">datasetGroup:Arachne</a></p>
+
+                    <p>For <code>type</code>, the exact German category name must be used, i.e. 
+                    "Topographien" and not "topographien", "Topographie" or "Topographies". 
+                    A more convenient way is the "show all" link on the category pages, e.g. for
+                    <a href="category/?c=Topographien">Topographies</a>.
+                    A list of all categories is given <a href="categories">here</a>.</p>
                 </uib-accordion-group>
 
                 <uib-accordion-group>
