@@ -148,7 +148,8 @@ gulp.task('copy-con10t', function () {
 
 gulp.task('build', [
     'copy-con10t',
-    'copy-config',
+    'copy-devconfigtemplate',
+    'copy-configfiles',
     'minify-css',
     'concat-deps',
     'minify-js',
@@ -176,7 +177,12 @@ gulp.task('clone-con10t', function (callback) {
     });
 });
 
-gulp.task('copy-config', function (callback) {
+gulp.task('copy-configfiles', function() {
+    return gulp.src('config/**/*', { base: 'config' })
+        .pipe(gulp.dest('dist/config'));
+});
+
+gulp.task('copy-devconfigtemplate', function (callback) {
 
     return new Promise(function (resolve, reject) {
 
