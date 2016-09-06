@@ -134,7 +134,9 @@ angular.module('arachne.controllers')
 
             } else {
 
-                Entity.get({id: $stateParams.id}, function (data) {
+                var live = $location.search()["live"] == "true";
+
+                Entity.get({id: $stateParams.id, live: live}, function (data) {
 
                     $scope.entity = data;
 
