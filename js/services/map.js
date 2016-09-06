@@ -87,7 +87,12 @@ angular.module('arachne.services')
             map.addLayer(activeOverlays[key]);
         }
     };
-    
+
+    // Removes an overlay from the map
+    var _deactivateOverlay = function (key) {
+        map.removeLayer(activeOverlays[key]);
+        delete activeOverlays[key];
+    };
     
 
     return {
@@ -202,11 +207,6 @@ angular.module('arachne.services')
             }
         },
 
-        // Adds an overlay to the map
-        activateOverlay: function (key) {
-            _activateOverlay(key);
-        },
-
         // which overlays are to be created is given by their keys in the URL
         activateOverlays: function(keys) {
             for (var i = 0; i < keys.length; i++) {
@@ -227,19 +227,12 @@ angular.module('arachne.services')
             map.addLayer(activeBaselayer);
         },
 
-        // Removes an overlay from the map
-        // TODO: Keep layer for later refresh
-        deactivateOverlay: function (key) {
-            map.removeLayer(activeOverlays[key]);
-            delete activeOverlays[key];
-        },
-
         // Toggle an overlay on the map, identified by key
         toggleOverlay: function (key) {
             if (activeOverlays[key]) {
-                this.deactivateOverlay(key);
+                _deactivateOverlay(key);
             } else {
-                this.activateOverlay(key);
+                _activateOverlay(key);
             }
 
         },
