@@ -43,5 +43,20 @@ function($http, $filter, $q, transl8){
         }
     };
 
+    factory.getCategoryHref = function(categoryName) {
+
+        return this.getCategoriesAsync().then(function(result) {
+
+            var cur;
+            for (var category in result) {
+                cur = result[category];
+                if (cur.queryTitle === categoryName) {
+                    return cur.href;
+                }
+            }
+            return false;
+        });
+    };
+
     return factory;
 }]);

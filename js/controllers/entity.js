@@ -140,6 +140,10 @@ angular.module('arachne.controllers')
 
                     $scope.entity = data;
 
+                    categoryService.getCategoryHref($scope.entity.type).then(function (categoryHref) {
+                        $scope.entity.categoryHref = categoryHref;
+                    });
+
                     /**
                      * Hide map widget if no marker coordinates are provided
                      * Jan G. Wieners
