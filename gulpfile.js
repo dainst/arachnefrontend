@@ -22,8 +22,9 @@ var git = require('gulp-git');
 var pkg = require('./package.json');
 
 var cssDeps = [
-    'node_modules/' + 'angular-ui-tree/dist/angular-ui-tree.css',
-    'node_modules/' + 'font-awesome/css/font-awesome.min.css'
+    'node_modules/angular-ui-tree/dist/angular-ui-tree.css',
+    'node_modules/font-awesome/css/font-awesome.min.css',
+    'node_modules/drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css'
 ];
 
 var jsDeps = [
@@ -32,7 +33,7 @@ var jsDeps = [
     'node_modules/' + 'angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
     'node_modules/' + 'angular-ui-bootstrap/dist/ui-bootstrap.js',
     'node_modules/' + 'leaflet/dist/leaflet.js',
-    'node_modules/' + 'leaflet.markercluster/dist/leaflet.markercluster.js',
+    'node_modules/' + 'drmonty-leaflet-awesome-markers/js/leaflet.awesome-markers.js',
     'node_modules/' + 'leaflet.heat/dist/leaflet-heat.js',
     'node_modules/' + 'angulartics/dist/angulartics.min.js',
     'node_modules/' + 'angulartics-google-analytics/dist/angulartics-ga.min.js',
@@ -52,8 +53,8 @@ gulp.task('compile-css', function () {
     return gulp.src('scss/app.scss')
         .pipe(sass({
             includePaths: [
-                'node_modules/' + 'bootstrap-sass/assets/stylesheets/',
-                'node_modules/' + 'idai-components/src/scss/'
+                'node_modules/bootstrap-sass/assets/stylesheets/',
+                'node_modules/idai-components/src/scss/'
             ],
             precision: 8
         }))
@@ -109,9 +110,14 @@ gulp.task('html2js', function () {
 });
 
 gulp.task('copy-fonts', function () {
-    var bsFontPath = 'node_modules/' + 'bootstrap-sass/assets/fonts/';
-    return gulp.src(['node_modules/' + 'font-awesome/fonts/**', bsFontPath + '**/*'])
-        .pipe(gulp.dest('dist/' + '/fonts'));
+    var bsFontPath = 'node_modules/bootstrap-sass/assets/fonts/';
+    return gulp.src(['node_modules/font-awesome/fonts/**', bsFontPath + '**/*'])
+        .pipe(gulp.dest('dist/fonts'));
+});
+
+gulp.task('copy-marker-imgs', function () {
+    return gulp.src(['node_modules/drmonty-leaflet-awesome-markers/css/images/**'])
+        .pipe(gulp.dest('dist/css/images'));
 });
 
 gulp.task('copy-imgs', function () {
@@ -155,6 +161,7 @@ gulp.task('build', [
     'minify-js',
     'copy-fonts',
     'copy-imgs',
+    'copy-marker-imgs',
     'copy-index',
     'copy-info'
 ]);
