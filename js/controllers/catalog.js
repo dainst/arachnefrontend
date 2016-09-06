@@ -7,8 +7,8 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  */
-.controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity',
-	function ($rootScope, $scope, $state, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity) {
+.controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location',
+	function ($rootScope, $scope, $state, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location) {
 
 		$rootScope.hideFooter = true;
 		$scope.entryMap = {};
@@ -167,11 +167,12 @@ angular.module('arachne.controllers')
 	            templateUrl: 'partials/Modals/deleteCatalog.html'
 	        });
 	        deleteModal.close = function() {
-	            var index = $scope.catalogs.indexOf($scope.catalog);
-	            $scope.catalogs.splice(index, 1);
-	            Catalog.remove({id: $scope.catalog.id});
-	            $scope.catalog = $scope.catalogs[0];
-	            deleteModal.dismiss();
+	            Catalog.remove({id: $scope.catalog.id}, function() {
+					deleteModal.dismiss();
+					$location.url('/catalogs');
+				}), function() {
+					message.addMessageForCode('default');
+				};
 	        }
 	    };
 
