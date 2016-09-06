@@ -90,7 +90,6 @@ angular.module('arachne.widgets.directives')
                 lat: '@',
                 lng: '@',
                 zoom: '@',
-                clustered: '=',  		// true|false
                 disableZoomControl: '@?', // true|false - disables the standard leaflet zoom control
             },
             // menu elements may appear in the transcluded html

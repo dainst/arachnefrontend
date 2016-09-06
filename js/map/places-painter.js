@@ -44,12 +44,8 @@ angular.module('arachne.services')
                     // Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
                     var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), {entityCount: place.entityCount});
                     marker.bindPopup(linkFunction(newScope)[0]);
-                    if (scope.clustered) {
-                        markerClusterGroup.addLayer(marker);
-                    } else {
-                        map.addLayer(marker);
-                        markers.push(marker);
-                    }
+                    map.addLayer(marker);
+                    markers.push(marker);
                 }
             }
         }
