@@ -42,14 +42,17 @@ angular.module('arachne.services')
                     newScope.place = place;
 
                     // Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
-                    var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), {entityCount: place.entityCount});
+                     var icon = L.AwesomeMarkers.icon({
+                        icon: 'record',
+                        markerColor: 'cadetblue'
+                    });
+                    var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), {
+                        icon: icon,
+                        entityCount: place.entityCount
+                    });
                     marker.bindPopup(linkFunction(newScope)[0]);
-                    if (scope.clustered) {
-                        markerClusterGroup.addLayer(marker);
-                    } else {
-                        map.addLayer(marker);
-                        markers.push(marker);
-                    }
+                    map.addLayer(marker);
+                    markers.push(marker);
                 }
             }
         }
