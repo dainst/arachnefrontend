@@ -15,7 +15,7 @@ function($uibModal, $location, searchService, placesService, mapService) {
             // search results are required
             type: '@'
         },
-        templateUrl: 'partials/widgets/con10t-map-menu-search-info.html',
+        templateUrl: 'js/map/con10t_map_menu_search_info.html',
         link: function(scope) {
 
             scope.currentQuery = searchService.currentQuery();
