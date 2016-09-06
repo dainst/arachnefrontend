@@ -15,6 +15,7 @@ angular.module('arachne',[
 	'idai.templates',
 	'idai.components',
 	'arachne.templates',
+	'arachne.templates.2',
 	'arachne.filters',
 	'arachne.resources',
 	'arachne.services',
@@ -46,7 +47,7 @@ angular.module('arachne',[
 			.state('search', { url: '/search?q&fq&view&sort&offset&limit&desc', templateUrl: 'partials/search.html', data: { pageTitle: title }})
             .state('categories', { url: '/categories', templateUrl: 'partials/categories.html', data: { pageTitle: title }})
 			.state('category', { url: '/category/:category', templateUrl: 'partials/category.html', data: { pageTitle: title }})
-			.state('map', { url: '/map?q&fq', templateUrl: 'partials/map.html', data: { pageTitle: title }})
+			.state('map', { url: '/map?q&fq', templateUrl: 'js/map/map.html', data: { pageTitle: title }})
 			.state('gridmap', { url: '/gridmap', templateUrl: 'partials/gridmap.html', data: { pageTitle: title }})
 			.state('3d', { url: '/3d', templateUrl: 'partials/3d.html', data: { pageTitle: title }})
 			.state('projects', { url: '/projects', templateUrl: 'partials/projects.html', data: { pageTitle: title }})

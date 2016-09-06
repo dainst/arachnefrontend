@@ -11,7 +11,7 @@ return {
     scope: {
         place: '='
     },
-    templateUrl: 'partials/widgets/con10t-map-popup.html',
+    templateUrl: 'js/map/con10t_map_popup.html',
     link: function(scope) {
 
         scope.get = function(offset, limit) {

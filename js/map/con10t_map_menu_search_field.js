@@ -12,7 +12,7 @@ return {
     scope: {
         heading: '@'
     },
-    templateUrl: 'partials/widgets/con10t-map-menu-search-field.html',
+    templateUrl: 'js/map/con10t_map_menu_search_field.html',
     link: function(scope) {
 
         var route = $location.path().slice(1);
