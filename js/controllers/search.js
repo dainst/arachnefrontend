@@ -4,6 +4,7 @@ angular.module('arachne.controllers')
 
 /**
  * @author: Jan G. Wieners
+ * @author: Thomas Kleinke
  */
 
     .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
@@ -40,20 +41,49 @@ angular.module('arachne.controllers')
                 return text;
             };
 
-            $scope.processCatalogEntities = function (entities) {
+            $scope.createCatalogEntryText = function(entity) {
 
-                var entity, len = entities.length;
+                var catalogEntryText = "";
 
-                for (var i = len; i--;) {
-
-                    entity = entities[i];
-
-                    $scope.catalogEntries.push({
-                        "arachneEntityId": entity.entityId,
-                        "label": entity.title,
-                        "text": entity.subtitle
-                    });
+                for (var i in entity.sections) {
+                    catalogEntryText += $scope.createSectionText(entity.sections[i], true) + " \n";
                 }
+
+                return catalogEntryText;
+            };
+
+            $scope.createSectionText = function(section, firstLevel) {
+
+                if (!section.content || section.content.length == 0) return "";
+
+                var sectionText = "";
+                if (section.label && section.label.length > 0) {
+                    sectionText += firstLevel ? "#" : "###";
+                    sectionText += " " + section.label + "\n";
+                }
+
+                for (var i in section.content) {
+                    if (section.content[i].value) {
+                        var value = "";
+                        if (Array.isArray(section.content[i].value)) {
+                            for (var j in section.content[i].value) {
+                                value += section.content[i].value[j] + "  \n";
+                            }
+                        } else {
+                            value = section.content[i].value;
+                        }
+                        value = value.replace(/<hr>/g, "  \n").replace(/<hr\/>/g, "  \n").replace(/<hr \/>/g, "  \n")
+                            .replace(/-/g, "\\-").replace(/\*/g, "\\*").replace(/#/g, "\\#");
+                        sectionText += value + "  \n";
+                    } else {
+                        sectionText += $scope.createSectionText(section.content[i], false) + "  \n";
+                    }
+                }
+
+                return sectionText;
+            };
+
+            $scope.processCatalogEntities = function (entities) {
 
                 var catalogFromSearch = $uibModal.open({
                     templateUrl: 'partials/Modals/editCatalog.html',
@@ -64,9 +94,9 @@ angular.module('arachne.controllers')
                                 author: $scope.user.username,
                                 root: {
                                     label: $scope.currentQuery.label,
-                                    text: $scope.createCatalogTextForCurrentQuery(),
-                                    children: $scope.catalogEntries
-                                }
+                                    text: $scope.createCatalogTextForCurrentQuery()
+                                },
+                                generateTexts: false
                             }
                         }
                     }
@@ -74,10 +104,35 @@ angular.module('arachne.controllers')
 
                 catalogFromSearch.close = function (newCatalog) {
 
-                    //newCatalog.public = false;
-                    Catalog.save({}, newCatalog, function (result) {
-                    });
+                    newCatalog.root.children = [];
+
+                    var len = entities.length;
+                    $scope.entitiesToAdd = len;
+
+                    for (var i = len; i--;) {
+
+                        Entity.get({id: entities[i].entityId}, function(entity) {
+                            $scope.addCatalogEntry(newCatalog, entity);
+                        }, function() {
+                            message.addMessageForCode('default');
+                        });
+                    }
+
                     catalogFromSearch.dismiss();
+                }
+            };
+
+            $scope.addCatalogEntry = function(catalog, entity) {
+
+                catalog.root.children.push({
+                    "arachneEntityId": entity.entityId,
+                    "label": entity.title,
+                    "text": catalog.generateTexts ? $scope.createCatalogEntryText(entity) : ""
+                });
+
+                if (--$scope.entitiesToAdd == 0) {
+                    delete catalog.generateTexts;
+                    Catalog.save({}, catalog, function (result) {});
                 }
             };
 
@@ -86,8 +141,6 @@ angular.module('arachne.controllers')
                 if (searchService.getSize() > 999) {
                     return;
                 }
-
-                $scope.catalogEntries = [];
 
                 var entityQuery = Entity.query(angular.extend($scope.currentQuery.toFlatObject(), {
                     offset: 0, limit: 1000

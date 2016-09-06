@@ -26,6 +26,14 @@
 			</select>
 		</div>
 	</div>
+	<div ng-if="catalog.generateTexts != undefined" class="form-group">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="catalog.generateTexts">
+				{{ 'catalog_generate_texts' | transl8 }}
+			</label>
+		</div>
+	</div>
 </div>
 <div class="modal-footer">
 	<button class="btn btn-primary"
