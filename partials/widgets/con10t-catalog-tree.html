@@ -23,6 +23,7 @@
 
         <a class="childcontent"  ng-if="node.arachneEntityId != null" ng-href="entity/{{node.arachneEntityId}}?catalogEntry={{node.id}}">
             {{ node.label }}
+            <small class="text-muted"><i>{{ node.arachneEntityId }}</i></small>
         </a>
         <span class="childcontent" ng-if="node.arachneEntityId == null">{{ node.label }}</span>
 

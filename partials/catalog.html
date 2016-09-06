@@ -19,6 +19,7 @@
         <span data-nodrag class="entry-label clickable"
 				ng-click="selectEntry(entry)">
             {{entry.label}}
+            <small ng-if="entry.arachneEntityId" class="text-muted"><i>{{ entry.arachneEntityId }}</i></small>
         </span>
 		
 		<span ng-show="editable">
@@ -44,10 +45,6 @@
 				<span class="glyphicon glyphicon-edit"></span>
 			</a>
 		</span>
-
-		<div ng-if="entry.text && entry.show" class="well well-sm">
-			<span markdown-to-html="entry.text"></span>
-		</div>
 
 	</div>
 
