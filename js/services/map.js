@@ -79,7 +79,20 @@ angular.module('arachne.services')
         for (var i in onMoveListeners)
             onMoveListeners[i](entities);
     };
-    
+
+    var _activateOverlay = function(key){
+        var layerConfig = overlays[key];
+        if (layerConfig && layerConfig.type == 'wms') {
+            activeOverlays[key] = L.tileLayer.wms(layerConfig.url, layerConfig.layerOptions);
+            map.addLayer(activeOverlays[key]);
+        }
+    };
+
+    // Removes an overlay from the map
+    var _deactivateOverlay = function (key) {
+        map.removeLayer(activeOverlays[key]);
+        delete activeOverlays[key];
+    };
     
 
     return {
@@ -163,9 +176,27 @@ angular.module('arachne.services')
         },
 
         // Sets the overlays available for this map
-        // { key: LayerConfig, ... }
-        setOverlays: function (overlaysToSet) {
-            overlays = overlaysToSet;
+        setOverlays: function (ols) {
+
+            var result = {};
+            // overlays are either grouped at .groups
+            if (ols && ols.groups) {
+                for (var i = 0; i < ols.groups.length; i++) {
+                    var group = ols.groups[i];
+
+                    for (var j = 0; j < group.overlays.length; j++) {
+                        var overlay = group.overlays[j];
+                        result[overlay.key] = overlay;
+                    }
+                }
+                // or just listed directly
+            } else if (ols) {
+                for (var i = 0; i < ols.length; i++) {
+                    var overlay = ols[i];
+                    result[overlay.key] = overlay;
+                }
+            }
+            overlays=result;
         },
 
         // Sets the baselayers available for this map
@@ -176,19 +207,10 @@ angular.module('arachne.services')
             }
         },
 
-        // Adds an overlay to the map
-        activateOverlay: function (key) {
-            var layerConfig = overlays[key];
-            if (layerConfig && layerConfig.type == 'wms') {
-                activeOverlays[key] = L.tileLayer.wms(layerConfig.url, layerConfig.layerOptions);
-                map.addLayer(activeOverlays[key]);
-            }
-        },
-
         // which overlays are to be created is given by their keys in the URL
         activateOverlays: function(keys) {
             for (var i = 0; i < keys.length; i++) {
-                activateOverlay(keys[i]);
+                _activateOverlay(keys[i]);
             }
         },
 
@@ -205,19 +227,12 @@ angular.module('arachne.services')
             map.addLayer(activeBaselayer);
         },
 
-        // Removes an overlay from the map
-        // TODO: Keep layer for later refresh
-        deactivateOverlay: function (key) {
-            map.removeLayer(activeOverlays[key]);
-            delete activeOverlays[key];
-        },
-
         // Toggle an overlay on the map, identified by key
         toggleOverlay: function (key) {
             if (activeOverlays[key]) {
-                this.deactivateOverlay(key);
+                _deactivateOverlay(key);
             } else {
-                this.activateOverlay(key);
+                _activateOverlay(key);
             }
 
         },
