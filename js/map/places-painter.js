@@ -42,7 +42,7 @@ angular.module('arachne.services')
                     newScope.place = place;
 
                     // Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
-                     var icon = L.AwesomeMarkers.icon({
+                    var icon = L.AwesomeMarkers.icon({
                         icon: 'record',
                         markerColor: 'cadetblue'
                     });

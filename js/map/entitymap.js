@@ -62,7 +62,11 @@ angular.module('arachne.directives')
                                 title += "<a href='http://gazetteer.dainst.org/place/" + curplace.gazetteerId
                                     + "' target='_blank'>" + name + "</a>";
                                 var text = name;
-                                var newMarker = L.marker(new L.LatLng(location.lat, location.lon), {title: text});
+                                var icon = L.AwesomeMarkers.icon({
+                                    icon: 'record',
+                                    markerColor: 'cadetblue'
+                                });
+                                var newMarker = L.marker(new L.LatLng(location.lat, location.lon), {title: text, icon: icon});
                                 newMarker.bindPopup(title);
                                 markers.push(newMarker);
                                 map.addLayer(newMarker);
