@@ -13,7 +13,7 @@ angular.module('arachne.widgets.directives')
 return{
     restrict: 'A',
     scope: {},
-    templateUrl: 'js/map/con10t_map_zoomcontrol.html',
+    templateUrl: 'partials/widgets/con10t-map-zoomcontrol.html',
     link: function(scope) {
 
         scope.increaseZoom = function(increment) {
