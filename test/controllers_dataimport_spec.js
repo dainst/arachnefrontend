@@ -2,7 +2,7 @@
  * Author: Daniel M. de Oliveira
  */
 
-fdescribe ('DataimportController', function() {
+describe ('DataimportController', function() {
 
 	var scope;
 	var dataserviceUri='http://backend/data';
