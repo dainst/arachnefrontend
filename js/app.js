@@ -20,7 +20,8 @@ angular.module('arachne',[
 	'arachne.services',
 	'arachne.directives',
 	'arachne.controllers',
-	'arachne.widgets.directives'
+	'arachne.widgets.directives',
+	'arachne.widgets.map'
 ])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider',
 	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider) {

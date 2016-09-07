@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.controllers')
+angular.module('arachne.widgets.map')
 
     .controller('MapMenuController', ['$scope', 'searchService',
         function ($scope, searchService) {

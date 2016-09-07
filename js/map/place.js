@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.services')
+angular.module('arachne.widgets.map')
 
 // Represents a place with entities
 // (as opposed to the entity with places, that is served by the backend)

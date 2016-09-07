@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.services')
+angular.module('arachne.widgets.map')
 
 /*
  * Provides a list of Place objects corresponding to the entities in the current search result

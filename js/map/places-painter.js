@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.services')
+angular.module('arachne.widgets.map')
 
 /*
  * @author: David Neugebauer

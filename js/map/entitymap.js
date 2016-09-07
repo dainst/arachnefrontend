@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('arachne.directives')
+angular.module('arachne.widgets.map')
 
 /**
  * @author: Jan G. Wieners
