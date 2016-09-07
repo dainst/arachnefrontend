@@ -15,7 +15,7 @@ function($uibModal, $location, searchService, placesService, mapService) {
             // search results are required
             type: '@'
         },
-        templateUrl: 'partials/widgets/con10t-map-menu-search-info.html',
+        templateUrl: 'partials/map/con10t_map_menu_search_info.html',
         link: function(scope) {
 
             scope.currentQuery = searchService.currentQuery();
@@ -38,7 +38,7 @@ function($uibModal, $location, searchService, placesService, mapService) {
                 scope.linkText = host + port + baseLinkRef + path + query;
 
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'partials/Modals/mapLink.html',
+                    templateUrl: 'partials/map/mapLink.html',
                     scope: scope
                 });
 
