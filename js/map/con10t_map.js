@@ -89,8 +89,7 @@ angular.module('arachne.widgets.directives')
                 facetsSelect: '=',		// {facetName: facetValue, ...}
                 lat: '@',
                 lng: '@',
-                zoom: '@',
-                disableZoomControl: '@?', // true|false - disables the standard leaflet zoom control
+                zoom: '@'
             },
             // menu elements may appear in the transcluded html
             transclude: true,
@@ -147,7 +146,6 @@ angular.module('arachne.widgets.directives')
                 mapService.initializeMap(
                     element.attr('id'),
                     {
-                        zoomControl: !scope.disableZoomControl,
                         minZoom: 3
                     } // 3 is to prevent wrong bbox searches
                     // when the window is bigger than the world,
