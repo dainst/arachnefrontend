@@ -21,7 +21,34 @@
       background: #f0f9ff;
       border-radius: 4px;
       border: 1px dashed #bed2db;
-      margin: 0;
+      margin: 0;      
+      font-family: 'Glyphicons Halflings';
+      font-size: 14px;
+    }
+
+    .angular-ui-tree-node .angular-ui-tree-placeholder:last-of-type,
+    .angular-ui-tree-node .angular-ui-tree-node + .angular-ui-tree-placeholder:nth-last-of-type(2) {
+      &:before { 
+        content: "\e251";
+        position: relative;
+        float: left;
+        margin-top: -9px;
+        top: 50%;
+        left: -20px;
+      }
+    }
+
+
+    .angular-ui-tree-node[collapsed=false] + .angular-ui-tree-placeholder,
+    .angular-ui-tree-node[collapsed=false] + .angular-ui-tree-hidden + .angular-ui-tree-placeholder {
+      &:after {
+        content: "\e250";
+        float: right;
+        position: relative;
+        margin-top: -10px;
+        top: 50%;
+        right: -20px;
+      }
     }
 
     .angular-ui-tree-handle {
