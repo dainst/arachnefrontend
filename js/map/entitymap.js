@@ -62,11 +62,17 @@ angular.module('arachne.directives')
                                 title += "<a href='http://gazetteer.dainst.org/place/" + curplace.gazetteerId
                                     + "' target='_blank'>" + name + "</a>";
                                 var text = name;
-                                var icon = L.AwesomeMarkers.icon({
-                                    icon: 'record',
+                                var icon = 'record';
+                                if (curplace.relation) {
+                                    if (curplace.relation.indexOf("Aufbewahrung") != -1) icon = 'home';
+                                    else if (curplace.relation == "Fundort") icon = "eye-open";
+                                }
+                                var awesomeMarker = L.AwesomeMarkers.icon({
+                                    icon: icon,
                                     markerColor: 'cadetblue'
                                 });
-                                var newMarker = L.marker(new L.LatLng(location.lat, location.lon), {title: text, icon: icon});
+
+                                var newMarker = L.marker(new L.LatLng(location.lat, location.lon), {title: text, icon: awesomeMarker});
                                 newMarker.bindPopup(title);
                                 markers.push(newMarker);
                                 map.addLayer(newMarker);
