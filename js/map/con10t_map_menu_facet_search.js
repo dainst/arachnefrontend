@@ -26,12 +26,12 @@ return {
     templateUrl: 'partials/map/con10t_map_menu_facet_search.html',
     link: function(scope) {
 
-        const geoFacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'agg_geogrid'];
+        var geoFacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'agg_geogrid'];
 
         // before changing the location on facet actions, 
         // removing coordinate and zoom params on new search to indicate that the map
         // should perform its default action when rendering the new objects' places
-        const paramsToRemove = ['offset', 'lat', 'lng', 'zoom'];
+        var paramsToRemove = ['offset', 'lat', 'lng', 'zoom'];
 
         if (!scope.facetValuesLimit) scope.facetValuesLimit = 10;
 
