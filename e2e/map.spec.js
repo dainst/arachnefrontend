@@ -1,6 +1,6 @@
 var EC = protractor.ExpectedConditions;
 
-describe('con10t pages', function() {
+fdescribe('con10t pages', function() {
 
 
     function click() {
