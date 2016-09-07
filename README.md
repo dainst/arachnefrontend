@@ -91,7 +91,7 @@ Call
 npm run e2e
 ```
 
-to run the e2e tests. Precontition for that to work is that you have the dist dir gets served at localhost:8081, as
+to run the e2e tests. Precontition for this to work is that you have the `dist` dir gets served at `localhost:8081`, as
 is the case when you run `npm start`.
 
 ### Server Configuration
