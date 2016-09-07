@@ -26,19 +26,28 @@ return {
     templateUrl: 'partials/map/con10t_map_menu_facet_search.html',
     link: function(scope) {
 
-        var geoFacets = ['facet_fundort', 'facet_aufbewahrungsort', 'facet_geo', 'facet_ort', 'agg_geogrid'];
+        if (!scope.facetValuesLimit) scope.facetValuesLimit = 10;
 
-        // before changing the location on facet actions, 
+        // additional properties which are not part of the widget definition
+        scope.route = $location.path().slice(1);
+        scope.entityCount = null; // Number
+        scope.currentQuery = null; // Query
+        scope.facetsShown = [];
+        scope.activeFacets = [];
+        scope.addFacet = null; // Function
+        scope.removeFacet = null; // Function
+
+        // before changing the location on facet actions,
         // removing coordinate and zoom params on new search to indicate that the map
         // should perform its default action when rendering the new objects' places
         var paramsToRemove = ['offset', 'lat', 'lng', 'zoom'];
 
-        if (!scope.facetValuesLimit) scope.facetValuesLimit = 10;
+        var facetsHidden = [
+            'facet_fundort', 'facet_aufbewahrungsort', 'facet_geo',
+            'facet_ort', 'agg_geogrid', 'facet_ortsangabe'];
+        if (scope.facetsDeny)
+            facetsHidden = facetsHidden.concat(scope.facetsDeny);
 
-        scope.route = $location.path().slice(1);
-        scope.entityCount = null;
-        scope.facetsShown = [];
-        scope.activeFacets = [];
 
         function computeFacetsShown(facets,allowedFacetsNames,hiddenFacetsNames) {
 
@@ -66,15 +75,31 @@ return {
             return facetsShown;
         }
 
-        function trimFacetValues(facetsShown,facetValuesMax) {
-            for (var i = 0; i < facetsShown.length; i++)
-                facetsShown[i].values=facetsShown[i].values.slice(0,facetValuesMax);
+        function computeActiveFacets(queryFacets,facetsSelected) {
+            var activeFacets;
+
+            // determine active facets, do not show preselected facets as active
+            if (facetsSelected) {
+                activeFacets = queryFacets.filter(function(facet) {
+                    for (var i = 0; i < facetsSelected.length; i++) {
+                        var hiddenFacet = facetsSelected[i];
+                        if ((hiddenFacet.key == facet.key) && (hiddenFacet.value == facet.value)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+            } else {
+                activeFacets = queryFacets;
+            }
+
+            return activeFacets;
         }
 
 
-        var facetsHidden = geoFacets;
-        if (scope.facetsDeny) {
-            facetsHidden = facetsHidden.concat(scope.facetsDeny);
+        function trimFacetValues(facetsShown,facetValuesMax) {
+            for (var i = 0; i < facetsShown.length; i++)
+                facetsShown[i].values=facetsShown[i].values.slice(0,facetValuesMax);
         }
 
         searchService.getCurrentPage().then(function() {
@@ -83,23 +108,7 @@ return {
 
             scope.facetsShown=computeFacetsShown(searchService.getFacets(),scope.facetsAllowed,facetsHidden);
             trimFacetValues(scope.facetsShown,scope.facetValuesLimit);
-
-            // determine active facets, do not show preselected facets as active
-            var queryFacets = scope.currentQuery.facets;
-            if (scope.facetsSelected) {
-                scope.activeFacets = queryFacets.filter(function(facet) {
-                    for (var i = 0; i < scope.facetsSelected.length; i++) {
-                        var hiddenFacet = scope.facetsSelected[i];
-                        if ((hiddenFacet.key == facet.key) && (hiddenFacet.value == facet.value)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                });
-            } else {
-                scope.activeFacets = queryFacets;
-            }
-
+            scope.activeFacets=computeActiveFacets(scope.currentQuery.facets,scope.facetsSelected);
         });
 
         scope.addFacet = function(facetName, facetValue) {
