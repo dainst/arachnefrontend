@@ -83,7 +83,7 @@ To run the unit tests, call
 npm test
 ```
 
-This will run all tests matching the filename pattern test/*_spec.js. Jasmine is used as the testing framework here.
+This will run all tests matching the filename pattern `test/*_spec.js`. Jasmine is used as the testing framework here.
 
 Call
 
@@ -91,8 +91,7 @@ Call
 npm run e2e
 ```
 
-to run the e2e tests. Precontition for this to work is that you have the `dist` dir gets served at `localhost:8081`, as
-is the case when you run `npm start`.
+to run the e2e tests matching the filename pattern `e2e/*.spec.js`. Precontition for this to work is that you have the `dist` dir gets served at `localhost:8081`, as is the case when you run `npm start`.
 
 ### Server Configuration
 
