@@ -2,7 +2,7 @@
  * Author: Daniel M. de Oliveira
  */
 
-fdescribe ('DataimportController', function() {
+describe ('DataimportController', function() {
 
 	var scope;
 	var dataserviceUri='http://backend/data';
@@ -38,7 +38,7 @@ fdescribe ('DataimportController', function() {
 
 
 
-	fit ('should show the idle lastAction',function(){
+	it ('should show the idle lastAction',function(){
 
 		$httpBackend.expectGET(dataimportUri).
 			respond({status:'idle'});
