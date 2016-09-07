@@ -1,1 +1,20 @@
-<ng-transclude></ng-transclude>
+<div ng-if="overlays||baselayers" ng-controller="MapMenuController">
+
+    <div id="map-right-menu" class="col-md-2 well well-sm"
+         ng-init="leftMenuToggled = overlaysActive()"
+         ng-class="leftMenuToggled ? 'toggled' : ''">
+
+        <h4 class="clickable" ng-click="leftMenuToggled = !leftMenuToggled">
+            Kartenoptionen
+            <span ng-if="leftMenuToggled" class="text-muted small glyphicon glyphicon-chevron-up"></span>
+            <span ng-if="!leftMenuToggled" class="text-muted small glyphicon glyphicon-chevron-down"></span>
+        </h4>
+
+        <div ng-if="leftMenuToggled">
+            <div con10t-map-menu-overlays overlays="overlays"></div>
+            <div con10t-map-menu-baselayer baselayers="baselayers"></div>
+        </div>
+    </div>
+
+    <div con10t-map-zoomcontrol id="ar-map-zoomcontrol" style="left:19%"></div>
+</div>

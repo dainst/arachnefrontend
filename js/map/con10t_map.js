@@ -93,7 +93,7 @@ angular.module('arachne.widgets.map')
             },
             // menu elements may appear in the transcluded html
             transclude: true,
-            template: '<ng-transclude></ng-transclude>',
+            templateUrl: 'partials/map/con10t_map.html',
             link : function(scope,element) {
 
                 if (scope.limit==undefined||scope.limit>500) scope.limit=500;
