@@ -1,11 +1,9 @@
 # Arachne 4 Frontend   
   
 ## tl;dr
-Use the following commands to get your local instance of the Arachne 4 Frontend running after checking out this repository:
+Use the following command to get your local instance of the Arachne 4 Frontend running after checking out this repository:
 ```
-npm install
-npm run build
-npm start
+npm install && npm run build && npm start
 ```
 
 ## Development
