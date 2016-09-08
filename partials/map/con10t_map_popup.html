@@ -38,8 +38,8 @@
     </ul>
 </div>
 
-<div ng-if="(listLength > shownEntities.length) && place.query">
-    <a href="search/{{place.query.toString()}}" target="_blank">
+<div ng-if="(shownEntities.length>1) && place.query">
+    <a href="search{{place.query.removeParams(['ghprec','bbox','lat', 'lng', 'zoom', 'overlays', 'baselayers']).toString()}}" target="_blank">
         {{'ui_showallobjects' | transl8}}
     </a>
 </div>
