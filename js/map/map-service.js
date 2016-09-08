@@ -31,8 +31,9 @@ angular.module('arachne.widgets.map')
     var activeBaselayer = 'osm'; // TileLayer
     var activeBaselayerKey = "";
 
-    var onMoveListeners = [];
+    var popupOpen = false;
 
+    var onMoveListeners = [];
     var limit = undefined;
 
 
@@ -151,9 +152,19 @@ angular.module('arachne.widgets.map')
             // / Disable dragging functionality if outside of container bounds
 
 
-            // Hook for redrawing the grid on zoom and move events
-            map.on('moveend', function () {
+            
+            
+            map.on('popupopen', function(e) {
+                popupOpen=true;
+            });
+
+            map.on('popupclose', function(e) {
+                popupOpen=false;
                 getCurrentPage().then(feedListenersWithUpdates);
+            });
+            
+            map.on('moveend', function () {
+                if (!popupOpen) getCurrentPage().then(feedListenersWithUpdates);
             });
 
             // see comment in apidoc above
