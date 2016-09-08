@@ -151,33 +151,12 @@
     	</div>
     	
 		<!-- CATALOG ENTRIES -->
-		<div ng-if="user.username">
-			<h5 class="text-muted uppercase">
-				<strong>{{'entity_catalogs'|transl8}}</strong>	
-			</h5>
-			<div class="panel panel-default">
-				<div ng-if="catalogEntries[0]" class="panel-heading">
-					{{'entity_catalog_info'|transl8}}
-				</div>
-				<ul class="list-group">
-					<li ng-repeat="catalogEntry in catalogEntries"  class="list-group-item">
-						<span ng-if="catalogEntry.text" class="btn btn-primary btn-xs pull-right" ng-click="previewCatalogEntry(catalogEntry)">PREVIEW</span>
-						<em>{{catalogEntry.author}}:</em><br>
-						<span class="text-muted uppercase">
-							<span class="glyphicon glyphicon-inbox" style="font-size:10px"></span>
-							<b><a ng-href="catalog/{{catalogEntry.catalogId}}">{{catalogEntry.catalogLabel}}</a></b>
-						</span>
-					</li>					
-				</ul>
-				<div class="panel-footer">
-					<button type="button" class="list-group-item btn" style="text-align:center"  ng-click="createEntry()">
-						<span class="text-primary">
-							<span class="glyphicon glyphicon-plus"></span> {{'entity_create_entry'|transl8}}
-						</span>
-					</button>
-				</div>
-			</div>
-		</div>
+		<ar-catalog-occurences  ng-if="user.username" entity="entity"></ar-catalog-occurences>
+
+		
+
+
+
 	</div>
 
 	<div ng-show="entity.entityId" class="col-md-9">

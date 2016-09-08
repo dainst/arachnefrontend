@@ -16,63 +16,8 @@ angular.module('arachne.controllers')
 
             $scope.currentQuery = searchService.currentQuery();
 
-            $scope.catalogEntries = [];
-            $scope.activeCatalogEntry = $location.search().catalogEntry;
-
             $scope.go = function (path) {
                 $location.url(path);
-            };
-
-            if (authService.getUser()) {
-                $scope.catalogs = Catalog.query();
-            }
-
-            $scope.previewCatalogEntry = function (catalogEntry) {
-                var entityPreview = {
-                    title: $scope.entity.title,
-                    subtitle: $scope.entity.subtitle,
-                    thumbnailId: $scope.entity.thumbnailId
-                };
-                var preview = $uibModal.open({
-                    templateUrl: 'partials/Modals/previewCatalogEntry.html',
-                    controller: ['$scope', function ($scope) {
-                        $scope.catalogEntry = catalogEntry;
-                        $scope.entity = entityPreview;
-                    }]
-                });
-            };
-
-            $scope.createEntry = function () {
-
-                //TODO: Parse Sections in entry.text
-                var createEntryPos = $uibModal.open({
-                    templateUrl: 'partials/Modals/createEntryPos.html',
-                    controller: ['$scope', function ($scope) {
-                        $scope.catalogs = Catalog.query()
-                    }]
-                });
-                createEntryPos.close = function (catalog) {
-                    var entry = {
-                        catalogId: catalog.id,
-                        parentId: catalog.root.id,
-                        arachneEntityId: $scope.entity.entityId,
-                        label: $scope.entity.title
-                    };
-                    var editEntryModal = $uibModal.open({
-                        templateUrl: 'partials/Modals/editEntry.html',
-                        controller: 'EditCatalogEntryController',
-                        resolve: {
-                            entry: function () {
-                                return entry
-                            }
-                        }
-                    });
-                    editEntryModal.close = function (newEntry) {
-                        CatalogEntry.save(newEntry);
-                        editEntryModal.dismiss();
-                    };
-                    createEntryPos.dismiss();
-                }
             };
 
             // TODO Abstract Sections-Template and Logic to seperate unit - for reuse
@@ -85,43 +30,6 @@ angular.module('arachne.controllers')
                 return false;
             };
 
-            $scope.updateCatalogEntryParameter = function (catalogEntry) {
-                if (catalogEntry)
-                    $location.search("catalogEntry", catalogEntry.id);
-                else
-                    $location.search("catalogEntry", undefined);
-            };
-
-            var loadCatalogEntry = function (catalogPath) {
-                var catalogEntryIds = catalogPath.split("/");
-                if (catalogEntryIds.length < 3)
-                    return;
-
-                var catalogId = catalogEntryIds[0];
-                var rootEntryId = catalogEntryIds[1];
-                var entryId = catalogEntryIds[catalogEntryIds.length - 1];
-                var catalogEntry = {id: entryId, catalogId: catalogId};
-                $scope.catalogEntries.push(catalogEntry);
-
-                if ($scope.activeCatalogEntry == entryId)
-                    catalogEntry.active = true;
-
-                Catalog.get({id: catalogId}, function (catalogObj) {
-                    catalogEntry.author = catalogObj.author;
-                });
-
-                CatalogEntry.get({id: rootEntryId}, function (rootEntry) {
-                    catalogEntry.catalogLabel = rootEntry.label;
-                });
-
-                CatalogEntry.get({id: entryId}, function (entry) {
-                    catalogEntry.label = entry.label;
-                    if (entry.text)
-                        catalogEntry.text = entry.text;
-                    else
-                        catalogEntry.text = "";
-                });
-            };
 
             // if no id given, but query get id from search and reload
             if (!$stateParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
@@ -165,10 +73,7 @@ angular.module('arachne.controllers')
                     }
 
                     document.title = $scope.entity.title + " | Arachne";
-                    for (var i in $scope.entity.catalogPaths) {
-                        loadCatalogEntry($scope.entity.catalogPaths[i]);
-                    }
-
+                    
                 }, function (response) {
                     $scope.error = true;
                     message.addMessageForCode("entity_" + response.status);
