@@ -1,0 +1,90 @@
+.entityheader {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 22px;
+}
+
+.sections {
+  padding-left: 20px;
+}
+.sections ul {
+  padding-left: 0;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+.sections li {
+  list-style:none;
+  padding: 3px 0 3px 0;
+}
+.sections li strong {
+  margin-top: 8px;
+  margin-bottom: -4px;
+  margin-left: -20px;
+  display: block;
+}
+.sections li > strong {
+  font-size: 19px;
+  font-weight: 400;
+  color: #333;
+}
+.sections li li > strong {
+  font-weight: 400;
+  font-size: 17px;
+  padding: 3px 0 3px 0;
+}
+/* deeply nested sections should display inline */
+.sections li li li > strong {
+  font-size: 1em;
+  display: inline;
+  font-weight: normal;
+  margin-left: 0;
+  margin-right: 2px;
+}
+.sections li li li li > strong {
+  font-style: normal;
+  margin-right: 0;
+}
+.sections li li li ul {
+  font-style: normal;
+  margin: 0;
+}
+.sections li li li ul::before {
+  content: " – ";
+}
+.sections li li li ul:first-of-type::before, .sections li li li li ul::before {
+  content: "";
+  display: none;
+}
+.sections li li li > strong::after {
+  content: ': ';
+}
+.sections li li li ul {
+  display: inline;
+}
+.sections li li li li {
+  display: inline;
+}
+.sections hr {
+  border: 0;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+.sections div.section-item {
+  padding-top: 2px;
+  padding-bottom: 4px;
+}
+
+.sections a[target="_blank"]:after {
+  content: "\e164 ";
+  margin-left: 4px;
+  font: 10px 'Glyphicons Halflings';
+}
+
+.sections a {
+  color: inherit;
+  border-bottom: 1px dotted lightgrey;
+}
+
+.sections a:hover {
+  border-bottom: 1px solid black;
+  text-decoration: none;
+}
