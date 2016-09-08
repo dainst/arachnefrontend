@@ -77,7 +77,7 @@
 		<div class="loading"></div>
 	</div>
 
-	<div class="col-md-4 catalog-tree fullscreencol" ng-show="catalog">
+	<div class="col-md-4 catalog-tree fullscreencol" ng-show="!map && catalog">
 
 		<h3 ng-click="selectEntry(catalog.root)">
 			
@@ -98,6 +98,14 @@
 					<span class="glyphicon glyphicon-trash"></span>
 				</button>
 			</div>
+
+			<button ng-if="catalog.public" ng-click="$parent.map = true; $event.stopPropagation();"
+					class="btn btn-default btn-sm pull-right" 
+					uib-tooltip="{{ 'catalog_map' | transl8 }}"
+					tooltip-append-to-body="true">
+				<span class="glyphicon glyphicon-globe"></span>
+			</button>
+
 			<span class="glyphicon glyphicon-inbox text-muted"></span>
 			{{catalog.root.label}}
 			<br><small>{{ 'catalog_author' | transl8 }}: {{catalog.author}}</small>
@@ -136,6 +144,22 @@
 			</a>
 		</div>
 
+	</div>
+
+	<div ng-if="map && catalog" style="position: absolute; top:120px; left: 10px; z-index: 100000;"
+			class="leaflet-bar">
+		<a ng-click="$parent.map = false" class="clickable"
+				uib-tooltip="{{ 'catalog_list' | transl8 }}"
+				tooltip-append-to-body="true"
+				tooltip-placement="right">
+			<span class="glyphicon glyphicon-list"></span>
+		</a>
+	</div>
+
+	<div con10t-map ng-if="map && catalog"
+			catalog-id="catalogId"
+			id="map" class="col-md-4 fullscreencol"
+			entity-callback="selectEntity">
 	</div>
 
 	<div class="col-md-8 fullscreencol">

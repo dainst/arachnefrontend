@@ -12,6 +12,8 @@ angular.module('arachne.controllers')
 
 		$rootScope.hideFooter = true;
 		$scope.entryMap = {};
+		$scope.catalogId = $stateParams.id;
+		if ($stateParams.view == 'map') $scope.map = true;
 
 	    $scope.treeOptions = {
 	        beforeDrop: function(event) {
@@ -179,6 +181,17 @@ angular.module('arachne.controllers')
 	    $scope.selectEntry = function(entry) {
 	    	$state.transitionTo('catalog.entry', { id: $scope.catalog.id, entryId: entry.id }, { notify: false });
 	    	showEntry(entry);
+	    };
+
+	    $scope.selectEntity = function(entity) {
+			CatalogEntry.list({ entityId: entity.entityId }, function(result) {
+				for (var i = 0; i < result.length; i++) {
+					if (result[i].entry.catalogId == $scope.catalog.id) {
+						$scope.selectEntry(result[i].entry);
+						break;
+					}
+				}
+			});
 	    };
 
 	    function initialize(entry) {

@@ -6,7 +6,12 @@ angular.module('arachne.resources')
 function($resource, arachneSettings) {
 
     return $resource(arachneSettings.dataserviceUri + '/catalog/entry/:id', null, {
-        'update': { method:'PUT' }
+        update: { method:'PUT' },
+        list: {
+        	mehtod: 'GET',
+        	url: arachneSettings.dataserviceUri + '/catalog/list/:entityId',
+        	isArray: true
+        }
     });
 
 }]);

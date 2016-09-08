@@ -10,11 +10,16 @@ angular.module('arachne.widgets.map')
 
     var markers=[];
     var map;
+    var entityCallback;
     
     return {
 
         setMap : function(mp) {
           map = mp;  
+        },
+
+        setEntityCallback : function (ec) {
+            entityCallback = ec;
         },
         
         clear : function () {
@@ -36,10 +41,11 @@ angular.module('arachne.widgets.map')
 
                 if (place.hasCoordinates()) {
                     // Dom-Element für Popup bauen und in Link-Funktion kompilieren
-                    var html = '<div con10t-map-marker-popup place="place"></div>';
+                    var html = '<div con10t-map-popup place="place" entity-callback="entityCallback"></div>';
                     var linkFunction = $compile(angular.element(html));
                     var newScope = scope.$new(true);
                     newScope.place = place;
+                    newScope.entityCallback = entityCallback;
 
                     // Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
                     var icon = L.AwesomeMarkers.icon({

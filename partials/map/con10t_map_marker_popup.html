@@ -31,7 +31,7 @@
     <ul style="margin-left:0px">
         <li ng-repeat="entity in shownEntities track by $index">
             <span ng-if="place.relation">{{ place.relation }}:</span>
-            <a href="entity/{{entity.entityId}}" target="_blank">{{ entity.title }}</a>
+            <a ng-click="selectEntity(entity,$event)" class="clickable">{{ entity.title }}</a>
         </li>
 
 

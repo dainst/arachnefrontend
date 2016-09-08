@@ -81,7 +81,7 @@ angular.module('arachne.widgets.map')
         return {
             restrict: 'A',
             scope: {
-                catalogId: '@',
+                catalogId: '=',
                 overlays: '=?',
                 baselayers: '=',
                 defaultBaselayer: '=',	// "key"
@@ -89,7 +89,8 @@ angular.module('arachne.widgets.map')
                 facetsSelect: '=',		// {facetName: facetValue, ...}
                 lat: '@',
                 lng: '@',
-                zoom: '@'
+                zoom: '@',
+                entityCallback: '='
             },
             // menu elements may appear in the transcluded html
             transclude: true,
@@ -153,6 +154,7 @@ angular.module('arachne.widgets.map')
 
                 heatmapPainter.setMap(mapService.getMap());
                 placesPainter.setMap(mapService.getMap());
+                placesPainter.setEntityCallback(scope.entityCallback);
 
                 // Add baselayers and activate one, given by url
                 // parameter "baselayer" or a default value
