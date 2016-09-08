@@ -5,13 +5,13 @@ angular.module('arachne.widgets.map')
 /**
  * @author: David Neugebauer
  */
-.directive('con10tMapPopup', function() {
+.directive('con10tMapMarkerPopup', function() {
 return {
     restrict: 'A',
     scope: {
         place: '='
     },
-    templateUrl: 'partials/map/con10t_map_popup.html',
+    templateUrl: 'partials/map/con10t_map_marker_popup.html',
     link: function(scope) {
 
         scope.get = function(offset, limit) {
