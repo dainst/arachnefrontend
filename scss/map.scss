@@ -11,7 +11,7 @@
 .map-fullscreen #map {
   position: fixed;
   padding-left: 115px;
-  right: 15px;
+  right: 0;
   bottom: 0;
   top: 40px;
   height: 100%;
@@ -22,7 +22,7 @@
 .map-fullscreen #map #map-right-menu {
   z-index:200;
   position: absolute;
-  right:10px;
+  right:25px;
   top: 20px;
 }
 
