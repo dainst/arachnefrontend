@@ -24,7 +24,7 @@
     <h5 class="text-muted uppercase" ng-hide="entityCount < 2"><strong>{{'ui_filter_plural' | transl8}}</strong></h5>
     <div ng-repeat="facet in facetsShown"
             class="panel panel-default facet">
-        <div class="panel-heading" ng-click="toggleFacet(facet);" style="padding-left:10px">
+        <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
             <h5 class="panel-title">
                 <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
                 <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>

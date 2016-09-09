@@ -165,11 +165,6 @@ function($location, Entity, $rootScope, Query, $q) {
         currentQuery: function() {
             return _currentQuery;
         },
-        
-        setQuery: function(q) {
-            _currentQuery=q;
-        },
-        
 
         /**
          * To make sure query gets executed in any case

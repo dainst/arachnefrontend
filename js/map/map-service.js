@@ -170,12 +170,6 @@ angular.module('arachne.widgets.map')
             // see comment in apidoc above
             return map;
         },
-        
-        
-        triggerSearch : function() {
-            getCurrentPage().then(feedListenersWithUpdates);
-        },
-        
 
         // Returns the map governed by mapService.
         getMap: function () {
@@ -272,7 +266,7 @@ angular.module('arachne.widgets.map')
          */
         getMapQuery: function (query, stripExtraParams) {
 
-            var newQuery = query.removeParams(['lat', 'lng', 'zoom', 'overlays', 'baselayers','bbox','ghprec']);
+            var newQuery = query.removeParams('lat', 'lng', 'zoom', 'overlays', 'baselayers');
 
             newQuery.zoom = map.getZoom();
             newQuery.lat = map.getCenter().lat;
@@ -291,7 +285,7 @@ angular.module('arachne.widgets.map')
             }
 
             if (stripExtraParams)
-                return query.removeParams(['lat', 'lng', 'zoom', 'overlays', 'baselayers','bbox','ghprec']);
+                return query.removeParams(['lat', 'lng', 'zoom', 'bbox', 'ghprec', 'baselayer']);
 
             return newQuery;
         }
