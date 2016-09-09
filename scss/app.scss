@@ -335,11 +335,11 @@ hr {
   color: #37588e;
 }
 .facet ul {
-	margin: 0px;
+	margin: 0;
 }
 .facet li {
 	overflow: hidden;
-  margin: 3px 0px;
+  margin: 3px 0;
 	padding: 3px 6px;
 }
 .facet li:hover {
@@ -377,7 +377,7 @@ hr {
 
 /* Für Filter-Seite, an den Facetten */
 .accordion-with-list .panel-body {
-  padding: 0px;
+  padding: 0;
 }
 .accordion-with-list .panel-title a {
   cursor: pointer;
@@ -493,7 +493,7 @@ hr {
 .markdown-editor-button-group .heading-button .heading-button-number {
   font-weight: bold;
   vertical-align: -1px;
-  margin-left: 0px;
+  margin-left: 0;
 }
 
 /* OVERWRITING MARKER CLUSTER STYLING FOR LEAFLET PLUGIN MARKERCLUSTER */

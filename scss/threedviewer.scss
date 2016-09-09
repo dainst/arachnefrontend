@@ -16,7 +16,7 @@
 
 .threedviewer #info .top {
 	position	: absolute;
-	top		    : 0px;
+	top		    : 0;
 	width		: 100%;
 	padding		: 5px;
 	text-align	: center;
@@ -28,7 +28,7 @@
 
 .threedviewer #info .topLeft {
 	position           : absolute;
-	top                : 0px;
+	top                : 0;
 	left               : -500px;
 	padding            : 4px;
 	color              : #FFFFFF;
@@ -47,7 +47,7 @@
 
 .threedviewer #info .bottomRight {
 	position           : absolute;
-	bottom             : 0px;
+	bottom             : 0;
 	right              : -450px;
 	padding            : 4px;
 	color              : #FFFFFF;

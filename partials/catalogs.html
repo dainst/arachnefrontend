@@ -17,15 +17,15 @@
                 <span ng-if="!catalog.public"  class="label label-danger pull-right">{{ 'catalog_visibility_private' | transl8 }} &nbsp; <span class="glyphicon glyphicon-lock"></span></span>
             </div>
             <div class="panel-body">
-                <div class="row" style="margin-top:0px;">
+                <div class="row" style="margin-top: 0;">
                     <div class="col-md-6">
-                        <h6 ng-if="catalog.root.text" class="text-muted uppercase" style="margin-top:0px;">
+                        <h6 ng-if="catalog.root.text" class="text-muted uppercase" style="margin-top: 0;">
                             <strong>{{ 'catalog_description' | transl8 }}</strong>
                         </h6>
                         <p class="small" ng-if="catalog.root.text" markdown-to-html="catalog.root.text"></p>
                     </div>
                     <div class="col-md-6">
-                        <h6 class="text-muted uppercase" style="margin-top:0px;">
+                        <h6 class="text-muted uppercase" style="margin-top: 0;">
                             <strong>{{catalog.root.totalChildren}} {{ 'ui_entries' | transl8 }}</strong>
                         </h6>
                         <ul ng-if="catalog.root.totalChildren">
