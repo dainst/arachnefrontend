@@ -37,7 +37,8 @@ return {
         scope.addFacet = null; // Function
         scope.removeFacet = null; // Function
 
-        // before changing the location on facet actions,
+
+        // before triggering a new search on facet actions,
         // removing coordinate and zoom params on new search to indicate that the map
         // should perform its default action when rendering the new objects' places
         var paramsToRemove = ['offset', 'lat', 'lng', 'zoom'];
@@ -47,6 +48,8 @@ return {
             'facet_ort', 'agg_geogrid', 'facet_ortsangabe'];
         if (scope.facetsDeny)
             facetsHidden = facetsHidden.concat(scope.facetsDeny);
+
+        var namesOfOpenFacets=[]; // Array
 
 
         function computeFacetsShown(facets,allowedFacetsNames,hiddenFacetsNames) {
@@ -96,33 +99,80 @@ return {
             return activeFacets;
         }
 
+        /**
+         * With each search, the facets get recomputed.
+         * This method provides the functionality to remain
+         * facets open, which were open before the search and are
+         * still part of the new search result.
+         *
+         * @param facetsShown array of facets which gets modified.
+         * @param openFacets array with names of facets which were marked as beeing opened.
+         */
+        function recoverFacetOpenState(facetsShown,openFacets) {
+            for (var i = 0; i < openFacets.length; i++) {
+
+                var facetShownContainedInOpenFacets=false;
+                for (var j = 0; j < facetsShown.length; j++) {
+
+                    if (openFacets.indexOf(facetsShown[j].name)!=-1) {
+                        facetsShown[j].open=true;
+                        facetShownContainedInOpenFacets=true;
+                    }
+                }
+                if (!facetShownContainedInOpenFacets) openFacets.splice(i,1);
+            }
+        }
+
 
         function trimFacetValues(facetsShown,facetValuesMax) {
             for (var i = 0; i < facetsShown.length; i++)
                 facetsShown[i].values=facetsShown[i].values.slice(0,facetValuesMax);
         }
 
-        searchService.getCurrentPage().then(function() {
-            scope.entityCount = searchService.getSize();
-            scope.currentQuery = searchService.currentQuery();
+        function current() {
+            searchService.getCurrentPage().then(function() {
 
-            scope.facetsShown=computeFacetsShown(searchService.getFacets(),scope.facetsAllowed,facetsHidden);
-            trimFacetValues(scope.facetsShown,scope.facetValuesLimit);
-            scope.activeFacets=computeActiveFacets(scope.currentQuery.facets,scope.facetsSelected);
-        });
+                scope.entityCount = searchService.getSize();
+                scope.currentQuery = searchService.currentQuery();
+
+                scope.facetsShown=computeFacetsShown(searchService.getFacets(),scope.facetsAllowed,facetsHidden);
+                trimFacetValues(scope.facetsShown,scope.facetValuesLimit);
+                scope.activeFacets=computeActiveFacets(scope.currentQuery.facets,scope.facetsSelected);
+                recoverFacetOpenState(scope.facetsShown,namesOfOpenFacets);
+            });
+        }
+
+        current();
+
+
+        mapService.registerOnMoveListener(current);
 
         scope.addFacet = function(facetName, facetValue) {
             var query = mapService.getMapQuery(searchService.currentQuery(),true);
             query=query.addFacet(facetName,facetValue);
             query=query.removeParams(paramsToRemove);
-            $location.url(query.toString());
+            searchService.setQuery(query);
+
+            mapService.triggerSearch();
+            
         };
 
         scope.removeFacet = function(facetName) {
             var query = mapService.getMapQuery(searchService.currentQuery(),true);
             query=query.removeFacet(facetName);
             query=query.removeParams(paramsToRemove);
-            $location.url(query.toString());
+            searchService.setQuery(query);
+            
+            mapService.triggerSearch();
+        };
+
+        scope.toggleFacet = function(facet) {
+            facet.open = !facet.open;
+            if (facet.open) namesOfOpenFacets.push(facet.name);
+            else {
+                var index = namesOfOpenFacets.indexOf[facet.name];
+                if (index!=-1) namesOfOpenFacets.splice(index,1);
+            }
         }
     }
 }}]);
