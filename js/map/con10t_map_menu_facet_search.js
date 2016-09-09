@@ -141,18 +141,28 @@ return {
                 recoverFacetOpenState(scope.facetsShown,namesOfOpenFacets);
             });
         }
+
         current();
+
+
         mapService.registerOnMoveListener(current);
 
-        
-
         scope.addFacet = function(facetName, facetValue) {
-            searchService.setQuery(searchService.currentQuery().addFacet(facetName,facetValue));
+            var query = mapService.getMapQuery(searchService.currentQuery(),true);
+            query=query.addFacet(facetName,facetValue);
+            query=query.removeParams(paramsToRemove);
+            searchService.setQuery(query);
+
             mapService.triggerSearch();
+            
         };
 
         scope.removeFacet = function(facetName) {
-            searchService.setQuery(searchService.currentQuery().removeFacet(facetName));
+            var query = mapService.getMapQuery(searchService.currentQuery(),true);
+            query=query.removeFacet(facetName);
+            query=query.removeParams(paramsToRemove);
+            searchService.setQuery(query);
+            
             mapService.triggerSearch();
         };
 
