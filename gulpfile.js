@@ -36,7 +36,7 @@ var jsDeps = [
     'node_modules/' + 'drmonty-leaflet-awesome-markers/js/leaflet.awesome-markers.js',
     'node_modules/' + 'leaflet.heat/dist/leaflet-heat.js',
     'node_modules/' + 'angulartics/dist/angulartics.min.js',
-    'node_modules/' + 'angulartics-google-analytics/dist/angulartics-ga.min.js',
+    'node_modules/' + 'angulartics-piwik/dist/angulartics-piwik.min.js',
     'node_modules/' + 'angular-resource/angular-resource.min.js',
     'node_modules/' + 'angular-sanitize/angular-sanitize.min.js',
     'node_modules/' + 'angular-cookies/angular-cookies.min.js',

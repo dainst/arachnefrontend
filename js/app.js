@@ -9,7 +9,7 @@ angular.module('arachne',[
 	'ngCookies',
 	'ng-showdown',
 	'angulartics',
-	'angulartics.google.analytics',
+	'angulartics.piwik',
 	'relativePathsInPartial',
 	'ui.tree',
 	'idai.templates',

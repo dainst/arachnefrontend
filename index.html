@@ -38,26 +38,23 @@
 
 <!-- Piwik -->
 <script type="text/javascript">
-
-    if (document.location.host === "arachne.dainst.org") {
-        var _paq = _paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function () {
-            var u = "//piwik.dainst.org/";
-            _paq.push(['setTrackerUrl', u + 'piwik.php']);
-            _paq.push(['setSiteId', 7]);
-            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-            g.type = 'text/javascript';
-            g.async = true;
-            g.defer = true;
-            g.src = u + 'piwik.js';
-            s.parentNode.insertBefore(g, s);
-        })();
-    }
-
+    var _paq = _paq || [];
+    // _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function () {
+        var u = "//piwik.dainst.org/";
+        _paq.push(['setTrackerUrl', u + 'piwik.php']);
+        _paq.push(['setSiteId', 7]);
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.type = 'text/javascript';
+        g.async = true;
+        g.defer = true;
+        g.src = u + 'piwik.js';
+        s.parentNode.insertBefore(g, s);
+    })();
 </script>
-<noscript><p><img src="//piwik.dainst.org/piwik.php?idsite=7" style="border:0;" alt="" /></p></noscript>
+
+<noscript><p><img src="//piwik.dainst.org/piwik.php?idsite=7" style="border:0;" alt=""/></p></noscript>
 <!-- End Piwik Code -->
 
 <noscript>
@@ -67,7 +64,8 @@
             aktivieren Sie bitte die JavaScript-Unterstützung Ihres Browsers.
         </h1>
         <h2>
-            JavaScript is disabled in your Webbrowser. Please enable JavaScript to use <i>Arachne</i> in its intended way.
+            JavaScript is disabled in your Webbrowser. Please enable JavaScript to use <i>Arachne</i> in its intended
+            way.
         </h2>
     </div>
 </noscript>
