@@ -82,7 +82,6 @@ angular.module('arachne.widgets.map')
             restrict: 'A',
             scope: {
                 catalogId: '=',
-                overlays: '=?',
                 baselayers: '=',
                 defaultBaselayer: '=',	// "key"
                 limit: '@?',		    // "500"
@@ -92,9 +91,6 @@ angular.module('arachne.widgets.map')
                 zoom: '@',
                 entityCallback: '='
             },
-            // menu elements may appear in the transcluded html
-            transclude: true,
-            templateUrl: 'partials/map/con10t_map.html',
             link : function(scope,element) {
 
                 if (scope.limit==undefined||scope.limit>500) scope.limit=500;
@@ -160,9 +156,6 @@ angular.module('arachne.widgets.map')
                 // parameter "baselayer" or a default value
                 mapService.setBaselayers(scope.baselayers);
                 mapService.activateBaselayer(cq.baselayer || "osm");
-
-                mapService.setOverlays(scope.overlays);
-                mapService.activateOverlays(cq.getArrayParam('overlays')); // TODO this is undefined
 
                 mapService.initializeView(cq.lat,cq.lng,cq.zoom);
             }
