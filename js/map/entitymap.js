@@ -88,10 +88,13 @@ angular.module('arachne.widgets.map')
                             window.setTimeout(function () {
                                 if (markers.length > 1) map.fitBounds(mark.getBounds(), {padding: [20, 20]});
                                 else {
-                                    map.fitBounds(mark.getBounds(), {maxZoom: 5});
+
+                                    var bounds = mark.getBounds();
+
+                                    map.setZoom(5);
 
                                     // Ensure that marker stays in focus until map has been dragged
-                                    map.setMaxBounds(mark.getBounds());
+                                    map.setMaxBounds(bounds);
 
                                     map.on('drag', function() {
                                         map.setMaxBounds(null);
