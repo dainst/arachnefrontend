@@ -48,21 +48,23 @@ angular.module('arachne.widgets.map')
 
                     var loadMarkers = function () {
 
-                        var group = new L.featureGroup();
                         if (scope.places) {
+
                             for (var place in scope.places) {
-                                var curplace = scope.places[place];
 
-                                var name = curplace.name;
-                                var relation = curplace.relation;
-                                var location = curplace.location;
+                                var curplace = scope.places[place],
+                                    name = curplace.name,
+                                    relation = curplace.relation,
+                                    location = curplace.location,
+                                    title = "";
 
-                                var title = "";
                                 if (relation) title += "<b>" + relation + "</b><br/>";
                                 title += "<a href='http://gazetteer.dainst.org/place/" + curplace.gazetteerId
                                     + "' target='_blank'>" + name + "</a>";
-                                var text = name;
-                                var icon = 'record';
+
+                                var text = name,
+                                    icon = 'record';
+
                                 if (curplace.relation) {
                                     if (curplace.relation.indexOf("Aufbewahrung") != -1) icon = 'home';
                                     else if (curplace.relation == "Fundort") icon = "eye-open";
@@ -100,9 +102,7 @@ angular.module('arachne.widgets.map')
 
                         map._onResize();
                     };
-
                     loadMarkers();
-
                 }
             };
         }]);
