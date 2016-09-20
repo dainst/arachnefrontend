@@ -11,7 +11,7 @@ describe('con10t pages', function() {
 
     it('should contain markers on the grako_map page', function(done) {
 
-        browser.driver.manage().window().setSize(1920, 1600);
+        browser.driver.manage().window().setSize(1280, 1024);
         browser.get('/project/grako_map');
 
         click().then(click).then(click).then(click).then(click).then(click).then(click).then(function() {
