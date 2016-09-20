@@ -1,3 +1,4 @@
+/*
 var EC = protractor.ExpectedConditions;
 
 describe('con10t page', function() {
@@ -17,4 +18,4 @@ describe('con10t page', function() {
     });
 
 });
-
+*/
