@@ -2,7 +2,7 @@ var EC = protractor.ExpectedConditions;
 
 describe('con10t page', function() {
 
-    fit('should display a heatmap on the grako_map page', function(done) {
+    it('should display a heatmap on the grako_map page', function(done) {
 
         browser.driver.manage().window().setSize(1280, 1024);
         browser.get('/project/grako_map');
