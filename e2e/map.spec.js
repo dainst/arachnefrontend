@@ -14,7 +14,7 @@ describe('con10t pages', function() {
         browser.driver.manage().window().setSize(1280, 1024);
         browser.get('/project/grako_map');
 
-        click().then(click).then(click).then(click).then(click).then(click).then(click).then(function() {
+        click().then(click).then(click).then(click).then(click).then(click).then(click).then(click).then(function() {
 
             var marker = element(by.css('.awesome-marker'));
             browser.wait(EC.presenceOf(marker), 10000);
