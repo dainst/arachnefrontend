@@ -9,7 +9,7 @@ describe('con10t pages', function() {
         return element.all(by.css('.leaflet-control-zoom-in')).get(0).getText().click();
     }
 
-    fit('should contain markers on the grako_map page', function(done) {
+    it('should contain markers on the grako_map page', function(done) {
 
         browser.driver.manage().window().setSize(1920, 1600);
         browser.get('/project/grako_map');
