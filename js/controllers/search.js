@@ -147,7 +147,12 @@ angular.module('arachne.controllers')
                 }));
 
                 entityQuery.$promise.then(function (result) {
-                    $scope.processCatalogEntities(result.entities)
+
+                    if (result.entites) {
+                        $scope.processCatalogEntities(result.entities)
+                    } else {
+                        console.log('No entities could be retrieved.');
+                    }
                 }, function (err) {
                     console.log('Error in retrieving entities.', err);
                 });
