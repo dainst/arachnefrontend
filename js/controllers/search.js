@@ -142,12 +142,19 @@ angular.module('arachne.controllers')
                     return;
                 }
 
-                var entityQuery = Entity.query(angular.extend($scope.currentQuery.toFlatObject(), {
+                var query = $scope.currentQuery.toFlatObject();
+
+                if (query.q === "") {
+                    query.q = "*";
+                }
+
+                angular.extend(query, {
                     offset: 0, limit: 1000
-                }));
+                });
+
+                var entityQuery = Entity.query(query);
 
                 entityQuery.$promise.then(function (result) {
-
                     if (result.entities) {
                         $scope.processCatalogEntities(result.entities)
                     } else {
