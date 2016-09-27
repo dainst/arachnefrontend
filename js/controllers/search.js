@@ -138,7 +138,7 @@ angular.module('arachne.controllers')
 
             $scope.createCatalogFromSearch = function () {
 
-                if (searchService.getSize() > 999) {
+                if (searchService.getSize() > 299) {
                     return;
                 }
 
