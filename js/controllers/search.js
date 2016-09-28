@@ -41,7 +41,7 @@ angular.module('arachne.controllers')
                 return text;
             };
 
-            $scope.createCatalogEntryText = function(entity) {
+            $scope.createCatalogEntryText = function (entity) {
 
                 var catalogEntryText = "";
 
@@ -52,7 +52,7 @@ angular.module('arachne.controllers')
                 return catalogEntryText;
             };
 
-            $scope.createSectionText = function(section, firstLevel) {
+            $scope.createSectionText = function (section, firstLevel) {
 
                 if (!section.content || section.content.length == 0) return "";
 
@@ -111,9 +111,11 @@ angular.module('arachne.controllers')
 
                     for (var i = len; i--;) {
 
-                        Entity.get({id: entities[i].entityId}, function(entity) {
+                        Entity.get({id: entities[i].entityId}, function (entity) {
                             $scope.addCatalogEntry(newCatalog, entity);
-                        }, function() {
+                        }, function () {
+                            message.addMessageForCode('default');
+                        }, function () {
                             message.addMessageForCode('default');
                         });
                     }
@@ -122,7 +124,7 @@ angular.module('arachne.controllers')
                 }
             };
 
-            $scope.addCatalogEntry = function(catalog, entity) {
+            $scope.addCatalogEntry = function (catalog, entity) {
 
                 catalog.root.children.push({
                     "arachneEntityId": entity.entityId,
@@ -130,9 +132,15 @@ angular.module('arachne.controllers')
                     "text": catalog.generateTexts ? $scope.createCatalogEntryText(entity) : ""
                 });
 
-                if (--$scope.entitiesToAdd == 0) {
+                if (--$scope.entitiesToAdd === 0) {
                     delete catalog.generateTexts;
-                    Catalog.save({}, catalog, function (result) {});
+                    Catalog.save({}, catalog,
+                        function (result) { /* success */
+                        },
+                        function (error) {
+                            message.addMessageForCode('default');
+                            console.log(error)
+                        });
                 }
             };
 
