@@ -11,25 +11,27 @@ angular.module('arachne.widgets.map')
     var map;
     var heatLayer;
 
+    /**
+     * calculates a CSS color value for a given value from blue to red
+     * @param value between 0 and 1
+     */
     function heatMapColorForValue(value) {
         var h = Math.round((1.0 - value) * 240);
         return "hsl(" + h + ", 90%, 50%)";
     }
 
-    function generateGradient(s) {
+    /**
+     * Generates a gradient object as expected by leaflet.heat's options
+     * @param e exponent used for calculating the gradient points
+     *    can be used to make the gradient denser at lower values and account
+     *    for a long tail in the geographic distribution of entities
+     */
+    function generateGradient(e) {
         var gradient = {};
         for (var i = 1; i <= 10; i++) {
-            gradient[s * i / 10] = heatMapColorForValue(i / 10);
+            gradient[Math.pow(i / 10, e)] = heatMapColorForValue(i / 10);
         }
         return gradient;
-    }
-
-    function max(boxesToDraw) {
-        var max=0;
-        for (var i = 0; i < boxesToDraw.length; i++) {
-            if ((boxesToDraw[i].count)>max) max=boxesToDraw[i].count;
-        }
-        return max;
     }
 
     var heatPoints = function(boxesToDraw) {
@@ -45,15 +47,17 @@ angular.module('arachne.widgets.map')
 
     return {
         setMap: function(mp) {
-            map=mp;
+            map = mp;
         },
         drawBuckets: function (bbox,bucketsToDraw) {
             if (!bucketsToDraw) return;
 
+            var max = bucketsToDraw[0].count;
             heatLayer = L.heatLayer(heatPoints(bucketsToDraw), {
                 radius: 10,
-                max: max(bucketsToDraw),
-                gradient: generateGradient(0.7),
+                max: max,
+                gradient: generateGradient(3),
+                maxZoom: 0,
                 minOpacity: 0.3
             }).addTo(map);
         },

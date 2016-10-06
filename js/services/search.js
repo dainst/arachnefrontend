@@ -58,7 +58,7 @@ function($location, Entity, $rootScope, Query, $q) {
             return deferred.promise;
             // chunk needs to be retrieved
         } else {
-            dirty=false;
+            dirty = false;
             var query = angular.extend({offset:offset,limit:CHUNK_SIZE},_currentQuery.toFlatObject());
             if (!query.q) query.q = "*";
             var entities = Entity.query(query);

@@ -93,35 +93,41 @@ angular.module('arachne.widgets.map')
             },
             link : function(scope,element) {
 
-                if (scope.limit==undefined||scope.limit>500) scope.limit=500;
+                if (scope.limit==undefined||scope.limit>1000) scope.limit=1000;
 
                 var fitViewToMarkersAllowed=true;
 
                 var cq = searchService.currentQuery();
                 enrichQuery(cq,scope);
 
-
+                var lastBbox;
 
                 function mapOnMove(entities) {
+
+                    // prevent reissueing search if bbox has not changed
+                    if (lastBbox == cq.bbox) {
+                        return;
+                    } else {
+                        lastBbox = cq.bbox;
+                    }
 
                     if (mapService.underLimit()) {
 
                         placesPainter.clear(); // TODO implement map.removeLayers
 
                         heatmapPainter.clear();
+                        
                         var places = placesService.makePlaces(entities,cq.bbox.split(","));
 
-                        placesPainter.drawPlaces(
-                            places, scope);
+                        placesPainter.drawPlaces(places, scope);
 
-                        {
-                            if (fitViewToMarkersAllowed) {
-                                fitViewToMarkers(
-                                    cq.zoom, cq.lat, cq.lng,
-                                    places
-                                );
-                            }
+                        if (fitViewToMarkersAllowed) {
+                            fitViewToMarkers(
+                                cq.zoom, cq.lat, cq.lng,
+                                places
+                            );
                         }
+                            
                     }
                     else {
                         placesPainter.clear();

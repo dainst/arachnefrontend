@@ -2,44 +2,55 @@
 
 <div ng-if="listLength > 0">
 
-    <br>
-    <!-- small lists do not page -->
-    <strong ng-if="listLength <= limit">
-        {{listLength}} {{(listLength > 1 ? 'entity_linked_objects' : 'entity_linked_object') | transl8 | decapitalize}}
-    </strong>
+    <div class="row">
 
-    <!-- bigger lists do page -->
-    <strong ng-if="listLength > limit">
-        {{listLength}} {{'entity_linked_objects' | transl8 | decapitalize}}:<br>
-        <span ng-if="offset > 0">
-            <span class="clickable small glyphicon glyphicon-chevron-left" ng-click="get(offset-3, limit)"></span>
-        </span>
-        <span ng-if="offset <= 0">
-            <span class="clickable small glyphicon glyphicon-chevron-left text-muted"></span>
-        </span>
+        <!-- small lists do not page -->
+        <div class="col-xs-12" ng-if="listLength <= limit">
+            <strong>
+                {{listLength}} {{(listLength > 1 ? 'entity_linked_objects' : 'entity_linked_object') | transl8 | decapitalize}}
+            </strong>
+        </div>
 
-        {{offset+1}}-{{(offset+limit > listLength) ? listLength : offset+limit}}
+        <!-- bigger lists do page -->
+        <div class="col-xs-6" ng-if="listLength > limit">
+            <strong>{{listLength}} {{'entity_linked_objects' | transl8 | decapitalize}}</strong>
+        </div>
+        <div class="col-xs-6 text-right" ng-if="listLength > limit">
+            <strong>
+                <span ng-if="offset > 0">
+                    <span class="clickable small glyphicon glyphicon-chevron-left" ng-click="get(offset-3, limit)"></span>
+                </span>
+                <span ng-if="offset <= 0">
+                    <span class="clickable small glyphicon glyphicon-chevron-left text-muted"></span>
+                </span>
 
-        <span ng-if="(offset + limit) < listLength">
-            <span class="clickable small glyphicon glyphicon-chevron-right" ng-click="get(offset+3, limit)"></span>
-        </span>
-        <span ng-if="(offset + limit) >= listLength">
-            <span class="clickable small glyphicon glyphicon-chevron-right text-muted"></span>
-        </span>
-    </strong>
+                {{offset+1}}-{{(offset+limit > listLength) ? listLength : offset+limit}}
+
+                <span ng-if="(offset + limit) < listLength">
+                    <span class="clickable small glyphicon glyphicon-chevron-right" ng-click="get(offset+3, limit)"></span>
+                </span>
+                <span ng-if="(offset + limit) >= listLength">
+                    <span class="clickable small glyphicon glyphicon-chevron-right text-muted"></span>
+                </span>
+            </strong>
+        </div>
+
+    </div>
 
     <ul style="margin-left:0px">
-        <li ng-repeat="entity in shownEntities track by $index">
-            <span ng-if="place.relation">{{ place.relation }}:</span>
-            <a ng-click="selectEntity(entity,$event)" class="clickable">{{ entity.title }}</a>
+        <li ng-repeat="entity in shownEntities track by $index"
+                style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-left: -30px;">
+            <small><span class="glyphicon glyphicon-chevron-right"></span></small>
+            <a ng-click="selectEntity(entity,$event)" class="clickable">
+                <span ng-if="!entity.title"><i>{{ 'ui.no_title' | transl8 }}</i></span>
+                <span ng-if="entity.title">{{ entity.title }}</span>
+            </a>
         </li>
-
-
     </ul>
 </div>
 
 <div ng-if="(shownEntities.length>1) && place.query">
-    <a href="search{{place.query.removeParams(['ghprec','bbox','lat', 'lng', 'zoom', 'overlays', 'baselayers']).toString()}}" target="_blank">
-        {{'ui_showallobjects' | transl8}}
+    <a class="btn btn-xs btn-primary" href="search{{place.query.toString()}}" target="_blank">
+        <span class="glyphicon glyphicon-search"></span> {{'ui_showallobjects' | transl8}}
     </a>
 </div>

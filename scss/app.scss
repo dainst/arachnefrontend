@@ -504,11 +504,8 @@ hr {
     height: 32px;
     margin-left: 4px;
     margin-top: 4px;
-}
-
-.marker-cluster span {
-  line-height:11px;
-  font-size:11px;
+    font: 16px 'Source Sans Pro', 'Helvetica', sans-serif;
+    font-weight: bold;
 }
 
 :-moz-full-screen.fullscreenrow {
