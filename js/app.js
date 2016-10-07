@@ -23,12 +23,14 @@ angular.module('arachne',[
 	'arachne.widgets.directives',
 	'arachne.widgets.map'
 ])
-.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider',
-	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider',
+	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider) {
 
 		$locationProvider.html5Mode(true);
 
 		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|blob):/);
+
+		$resourceProvider.defaults.cancellable = true;
 
 		$urlRouterProvider.when('', '/');
 		$urlRouterProvider.otherwise('/404');

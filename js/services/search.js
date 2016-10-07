@@ -15,8 +15,8 @@ function($location, Entity, $rootScope, Query, $q) {
     var dirty = false;
     var _currentQuery = Query.fromSearch($location.search());
     var _result = { entities: [] };
+    var _currentRequest = false;
     var CHUNK_SIZE = 50;
-    var chunkPromise = false;
 
     $rootScope.$on("$locationChangeSuccess", function() {
 
@@ -25,44 +25,47 @@ function($location, Entity, $rootScope, Query, $q) {
             _result = { entities: [] };
         }
         _currentQuery = newQuery;
-    });
 
-    // wait for other retrieve operations to be finished
-    // and retrieve a chunk from the current search result
-    function retrieveChunkDeferred(offset) {
-        if (chunkPromise) {
-            chunkPromise = chunkPromise.then(function(data) {
-                return retrieveChunk(offset);
-            });
-        } else {
-            chunkPromise = retrieveChunk(offset);
-        }
-        return chunkPromise;
-    }
+    });
 
     // retrieve a chunk from the current search result
     // checks if the requested chunk is cached, otherwise
     // a new query is sent to the backend
+    // cancels any previous request
     function retrieveChunk(offset) {
 
         var deferred = $q.defer();
 
         // chunk is cached
-        if ((!dirty)&&(!angular.isUndefined(_result.entities[offset]))) {
+        if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
             var queryLimit = parseFloat(_currentQuery.limit);
             var limit = isNaN(queryLimit) ? CHUNK_SIZE : queryLimit;
 
             var entities = _result.entities.slice(offset, offset + limit);
-            chunkPromise = false;
             deferred.resolve(entities);
             return deferred.promise;
-            // chunk needs to be retrieved
+
+        // chunk needs to be retrieved
         } else {
+            
             dirty = false;
-            var query = angular.extend({offset:offset,limit:CHUNK_SIZE},_currentQuery.toFlatObject());
+            var query = _currentQuery.setParam('offset', offset).setParam('limit', CHUNK_SIZE);
             if (!query.q) query.q = "*";
-            var entities = Entity.query(query);
-            return entities.$promise.then(function(data) {
+
+            if (_currentRequest) {
+                console.log(_currentRequest.query.toString(), query.toString());
+                if (_currentRequest.query.toString() == query.toString()) {
+                    console.log('returned existing promise');
+                    return _currentRequest.request.$promise;
+                } else {
+                    _currentRequest.request.$cancelRequest();
+                    console.log('canceled a request');
+                }
+            }
+
+            _currentRequest = { query: query, request: Entity.query(query.toFlatObject()) };
+            return _currentRequest.request.$promise.then(function(data) {
+                _currentRequest = false;
                 _result.size = data.size;
                 _result.facets = data.facets ? data.facets : [];
                 if (data.size == 0) {
@@ -72,11 +75,9 @@ function($location, Entity, $rootScope, Query, $q) {
                         _result.entities[parseInt(offset)+i] = data.entities[i];
                     }
                 }
-                chunkPromise = false;
                 deferred.resolve(data.entities);
                 return deferred.promise;
             }, function(response) {
-                chunkPromise = false;
                 deferred.reject(response);
                 return deferred.promise;
             });
@@ -99,7 +100,7 @@ function($location, Entity, $rootScope, Query, $q) {
             // resultIndex starts at 1, offset and data[] start at 0
             var offset = Math.floor((resultIndex-1) / CHUNK_SIZE) * CHUNK_SIZE;
 
-            return retrieveChunkDeferred(offset).then(function(data) {
+            return retrieveChunk(offset).then(function(data) {
                 deferred.resolve(data[resultIndex-1 - offset]);
                 return deferred.promise;
             });
@@ -158,7 +159,7 @@ function($location, Entity, $rootScope, Query, $q) {
         getCurrentPage: function() {
             var offset = _currentQuery.offset;
             if (angular.isUndefined(offset)) offset = 0;
-            return retrieveChunkDeferred(offset);
+            return retrieveChunk(offset);
         },
 
         // get current query
@@ -171,7 +172,7 @@ function($location, Entity, $rootScope, Query, $q) {
          * next time getCurrentPage gets called.
          */
         markDirty: function() {
-            dirty=true;
+            dirty = true;
         }
     }
 }]);
