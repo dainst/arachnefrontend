@@ -53,13 +53,10 @@ function($location, Entity, $rootScope, Query, $q) {
             if (!query.q) query.q = "*";
 
             if (_currentRequest) {
-                console.log(_currentRequest.query.toString(), query.toString());
                 if (_currentRequest.query.toString() == query.toString()) {
-                    console.log('returned existing promise');
                     return _currentRequest.request.$promise;
                 } else {
                     _currentRequest.request.$cancelRequest();
-                    console.log('canceled a request');
                 }
             }
 
