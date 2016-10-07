@@ -36,7 +36,16 @@ angular.module('arachne.widgets.map')
 
             if (!places) return;
 
-            markers = L.markerClusterGroup();
+            markers = L.markerClusterGroup({
+                iconCreateFunction: function (cluster) {
+                    var childCount = cluster.getChildCount();
+                    var c = ' marker-cluster-';
+                    if (childCount < 10) c += 'small';
+                    else if (childCount < 50) c += 'medium';
+                    else c += 'large';
+                    return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+                }
+            });
             map.addLayer(markers);
             
             for (var i = 0; i < places.length; i++) {
