@@ -76,7 +76,7 @@ angular.module('arachne',[
 }])
 .constant('arachneSettings', {
 	dataserviceUri: "//" + document.location.host + "/data",
-	limit: 50,
+	limit: 20,
 	facetLimit: 20,
 	openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 	sortableFields : ["entityId", "title", "subtitle"]

@@ -38,8 +38,7 @@ function($location, Entity, $rootScope, Query, $q) {
 
         // chunk is cached
         if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
-            var queryLimit = parseFloat(_currentQuery.limit);
-            var limit = isNaN(queryLimit) ? CHUNK_SIZE : queryLimit;
+            var limit = parseFloat(_currentQuery.limit);
 
             var entities = _result.entities.slice(offset, offset + limit);
             deferred.resolve(entities);
@@ -49,7 +48,7 @@ function($location, Entity, $rootScope, Query, $q) {
         } else {
             
             dirty = false;
-            var query = _currentQuery.setParam('offset', offset).setParam('limit', CHUNK_SIZE);
+            var query = _currentQuery.setParam('offset', offset);
             if (!query.q) query.q = "*";
 
             if (_currentRequest) {
