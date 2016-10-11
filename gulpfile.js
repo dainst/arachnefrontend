@@ -48,7 +48,9 @@ var jsDeps = [
     'node_modules/showdown/dist/showdown.min.js',
     'node_modules/ng-showdown/dist/ng-showdown.min.js',
     'node_modules/3dviewer/dist/3dviewer.js',
-    'lib/relative-paths-in-partial.js'
+    'node_modules/d3/build/d3.min.js',
+    'lib/relative-paths-in-partial.js',
+
 ];
 
 // compile sass and concatenate to single css file in build dir
