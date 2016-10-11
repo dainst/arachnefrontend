@@ -82,8 +82,8 @@ angular.module('arachne.controllers')
 
                 function mouseover(d) {
                     var classname = classes[d.index].name
-                    // svg.selectAll("path.link.source-" + classname)
-                    //     .attr("opacity", 1)
+                    svg.selectAll("path.link.source-" + classname)
+                        .attr("opacity", 1)
                     svg.selectAll("path.link.target-" + classname)
                         .attr("opacity", 1)
 
@@ -94,8 +94,8 @@ angular.module('arachne.controllers')
 
                 function mouseout(d) {
                     var classname = classes[d.index].name
-                    // svg.selectAll("path.link.source-" + classname)
-                    //     .attr("opacity", 0)
+                    svg.selectAll("path.link.source-" + classname)
+                        .attr("opacity", 0)
                     svg.selectAll("path.link.target-" + classname)
                         .attr("opacity", 0)
 
