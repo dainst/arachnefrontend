@@ -177,64 +177,6 @@
     }
   },
   {
-    "name": "buch",
-    "imports": [
-      "buchseite",
-      "bauwerk",
-      "bauwerksteil",
-      "gruppen",
-      "objekt",
-      "reproduktion",
-      "sammlungen",
-      "topographie",
-      "typus",
-      "inschrift"
-    ],
-    "numbered": {
-      "buchseite": 1910190,
-      "bauwerk": 798,
-      "bauwerksteil": 70,
-      "gruppen": 12,
-      "objekt": 3792,
-      "reproduktion": 2,
-      "sammlungen": 156,
-      "topographie": 340,
-      "typus": 218,
-      "inschrift": 6666
-    }
-  },
-  {
-    "name": "buchseite",
-    "imports": [
-      "bauwerk",
-      "bauwerksteil",
-      "gruppen",
-      "objekt",
-      "realien",
-      "relief",
-      "reproduktion",
-      "rezeption",
-      "sammlungen",
-      "topographie",
-      "typus",
-      "marbilder"
-    ],
-    "numbered": {
-      "bauwerk": 13440,
-      "bauwerksteil": 6654,
-      "gruppen": 5546,
-      "objekt": 28798,
-      "realien": 16,
-      "relief": 4158,
-      "reproduktion": 686,
-      "rezeption": 220,
-      "sammlungen": 10398,
-      "topographie": 5148,
-      "typus": 70,
-      "marbilder": 1923744
-    }
-  },
-  {
     "name": "person",
     "imports": [
       "sammlungen",
@@ -242,7 +184,6 @@
       "topographie",
       "bauwerk",
       "inschrift",
-      "buch",
       "typus"
     ],
     "numbered": {
@@ -251,7 +192,6 @@
       "topographie": 478,
       "bauwerk": 134,
       "inschrift": 20,
-      "buch": 396,
       "typus": 34
     }
   },
