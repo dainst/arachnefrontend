@@ -139,7 +139,7 @@ angular.module('arachne.services')
                     queries.push("catalogIds:" + this[key]);
                 } else if (key == 'q') {
                     queries.push(this[key]);
-                } else if (['fl','limit','sort','desc','ghprec','bbox','sf','fo','facet'].indexOf(key) != -1) {
+                } else if (['fl','limit','sort','desc','ghprec','bbox','sf','fo','facet','offset'].indexOf(key) != -1) {
                     object[key] = this[key];
                 }
             }

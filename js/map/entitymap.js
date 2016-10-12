@@ -52,8 +52,13 @@ angular.module('arachne.widgets.map')
 
                             for (var place in scope.places) {
 
-                                var curplace = scope.places[place],
-                                    name = curplace.name,
+                                var curplace = scope.places[place];
+
+                                if (!curplace.location) {
+                                    continue;
+                                }
+
+                                var name = curplace.name,
                                     relation = curplace.relation,
                                     location = curplace.location,
                                     title = "";

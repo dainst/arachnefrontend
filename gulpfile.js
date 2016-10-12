@@ -24,27 +24,30 @@ var pkg = require('./package.json');
 var cssDeps = [
     'node_modules/angular-ui-tree/dist/angular-ui-tree.css',
     'node_modules/font-awesome/css/font-awesome.min.css',
+    'node_modules/leaflet.markercluster/dist/MarkerCluster.css',
+    'node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css',
     'node_modules/drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css'
 ];
 
 var jsDeps = [
-    'node_modules/' + 'angular/angular.min.js',
-    'node_modules/' + 'angular-ui-router/release/angular-ui-router.min.js',
-    'node_modules/' + 'angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
-    'node_modules/' + 'angular-ui-bootstrap/dist/ui-bootstrap.js',
-    'node_modules/' + 'leaflet/dist/leaflet.js',
-    'node_modules/' + 'drmonty-leaflet-awesome-markers/js/leaflet.awesome-markers.js',
-    'node_modules/' + 'leaflet.heat/dist/leaflet-heat.js',
-    'node_modules/' + 'angulartics/dist/angulartics.min.js',
-    'node_modules/' + 'angulartics-piwik/dist/angulartics-piwik.min.js',
-    'node_modules/' + 'angular-resource/angular-resource.min.js',
-    'node_modules/' + 'angular-sanitize/angular-sanitize.min.js',
-    'node_modules/' + 'angular-cookies/angular-cookies.min.js',
-    'node_modules/' + 'idai-components/dist/idai-components.min.js',
-    'node_modules/' + 'angular-ui-tree/dist/angular-ui-tree.min.js',
-    'node_modules/' + 'showdown/dist/showdown.min.js',
-    'node_modules/' + 'ng-showdown/dist/ng-showdown.min.js',
-    'node_modules/' + '3dviewer/dist/3dviewer.js',
+    'node_modules/angular/angular.min.js',
+    'node_modules/angular-ui-router/release/angular-ui-router.min.js',
+    'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+    'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
+    'node_modules/leaflet/dist/leaflet.js',
+    'node_modules/leaflet.markercluster/dist/leaflet.markercluster.js',
+    'node_modules/drmonty-leaflet-awesome-markers/js/leaflet.awesome-markers.js',
+    'node_modules/leaflet.heat/dist/leaflet-heat.js',
+    'node_modules/angulartics/dist/angulartics.min.js',
+    'node_modules/angulartics-piwik/dist/angulartics-piwik.min.js',
+    'node_modules/angular-resource/angular-resource.min.js',
+    'node_modules/angular-sanitize/angular-sanitize.min.js',
+    'node_modules/angular-cookies/angular-cookies.min.js',
+    'node_modules/idai-components/dist/idai-components.min.js',
+    'node_modules/angular-ui-tree/dist/angular-ui-tree.min.js',
+    'node_modules/showdown/dist/showdown.min.js',
+    'node_modules/ng-showdown/dist/ng-showdown.min.js',
+    'node_modules/3dviewer/dist/3dviewer.js',
     'lib/relative-paths-in-partial.js'
 ];
 
@@ -90,8 +93,8 @@ gulp.task('concat-deps', function () {
 
 // minifies and concatenates js files in build dir
 gulp.task('minify-js', ['concat-js', 'html2js'], function () {
-    return gulp.src(['dist/' + '/' + pkg.name + '.js',
-        'dist/' + '/' + pkg.name + '-tpls.js'])
+    return gulp.src(['dist/' + pkg.name + '.js',
+        'dist/' + pkg.name + '-tpls.js'])
         .pipe(concat(pkg.name + '.js'))
         .pipe(gulp.dest('dist/'))
         .pipe(uglify())
@@ -122,7 +125,7 @@ gulp.task('copy-marker-imgs', function () {
 
 gulp.task('copy-imgs', function () {
     return gulp.src('img/**/*', {base: 'img'})
-        .pipe(gulp.dest('dist/' + '/img'));
+        .pipe(gulp.dest('dist/img'));
 });
 
 // copy index.html to dist and set version
@@ -144,12 +147,12 @@ gulp.task('copy-index', function () {
 
 gulp.task('copy-info', function () {
     return gulp.src('info/**/*', {base: 'info'})
-        .pipe(gulp.dest('dist/' + '/info'));
+        .pipe(gulp.dest('dist/info'));
 });
 
 gulp.task('copy-con10t', function () {
     return gulp.src('con10t/**/*', {base: 'con10t'})
-        .pipe(gulp.dest('dist/' + '/con10t'));
+        .pipe(gulp.dest('dist/con10t'));
 });
 
 gulp.task('build', [

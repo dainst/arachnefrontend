@@ -41,7 +41,7 @@ angular.module('arachne.controllers')
                 return text;
             };
 
-            $scope.createCatalogEntryText = function(entity) {
+            $scope.createCatalogEntryText = function (entity) {
 
                 var catalogEntryText = "";
 
@@ -52,7 +52,7 @@ angular.module('arachne.controllers')
                 return catalogEntryText;
             };
 
-            $scope.createSectionText = function(section, firstLevel) {
+            $scope.createSectionText = function (section, firstLevel) {
 
                 if (!section.content || section.content.length == 0) return "";
 
@@ -111,9 +111,11 @@ angular.module('arachne.controllers')
 
                     for (var i = len; i--;) {
 
-                        Entity.get({id: entities[i].entityId}, function(entity) {
+                        Entity.get({id: entities[i].entityId}, function (entity) {
                             $scope.addCatalogEntry(newCatalog, entity);
-                        }, function() {
+                        }, function () {
+                            message.addMessageForCode('default');
+                        }, function () {
                             message.addMessageForCode('default');
                         });
                     }
@@ -122,7 +124,7 @@ angular.module('arachne.controllers')
                 }
             };
 
-            $scope.addCatalogEntry = function(catalog, entity) {
+            $scope.addCatalogEntry = function (catalog, entity) {
 
                 catalog.root.children.push({
                     "arachneEntityId": entity.entityId,
@@ -130,24 +132,42 @@ angular.module('arachne.controllers')
                     "text": catalog.generateTexts ? $scope.createCatalogEntryText(entity) : ""
                 });
 
-                if (--$scope.entitiesToAdd == 0) {
+                if (--$scope.entitiesToAdd === 0) {
                     delete catalog.generateTexts;
-                    Catalog.save({}, catalog, function (result) {});
+                    Catalog.save({}, catalog,
+                        function (result) { /* success */
+                        },
+                        function (error) {
+                            message.addMessageForCode('default');
+                            console.log(error)
+                        });
                 }
             };
 
             $scope.createCatalogFromSearch = function () {
 
-                if (searchService.getSize() > 999) {
+                if (searchService.getSize() > 299) {
                     return;
                 }
 
-                var entityQuery = Entity.query(angular.extend($scope.currentQuery.toFlatObject(), {
+                var query = $scope.currentQuery.toFlatObject();
+
+                if (query.q === "") {
+                    query.q = "*";
+                }
+
+                angular.extend(query, {
                     offset: 0, limit: 1000
-                }));
+                });
+
+                var entityQuery = Entity.query(query);
 
                 entityQuery.$promise.then(function (result) {
-                    $scope.processCatalogEntities(result.entities)
+                    if (result.entities) {
+                        $scope.processCatalogEntities(result.entities)
+                    } else {
+                        console.log('No entities could be retrieved.');
+                    }
                 }, function (err) {
                     console.log('Error in retrieving entities.', err);
                 });

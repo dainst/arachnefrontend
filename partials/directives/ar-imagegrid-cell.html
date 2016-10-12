@@ -15,7 +15,7 @@
 				class="ar-imagegrid-cell-title"
 				ng-style="{'width':cellWidth+'px'};">
 			<small ng-bind-html="cellTitle">{{cellTitle}}</small>
-			<small ng-hide="cellTitle"><i>Ohne Titel</i></small>
+			<small ng-hide="cellTitle"><i>{{ 'ui.no_title' | transl8 }}</i></small>
 			<br/>
 			<small class="text-muted" ng-show="cellSubtitle" ng-bind-html="cellSubtitle">{{cellSubtitle}}</small>
 			<div ng-if="cellHighlighting" ng-bind-html="cellHighlighting">&nbsp;</div>

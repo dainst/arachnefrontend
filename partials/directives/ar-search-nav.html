@@ -16,19 +16,19 @@
             </a>
         </div>
 
-        <div ng-if="user.username" id="searchResultCatalogueAdd" style="display: inline-block; position: absolute;">
+        <div ng-if="user.username" id="searchResultCatalogAdd" style="display: inline-block; position: absolute;">
 
-            <button ng-if="resultSize <= 1000" tooltip-placement="auto bottom"
+            <button ng-if="resultSize <= 300" tooltip-placement="auto bottom"
                     uib-tooltip="{{'search_catalog_create' | transl8}}"
                     type="button" ng-click="createCatalogFromSearch()"
                     class="btn btn-sm btn-default">
                 <span class="glyphicon glyphicon-inbox"></span>
             </button>
 
-            <button ng-if="resultSize > 1000" tooltip-placement="auto bottom"
+            <button ng-if="resultSize > 300" tooltip-placement="auto bottom"
                     uib-tooltip="{{'search_catalog_too-big' | transl8}}"
                     type="button"
-                    class="btn btn-sm btn-default" disabled>
+                    class="btn btn-sm btn-default disabled">
                 <span class="glyphicon glyphicon-inbox"></span>
             </button>
         </div>

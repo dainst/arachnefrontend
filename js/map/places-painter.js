@@ -8,7 +8,7 @@ angular.module('arachne.widgets.map')
  */
 .factory('placesPainter', ['$compile', function ($compile) {
 
-    var markers=[];
+    var markers = null; // used to keep track of markers for deleting them later
     var map;
     var entityCallback;
     
@@ -23,10 +23,10 @@ angular.module('arachne.widgets.map')
         },
         
         clear : function () {
-            for (var i in markers) {
-                map.removeLayer(markers[i])
+            if (markers) {
+                map.removeLayer(markers);
             }
-            markers=[];
+            markers = null;
         },
 
         // create the actual places' markers
@@ -35,6 +35,18 @@ angular.module('arachne.widgets.map')
             scope) {
 
             if (!places) return;
+
+            markers = L.markerClusterGroup({
+                iconCreateFunction: function (cluster) {
+                    var childCount = cluster.getChildCount();
+                    var c = ' marker-cluster-';
+                    if (childCount < 10) c += 'small';
+                    else if (childCount < 50) c += 'medium';
+                    else c += 'large';
+                    return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+                }
+            });
+            map.addLayer(markers);
             
             for (var i = 0; i < places.length; i++) {
                 var place = places[i];
@@ -54,11 +66,19 @@ angular.module('arachne.widgets.map')
                     });
                     var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), {
                         icon: icon,
-                        entityCount: place.entityCount
+                        entityCount: place.entityCount,
+                        title: place.name
                     });
-                    marker.bindPopup(linkFunction(newScope)[0]);
-                    map.addLayer(marker);
-                    markers.push(marker);
+                    marker.on('click', function(newScope,linkFunction) {
+                        var popup;
+                        return function(e) {
+                            if (!popup) popup = linkFunction(newScope)[0];
+                            if (e.target.getPopup()) e.target.unbindPopup();
+                            e.target.bindPopup(popup,{ minWidth: 300, autoPan: false });
+                            e.target.openPopup();
+                        };
+                    }(newScope,linkFunction));
+                    markers.addLayer(marker);
                 }
             }
         }

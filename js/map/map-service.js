@@ -113,8 +113,7 @@ angular.module('arachne.widgets.map')
         
         underLimit: function() {
             var facetGeo = searchService.getFacet("facet_geo");
-            return (searchService.getSize() < limit ||
-                (facetGeo && facetGeo.values.length < limit) )
+            return (facetGeo && facetGeo.values.length < limit);
         },
         
 

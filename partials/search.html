@@ -40,7 +40,7 @@
 			<div ar-active-facets route="search" current-query="currentQuery"></div>
 
 			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
-			<div ng-if="facet.values" ng-hide="resultSize < 2"
+			<div ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
 					ng-repeat="facet in facets"
 					class="panel panel-default facet {{facet.name}}">
 				<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
