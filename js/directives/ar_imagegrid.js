@@ -28,7 +28,7 @@ angular.module('arachne.directives')
                     cell.img.addEventListener("error", function () {
                         scope.$apply(function () {
                             cell.complete = true;
-                            cell.img = scope.placeholder;
+                            cell.img = scope.errorplaceholder;
                             scope.resizeRow(cell.row);
                         });
                     });
@@ -37,7 +37,7 @@ angular.module('arachne.directives')
                             var blob = new Blob([data], {type: 'image/jpeg'});
                             cell.img.src = window.URL.createObjectURL(blob);
                         }).error(function (response) {
-                        cell.img.src = scope.placeholder.src;
+                        cell.img.src = scope.errorplaceholder.src;
                     });
                 };
 
@@ -128,7 +128,19 @@ angular.module('arachne.directives')
             controller: ['$scope', function ($scope) {
 
                 $scope.placeholder = new Image();
-                $scope.placeholder.src = 'img/imagePlaceholder.png';
+                $scope.placeholder.src = 'img/placeholder/placeholderNoImage.png';
+                $scope.placeholderOrt = new Image();
+                $scope.placeholderOrt.src = 'img/placeholder/placeholderOrt.png';
+                $scope.placeholderLiteratur = new Image();
+                $scope.placeholderLiteratur.src = 'img/placeholder/placeholderLiteratur.png';
+                $scope.placeholderPerson = new Image();
+                $scope.placeholderPerson.src = 'img/placeholder/placeholderPerson.png';
+                $scope.placeholderGruppierung = new Image();
+                $scope.placeholderGruppierung.src = 'img/placeholder/placeholderGruppierung.png';
+                $scope.placeholder3D = new Image();
+                $scope.placeholder3D.src = 'img/placeholder/placeholder3D.png';
+                $scope.errorplaceholder = new Image();
+                $scope.errorplaceholder.src = 'img/placeholder/placeholderError.png';
                 $scope.complete = false;
 
                 $scope.$watch('cells', function (newCells, oldCells) {
@@ -151,15 +163,32 @@ angular.module('arachne.directives')
                             $scope.grid[i][k] = cell;
                             cell.row = $scope.grid[i];
                             $scope.grid[i].complete = false;
-                            if (typeof cell.imgUri == 'undefined') {
+                            if(typeof cell.imgUri == 'undefined') {
                                 cell.imgUri = $scope.placeholder.src;
+                            }
+                            switch (cell.label) {
+                                case 'Orte':
+                                    cell.imgUri = $scope.placeholderOrt.src;
+                                    break;
+                                case 'Literatur':
+                                    cell.imgUri = $scope.placeholderLiteratur.src;
+                                    break;
+                                case 'Personen':
+                                    cell.imgUri = $scope.placeholderPerson.src;
+                                    break;
+                                case 'Gruppierungen':
+                                    cell.imgUri = $scope.placeholderGruppierung.src;
+                                    break;
+                                case '3D-Modelle':
+                                    cell.imgUri = $scope.placeholder3D.src;
+                                    break;
+                                default:
+                                    break;
                             }
                             $scope.loadImage(cell);
                         }
                     }
-
                 });
-
             }]
         }
     }]);
