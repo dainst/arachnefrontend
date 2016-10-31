@@ -5,6 +5,12 @@ angular.module('arachne.widgets.directives')
 .directive('con10tSearchQuery', function() {
 return {
     restrict: 'A',
+
+    scope: {
+        con10tSearchQuery: '@',
+        con10tSearchFacet: '@'
+    },
+
     link: function(scope, element, attrs) {
 
         attrs.$observe('con10tSearchQuery', function(value) {

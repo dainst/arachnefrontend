@@ -31,13 +31,13 @@ angular.module('arachne.directives')
                                 var blob = new Blob([data], {type: 'image/jpeg'});
                                 img.src = window.URL.createObjectURL(blob);
                             }).error(function (result) {
-                                img.src = 'img/imagePlaceholder.png';
+                                img.src = 'img/placeholder/placeholderError.png';
                                 if (scope.imgWidth) img.width = scope.imgWidth;
                                 if (scope.imgHeight) img.height = scope.imgHeight;
                             }
                         );
                     } else {
-                        img.src = 'img/imagePlaceholder.png';
+                        img.src = 'img/placeholder/placeholderNoImage.png';
                         if (scope.imgWidth) img.width = scope.imgWidth;
                         if (scope.imgHeight) img.height = scope.imgHeight;
                     }
@@ -52,7 +52,6 @@ angular.module('arachne.directives')
                 scope.$watch('imgId', function () {
                     scope.loadImg();
                 })
-
             }
         }
     }]);
