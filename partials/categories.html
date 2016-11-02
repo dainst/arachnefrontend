@@ -1,16 +1,16 @@
 <div ng-controller="CategoriesController" autoscroll="true">
+	
 	<div class="row">
-		<h1 class="col-md-10 col-md-offset-1 page-header">{{"category_all"|transl8}}</h1>
-	</div>
-	<div class="row">
-		<div class="col-md-6 col-md-offset-1">
+		<div class="col-md-6  col-md-offset-1" style="text-align: center;">
 			<svg width="700" height="700"></svg>
 		</div>
 		<div class="col-md-4">
-			<div id="category-{{category.key}}" style="display:none" ng-repeat="category in categories">
-				<h2>{{category.title}}</h2>
+			<h2 class=" page-header">{{"startsite_categories"|transl8}}</h2>
+			<div id="category-{{category.key}}" class="category_introduction" style="display:{{ category.key == 'objekt' ? 'block' : 'none'}}" ng-repeat="category in categories">
 				<div style="background-image: url({{category.imgUri}}); height:280px; background-position: center center; background-size: 100% auto;" ></div>
-				<p>{{category.subtitle}}</p>
+				<h2>{{ 'type_singular_' + category.key | transl8 }}</h2>
+				<h4>{{ 'type_subtitle_' + category.key | transl8 }}</h4>
+				<a class="btn btn-primary" href="category/?c={{category.key}}">{{ 'ui_showall' | transl8 }}</a>
 			</div>
 		</div>
 	</div>
