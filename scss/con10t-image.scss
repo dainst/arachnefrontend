@@ -19,12 +19,18 @@
 
 .con10t-image-left {
   float: left;
-  padding: 5px 25px 25px 0 !important;
+  padding: 5px 25px 15px 0 !important;
 }
 
 .con10t-image-right {
   float: right;
-  padding: 5px 0 25px 25px !important;
+  padding: 5px 0 15px 25px !important;
+}
+
+.con10t-image-center {
+  display: block;
+  margin: auto;
+  padding: 15px 0 15px 0 !important;
 }
 
 /* Image overlay */
