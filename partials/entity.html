@@ -105,15 +105,15 @@
 
                             <li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
                                 <strong class="text-muted uppercase small">{{"entity_shown_result"|transl8}}</strong>
-                                <form ng-submit="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">
+                                <form ng-submit="goToResultIndex(resultIndexInput)">
                                     <div class="input-group"
                                          ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
                                         <input ng-model="resultIndexInput"
                                                type="number" size="4"
-                                               min="1" max="{{resultSize}}" class="form-control input-sm">
-                                        <span ng-if="resultIndex == resultIndexInput" class="input-group-addon" style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>{{ 'ui_of' | transl8 }}</small> <strong>{{resultSize|number}}</strong></span>
-                                        <span ng-hide="resultIndex == resultIndexInput" class="input-group-btn">
-							    		<button class="btn btn-primary btn-sm" ng-click="go('/entity/' + currentQuery.setParam('resultIndex',resultIndexInput).toString())">{{ 'ui_goto' | transl8}}</button>
+                                               class="form-control input-sm">
+                                        <span class="input-group-addon" style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>{{ 'ui_of' | transl8 }}</small> <strong>{{resultSize|number}}</strong></span>
+                                        <span ng-hide="resultIndex == resultIndexInput || resultIndexInput < 1 || resultIndexInput > resultSize" class="input-group-btn">
+							    		<button class="btn btn-primary btn-sm" ng-click="goToResultIndex(resultIndexInput)">{{ 'ui_goto' | transl8}}</button>
 							    	</span>
                                     </div>
                                 </form>
@@ -180,7 +180,7 @@
 
                 <ar-entity-links entity="entity"></ar-entity-links>
 
-                <div ng-show="contextSize">
+                <div ng-if="contextQuery" ng-show="contextSize">
                     <h3>
                         <a ng-href="search{{contextQuery.toString()}}">
                             {{'entity_linked_objects'|transl8}}
