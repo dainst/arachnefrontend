@@ -1,6 +1,6 @@
 <div>
 	<div class="single-line">
-		<small class="single-line">{{entity.title}}</small>
+		<small class="single-line" ng-bind-html="entity.title"></small>
 		<small ng-if="entity.title.length==0">
 			<i>{{entity.type | singular}} ohne Titel</i>
 		</small>
