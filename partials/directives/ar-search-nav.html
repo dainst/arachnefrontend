@@ -14,6 +14,12 @@
                 <span class="glyphicon glyphicon-th-list"></span>
                 Liste
             </a>
+            <a ng-href="map{{currentQuery.removeParam('view').toString()}}"
+               class="btn btn-sm btn-default"
+               ng-class="{ 'active': currentQuery.view == 'map' }">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                Karte
+            </a>
         </div>
 
         <div ng-if="user.username" id="searchResultCatalogAdd" style="display: inline-block; position: absolute;">
