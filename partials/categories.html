@@ -1,21 +1,17 @@
 <div ng-controller="CategoriesController">
 	<div class="row">
-		<div class="col-md-12">
-		<h2 class="page-header">{{"startsite_categories"|transl8}}</h2>
-		</div>
-	</div>
-	
-	<div class="row">
 		<div class="col-md-6" id="categories_container">
+			<h2 class="page-header">{{"startsite_categories"|transl8}}</h2>
+
 			<div ar-imagegrid
 				cells="categories"
 				columns="3"
 				margin="4">					
 			</div>
 		</div>
-
 		<div class="col-md-6" style="text-align: center;">
-			<svg width="700" height="700" style="position:fixed; right: 0px;"></svg>
+
+			<svg id="category_graph" style="position:fixed; right: 0px;"></svg>
 		</div>
 	</div>
 </div>

@@ -2,102 +2,90 @@
   {
     "name": "gruppen",
     "connections": {
-      "objekt": 42182,
-      "bauwerk": 2902,
+      "objekt": 42606,
+      "bauwerk": 2910,
       "typus": 82,
-      "sammlungen": 7206,
-      "relief": 20,
+      "sammlungen": 7258,
+      "relief": 36,
       "rezeption": 6,
-      "topographie": 9824,
+      "topographie": 9830,
       "bauwerksteil": 950,
-      "reproduktion": 672,
-      "buchseite": 281,
-      "buch": 2,
-      "marbilder": 1375,
-      "inschrift": 4
-    },
-    "imgUri": "img/categories/mehrteiligdenk.jpg"
+      "reproduktion": 674,
+      "buch": 98,
+      "marbilder": 24252,
+      "inschrift": 12
+    }
   },
   {
     "name": "objekt",
     "connections": {
-      "gruppen": 42182,
-      "typus": 16594,
-      "topographie": 86942,
-      "realien": 8750,
-      "relief": 27570,
+      "gruppen": 42606,
+      "typus": 16652,
+      "topographie": 89458,
+      "realien": 8758,
+      "relief": 27646,
       "rezeption": 6244,
-      "bauwerk": 42780,
-      "sammlungen": 180484,
-      "reproduktion": 30756,
-      "bauwerksteil": 12034,
-      "buchseite": 1553,
-      "buch": 274,
-      "person": 910,
-      "marbilder": 30238,
-      "inschrift": 21126
-    },
-    "imgUri": "img/categories/objekte_sw.jpg"
+      "bauwerk": 43250,
+      "sammlungen": 183462,
+      "reproduktion": 30998,
+      "bauwerksteil": 12096,
+      "buch": 5490,
+      "person": 924,
+      "marbilder": 625790,
+      "inschrift": 21224
+    }
   },
   {
     "name": "typus",
     "connections": {
-      "objekt": 16594,
+      "objekt": 16652,
       "gruppen": 82,
       "realien": 208,
-      "reproduktion": 210,
-      "buchseite": 4,
+      "reproduktion": 212,
       "bauwerk": 128,
-      "buch": 11,
-      "marbilder": 33,
+      "buch": 218,
+      "marbilder": 720,
       "person": 64
-    },
-    "imgUri": "img/categories/typen_sw.jpg"
+    }
   },
   {
     "name": "topographie",
     "connections": {
-      "objekt": 86942,
-      "bauwerk": 17832,
-      "gruppen": 9824,
+      "objekt": 89458,
+      "bauwerk": 17940,
+      "gruppen": 9830,
       "rezeption": 64,
       "reproduktion": 1182,
-      "buchseite": 274,
-      "sammlungen": 116,
-      "buch": 20,
+      "sammlungen": 118,
+      "buch": 550,
       "person": 490,
-      "marbilder": 7590,
+      "marbilder": 157232,
       "inschrift": 6
-    },
-    "imgUri": "img/categories/topographie_sw.jpg"
+    }
   },
   {
     "name": "realien",
     "connections": {
-      "objekt": 8750,
+      "objekt": 8758,
       "typus": 208,
       "reproduktion": 68,
-      "relief": 8740,
-      "buchseite": 1,
-      "marbilder": 742
-    },
-    "imgUri": "img/categories/einzelmotive.jpg"
+      "relief": 8748,
+      "marbilder": 14858
+    }
   },
   {
     "name": "relief",
     "connections": {
-      "objekt": 27570,
+      "objekt": 27646,
       "rezeption": 8,
-      "reproduktion": 854,
-      "realien": 8740,
-      "gruppen": 20,
+      "reproduktion": 850,
+      "realien": 8748,
+      "gruppen": 36,
       "bauwerksteil": 4,
-      "buchseite": 209,
-      "buch": 0,
-      "marbilder": 1554,
+      "buch": 2,
+      "marbilder": 31496,
       "inschrift": 316
-    },
-    "imgUri": "img/categories/szene.jpg"
+    }
   },
   {
     "name": "rezeption",
@@ -107,65 +95,57 @@
       "bauwerk": 112,
       "gruppen": 6,
       "topographie": 64,
-      "buchseite": 11,
-      "marbilder": 19,
+      "marbilder": 370,
       "inschrift": 238
-    },
-    "imgUri": "img/categories/rezeptionen_sw.jpg"
+    }
   },
   {
     "name": "bauwerk",
     "connections": {
-      "objekt": 42780,
-      "topographie": 17832,
-      "reproduktion": 1670,
-      "gruppen": 2902,
+      "objekt": 43250,
+      "topographie": 17940,
+      "reproduktion": 1674,
+      "gruppen": 2910,
       "rezeption": 112,
-      "bauwerksteil": 12564,
+      "bauwerksteil": 12584,
       "sammlungen": 194,
-      "buchseite": 705,
       "typus": 128,
-      "buch": 48,
-      "person": 308,
-      "marbilder": 2900,
-      "inschrift": 242
-    },
-    "imgUri": "img/categories/bauwerke_sw.jpg"
+      "buch": 982,
+      "person": 1044,
+      "marbilder": 61514,
+      "inschrift": 244
+    }
   },
   {
     "name": "reproduktion",
     "connections": {
-      "bauwerk": 1670,
+      "bauwerk": 1674,
       "realien": 68,
-      "relief": 854,
-      "sammlungen": 44822,
-      "objekt": 30756,
-      "typus": 210,
+      "relief": 850,
+      "sammlungen": 46346,
+      "objekt": 30998,
+      "typus": 212,
       "bauwerksteil": 104,
       "topographie": 1182,
-      "gruppen": 672,
-      "buchseite": 36,
-      "buch": 1,
-      "marbilder": 2218,
+      "gruppen": 674,
+      "buch": 12,
+      "marbilder": 49142,
       "inschrift": 4
-    },
-    "imgUri": "img/categories/Reproduktionen.jpg"
+    }
   },
   {
     "name": "sammlung",
     "connections": {
-      "gruppen": 7206,
-      "reproduktion": 44822,
-      "objekt": 180484,
+      "gruppen": 7258,
+      "reproduktion": 46346,
+      "objekt": 183462,
       "bauwerksteil": 128,
       "bauwerk": 194,
-      "buchseite": 520,
-      "topographie": 116,
-      "buch": 8,
-      "person": 1598,
-      "marbilder": 127
-    },
-    "imgUri": "img/categories/sammlungen_sw.jpg"
+      "topographie": 118,
+      "buch": 174,
+      "person": 1600,
+      "marbilder": 2566
+    }
   },
   {
     "name": "bauwerksteil",
@@ -173,97 +153,71 @@
       "gruppen": 950,
       "sammlungen": 128,
       "relief": 4,
-      "bauwerk": 12564,
-      "objekt": 12034,
+      "bauwerk": 12584,
+      "objekt": 12096,
       "reproduktion": 104,
-      "buchseite": 333,
-      "buch": 4,
-      "marbilder": 667
-    },
-    "imgUri": "img/categories/bauwerksteile.jpg"
+      "buch": 72,
+      "marbilder": 13458
+    }
   },
   {
     "name": "buch",
     "connections": {
-      "buchseite": 95612,
-      "bauwerk": 48,
-      "bauwerksteil": 4,
-      "gruppen": 2,
-      "objekt": 274,
-      "relief": 0,
-      "reproduktion": 1,
-      "sammlungen": 8,
-      "topographie": 20,
-      "typus": 11,
-      "person": 20,
-      "inschrift": 340
-    },
-    "imgUri": "img/categories/buecher_sw.jpg"
-  },
-  {
-    "name": "buchseite",
-    "connections": {
-      "buch": 95612,
-      "bauwerk": 705,
-      "bauwerksteil": 333,
-      "gruppen": 281,
-      "objekt": 1553,
-      "realien": 1,
-      "relief": 209,
-      "reproduktion": 36,
-      "rezeption": 11,
-      "sammlungen": 520,
-      "topographie": 274,
-      "typus": 4,
-      "marbilder": 96540
-    },
-    "imgUri": "img/categories/Buchseiten_sw.jpg"
+      "bauwerk": 982,
+      "bauwerksteil": 72,
+      "gruppen": 98,
+      "objekt": 5490,
+      "relief": 2,
+      "reproduktion": 12,
+      "sammlungen": 174,
+      "topographie": 550,
+      "typus": 218,
+      "person": 3864,
+      "inschrift": 6800
+    }
   },
   {
     "name": "person",
     "connections": {
-      "sammlungen": 1598,
-      "objekt": 910,
+      "sammlungen": 1600,
+      "objekt": 924,
       "topographie": 490,
-      "bauwerk": 308,
+      "bauwerk": 1044,
       "inschrift": 22,
-      "buch": 20,
+      "buch": 3864,
       "typus": 64
     }
   },
   {
     "name": "marbilder",
     "connections": {
-      "rezeption": 19,
-      "gruppen": 1375,
-      "typus": 33,
-      "topographie": 7590,
-      "bauwerksteil": 667,
-      "bauwerk": 2900,
-      "reproduktion": 2218,
-      "sammlungen": 127,
-      "realien": 742,
-      "relief": 1554,
-      "objekt": 30238,
-      "buchseite": 96540,
-      "inschrift": 23
-    },
-    "imgUri": "img/categories/bilder.jpg"
+      "rezeption": 370,
+      "gruppen": 24252,
+      "typus": 720,
+      "topographie": 157232,
+      "bauwerksteil": 13458,
+      "bauwerk": 61514,
+      "reproduktion": 49142,
+      "sammlungen": 2566,
+      "realien": 14858,
+      "relief": 31496,
+      "objekt": 625790,
+      "inschrift": 468
+    }
   },
   {
     "name": "inschrift",
     "connections": {
       "person": 22,
-      "objekt": 21126,
-      "bauwerk": 242,
+      "objekt": 21224,
+      "bauwerk": 244,
       "relief": 316,
       "rezeption": 238,
       "reproduktion": 4,
-      "gruppen": 4,
-      "buch": 340,
-      "marbilder": 23,
+      "gruppen": 12,
+      "buch": 6800,
+      "marbilder": 468,
       "topographie": 6
-    },
-    "imgUri": "img/categories/Inschriften.jpg"
+    }
   }
 ]

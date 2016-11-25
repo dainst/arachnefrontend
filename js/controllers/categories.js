@@ -18,6 +18,19 @@ angular.module('arachne.controllers')
 
             function drawGraph () {
                 d3.json("config/category_relations.json", function(classes) {
+
+                    var category_graph = document.getElementById('category_graph');
+                    category_graph.setAttribute('width', window.screen.width/2)
+                    category_graph.setAttribute('height', window.screen.width/2)
+                    
+                    // move images to lower part of the graph
+                    for (var i = 0, leength = classes.length; i < leength; i++) {
+                        if (classes[i].name == "marbilder") {
+                            classes.splice(4, 0, classes.splice(i, 1)[0]);
+                            break;
+                        }
+                    }
+
                     $scope.graphClasses = classes
                     var matrix = generateMatrix(classes);
 
@@ -26,7 +39,6 @@ angular.module('arachne.controllers')
                     height = +svg.attr("height"),
                     outerRadius = Math.min(width, height) * 0.5 - 120,
                     innerRadius = outerRadius - 30;
-
 
                     var chord = d3.chord()
                         .padAngle(0.05)
@@ -54,11 +66,10 @@ angular.module('arachne.controllers')
                       .enter().append("g");
 
                     group.append("path")
-                        .style("fill", function(d) { return d3.rgb(color(0)); })
+                        .style("fill", function(d) { return classes[d.index].name == "marbilder" ? "rgb(230, 230, 230)" : d3.rgb(color(0)); })
                         .style("stroke", function(d) { return d3.rgb(color(0)).darker(30); })
                         .style("cursor", "pointer")
                         .attr("d", arc)
-                        .on("mousedown", mousedown);
 
                     var groupText = group.append("text")
                         .each(function(d) { d.angle = (d.startAngle + d.endAngle) / 2; })
@@ -70,8 +81,6 @@ angular.module('arachne.controllers')
                         .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
                         .text(function(d) { return $filter('transl8')('type_singular_' + classes[d.index].name); })
                         .style("cursor", "pointer")
-                        //.on("mousedown", mousedown);
-                        
 
                     g.append("g")
                         .attr("class", "ribbons")
@@ -100,21 +109,10 @@ angular.module('arachne.controllers')
                 }) // end d3js-json
             }
 
-            function mousedown(d) {
-                var svg = $scope.svg;
-                var classes = $scope.graphClasses;
-
-                svg.selectAll("path.link").attr("opacity", 0)
-                
-                var classname = classes[d.index].name
-                svg.selectAll("path.link.source-" + classname).attr("opacity", 0.8)
-                svg.selectAll("path.link.target-" + classname).attr("opacity", 0.8)
-            }
-
             function generateMatrix(classes) {
                 var nameToIndex = {}
                 var matrix = []
-                for (var i = 0; i < classes.length; i++) {
+                for (var i = 0, leength = classes.length; i < leength; i++) {
                     var klass = classes[i]
 
                     nameToIndex[klass.name] = i
