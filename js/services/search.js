@@ -47,7 +47,7 @@ function($location, Entity, $rootScope, Query, $q) {
 
         if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
             deferred.resolve(getCachedChunk(offset));
-            return deferred.promise;
+            // return deferred.promise;
         // chunk needs to be retrieved
         } else {
             
@@ -57,32 +57,30 @@ function($location, Entity, $rootScope, Query, $q) {
 
             if (_currentRequest) {
                 if (_currentRequest.query.toString() == query.toString()) {
-                    return _currentRequest.request.$promise;
+                    _currentRequest.request.$promise.then(function(data){deferred.resolve(data.entities);});
                 } else {
                     _currentRequest.request.$cancelRequest();
                 }
-            }
-
-            _currentRequest = { query: query, request: Entity.query(query.toFlatObject()) };
-            return _currentRequest.request.$promise.then(function(data) {
-                _currentRequest = false;
-                _result.size = data.size;
-                _result.facets = data.facets ? data.facets : [];
-                if (data.size == 0) {
-                    deferred.resolve([]);
-                } else {
-                    if(data.entities) for (var i = 0; i < data.entities.length; i++) {
-                        _result.entities[parseInt(offset)+i] = data.entities[i];
+            } else {
+                _currentRequest = { query: query, request: Entity.query(query.toFlatObject()) };
+                _currentRequest.request.$promise.then(function(data) {
+                    _currentRequest = false;
+                    _result.size = data.size;
+                    _result.facets = data.facets ? data.facets : [];
+                    if (data.size == 0) {
+                        deferred.resolve([]);
+                    } else {
+                        if(data.entities) for (var i = 0; i < data.entities.length; i++) {
+                            _result.entities[parseInt(offset)+i] = data.entities[i];
+                        }
                     }
-                }
-                deferred.resolve(data.entities);
-                return deferred.promise;
-            }, function(response) {
-                deferred.reject(response);
-                return deferred.promise;
-            });
+                    deferred.resolve(data.entities);
+                }, function(response) {
+                    deferred.reject(response);
+                });
+            }
         }
-
+        return deferred.promise;
     }
 
     return {
@@ -100,8 +98,9 @@ function($location, Entity, $rootScope, Query, $q) {
             // resultIndex starts at 1, offset and data[] start at 0
             var offset = Math.floor((resultIndex-1) / CHUNK_SIZE) * CHUNK_SIZE;
 
-            return retrieveChunk(offset).then(function(data) {
-                deferred.resolve(data[resultIndex-1 - offset]);
+            return retrieveChunk(offset).then(function(entities) {
+                console.log(entities)
+                deferred.resolve(entities[resultIndex-1 - offset]);
                 return deferred.promise;
             });
 
