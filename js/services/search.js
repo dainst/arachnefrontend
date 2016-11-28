@@ -28,22 +28,26 @@ function($location, Entity, $rootScope, Query, $q) {
 
     });
 
-    // retrieve a chunk from the current search result
-    // checks if the requested chunk is cached, otherwise
-    // a new query is sent to the backend
-    // cancels any previous request
+    function getCachedChunk(offset) {
+        var limit = parseFloat(_currentQuery.limit);
+        var entities = _result.entities.slice(offset, offset + limit);
+        return entities;
+    }
+
+    /** retrieve a chunk from the current search result
+     * checks if the requested chunk is cached, otherwise
+     * a new query is sent to the backend
+     * cancels any previous request
+     * 
+     * @return { Promise<entities> }
+     **/
     function retrieveChunk(offset) {
 
         var deferred = $q.defer();
 
-        // chunk is cached
         if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
-            var limit = parseFloat(_currentQuery.limit);
-
-            var entities = _result.entities.slice(offset, offset + limit);
-            deferred.resolve(entities);
+            deferred.resolve(getCachedChunk(offset));
             return deferred.promise;
-
         // chunk needs to be retrieved
         } else {
             
