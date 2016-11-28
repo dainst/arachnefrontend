@@ -42,45 +42,59 @@ function($location, Entity, $rootScope, Query, $q) {
      * @return { Promise<entities> }
      **/
     function retrieveChunk(offset) {
-
         var deferred = $q.defer();
 
         if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
             deferred.resolve(getCachedChunk(offset));
-            // return deferred.promise;
-        // chunk needs to be retrieved
+        
+
         } else {
-            
             dirty = false;
             var query = _currentQuery.setParam('offset', offset);
             if (!query.q) query.q = "*";
 
             if (_currentRequest) {
+
+                // If the offset of the url differs from the offset param
                 if (_currentRequest.query.toString() == query.toString()) {
                     _currentRequest.request.$promise.then(function(data){deferred.resolve(data.entities);});
                 } else {
                     _currentRequest.request.$cancelRequest();
                 }
-            } else {
-                _currentRequest = { query: query, request: Entity.query(query.toFlatObject()) };
-                _currentRequest.request.$promise.then(function(data) {
-                    _currentRequest = false;
-                    _result.size = data.size;
-                    _result.facets = data.facets ? data.facets : [];
-                    if (data.size == 0) {
-                        deferred.resolve([]);
-                    } else {
-                        if(data.entities) for (var i = 0; i < data.entities.length; i++) {
-                            _result.entities[parseInt(offset)+i] = data.entities[i];
-                        }
-                    }
-                    deferred.resolve(data.entities);
-                }, function(response) {
-                    deferred.reject(response);
-                });
+
+            } // chunk needs to be retrieved 
+            else {
+                performAndParseRequest(offset,query,deferred);  
             }
         }
+
         return deferred.promise;
+    }
+
+    /**
+     * Retrieves a chunk via http.
+     * 
+     * @param deferred
+     *   .resolve() gets called when request was succesful
+     *   .reject() gets called otherwise 
+     */
+    function performAndParseRequest(offset,query,deferred) {
+        _currentRequest = { query: query, request: Entity.query(query.toFlatObject()) };
+        _currentRequest.request.$promise.then(function(data) {
+            _currentRequest = false;
+            _result.size = data.size;
+            _result.facets = data.facets ? data.facets : [];
+            if (data.size == 0) {
+                deferred.resolve([]);
+            } else {
+                if(data.entities) for (var i = 0; i < data.entities.length; i++) {
+                    _result.entities[parseInt(offset)+i] = data.entities[i];
+                }
+            }
+            deferred.resolve(data.entities);
+        }, function(response) {
+            deferred.reject(response);
+        });
     }
 
     return {
@@ -99,7 +113,6 @@ function($location, Entity, $rootScope, Query, $q) {
             var offset = Math.floor((resultIndex-1) / CHUNK_SIZE) * CHUNK_SIZE;
 
             return retrieveChunk(offset).then(function(entities) {
-                console.log(entities)
                 deferred.resolve(entities[resultIndex-1 - offset]);
                 return deferred.promise;
             });
