@@ -1,5 +1,5 @@
 exports.config = {
-    chromeDriver : '../../../node_modules/chromedriver/lib/chromedriver/chromedriver',
+    chromeDriver : 'node_modules/chromedriver/lib/chromedriver/chromedriver',
     baseUrl: 'http://localhost:8082',
     specs: ['e2e/**/*.spec.js'],
     directConnect: true,
