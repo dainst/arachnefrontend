@@ -5,15 +5,17 @@
  * utils.delayPromises(50);
  *
  */
+var searchPage = require('./search/search.page');
+var messageBox = require('./core/message-box.page');
 
 describe('search result page', function() {
 
     it('should show facet more link when more facet values are available', function() {
 
-        browser.get('/search?fl=1');
+        searchPage.load({ fl: 1 });
 
-        var facetValues = element.all(by.css('.facet_image .facet-value'));
-        var moreButton = element(by.css('.facet_image .more'));
+        var facetValues = searchPage.getFacetValues('facet_image');
+        var moreButton = searchPage.getMoreButton('facet_image');
 
         expect(moreButton.isDisplayed()).toBe(true);
         expect(facetValues.count()).toEqual(1);
@@ -25,14 +27,12 @@ describe('search result page', function() {
         expect(moreButton.isDisplayed()).toBe(false);
     });
 
-    it('should show a msg when searchresults exceed 10000', function(done) {
-        browser.get('/search?offset=9995&limit=6&q=*');
+    it('should show a msg when searchresults exceed 10000', function() {
 
-        var messageBox = element(by.css('.alert-warning'));
-        expect(messageBox.isDisplayed()).toBe(true);
-        messageBox.element(by.css("b")).getText().then(function(text){
-            expect(text).toContain("10000");
-            done();
-        });
+        searchPage.load({ offset: 9995, limit: 6, q: '*' });
+
+        expect(messageBox.getLevel()).toEqual('warning');
+        expect(messageBox.getText()).toContain("10000");
+        
     })
 });
