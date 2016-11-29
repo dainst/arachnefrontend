@@ -165,16 +165,21 @@ angular.module('arachne.controllers')
 	    };
 
 	    $scope.removeCatalog = function() {
+
 	        var deleteModal = $uibModal.open({
-	            templateUrl: 'partials/Modals/deleteCatalog.html'
+	            templateUrl: 'partials/Modals/deleteCatalog.html',
+                controller: 'DeleteCatalogController',
+				scope: $scope
 	        });
+
 	        deleteModal.close = function() {
+
 	            Catalog.remove({id: $scope.catalog.id}, function() {
 					deleteModal.dismiss();
 					$location.url('/catalogs');
-				}), function() {
-					message.addMessageForCode('default');
-				};
+				}, function() {
+                    message.addMessageForCode('default');
+	            });
 	        }
 	    };
 

@@ -1,12 +1,22 @@
 <div class="modal-header">
-	<h4 class="modal-title">
-		{{ 'catalog_delete' | transl8 }}
-	</h4>
+    <h4 class="modal-title">
+        {{ 'catalog_delete' | transl8 }}
+    </h4>
 </div>
 <div class="modal-body">
-	{{ 'ui_sure_delete' | transl8 }} 
+    {{ 'catalog_delete_type_catalog_name' | transl8 }}
+    <div id="catalog-to-delete-name">
+        {{ catalog.root.label }}
+    </div>
+    <div class="form-group">
+        <input type="text"
+               class="form-control"
+               ng-model="inputCatalogName">
+    </div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-danger" ng-click="$close()">{{ 'ui_yes' | transl8}}</button>
-	<button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_no' | transl8 }}</button>
+    <button class="btn btn-danger"
+            ng-disabled="inputCatalogName !== catalogName"
+            ng-click="$close()">{{ 'ui_delete' | transl8}}</button>
+    <button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_cancel' | transl8 }}</button>
 </div>
