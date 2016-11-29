@@ -76,12 +76,12 @@ angular.module('arachne',[
 }])
 .constant('arachneSettings', {
 	dataserviceUri: "//" + document.location.host + "/data",
-	limit: 20,
+	limit: 50,
 	facetLimit: 20,
 	openFacets : ["facet_image", "facet_kategorie", "facet_bestandsname", "facet_subkategoriebestand"],
 	sortableFields : ["entityId", "title", "subtitle"]
 })
 .constant('componentsSettings', {
-		transl8Uri: "https://arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK"
+		transl8Uri: "https://arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&application=shared&lang={LANG}&callback=JSON_CALLBACK"
 	}
 );

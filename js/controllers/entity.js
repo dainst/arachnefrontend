@@ -16,8 +16,10 @@ angular.module('arachne.controllers')
 
             $scope.currentQuery = searchService.currentQuery();
 
-            $scope.go = function (path) {
-                $location.url(path);
+            $scope.goToResultIndex = function (resultIndex) {
+                if (resultIndex > 0 && resultIndex <= $scope.resultSize) {
+                    $location.url('/entity/' + $scope.currentQuery.setParam('resultIndex',resultIndex).toString());    
+                }
             };
 
             // TODO Abstract Sections-Template and Logic to seperate unit - for reuse
