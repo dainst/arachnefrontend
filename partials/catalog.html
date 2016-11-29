@@ -80,31 +80,33 @@
 	<div class="col-md-4 catalog-tree fullscreencol" ng-show="!map && catalog">
 
 		<h3 ng-click="selectEntry(catalog.root)">
-			
-			<div ng-show="editable" class="btn-group btn-group-sm pull-right">
-				<button class="btn btn-default" ng-click="editCatalog()"
-                        uib-tooltip="{{ 'catalog_edit' | transl8 }}"
-                        tooltip-append-to-body="true">
-					<span class="glyphicon glyphicon-edit"></span>
-				</button>
-                <button class="btn btn-default" ng-click="addChild(null, catalog.root)"
-                        uib-tooltip="{{ 'catalog_create_entry' | transl8 }}"
-                        tooltip-append-to-body="true">
-                    <span class="glyphicon glyphicon-file"></span>
-                </button>
-				<button class="btn btn-default" ng-click="removeCatalog()"
-                        uib-tooltip="{{ 'catalog_delete' | transl8 }}"
-                        tooltip-append-to-body="true">
-					<span class="glyphicon glyphicon-trash"></span>
+
+			<div class="btn-toolbar">
+				<div ng-show="editable" class="btn-group btn-group-sm pull-right">
+					<button class="btn btn-default" ng-click="editCatalog()"
+							uib-tooltip="{{ 'catalog_edit' | transl8 }}"
+							tooltip-append-to-body="true">
+						<span class="glyphicon glyphicon-edit"></span>
+					</button>
+					<button class="btn btn-default" ng-click="addChild(null, catalog.root)"
+							uib-tooltip="{{ 'catalog_create_entry' | transl8 }}"
+							tooltip-append-to-body="true">
+						<span class="glyphicon glyphicon-file"></span>
+					</button>
+					<button class="btn btn-default" ng-click="removeCatalog()"
+							uib-tooltip="{{ 'catalog_delete' | transl8 }}"
+							tooltip-append-to-body="true">
+						<span class="glyphicon glyphicon-trash"></span>
+					</button>
+				</div>
+
+				<button ng-if="catalog.public" ng-click="$parent.map = true; $event.stopPropagation();"
+						class="btn btn-default btn-sm pull-right"
+						uib-tooltip="{{ 'catalog_map' | transl8 }}"
+						tooltip-append-to-body="true">
+					<span class="glyphicon glyphicon-globe"></span>
 				</button>
 			</div>
-
-			<button ng-if="catalog.public" ng-click="$parent.map = true; $event.stopPropagation();"
-					class="btn btn-default btn-sm pull-right" 
-					uib-tooltip="{{ 'catalog_map' | transl8 }}"
-					tooltip-append-to-body="true">
-				<span class="glyphicon glyphicon-globe"></span>
-			</button>
 
 			<span class="glyphicon glyphicon-inbox text-muted"></span>
 			{{catalog.root.label}}
