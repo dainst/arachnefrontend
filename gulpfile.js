@@ -255,7 +255,8 @@ gulp.task('server', function () {
                 modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
             ]
         },
-        port: 8082
+        port: 8082,
+        notify: false
     });
 
 	gulp.watch('scss/**/*.scss', ['watch-css']);
