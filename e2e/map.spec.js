@@ -1,19 +1,13 @@
 var EC = protractor.ExpectedConditions;
 
-describe('con10t page', function() {
+var map = require('./map/map.page');
 
-    it('should display a heatmap on the grako_map page', function(done) {
+describe('map', function() {
 
-        browser.driver.manage().window().setSize(1280, 1024);
+    it('should include a heatmap on the grako_map page', function() {
         browser.get('/project/grako_map');
-        browser.waitForAngular();
-
-        var heatmap = element(by.css('.leaflet-heatmap-layer'));
-
-        browser.wait(EC.presenceOf(heatmap), 7000);
+        var heatmap = map.getHeatmap();
         expect(heatmap.isPresent()).toBe(true);
-
-        done();
     });
 
 });
