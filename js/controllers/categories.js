@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('arachne.controllers')
-    .controller('CategoriesController', ['$rootScope', '$scope', '$http', '$filter', 'categoryService',
-        function ($rootScope, $scope, $http, $filter, categoryService) {
+    .controller('CategoriesController', ['$rootScope', '$scope', '$http', '$filter', 'categoryService', '$location',
+        function ($rootScope, $scope, $http, $filter, categoryService, $location) {
 
             $rootScope.hideFooter = false;
 
@@ -68,8 +68,11 @@ angular.module('arachne.controllers')
                     group.append("path")
                         .style("fill", function(d) { return classes[d.index].name == "marbilder" ? "rgb(230, 230, 230)" : d3.rgb(color(0)); })
                         .style("stroke", function(d) { return d3.rgb(color(0)).darker(30); })
+                        .attr("class", function(d) { return "bar bar-" + classes[d.index].name; })
                         .style("cursor", "pointer")
                         .attr("d", arc)
+                        .on("mouseover", graph_mouseover)
+                        .on("mousedown", graph_mousedown);
 
                     var groupText = group.append("text")
                         .each(function(d) { d.angle = (d.startAngle + d.endAngle) / 2; })
@@ -79,8 +82,10 @@ angular.module('arachne.controllers')
                                 + "translate(" + (innerRadius + 36) + ")" + (d.angle > Math.PI ? "rotate(180)" : "");
                         })
                         .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
-                        .text(function(d) { return $filter('transl8')('type_singular_' + classes[d.index].name); })
+                        .text(function(d) { return $filter('transl8')('type_' + classes[d.index].name); })
                         .style("cursor", "pointer")
+                        .on("mouseover", graph_mouseover)
+                        .on("mousedown", graph_mousedown);
 
                     g.append("g")
                         .attr("class", "ribbons")
@@ -96,17 +101,61 @@ angular.module('arachne.controllers')
 
                     $scope.svg = svg
 
-                    var categoryBoxes = document.getElementsByClassName('ar-imagegrid-cell-link');
-                    for (var i = 0, leength = categoryBoxes.length; i < leength; i++) {
+                    
+                    for (var categoryBoxes = document.getElementsByClassName('ar-imagegrid-cell-link'), i = 0, leength = categoryBoxes.length; i < leength; i++) {
                         categoryBoxes[i].addEventListener("mouseover", function () {
                             svg.selectAll("path.link").attr("opacity", 0);
                             var classname = this.attributes['href'].value.split('c=')[1];
+                            this.setAttribute('id',classname + "_box");
                             svg.selectAll("path.link.source-" + classname).attr("opacity", 0.8)
                             svg.selectAll("path.link.target-" + classname).attr("opacity", 0.8)
                         });
+
                     }
+                    document.getElementById('categories_container').addEventListener("mouseout", function () {
+                         svg.selectAll("path.link").attr("opacity", 0.8);
+                    })
+                    document.getElementById('categories_graph_container').addEventListener("mouseout", function () {
+                        svg.selectAll("path.link").attr("opacity", 0.8);
+                        for (var catBoxes = document.getElementsByClassName('ar-imagegrid-cell-link'),
+                                leength = catBoxes.length, i = 0; i < leength; i++) {
+                            catBoxes[i].style.opacity = 1.0
+                            catBoxes[i].classList.remove('hover')
+                        }
+                        svg.selectAll("path.bar").attr("opacity", 1.0);
+                    })
 
                 }) // end d3js-json
+            }
+
+            function graph_mouseover(d) {
+                var svg = $scope.svg;
+                var classes = $scope.graphClasses;
+                var classname = classes[d.index].name;
+                //focus relations
+                svg.selectAll("path.link").attr("opacity", 0);
+                svg.selectAll("path.link.source-" + classname).attr("opacity", 0.8);
+                svg.selectAll("path.link.target-" + classname).attr("opacity", 0.8);
+
+                //focus circle bar
+                svg.selectAll("path.bar").attr("opacity", 0.4);
+                svg.selectAll("path.bar-" + classname).attr("opacity", 1.0);
+                
+                for (var catBoxes = document.getElementsByClassName('ar-imagegrid-cell-link'),
+                        i = 0, leength = catBoxes.length; i < leength; i++) {
+                    if( catBoxes[i].attributes['href'].value == "category/?c=" + classname) {
+                        catBoxes[i].style.opacity = 1.0
+                        catBoxes[i].classList.add('hover')
+                    } else {
+                        catBoxes[i].style.opacity = 0.3
+                        catBoxes[i].classList.remove('hover')
+                    }
+                }
+            }
+
+            function graph_mousedown(d) {
+                var classes = $scope.graphClasses;
+                $location.url("category/?c=" + classes[d.index].name);
             }
 
             function generateMatrix(classes) {
