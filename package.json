@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "karma start test/karma.conf",
-    "e2e": "webdriver-manager update && protractor protractor.conf.js",
+    "e2e": "protractor protractor.conf.js",
     "build": "rimraf dist && gulp clone-con10t && gulp build --build $1",
     "server": "gulp server",
     "start": "npm run server"
@@ -37,6 +37,7 @@
     "angular-mocks": "1.5.8",
     "bootstrap-sass": "^3.3.7",
     "browser-sync": "^2.17.5",
+    "chromedriver": "2.25.1",
     "connect-modrewrite": "^0.9.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
