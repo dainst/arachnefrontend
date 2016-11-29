@@ -16,6 +16,13 @@ exports.config = {
         includeStackTrace: false,
         defaultTimeoutInterval: 400000
     },
+    plugins: [{
+        package: 'protractor-console-plugin',
+        failOnWarning: false,
+        failOnError: true,
+        logWarnings: true,
+        exclude: []
+    }],
     onPrepare: function() {
         browser.manage().window().setSize(800, 600);
     }

@@ -61,6 +61,7 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "phantomjs-prebuilt": "^2.1.12",
     "protractor": "4.0.10",
+    "protractor-console-plugin": "^0.1.1",
     "proxy-middleware": "^0.15.0",
     "rimraf": "^2.5.4",
     "url": "^0.11.0",
