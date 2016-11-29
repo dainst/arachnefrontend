@@ -23,7 +23,7 @@ function($http, arachneSettings, $filter, $cookieStore) {
 
                     $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
                     $cookieStore.put('ar-authdata', encoded);
-                    $cookieStore.put('ar-user', { username: username });
+                    $cookieStore.put('ar-user', { username: username, groupID: response.groupID });
 
                     if (response.datasetGroups !== undefined) {
                         $cookieStore.put('ar-datasetgroups', response.datasetGroups);
