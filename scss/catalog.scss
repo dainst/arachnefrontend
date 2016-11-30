@@ -27,7 +27,7 @@
     }
 
     .angular-ui-tree-node .angular-ui-tree-placeholder:last-of-type,
-    .angular-ui-tree-node .angular-ui-tree-node + .angular-ui-tree-placeholder:nth-last-of-type(2) {
+    .angular-ui-tree-node .angular-ui-tree-node + .angular-ui-tree-placeholder:last-of-type {
       &:before { 
         content: "\e251";
         position: relative;
