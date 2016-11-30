@@ -39,6 +39,25 @@
 
 			<div ar-active-facets route="search" current-query="currentQuery"></div>
 
+			<div ng-if="previousSearchQueries.length > 1">
+
+				<h5 class="text-muted uppercase"><strong>{{"ui_previous_queries"|transl8}}</strong></h5>
+
+				<div class="input-group input-group-sm"
+					 ng-repeat="previousQuery in previousSearchQueries track by $index"
+					 ng-hide="$first">
+
+					<div class="input-group-addon">
+						<span class="glyphicon glyphicon-copy"></span>
+					</div>
+					<input type="text"
+						   class="form-control previous-query"
+						   value="{{ previousQuery }}"
+						   onClick="this.select();">
+				</div>
+
+			</div>
+
 			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
 			<div ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
 					ng-repeat="facet in facets"
