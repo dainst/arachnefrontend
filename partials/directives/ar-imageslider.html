@@ -9,12 +9,6 @@
 <div class="ar-imageslider">
     <div ng-if="currentImgNo >= 0" class="panel panel-default" id="highlighted-image">
 
-        <a ng-click="pageThumbsRight()"
-           class="navigate-right"
-           ng-hide="offset >= max">
-            <span class="glyphicon glyphicon-circle-arrow-right"></span>
-        </a>
-
         <a ng-href="entity/{{entity.entityId}}/image/{{entity.images[currentImgNo].imageId}}{{currentQuery.toString()}}"
            style="cursor:zoom-in;">
             <img ar-img img-id="{{entity.images[currentImgNo].imageId}}"
