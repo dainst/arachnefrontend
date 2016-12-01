@@ -71,7 +71,7 @@ angular.module('arachne.widgets.map')
         searchService.currentQuery().bbox = bBoxFromBounds(map.getBounds());
         searchService.currentQuery().ghprec = getGhprecFromZoom();
         searchService.currentQuery().limit = limit;
-        searchService.markDirty(); 
+        searchService.markDirty();
         return searchService.getCurrentPage();
     };
 
@@ -113,7 +113,11 @@ angular.module('arachne.widgets.map')
         
         underLimit: function() {
             var facetGeo = searchService.getFacet("facet_geo");
-            return (facetGeo && facetGeo.values.length < limit);
+            if (facetGeo) {
+                return facetGeo.values.length < limit
+            } else {
+                return searchService.getSize() < limit
+            }
         },
         
 

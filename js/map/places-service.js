@@ -71,9 +71,8 @@ angular.module('arachne.widgets.map')
         return bbox[0] > loc.lat && bbox[1] < loc.lon && bbox[2] < loc.lat && bbox[3] > loc.lon;
     };
 
-    var buildPlacesFromFacetGeo = function(bbox) {
+    var buildPlacesFromFacet = function(facet, bbox) {
         var places = [];
-        var facet = searchService.getFacet('facet_geo');
         facet.values.forEach(function(value) {
             var place = new Place().merge(JSON.parse(value.value));
             if (place.location) {
@@ -89,8 +88,12 @@ angular.module('arachne.widgets.map')
 
     return {
 
-        makePlaces: function(entities,bbox) {
-            return buildPlacesFromFacetGeo(bbox);
+        makePlacesFromFacet: function(facet, bbox) {
+            return buildPlacesFromFacet(facet, bbox);
+        },
+
+        makePlacesFromEntities: function(entities,bbox) {
+            return buildPlacesListFromEntityList(entities,bbox);
         },
 
         // the number of entities in the current search

@@ -103,7 +103,6 @@ angular.module('arachne.widgets.map')
                 var lastBbox;
 
                 function mapOnMove(entities) {
-
                     // prevent reissueing search if bbox has not changed
                     if (lastBbox == cq.bbox) {
                         return;
@@ -117,7 +116,7 @@ angular.module('arachne.widgets.map')
 
                         heatmapPainter.clear();
                         
-                        var places = placesService.makePlaces(entities,cq.bbox.split(","));
+                        var places = placesService.makePlacesFromEntities(entities,cq.bbox.split(","));
 
                         placesPainter.drawPlaces(places, scope);
 

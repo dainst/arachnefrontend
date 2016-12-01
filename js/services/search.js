@@ -46,8 +46,6 @@ function($location, Entity, $rootScope, Query, $q) {
 
         if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
             deferred.resolve(getCachedChunk(offset));
-        
-
         } else {
             dirty = false;
             var query = _currentQuery.setParam('offset', offset);
@@ -185,6 +183,7 @@ function($location, Entity, $rootScope, Query, $q) {
          */
         markDirty: function() {
             dirty = true;
+            _currentRequest = false;
         }
     }
 }]);
