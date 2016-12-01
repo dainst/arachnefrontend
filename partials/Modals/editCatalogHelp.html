@@ -1,0 +1,25 @@
+<form>
+    <div class="modal-header">
+        <h4 class="modal-title">{{ 'catalog_help' | transl8 }}</h4>
+    </div>
+    <div class="modal-body">
+        <div>{{ 'catalog_help_page_' + currentPage | transl8 }}</div>
+        <div><img src="img/edit_catalog_help/page_{{currentPage}}.gif"></div>
+    </div>
+    <div class="modal-footer">
+        <input class="btn btn-primary"
+               type="submit"
+               ng-click="previousPage()"
+               ng-class="{ disabled: currentPage == 0 }"
+               value="Zurück">
+        <input class="btn btn-primary"
+               type="submit"
+               ng-click="nextPage()"
+               ng-class="{ disabled: currentPage == totalPages - 1 }"
+               value="Weiter">
+        <input class="btn btn-default"
+               type="submit"
+               ng-click="$close()"
+               value="Schließen">
+    </div>
+</form>

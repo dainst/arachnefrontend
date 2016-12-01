@@ -199,6 +199,13 @@ angular.module('arachne.controllers')
 			});
 	    };
 
+		$scope.showHelp = function() {
+			$uibModal.open({
+				templateUrl: 'partials/Modals/editCatalogHelp.html',
+				controller: 'EditCatalogHelpController'
+			});
+		};
+
 	    function initialize(entry) {
 	        $scope.entryMap[entry.id] = entry;
 
