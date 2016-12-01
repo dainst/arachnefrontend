@@ -7,13 +7,27 @@
 <h3 ng-if="entity.images.length == 1">{{'entity_image'|transl8}}</h3>
 
 <div class="ar-imageslider">
-    <div ng-if="currentImgNo >= 0" class="panel panel-default" id="highlighted-image">
+    <div ng-if="currentImgNo >= 0"
+         class="panel panel-default"
+         id="previewbox">
+
+        <a ng-if="currentImgNo > 0"
+           ng-click="setImage(currentImgNo - 1)"
+           id="maximg-nav-left">
+            <span class="glyphicon glyphicon-circle-arrow-left"></span>
+        </a>
+
+        <a ng-if="currentImgNo < entity.images.length - 1"
+           ng-click="setImage(currentImgNo + 1)"
+           id="maximg-nav-right">
+            <span class="glyphicon glyphicon-circle-arrow-right"></span>
+        </a>
 
         <a ng-href="entity/{{entity.entityId}}/image/{{entity.images[currentImgNo].imageId}}{{currentQuery.toString()}}"
-           style="cursor:zoom-in;">
+           style="cursor:zoom-in;"
+           id="maximg">
             <img ar-img img-id="{{entity.images[currentImgNo].imageId}}"
-                 img-height="300"
-                 style="max-width:100%; height:auto;">
+                 img-height="300">
         </a>
     </div>
     <div ng-show="entity.images.length > 1" style="overflow: hidden; padding: 4px;"
