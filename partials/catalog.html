@@ -21,8 +21,8 @@
             {{entry.label}}
             <small ng-if="entry.arachneEntityId" class="text-muted"><i>{{ entry.arachneEntityId }}</i></small>
         </span>
-		
-		<span ng-show="editable">
+
+		<span ng-show="editable" class="edit-section">
 			<a class="edit-btn pull-right"
 	                ng-click="removeEntry(this, entry)"
 	                uib-tooltip="{{ 'catalog_delete_entry' | transl8 }}"
