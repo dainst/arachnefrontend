@@ -9,7 +9,7 @@ describe('map', function() {
     });
 
     it('it should show som markers for small result size', function () {
-        browser.get('/map?zoom=9&lat=53.92051610357605&lang=-7.429504394531251');
+        browser.get('/map?zoom=12&lat=50.42116487566384&lng=4.902398681640625');
        	var marker = map.getMarkers();        
        	expect(marker.count()).not.toBeLessThan(1);
     });
