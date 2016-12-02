@@ -214,14 +214,14 @@ h6 { font-size: 12px; }
   transition: all .3s ease;
 }
 
-.ar-imagegrid-cell-link:hover {
+.ar-imagegrid-cell-link:hover, .ar-imagegrid-cell-link.hover {
   box-shadow: 0 0 10px #777;
   z-index: 500;
   position: absolute;
   text-decoration: none;
 }
 
-.ar-imagegrid-cell-link:hover .ar-imagegrid-cell-title {
+.ar-imagegrid-cell-link:hover .ar-imagegrid-cell-title, .ar-imagegrid-cell-link.hover .ar-imagegrid-cell-title {
   width: inherit;
   height: auto;
   white-space: normal;

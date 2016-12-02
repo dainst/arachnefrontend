@@ -1,14 +1,16 @@
-<div ng-controller="CategoriesController" autoscroll="true">
-	<div id="top"></div>
-	<div class="row" style="background-color:white" id="categories_container">
-		<div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
-			<h1>{{"category_all"|transl8}}</h1>
-			<hr>
+<div ng-controller="CategoriesController">
+	<div class="row">
+		<div class="col-md-6" id="categories_container">
+			<h2 class="page-header">{{"startsite_categories"|transl8}}</h2>
+
 			<div ar-imagegrid
 				cells="categories"
-				columns="5"
+				columns="3"
 				margin="4">					
 			</div>
+		</div>
+		<div class="col-md-6" style="text-align: center;" id="categories_graph_container">
+			<svg id="category_graph" style="position:fixed; right: 0px; margin-top: 30px;"></svg>
 		</div>
 	</div>
 </div>

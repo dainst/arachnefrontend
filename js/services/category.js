@@ -20,6 +20,7 @@ function($http, $filter, $q, transl8){
                 categories[key]['singular'] = $filter('transl8')('type_singular_' + key);
                 categories[key]['subtitle'] = $filter('transl8')('type_subtitle_' + key);
                 categories[key]['href'] = 'category/?c=' + key;
+                categories[key]['key'] = key;
             }
             deferred.resolve(categories);
         });
