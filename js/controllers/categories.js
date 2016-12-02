@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('arachne.controllers')
-    .controller('CategoriesController', ['$rootScope', '$scope', '$http', '$filter', 'categoryService', '$location',
-        function ($rootScope, $scope, $http, $filter, categoryService, $location) {
+    .controller('CategoriesController', ['$rootScope', '$scope', '$http', '$filter', 'categoryService',
+        function ($rootScope, $scope, $http, $filter, categoryService) {
 
             $rootScope.hideFooter = false;
 
@@ -155,7 +155,7 @@ angular.module('arachne.controllers')
 
             function graph_mousedown(d) {
                 var classes = $scope.graphClasses;
-                $location.url("category/?c=" + classes[d.index].name);
+                location.href = "category/?c=" + classes[d.index].name;
             }
 
             function generateMatrix(classes) {
