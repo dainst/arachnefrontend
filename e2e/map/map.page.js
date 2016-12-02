@@ -6,6 +6,10 @@ var MapPage = function() {
 		return heatmapLayer;
 	}
 
+	this.getMarkers = function () {
+		return element.all(by.css('.awesome-marker'));
+	}
+
 }
 
 module.exports = new MapPage();
