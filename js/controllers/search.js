@@ -225,11 +225,8 @@ angular.module('arachne.controllers')
                     }
                 }
 
-                console.log(queries)
                 localStorage.setItem('previousSearchQueries', JSON.stringify(queries));
                 queries.reverse();
-                console.log(queries)
-
 
                 return queries;
             };
