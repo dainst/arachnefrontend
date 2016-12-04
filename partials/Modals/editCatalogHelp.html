@@ -1,9 +1,12 @@
 <form>
     <div class="modal-header">
-        <h4 class="modal-title">{{ 'catalog_help' | transl8 }}</h4>
+        <h4 class="modal-title">
+            {{ 'catalog_help' | transl8 }}: {{ 'catalog_help_page_title_' + currentPage | transl8 }}
+            ({{currentPage + 1}} / {{totalPages}})
+        </h4>
     </div>
-    <div class="modal-body">
-        <div>{{ 'catalog_help_page_' + currentPage | transl8 }}</div>
+    <div class="modal-body" style="height: 520px;">
+        <div style="margin-bottom: 30px;">{{ 'catalog_help_page_text_' + currentPage | transl8 }}</div>
         <div><img src="img/edit_catalog_help/page_{{currentPage}}.gif"></div>
     </div>
     <div class="modal-footer">

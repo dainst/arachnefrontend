@@ -5,7 +5,7 @@ angular.module('arachne.controllers')
     .controller('EditCatalogHelpController', ['$scope',
         function ($scope) {
             $scope.currentPage = 0;
-            $scope.totalPages = 5;
+            $scope.totalPages = 9;
 
             $scope.nextPage = function() {
                 if ($scope.currentPage < $scope.totalPages - 1) {
