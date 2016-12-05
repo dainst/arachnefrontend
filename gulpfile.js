@@ -93,9 +93,11 @@ gulp.task('concat-deps', function () {
 });
 
 // minifies and concatenates js files in build dir
-gulp.task('minify-js', ['concat-js', 'html2js'], function () {
+gulp.task('minify-js', ['concat-js', 'html2js-js', 'html2js-partials'], function () {
     return gulp.src(['dist/' + pkg.name + '.js',
-        'dist/' + pkg.name + '-tpls.js'])
+        'dist/' + pkg.name + '-partials-tpls.js',
+        'dist/' + pkg.name + '-js-tpls.js'
+        ])
         .pipe(concat(pkg.name + '.js'))
         .pipe(gulp.dest('dist/'))
         .pipe(uglify())
@@ -103,15 +105,22 @@ gulp.task('minify-js', ['concat-js', 'html2js'], function () {
         .pipe(gulp.dest('dist/'));
 });
 
-// converts, minifies and concatenates html partials
-// to a single js file in build dir
-gulp.task('html2js', function () {
+gulp.task('html2js-partials', function () {
     return gulp.src('partials/**/*.html')
         .pipe(minifyHtml())
-        .pipe(ngHtml2Js({moduleName: 'arachne.templates', prefix: 'partials/'}))
-        .pipe(concat(pkg.name + '-tpls.js'))
+        .pipe(ngHtml2Js({moduleName: 'arachne.partials-templates', prefix: 'partials/'}))
+        .pipe(concat(pkg.name + '-partials-tpls.js'))
         .pipe(gulp.dest('dist/'));
 });
+
+gulp.task('html2js-js', function () {
+    return gulp.src('js/**/*.html')
+        .pipe(minifyHtml())
+        .pipe(ngHtml2Js({moduleName: 'arachne.js-templates', prefix: 'js/'}))
+        .pipe(concat(pkg.name + '-js-tpls.js'))
+        .pipe(gulp.dest('dist/'));
+});
+
 
 gulp.task('copy-fonts', function () {
     var bsFontPath = 'node_modules/bootstrap-sass/assets/fonts/';

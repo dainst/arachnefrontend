@@ -8,6 +8,6 @@ angular.module('arachne.directives')
                 href: '@', img: '=', cellHighlighting: '@', cellTitle: '@', cellSubtitle: '@', cellLabel: '@', imgUri: '@',
                 cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@', hideTitle: '@'
             },
-            templateUrl: 'partials/directives/ar-imagegrid-cell.html'
+            templateUrl: 'js/directives/ar-imagegrid-cell.html'
         }
     }]);

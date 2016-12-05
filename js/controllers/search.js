@@ -86,7 +86,7 @@ angular.module('arachne.controllers')
             $scope.processCatalogEntities = function (entities) {
 
                 var catalogFromSearch = $uibModal.open({
-                    templateUrl: 'partials/Modals/editCatalog.html',
+                    templateUrl: 'js/Modals/editCatalog.html',
                     controller: 'EditCatalogController',
                     resolve: {
                         catalog: function () {

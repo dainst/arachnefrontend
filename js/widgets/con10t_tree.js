@@ -9,7 +9,7 @@ angular.module('arachne.widgets.directives')
     .directive('con10tTree', ['Query', 'Entity', function (Query, Entity) {
         return {
             restrict: 'E',
-            templateUrl: 'partials/widgets/con10t-tree.html',
+            templateUrl: 'js/widgets/con10t-tree.html',
             scope: {},
             link: function (scope, element, attrs) {
                 scope.staticFacets = [];

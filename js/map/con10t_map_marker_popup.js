@@ -12,7 +12,7 @@ return {
         place: '=',
         entityCallback: '='
     },
-    templateUrl: 'partials/map/con10t_map_marker_popup.html',
+    templateUrl: 'js/map/con10t_map_marker_popup.html',
     link: function(scope) {
 
         scope.get = function(offset, limit) {

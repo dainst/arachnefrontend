@@ -28,7 +28,7 @@ module.exports = function(config) {
       'node_modules/idai-components/dist/idai-components.min.js',
       'js/**/*.js',
       'test/*.spec.js',
-      'partials/directives/*.html'
+      'js/directives/*.html'
     ],
 
 

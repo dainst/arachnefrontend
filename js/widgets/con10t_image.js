@@ -17,7 +17,7 @@ angular.module('arachne.widgets.directives')
                 entityId: '@'
             },
             transclude: true,
-            templateUrl: 'partials/widgets/con10t-image.html',
+            templateUrl: 'js/widgets/con10t-image.html',
 
             link: function(scope, element, attrs, ctrl, $transclude) {
 

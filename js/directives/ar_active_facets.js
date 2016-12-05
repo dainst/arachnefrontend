@@ -8,7 +8,7 @@ angular.module('arachne.directives')
                 route: '@',
                 currentQuery: '='
             },
-            templateUrl: 'partials/directives/ar-active-facets.html',
+            templateUrl: 'js/directives/ar-active-facets.html',
             link: function (scope) {
                 scope.facets = scope.currentQuery.facets || [];
             }

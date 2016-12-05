@@ -9,7 +9,7 @@ angular.module('arachne.directives')
 				scope: {
 					entity: '=',
 				},
-				templateUrl: 'partials/directives/ar-catalog-occurences.html',
+				templateUrl: 'js/directives/ar-catalog-occurences.html',
 				link: function (scope, element, attrs) {
 
 					scope.catalogEntries = []
@@ -21,7 +21,7 @@ angular.module('arachne.directives')
 							thumbnailId: scope.entity.thumbnailId
 						};
 						var preview = $uibModal.open({
-							templateUrl: 'partials/Modals/previewCatalogEntry.html',
+							templateUrl: 'js/Modals/previewCatalogEntry.html',
 							controller: ['$scope', function ($scope) {
 								$scope.catalogEntry = catalogEntry;
 								$scope.entity = entityPreview;
@@ -32,7 +32,7 @@ angular.module('arachne.directives')
 					scope.createEntry = function () {
 						//TODO: Parse Sections in entry.text
 						var createEntryPos = $uibModal.open({
-							templateUrl: 'partials/Modals/createEntryPos.html',
+							templateUrl: 'js/Modals/createEntryPos.html',
 							controller: ['$scope', function ($scope) {
 								$scope.catalogs = Catalog.query()
 							}]
@@ -45,7 +45,7 @@ angular.module('arachne.directives')
 								label: scope.entity.title
 							};
 							var editEntryModal = $uibModal.open({
-								templateUrl: 'partials/Modals/editEntry.html',
+								templateUrl: 'js/Modals/editEntry.html',
 								controller: 'EditCatalogEntryController',
 								resolve: {
 									entry: function () {

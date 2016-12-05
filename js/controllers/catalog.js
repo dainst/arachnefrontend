@@ -48,7 +48,7 @@ angular.module('arachne.controllers')
 	    $scope.addChild = function(scope, entry) {
 	        if (!entry.children) entry.children = [];
 	        var editEntryModal = $uibModal.open({
-	            templateUrl: 'partials/Modals/editEntry.html'
+	            templateUrl: 'js/Modals/editEntry.html'
 	        });
 	        editEntryModal.close = function(newEntry, entity) {
 	            if (entity) newEntry.arachneEntityId = entity.entityId;
@@ -98,7 +98,7 @@ angular.module('arachne.controllers')
 
 	    $scope.removeEntry = function(scope, entry) {
 	        var deleteModal = $uibModal.open({
-	            templateUrl: 'partials/Modals/deleteEntry.html'
+	            templateUrl: 'js/Modals/deleteEntry.html'
 	        });
 	        deleteModal.close = function() {
 	            scope.remove();
@@ -114,7 +114,7 @@ angular.module('arachne.controllers')
 	    $scope.editEntry = function(entry) {
 	        var editableEntry = angular.copy(entry);
 	        var editEntryModal = $uibModal.open({
-	            templateUrl: 'partials/Modals/editEntry.html',
+	            templateUrl: 'js/Modals/editEntry.html',
 	            controller: 'EditCatalogEntryController',
 	            resolve: { entry: function() { return editableEntry } }
 	        });
@@ -141,7 +141,7 @@ angular.module('arachne.controllers')
 	            }
 	        };
 	        var editCatalogModal = $uibModal.open({
-	            templateUrl: 'partials/Modals/editCatalog.html',
+	            templateUrl: 'js/Modals/editCatalog.html',
 	            controller: 'EditCatalogController',
 	            resolve: { catalog: function() { return editableCatalog }, edit: true }
 	        });
@@ -167,7 +167,7 @@ angular.module('arachne.controllers')
 	    $scope.removeCatalog = function() {
 
 	        var deleteModal = $uibModal.open({
-	            templateUrl: 'partials/Modals/deleteCatalog.html',
+	            templateUrl: 'js/Modals/deleteCatalog.html',
                 controller: 'DeleteCatalogController',
 				scope: $scope
 	        });
@@ -201,7 +201,7 @@ angular.module('arachne.controllers')
 
 		$scope.showHelp = function() {
 			$uibModal.open({
-				templateUrl: 'partials/Modals/editCatalogHelp.html',
+				templateUrl: 'js/Modals/editCatalogHelp.html',
 				controller: 'EditCatalogHelpController'
 			});
 		};

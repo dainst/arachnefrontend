@@ -23,7 +23,7 @@ return {
         facetsAppend: '=?',
         facetValuesLimit: '=?'
     },
-    templateUrl: 'partials/map/con10t_map_menu_facet_search.html',
+    templateUrl: 'js/map/con10t_map_menu_facet_search.html',
     link: function(scope) {
 
         if (!scope.facetValuesLimit) scope.facetValuesLimit = 10;

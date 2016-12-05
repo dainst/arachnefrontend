@@ -11,7 +11,7 @@ angular.module('arachne.directives')
                 hideTitle: '@',
                 complete: '=?'
             },
-            templateUrl: 'partials/directives/ar-imagegrid.html',
+            templateUrl: 'js/directives/ar-imagegrid.html',
 
             link: function (scope, element, attrs) {
 
