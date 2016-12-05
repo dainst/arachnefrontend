@@ -15,6 +15,7 @@
                 </a>
             </span>
         </div>
+        <!-- GIF images must be shown this way to make animations work on Firefox -->
         <div ng-repeat="i in totalPages | range track by $index">
             <div ng-show="$index == currentPage"><img ng-src="img/edit_catalog_help/page_{{$index}}.gif"></div>
         </div>
