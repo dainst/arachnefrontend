@@ -15,7 +15,9 @@
                 </a>
             </span>
         </div>
-        <div><img ng-src="img/edit_catalog_help/page_{{currentPage}}.gif"></div>
+        <div ng-repeat="i in totalPages | range track by $index">
+            <div ng-show="$index == currentPage"><img ng-src="img/edit_catalog_help/page_{{$index}}.gif"></div>
+        </div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="previousPage()" ng-class="{ disabled: currentPage == 0 }">
