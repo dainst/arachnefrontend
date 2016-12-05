@@ -19,11 +19,13 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="previousPage()" ng-class="{ disabled: currentPage == 0 }">
-            <span class="glyphicon glyphicon-arrow-left" style="margin-right: 7px; top: 2px;"></span>Zurück
+            <span class="glyphicon glyphicon-arrow-left" style="margin-right: 5px; top: 2px;"></span>
+            {{ 'catalog_help_previous' | transl8 }}
         </button>
         <button class="btn btn-primary" ng-click="nextPage()" ng-class="{ disabled: currentPage == totalPages - 1 }">
-            Weiter<span class="glyphicon glyphicon-arrow-right" style="margin-left: 7px; top: 2px;"></span>
+            {{ 'catalog_help_next' | transl8 }}
+            <span class="glyphicon glyphicon-arrow-right" style="margin-left: 5px; top: 2px;"></span>
         </button>
-        <button class="btn btn-default" ng-click="$close()">Schließen</button>
+        <button class="btn btn-default" ng-click="$close()">{{ 'ui_close' | transl8 }}</button>
     </div>
 </form>
