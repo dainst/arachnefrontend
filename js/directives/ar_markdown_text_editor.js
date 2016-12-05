@@ -77,7 +77,6 @@ angular.module('arachne.directives')
                                 blankSpaceSelection = true;
                             } else
                                 additionalCharacters = 2;
-                                ;
                             modifiedText = "*" + selectedText + "*";       
                             break;
 
