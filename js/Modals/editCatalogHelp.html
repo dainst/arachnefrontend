@@ -11,25 +11,24 @@
             <span ng-if="currentPage == 2">
                 <a href="{{ 'catalog_help_markdown_link_url' | transl8 }}" target="_blank">
                     {{ 'catalog_help_markdown_link_description' | transl8 }}
+                    <span class="glyphicon glyphicon-new-window" style="font-size: 10px; margin-left: 3px; top: 0px;"></span>
                 </a>
             </span>
         </div>
-        <div><img src="img/edit_catalog_help/page_{{currentPage}}.gif"></div>
+        <!-- GIF images must be shown this way to make animations work on Firefox -->
+        <div ng-repeat="i in totalPages | range track by $index">
+            <div ng-show="$index == currentPage"><img ng-src="img/edit_catalog_help/page_{{$index}}.gif"></div>
+        </div>
     </div>
     <div class="modal-footer">
-        <input class="btn btn-primary"
-               type="submit"
-               ng-click="previousPage()"
-               ng-class="{ disabled: currentPage == 0 }"
-               value="Zurück">
-        <input class="btn btn-primary"
-               type="submit"
-               ng-click="nextPage()"
-               ng-class="{ disabled: currentPage == totalPages - 1 }"
-               value="Weiter">
-        <input class="btn btn-default"
-               type="submit"
-               ng-click="$close()"
-               value="Schließen">
+        <button class="btn btn-primary" ng-click="previousPage()" ng-class="{ disabled: currentPage == 0 }">
+            <span class="glyphicon glyphicon-arrow-left" style="margin-right: 5px; top: 2px;"></span>
+            {{ 'catalog_help_previous' | transl8 }}
+        </button>
+        <button class="btn btn-primary" ng-click="nextPage()" ng-class="{ disabled: currentPage == totalPages - 1 }">
+            {{ 'catalog_help_next' | transl8 }}
+            <span class="glyphicon glyphicon-arrow-right" style="margin-left: 5px; top: 2px;"></span>
+        </button>
+        <button class="btn btn-default" ng-click="$close()">{{ 'ui_close' | transl8 }}</button>
     </div>
 </form>
