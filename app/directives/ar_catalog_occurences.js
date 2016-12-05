@@ -21,7 +21,7 @@ angular.module('arachne.directives')
 							thumbnailId: scope.entity.thumbnailId
 						};
 						var preview = $uibModal.open({
-							templateUrl: 'app/Modals/previewCatalogEntry.html',
+							templateUrl: 'app/catalog/previewCatalogEntry.html',
 							controller: ['$scope', function ($scope) {
 								$scope.catalogEntry = catalogEntry;
 								$scope.entity = entityPreview;
@@ -32,7 +32,7 @@ angular.module('arachne.directives')
 					scope.createEntry = function () {
 						//TODO: Parse Sections in entry.text
 						var createEntryPos = $uibModal.open({
-							templateUrl: 'app/Modals/createEntryPos.html',
+							templateUrl: 'app/catalog/createEntryPos.html',
 							controller: ['$scope', function ($scope) {
 								$scope.catalogs = Catalog.query()
 							}]
@@ -45,7 +45,7 @@ angular.module('arachne.directives')
 								label: scope.entity.title
 							};
 							var editEntryModal = $uibModal.open({
-								templateUrl: 'app/Modals/editEntry.html',
+								templateUrl: 'app/catalog/editEntry.html',
 								controller: 'EditCatalogEntryController',
 								resolve: {
 									entry: function () {

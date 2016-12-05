@@ -48,7 +48,7 @@ angular.module('arachne.controllers')
 	    $scope.addChild = function(scope, entry) {
 	        if (!entry.children) entry.children = [];
 	        var editEntryModal = $uibModal.open({
-	            templateUrl: 'app/Modals/editEntry.html'
+	            templateUrl: 'app/catalog/editEntry.html'
 	        });
 	        editEntryModal.close = function(newEntry, entity) {
 	            if (entity) newEntry.arachneEntityId = entity.entityId;
@@ -114,7 +114,7 @@ angular.module('arachne.controllers')
 	    $scope.editEntry = function(entry) {
 	        var editableEntry = angular.copy(entry);
 	        var editEntryModal = $uibModal.open({
-	            templateUrl: 'app/Modals/editEntry.html',
+	            templateUrl: 'app/catalog/editEntry.html',
 	            controller: 'EditCatalogEntryController',
 	            resolve: { entry: function() { return editableEntry } }
 	        });
@@ -167,7 +167,7 @@ angular.module('arachne.controllers')
 	    $scope.removeCatalog = function() {
 
 	        var deleteModal = $uibModal.open({
-	            templateUrl: 'app/Modals/deleteCatalog.html',
+	            templateUrl: 'app/catalog/deleteCatalog.html',
                 controller: 'DeleteCatalogController',
 				scope: $scope
 	        });

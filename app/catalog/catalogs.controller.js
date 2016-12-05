@@ -27,7 +27,7 @@ angular.module('arachne.controllers')
                 }
 
                 var editCatalogModal = $uibModal.open({
-                    templateUrl: 'app/Modals/editCatalog.html',
+                    templateUrl: 'app/catalog/editCatalog.html',
                     controller: 'EditCatalogController',
                     resolve: { catalog: function() { return catalogBuffer }, edit: false }
                 });
