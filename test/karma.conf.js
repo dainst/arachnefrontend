@@ -26,9 +26,9 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
       'node_modules/idai-components/dist/idai-components.min.js',
-      'js/**/*.js',
+      'app/**/*.js',
       'test/*.spec.js',
-      'js/directives/*.html'
+      'app/directives/*.html'
     ],
 
 

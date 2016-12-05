@@ -77,9 +77,9 @@ gulp.task('minify-css', ['compile-css'], function() {
 
 // concatenates all js files in src into a single file in build dir
 gulp.task('concat-js', function() {
-	return gulp.src(['js/**/*.js', '!js/app.js'])
+	return gulp.src(['app/**/*.js', '!app/app.js'])
 		.pipe(sort())
-		.pipe(addSrc.append('js/app.js'))
+		.pipe(addSrc.append('app/app.js'))
 		.pipe(concat(pkg.name + '.js'))
 		.pipe(gulp.dest('dist/'));
 });
@@ -114,9 +114,9 @@ gulp.task('html2js-partials', function () {
 });
 
 gulp.task('html2js-js', function () {
-    return gulp.src('js/**/*.html')
+    return gulp.src('app/**/*.html')
         .pipe(minifyHtml())
-        .pipe(ngHtml2Js({moduleName: 'arachne.js-templates', prefix: 'js/'}))
+        .pipe(ngHtml2Js({moduleName: 'arachne.js-templates', prefix: 'app/'}))
         .pipe(concat(pkg.name + '-js-tpls.js'))
         .pipe(gulp.dest('dist/'));
 });
@@ -270,7 +270,7 @@ gulp.task('server', function () {
     });
 
 	gulp.watch('scss/**/*.scss', ['watch-css']);
-	gulp.watch('js/**/*.js', ['watch-js']);
+	gulp.watch('app/**/*.js', ['watch-js']);
     gulp.watch('partials/**/*.html', ['watch-js']);
     gulp.watch('index.html', ['watch-index']);
     gulp.watch('con10t/**/*', ['watch-con10t']);
