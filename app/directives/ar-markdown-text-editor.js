@@ -46,7 +46,7 @@ angular.module('arachne.directives')
                 if (formatOption == "link") {
                     var link = { description: selectedText };
                     var addLinkModal = $uibModal.open({
-                        templateUrl: 'app/Modals/addMarkdownLink.html',
+                        templateUrl: 'app/modals/add-markdown-link.html',
                         controller: 'AddMarkdownLinkController',
                         resolve: { link: function() { return link; } }
                     });

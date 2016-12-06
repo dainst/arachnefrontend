@@ -6,6 +6,6 @@ angular.module('arachne.directives')
         return {
             scope: { entity: '=' },
             replace: true,
-            templateUrl: 'app/directives/ar-entity-header.html'
+            templateUrl: 'app/entity/ar-entity-header.html'
         }
     });

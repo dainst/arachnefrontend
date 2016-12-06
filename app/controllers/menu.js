@@ -14,7 +14,7 @@ angular.module('arachne.controllers')
 
             $scope.openLoginModal = function () {
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'app/users/loginForm.html',
+                    templateUrl: 'app/users/login-form.html',
                     controller: 'LoginController'
                 });
                 modalInstance.result.then(function (user) {

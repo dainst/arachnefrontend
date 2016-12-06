@@ -15,7 +15,7 @@ angular.module('arachne.widgets.map')
             },
             // menu elements may appear in the transcluded html
             transclude: true,
-            templateUrl: 'app/map/con10t_map_overlays.html',
+            templateUrl: 'app/map/con10t-map-overlays.html',
             link: function (scope) {
 
                 mapService.setOverlays(scope.overlays);
