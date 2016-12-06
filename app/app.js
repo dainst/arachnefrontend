@@ -56,7 +56,6 @@ angular.module('arachne',[
 			.state('projects', { url: '/projects', templateUrl: 'app/pages/projects.html', data: { pageTitle: title }})
 			.state('register', { url: '/register', templateUrl: 'app/users/register.html', data: { pageTitle: title }})
 			.state('editUser', { url: '/editUser', templateUrl: 'app/users/edit-user.html', data: { pageTitle: title }})
-			.state('apis', { url: '/apis', templateUrl: 'app/apis/apis.html', data: { pageTitle: title }})
 			.state('contact', { url: '/contact', templateUrl: 'app/users/contact.html', data: { pageTitle: title }})
 			.state('dataimport', { url: '/admin/dataimport', templateUrl: 'app/pages/dataimport.html', data: { pageTitle: title }})
 			.state('pwdreset', { url: '/pwdreset', templateUrl: 'app/users/pwdreset.html', data: { pageTitle: title }})
