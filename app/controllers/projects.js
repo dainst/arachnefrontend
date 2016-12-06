@@ -8,10 +8,7 @@ angular.module('arachne.controllers')
  *   columns - an array of 3 elements which each
  *   represent a column of project items.
  *
- * @see: ../docs/feature_localization_con10t.md
- * @see: ../spec/controllers_projects_spec.js
- *
- * @author: Daniel M. de Oliveira
+ * @author: Daniel de Oliveira
  * @author: Sebastian Cuy
  */
     .controller('ProjectsController', ['$scope', '$http', 'localizedContent',

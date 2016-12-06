@@ -1,5 +1,5 @@
 /**
- * Author: Daniel M. de Oliveira
+ * Author: Daniel de Oliveira
  */
 describe ('ProjectsController', function() {
 
