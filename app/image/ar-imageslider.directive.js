@@ -5,7 +5,7 @@ angular.module('arachne.directives')
     .directive('arImageslider', [function () {
         return {
             scope: {entity: '=', currentQuery: '='},
-            templateUrl: 'app/directives/ar-imageslider.html',
+            templateUrl: 'app/image/ar-imageslider.html',
             link: function (scope, element, attrs) {
 
                 var thumbRow = angular.element(angular.element(element.children()[0]).children()[0]).children()[2];

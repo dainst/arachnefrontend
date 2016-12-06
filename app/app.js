@@ -39,8 +39,8 @@ angular.module('arachne',[
 		var title = "Arachne";
 
 		$stateProvider
-			.state('404', { url: '/404', templateUrl: 'app/404.html', data: { pageTitle: 'Arachne | 404' }})
-			.state('start', { url: '/', templateUrl: 'app/controllers/start-site.html', data: { pageTitle: title }})
+			.state('404', { url: '/404', templateUrl: 'app/pages/404.html', data: { pageTitle: 'Arachne | 404' }})
+			.state('start', { url: '/', templateUrl: 'app/pages/start-site.html', data: { pageTitle: title }})
 			.state('catalogs', { url: '/catalogs', templateUrl: 'app/catalog/catalogs.html', data: { pageTitle: title }})
 			.state('catalog', { url: '/catalog/:id?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }})
 			.state('catalog.entry', { url: '/:entryId?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }})
@@ -53,16 +53,16 @@ angular.module('arachne',[
 			.state('map', { url: '/map?q&fq', templateUrl: 'app/map/map.html', data: { pageTitle: title }})
 			.state('gridmap', { url: '/gridmap', templateUrl: 'app/map/gridmap.html', data: { pageTitle: title }})
 			.state('3d', { url: '/3d', templateUrl: 'app/3d/3d.html', data: { pageTitle: title }})
-			.state('projects', { url: '/projects', templateUrl: 'app/controllers/projects.html', data: { pageTitle: title }})
+			.state('projects', { url: '/projects', templateUrl: 'app/pages/projects.html', data: { pageTitle: title }})
 			.state('register', { url: '/register', templateUrl: 'app/users/register.html', data: { pageTitle: title }})
 			.state('editUser', { url: '/editUser', templateUrl: 'app/users/edit-user.html', data: { pageTitle: title }})
-			.state('apis', { url: '/apis', templateUrl: 'app/controllers/apis.html', data: { pageTitle: title }})
+			.state('apis', { url: '/apis', templateUrl: 'app/apis/apis.html', data: { pageTitle: title }})
 			.state('contact', { url: '/contact', templateUrl: 'app/users/contact.html', data: { pageTitle: title }})
-			.state('dataimport', { url: '/admin/dataimport', templateUrl: 'app/controllers/dataimport.html', data: { pageTitle: title }})
+			.state('dataimport', { url: '/admin/dataimport', templateUrl: 'app/pages/dataimport.html', data: { pageTitle: title }})
 			.state('pwdreset', { url: '/pwdreset', templateUrl: 'app/users/pwdreset.html', data: { pageTitle: title }})
 			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'app/users/activation.html', data: { pageTitle: title }})
-			.state('project', { url: '/project/:title?q&fq', templateUrl: 'app/controllers/static.html', data: { pageTitle: title }})
-			.state('info', { url: '/info/:title?id', templateUrl: 'app/controllers/static.html', data: { pageTitle: title }}); // Named it info, not static, to sound not too technical.
+			.state('project', { url: '/project/:title?q&fq', templateUrl: 'app/pages/static.html', data: { pageTitle: title }})
+			.state('info', { url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }}); // Named it info, not static, to sound not too technical.
 	}
 ])
 /**

@@ -4,6 +4,6 @@ angular.module('arachne.directives')
 
     .directive('arSearchNav', function () {
         return {
-            templateUrl: 'app/directives/ar-search-nav.html'
+            templateUrl: 'app/search/ar-search-nav.html'
         }
     });

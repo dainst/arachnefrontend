@@ -13,7 +13,7 @@ angular.module('arachne.widgets.directives')
                 datasetGroup: '@'
             },
             transclude: true,
-            templateUrl: 'app/widgets/con10t-show-if.html',
+            templateUrl: 'app/utils/con10t-show-if.html',
 
             link: function(scope, element, attrs) {
 

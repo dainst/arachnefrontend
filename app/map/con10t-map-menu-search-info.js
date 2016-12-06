@@ -38,7 +38,7 @@ function($uibModal, $location, searchService, placesService, mapService) {
                 scope.linkText = host + port + baseLinkRef + path + query;
 
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'app/map/map-link.html',
+                    templateUrl: 'app/map/map-link-modal.html',
                     scope: scope
                 });
 
