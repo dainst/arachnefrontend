@@ -7,12 +7,12 @@ angular.module('arachne.directives')
 
 			return {
 				scope: {
-					entity: '=',
+					entity: '='
 				},
 				templateUrl: 'app/catalog/ar-catalog-occurences.html',
 				link: function (scope, element, attrs) {
 
-					scope.catalogEntries = []
+					scope.catalogEntries = [];
 
 					scope.previewCatalogEntry = function (catalogEntry) {
 						var entityPreview = {
@@ -29,7 +29,7 @@ angular.module('arachne.directives')
 						});
 					};
 
-					scope.createEntry = function () {
+					scope.createEntry = function() {
 						//TODO: Parse Sections in entry.text
 						var createEntryPos = $uibModal.open({
 							templateUrl: 'app/catalog/create-entry-pos.html',
@@ -37,7 +37,7 @@ angular.module('arachne.directives')
 								$scope.catalogs = Catalog.query()
 							}]
 						});
-						createEntryPos.close = function (catalog) {
+						createEntryPos.close = function(catalog) {
 							var entry = {
 								catalogId: catalog.id,
 								parentId: catalog.root.id,
@@ -53,9 +53,9 @@ angular.module('arachne.directives')
 									}
 								}
 							});
-							editEntryModal.close = function (newEntry) {
+							editEntryModal.close = function(newEntry) {
 								CatalogEntry.save(newEntry, function(data){
-									if(data.error_message){
+									if (data.error_message) {
 										console.log(data.error_message);
 									} else {
 										scope.loadOccurences();
@@ -71,7 +71,7 @@ angular.module('arachne.directives')
 					   if (scope.entity) {
 							 $http.get(arachneSettings.dataserviceUri + "/catalog/list/" + scope.entity.entityId)
 								.success(function (data) {
-									scope.catalogEntries = data
+									scope.catalogEntries = data;
 								}).error(function (result) {
 									console.log("Error requesting /catalog/list/ in ar-catalog-occurences-directive");
 								}
