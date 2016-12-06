@@ -12,7 +12,7 @@ angular.module('arachne.directives')
             markdownText: '=',
             placeholder: '@'
         },
-        templateUrl: 'app/directives/ar-markdown-text-editor.html',
+        templateUrl: 'app/markdown/ar-markdown-text-editor.html',
         link: function(scope, element) {
             var textField = angular.element(element.children()[0]).children()[1];
 
@@ -46,7 +46,7 @@ angular.module('arachne.directives')
                 if (formatOption == "link") {
                     var link = { description: selectedText };
                     var addLinkModal = $uibModal.open({
-                        templateUrl: 'app/modals/add-markdown-link.html',
+                        templateUrl: 'app/markdown/add-markdown-link.html',
                         controller: 'AddMarkdownLinkController',
                         resolve: { link: function() { return link; } }
                     });
