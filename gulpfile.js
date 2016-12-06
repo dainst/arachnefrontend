@@ -271,7 +271,7 @@ gulp.task('server', function () {
 
 	gulp.watch('scss/**/*.scss', ['watch-css']);
 	gulp.watch('app/**/*.js', ['watch-js']);
-    gulp.watch('partials/**/*.html', ['watch-js']);
+    gulp.watch('app/**/*.html', ['watch-js']);
     gulp.watch('index.html', ['watch-index']);
     gulp.watch('con10t/**/*', ['watch-con10t']);
 
