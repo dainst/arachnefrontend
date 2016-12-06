@@ -1,44 +1,42 @@
 <div class="row search-nav">
 
     <div class="col-sm-4">
-        <div class="btn-group">
-            <a ng-href="search{{currentQuery.removeParam('view').toString()}}"
-               class="btn btn-sm btn-default"
-               ng-class="{ 'active': !currentQuery.view}">
-                <span class="glyphicon glyphicon-th"></span>
-                Kacheln
-            </a>
-            <a ng-href="search{{currentQuery.setParam('view','list').toString()}}"
-               class="btn btn-sm btn-default"
-               ng-class="{ 'active': currentQuery.view == 'list' }">
-                <span class="glyphicon glyphicon-th-list"></span>
-                Liste
-            </a>
-            <a ng-href="map{{currentQuery.removeParam('view').toString()}}"
-               class="btn btn-sm btn-default"
-               ng-class="{ 'active': currentQuery.view == 'map' }">
-                <span class="glyphicon glyphicon-map-marker"></span>
-                Karte
-            </a>
-        </div>
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a ng-href="search{{currentQuery.removeParam('view').toString()}}"
+                   class="btn btn-sm btn-default"
+                   ng-class="{ 'active': !currentQuery.view}">
+                    <span class="glyphicon glyphicon-th"></span>
+                    Kacheln
+                </a>
+                <a ng-href="search{{currentQuery.setParam('view','list').toString()}}"
+                   class="btn btn-sm btn-default"
+                   ng-class="{ 'active': currentQuery.view == 'list' }">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                    Liste
+                </a>
+                <a ng-href="map{{currentQuery.removeParam('view').toString()}}"
+                   class="btn btn-sm btn-default"
+                   ng-class="{ 'active': currentQuery.view == 'map' }">
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                    Karte
+                </a>
+            </div>
 
-        <div ng-if="user.username" id="searchResultCatalogAdd" style="display: inline-block; position: absolute;">
-
-            <button ng-if="resultSize <= 300" tooltip-placement="auto bottom"
+            <button ng-if="user.username && resultSize <= 300" tooltip-placement="auto bottom"
                     uib-tooltip="{{'search_catalog_create' | transl8}}"
                     type="button" ng-click="createCatalogFromSearch()"
                     class="btn btn-sm btn-default">
                 <span class="glyphicon glyphicon-inbox"></span>
             </button>
 
-            <button ng-if="resultSize > 300" tooltip-placement="auto bottom"
+            <button ng-if="user.username && resultSize > 300" tooltip-placement="auto bottom"
                     uib-tooltip="{{'search_catalog_too-big' | transl8}}"
                     type="button"
                     class="btn btn-sm btn-default disabled">
                 <span class="glyphicon glyphicon-inbox"></span>
             </button>
         </div>
-
     </div>
 
     <div class="col-sm-4 text-center">
