@@ -88,7 +88,7 @@ This will run all tests matching the filename pattern `test/*_spec.js`. Jasmine 
 Call
 
 ```
-npm run e2e
+export LC_NUMERIC="en_US.UTF-8" && npm run e2e
 ```
 
 to run the e2e tests matching the filename pattern `e2e/*.spec.js`. Precondition for this to work is that you have the `dist` dir that gets served at `localhost:8082`, as is the case when you run `npm start`.
