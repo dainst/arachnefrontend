@@ -27,7 +27,7 @@ module.exports = function(config) {
       'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
       'node_modules/idai-components/dist/idai-components.min.js',
       'app/_modules.js',
-      'app/controllers/*.js',
+      'app/pages/*.js',
       'test/**/*.spec.js',
       'app/**/*.html'
     ],
