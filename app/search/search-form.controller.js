@@ -14,7 +14,7 @@ angular.module('arachne.controllers')
         };
 
         $scope.getSuggestions = function (value) {
-            return $http.get(arachneSettings.dataserviceUri + '/suggest?q="' + value + '"')
+            return $http.get(arachneSettings.dataserviceUri + '/suggest?q=' + value)
                 .then(function (response) {
                     return response.data.suggestions;
                 });
