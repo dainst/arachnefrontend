@@ -14,11 +14,10 @@ angular.module('arachne.controllers')
         };
 
         $scope.getSuggestions = function (value) {
-            var promise = $http.get(arachneSettings.dataserviceUri + '/suggest?q=' + value)
+            return $http.get(arachneSettings.dataserviceUri + '/suggest?q=' + value)
                 .then(function (response) {
                     return response.data.suggestions;
                 });
-            if(promise != 'undefined') return promise;
         };
     }
     ]);
