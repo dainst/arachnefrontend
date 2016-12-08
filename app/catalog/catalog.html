@@ -82,7 +82,7 @@
 		<h3 ng-click="selectEntry(catalog.root)">
 
 			<div class="btn-toolbar">
-				<button ng-click="showHelp()"
+				<button ng-show="editable" ng-click="showHelp()"
 						class="btn btn-default btn-sm pull-right"
 						uib-tooltip="{{ 'catalog_show_help' | transl8 }}"
 						tooltip-append-to-body="true">
