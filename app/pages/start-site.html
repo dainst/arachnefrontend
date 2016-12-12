@@ -20,6 +20,8 @@
                   role="search" method="GET" autocomplete="off">
                 <input type="text" ng-model="q" name="q"
                        uib-typeahead="suggestion for suggestion in getSuggestions($viewValue)"
+                       typeahead-focus-first="false"
+                       typeahead-select-on-exact="true"
                        class="form-control" autofocus placeholder="{{'navbar_placeholder_search'|transl8}}"/>
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-primary">
