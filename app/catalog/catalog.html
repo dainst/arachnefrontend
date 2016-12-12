@@ -134,8 +134,7 @@
 					 class="catalog-entry" style="cursor: pointer;" ng-click="loadChildren(catalog.root)">
 					<a style="display: block;">
 						<em ng-if="catalog.root.totalChildren - catalog.root.children.length == 1">
-							{{ 'ui_show_more' | transl8 }} ({{catalog.root.totalChildren -
-								catalog.root.children.length}} {{ 'ui_more_entry' | transl8 }})
+							{{ 'ui_show_more' | transl8 }} ({{ 'ui_one_more_entry' | transl8 }})
 						</em>
 						<em ng-if="catalog.root.totalChildren - catalog.root.children.length > 1">
 							{{ 'ui_show_more' | transl8 }} ({{catalog.root.totalChildren -
