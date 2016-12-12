@@ -9,6 +9,6 @@ var NavbarPage = function() {
 		});
 	};
 
-}
+};
 
 module.exports = new NavbarPage();

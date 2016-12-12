@@ -10,11 +10,11 @@ var SearchPage = function() {
 
 	this.getFacetValues = function(facetName) {
 		return element.all(by.css('.' + facetName + ' .facet-value'));
-	}
+	};
 
 	this.getMoreButton = function(facetName) {
 		return element(by.css('.' + facetName + ' .more'));
-	}
+	};
 
 };
 

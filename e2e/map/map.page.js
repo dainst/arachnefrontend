@@ -4,12 +4,12 @@ var MapPage = function() {
 
 	this.getHeatmap = function() {
 		return heatmapLayer;
-	}
+	};
 
-	this.getMarkers = function () {
+	this.getMarkers = function() {
 		return element.all(by.css('.awesome-marker'));
-	}
+	};
 
-}
+};
 
 module.exports = new MapPage();
