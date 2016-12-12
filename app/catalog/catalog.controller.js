@@ -13,6 +13,7 @@ angular.module('arachne.controllers')
 		$rootScope.hideFooter = true;
 		$scope.entryMap = {};
 		$scope.catalogId = $stateParams.id;
+		$scope.childrenLimit = 10;
 		if ($stateParams.view == 'map') $scope.map = true;
 
 	    $scope.treeOptions = {
@@ -220,7 +221,7 @@ angular.module('arachne.controllers')
 	    }
 
 	    function retrieveCatalog(id) {
-	    	Catalog.get({ id: id }, function(result) {
+	    	Catalog.get({ id: id, limit: $scope.childrenLimit }, function(result) {
 		    	initialize(result.root);
 	            if (result.root.children.length == 0 && result.root.totalChildren > 0) {
 	                $scope.loadChildren(result.root);

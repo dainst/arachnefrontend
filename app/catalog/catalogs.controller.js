@@ -44,7 +44,7 @@ angular.module('arachne.controllers')
                     });
                 };
 
-            }
+            };
 
             $scope.user = authService.getUser();
             if ($scope.user === undefined) {
@@ -53,8 +53,6 @@ angular.module('arachne.controllers')
 
             $scope.catalogs = [];
             $scope.entryMap = {};
-
-            $scope.childrenLimit = 10;
 
             $http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username).success(function(user) {
                 $scope.user = user;

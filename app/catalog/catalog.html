@@ -56,7 +56,7 @@
 			 	ng-click="loadChildren(entry)">
 			<a style="display: block;">
 				<em ng-if="entry.totalChildren - entry.children.length == 1">
-					{{ 'ui_show_more' | transl8 }} ({{entry.totalChildren - entry.children.length}} {{ 'ui_more_entry' | transl8 }})
+					{{ 'ui_show_more' | transl8 }} ({{ 'ui_one_more_entry' | transl8 }})
 				</em>
 				<em ng-if="entry.totalChildren - entry.children.length > 1">
 					{{ 'ui_show_more' | transl8 }} ({{entry.totalChildren - entry.children.length}} {{ 'ui_more_entries' | transl8 }})
