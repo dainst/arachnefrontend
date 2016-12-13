@@ -44,11 +44,12 @@
 			</div>
 		</div>
 		<div class="col-md-6" style="position: absolute; right: 0px; bottom: 190px; top: 60px; overflow-y: scroll;">
-			<h4 ng-hide="currentValue == undefined"><strong>{{currentCategory}}, {{currentFacet | transl8 }} = {{currentValue}}</strong> - {{ 'results' | transl8}}: {{entities.length}} </h4>
+			<h4 ng-hide="currentValue == undefined"><strong>{{currentCategory}}, {{currentFacet | transl8 }} = {{currentValue}}</strong> - {{ 'results' | transl8}}: {{entityResultSize}} </h4>
 			<hr>
 			<div ar-imagegrid
 				cells="entities"
 				columns="3"
+				target="_blank"
 				margin="4" ng-if="currentValue" ng-show="entities.length > 0">					
 			</div>	
 		</div>

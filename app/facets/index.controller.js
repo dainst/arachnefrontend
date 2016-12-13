@@ -6,6 +6,7 @@ angular.module('arachne.controllers')
             $scope.currentValue = undefined;
             $scope.groupedBy = undefined;
             $scope.entities = [];
+            $scope.entityResultSize = 0;
 
         	categoryService.getCategoriesAsync().then(function (categories) {
                 $scope.categories = [];
@@ -52,6 +53,7 @@ angular.module('arachne.controllers')
                 } else {
                     $scope.values = [];
                     $scope.currentFacet = undefined;
+                    $scope.entityResultSize = 0;
                 }
             }
             
@@ -66,10 +68,12 @@ angular.module('arachne.controllers')
                         $scope.entities = $filter('cellsFromEntities')(response.entities, $scope.currentQuery);
                         $scope.currentValue = $stateParams.fv
                         window.scrollTo({'top':0})
+                        $scope.entityResultSize = response.size;
                     });
                 } else {
                     $scope.entities = [];
                     $scope.currentValue = undefined;
+                    $scope.entityResultSize = 0;
                 }
             }
             function load() {

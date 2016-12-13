@@ -9,7 +9,8 @@ angular.module('arachne.directives')
                 columns: '@',
                 margin: '@',
                 hideTitle: '@',
-                complete: '=?'
+                complete: '=?',
+                target: '=?'
             },
             templateUrl: 'app/image/ar-imagegrid.html',
 
