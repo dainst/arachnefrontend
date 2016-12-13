@@ -2,7 +2,7 @@ angular.module('arachne.filters')
 
     .filter('cellsFromEntities', ['arachneSettings', 'categoryService', function (arachneSettings, categoryService) {
         return function (entities, query) {
-
+            if (entities == undefined) return [] 
             for (var i in entities) {
 
                 var currentEntity = entities[i];
