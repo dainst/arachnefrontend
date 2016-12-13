@@ -108,7 +108,7 @@
 				</div>
 
 				<button ng-if="catalog.public" ng-click="$parent.map = true; $event.stopPropagation();"
-						class="btn btn-default btn-sm pull-right"
+						id="catalog-map-button" class="btn btn-default btn-sm pull-right"
 						uib-tooltip="{{ 'catalog_map' | transl8 }}"
 						tooltip-append-to-body="true">
 					<span class="glyphicon glyphicon-globe"></span>
