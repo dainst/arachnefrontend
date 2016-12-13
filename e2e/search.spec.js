@@ -1,10 +1,3 @@
-/*
- * In order to prevent errors caused by e2e tests running too fast you can slow them down by calling the following
- * function. Use higher values for slower tests.
- *
- * utils.delayPromises(50);
- *
- */
 var searchPage = require('./search/search.page');
 var messageBox = require('./core/message-box.page');
 

@@ -10,6 +10,6 @@ var FrontPage = function() {
     	return entityCount.getText();
     };
 
-}
+};
 
 module.exports = new FrontPage();

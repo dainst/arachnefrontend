@@ -26,9 +26,10 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
       'node_modules/idai-components/dist/idai-components.min.js',
-      'js/**/*.js',
-      'test/*.spec.js',
-      'partials/directives/*.html'
+      'app/_modules.js',
+      'app/pages/*.js',
+      'test/**/*.spec.js',
+      'app/**/*.html'
     ],
 
 
@@ -74,7 +75,7 @@ module.exports = function(config) {
 		moduleName: 'templates'
 	},
 	preprocessors: {
-	    "partials/directives/*.html": "ng-html2js"
+	    "partials/**/*.html": "ng-html2js"
 	}
   });
 };
