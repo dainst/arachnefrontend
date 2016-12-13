@@ -249,9 +249,8 @@ angular.module('arachne.controllers')
 	    }
 
 	    function checkIfEditable() {
-	    	var user = authService.getUser();
 	    	$http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username).success(function(user) {
-                $scope.editable = ($scope.catalog.userIds.indexOf(user.id) != -1);
+				$scope.editable = ($scope.catalog.userIds.indexOf(user.id) != -1);
             });
 	    }
 
