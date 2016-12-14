@@ -5,10 +5,11 @@ angular.module('arachne.widgets.directives')
 /**
  * @author: Jan G. Wieners
  */
-    .directive('con10tMediaTree', [function() {
+    .directive('con10tMediaTree', ['arachneSettings', function(arachneSettings) {
         return {
             restrict: 'E',
             scope: {
+                title: '@',
                 headerImages: '='
             },
             transclude: true,
@@ -16,7 +17,7 @@ angular.module('arachne.widgets.directives')
 
             link: function(scope, element, attrs, ctrl, $transclude) {
 
-                console.log(scope);
+                scope.arachneUrl = arachneSettings.arachneUrl;
 
                 $transclude(function(clone){
                     scope.showCaption = clone.length;
