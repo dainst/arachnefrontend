@@ -46,8 +46,8 @@ angular.module('arachne.controllers')
                     } else {
                         $scope.groupedBy = undefined;
                     }
-                    $http.get(url).success(function (values) {
-                        $scope.values = values;
+                    $http.get(url).success(function (data) {
+                        $scope.values = data.facetValues;
                         $scope.currentFacet = $stateParams.fq
                     });
                 } else {
