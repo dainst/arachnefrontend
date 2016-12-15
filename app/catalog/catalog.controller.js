@@ -250,9 +250,16 @@ angular.module('arachne.controllers')
 	    }
 
 	    function checkIfEditable() {
-	    	$http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username).success(function(user) {
-				$scope.editable = ($scope.catalog.userIds.indexOf(user.id) != -1);
-            });
+			if (!$scope.user) {
+				$scope.editable = false;
+			} else {
+				$http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username)
+					.success(function (user) {
+						$scope.editable = ($scope.catalog.userIds.indexOf(user.id) != -1);
+					}).error(function() {
+						$scope.editable = false;
+					});
+			}
 	    }
 
 	    retrieveCatalog($stateParams.id);
