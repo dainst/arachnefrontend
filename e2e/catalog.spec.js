@@ -1,4 +1,5 @@
 var catalogPage = require('./catalog/catalog.page');
+var childrenLimit = 20;
 
 describe('catalog page', function() {
 
@@ -8,9 +9,9 @@ describe('catalog page', function() {
         var treeRoot = catalogPage.getTreeRoot();
         var rootList = catalogPage.getChildrenList(treeRoot);
 
-        expect(catalogPage.getEntries(rootList).count()).toBe(10);
+        expect(catalogPage.getEntries(rootList).count()).toBe(childrenLimit);
 
-        for (var i = 20; i <= 40; i += 10) {
+        for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
             catalogPage.getMoreButton(rootList).click();
             expect(catalogPage.getEntries(rootList).count()).toBe(i);
         }
@@ -26,9 +27,9 @@ describe('catalog page', function() {
         var list = catalogPage.getChildrenList(rootEntries.get(0));
         var entries = catalogPage.getEntries(list);
 
-        expect(entries.count()).toBe(10);
+        expect(entries.count()).toBe(childrenLimit);
 
-        for (var i = 20; i <= 40; i += 10) {
+        for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
             catalogPage.getMoreButton(list).click();
             expect(catalogPage.getEntries(list).count()).toBe(i);
         }
@@ -56,7 +57,7 @@ describe('catalog page', function() {
 
         catalogPage.getMapButton().click();
 
-        expect(catalogPage.getMarkers().count()).not.toBeLessThan(1);
+        expect(catalogPage.getMarkers().count()).toBeGreaterThan(0);
     });
 
 });
