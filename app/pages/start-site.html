@@ -18,13 +18,13 @@
 
             <form ng-controller="SearchFormController" ng-submit="search()" class="input-group form-inline"
                   role="search" method="GET" autocomplete="off">
-                <input type="text" ng-model="q" name="q"
+                <input id="search-input" type="text" ng-model="q" name="q"
                        uib-typeahead="suggestion for suggestion in getSuggestions($viewValue)"
                        typeahead-focus-first="false"
                        typeahead-select-on-exact="true"
                        class="form-control" autofocus placeholder="{{'navbar_placeholder_search'|transl8}}"/>
                 <span class="input-group-btn">
-                    <button type="submit" class="btn btn-primary">
+                    <button id="search-button" type="submit" class="btn btn-primary">
                         &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
                     </button>
                 </span>

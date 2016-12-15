@@ -5,11 +5,11 @@ var Con10tImagePage = function() {
 
     this.getImageFromSrc = function() {
     	return imageFromSrc;
-    }
+    };
 
     this.getImageFromEntity = function() {
     	return imageFromEntity;
-    }
-}
+    };
+};
 
 module.exports = new Con10tImagePage();
