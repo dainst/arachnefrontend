@@ -23,14 +23,14 @@
             <span class="glyphicon glyphicon-circle-arrow-right"></span>
         </a>
 
-        <a ng-href="entity/{{entity.entityId}}/image/{{entity.images[currentImgNo].imageId}}{{currentQuery.toString()}}"
-           style="cursor:zoom-in;"
-           id="maximg">
-            <img ar-img img-id="{{entity.images[currentImgNo].imageId}}"
-                 img-height="300">
-        </a>
+        <div id="maximg-wrapper">
+          <a ng-href="entity/{{entity.entityId}}/image/{{entity.images[currentImgNo].imageId}}{{currentQuery.toString()}}" id="maximg">
+              <img ar-img img-id="{{entity.images[currentImgNo].imageId}}"
+                   img-height="300">
+          </a>
+        </div>
     </div>
-    <div ng-show="entity.images.length > 1" style="overflow: hidden; padding: 4px;"
+    <div ng-show="entity.images.length > 1"
          class="thumb-row panel panel-default">
 
         <a ng-click="pageThumbsLeft()"
