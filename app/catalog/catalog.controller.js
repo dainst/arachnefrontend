@@ -13,7 +13,7 @@ angular.module('arachne.controllers')
 		$rootScope.hideFooter = true;
 		$scope.entryMap = {};
 		$scope.catalogId = $stateParams.id;
-		$scope.childrenLimit = 10;
+		$scope.childrenLimit = 20;
 		$scope.editable = false;
 		if ($stateParams.view == 'map') $scope.map = true;
 

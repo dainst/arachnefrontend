@@ -38,12 +38,14 @@
                  ng-include="'catalogNode'"
                  class="catalognode"></div>
             <div ng-if="node.children.length < node.totalChildren && !node.loading">
-                <em ng-if="node.totalChildren - node.children.length == 1">
-                    {{ 'ui_show_more' | transl8 }} ({{node.totalChildren - node.children.length}} {{ 'ui_more_entry' | transl8 }})
-                </em>
-                <em ng-if="node.totalChildren - node.children.length > 1">
-                    {{ 'ui_show_more' | transl8 }} ({{node.totalChildren - node.children.length}} {{ 'ui_more_entries' | transl8 }})
-                </em>
+                <a class="btn btn-link" ng-click="loadMore(node)">
+                    <em ng-if="node.totalChildren - node.children.length == 1">
+                        {{ 'ui_show_more' | transl8 }} ({{ 'ui_one_more_entry' | transl8 }})
+                    </em>
+                    <em ng-if="node.totalChildren - node.children.length > 1">
+                        {{ 'ui_show_more' | transl8 }} ({{node.totalChildren - node.children.length}} {{ 'ui_more_entries' | transl8 }})
+                    </em>
+                </a>
             </div>
             <div ng-show="node.loading">
                 <div class="loading"></div>
@@ -56,8 +58,8 @@
 <div class="panel panel-default">
     <div class="panel-heading" ng-if="catalog.root.label">
         <h3 class="panel-title">
-            {{catalog.root.label}}<br>
-            <small>{{catalog.author}}</small>
+            <a href="/catalog/{{catalog.id}}">{{catalog.root.label}}<br>
+            <small>{{catalog.author}}</small></a>
         </h3>
     </div>
     <div class="panel-body">
@@ -65,7 +67,7 @@
         <div ng-if="catalog.root.children.length < catalog.root.totalChildren && !catalog.root.loading">
             <a class="btn btn-link" ng-click="loadMore(catalog.root)">
                 <em ng-if="catalog.root.totalChildren - catalog.root.children.length == 1">
-                    {{ 'ui_show_more' | transl8 }} ({{catalog.root.totalChildren - catalog.root.children.length}} {{ 'ui_more_entry' | transl8 }})
+                    {{ 'ui_show_more' | transl8 }} ({{ 'ui_one_more_entry' | transl8 }})
                 </em>
                 <em ng-if="catalog.root.totalChildren - catalog.root.children.length > 1">
                     {{ 'ui_show_more' | transl8 }} ({{catalog.root.totalChildren - catalog.root.children.length}} {{ 'ui_more_entries' | transl8 }})
