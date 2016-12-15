@@ -1,13 +1,18 @@
-<div class="row">
-    <div ng-repeat="image in headerImages track by $index" class="col-md-{{ image.cols }}">
-
-            <img ar-img
-                 img-id="{{image.entityid}}"
-                 img-height="200"
-                 class="header-image-centered-cropped">
-            <figcaption>
-                {{ image.title }}
-            </figcaption>
-
+<div class="con10t-media-tree">
+    <div class="row header">
+        <h1>{{ title }}</h1>
+        <div class="row">
+            <div ng-repeat="image in headerImages track by $index" class="col-md-{{ image.cols }}">
+                <a href="{{ arachneUrl }}/entity/{{ image.entityid }}">
+                    <img ar-img
+                         img-id="{{image.entityid}}"
+                         img-height="200"
+                         class="header-image-centered-cropped">
+                </a>
+                <figcaption>
+                    {{ image.title }}
+                </figcaption>
+            </div>
+        </div>
     </div>
 </div>

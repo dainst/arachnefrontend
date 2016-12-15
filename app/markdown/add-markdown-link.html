@@ -16,7 +16,7 @@
 	<div class="modal-footer">
     	<input class="btn btn-primary"
     			type="submit"
-    			ng-click="(disabled: !link.url || !link.description) || $close(link)"
+    			ng-click="link.url && link.description && $close(link)"
     			ng-class="{ disabled: !link.url || !link.description }"
     			value="OK">
     	<button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8}}</button>

@@ -76,6 +76,7 @@ angular.module('arachne',[
 	});
 }])
 .constant('arachneSettings', {
+	arachneUrl: 'https://arachne.dainst.org',
 	dataserviceUri: "//" + document.location.host + "/data",
 	limit: 50,
 	facetLimit: 20,
