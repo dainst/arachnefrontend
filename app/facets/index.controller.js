@@ -27,11 +27,14 @@ angular.module('arachne.controllers')
                     $scope.currentCategory = $stateParams.c
                     $scope.currentCategoryQuery = new Query().addFacet("facet_kategorie", $stateParams.c);
                     $scope.currentCategoryQuery.q = "*";
-                    
+                    $scope.currentCategoryQuery.limit = 0;
+
                     Entity.query($scope.currentCategoryQuery.toFlatObject(), function (response) {
                         $scope.facets = response.facets;
                         $scope.resultSize = response.size;
                     });
+                } else {
+                    $scope.facets = undefined;
                 }
             }
 
@@ -51,7 +54,7 @@ angular.module('arachne.controllers')
                         $scope.currentFacet = $stateParams.fq
                     });
                 } else {
-                    $scope.values = [];
+                    $scope.values = undefined;
                     $scope.currentFacet = undefined;
                     $scope.entityResultSize = 0;
                 }

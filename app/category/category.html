@@ -41,58 +41,9 @@
 				</li>
 			</ul>
 			<br>
-			<p><i>{{ 'category_browse_specific' | transl8 }}</i></p>
-		</div>
-	</div>
-	<div class="col-md-offset-1 col-md-10">
-		<div class="page-header">
-			<h2 ng-hide="currentQuery.facets.facet_kategorie">{{ 'category_all_data_sets' | transl8 }}</h2>
-		</div>
 
-		<div class="row">
-			<div class="col-md-6">
-				<div ng-repeat="facet in facets" class="panel panel-default facet" ng-if="$index % 2 == 0">
-					<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
-						<h5 class="panel-title">
-							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
-							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>	
-							&nbsp;{{facet.name | transl8 }}
-						</h5>
-					</div>
-					<ul class="list-unstyled facet"	ng-show="facet.open">
-						<li ng-repeat="facetValue in facet.values">
-							<small>
-								<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-									<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
-									{{facetValue.value | stripCoords}}
-								</a>
-							</small>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div ng-repeat="facet in facets" class="panel panel-default facet" ng-if="$index % 2 == 1">
-					<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
-						<h5 class="panel-title">
-							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
-							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>	
-							&nbsp;{{facet.name | transl8 }}
-						</h5>
-					</div>
-					<ul class="list-unstyled facet"	ng-show="facet.open">
-						<li ng-repeat="facetValue in facet.values">
-							<small>
-								<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-									<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
-									{{facetValue.value | stripCoords}}
-								</a>
-							</small>
-						</li>
-					</ul>
-				</div>
-			</div>
+			<a href="index?c={{queryTitle}}" class="btn btn-primary">{{ title }} {{ 'category_browse_specific' | transl8 }}</a>
 		</div>
-		
 	</div>
+	
 </div>
