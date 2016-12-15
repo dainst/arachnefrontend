@@ -15,6 +15,7 @@ angular.module('arachne.controllers')
 		$scope.catalogId = $stateParams.id;
 		$scope.childrenLimit = 20;
 		$scope.editable = false;
+		$scope.error = false;
 		if ($stateParams.view == 'map') $scope.map = true;
 
 	    $scope.treeOptions = {
@@ -231,8 +232,13 @@ angular.module('arachne.controllers')
 	            }
 	            $scope.catalog = result;
 	            checkIfEditable();
-		    }, function() {
-	            message.addMessageForCode('default');
+		    }, function(error) {
+				$scope.error = true;
+				if (error.status == '403') {
+					message.addMessageForCode('catalog_403');
+				} else {
+					message.addMessageForCode('default');
+				}
 	        });
 	    }
 
