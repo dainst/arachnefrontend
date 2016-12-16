@@ -19,12 +19,21 @@ and part of the
 <a href="http://www.dainst.org/forschung-digital">iDAI.welt</a>.
 </p>
 <p>
-Arachne is an internet research tool for the Archaeologies and <i>Altertumswissenschaft</i>. It offers a means to access objects and their states and to search efficiently in hundreds of thousands of datasets. Arachne feeds from analogue and digital sources. Archival material is often not adequately documented and in danger of being destroyed over time; Arachne is actively digitizing and documenting these materials. On the other hand, there is an ever growing amount of born-digital images and object data. By employing Semantic Web strategies, Arachne provides a low-threshold structure for these data. All digitized images and textual data in Arachne are preserved for the long term and available online.
+Arachne is an internet research tool for the Archaeologies and 
+<i>Altertumswissenschaft</i>. It offers a means to access objects and their states and to 
+search efficiently in hundreds of thousands of datasets. Arachne feeds from analogue and 
+digital sources. Archival material is often not adequately documented and in danger of 
+being destroyed over time; Arachne is actively digitizing and documenting these materials. 
+On the other hand, there is an ever growing amount of born-digital images and object data. 
+By employing Semantic Web strategies, Arachne provides a low-threshold structure for these 
+data. All digitized images and textual data in Arachne are preserved for the long term and 
+available online.
 </p>
 
 <h2 id="usage">How to use Arachne</h2>
 <p>
-Arachne is provided free of charge. Creating an account is optional but recommended: images will be displayed at a higher resolution. In addition, you can create object 
+Arachne is provided free of charge. Creating an account is optional but recommended: 
+images will be displayed at a higher resolution. In addition, you can create object 
 catalogues and annotate the Arachne data.
 </p>
 <p>
@@ -36,7 +45,10 @@ browser please make sure these settings are in fact active.
 </p>
 <p>
 Arachne will be displayed in your preferred language if possible, with English as the 
-default language. Since you see this text in English, your browser preference is either set to English or to another language for which no translation of this page exists at this time. Arachne uses the text encoding “Unicode (UTF-8)”. Your browser should recogonize this encoding automatically.
+default language. Since you see this text in English, your browser preference is either
+set to English or to another language for which no translation of this page exists at this 
+time. Arachne uses the text encoding “Unicode (UTF-8)”. Your browser should recogonize 
+this encoding automatically.
 </p>
 <p>
 For optimal image display please use the calibration of Eye One for Gamma 2.2 and native 
@@ -46,15 +58,30 @@ white point. Licensing details and information about ordering images can be foun
 
 <h2 id="concept">The concept behind Arachne</h2>
 <p>
-The database design reflects a world model based on two very simple assumptions in archaeology or art history: all objects in the “real world” should be comparable on a very general level, and all objects have a context. Thus Arachne attempts to avoid the mistakes of earlier databases whose project-specific object modellings led to small numbers of objects that were not comparable with each other and instead lived in their database silos. In contrast, all objects in Arachne have a common set of attributes in the object model. The common attributes are complemented by category-specific attributes, for example  about the topography or architecture, to fully contextualize the objects. The common attributes can be queried over a large number of objects. On the other hand, more specific queries on the additional attributes will only find objects in their respective category.
+The database design reflects a world model based on two very simple assumptions in 
+archaeology or art history: all objects in the “real world” should be comparable on a very 
+general level, and all objects have a context. Thus Arachne attempts to avoid the mistakes 
+of earlier databases whose project-specific object modellings led to small numbers of 
+objects that were not comparable with each other and instead lived in their database 
+silos. In contrast, all objects in Arachne have a common set of attributes in the object 
+model. The common attributes are complemented by category-specific attributes, for example  
+about the topography or architecture, to fully contextualize the objects. The common 
+attributes can be queried over a large number of objects. On the other hand, more specific 
+queries on the additional attributes will only find objects in their respective category.
 </p>
 <p>
-Arachne aims to make different systems interoperable while at the same time preserving the copyright of the content creators. Wherever possible, the data is Open Access and the source code is Open Source. Arachne is a central part of the software architecture 
+Arachne aims to make different systems interoperable while at the same time preserving the 
+copyright of the content creators. Wherever possible, the data is Open Access and the 
+source code is Open Source. Arachne is a central part of the software architecture 
 <a href="http://www.dainst.org/forschung-digital">iDAI.welt</a>
-of the DAI, which consists of several interconnected modules. The modules (e.g. Arachne itself, iDAI.field, 
+of the DAI, which consists of several interconnected modules. The modules (e.g. Arachne 
+itself, iDAI.field, 
 <a href="http://zenon.dainst.org/">iDAI.bibliography</a>, 
 <a href="https://gazetteer.dainst.org">iDAI.Gazetteer</a>) 
-are constantly being refined with the help of new technical and scientific methods and possibilities. Especially between Arachne as the central image database and the different geoinformation systems (GIS) used in excavations and surveys, interoperability is becoming ever more important for reducing redundancies in the data.
+are constantly being refined with the help of new technical and scientific methods and 
+possibilities. Especially between Arachne as the central image database and the different 
+geoinformation systems (GIS) used in excavations and surveys, interoperability is becoming 
+ever more important for reducing redundancies in the data.
 </p>
 <p>
 Arachne supports the Semantic Web by providing 
@@ -63,51 +90,87 @@ for all digitally represented objects. Equally important are the connections to
 <a href="http://www.cidoc-crm.org/">CIDOC CRM</a>
 and the
 <a href="https://www.openarchives.org/">Open Archives Initiative</a>.
-In addition, Arachne’s user interface is provided in several languages, currently English, German and Italian. 
+In addition, Arachne’s user interface is provided in several languages, currently English, 
+German and Italian. 
 </p>
 <p>
-The DAI and the CoDArchLab have a policy of encouraging international cooperation to tackle the complex issues arising from this approach. International colloquia, the digital networking of the actors as well as courses at the CoDArchLab support the exchange of experiences and help scientists keep up to date with recent developments.
+The DAI and the CoDArchLab have a policy of encouraging international cooperation to 
+tackle the complex issues arising from this approach. International colloquia, the digital 
+networking of the actors as well as courses at the CoDArchLab support the exchange of 
+experiences and help scientists keep up to date with recent developments.
 </p>
 
 <h2 id="technology">Technology</h2>
 <p>
-The name Arachne refers to the database itself as well as the system for displaying the data. The database is based on MariaDB, a free fork of MySQL. The long-term preservation of all object information in the database is guaranteed by a Tivoli Storage System with multiple redundancies. In the last version “Arachne 3” the user interface was based on PHP / JavaScript and Apache with solr for indexing the data. The current version “Arachne 4” introduced a conceptual separation between the frontend in the user’s internet browser and the backend acting as the intermediary between the frontend and the database. The frontend is an AngularJS application, the backend is programmed in Java with elasticsearch instead of solr for indexing.
+The name Arachne refers to the database itself as well as the system for displaying the 
+data. The database is based on MariaDB, a free fork of MySQL. The long-term preservation 
+of all object information in the database is guaranteed by a Tivoli Storage System with 
+multiple redundancies. In the last version “Arachne 3” the user interface was based on PHP 
+/ JavaScript and Apache with solr for indexing the data. The current version “Arachne 4” 
+introduced a conceptual separation between the frontend in the user’s internet browser and 
+the backend acting as the intermediary between the frontend and the database. The frontend 
+is an AngularJS application, the backend is programmed in Java with elasticsearch instead 
+of solr for indexing.
 </p>
 
 <h2 id="evolution">Database evolution</h2>
 <p>
-Arachne started in 1995 as a FileMaker solution. Since 2001 it benefits from the creation of a  
+Arachne started in 1995 as a FileMaker solution. Since 2001 it benefits from the creation 
+of a  
 <a href="http://www.hki.uni-koeln.de/">chair of Digital Humanities</a>
-(<i>Historisch-Kulturwissenschaftliche Informationsverarbeitung</i>) at the University of Cologne. Its students use Arachne as a test environment for serious and realistic programming projects. Also since 2001, Arachne has integrated archives of image negatives thanks to significant and continuous support from the German Research Foundation (DFG). For example, the archives of the photographers Barbara Malter and Gisela Fittschen-Badura were digitized and documented. Starting in 2003, the  
-<a href="http://arachne.dainst.org/project/skulpturnegdairom"> sculpture negatives of the DAI in Rome</a> were also digitized and scientifically documented. This added 40,000 high-quality digital images of ancient sculptures to the collection.  
+(<i>Historisch-Kulturwissenschaftliche Informationsverarbeitung</i>) at the University of 
+Cologne. Its students use Arachne as a test environment for serious and realistic 
+programming projects. Also since 2001, Arachne has integrated archives of image negatives 
+thanks to significant and continuous support from the German Research Foundation (DFG). 
+For example, the archives of the photographers Barbara Malter and Gisela Fittschen-Badura 
+were digitized and documented. Starting in 2003, the  
+<a href="http://arachne.dainst.org/project/skulpturnegdairom"> 
+sculpture negatives of the DAI in Rome</a> were also digitized and scientifically 
+documented. This added 40,000 high-quality digital images of ancient sculptures to the 
+collection.  
 </p>
 <p>
-Since 2004 Arachne is operated by a consortium of the DAI and the CoDArchLab. In the same year the technology and semantics of the database together with the data ingestion workflow were completely restructured. The FileMaker data was exported to a  
+Since 2004 Arachne is operated by a consortium of the DAI and the CoDArchLab. In the same 
+year the technology and semantics of the database together with the data ingestion 
+workflow were completely restructured. The FileMaker data was exported to a  
 <a href="https://en.wikipedia.org/wiki/MAMP">MAMP</a>
-system.
-With Arachne’s strategic positioning as the central object and image database of an institution that houses some two million images in its archives and constantly produces new object and image data, one can imagine the amount of development and data ingestion work that is still needed to integrate the DAI archives.
-For example, starting in 2006 the glass negatives of the DAI were digitized in several stages in the DFG-supported 
+system. With Arachne’s strategic positioning as the central object and image database of 
+an institution that houses some two million images in its archives and constantly produces 
+new object and image data, one can imagine the amount of development and data ingestion 
+work that is still needed to integrate the DAI archives. For example, starting in 2006 the 
+glass negatives of the DAI were digitized in several stages in the DFG-supported 
 <a href="http://arachne.dainst.org/project/emagines">Emagines project</a>. 
-At the end of the project, some 150,000 Scans and 60,000 object datasets had been integrated into Arachne. 
+At the end of the project, some 150,000 Scans and 60,000 object datasets had been 
+integrated into Arachne. 
 </p>
 <p>
 As a partner of the 
 <a href="http://www.clarosnet.org/XDB/ASP/claroshome/index.html">CLAROSnet project</a>,
-a multilingual interface was created for Arachne in 2009 via a so-called i18n framework. It forms the basis for the localisation to different languages.
+a multilingual interface was created for Arachne in 2009 via a so-called i18n framework. 
+It forms the basis for the localisation to different languages.
 </p>
 <p>
 In 2009 and 2012 a 
 <a href="http://arachne.dainst.org/project/skulpberlinantik">complete catalogue of the sculptures in the antiquities collection of the Berlin State Museums</a>
-was created as part of the Berlin Sculpture-Network project and made available in Arachne in 2013. It comprises newly edited scientific catalogue texts, images and archival materials about 2,600 sculptures. The sculptures are supplemented by 3,500 plaster casts from the 
+was created as part of the Berlin Sculpture-Network project and made available in Arachne 
+in 2013. It comprises newly edited scientific catalogue texts, images and archival 
+materials about 2,600 sculptures. The sculptures are supplemented by 3,500 plaster casts 
+from the 
 <a href="http://arachne.dainst.org/project/berlinsamml">Cast Collection of Ancient Sculpture in Berlin</a>, 
 which are connected with the datasets of the originals.
 </p>
 <p>
 Another major step was the DFG-supported project
 <a href="http://arachne.dainst.org/project/rezeptionantike">Reception of Antiquity in a Semantic Network</a>
-that ran from 2009 until 2013. Some 2,300 out-of-copyright printed engravings were digitized and presented in a TEI viewer with their OCR texts. Subsequently, a string of smaller projects added even more digitized books and archive materials. The total portfolio is presented in the 
+that ran from 2009 until 2013. Some 2,300 out-of-copyright printed engravings were 
+digitized and presented in a TEI viewer with their OCR texts. Subsequently, a string of 
+smaller projects added even more digitized books and archive materials. The total 
+portfolio is presented in the 
 <a href="https://arachne.dainst.org/project/idaibookbrowser">iDAI.bookbrowser</a>,
-which enables direct connections between Arachne objects from the “real world” and their textual descriptions in the digitized books. The iDAI.bookbrowser supports the METS metadata standard via its OAI PMH interface and is connected with external portals such as Propylaeum and ZVDD.
+which enables direct connections between Arachne objects from the “real world” and their 
+textual descriptions in the digitized books. The iDAI.bookbrowser supports the METS 
+metadata standard via its OAI PMH interface and is connected with external portals such as 
+Propylaeum and ZVDD.
 </p>
 <p>
 Further information about these and other projects can be found
@@ -116,7 +179,8 @@ Further information about these and other projects can be found
 
 <h2 id="status">Status: facts and numbers</h2>
 <p>
-As of November 2016, there are 17,235 registered users with 6,000 of these users from outside of Germany. The database currently comprises about 3.8 million entries.
+As of November 2016, there are 17,235 registered users with 6,000 of these users from 
+outside of Germany. The database currently comprises about 3.8 million entries.
 </p>
 <ul> 
  <li>2.4 million images</li>
