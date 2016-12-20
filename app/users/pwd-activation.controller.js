@@ -8,8 +8,8 @@ angular.module('arachne.controllers')
  * @author: Daniel M. de Oliveira
  */
     .controller('PwdActivationController',
-        ['$scope', '$stateParams', '$filter', '$location', 'PasswordActivation', 'message',
-            function ($scope, $stateParams, $filter, $location, PasswordActivation, message) {
+        ['$scope', '$stateParams', '$filter', '$location', 'PasswordActivation', 'messageService',
+            function ($scope, $stateParams, $filter, $location, PasswordActivation, messages) {
 
                 /**
                  * Copy the user so that the shown passwords
@@ -31,14 +31,14 @@ angular.module('arachne.controllers')
 
                 var handleActivationSuccess = function () {
 
-                    message.dontClearOnNextLocationChange();
-                    message.addMessageForCode('ui.passwordactivation.success', 'success');
+                    messages.dontClearOnNextLocationChange();
+                    messages.add('ui.passwordactivation.success', 'success');
                     $location.path("/");
                 };
 
                 var handleActivationError = function (data) {
                     console.log(data);
-                    message.addMessageForCode('default', 'danger');
+                    messages.add('default', 'danger');
                 };
 
                 $scope.submit = function () {

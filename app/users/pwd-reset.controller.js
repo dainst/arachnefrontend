@@ -7,27 +7,27 @@ angular.module('arachne.controllers')
  *
  * @author: Daniel M. de Oliveira
  */
-    .controller('PwdResetController', ['$scope', '$location', 'Password', 'message',
-        function ($scope, $location, Password, message) {
+    .controller('PwdResetController', ['$scope', '$location', 'Password', 'messageService',
+        function ($scope, $location, Password, messages) {
 
 
             var handleResetError = function (data) {
                 if (data.data.message != undefined)
-                    message.addMessageForCode(data.data.message, 'danger', false);
+                    messages.add(data.data.message, 'danger', false);
                 else
-                    message.addMessageForCode('ui.passwordreset.unkownuser', 'danger', false)
+                    messages.add('ui.passwordreset.unkownuser', 'danger', false)
             };
 
             var handleResetSuccess = function (data) {
-                message.dontClearOnNextLocationChange();
-                message.addMessageForCode('ui.passwordreset.success', 'success');
+                messages.dontClearOnNextLocationChange();
+                messages.add('ui.passwordreset.success', 'success');
                 $location.path("/");
             };
 
             $scope.submit = function () {
 
                 if ($scope.user == undefined) {
-                    message.addMessageForCode('ui.passwordreset.fieldMissing.all', 'danger', false);
+                    messages.add('ui.passwordreset.fieldMissing.all', 'danger', false);
                     return;
                 }
 

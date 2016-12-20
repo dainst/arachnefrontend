@@ -9,8 +9,8 @@ angular.module('arachne.controllers')
  *   user the logged in users personal information.
  *   submit function which sends the user data to the backend in order to update personal information.
  */
-    .controller('EditUserController', ['$scope', '$http', 'arachneSettings', 'authService', 'message', '$timeout',
-        function ($scope, $http, arachneSettings, authService, message, $timeout) {
+    .controller('EditUserController', ['$scope', '$http', 'arachneSettings', 'authService', 'messageService', '$timeout',
+        function ($scope, $http, arachneSettings, authService, messages, $timeout) {
 
             var HEADERS = {
                 "headers": {"Content-Type": "application/json"}
@@ -24,8 +24,8 @@ angular.module('arachne.controllers')
              * @param level
              */
             var putMsg = function (msgKey, level) {
-                message.clear();
-                message.addMessageForCode(msgKey, level, false);
+                messages.clear();
+                messages.add(msgKey, level, false);
             };
 
             /**

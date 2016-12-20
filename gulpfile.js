@@ -58,7 +58,7 @@ gulp.task('compile-css', function () {
         .pipe(sass({
             includePaths: [
                 'node_modules/bootstrap-sass/assets/stylesheets/',
-                'node_modules/idai-components/src/scss/'
+                'node_modules/idai-components/src/'
             ],
             precision: 8
         }))

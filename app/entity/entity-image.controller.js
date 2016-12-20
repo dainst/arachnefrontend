@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-    .controller('EntityImageController', ['$stateParams', '$scope', '$uibModal', 'Entity', 'authService', 'searchService', '$location', 'arachneSettings', '$http', '$window', '$rootScope', 'message',
-        function ($stateParams, $scope, $uibModal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, message) {
+    .controller('EntityImageController', ['$stateParams', '$scope', '$uibModal', 'Entity', 'authService', 'searchService', '$location', 'arachneSettings', '$http', '$window', '$rootScope', 'messageService',
+        function ($stateParams, $scope, $uibModal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, messages) {
 
             $rootScope.hideFooter = true;
             $scope.allow = true;
@@ -87,7 +87,7 @@ angular.module('arachne.controllers')
                 $scope.entity = data;
                 $scope.refreshImageIndex();
             }, function (response) {
-                message.addMessageForCode("entity_" + response.status);
+                messages.add("entity_" + response.status);
             });
             Entity.imageProperties({id: $scope.imageId}, function (data) {
                 $scope.imageProperties = data;
@@ -96,7 +96,7 @@ angular.module('arachne.controllers')
                 if (response.status == '403') {
                     $scope.allow = false;
                 } else {
-                    message.addMessageForCode('image_' + response.status);
+                    messages.add('image_' + response.status);
                 }
             });
 

@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-    .controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$uibModal', 'Entity', '$location', 'arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'message',
-        function ($rootScope, $stateParams, searchService, $scope, $uibModal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, message) {
+    .controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$uibModal', 'Entity', '$location', 'arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
+        function ($rootScope, $stateParams, searchService, $scope, $uibModal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messages) {
 
             $rootScope.hideFooter = false;
 
@@ -78,7 +78,7 @@ angular.module('arachne.controllers')
                     
                 }, function (response) {
                     $scope.error = true;
-                    message.addMessageForCode("entity_" + response.status);
+                    messages.add("entity_" + response.status);
                 });
 
                 $scope.contextQuery = new Query();
@@ -95,7 +95,7 @@ angular.module('arachne.controllers')
                         $scope.resultSize = searchService.getSize();
                     }, function (response) {
                         $scope.searchresults = {size: 0};
-                        message.addMessageForCode('search_' + response.status);
+                        messages.add('search_' + response.status);
                     });
 
                     var prevIndex = $scope.resultIndex - 1;
