@@ -25,6 +25,6 @@ angular.module('arachne.controllers')
             $scope.logout = function () {
                 authService.clearCredentials();
                 $scope.user = authService.getUser();
-                $window.location.reload();
+                $window.location = '/';
             }
         }]);
