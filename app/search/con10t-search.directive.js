@@ -32,10 +32,12 @@ return {
                 url += " AND " + scope.appendQuery;
 
             if(scope.fq != undefined && scope.fq != "") {
-                var fqs = scope.fq.split(',');
+                // split at every NOT escaped comma by replacing the comma with ETB, then split at every ETB
+                var fqs = scope.fq.replace(/([^\\]),/g, '$1\u0017').split('\u0017');
                 fqs.forEach(function(fq) {
                     var split = fq.split(':');
-                    url += '&fq='+split[0]+':"'+split[1]+'"';
+                    // remove backslash in front of escaped commas (de-escape)
+                    url += '&fq='+split[0]+':"'+split[1].replace(/\\,/g, ',')+'"';
                 });
             }
             $location.url(url);
