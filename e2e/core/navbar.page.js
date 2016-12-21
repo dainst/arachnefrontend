@@ -4,7 +4,6 @@ var NavbarPage = function() {
 
     var userDropdown = element(by.css('a[href*="bookmarks"]'));
 
-	var loginButton = element(by.css('[ng-click="loginFunction();"]'));
 	var loginInputUsername = element(by.id('input-username'));
 	var loginInputPassword = element(by.id('exampleInputPassword2'));
     var submitLoginButton = element(by.id('submit-login'));
@@ -14,6 +13,9 @@ var NavbarPage = function() {
 
     var registrationButton = element(by.css('a[href*="register"]'));
     var navbarRight = element(by.css('.navbar-right'));
+
+    var loginButton = element(by.css('#loginbutton'));
+    var loginModal = element(by.css('.modal-dialog'));
 
     var registrationInputUsername = '';
     var registrationInputPassword = '';
@@ -69,6 +71,12 @@ var NavbarPage = function() {
 			.then(function (text) {
 				return text.trim();
             })
+    };
+
+    this.getLoginModal = function() {
+        return loginButton.click().then(function() {
+            return loginModal;
+        });
     };
 
 	this.typeInUsername = function (username) {
