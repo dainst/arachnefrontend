@@ -4,7 +4,7 @@ var messageBox = require('./core/message-box.page');
 
 var common = require('./common');
 
-fdescribe('user management page', function () {
+describe('user management page', function () {
 
     beforeAll(function () {
         // Create user
