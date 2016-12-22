@@ -41,7 +41,13 @@
     <li ng-if="section.value" ng-switch="isArray(section.value)" style="list-style-type:none;">
         <span ng-switch-when="false" ng-bind-html="section.value | nl2br"></span>
         <div ng-switch-when="true">
-            <div class="section-item" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br"></div>
+            <div class="section-item" ng-if="$index <= 3" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br"></div>
+            <div class="section-item" ng-if="$index > 3" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br" uib-collapse="!isCollapsed"></div>
+            <div ng-show="$index <= 3" class="more">
+                <em>
+                    <a class="btn btn-link" href="#" ng-click="isCollapsed = !isCollapsed">{{ 'ui_show_more' | transl8 }}</a>
+                </em>
+            </div>
         </div>
     </li>
 

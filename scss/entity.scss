@@ -88,3 +88,14 @@
   border-bottom: 1px solid black;
   text-decoration: none;
 }
+
+.sections .more a {
+  color: #337ab7;
+  border-bottom: none;
+}
+
+.sections .more a:hover {
+  color: #37588E;
+  text-decoration: underline;
+  border-bottom: none;
+}
