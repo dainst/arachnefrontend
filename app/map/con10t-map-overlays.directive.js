@@ -6,7 +6,7 @@ angular.module('arachne.widgets.map')
  * @author: Sebastian Cuy
  * @author: Jan G. Wieners
  */
-    .directive('con10tMapOverlays', ['mapService', function (mapService) {
+    .directive('con10tMapOverlays', ['mapService', 'searchService', function (mapService, searchService) {
         return {
             restrict: 'A',
             scope: {
@@ -19,7 +19,7 @@ angular.module('arachne.widgets.map')
             link: function (scope) {
 
                 mapService.setOverlays(scope.overlays);
-                mapService.activateOverlays(cq.getArrayParam('overlays')); // TODO this is undefined
+                mapService.activateOverlays(searchService.currentQuery().getArrayParam('overlays'));
             }
         };
     }]);

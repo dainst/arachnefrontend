@@ -26,7 +26,8 @@ var cssDeps = [
     'node_modules/font-awesome/css/font-awesome.min.css',
     'node_modules/leaflet.markercluster/dist/MarkerCluster.css',
     'node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css',
-    'node_modules/drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css'
+    'node_modules/drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css',
+    'node_modules/angular-ui-swiper/dist/angular-ui-swiper.css'
 ];
 
 var jsDeps = [
@@ -49,7 +50,8 @@ var jsDeps = [
     'node_modules/ng-showdown/dist/ng-showdown.min.js',
     'node_modules/3dviewer/dist/3dviewer.js',
     'lib/relative-paths-in-partial.js',
-    'node_modules/d3/build/d3.min.js'
+    'node_modules/d3/build/d3.min.js',
+    'node_modules/angular-ui-swiper/dist/angular-ui-swiper.min.js'
 ];
 
 // compile sass and concatenate to single css file in build dir

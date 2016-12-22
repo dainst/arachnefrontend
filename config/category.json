@@ -34,7 +34,7 @@
 		"imgUri": "img/categories/typen_sw.jpg",
 		"status": "start"
 	},
-	"sammlung": {
+	"sammlungen": {
 		"queryTitle": "Sammlungen",
 		"imgUri": "img/categories/sammlungen_sw.jpg",
 		"status": "sub",
