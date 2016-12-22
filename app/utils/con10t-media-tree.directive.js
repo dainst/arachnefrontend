@@ -10,6 +10,7 @@ angular.module('arachne.widgets.directives')
             restrict: 'E',
             scope: {
                 title: '@',
+                headerTeaser: '@',
                 headerImages: '='
             },
             transclude: true,

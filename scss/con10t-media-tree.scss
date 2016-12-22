@@ -1,10 +1,28 @@
 .con10t-media-tree {
   padding: 0 25px 25px 25px;
   margin: 25px 0;
-  background-color: #f5f5f5;
-  border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: 0 0 3px 0 rgba(0,0,0,0.5);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.con10t-media-tree .row {
+  margin-top: 0 !important;
+}
+
+.header-teaser {
+  padding: 0 !important;
+  margin: 0 !important;
+  margin-left: -10px !important;
+  width: 105% !important;
+
+  object-fit: none;
+  object-position: center;
+  height: 175px;
+}
+
+.header-teaser img {
+
 }
 
 .header-image-centered-cropped {
@@ -14,14 +32,22 @@
   width: 100%;
 }
 
-.con10t-media-tree .header {
-
+.con10t-media-tree .header figure {
+  background-clip: content-box;
+  background-color: #eee; /* background color of figcaption */
 }
 
 .con10t-media-tree .header h1 {
+  padding: 15px 10px 10px 1px;
+}
 
+.con10t-media-tree .header figure img {
+  padding: 7px;
+  background-color: #eee;
 }
 
 .con10t-media-tree .header figcaption {
   text-align: center;
+  padding: 7px;
+  border-top: 1px solid #ccc;
 }
