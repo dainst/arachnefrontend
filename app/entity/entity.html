@@ -44,8 +44,11 @@
             <div class="section-item" ng-if="$index <= 3" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br"></div>
             <div class="section-item" ng-if="$index > 3" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br" uib-collapse="!isCollapsed"></div>
             <div ng-show="$index <= 3" class="more">
-                <em>
+                <em ng-show="!isCollapsed">
                     <a class="btn btn-link" href="#" ng-click="isCollapsed = !isCollapsed">{{ 'ui_show_more' | transl8 }}</a>
+                </em>
+                <em ng-show="isCollapsed">
+                    <a class="btn btn-link" href="#" ng-click="isCollapsed = !isCollapsed">{{ 'ui_show_less' | transl8 }}</a>
                 </em>
             </div>
         </div>
