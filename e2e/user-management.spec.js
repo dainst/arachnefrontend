@@ -60,13 +60,13 @@ describe('user management page', function () {
             })
     });
 
-    it('registering with an existing username should cause "danger"-level message', function () {
-        spec.registerValidUser()
-            .then(spec.registerValidUser)
-            .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
-            })
-    });
+    // it('registering with an existing username should cause "danger"-level message', function () {
+    //     spec.registerValidUser()
+    //         .then(function () {spec.registerValidUser)
+    //         .then(function () {
+    //             expect(messageBox.getLevel()).toEqual('danger');
+    //         })
+    // });
 
     it('should be able to login and logout', function () {
         spec.registerValidUser()
