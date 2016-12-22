@@ -204,35 +204,6 @@ angular.module('arachne.controllers')
                 });
             };
 
-            $scope.processPreviousSearchQueries = function (qryCount) {
-
-                //localStorage.removeItem('previousSearchQueries')
-                var queries = JSON.parse(localStorage.getItem('previousSearchQueries'));
-
-                if (queries === null || !queries) {
-                    queries = [$scope.currentQuery.q];
-                } else {
-
-                    queries.push($scope.currentQuery.q);
-
-                    // Make unique
-                    queries = queries.filter(function(item, pos) {
-                        return queries.indexOf(item) == pos;
-                    });
-
-                    if (queries.length > qryCount +1) {
-                        queries.shift();
-                    }
-                }
-
-                localStorage.setItem('previousSearchQueries', JSON.stringify(queries));
-                queries.reverse();
-
-                return queries;
-            };
-
-            $scope.previousSearchQueries = $scope.processPreviousSearchQueries(3);
-
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
 
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
