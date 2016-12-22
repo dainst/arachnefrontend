@@ -4,73 +4,73 @@ var NavbarPage = function() {
 
     var userDropdown = element(by.css('a[href*="bookmarks"]'));
 
-	var loginInputUsername = element(by.id('input-username'));
+    var loginButton = element(by.css('#loginbutton'));
+    var loginModal = element(by.css('.modal-dialog'));
+    var loginInputUsername = element(by.id('input-username'));
 	var loginInputPassword = element(by.id('exampleInputPassword2'));
     var submitLoginButton = element(by.id('submit-login'));
     var forgotPasswordLink = element(by.css('a[href*="pwdreset"]'));
 
     var logoutButton = element(by.css('[ng-click="logoutFunction();"]'));
 
-    var registrationButton = element(by.css('a[href*="register"]'));
     var navbarRight = element(by.css('.navbar-right'));
 
-    var loginButton = element(by.css('#loginbutton'));
-    var loginModal = element(by.css('.modal-dialog'));
-
-    var registrationInputUsername = '';
-    var registrationInputPassword = '';
-    var registrationInputPasswordConfirm = '';
-    var registrationInputFirstname = '';
-    var registrationInputLastname = '';
-    var registrationInputEmail = '';
-    var registrationInputEmailConfirm = '';
-    var registrationInputPLZ = '';
-    var registrationInputCity = '';
-    var registrationInputStreet = '';
-    var registrationDropdownCountrySelection = '';
-    var registrationBotConfirm = '';
-    var submitRegistrationButton = '';
-    var cancelRegistrationButton = '';
+    var registrationButton = element(by.css('a[href*="register"]'));
+    var registrationInputUsername = element(by.model('user.username'));
+    var registrationInputPassword = element(by.model('user.password'));
+    var registrationInputPasswordValidation = element(by.model('user.passwordValidation'));
+    var registrationInputFirstname = element(by.model('user.firstname'));
+    var registrationInputLastname = element(by.model('user.lastname'));
+    var registrationInputEmail = element(by.model('user.email'));
+    var registrationInputEmailValidation = element(by.model('user.emailValidation'));
+    var registrationInputInstitution = element(by.model('user.institution'));
+    var registrationHomepage = element(by.model('user.homepage'));
+    var registrationInputZIP = element(by.model('user.zip'));
+    var registrationInputPlace = element(by.model('user.place'));
+    var registrationInputStreet = element(by.model('user.street'));
+    var registrationDropdownCountryOptions = element.all(by.repeater('country in countries'));
+    var registrationPhone = element(by.model('user.phone'));
+    var registrationBotConfirm = element(by.model('user.iAmHuman'));
+    var submitRegistrationButton = element(by.css('[ng-click="submit()"]'));
+    var cancelRegistrationButton = element(by.css('[type="reset"]'));
 
 	this.clickLogin = function () {
-        return this.openNavbar()
-            .then(loginButton.click)
+        return this.expandNavbar()
+            .then(loginButton.click())
 	};
 
 	this.clickRegistration = function () {
-		return this.openNavbar()
+		return this.expandNavbar()
 			.then(registrationButton.click)
-			.then()
 	};
 
 	this.clickLoggedInUser = function () {
-        return this.openNavbar()
-            .then(userDropdown.click);
+        return this.expandNavbar()
+            .then(userDropdown.click)
     };
 
 	this.clickLogout = function () {
-        return this.openNavbar()
-            .then(logoutButton.click);
+        return this.expandNavbar()
+            .then(logoutButton.click)
     };
 
 	this.isUserLoggedIn = function () {
         return loginButton.isPresent()
             .then(function(result){
-                if(result) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
+                return !result;
             });
     };
 	
     this.getLoggedInUserName = function () {
-        return this.openNavbar()
+        return this.expandNavbar()
 			.then(userDropdown.getText)
 			.then(function (text) {
 				return text.trim();
             })
+    };
+
+    this.getUserDropdown = function () {
+        return userDropdown;
     };
 
     this.getLoginModal = function() {
@@ -79,19 +79,81 @@ var NavbarPage = function() {
         });
     };
 
-	this.typeInUsername = function (username) {
+	this.loginTypeInUsername = function (username) {
 		return common.typeIn(loginInputUsername, username);
 	};
 
-	this.typeInPassword = function (password) {
+	this.loginTypeInPassword = function (password) {
 		return common.typeIn(loginInputPassword, password);
 	};
+
+    this.registrationTypeInUsername = function (text) {
+        return common.typeIn(registrationInputUsername, text);
+    };
+
+    this.registrationTypeInPassword = function (text) {
+        return common.typeIn(registrationInputPassword, text);
+    };
+
+    this.registrationTypeInPasswordValidation = function (text) {
+        return common.typeIn(registrationInputPasswordValidation, text);
+    };
+
+    this.registrationTypeInFirstname = function (text) {
+        return common.typeIn(registrationInputFirstname, text);
+    };
+
+    this.registrationTypeInLastname = function (text) {
+        return common.typeIn(registrationInputLastname, text);
+    };
+
+    this.registrationTypeInEmail = function (text) {
+        return common.typeIn(registrationInputEmail, text);
+    };
+    this.registrationTypeInEmailValidation = function (text) {
+        return common.typeIn(registrationInputEmailValidation, text);
+    };
+    this.registrationTypeInInstitution = function (text) {
+        return common.typeIn(registrationInputInstitution, text);
+    };
+    this.registrationTypeInHomepage = function (text) {
+        return common.typeIn(registrationHomepage, text);
+    };
+    this.registrationTypeInZIP = function (text) {
+        return common.typeIn(registrationInputZIP, text);
+    };
+    this.registrationTypeInPlace = function (text) {
+        return common.typeIn(registrationInputPlace, text);
+    };
+    this.registrationTypeInStreet = function (text) {
+        return common.typeIn(registrationInputStreet, text);
+    };
+
+    this.registrationSelectCountryByIndex = function (index) {
+        return registrationDropdownCountryOptions.get(index).click();
+    };
+
+    this.registrationTypeInPhone = function (text) {
+        return common.typeIn(registrationPhone, text);
+    };
+
+    this.registrationConfirmNoBot = function () {
+        return registrationBotConfirm.click()
+    };
+
+    this.submitRegistration = function () {
+        return submitRegistrationButton.click()
+    };
+
+    this.clickCancelRegistration = function () {
+        return cancelRegistrationButton.click()
+    };
 
 	this.submitLogin = function () {
 		return submitLoginButton.click();
     };
 
-    this.openNavbar = function () {
+    this.expandNavbar = function () {
         return navbarRight.isDisplayed()
 			.then(function(result) {
                 if (!result) {
@@ -99,7 +161,7 @@ var NavbarPage = function() {
                     return element(by.css('.navbar-toggle')).click();
                 }
                 else {
-                    // console.log('Navbar not collapsed. Doing nothing.');
+                    // console.log('Navbar expanded. Doing nothing.');
                 }
             })
     };
