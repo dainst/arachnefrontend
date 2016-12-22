@@ -57,7 +57,6 @@ describe('user management page', function () {
         spec.registerValidUser()
             .then(function () {
                 expect(messageBox.getLevel()).toEqual('success');
-                expect(messageBox.getText()).toContain('Registration successful.');
             })
     });
 
@@ -66,7 +65,6 @@ describe('user management page', function () {
             .then(spec.registerValidUser)
             .then(function () {
                 expect(messageBox.getLevel()).toEqual('danger');
-                expect(messageBox.getText()).toContain('The username you have chosen is already in use.');
             })
     });
 
