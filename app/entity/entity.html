@@ -52,6 +52,13 @@
     <div ng-hide="entity.entityId || error" class="loading"></div>
 
     <div class="col-md-3" ng-show="entity.entityId">
+        <!-- ENTER EDITOR Note: This is currently just a link to the editor of this entity in Arachne 3 -->
+        <div ng-if="user.groupID >= 600 && entity.categoryKey">
+            <a class="btn btn-default center-block" href="http://arachne.uni-koeln.de/arachne/index.php?view[layout]={{entity.categoryKey}}_item&view[section]=Allgemein&view[category]=overview&search[data]=ALL&search[mode]=detail&search[match]=similar&view[active_tab]=overview&search[constraints][{{entity.categoryKey}}][searchSeriennummer]={{entity.internalId}}">
+                <span class="glyphicon glyphicon-wrench"></span>
+                Bearbeitung
+            </a>
+        </div>
 
         <!-- CURRENT QUERY STATUS -->
         <div class="row">
@@ -141,7 +148,6 @@
 
             </div>
         </div>
-
         <!-- END CURRENT QUERY STATUS -->
 
         <!-- Karte -->
@@ -152,10 +158,6 @@
 
         <!-- CATALOG ENTRIES -->
         <ar-catalog-occurences  ng-if="user.username" entity="entity"></ar-catalog-occurences>
-
-
-
-
 
     </div>
 

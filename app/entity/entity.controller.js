@@ -49,9 +49,11 @@ angular.module('arachne.controllers')
                 Entity.get({id: $stateParams.id, live: live}, function (data) {
 
                     $scope.entity = data;
-
                     categoryService.getCategoryHref($scope.entity.type).then(function (categoryHref) {
                         $scope.entity.categoryHref = categoryHref;
+                    });
+                    categoryService.getCategoryKey($scope.entity.type).then(function (key) {
+                        $scope.entity.categoryKey = key;
                     });
 
                     /**
