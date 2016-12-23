@@ -435,7 +435,7 @@ describe('user management page', function () {
             })
     });
 
-    fit('invalid user data when requesting password reset should cause "danger"-level message', function () {
+    it('invalid user data when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
 
         navbarPage.clickLogin()
