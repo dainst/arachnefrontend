@@ -25,7 +25,7 @@ describe('user management page', function () {
         common.deleteTestUserInDB();
     });
 
-    fit('registering while omitting a required field should cause "danger"-level message', function () {
+    it('registering while omitting a required field should cause "danger"-level message', function () {
         navbarPage.clickRegistration()
             // Missing username
             .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
