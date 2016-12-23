@@ -19,9 +19,11 @@ describe('basic scenarios', function() {
 
         browser.driver.manage().window().setSize(1280, 1024);
 
-        navbar.getLoginModal().then(function(loginModal) {
-            expect(loginModal.isPresent()).toBe(true);
-        });
+        navbar.clickLogin()
+            .then(navbar.getLoginModal)
+            .then(function(loginModal) {
+                expect(loginModal.isPresent()).toBe(true);
+            });
     });
 
     it('should search for entities, filter search results and show a single entity with linked entities', function() {
