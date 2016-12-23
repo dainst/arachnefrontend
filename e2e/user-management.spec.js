@@ -25,6 +25,286 @@ describe('user management page', function () {
         common.deleteTestUserInDB();
     });
 
+    fit('registering while omitting a required field should cause "danger"-level message', function () {
+        navbarPage.clickRegistration()
+            // Missing username
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing password
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing passwordValidation
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing firstname
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing lastname
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing email
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing email validation
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing ZIP
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing city
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing street
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing selected country
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.registrationConfirmNoBot)
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+            // Missing no-robot confirmation
+            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
+            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(navbarPage.registrationSelectCountryByIndex(4))
+            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function() {
+                navbarPage.clickRegistration();
+            })
+    });
+
     it('user should be able to register', function () {
         navbarPage.clickRegistration()
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
