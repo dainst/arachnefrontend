@@ -1,3 +1,8 @@
+var request = require('request');
+var hasha = require('hasha');
+var config = require('../config/dev-config.json')
+
+
 var Common = function () {
 
     var testUserName = 'e2e_test_user';
@@ -19,6 +24,41 @@ var Common = function () {
             inputField.sendKeys(text[i]);
         }
         return inputField;
+    };
+
+    this.createTestUserInDB = function () {
+        var hashedPassword = hasha(new Buffer(testUserPassword), { algorithm: 'md5' });
+
+        request({
+            url: config.backendUri + '/user/register',
+            method: 'POST',
+            json: {
+                username:testUserName,
+                password:hashedPassword,
+                passwordValidation:hashedPassword,
+                firstname:testUserFirstname,
+                lastname:testUserLastname,
+                email:testUserEmail,
+                emailValidation:testUserEmail,
+                zip:testUserZIP,
+                place:testUserCity,
+                street:testUserStreet,
+                country:testUserCountry,
+                iAmHuman:'humanIAm'
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }, function (err, response, body) {
+            // callback?
+        });
+    };
+
+    this.deleteTestUserInDB = function() {
+        var hashedPassword = hasha(new Buffer(testUserPassword), { algorithm: 'md5' });
+
+        request.del(config.backendUri + '/userinfo/' + testUserName)
+            .auth(testUserName, hashedPassword, true);
     };
 
     this.getTestUserName = function () {

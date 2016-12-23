@@ -11,10 +11,20 @@ var common = require('./common');
 
 describe('user management page', function () {
 
-    var spec = this;
+    beforeAll(function () {
+        common.deleteTestUserInDB();
+    });
 
-    this.registerValidUser = function () {
-        return navbarPage.clickRegistration()
+    beforeEach(function(){
+        frontPage.load();
+    });
+
+    afterEach(function () {
+        common.deleteTestUserInDB();
+    });
+
+    it('user should be able to register', function () {
+        navbarPage.clickRegistration()
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
             .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
             .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
@@ -31,30 +41,6 @@ describe('user management page', function () {
             .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
-    };
-
-    this.deleteTestUser = function () {
-        var userName = common.getTestUserName();
-        var hashedPassword = hasha(new Buffer(common.getTestUserPassword()), { algorithm: 'md5' });
-
-        request.del(config.backendUri + '/userinfo/' + userName)
-            .auth(userName, hashedPassword, true);
-    };
-
-    beforeAll(function () {
-        spec.deleteTestUser();
-    });
-
-    beforeEach(function(){
-        frontPage.load();
-    });
-
-    afterEach(function () {
-        spec.deleteTestUser();
-    });
-
-    it('user should be able to register', function () {
-        spec.registerValidUser()
             .then(function () {
                 expect(messageBox.getLevel()).toEqual('success');
             })
@@ -62,17 +48,16 @@ describe('user management page', function () {
 
     // it('registering with an existing username should cause "danger"-level message', function () {
     //     spec.registerValidUser()
-    //         .then(function () {spec.registerValidUser)
+    //         .then(spec.registerValidUser)
     //         .then(function () {
     //             expect(messageBox.getLevel()).toEqual('danger');
     //         })
     // });
 
     it('should be able to login and logout', function () {
-        spec.registerValidUser()
-            .then(function() {
-                return navbarPage.clickLogin();
-            })
+        common.createTestUserInDB();
+
+        navbarPage.clickLogin()
             .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
             .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
             .then(navbarPage.submitLogin)
