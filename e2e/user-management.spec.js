@@ -11,7 +11,7 @@ var hasha = require('hasha');
 
 var common = require('./common');
 
-fdescribe('user management page', function () {
+describe('user management page', function () {
 
     beforeAll(function () {
         common.deleteTestUserInDB();
