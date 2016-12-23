@@ -11,7 +11,7 @@ var hasha = require('hasha');
 
 var common = require('./common');
 
-describe('user management page', function () {
+fdescribe('user management page', function () {
 
     beforeAll(function () {
         common.deleteTestUserInDB();
@@ -44,11 +44,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing password
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -67,11 +67,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing passwordValidation
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -90,11 +90,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing firstname
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -113,11 +113,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing lastname
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -136,11 +136,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing email
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -159,11 +159,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing email validation
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -182,11 +182,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing ZIP
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -205,11 +205,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing city
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -228,11 +228,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing street
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -251,11 +251,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing selected country
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -274,11 +274,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationConfirmNoBot)
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
             // Missing no-robot confirmation
             .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
@@ -297,11 +297,11 @@ describe('user management page', function () {
             .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
             .then(navbarPage.submitRegistration)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function() {
-                navbarPage.clickRegistration();
+                return navbarPage.clickRegistration();
             })
     });
 
@@ -364,7 +364,7 @@ describe('user management page', function () {
                 return navbarPage.getLoggedInUserName();
             })
             .then(function (name) {
-                expect(name).toEqual(common.getTestUserName());
+                return expect(name).toEqual(common.getTestUserName());
             })
             .then(function() {
                 return navbarPage.clickLoggedInUser();
@@ -385,7 +385,7 @@ describe('user management page', function () {
             .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
             .then(navbarPage.submitLogin)
             .then(function () {
-                browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
+                return browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
             })
             .then(frontPage.load)
             .then(function () {
@@ -435,7 +435,7 @@ describe('user management page', function () {
             })
     });
 
-    it('invalid user data when requesting password reset should cause "danger"-level message', function () {
+    fit('invalid user data when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
 
         navbarPage.clickLogin()
@@ -448,7 +448,7 @@ describe('user management page', function () {
             .then(navbarPage.passwordResetConfirmNoBot)
             .then(navbarPage.submitPasswordReset)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function () {
@@ -463,7 +463,7 @@ describe('user management page', function () {
             .then(navbarPage.passwordResetConfirmNoBot)
             .then(navbarPage.submitPasswordReset)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function () {
@@ -478,7 +478,7 @@ describe('user management page', function () {
             .then(navbarPage.passwordResetConfirmNoBot)
             .then(navbarPage.submitPasswordReset)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             // .then(frontPage.load)
             // .then(function () {
@@ -508,7 +508,7 @@ describe('user management page', function () {
             .then(navbarPage.passwordResetConfirmNoBot)
             .then(navbarPage.submitPasswordReset)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
             .then(frontPage.load)
             .then(function () {
@@ -522,7 +522,7 @@ describe('user management page', function () {
             .then(navbarPage.passwordResetTypeInZIP('0987654321'))
             .then(navbarPage.submitPasswordReset)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                return expect(messageBox.getLevel()).toEqual('danger');
             })
     });
 });
