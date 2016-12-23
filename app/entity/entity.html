@@ -57,6 +57,8 @@
 </script>
 
 <div ng-cloak class="row"  ng-controller="EntityController">
+    <ar-schemaorg-jsonld entity="entity"></ar-schemaorg-jsonld>
+
 
     <div ng-hide="entity.entityId || error" class="loading"></div>
 
@@ -70,6 +72,8 @@
         </div>
 
         <!-- CURRENT QUERY STATUS -->
+
+
         <div class="row">
             <div class="col-md-12">
 
