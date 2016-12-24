@@ -26,8 +26,7 @@ exports.config = {
         exclude: []
     }],
     onPrepare: function() {
-        browser.manage().window().setSize(800, 600);
-
+        
         var FailureScreenshotReporter = function() {
 
             this.specDone = function(spec) {
@@ -41,7 +40,12 @@ exports.config = {
                 }
             }
         };
-
         jasmine.getEnv().addReporter(new FailureScreenshotReporter());
+
+
+        // Set display size in top suite so one can safely override it for single tests without risk of forgetting to set it back.
+        jasmine.getEnv().topSuite().beforeEach({fn: function() {
+            browser.manage().window().setSize(800, 600);
+        }});
     }
 };
