@@ -1,3 +1,5 @@
+fs = require('fs');
+
 exports.config = {
     chromeDriver : 'node_modules/chromedriver/lib/chromedriver/chromedriver',
     baseUrl: 'http://localhost:8082',
@@ -25,5 +27,21 @@ exports.config = {
     }],
     onPrepare: function() {
         browser.manage().window().setSize(800, 600);
+
+        var FailureScreenshotReporter = function() {
+
+            this.specDone = function(spec) {
+                if (spec.status === 'failed') {
+
+                    browser.takeScreenshot().then(function (png) {
+                        var stream = fs.createWriteStream(spec.fullName.replace(/ /g,"_")+'.png');
+                        stream.write(new Buffer(png, 'base64'));
+                        stream.end();
+                    });
+                }
+            }
+        };
+
+        jasmine.getEnv().addReporter(new FailureScreenshotReporter());
     }
 };
