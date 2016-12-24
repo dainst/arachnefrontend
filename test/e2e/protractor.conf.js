@@ -7,10 +7,7 @@ exports.config = {
     directConnect: true,
     exclude: [],
     multiCapabilities: [{
-        browserName: 'chrome',
-        chromeOptions : {
-            args: ['--window-size=800,600'] // THIS!
-        }
+        browserName: 'chrome'
     }],
     allScriptsTimeout: 110000,
     getPageTimeout: 100000,
@@ -29,7 +26,7 @@ exports.config = {
         exclude: []
     }],
     onPrepare: function() {
-        // browser.manage().window().setSize(800, 600); does not to work on mac os
+        browser.manage().window().setSize(800, 600);
 
         var FailureScreenshotReporter = function() {
 

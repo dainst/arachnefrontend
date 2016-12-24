@@ -6,6 +6,7 @@ var navbar = require('./core/navbar.page');
 describe('basic scenarios', function() {
 
     beforeEach(function(){
+        browser.driver.manage().window().setSize(800, 600);
         frontPage.load();
     });
 
@@ -26,7 +27,7 @@ describe('basic scenarios', function() {
             });
     });
 
-    fit('should search for entities, filter search results and show a single entity with linked entities', function() {
+    it('should search for entities, filter search results and show a single entity with linked entities', function() {
 
         frontPage.typeInSearchField('Basilica Aemilia');
         frontPage.getSearchButton().click();
