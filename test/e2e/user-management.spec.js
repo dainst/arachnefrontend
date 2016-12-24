@@ -424,14 +424,14 @@ describe('user management page', function () {
             })
     });
 
-    fit('empty user data when requesting password reset should cause "danger"-level message', function () {
+    it('empty user data when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
 
         navbarPage.clickLogin()
             .then(navbarPage.clickPasswordReset)
             .then(navbarPage.submitPasswordReset)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('dange1');
+                expect(messageBox.getLevel()).toEqual('danger');
             })
     });
 
