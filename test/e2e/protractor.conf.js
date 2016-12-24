@@ -45,7 +45,9 @@ exports.config = {
 
         // Set display size in top suite so one can safely override it for single tests without risk of forgetting to set it back.
         jasmine.getEnv().topSuite().beforeEach({fn: function() {
-            browser.manage().window().setSize(800, 600);
+            browser.manage().window().setSize(
+                1200, // With this resolution the navbar is fully expanded.
+                800);
         }});
     }
 };
