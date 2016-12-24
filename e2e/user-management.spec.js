@@ -424,7 +424,7 @@ describe('user management page', function () {
             })
     });
 
-    fit('empty user data when requesting password reset should cause "danger"-level message', function () {
+    it('empty user data when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
 
         navbarPage.clickLogin()
@@ -435,94 +435,94 @@ describe('user management page', function () {
             })
     });
 
-    // it('invalid user data when requesting password reset should cause "danger"-level message', function () {
-    //     common.createTestUserInDB();
-    //
-    //     navbarPage.clickLogin()
-    //         .then(navbarPage.clickPasswordReset)
-    //         .then(navbarPage.passwordResetTypeInUsername('e2e_test_imposter'))
-    //         .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-    //         .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-    //         .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-    //         .then(navbarPage.passwordResetTypeInZIP(common.getTestUserZIP()))
-    //         .then(navbarPage.passwordResetConfirmNoBot)
-    //         .then(navbarPage.submitPasswordReset)
-    //         .then(function () {
-    //             return expect(messageBox.getLevel()).toEqual('danger');
-    //         })
-    //         .then(frontPage.load)
-    //         .then(function () {
-    //             return navbarPage.clickLogin()
-    //         })
-    //         .then(navbarPage.clickPasswordReset)
-    //         .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-    //         .then(navbarPage.passwordResetTypeInEmail('email@scam.com'))
-    //         .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-    //         .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-    //         .then(navbarPage.passwordResetTypeInZIP(common.getTestUserZIP()))
-    //         .then(navbarPage.passwordResetConfirmNoBot)
-    //         .then(navbarPage.submitPasswordReset)
-    //         .then(function () {
-    //             return expect(messageBox.getLevel()).toEqual('danger');
-    //         })
-    //         .then(frontPage.load)
-    //         .then(function () {
-    //             return navbarPage.clickLogin()
-    //         })
-    //         .then(navbarPage.clickPasswordReset)
-    //         .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-    //         .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-    //         .then(navbarPage.passwordResetTypeInFirstname('Moritz'))
-    //         .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-    //         .then(navbarPage.passwordResetTypeInZIP(common.getTestUserZIP()))
-    //         .then(navbarPage.passwordResetConfirmNoBot)
-    //         .then(navbarPage.submitPasswordReset)
-    //         .then(function () {
-    //             return expect(messageBox.getLevel()).toEqual('danger');
-    //         })
-    //         // .then(frontPage.load)
-    //         // .then(function () {
-    //         //     return navbarPage.clickLogin()
-    //         // })
-    //         // .then(navbarPage.clickPasswordReset)
-    //         // .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-    //         // .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-    //         // .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-    //         // .then(navbarPage.passwordResetTypeInLastname('What?'))
-    //         // .then(navbarPage.passwordResetTypeInZIP(common.getTestUserZIP()))
-    //         // .then(navbarPage.passwordResetConfirmNoBot)
-    //         // .then(navbarPage.submitPasswordReset)
-    //         // .then(function () {
-    //         //     expect(messageBox.getLevel()).toEqual('danger');
-    //         // })
-    //         .then(frontPage.load)
-    //         .then(function () {
-    //             return navbarPage.clickLogin()
-    //         })
-    //         .then(navbarPage.clickPasswordReset)
-    //         .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-    //         .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-    //         .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-    //         .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-    //         .then(navbarPage.passwordResetTypeInZIP('0987654321'))
-    //         .then(navbarPage.passwordResetConfirmNoBot)
-    //         .then(navbarPage.submitPasswordReset)
-    //         .then(function () {
-    //             return expect(messageBox.getLevel()).toEqual('danger');
-    //         })
-    //         .then(frontPage.load)
-    //         .then(function () {
-    //             return navbarPage.clickLogin()
-    //         })
-    //         .then(navbarPage.clickPasswordReset)
-    //         .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-    //         .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-    //         .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-    //         .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-    //         .then(navbarPage.passwordResetTypeInZIP('0987654321'))
-    //         .then(navbarPage.submitPasswordReset)
-    //         .then(function () {
-    //             return expect(messageBox.getLevel()).toEqual('danger');
-    //         })
-    // });
+    it('invalid user data when requesting password reset should cause "danger"-level message', function () {
+        common.createTestUserInDB();
+
+        navbarPage.clickLogin()
+            .then(navbarPage.clickPasswordReset)
+            .then(navbarPage.passwordResetTypeInUsername('e2e_test_imposter'))
+            .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.passwordResetTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.passwordResetConfirmNoBot)
+            .then(navbarPage.submitPasswordReset)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function () {
+                return navbarPage.clickLogin()
+            })
+            .then(navbarPage.clickPasswordReset)
+            .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.passwordResetTypeInEmail('email@scam.com'))
+            .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.passwordResetTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.passwordResetConfirmNoBot)
+            .then(navbarPage.submitPasswordReset)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function () {
+                return navbarPage.clickLogin()
+            })
+            .then(navbarPage.clickPasswordReset)
+            .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.passwordResetTypeInFirstname('Moritz'))
+            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.passwordResetTypeInZIP(common.getTestUserZIP()))
+            .then(navbarPage.passwordResetConfirmNoBot)
+            .then(navbarPage.submitPasswordReset)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+            // .then(frontPage.load)
+            // .then(function () {
+            //     return navbarPage.clickLogin()
+            // })
+            // .then(navbarPage.clickPasswordReset)
+            // .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
+            // .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
+            // .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
+            // .then(navbarPage.passwordResetTypeInLastname('What?'))
+            // .then(navbarPage.passwordResetTypeInZIP(common.getTestUserZIP()))
+            // .then(navbarPage.passwordResetConfirmNoBot)
+            // .then(navbarPage.submitPasswordReset)
+            // .then(function () {
+            //     expect(messageBox.getLevel()).toEqual('danger');
+            // })
+            .then(frontPage.load)
+            .then(function () {
+                return navbarPage.clickLogin()
+            })
+            .then(navbarPage.clickPasswordReset)
+            .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.passwordResetTypeInZIP('0987654321'))
+            .then(navbarPage.passwordResetConfirmNoBot)
+            .then(navbarPage.submitPasswordReset)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+            .then(frontPage.load)
+            .then(function () {
+                return navbarPage.clickLogin()
+            })
+            .then(navbarPage.clickPasswordReset)
+            .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
+            .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
+            .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
+            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
+            .then(navbarPage.passwordResetTypeInZIP('0987654321'))
+            .then(navbarPage.submitPasswordReset)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
 });
