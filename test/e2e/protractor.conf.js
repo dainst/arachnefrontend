@@ -21,7 +21,7 @@ exports.config = {
     plugins: [{
         package: 'protractor-console-plugin',
         failOnWarning: false,
-        failOnError: false, // TODO: turn back on when console errors are fixed
+        failOnError: true,
         logWarnings: true,
         exclude: []
     }],
