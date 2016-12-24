@@ -431,7 +431,7 @@ describe('user management page', function () {
             .then(navbarPage.clickPasswordReset)
             .then(navbarPage.submitPasswordReset)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
+                expect(messageBox.getLevel()).toEqual('dange1');
             })
     });
 
