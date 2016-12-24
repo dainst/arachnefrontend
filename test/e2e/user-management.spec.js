@@ -424,7 +424,7 @@ describe('user management page', function () {
             })
     });
 
-    it('empty user data when requesting password reset should cause "danger"-level message', function () {
+    fit('empty user data when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
 
         navbarPage.clickLogin()
