@@ -6,8 +6,8 @@
     "url": "https://github.com/dainst/arachnefrontend.git"
   },
   "scripts": {
-    "test": "karma start test/karma.conf",
-    "e2e": "protractor protractor.conf.js",
+    "test": "karma start test/browser/karma.conf",
+    "e2e": "protractor test/e2e/protractor.conf.js",
     "build": "rimraf dist && gulp clone-con10t && gulp build --build $1",
     "server": "gulp server",
     "start": "npm run server"

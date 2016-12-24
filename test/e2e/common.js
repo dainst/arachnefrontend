@@ -1,6 +1,6 @@
 var request = require('request');
 var hasha = require('hasha');
-var config = require('../config/dev-config.json')
+var config = require('../../config/dev-config.json')
 
 
 var Common = function () {

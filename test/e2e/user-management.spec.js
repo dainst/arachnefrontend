@@ -4,7 +4,7 @@ var frontPage = require('./core/front.page');
 var navbarPage = require('./core/navbar.page');
 var messageBox = require('./core/message-box.page');
 
-var config = require('../config/dev-config.json');
+var config = require('../../config/dev-config.json');
 
 var request = require('request');
 var hasha = require('hasha');
@@ -431,7 +431,7 @@ describe('user management page', function () {
             .then(navbarPage.clickPasswordReset)
             .then(navbarPage.submitPasswordReset)
             .then(function () {
-                expect(messageBox.getLevel()).toEqual('dange1');
+                expect(messageBox.getLevel()).toEqual('danger');
             })
     });
 
