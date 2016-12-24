@@ -26,7 +26,7 @@ describe('basic scenarios', function() {
             });
     });
 
-    it('should search for entities, filter search results and show a single entity with linked entities', function() {
+    fit('should search for entities, filter search results and show a single entity with linked entities', function() {
 
         frontPage.typeInSearchField('Basilica Aemilia');
         frontPage.getSearchButton().click();
