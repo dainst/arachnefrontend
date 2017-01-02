@@ -43,38 +43,42 @@
         </div>
     </div>
     <div class="row" style="margin-top: 60px;">
-        <div class="col-md-5 col-md-offset-1 clearfix">
-            <div style="max-width:480px; margin:auto;">
-                <h2 style="text-align:center;">
-                    <a href="categories" style="outline: none;">{{'startsite_categories'|transl8}}</a>
-                </h2>
-                <a href="categories">
-                    <img src="img/categories_alt.png" class="img-responsive" style="border: 1px solid lightgrey">
-                </a>
-                <p class="pull-right" style="margin:15px 0px 0px 20px;">
-                    <a href="categories"> ... {{'startsite_show_all_categories'|transl8}} </a>
-                </p>
-            </div>
+        <div class="col-md-2">
+            <h3>
+                <a href="categories" style="outline: none;">{{'startsite_categories'|transl8}}</a>
+            </h3>
         </div>
-        <div class="col-md-5 clearfix">
-            <div style="max-width:480px; margin:auto;">
-                <h2 style="text-align:center;">
-                    <a href="projects" style="outline: none;">{{'startsite_projects'|transl8}}</a>
-                </h2>
-                <div uib-carousel interval="-10" style="border: 1px solid lightgrey" active="active">
-                    <div uib-slide ng-repeat="slide in projslides" index="$index">
-                        <img ng-src="{{slide.image}}">
-                        <a ng-href="project/{{slide.id}}">
-                            <div class="carousel-caption">
-                                <h3>{{slide.title}}</h3>
-                            </div>
-                        </a>
-                    </div>
+        <div class="col-md-2">
+            <h3>
+                <a href="projects" style="outline: none;">{{'startsite_projects'|transl8}}</a>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <a href="categories">
+                <img src="img/categories_alt.png" class="img-responsive" style="border: 1px solid lightgrey">
+            </a>
+        </div>
+        <div ng-repeat="slide in projslides" index="$index" class="col-md-2">
+            <img ng-src="{{slide.image}}" class="img-responsive">
+            <a ng-href="project/{{slide.id}}">
+                <div class="carousel-caption">
+                    <h4>{{slide.title}}</h4>
                 </div>
-                <p class="pull-right" style="margin:15px 0px 70px 20px;">
-                    <a href="projects"> ... {{'startsite_show_all_projects'|transl8}} </a>
-                </p>
-            </div>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <p class="pull-right" style="margin:15px 0px 0px 20px;">
+                <a href="categories"> ... {{'startsite_show_all_categories'|transl8}} </a>
+            </p>
+        </div>
+        <div class="col-md-2 col-md-offset-8">
+            <p class="pull-right" style="margin:15px 0px 70px 20px;">
+                <a href="projects"> ... {{'startsite_show_all_projects'|transl8}} </a>
+            </p>
         </div>
     </div>
 </div>
