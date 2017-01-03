@@ -1,8 +1,6 @@
-//== Grid system
-//** Point at which the navbar becomes uncollapsed.
-//** Overridden because of Arachnes crowded navbar
-$grid-float-breakpoint:     1180px !default;
-$grid-float-breakpoint-max:     1179px !default;
-
-$idai-navbar-search-width-diff: 400px !default;
-$idai-navbar-search-width-diff-on-highres: 870px !default;
+// Components navbar related
+$screen-lg: 1180px;
+$idai-navbar-search-width-diff:            400px !default;
+$screen-lg-navbar-search-width-diff:       870px !default;
+$idai-screen-xl:                           1600px !default;
+$idai-screen-xl-navbar-search-width:       700px !default;
