@@ -4,6 +4,7 @@ angular.module('arachne',[
 	'ui.bootstrap',
 	'ui.bootstrap.tpls',
 	'ui.router',
+	'ngAnimate',
 	'ngSanitize',
 	'ngResource',
 	'ngCookies',
@@ -40,7 +41,7 @@ angular.module('arachne',[
 
 		$stateProvider
 			.state('404', { url: '/404', templateUrl: 'app/pages/404.html', data: { pageTitle: 'Arachne | 404' }})
-			.state('start', { url: '/', templateUrl: 'app/pages/start-site.html', data: { pageTitle: title }})
+			.state('welcome', { url: '/', templateUrl: 'app/pages/welcome-page.html', data: { pageTitle: title }})
 			.state('catalogs', { url: '/catalogs', templateUrl: 'app/catalog/catalogs.html', data: { pageTitle: title }})
 			.state('catalog', { url: '/catalog/:id?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }})
 			.state('catalog.entry', { url: '/:entryId?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }})

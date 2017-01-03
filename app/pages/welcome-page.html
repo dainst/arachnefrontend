@@ -1,4 +1,4 @@
-<div ng-controller="StartSiteController" class="container">
+<div ng-controller="WelcomePageController" class="container-fluid welcome-page">
 
     <div id="top"></div>
     <div class="row">
@@ -42,25 +42,25 @@
             </ul>
         </div>
     </div>
-    <div class="row" style="margin-top: 60px;">
-        <div class="col-md-2">
+    <div class="row bar" style="margin-top: 60px;">
+        <div class="col-md-2 col-md-offset-1">
             <h3>
                 <a href="categories" style="outline: none;">{{'startsite_categories'|transl8}}</a>
-            </h3>
+            </h3> 
         </div>
         <div class="col-md-2">
             <h3>
                 <a href="projects" style="outline: none;">{{'startsite_projects'|transl8}}</a>
             </h3>
-        </div>
+        </div> 
     </div>
-    <div class="row">
-        <div class="col-md-2">
+    <div class="row bar">
+        <div class="col-md-2 col-md-offset-1 line-right">           
             <a href="categories">
-                <img src="img/categories_alt.png" class="img-responsive" style="border: 1px solid lightgrey">
+                <img src="img/categories.png" class="img-responsive">
             </a>
-        </div>
-        <div ng-repeat="slide in projslides" index="$index" class="col-md-2">
+        </div>          
+        <div ng-repeat="slide in activeSlides" index="$index" class="col-md-2 slide">
             <img ng-src="{{slide.image}}" class="img-responsive">
             <a ng-href="project/{{slide.id}}">
                 <div class="carousel-caption">
@@ -68,15 +68,20 @@
                 </div>
             </a>
         </div>
+        <div class="col-md-1" style="height: 100%">
+            <a ng-click="nextProject()" href="#">
+                <img class="img-responsive project-chevron" src="img/chevron-right.png">
+            </a>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-2">
+    <div class="row bar" style="padding-bottom: 20px;">
+        <div class="col-md-2 col-md-offset-1">
             <p class="pull-right" style="margin:15px 0px 0px 20px;">
                 <a href="categories"> ... {{'startsite_show_all_categories'|transl8}} </a>
             </p>
         </div>
-        <div class="col-md-2 col-md-offset-8">
-            <p class="pull-right" style="margin:15px 0px 70px 20px;">
+        <div class="col-md-2 col-md-offset-6">
+            <p class="pull-right" style="margin:15px 0px 0px 20px;">
                 <a href="projects"> ... {{'startsite_show_all_projects'|transl8}} </a>
             </p>
         </div>

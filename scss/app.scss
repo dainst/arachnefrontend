@@ -12,6 +12,7 @@
 @import "entity";
 @import "search";
 @import "ar-imageslider";
+@import "welcome-page";
 
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
@@ -134,6 +135,10 @@ body {
 
   position: relative;
   z-index: 1000;
+}
+
+idai-footer.white {
+  background-color: white;
 }
 
 [ui-view] {
