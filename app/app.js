@@ -4,7 +4,6 @@ angular.module('arachne',[
 	'ui.bootstrap',
 	'ui.bootstrap.tpls',
 	'ui.router',
-	'ngAnimate',
 	'ngSanitize',
 	'ngResource',
 	'ngCookies',
