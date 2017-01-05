@@ -1,7 +1,8 @@
 # Rest Api Reference
 
-## @GET /search@
+## GET /search
 
+Executes a search. The q-parameter supports the elasticsearch query string "mini-language".
 
 * `RequestParameter: q` _mandatory_, string: The search string
 * `RequestParameter: fq` _optional_, string: Facet query string (e.g. facet_kategorie:"bauwerk").
@@ -17,4 +18,4 @@
 * `RequestParameter: facet` _optional_, string: If specified only the values of this facet will be returned.
 * `RequestParameter: editorfields` _optional_, boolean: If the editor fields should be searched and highlighted, too (user must at least have editor rights for this to take effect). The default value is @true@.
 
-Executes a search. The q-parameter supports the elasticsearch query string "mini-language".
+
