@@ -7,10 +7,7 @@
         <span class="glyphicon glyphicon-pencil"></span>
         {{ 'navbar_edit_profile' | transl8 }}
     </a>
-    <a href="pwdreset">
-        <span class="glyphicon glyphicon-lock"></span>
-        {{ 'navbar_change_password' | transl8 }}
-    </a>
+    <!--<a href="pwdreset"></a> this does not work for logged in users-->
     <a href="admin/dataimport" ng-if="userObject.groupID>=800">
         <span class="glyphicon glyphicon-transfer"></span>
         Dataimport
