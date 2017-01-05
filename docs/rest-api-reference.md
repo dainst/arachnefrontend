@@ -16,6 +16,6 @@ Executes a search. The q-parameter supports the elasticsearch query string "mini
 * `RequestParameter: ghprec` _optional_, int: The precision of the geohash used for the geo-grid facet. A value between 1 and 12 (default 5). Cell dimensions at the equator range from 5,009.4km x 4,992.6km (precision 1) down to 3.7cm x 1.9cm (precision 12).
 * `RequestParameter: scroll` _optional_, boolean: If true a scrollId will be returned with the result which can be used to scroll through the whole search result via '/search/scroll/$scrollId'. The search context will be available for 1 minute. User must be logged in.
 * `RequestParameter: facet` _optional_, string: If specified only the values of this facet will be returned.
-* `RequestParameter: editorfields` _optional_, boolean: If the editor fields should be searched and highlighted, too (user must at least have editor rights for this to take effect). The default value is @true@.
+* `RequestParameter: editorfields` _optional_, boolean: If the editor fields should be searched and highlighted, too (user must at least have editor rights for this to take effect). The default value is `true`.
 
 
