@@ -16,7 +16,6 @@
 * `RequestParameter: scroll` _optional_
 * `RequestParameter: facet` _optional_
 * `RequestParameter: editorfields` _optional_
-
 * `_q_` string The search string.
 * `_fq_` string Facet query string (e.g. facet_kategorie:"bauwerk").
 * `_limit_` int The maximum number of returned documents. Set this to 0 to retrieve only the number of search hits and facets. Maximum is 1000.
