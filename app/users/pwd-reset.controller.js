@@ -7,8 +7,8 @@ angular.module('arachne.controllers')
  *
  * @author: Daniel M. de Oliveira
  */
-    .controller('PwdResetController', ['$scope', '$location', 'Password', 'messageService',
-        function ($scope, $location, Password, messages) {
+    .controller('PwdResetController', ['$scope', '$location', 'PwdReset', 'messageService',
+        function ($scope, $location, PwdReset, messages) {
 
 
             var handleResetError = function (data) {
@@ -31,7 +31,7 @@ angular.module('arachne.controllers')
                     return;
                 }
 
-                Password.save({},
+                PwdReset.save({},
                     $scope.user,
                     handleResetSuccess,
                     handleResetError

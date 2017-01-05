@@ -58,8 +58,8 @@ angular.module('arachne',[
 			.state('editUser', { url: '/editUser', templateUrl: 'app/users/edit-user.html', data: { pageTitle: title }})
 			.state('contact', { url: '/contact', templateUrl: 'app/users/contact.html', data: { pageTitle: title }})
 			.state('dataimport', { url: '/admin/dataimport', templateUrl: 'app/pages/dataimport.html', data: { pageTitle: title }})
-			.state('pwdreset', { url: '/pwdreset', templateUrl: 'app/users/pwdreset.html', data: { pageTitle: title }})
-			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'app/users/activation.html', data: { pageTitle: title }})
+			.state('pwdreset', { url: '/pwdreset', templateUrl: 'app/users/pwd-reset.html', data: { pageTitle: title }})
+			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }})
 			.state('project', { url: '/project/:title?q&fq', templateUrl: 'app/pages/static.html', data: { pageTitle: title }})
 			.state('index', { url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: false, data: { pageTitle: title }})
 			.state('info', { url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }}); // Named it info, not static, to sound not too technical.

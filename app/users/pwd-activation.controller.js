@@ -8,8 +8,8 @@ angular.module('arachne.controllers')
  * @author: Daniel M. de Oliveira
  */
     .controller('PwdActivationController',
-        ['$scope', '$stateParams', '$filter', '$location', 'PasswordActivation', 'messageService',
-            function ($scope, $stateParams, $filter, $location, PasswordActivation, messages) {
+        ['$scope', '$stateParams', '$filter', '$location', 'PwdActivation', 'messageService',
+            function ($scope, $stateParams, $filter, $location, PwdActivation, messages) {
 
                 /**
                  * Copy the user so that the shown passwords
@@ -42,7 +42,7 @@ angular.module('arachne.controllers')
                 };
 
                 $scope.submit = function () {
-                    PasswordActivation.save({token: $stateParams.token},
+                    PwdActivation.save({token: $stateParams.token},
                         copyUser($scope.user),
                         handleActivationSuccess,
                         handleActivationError
