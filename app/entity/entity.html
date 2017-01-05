@@ -175,13 +175,14 @@
     </div>
 
     <div ng-show="entity.entityId" class="col-md-9">
-
+        <div class="alert alert-info" ng-if="entity.message" style="padding: 15px;">
+            <span class="glyphicon glyphicon-info-sign"></span> {{entity.message}}
+        </div>
         <div class="entityheader">
             <ar-entity-header entity="entity"></ar-entity-header>
         </div>
 
         <div class="row">
-
             <!-- CONTENT SECTION -->
             <div class="col-md-8">
                 <div ng-include="'sections_template.html'"></div>
