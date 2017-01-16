@@ -59,6 +59,7 @@ angular.module('arachne',[
 			.state('contact', { url: '/contact', templateUrl: 'app/users/contact.html', data: { pageTitle: title }})
 			.state('dataimport', { url: '/admin/dataimport', templateUrl: 'app/pages/dataimport.html', data: { pageTitle: title }})
 			.state('pwdreset', { url: '/pwdreset', templateUrl: 'app/users/pwd-reset.html', data: { pageTitle: title }})
+			.state('pwdchange', { url: '/pwdchange', templateUrl: 'app/users/pwd-change.html', data: { pageTitle: title }})
 			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }})
 			.state('project', { url: '/project/:title?q&fq', templateUrl: 'app/pages/static.html', data: { pageTitle: title }})
 			.state('index', { url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: false, data: { pageTitle: title }})
