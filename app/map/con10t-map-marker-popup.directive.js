@@ -17,13 +17,15 @@ return {
 
         scope.get = function(offset, limit) {
             if (offset < 0) offset = 0;
+
             scope.offset = offset;
             scope.limit = limit;
-            var query = scope.place.query.setParam('offset', offset).setParam('limit', limit);
-            Entity.query(query.toFlatObject(), function(result) {
-                scope.shownEntities = result.entities;
-                scope.listLength = result.size;
-            });
+
+			var query = scope.place.query.setParam('offset', offset).setParam('limit', limit);
+			Entity.query(query.toFlatObject(), function(result) {
+				scope.shownEntities = result.entities;
+				scope.listLength = result.size;
+			});
         };
 
         scope.selectEntity = function(entity) {
@@ -34,10 +36,12 @@ return {
             }
         };
 
+		scope.listLength = 0;
         scope.offset = 0;
         scope.limit = 5;
-
-        scope.get(scope.offset, scope.limit);
+		if (scope.place.isFixed !== true) { // maybe null  more likely than undefined if not defined
+			scope.get(scope.offset, scope.limit);
+		}
     }
 };
 }]);

@@ -155,8 +155,8 @@ angular.module('arachne.widgets.map')
             // / Disable dragging functionality if outside of container bounds
 
 
-            
-            
+
+
             map.on('popupopen', function(e) {
                 popupOpen=true;
             });
@@ -261,6 +261,17 @@ angular.module('arachne.widgets.map')
             var zm = zoom || 3;
             map.setView([lt, lg], zm);
         },
+
+		/**
+         * alternate init function wich takes a bounding box
+		 * @param bb
+		 */
+		initializeViewBB: function (bb) {
+            map.fitBounds([
+               [bb.latmin, bb.lonmin],
+               [bb.latmax, bb.lonmax]
+            ]);
+		},
 
         /**
          * Returns a Query object copied from currentQuery and
