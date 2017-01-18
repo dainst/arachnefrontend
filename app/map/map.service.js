@@ -19,10 +19,10 @@ angular.module('arachne.widgets.map')
         'osm': {
             'name': 'OpenStreetMap',
             'type': 'xyz',
-            'url': 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
+            'url': 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
             'yayerOptions': {
                 'subdomains': ['a', 'b', 'c'],
-                'attribution': '&copy; <a href=\'http://www.opencyclemap.org\'>OpenCycleMap</a>, &copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
+                'attribution': '&copy; <a href=\'https://www.opencyclemap.org\'>OpenCycleMap</a>, &copy; <a href=\'https://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
                 'continuousWorld': false,
                 'maxZoom': 18
             }
