@@ -205,6 +205,25 @@ var NavbarPage = function() {
                 }
             })
     };
+
+    this.typeInCompleteRegistrationCredentials = function () {
+        return this.clickRegistration()
+            .then(this.registrationTypeInUsername(common.getTestUserName()))
+            .then(this.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(this.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(this.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(this.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(this.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(this.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(this.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(this.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(this.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(this.registrationTypeInPlace(common.getTestUserCity()))
+            .then(this.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(this.registrationSelectCountryByIndex(4))
+            .then(this.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(this.registrationConfirmNoBot)
+    }
 };
 
 module.exports = new NavbarPage();
