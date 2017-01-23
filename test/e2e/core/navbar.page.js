@@ -15,7 +15,7 @@ var NavbarPage = function() {
 
     var logoutButton = element(by.css('[ng-click="logoutFunction();"]'));
 
-    var navbarRight = element(by.css('.navbar-right'));
+    var collapsingNavbar = element(by.css('.navbar-collapse'));
 
     var registrationButton = element(by.css('a[href*="register"]'));
     var registrationInputUsername = element(by.model('user.username'));
@@ -194,7 +194,7 @@ var NavbarPage = function() {
     };
 
     this.expandNavbar = function () {
-        return navbarRight.isDisplayed()
+        return collapsingNavbar.isDisplayed()
 			.then(function(result) {
                 if (!result) {
                     // console.log('Navbar is collapsed, clicking toggle.');
