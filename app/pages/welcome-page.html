@@ -61,8 +61,8 @@
             </a>
         </div>          
         <div ng-repeat="slide in activeSlides" index="$index" class="col-md-2 slide">
-            <img ng-src="{{slide.image}}" class="img-responsive">
             <a ng-href="project/{{slide.id}}">
+                <img ng-src="{{slide.image}}" class="img-responsive">
                 <div class="carousel-caption">
                     <h4>{{slide.title}}</h4>
                 </div>
