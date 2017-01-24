@@ -330,7 +330,9 @@ describe('user management page', function () {
         navbarPage.clickLogin()
             .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
             .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
-            .then(navbarPage.submitLogin)
+            .then(function() {
+                return navbarPage.submitLogin()
+			})
             .then(function () {
                 return navbarPage.getLoggedInUserName();
             })
@@ -354,7 +356,9 @@ describe('user management page', function () {
         navbarPage.clickLogin()
             .then(navbarPage.loginTypeInUsername('e2e_test_imposter'))
             .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
-            .then(navbarPage.submitLogin)
+			.then(function() {
+				return navbarPage.submitLogin()
+			})
             .then(function () {
                 return browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
             })
@@ -364,7 +368,9 @@ describe('user management page', function () {
             })
             .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
             .then(navbarPage.loginTypeInPassword('tset'))
-            .then(navbarPage.submitLogin)
+			.then(function() {
+				return navbarPage.submitLogin()
+			})
             .then(function () {
                 browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
             })
