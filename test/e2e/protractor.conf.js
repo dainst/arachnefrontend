@@ -7,11 +7,7 @@ exports.config = {
     directConnect: true,
     exclude: [],
     multiCapabilities: [{
-        browserName: 'chrome',
-        loggingPrefs: {
-            'driver': 'INFO',
-            'browser': 'INFO'
-        }
+        browserName: 'chrome'
     }],
     allScriptsTimeout: 110000,
     getPageTimeout: 100000,

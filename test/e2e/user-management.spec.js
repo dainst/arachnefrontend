@@ -313,23 +313,16 @@ describe('user management page', function () {
             })
     });
 
-    it('registering with an existing username should cause "danger"-level message', function () {
-
-        common.createTestUserInDB();
-
-        navbarPage.typeInCompleteRegistrationCredentials()
-            .then(navbarPage.submitRegistration)
-            .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
-            })
-            .then(function (){
-                browser.manage().logs().get('browser').then(function(browserLog) {
-                    console.log('log: ' +
-                        require('util').inspect(browserLog));
-                });
-            });
-
-    });
+    // it('registering with an existing username should cause "danger"-level message', function () {
+    //
+    //     common.createTestUserInDB();
+    //
+    //     navbarPage.typeInCompleteRegistrationCredentials()
+    //         .then(navbarPage.submitRegistration)
+    //         .then(function () {
+    //             expect(messageBox.getLevel()).toEqual('danger');
+    //         });
+    // });
 
     it('should be able to login and logout', function () {
         common.createTestUserInDB();

@@ -43,8 +43,6 @@ angular.module('arachne.controllers')
              * @return callback(isSuccess:boolean,message:string)
              */
             var register = function (user, callback) {
-                console.info('Trying to register user:');
-                console.info(user.username);
                 if (!user) return callback(false, "ui.register.fieldsMissing");
                 var newUser = copyUser(user);
 
