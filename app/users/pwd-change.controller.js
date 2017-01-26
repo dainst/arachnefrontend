@@ -22,6 +22,7 @@ angular.module('arachne.controllers')
                     messages.add(data.data.message, 'danger', false);
                 else
                     messages.add('ui.passwordchange.wrongpassword', 'danger', false)
+                clearInput();
             };
 
             var handleChangeSuccess = function () {
@@ -30,9 +31,15 @@ angular.module('arachne.controllers')
                 $location.path("/user");
             };
 
-            var checkNewPassword =function () {
+            var checkNewPassword = function () {
                 if($scope.user.newPassword != $scope.user.newPasswordValidation)
                     messages.add('ui.passwordchange.wrongCheck', 'danger', false);
+                if($scope.user.password == $scope.user.newPassword)
+                    messages.add('ui.passwordchange.illegal', 'danger', false);
+            };
+
+            var clearInput = function () {
+              $scope.user = null;
             };
 
             $scope.submit = function () {
@@ -44,7 +51,6 @@ angular.module('arachne.controllers')
 
                 checkNewPassword();
                 hashPasswords();
-                console.log($scope.user);
                 PwdChange.save({},
                     $scope.user,
                     handleChangeSuccess,
