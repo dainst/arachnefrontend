@@ -7,8 +7,15 @@ var MapPage = function() {
 	};
 
 	this.getMarkers = function() {
-		return element.all(by.css('.awesome-marker'));
+		return element.all(by.css('.awesome-marker:not(.awesome-marker-shadow)'));
 	};
+
+	this.getZoomInButton = function() {
+		return element(by.css('.leaflet-control-zoom-in'));
+	}
+
+
+
 
 };
 
