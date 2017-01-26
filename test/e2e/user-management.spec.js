@@ -306,22 +306,7 @@ describe('user management page', function () {
     // });
 
     it('user should be able to register', function () {
-        navbarPage.clickRegistration()
-            .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
-            .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
-            .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
-            .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
-            .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
-            .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
-            .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
-            .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
-            .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
-            .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
-            .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
-            .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
-            .then(navbarPage.registrationSelectCountryByIndex(4))
-            .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
-            .then(navbarPage.registrationConfirmNoBot)
+        navbarPage.typeInCompleteRegistrationCredentials()
             .then(navbarPage.submitRegistration)
             .then(function () {
                 expect(messageBox.getLevel()).toEqual('success');
@@ -329,28 +314,14 @@ describe('user management page', function () {
     });
 
     // it('registering with an existing username should cause "danger"-level message', function () {
+    //
     //     common.createTestUserInDB();
     //
-    //     navbarPage.clickRegistration()
-    //         .then(navbarPage.registrationTypeInUsername(common.getTestUserName()))
-    //         .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
-    //         .then(navbarPage.registrationTypeInPasswordValidation(common.getTestUserPassword()))
-    //         .then(navbarPage.registrationTypeInFirstname(common.getTestUserFirstname()))
-    //         .then(navbarPage.registrationTypeInLastname(common.getTestUserLastname()))
-    //         .then(navbarPage.registrationTypeInEmail(common.getTestUserEmail()))
-    //         .then(navbarPage.registrationTypeInEmailValidation(common.getTestUserEmail()))
-    //         .then(navbarPage.registrationTypeInInstitution(common.getTestUserInstitution()))
-    //         .then(navbarPage.registrationTypeInHomepage(common.getTestUserHomepage()))
-    //         .then(navbarPage.registrationTypeInZIP(common.getTestUserZIP()))
-    //         .then(navbarPage.registrationTypeInPlace(common.getTestUserCity()))
-    //         .then(navbarPage.registrationTypeInStreet(common.getTestUserStreet()))
-    //         .then(navbarPage.registrationSelectCountryByIndex(4))
-    //         .then(navbarPage.registrationTypeInPhone(common.getTestUserPhone()))
-    //         .then(navbarPage.registrationConfirmNoBot)
+    //     navbarPage.typeInCompleteRegistrationCredentials()
     //         .then(navbarPage.submitRegistration)
     //         .then(function () {
     //             expect(messageBox.getLevel()).toEqual('danger');
-    //         })
+    //         });
     // });
 
     it('should be able to login and logout', function () {
@@ -359,7 +330,9 @@ describe('user management page', function () {
         navbarPage.clickLogin()
             .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
             .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
-            .then(navbarPage.submitLogin)
+            .then(function() {
+                return navbarPage.submitLogin()
+			})
             .then(function () {
                 return navbarPage.getLoggedInUserName();
             })
@@ -383,7 +356,9 @@ describe('user management page', function () {
         navbarPage.clickLogin()
             .then(navbarPage.loginTypeInUsername('e2e_test_imposter'))
             .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
-            .then(navbarPage.submitLogin)
+			.then(function() {
+				return navbarPage.submitLogin()
+			})
             .then(function () {
                 return browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
             })
@@ -393,7 +368,9 @@ describe('user management page', function () {
             })
             .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
             .then(navbarPage.loginTypeInPassword('tset'))
-            .then(navbarPage.submitLogin)
+			.then(function() {
+				return navbarPage.submitLogin()
+			})
             .then(function () {
                 browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
             })

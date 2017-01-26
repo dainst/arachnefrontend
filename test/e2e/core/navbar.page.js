@@ -15,7 +15,7 @@ var NavbarPage = function() {
 
     var logoutButton = element(by.css('[ng-click="logoutFunction();"]'));
 
-    var navbarRight = element(by.css('.navbar-right'));
+    var collapsingNavbar = element(by.css('.navbar-collapse'));
 
     var registrationButton = element(by.css('a[href*="register"]'));
     var registrationInputUsername = element(by.model('user.username'));
@@ -194,7 +194,7 @@ var NavbarPage = function() {
     };
 
     this.expandNavbar = function () {
-        return navbarRight.isDisplayed()
+        return collapsingNavbar.isDisplayed()
 			.then(function(result) {
                 if (!result) {
                     // console.log('Navbar is collapsed, clicking toggle.');
@@ -205,6 +205,25 @@ var NavbarPage = function() {
                 }
             })
     };
+
+    this.typeInCompleteRegistrationCredentials = function () {
+        return this.clickRegistration()
+            .then(this.registrationTypeInUsername(common.getTestUserName()))
+            .then(this.registrationTypeInPassword(common.getTestUserPassword()))
+            .then(this.registrationTypeInPasswordValidation(common.getTestUserPassword()))
+            .then(this.registrationTypeInFirstname(common.getTestUserFirstname()))
+            .then(this.registrationTypeInLastname(common.getTestUserLastname()))
+            .then(this.registrationTypeInEmail(common.getTestUserEmail()))
+            .then(this.registrationTypeInEmailValidation(common.getTestUserEmail()))
+            .then(this.registrationTypeInInstitution(common.getTestUserInstitution()))
+            .then(this.registrationTypeInHomepage(common.getTestUserHomepage()))
+            .then(this.registrationTypeInZIP(common.getTestUserZIP()))
+            .then(this.registrationTypeInPlace(common.getTestUserCity()))
+            .then(this.registrationTypeInStreet(common.getTestUserStreet()))
+            .then(this.registrationSelectCountryByIndex(4))
+            .then(this.registrationTypeInPhone(common.getTestUserPhone()))
+            .then(this.registrationConfirmNoBot)
+    }
 };
 
 module.exports = new NavbarPage();

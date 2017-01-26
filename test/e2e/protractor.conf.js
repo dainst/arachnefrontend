@@ -18,13 +18,20 @@ exports.config = {
         includeStackTrace: false,
         defaultTimeoutInterval: 400000
     },
-    plugins: [{
-        package: 'protractor-console-plugin',
-        failOnWarning: false,
-        failOnError: false, // TODO: turn back on when console errors are fixed
-        logWarnings: true,
-        exclude: []
-    }],
+    plugins: [
+        {
+            package: 'protractor-console-plugin',
+            failOnWarning: false,
+            failOnError: false, // TODO: turn back on when console errors are fixed
+            logWarnings: true,
+            exclude: [
+                /http:\/\/piwik.dainst.org\/piwik.js.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
+                /\/data\/userinfo\/e2e_test_.*Failed to load resource: the server responded with a status of 401 \(Unauthorized\)/,
+                /\/data\/userinfo\/e2e_test_.*The response had HTTP status code 401./,
+                /http:\/\/localhost:8082\/data\/user\/register.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/
+            ]
+        }
+    ],
     onPrepare: function() {
         
         var FailureScreenshotReporter = function() {
