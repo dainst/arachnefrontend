@@ -3,18 +3,26 @@
 angular.module('arachne.controllers')
 
 /**
- * Handles password reset requests.
+ * Handles password change requests.
  *
  * @author: Patrick Jominet
  */
-    .controller('PwdChangeController', ['$scope', '$location', 'PwdChange', 'messageService',
-        function ($scope, $location, PwdChange, messages) {
+    .controller('PwdChangeController', ['$scope', '$location', 'PwdChange', 'messageService', 'md5',
+        function ($scope, $location, PwdChange, messages, md5) {
+
+            var hashPasswords = function () {
+                $scope.user.password = md5.createHash($scope.user.password || '');
+                $scope.user.newPassword = md5.createHash($scope.user.newPassword || '');
+                $scope.user.newPasswordValidation = md5.createHash($scope.user.newPasswordValidation || '');
+            };
+
 
             var handleChangeError = function (data) {
                 if (data.data.message != undefined)
                     messages.add(data.data.message, 'danger', false);
                 else
                     messages.add('ui.passwordchange.wrongpassword', 'danger', false)
+                clearInput();
             };
 
             var handleChangeSuccess = function () {
@@ -23,9 +31,15 @@ angular.module('arachne.controllers')
                 $location.path("/user");
             };
 
-            var checkNewPassword =function () {
+            var checkNewPassword = function () {
                 if($scope.user.newPassword != $scope.user.newPasswordValidation)
                     messages.add('ui.passwordchange.wrongCheck', 'danger', false);
+                if($scope.user.password == $scope.user.newPassword)
+                    messages.add('ui.passwordchange.illegal', 'danger', false);
+            };
+
+            var clearInput = function () {
+              $scope.user = null;
             };
 
             $scope.submit = function () {
@@ -35,9 +49,8 @@ angular.module('arachne.controllers')
                     return;
                 }
 
-                console.log($scope.user);
-                console.log($scope.user.password);
                 checkNewPassword();
+                hashPasswords();
                 PwdChange.save({},
                     $scope.user,
                     handleChangeSuccess,

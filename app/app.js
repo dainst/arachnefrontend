@@ -22,7 +22,8 @@ angular.module('arachne',[
 	'arachne.directives',
 	'arachne.controllers',
 	'arachne.widgets.directives',
-	'arachne.widgets.map'
+	'arachne.widgets.map',
+	'angular-md5'
 ])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider',
 	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider) {

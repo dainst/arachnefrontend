@@ -16,6 +16,7 @@
     "3dviewer": "https://github.com/dainst/3dviewer.git#v1.0.1",
     "angular": "1.5.8",
     "angular-cookies": "1.5.8",
+    "angular-md5": "^0.1.10",
     "angular-resource": "1.5.8",
     "angular-sanitize": "1.5.8",
     "angular-ui-bootstrap": "2.2.0",
