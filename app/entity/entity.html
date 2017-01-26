@@ -67,7 +67,7 @@
         <div ng-if="user.groupID >= 600 && entity.categoryKey">
             <a class="btn btn-default center-block" href="http://arachne.uni-koeln.de/arachne/index.php?view[mode]=edit&view[layout]={{entity.categoryKey}}_item&view[section]=Allgemein&view[category]=overview&search[data]=ALL&search[mode]=detail&search[match]=similar&view[active_tab]=overview&search[constraints][{{entity.categoryKey}}][searchSeriennummer]={{entity.internalId}}">
                 <span class="glyphicon glyphicon-wrench"></span>
-                Bearbeitung
+                {{"edit_button"|transl8}}
             </a>
         </div>
 
