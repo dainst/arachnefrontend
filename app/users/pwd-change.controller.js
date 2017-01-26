@@ -3,12 +3,19 @@
 angular.module('arachne.controllers')
 
 /**
- * Handles password reset requests.
+ * Handles password change requests.
  *
  * @author: Patrick Jominet
  */
-    .controller('PwdChangeController', ['$scope', '$location', 'PwdChange', 'messageService',
-        function ($scope, $location, PwdChange, messages) {
+    .controller('PwdChangeController', ['$scope', '$location', 'PwdChange', 'messageService', 'md5',
+        function ($scope, $location, PwdChange, messages, md5) {
+
+            var hashPasswords = function () {
+                $scope.user.password = md5.createHash($scope.user.password || '');
+                $scope.user.newPassword = md5.createHash($scope.user.newPassword || '');
+                $scope.user.newPasswordValidation = md5.createHash($scope.user.newPasswordValidation || '');
+            };
+
 
             var handleChangeError = function (data) {
                 if (data.data.message != undefined)
@@ -35,9 +42,9 @@ angular.module('arachne.controllers')
                     return;
                 }
 
-                console.log($scope.user);
-                console.log($scope.user.password);
                 checkNewPassword();
+                hashPasswords();
+                console.log($scope.user);
                 PwdChange.save({},
                     $scope.user,
                     handleChangeSuccess,
