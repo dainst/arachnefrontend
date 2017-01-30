@@ -5,6 +5,10 @@ var EntityPage = function() {
         browser.get(url);
     };
 
+    this.getEntityId = function() {
+        return element.all(by.binding('entityId')).get(0);
+    };
+
     this.getEntityTitle = function() {
         return element(by.css('.entity-title'));
     };

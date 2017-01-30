@@ -49,7 +49,8 @@ describe('basic scenarios', function() {
         searchPage.getEntityLinks().get(0).click();
 
         expect(entityPage.getEntityTitle().isPresent()).toBe(true);
-        var entityTitle = entityPage.getEntityTitle().getText().then(function(value) { return value; });
+        expect(entityPage.getEntityId().isPresent()).toBe(true);
+        var entityId = entityPage.getEntityId().getText().then(function(value) { return value; });
         expect(entityPage.getMainImage().getAttribute('complete')).toEqual('true');
 
         var linkedObjectSection = entityPage.getLinkedObjectSections().get(0);
@@ -57,7 +58,8 @@ describe('basic scenarios', function() {
         entityPage.getLinkedObjectEntryButtons(linkedObjectSection).get(1).click();
 
         expect(entityPage.getEntityTitle().isPresent()).toBe(true);
-        expect(entityPage.getEntityTitle().getText()).not.toEqual(entityTitle);
+        expect(entityPage.getEntityId().isPresent()).toBe(true);
+        expect(entityPage.getEntityId().getText()).not.toEqual(entityId);
     });
 
 });
