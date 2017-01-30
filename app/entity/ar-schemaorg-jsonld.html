@@ -1,0 +1,74 @@
+<script type="application/ld+json">  
+	{
+		"@context": "http://schema.org",
+		"@type": "WebPage",
+		"name": "Arachne",
+		"url": "https://arachne.dainst.org",
+		"description": "Object database and cultural archives of the Archaeological Institute of the University of Cologne and the German Archaeological Institute",
+		"breadcrumb":{
+			"@type":"BreadcrumbList",
+			"itemListElement":[
+			{
+				"@type":"ListItem",
+				"position":"1",
+				"item":{
+					"@type":"WebSite",
+					"@id":"https://arachne.dainst.org",
+					"name":"Arachne"
+				}
+			},
+			{
+				"@type":"ListItem",
+				"position":"2",
+				"item":{
+					"@type":"WebPage",
+					"@id":"https://arachne.dainst.org/categories",
+					"name":"Categories"
+				}
+			},
+			{
+				"@type":"ListItem",
+				"position":"3",
+				"item":{
+					"@type":"WebPage",
+					"@id":"https://arachne.dainst.org/{{ entity.categoryHref }}",
+					"name":"{{entity.type}}"
+				}
+			}
+
+			]},
+			"mainEntity": {
+				"@type": "Article",
+				"@id": "https://arachne.dainst.org/entity/{{entity.entityId}}",
+				"author": "Arachne",
+				"dateModified": "{{ entity.lastModified }}",
+				"datePublished": "{{ entity.lastModified }}",
+				"mainEntityOfPage": "https://arachne.dainst.org",
+				"headline": "{{entity.title.substring(0,110);}}",
+				"image": {
+					"@type": "imageObject",
+					"url": "https://arachne.dainst.org/entity/{{entity.entityId}}/image/{{entity.thumbnailId}}",
+					"height": "300",
+					"width": "400"
+				},
+				"spatialCoverage": {
+					"@context": "http://schema.org",
+					"@type": "Place",
+					"geo": {
+						"@type": "GeoCoordinates",
+						"latitude": "{{entity.places[0].location.lat}}",
+						"longitude": "{{entity.places[0].location.lon}}"
+					},
+					"name": "{{entity.places[0].name}}"
+				},
+				"publisher": {
+					"@type": "Organization",
+					"name": "Arachne - Archaeological Institute of the University of Cologne and the German Archaeological Institute",
+					"logo": {
+						"@type": "imageObject",
+						"url": "https://arachne.dainst.org/img/logo_arachne.png"
+					}
+				}
+			}
+		} 
+</script>

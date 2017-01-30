@@ -17,7 +17,8 @@
 }
 
 /* add search icon to link */
-.con10t-page a[con10t-search-query]:before {
+.con10t-page a[con10t-search-query]:before,
+.con10t-page a[con10t-search-catalog]:before{
     content: "\e003";
     font-family: 'Glyphicons Halflings';
     font-style: normal;

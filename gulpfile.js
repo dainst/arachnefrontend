@@ -26,7 +26,8 @@ var cssDeps = [
     'node_modules/font-awesome/css/font-awesome.min.css',
     'node_modules/leaflet.markercluster/dist/MarkerCluster.css',
     'node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css',
-    'node_modules/drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css'
+    'node_modules/drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css',
+    'node_modules/angular-ui-swiper/dist/angular-ui-swiper.css'
 ];
 
 var jsDeps = [
@@ -49,7 +50,9 @@ var jsDeps = [
     'node_modules/ng-showdown/dist/ng-showdown.min.js',
     'node_modules/3dviewer/dist/3dviewer.js',
     'lib/relative-paths-in-partial.js',
-    'node_modules/d3/build/d3.min.js'
+    'node_modules/d3/build/d3.min.js',
+    'node_modules/angular-ui-swiper/dist/angular-ui-swiper.min.js',
+    'node_modules/angular-md5/angular-md5.js'
 ];
 
 // compile sass and concatenate to single css file in build dir
@@ -58,7 +61,7 @@ gulp.task('compile-css', function () {
         .pipe(sass({
             includePaths: [
                 'node_modules/bootstrap-sass/assets/stylesheets/',
-                'node_modules/idai-components/src/scss/'
+                'node_modules/idai-components/src/'
             ],
             precision: 8
         }))

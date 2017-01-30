@@ -89,7 +89,9 @@ angular.module('arachne.widgets.map')
                 lat: '@',
                 lng: '@',
                 zoom: '@',
-                entityCallback: '='
+                entityCallback: '=',
+                pinList: '=',
+                minZoom: '='
             },
             link : function(scope,element) {
 
@@ -138,7 +140,7 @@ angular.module('arachne.widgets.map')
                         heatmapPainter.drawBuckets(cq.bbox, bucketsToDraw);
                     }
 
-                    fitViewToMarkersAllowed=false;
+                    fitViewToMarkersAllowed = false;
                 }
 
 
@@ -148,7 +150,7 @@ angular.module('arachne.widgets.map')
                 mapService.initializeMap(
                     element.attr('id'),
                     {
-                        minZoom: 3
+                        minZoom: scope.minZoom || 3
                     } // 3 is to prevent wrong bbox searches
                     // when the window is bigger than the world,
                 );
@@ -157,12 +159,21 @@ angular.module('arachne.widgets.map')
                 placesPainter.setMap(mapService.getMap());
                 placesPainter.setEntityCallback(scope.entityCallback);
 
+                placesPainter.setFixedPlaces(scope.pinList);
+
                 // Add baselayers and activate one, given by url
                 // parameter "baselayer" or a default value
                 mapService.setBaselayers(scope.baselayers);
                 mapService.activateBaselayer(cq.baselayer || "osm");
 
-                mapService.initializeView(cq.lat,cq.lng,cq.zoom);
+
+                var bb = placesPainter.getFixedPlacesBoundingBox();
+                if (bb) {
+                    mapService.initializeViewBB(bb);
+                } else {
+					mapService.initializeView(cq.lat,cq.lng,cq.zoom);
+                }
+
             }
         }
     }

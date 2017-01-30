@@ -2,10 +2,11 @@
 
 angular.module('arachne.controllers')
 
-    .controller('StartSiteController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'message', '$timeout',
-        function ($rootScope, $scope, $http, arachneSettings, message, $timeout) {
+    .controller('WelcomePageController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'messageService', '$timeout',
+        function ($rootScope, $scope, $http, arachneSettings, messages, $timeout) {
 
             $rootScope.hideFooter = false;
+            $scope.position = 3;
 
             $http.get('con10t/front.json').success(function (projectsMenu) {
                 var projslides = $scope.projslides = [];
@@ -16,7 +17,7 @@ angular.module('arachne.controllers')
                         id: projectsMenu[key].id
                     });
                 }
-                $scope.active = Math.floor((Math.random() * $scope.projslides.length));
+                $scope.activeSlides = $scope.projslides.slice(0,4);
 
             });
 
@@ -24,8 +25,15 @@ angular.module('arachne.controllers')
                 $scope.entityCount = data.entityCount;
             }).error(function (data) {
                 $timeout(function(){
-                    message.addMessageForCode("backend_missing");
+                    messages.add("backend_missing");
                 }, 500);
             });
+
+            $scope.nextProject = function() {
+                var pos = ++$scope.position % $scope.projslides.length;
+                $scope.activeSlides.push($scope.projslides[pos]);
+                $scope.activeSlides.shift();
+            }
+
         }
     ]);

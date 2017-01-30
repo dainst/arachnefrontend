@@ -41,19 +41,39 @@
     <li ng-if="section.value" ng-switch="isArray(section.value)" style="list-style-type:none;">
         <span ng-switch-when="false" ng-bind-html="section.value | nl2br"></span>
         <div ng-switch-when="true">
-            <div class="section-item" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br"></div>
+            <div class="section-item" ng-if="$index <= 3" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br"></div>
+            <div class="section-item" ng-if="$index > 3" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br" uib-collapse="!isCollapsed"></div>
+            <div ng-show="section.value.length > 3" class="more">
+                <em ng-show="!isCollapsed">
+                    <a class="btn btn-link" href="#" ng-click="isCollapsed = !isCollapsed">{{ 'ui_show_more' | transl8 }}</a>
+                </em>
+                <em ng-show="isCollapsed">
+                    <a class="btn btn-link" href="#" ng-click="isCollapsed = !isCollapsed">{{ 'ui_show_less' | transl8 }}</a>
+                </em>
+            </div>
         </div>
     </li>
 
 </script>
 
 <div ng-cloak class="row"  ng-controller="EntityController">
+    <ar-schemaorg-jsonld entity="entity"></ar-schemaorg-jsonld>
+
 
     <div ng-hide="entity.entityId || error" class="loading"></div>
 
     <div class="col-md-3" ng-show="entity.entityId">
+        <!-- ENTER EDITOR Note: This is currently just a link to the editor of this entity in Arachne 3 -->
+        <div ng-if="user.groupID >= 600 && entity.categoryKey">
+            <a class="btn btn-default center-block" href="http://arachne.uni-koeln.de/arachne/index.php?view[mode]=edit&view[layout]={{entity.categoryKey}}_item&view[section]=Allgemein&view[category]=overview&search[data]=ALL&search[mode]=detail&search[match]=similar&view[active_tab]=overview&search[constraints][{{entity.categoryKey}}][searchSeriennummer]={{entity.internalId}}">
+                <span class="glyphicon glyphicon-wrench"></span>
+                {{"edit_button"|transl8}}
+            </a>
+        </div>
 
         <!-- CURRENT QUERY STATUS -->
+
+
         <div class="row">
             <div class="col-md-12">
 
@@ -141,7 +161,6 @@
 
             </div>
         </div>
-
         <!-- END CURRENT QUERY STATUS -->
 
         <!-- Karte -->
@@ -153,20 +172,17 @@
         <!-- CATALOG ENTRIES -->
         <ar-catalog-occurences  ng-if="user.username" entity="entity"></ar-catalog-occurences>
 
-
-
-
-
     </div>
 
     <div ng-show="entity.entityId" class="col-md-9">
-
+        <div class="alert alert-info" ng-if="entity.message" style="padding: 15px;">
+            <span class="glyphicon glyphicon-info-sign"></span> {{entity.message}}
+        </div>
         <div class="entityheader">
             <ar-entity-header entity="entity"></ar-entity-header>
         </div>
 
         <div class="row">
-
             <!-- CONTENT SECTION -->
             <div class="col-md-8">
                 <div ng-include="'sections_template.html'"></div>

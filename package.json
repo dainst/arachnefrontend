@@ -6,8 +6,8 @@
     "url": "https://github.com/dainst/arachnefrontend.git"
   },
   "scripts": {
-    "test": "karma start test/karma.conf",
-    "e2e": "protractor protractor.conf.js",
+    "test": "karma start test/browser/karma.conf",
+    "e2e": "rimraf test/e2e-screenshots/*.png && protractor test/e2e/protractor.conf.js",
     "build": "rimraf dist && gulp clone-con10t && gulp build --build $1",
     "server": "gulp server",
     "start": "npm run server"
@@ -16,6 +16,7 @@
     "3dviewer": "https://github.com/dainst/3dviewer.git#v1.0.1",
     "angular": "1.5.8",
     "angular-cookies": "1.5.8",
+    "angular-md5": "^0.1.10",
     "angular-resource": "1.5.8",
     "angular-sanitize": "1.5.8",
     "angular-ui-bootstrap": "2.2.0",
@@ -24,15 +25,15 @@
     "angulartics": "~1.1.3",
     "angulartics-piwik": "1.0.4",
     "bootstrap": "3.3.7",
+    "d3": "4.2.6",
     "drmonty-leaflet-awesome-markers": "2.0.2",
     "font-awesome": "4.7.0",
-    "idai-components": "git+http://bogusman03.dai-cloud.uni-koeln.de/idai-components-builds/108/.git",
+    "idai-components": "git+http://bogusman03.dai-cloud.uni-koeln.de/idai-components-builds/152/.git",
     "leaflet": "0.7.7",
     "leaflet.heat": "0.2.0",
     "leaflet.markercluster": "0.5.0",
     "ng-showdown": "1.1.0",
-    "showdown": "1.4.3",
-    "d3": "4.2.6"
+    "showdown": "1.4.3"
   },
   "devDependencies": {
     "angular-mocks": "1.5.8",

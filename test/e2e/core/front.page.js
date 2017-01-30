@@ -11,7 +11,7 @@ var FrontPage = function() {
     };
 
     this.typeInSearchField = function(text) {
-        var searchField = element(by.id('search-input'));
+        var searchField = element(by.css('#start-page-search input'));
         for (var i in text) {
             searchField.sendKeys(text[i]);
         }
@@ -19,7 +19,7 @@ var FrontPage = function() {
     };
 
     this.getSearchButton = function() {
-        return element(by.id('search-button'));
+        return element(by.css('#start-page-search button'));
     };
 
 };

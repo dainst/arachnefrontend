@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-    .controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$uibModal', 'Entity', '$location', 'arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'message',
-        function ($rootScope, $stateParams, searchService, $scope, $uibModal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, message) {
+    .controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$uibModal', 'Entity', '$location', 'arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
+        function ($rootScope, $stateParams, searchService, $scope, $uibModal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messages) {
 
             $rootScope.hideFooter = false;
 
@@ -49,9 +49,11 @@ angular.module('arachne.controllers')
                 Entity.get({id: $stateParams.id, live: live}, function (data) {
 
                     $scope.entity = data;
-
                     categoryService.getCategoryHref($scope.entity.type).then(function (categoryHref) {
                         $scope.entity.categoryHref = categoryHref;
+                    });
+                    categoryService.getCategoryKey($scope.entity.type).then(function (key) {
+                        $scope.entity.categoryKey = key;
                     });
 
                     /**
@@ -74,11 +76,13 @@ angular.module('arachne.controllers')
                         $scope.entity.places = false;
                     }
 
+                    $scope.entity.lastModified = new Date(data.lastModified).toISOString();
+
                     document.title = $scope.entity.title + " | Arachne";
                     
                 }, function (response) {
                     $scope.error = true;
-                    message.addMessageForCode("entity_" + response.status);
+                    messages.add("entity_" + response.status);
                 });
 
                 $scope.contextQuery = new Query();
@@ -95,7 +99,7 @@ angular.module('arachne.controllers')
                         $scope.resultSize = searchService.getSize();
                     }, function (response) {
                         $scope.searchresults = {size: 0};
-                        message.addMessageForCode('search_' + response.status);
+                        messages.add('search_' + response.status);
                     });
 
                     var prevIndex = $scope.resultIndex - 1;

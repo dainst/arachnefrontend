@@ -10,8 +10,8 @@ angular.module('arachne.controllers')
  *   user {object} the user object
  *   submit {function} the submit function
  */
-    .controller('RegisterController', ['$scope', '$http', '$filter', 'message', 'arachneSettings', '$location',
-        function ($scope, $http, $filter, message, arachneSettings, $location) {
+    .controller('RegisterController', ['$scope', '$http', '$filter', 'messageService', 'arachneSettings', '$location',
+        function ($scope, $http, $filter, messages, arachneSettings, $location) {
 
 
             /**
@@ -43,7 +43,6 @@ angular.module('arachne.controllers')
              * @return callback(isSuccess:boolean,message:string)
              */
             var register = function (user, callback) {
-
                 if (!user) return callback(false, "ui.register.fieldsMissing");
                 var newUser = copyUser(user);
 
@@ -58,15 +57,15 @@ angular.module('arachne.controllers')
 
             var handleRegisterResult = function (isSuccess, msg) {
 
-                message.clear();
+                messages.clear();
 
                 if (isSuccess) {
-                    message.dontClearOnNextLocationChange();
-                    message.addMessageForCode('register_success', 'success');
+                    messages.dontClearOnNextLocationChange();
+                    messages.add('register_success', 'success');
                     $location.path("/");
                 }
                 else
-                    message.addMessageForCode(msg, 'danger', false);
+                    messages.add(msg, 'danger', false);
             };
 
             $scope.submit = function () {

@@ -1,6 +1,9 @@
+var EC = protractor.ExpectedConditions;
+
 var MessageBoxPage = function() {
 	
 	var messageBox = element(by.css('.messages .alert'));
+	var closeButton = element(by.css('.alert-message > .close'));
 
 	this.getText = function() {
 		return messageBox.getText();
@@ -16,6 +19,9 @@ var MessageBoxPage = function() {
 		});
 	};
 
+	this.close = function () {
+		return closeButton.click();
+    };
 };
 
 module.exports = new MessageBoxPage();

@@ -1,21 +1,15 @@
-<li>
+<li id="usermenu">
     <a href="catalogs">
-        <span style="color: rgb(66,139,202)" class="glyphicon glyphicon-inbox"></span>
-        &nbsp;{{'navbar_manage_catalogs' | transl8}}
+        <span class="glyphicon glyphicon-inbox"></span>
+        {{'navbar_manage_catalogs' | transl8}}
     </a>
     <a href="editUser">
-        <span style="color: rgb(66,139,202)" class="glyphicon glyphicon-pencil"></span>
-        &nbsp;{{ 'navbar_edit_profile' | transl8 }}
+        <span class="glyphicon glyphicon-pencil"></span>
+        {{ 'navbar_edit_profile' | transl8 }}
     </a>
-    <a href="pwdreset">
-        <span style="color: rgb(66,139,202)" class="glyphicon glyphicon-lock"></span>
-        &nbsp;{{ 'navbar_change_password' | transl8 }}
-    </a>
-
-
+    <!--<a href="pwdreset"></a> this does not work for logged in users-->
     <a href="admin/dataimport" ng-if="userObject.groupID>=800">
-        <span style="color: rgb(66,139,202)" class="glyphicon glyphicon-transfer"></span>
-        &nbsp;Dataimport
+        <span class="glyphicon glyphicon-transfer"></span>
+        Dataimport
     </a>
-
 </li>

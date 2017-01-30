@@ -7,8 +7,8 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  */
-.controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'message',
-	function ($rootScope, $scope, $state, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, message) {
+.controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService',
+	function ($rootScope, $scope, $state, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, messages) {
 
 		$rootScope.hideFooter = true;
 		$scope.entryMap = {};
@@ -39,7 +39,7 @@ angular.module('arachne.controllers')
 	                    movedEntry.parentId = newParentId;
 	                    movedEntry.indexParent = getIndexParent(movedEntry);
 	                }, function () {
-	                    message.addMessageForCode('default');
+	                    messages.add('default');
 	                });
 	                return promise;
 	            } else {
@@ -66,7 +66,7 @@ angular.module('arachne.controllers')
 	                    $scope.toggleNode(scope, entry);
 	                }
 	            }, function() {
-	                message.addMessageForCode('default');
+	                messages.add('default');
 	            });
 	            editEntryModal.dismiss();
 	        }
@@ -82,7 +82,7 @@ angular.module('arachne.controllers')
 		                scope.toggle();
 		                entry.loading = undefined;
 		            }, function() {
-		                message.addMessageForCode('backend_missing');
+		                messages.add('backend_missing');
 		            });
 		        } else scope.toggle();
 		    }
@@ -95,7 +95,7 @@ angular.module('arachne.controllers')
 	            for (var i in entry.children) initialize(entry.children[i]);
 	            entry.loading = undefined;
 	        }, function() {
-	            message.addMessageForCode('backend_missing');
+	            messages.add('backend_missing');
 	        });
 	    };
 
@@ -109,7 +109,7 @@ angular.module('arachne.controllers')
 	            CatalogEntry.remove({ id: entry.id }, function() {
 	                deleteModal.dismiss();
 	            }, function() {
-	                message.addMessageForCode('default');
+	                messages.add('default');
 	            });
 	        }
 	    };
@@ -129,7 +129,7 @@ angular.module('arachne.controllers')
 	            CatalogEntry.update({ id: entry.id }, entry, function() {
 	                editEntryModal.dismiss();
 	            }, function() {
-	                message.addMessageForCode('default');
+	                messages.add('default');
 	            });
 	        }
 	    };
@@ -158,10 +158,10 @@ angular.module('arachne.controllers')
 	                CatalogEntry.update({id: $scope.catalog.root.id}, $scope.catalog.root, function() {
 	                    editCatalogModal.dismiss();
 	                }, function() {
-	                    message.addMessageForCode('default');
+	                    messages.add('default');
 	                });
 	            }, function() {
-	                message.addMessageForCode('default');
+	                messages.add('default');
 	            });
 
 	        }
@@ -181,7 +181,7 @@ angular.module('arachne.controllers')
 					deleteModal.dismiss();
 					$location.url('/catalogs');
 				}, function() {
-                    message.addMessageForCode('default');
+                    messages.add('default');
 	            });
 	        }
 	    };
@@ -235,9 +235,9 @@ angular.module('arachne.controllers')
 		    }, function(error) {
 				$scope.error = true;
 				if (error.status == '403') {
-					message.addMessageForCode('catalog_403');
+					messages.add('catalog_403');
 				} else {
-					message.addMessageForCode('default');
+					messages.add('default');
 				}
 	        });
 	    }
@@ -248,7 +248,7 @@ angular.module('arachne.controllers')
 	    		Entity.get({id: entry.arachneEntityId}, function(entity) {
 	    			$scope.activeEntity = entity;
 	    		}, function() {
-	    			message.addMessageForCode('default');
+	    			messages.add('default');
 	    		});
 	    	} else {
 	    		$scope.activeEntity = null;

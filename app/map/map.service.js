@@ -19,10 +19,10 @@ angular.module('arachne.widgets.map')
         'osm': {
             'name': 'OpenStreetMap',
             'type': 'xyz',
-            'url': 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
+            'url': 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
             'yayerOptions': {
                 'subdomains': ['a', 'b', 'c'],
-                'attribution': '&copy; <a href=\'http://www.opencyclemap.org\'>OpenCycleMap</a>, &copy; <a href=\'http://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
+                'attribution': '&copy; <a href=\'https://www.opencyclemap.org\'>OpenCycleMap</a>, &copy; <a href=\'https://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
                 'continuousWorld': false,
                 'maxZoom': 18
             }
@@ -155,8 +155,8 @@ angular.module('arachne.widgets.map')
             // / Disable dragging functionality if outside of container bounds
 
 
-            
-            
+
+
             map.on('popupopen', function(e) {
                 popupOpen=true;
             });
@@ -261,6 +261,17 @@ angular.module('arachne.widgets.map')
             var zm = zoom || 3;
             map.setView([lt, lg], zm);
         },
+
+		/**
+         * alternate init function wich takes a bounding box
+		 * @param bb
+		 */
+		initializeViewBB: function (bb) {
+            map.fitBounds([
+               [bb.latmin, bb.lonmin],
+               [bb.latmax, bb.lonmax]
+            ]);
+		},
 
         /**
          * Returns a Query object copied from currentQuery and

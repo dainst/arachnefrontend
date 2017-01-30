@@ -59,5 +59,18 @@ function($http, $filter, $q, transl8){
         });
     };
 
+    factory.getCategoryKey = function (categoryName) {
+        return this.getCategoriesAsync().then(function(result) {
+            var cur;
+            for (var category in result) {
+                cur = result[category];
+                if (cur.queryTitle === categoryName) {
+                    return cur.key;
+                }
+            }
+            return false;
+        });
+    }
+
     return factory;
 }]);

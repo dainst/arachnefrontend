@@ -7,8 +7,8 @@ angular.module('arachne.controllers')
  * @author: Thomas Kleinke
  */
 
-    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'message', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
-        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, message, $uibModal, $http, Entity, authService, $timeout) {
+    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
+        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, messages, $uibModal, $http, Entity, authService, $timeout) {
 
             // To indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.illegalQuery = false;
@@ -114,9 +114,9 @@ angular.module('arachne.controllers')
                         Entity.get({id: entities[i].entityId}, function (entity) {
                             $scope.addCatalogEntry(newCatalog, entity);
                         }, function () {
-                            message.addMessageForCode('default');
+                            messages.add('default');
                         }, function () {
-                            message.addMessageForCode('default');
+                            messages.add('default');
                         });
                     }
 
@@ -138,7 +138,7 @@ angular.module('arachne.controllers')
                         function (result) { /* success */
                         },
                         function (error) {
-                            message.addMessageForCode('default');
+                            messages.add('default');
                             console.log(error)
                         });
                 }
@@ -199,45 +199,16 @@ angular.module('arachne.controllers')
                     facet.hasMore = hasMore;
                     console.log(facet.name, facet.hasMore);
                 }, function (response) {
-                    if (response.status == '404') message.addMessageForCode('backend_missing');
-                    else message.addMessageForCode('search_' + response.status);
+                    if (response.status == '404') messages.add('backend_missing');
+                    else messages.add('search_' + response.status);
                 });
             };
-
-            $scope.processPreviousSearchQueries = function (qryCount) {
-
-                //localStorage.removeItem('previousSearchQueries')
-                var queries = JSON.parse(localStorage.getItem('previousSearchQueries'));
-
-                if (queries === null || !queries) {
-                    queries = [$scope.currentQuery.q];
-                } else {
-
-                    queries.push($scope.currentQuery.q);
-
-                    // Make unique
-                    queries = queries.filter(function(item, pos) {
-                        return queries.indexOf(item) == pos;
-                    });
-
-                    if (queries.length > qryCount +1) {
-                        queries.shift();
-                    }
-                }
-
-                localStorage.setItem('previousSearchQueries', JSON.stringify(queries));
-                queries.reverse();
-
-                return queries;
-            };
-
-            $scope.previousSearchQueries = $scope.processPreviousSearchQueries(3);
 
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
 
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
-                    message.clear();
-                    message.addMessageForCode('ui_search_too_big', 'warning', false);
+                    messages.clear();
+                    messages.add('ui_search_too_big', 'warning', false);
                     $scope.illegalQuery = true;
                 }, 1000);
 
@@ -275,8 +246,8 @@ angular.module('arachne.controllers')
                 }, function (response) {
                     $scope.resultSize = 0;
                     $scope.error = true;
-                    if (response.status == '404') message.addMessageForCode('backend_missing');
-                    else message.addMessageForCode('search_' + response.status);
+                    if (response.status == '404') messages.add('backend_missing');
+                    else messages.add('search_' + response.status);
                 });
 
             }

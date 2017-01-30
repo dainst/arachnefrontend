@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-    .controller('EntityImagesController', ['$stateParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'message',
-        function ($stateParams, $scope, Entity, $filter, searchService, $rootScope, message) {
+    .controller('EntityImagesController', ['$stateParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'messageService',
+        function ($stateParams, $scope, Entity, $filter, searchService, $rootScope, messages) {
 
             $rootScope.hideFooter = true;
             $scope.currentQuery = searchService.currentQuery();
@@ -15,7 +15,7 @@ angular.module('arachne.controllers')
                 $scope.entity = data;
                 $scope.cells = $filter('cellsFromImages')(data.images, data.entityId, $scope.currentQuery);
             }, function (response) {
-                message.addMessageForCode("entity_" + response.status);
+                messages.add("entity_" + response.status);
             });
         }
     ]);

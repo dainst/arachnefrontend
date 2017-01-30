@@ -7,8 +7,8 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy, Oliver Bensch, Thomas Kleinke
  */
-    .controller('CatalogsController',['$scope', '$uibModal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings', 'message',
-        function ($scope, $uibModal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings, message) {
+    .controller('CatalogsController',['$scope', '$uibModal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings', 'messageService',
+        function ($scope, $uibModal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings, messages) {
 
             $scope.refreshCatalogs = function(){
                 $scope.loading++;
@@ -40,7 +40,7 @@ angular.module('arachne.controllers')
                         $scope.activeCatalog = result;
                         editCatalogModal.dismiss();
                     }, function() {
-                        message.addMessageForCode('default');
+                        messages.add('default');
                     });
                 };
 

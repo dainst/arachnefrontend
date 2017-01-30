@@ -2,10 +2,10 @@
 
 angular.module('arachne.resources')
 
-.factory('PasswordActivation', ['$resource', 'arachneSettings',
+.factory('PwdReset', ['$resource', 'arachneSettings',
 function($resource, arachneSettings) {
 
-    return $resource(arachneSettings.dataserviceUri + '/user/activation/:token', {}, {
+    return $resource(arachneSettings.dataserviceUri + '/user/reset', {}, {
         save : {
             isArray: false,
             method: 'POST',
