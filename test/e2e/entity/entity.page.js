@@ -6,7 +6,7 @@ var EntityPage = function() {
     };
 
     this.getEntityId = function() {
-        return element.all(by.binding('entityId')).get(0);
+        return element(by.id('entity-id-label'));
     };
 
     this.getEntityTitle = function() {
