@@ -40,10 +40,6 @@ body {
   flex-direction: column;
 }
 
-#noscriptinfo h1 {
-
-}
-
 @media screen and (max-width: 415px) {
 
   #projectLogo {
@@ -272,7 +268,7 @@ h6 { font-size: 12px; }
 }
 
 *[ar-grid-map] .leaflet-popup {
-  bottom: 0px !important;
+  bottom: 0 !important;
 }
 
 
@@ -443,7 +439,7 @@ hr {
 
 .faq-nav.ui-scrollfix {
   position: fixed;
-  top: 60;
+  top: 60px;
 }
 
 .con10t-page {
@@ -463,12 +459,12 @@ hr {
 }
 
 .carousel-caption {
-  text-shadow: 0px 0px 1px rgba(0, 0, 0, 1), 0px 0px 5px rgba(0, 0, 0, 1);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 1), 0 0 5px rgba(0, 0, 0, 1);
   padding-bottom: 0;
 }
 
 .carousel-indicators li {
-  box-shadow: 0px 0px 1px rgba(0, 0, 0, 1);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 1);
 }
 
 .markdown-editor-button-group {
