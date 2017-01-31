@@ -42,48 +42,57 @@
             </ul>
         </div>
     </div>
-    <div class="row bar" style="margin-top: 60px;">
-        <div class="col-md-2 col-md-offset-1">
-            <h3>
-                <a href="categories" style="outline: none;">{{'startsite_categories'|transl8}}</a>
-            </h3> 
-        </div>
-        <div class="col-md-2">
-            <h3>
-                <a href="projects" style="outline: none;">{{'startsite_projects'|transl8}}</a>
-            </h3>
-        </div> 
-    </div>
-    <div class="row bar">
-        <div class="col-md-2 col-md-offset-1 line-right">           
-            <a href="categories">
-                <img src="img/categories.png" class="img-responsive">
-            </a>
-        </div>          
-        <div ng-repeat="slide in activeSlides track by $index" index="$index" class="col-md-2 slide">
-            <a ng-href="project/{{slide.id}}">
-                <img ng-src="{{slide.image}}" class="img-responsive">
-                <div class="carousel-caption">
-                    <h4>{{slide.title}}</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row bar">
+                <div class="col-md-2 col-md-offset-1 col-sm-6 col-sm-offset-3">
+                    <h3>
+                        <a href="categories" style="outline: none;">{{'startsite_categories'|transl8}}</a>
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-12 line-right">
+                            <a href="categories">
+                                <img src="img/categories.png" class="img-responsive">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="pull-right">
+                                <a href="categories"> ... {{'startsite_show_all_categories'|transl8}} </a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </a>
-        </div>
-        <div class="col-md-1" style="height: 100%">
-            <a ng-click="nextProject()" href="#">
-                <img class="img-responsive project-chevron" src="img/chevron-right.png">
-            </a>
-        </div>
-    </div>
-    <div class="row bar" style="padding-bottom: 20px;">
-        <div class="col-md-2 col-md-offset-1">
-            <p class="pull-right" style="margin:15px 0px 0px 20px;">
-                <a href="categories"> ... {{'startsite_show_all_categories'|transl8}} </a>
-            </p>
-        </div>
-        <div class="col-md-2 col-md-offset-6">
-            <p class="pull-right" style="margin:15px 0px 0px 20px;">
-                <a href="projects"> ... {{'startsite_show_all_projects'|transl8}} </a>
-            </p>
+                <div class="col-md-9 col-md-offset-0 col-sm-6 col-sm-offset-3">
+                    <h3>
+                        <a href="projects" style="outline: none;">{{'startsite_projects'|transl8}}</a>
+                    </h3>
+                    <div class="row">
+                        <div ng-repeat="slide in activeSlides track by $index" index="$index" class="col-md-3 col-sm-12 slide">
+                            <a ng-href="project/{{slide.id}}">
+                                <img ng-src="{{slide.image}}" class="img-responsive space-around">
+                                <div class="carousel-caption">
+                                    <h4>{{slide.title}}</h4>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-1 col-sm-12">
+                            <a ng-click="nextProject()" href="#">
+                                <img class="img-responsive project-chevron" src="img/chevron-right.png">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 line-right">
+                            <p class="pull-right">
+                                <a href="projects"> ... {{'startsite_show_all_projects'|transl8}} </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
