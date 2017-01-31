@@ -60,7 +60,7 @@
                 <img src="img/categories.png" class="img-responsive">
             </a>
         </div>          
-        <div ng-repeat="slide in activeSlides" index="$index" class="col-md-2 slide">
+        <div ng-repeat="slide in activeSlides track by $index" index="$index" class="col-md-2 slide">
             <a ng-href="project/{{slide.id}}">
                 <img ng-src="{{slide.image}}" class="img-responsive">
                 <div class="carousel-caption">
