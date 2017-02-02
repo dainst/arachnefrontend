@@ -77,6 +77,8 @@ function($location, Entity, $rootScope, Query, $q) {
      *   .reject() gets called otherwise 
      */
     function performAndParseRequest(offset,query,deferred) {
+        if(query.q == "null" || query.q == "undefined")
+            query.q = "*";
         _currentRequest = { query: query, request: Entity.query(query.toFlatObject()) };
         _currentRequest.request.$promise.then(function(data) {
             _currentRequest = false;
