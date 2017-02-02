@@ -28,7 +28,7 @@ var SearchPage = function() {
 	this.getResultSize = function() {
 		return new Promise(function(resolve, reject) {
 			element(by.binding('resultSize')).getText().then(function(resultSize) {
-				resultSize = resultSize.replace(/[,.]/, "");
+				resultSize = resultSize.replace(/[,.]/g, "");
 				resolve(parseInt(resultSize));
 			}, function(err) {
 				reject(err);
