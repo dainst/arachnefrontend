@@ -64,7 +64,7 @@ describe('basic scenarios', function() {
         expect(entityPage.getEntityId().getText()).not.toEqual(entityId);
     });
 
-    fit('should show all entities when searching with empty query string', function() {
+    it('should show all entities when searching with empty query string', function() {
 
         frontPage.getSearchButton().click();
         var resultSize = searchPage.getResultSize().then(function(value) { return value; });
