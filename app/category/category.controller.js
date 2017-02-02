@@ -25,5 +25,10 @@ angular.module('arachne.controllers')
                 });
             });
 
+            $scope.search = function() {
+                var query = $scope.currentQuery.setParam('q', $scope.q);
+                $location.url('/search' + query.toString());
+            }
+
         }
     ]);

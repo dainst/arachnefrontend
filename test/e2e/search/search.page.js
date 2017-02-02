@@ -8,6 +8,10 @@ var SearchPage = function() {
 		browser.get(url);
 	};
 
+	this.getFacetPanel = function(facetName) {
+		return element(by.css('.' + facetName + ' .panel-title'));
+	};
+
 	this.getFacetValues = function(facetName) {
 		return element.all(by.css('.' + facetName + ' .facet-value'));
 	};

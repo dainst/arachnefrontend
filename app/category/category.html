@@ -13,8 +13,7 @@
 			<p>{{ subtitle }}</p>
 			<br>
 			<div class="category-search">
-				<form ng-controller="SearchFormController"
-						ng-submit="search('facet_kategorie:\'' + title + '\'')"
+				<form ng-submit="search()"
 						class="input-group form-inline"
 						role="search">
 					<input size="50" type="text" ng-model="q" name="q" class="form-control" placeholder="Suche in dieser Kategorie"></input>
@@ -25,6 +24,7 @@
 					</span>
 				</form>
 			</div>
+			<br>
 			<ul class="list-inline text-muted">
 				<li ng-show="resultSize">
 					{{"ui_total"|transl8}}
