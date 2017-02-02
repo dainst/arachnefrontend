@@ -60,17 +60,11 @@ angular.module('arachne.controllers')
                     var blob = new Blob([data], {type: 'image/jpeg'});
                     var blobUri = $window.URL.createObjectURL(blob);
 
-                    console.log(blob);
-                    console.log(blobUri);
-
                     $http.get(entityUri).success(function (data) {
-                        console.log(data);
                         if (navigator.appVersion.toString().indexOf('.NET') > 0) {
-                            console.log("if");
                             window.navigator.msSaveBlob(blob, data.filename);
                         }
                         else {
-                            console.log("else");
                             var document = $window.document;
                             var a = document.createElement('a');
                             document.body.appendChild(a);
