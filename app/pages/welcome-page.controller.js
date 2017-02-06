@@ -33,7 +33,7 @@ angular.module('arachne.controllers')
                 var pos = ++$scope.position % $scope.projslides.length;
                 $scope.activeSlides.push($scope.projslides[pos]);
                 $scope.activeSlides.shift();
-            }
+            };
 
         }
     ]);
