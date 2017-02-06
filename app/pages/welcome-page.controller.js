@@ -17,7 +17,7 @@ angular.module('arachne.controllers')
                         id: projectsMenu[key].id
                     });
                 }
-                $scope.activeSlides = $scope.projslides.slice(0,4);
+                $scope.activeSlides = $scope.projslides.slice(0,3);
 
             });
 
