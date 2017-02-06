@@ -64,4 +64,12 @@ describe('basic scenarios', function() {
         expect(entityPage.getEntityId().getText()).not.toEqual(entityId);
     });
 
+    it('should show all entities when searching with empty query string', function() {
+
+        frontPage.getSearchButton().click();
+        var resultSize = searchPage.getResultSize().then(function(value) { return value; });
+        expect(resultSize).toBeGreaterThan(1000000);
+
+    });
+
 });

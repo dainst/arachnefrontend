@@ -8,6 +8,10 @@ var SearchPage = function() {
 		browser.get(url);
 	};
 
+	this.getFacetPanel = function(facetName) {
+		return element(by.css('.' + facetName + ' .panel-title'));
+	};
+
 	this.getFacetValues = function(facetName) {
 		return element.all(by.css('.' + facetName + ' .facet-value'));
 	};
@@ -24,7 +28,7 @@ var SearchPage = function() {
 	this.getResultSize = function() {
 		return new Promise(function(resolve, reject) {
 			element(by.binding('resultSize')).getText().then(function(resultSize) {
-				resultSize = resultSize.replace(/[,.]/, "");
+				resultSize = resultSize.replace(/[,.]/g, "");
 				resolve(parseInt(resultSize));
 			}, function(err) {
 				reject(err);

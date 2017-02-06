@@ -61,20 +61,19 @@ angular.module('arachne.controllers')
                     var blobUri = $window.URL.createObjectURL(blob);
 
                     $http.get(entityUri).success(function (data) {
-
-                        if (navigator.appVersion.toString().indexOf('.NET') > 0)
-                            window.navigator.msSaveBlob(blob, data.title);
+                        if (navigator.appVersion.toString().indexOf('.NET') > 0) {
+                            window.navigator.msSaveBlob(blob, data.filename);
+                        }
                         else {
                             var document = $window.document;
                             var a = document.createElement('a');
                             document.body.appendChild(a);
                             a.setAttribute('style', 'display:none');
                             a.href = blobUri;
-                            a.download = data.title;
+                            a.download = data.filename;
                             a.click();
                         }
                     });
-
                 });
             };
 

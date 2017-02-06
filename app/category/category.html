@@ -12,17 +12,19 @@
 			<hr>
 			<p>{{ subtitle }}</p>
 			<br>
-			<form ng-controller="SearchFormController"
-					ng-submit="search('facet_kategorie:\'' + title + '\'')"
-					class="input-group form-inline"
-					role="search">
-				<input size="50" type="text" ng-model="q" name="q" class="form-control" placeholder="Suche in dieser Kategorie"></input>
-				<span class="input-group-btn">
-					<button type="submit" class="btn btn-default">
-						&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
-					</button>
-				</span>
-			</form>
+			<div class="category-search">
+				<form ng-submit="search()"
+						class="input-group form-inline"
+						role="search">
+					<input size="50" type="text" ng-model="q" name="q" class="form-control" placeholder="Suche in dieser Kategorie"></input>
+					<span class="input-group-btn">
+						<button type="submit" class="btn btn-default">
+							&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
+						</button>
+					</span>
+				</form>
+			</div>
+			<br>
 			<ul class="list-inline text-muted">
 				<li ng-show="resultSize">
 					{{"ui_total"|transl8}}
