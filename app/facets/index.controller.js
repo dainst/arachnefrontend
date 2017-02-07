@@ -24,7 +24,7 @@ angular.module('arachne.controllers')
             function loadFacets() {
                 if ($stateParams.c) { 
                     if ($stateParams.c == $scope.currentCategory) return;
-                    $scope.currentCategory = $stateParams.c
+                    $scope.currentCategory = $stateParams.c;
                     $scope.currentCategoryQuery = new Query().addFacet("facet_kategorie", $stateParams.c);
                     $scope.currentCategoryQuery.q = "*";
                     $scope.currentCategoryQuery.limit = 0;
@@ -51,7 +51,7 @@ angular.module('arachne.controllers')
                     }
                     $http.get(url).success(function (data) {
                         $scope.values = data.facetValues;
-                        $scope.currentFacet = $stateParams.fq
+                        $scope.currentFacet = $stateParams.fq;
                     });
                 } else {
                     $scope.values = undefined;
@@ -66,12 +66,12 @@ angular.module('arachne.controllers')
 
                     $scope.currentQuery = new Query().addFacet("facet_kategorie", $stateParams.c).addFacet($stateParams.fq, $stateParams.fv);
                     $scope.currentQuery.q = "*";
-                    
+
                     Entity.query($scope.currentQuery.toFlatObject(), function (response) {
                         $scope.entities = $filter('cellsFromEntities')(response.entities, $scope.currentQuery);
-                        $scope.currentValue = $stateParams.fv
-                        window.scrollTo({'top':0})
+                        $scope.currentValue = $stateParams.fv;
                         $scope.entityResultSize = response.size;
+                        window.scrollTo({'top':0});
                     });
                 } else {
                     $scope.entities = [];
