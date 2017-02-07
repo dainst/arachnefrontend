@@ -43,6 +43,13 @@ body {
 @media screen and (max-width: 415px) {
 
   #projectLogo {
+    display: inline !important;
+  }
+}
+
+@media screen and (max-width: 415px) {
+
+  #projectLogo {
 
     display: none;
   }
@@ -270,10 +277,6 @@ h6 { font-size: 12px; }
 *[ar-grid-map] .leaflet-popup {
   bottom: 0 !important;
 }
-
-
-
-
 
 .single-line {
   overflow: hidden;
