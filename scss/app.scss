@@ -40,10 +40,44 @@ body {
   flex-direction: column;
 }
 
-@media screen and (max-width: 415px) {
+@media screen and (min-width: $screen-lg) and (max-width: $screen-lg) {
+
+  .navbar-right {
+    display: none !important;
+  }
+
+  .navbar .idai-navbar-search .input-group {
+    width: 65%;
+  }
+}
+
+@media screen and (max-width: 395px) {
 
   #projectLogo {
-    display: inline !important;
+    display: block !important;
+  }
+
+  #projectLogo img {
+    height: 28px !important;
+    margin-top: 12px !important;
+  }
+}
+
+.navbar-collapse {
+  float: left;
+}
+
+@media screen and (max-width: 480px) {
+
+  .navbar-collapse {
+    margin-left: -75px;
+  }
+}
+
+@media screen and (max-width: 333px) {
+
+  .navbar-right {
+    display: none !important;
   }
 }
 
