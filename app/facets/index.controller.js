@@ -30,7 +30,8 @@ angular.module('arachne.controllers')
                     $scope.currentCategoryQuery.limit = 0;
 
                     Entity.query($scope.currentCategoryQuery.toFlatObject(), function (response) {
-                        $scope.facets = response.facets;
+                        var filteredFacets = response.facets.filter( function(facet){ return facet.name != "facet_geo"});
+                        $scope.facets = filteredFacets;
                         $scope.resultSize = response.size;
                     });
                 } else {
