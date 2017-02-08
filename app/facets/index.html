@@ -40,7 +40,7 @@
 					<a ng-click="nextFacetPage()"
 					   class="btn btn-sm btn-default"
 					   style="border-radius:15px"
-					   ng-class="{ 'disabled': currentFacetPage > facets.length }">
+					   ng-class="{ 'disabled': currentFacetPage + 1 >= facets.length }">
 						Vor <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
 					</a>
 				</div>
