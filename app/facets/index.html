@@ -4,12 +4,12 @@
 		<div class="col-md-3">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h5 class="panel-title">{{categories.length}} {{ 'facet_kategorie' | transl8 }}</h5>
+					<h5 class="panel-title">{{categories.length}} {{ 'startsite_categories' | transl8 }}</h5>
 				</div>
-				<div class="panel-nav" align="center" style="height: 45px">
+				<div class="panel-nav-search clickable" align="center" style="height: 45px">
 
 					<a ng-click="startIndexSearch()">
-						<span class="glyphicon glyphicon-search"></span> {{'ui_showall'|transl8}} ({{entityResultSize}})
+						<span class="glyphicon glyphicon-search"></span> {{'ui_to_search_result'|transl8}} ({{entityResultSize}})
 					</a>
 				</div>
 				<ul class="list-unstyled facet">

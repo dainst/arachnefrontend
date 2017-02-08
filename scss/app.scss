@@ -558,6 +558,17 @@ con10t-catalog-tree {
   background-color: #eaeaea;
 }
 
+.panel-nav-search {
+  border-bottom: solid #ddd 1px;
+  text-align: center;
+  padding: 10px;
+}
+
+.panel-nav-search a {
+  padding: 2px 2px;
+  display: inline-block;
+}
+
 #usermenu .glyphicon {
   color: rgb(66,139,202);
   margin-right: 10px;
