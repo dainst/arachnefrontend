@@ -20,7 +20,7 @@ angular.module('arachne.controllers')
                     }
                 }
 
-                if(temp.length >= $scope.minPanelSize) $scope.panelSize = temp.length - 1;
+                if(temp.length >= $scope.minPanelSize) $scope.panelSize = temp.length;
 
                 $scope.categories = temp.sort(function (a, b) {
                     if(a.title < b.title) return -1;
@@ -38,6 +38,7 @@ angular.module('arachne.controllers')
                     if ($stateParams.c == $scope.currentCategory) return;
 
                     $scope.currentCategory = $stateParams.c;
+                    $scope.currentFacet = undefined;
                     $scope.currentCategoryQuery = new Query().addFacet("facet_kategorie", $stateParams.c);
                     $scope.currentCategoryQuery.q = "*";
 
@@ -104,8 +105,13 @@ angular.module('arachne.controllers')
                     }
                     $http.get(url).success(function (data) {
                         var preprocessedValues = data.facetValues.filter( function(value){ return value.trim() != ""});
-
-                        preprocessedValues = preprocessedValues.sort(function (a, b) {
+                        preprocessedValues = preprocessedValues.map(function(value) {
+                            return value.trim();
+                        });
+                        var temp = preprocessedValues.filter(function(value, index, self){
+                            return index == self.indexOf(value);
+                        });
+                        preprocessedValues = temp.sort(function (a, b) {
                             if(a.toLowerCase() < b.toLowerCase()) return -1;
                             if(a.toLowerCase() > b.toLowerCase()) return 1;
                             return 0;
@@ -117,7 +123,7 @@ angular.module('arachne.controllers')
                         $scope.valuesCount = preprocessedValues.length;
 
                         for(var i = 0; i < preprocessedValues.length; i++) {
-                            if(itemCounter == $scope.panelSize * 2) {
+                            if(itemCounter + 2 == $scope.panelSize * 2) {
                                 $scope.facetValues.push([]);
                                 pageCounter += 1;
                                 itemCounter = 0;
