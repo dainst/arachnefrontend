@@ -28,7 +28,7 @@
 					<h5 class="panel-title">{{facetCount}} {{ 'ui_filter_plural' | transl8 }}</h5>
 				</div>
 				<div class="panel-nav" align="center">
-					<a ng-click="previousValuePage()"
+					<a ng-click="previousFacetPage()"
 					   class="btn btn-sm btn-default"
 					   style="border-radius:15px"
 					   ng-class="{ 'disabled': currentFacetPage == 0 }">
@@ -37,7 +37,7 @@
 					<small class="text-muted" style="padding: 0px 8px;">
 						<strong>Seite {{currentFacetPage + 1}} / {{facets.length}}</strong>
 					</small>
-					<a ng-click="nextValuePage()"
+					<a ng-click="nextFacetPage()"
 					   class="btn btn-sm btn-default"
 					   style="border-radius:15px"
 					   ng-class="{ 'disabled': currentFacetPage > facets.length }">
