@@ -93,6 +93,10 @@ angular.module('arachne.controllers')
                         return;
                     }
 
+                    if($scope.groupedBy != $stateParams.group){
+                        $scope.currentValuePage = 0;
+                    }
+
                     $scope.currentFacet = $stateParams.fq;
                     $scope.currentValue = $stateParams.fv;
 
@@ -108,6 +112,7 @@ angular.module('arachne.controllers')
                         preprocessedValues = preprocessedValues.map(function(value) {
                             return value.trim();
                         });
+                        // Filtering duplicates
                         var temp = preprocessedValues.filter(function(value, index, self){
                             return index == self.indexOf(value);
                         });
