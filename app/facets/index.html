@@ -1,56 +1,93 @@
 <div ng-controller="IndexController">
 	<div class="row">
-		<div class="col-md-2">
+		<!-- Category panel -->
+		<div class="col-md-3">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h5 class="panel-title">{{ 'facet_kategorie' | transl8 }}</h5>
+					<h5 class="panel-title">{{categories.length}} {{ 'startsite_categories' | transl8 }}</h5>
+				</div>
+				<div class="panel-nav-search clickable" align="center" style="height: 45px">
+
+					<a ng-click="startIndexSearch()">
+						<span class="glyphicon glyphicon-search"></span> {{'ui_to_search_result'|transl8}} ({{entityResultSize}})
+					</a>
 				</div>
 				<ul class="list-unstyled facet">
-					<li ng-repeat="category in categories" ng-class="{selected: category.title == currentCategory}">
-						<a href="index?c={{category.title}}">{{category.title}}</a>
+					<li ng-repeat="category in categories" ng-class="{selected: category.queryTitle == currentCategory}">
+						<a href="index?c={{category.queryTitle}}">{{category.title}}</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<div class="col-md-2">
-			<div class="panel panel-default"  ng-show="facets">
+
+		<!-- Facet panel -->
+		<div class="col-md-3">
+			<!-- Facet page navigation-->
+			<div class="panel panel-default" ng-show="facets[currentFacetPage]">
 				<div class="panel-heading">
-					<h5 class="panel-title">{{ 'ui_filter_plural' | transl8 }}</h5>
+					<h5 class="panel-title">{{facetCount}} {{ 'ui_filter_plural' | transl8 }}</h5>
+				</div>
+				<div class="panel-nav" align="center">
+					<a ng-click="previousFacetPage()"
+					   class="btn btn-sm btn-default"
+					   style="border-radius:15px"
+					   ng-class="{ 'disabled': currentFacetPage == 0 }">
+						<span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> Zurück
+					</a>
+					<small class="text-muted" style="padding: 0px 8px;">
+						<strong>Seite {{currentFacetPage + 1}} / {{facets.length}}</strong>
+					</small>
+					<a ng-click="nextFacetPage()"
+					   class="btn btn-sm btn-default"
+					   style="border-radius:15px"
+					   ng-class="{ 'disabled': currentFacetPage + 1 >= facets.length }">
+						Vor <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
+					</a>
 				</div>
 				<ul class="list-unstyled facet">
-					<li ng-repeat="facet in facets" ng-class="{selected: facet.name == currentFacet}">
+					<li ng-repeat="facet in facets[currentFacetPage]" ng-class="{selected: facet.name == currentFacet}">
 						<a href="index?c={{currentCategory}}&fq={{facet.name}}">{{facet.name | transl8 }}</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<div class="col-md-2">
-			<div class="panel panel-default" ng-show="values">
+
+		<div class="col-md-6" >
+			<div class="panel panel-default" ng-show="facetValues">
 				<div class="panel-heading">
-					<h5 class="panel-title">{{values.length}} {{ 'facet_values' | transl8 }} <b ng-if="values.length > 250">! Max. 250 displayed</b></h5>
+					<h5 class="panel-title">{{valuesCount}} {{ 'facet_values' | transl8 }}</h5>
 				</div>
-				<div class="panel-nav" align="center" ng-if="currentFacet">
-					<a href="index?c={{currentCategory}}&fq={{currentFacet}}" ng-show="groupedBy"><span class="glyphicon glyphicon-remove"></span></a>
-					<a href="index?c={{currentCategory}}&fq={{currentFacet}}&group={{letter}}" ng-repeat='letter in ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","x","y","z"]' class="text-uppercase" ng-class="{'btn btn-primary': letter == groupedBy}">{{letter}}</a>
+				<div class="panel-nav" align="center">
+					<a href="index?c={{currentCategory}}&fq={{currentFacet}}" ng-show="groupedBy">
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+					<a href="index?c={{currentCategory}}&fq={{currentFacet}}&group={{letter}}" ng-repeat='letter in ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","x","y","z"]' class="text-uppercase" ng-class="{'btn btn-primary': letter == groupedBy}">
+						{{letter}}
+					</a>
 				</div>
-				<div class="panel-nav" align="center" ng-if="currentValue">
-					{{'ui_current_search' | transl8}}: <b>{{currentValue}}</b>
-				</div>
-				<ul class="list-unstyled facet">
-					<li ng-repeat="value in values | limitTo : 250"  ng-class="{selected: value == currentValue}">
-						<a href="index?c={{currentCategory}}&fq={{currentFacet}}&fv={{value}}&group={{groupedBy}}">{{ value | stripCoords }} {{value.count}}</a>
+
+				<ul ng-style="{'columns':valueRows, '-webkit-columns':valueRows, '-moz-columns':valueRows}" class="list-unstyled facet">
+
+					<a ng-click="previousValuePage()"
+					   class="btn btn-sm btn-default"
+					   style="border-radius:10px;width:100%; padding-top:2px;padding-bottom:2px;margin-top:2px;margin-bottom:2px;margin-left:2px;"
+					   ng-class="{ 'disabled': currentValuePage == 0 }">
+						<span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> Zurück
+					</a>
+
+					<li ng-repeat="facetValue in facetValues[currentValuePage]" ng-class="{selected: facetValue == currentValue}">
+						<a href="index?c={{currentCategory}}&fq={{currentFacet}}&fv={{facetValue}}">{{facetValue}}</a>
 					</li>
+
+					<a ng-click="nextValuePage()"
+					   class="btn btn-sm btn-default"
+					   style="border-radius:10px;width:100%;padding-top:2px;padding-bottom:2px;margin-top:2px;margin-bottom:2px;margin-right:2px;float:right;"
+					   ng-class="{ 'disabled': currentValuePage + 1 >= facetValues.length }">
+						Vor <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
+					</a>
+
 				</ul>
 			</div>
 		</div>
-		<div class="col-md-6" style="position: absolute; right: 0px; bottom: 190px; top: 60px; overflow-y: scroll;">
-			<h4 ng-hide="currentValue == undefined"><strong>{{currentCategory}}, {{currentFacet | transl8 }} = {{currentValue}}</strong> - {{ 'results' | transl8}}: {{entityResultSize}} </h4>
-			<hr>
-			<div ar-imagegrid
-				cells="entities"
-				columns="3"
-				target="_blank"
-				margin="4" ng-if="currentValue" ng-show="entities.length > 0">					
-			</div>	
-		</div>
+	</div>
 </div>

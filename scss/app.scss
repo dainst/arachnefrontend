@@ -40,11 +40,44 @@ body {
   flex-direction: column;
 }
 
-@media screen and (max-width: 415px) {
+@media screen and (min-width: $screen-lg) and (max-width: $screen-lg) {
+
+  .navbar-right {
+    display: none !important;
+  }
+
+  .navbar .idai-navbar-search .input-group {
+    width: 65%;
+  }
+}
+
+@media screen and (max-width: 395px) {
 
   #projectLogo {
+    display: block !important;
+  }
 
-    display: none;
+  #projectLogo img {
+    height: 28px !important;
+    margin-top: 12px !important;
+  }
+}
+
+.navbar-collapse {
+  float: left;
+}
+
+@media screen and (max-width: 480px) {
+
+  .navbar-collapse {
+    margin-left: -75px;
+  }
+}
+
+@media screen and (max-width: 333px) {
+
+  .navbar-right {
+    display: none !important;
   }
 }
 
@@ -270,10 +303,6 @@ h6 { font-size: 12px; }
 *[ar-grid-map] .leaflet-popup {
   bottom: 0 !important;
 }
-
-
-
-
 
 .single-line {
   overflow: hidden;
@@ -527,6 +556,17 @@ con10t-catalog-tree {
  }
 .panel-nav a:hover {
   background-color: #eaeaea;
+}
+
+.panel-nav-search {
+  border-bottom: solid #ddd 1px;
+  text-align: center;
+  padding: 10px;
+}
+
+.panel-nav-search a {
+  padding: 2px 2px;
+  display: inline-block;
 }
 
 #usermenu .glyphicon {

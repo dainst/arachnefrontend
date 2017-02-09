@@ -20,6 +20,14 @@
 				ng-click="selectEntry(entry)">
             {{entry.label}}
             <small ng-if="entry.arachneEntityId" class="text-muted"><i>{{ entry.arachneEntityId }}</i></small>
+            <small>
+			    <em ng-if="entry.totalChildren == 1">
+                    (1 {{ 'ui_entry' | transl8 }})
+                </em>
+                <em ng-if="entry.totalChildren > 1">
+                    ({{ entry.totalChildren }} {{ 'ui_entries' | transl8 }})
+                </em>
+            </small>
         </span>
 
 		<span ng-show="editable" class="edit-section">

@@ -1,46 +1,108 @@
 angular.module('arachne.controllers')
-    .controller('IndexController', ['$rootScope', '$scope', 'categoryService', 'Entity', 'Query', '$stateParams', '$http','$filter',
-        function ($rootScope, $scope, categoryService, Entity, Query, $stateParams, $http, $filter) {
+    .controller('IndexController', ['$rootScope', '$scope', 'categoryService', 'Entity', 'Query', '$stateParams', '$http','$filter', '$location',
+        function ($rootScope, $scope, categoryService, Entity, Query, $stateParams, $http, $filter, $location) {
             $scope.currentCategory = undefined;
             $scope.currentFacet = undefined;
             $scope.currentValue = undefined;
             $scope.groupedBy = undefined;
-            $scope.entities = [];
+
             $scope.entityResultSize = 0;
 
+            $scope.minPanelSize = 14;
+            $scope.panelSize = 14;
+
         	categoryService.getCategoriesAsync().then(function (categories) {
-                $scope.categories = [];
+
+        	    var temp = [];
                 for (var key in categories) {
                     if (categories[key].status != 'none') {
-                        $scope.categories.push(categories[key]);
+                        temp.push(categories[key]);
                     }
                 }
+
+                if(temp.length >= $scope.minPanelSize) $scope.panelSize = temp.length;
+
+                $scope.categories = temp.sort(function (a, b) {
+                    if(a.title < b.title) return -1;
+                    if(a.title > b.title) return 1;
+                    return 0;
+                });
             });
 
             $rootScope.$on('$locationChangeSuccess', function () {
                 load()
             });
-            
+
             function loadFacets() {
                 if ($stateParams.c) { 
                     if ($stateParams.c == $scope.currentCategory) return;
-                    $scope.currentCategory = $stateParams.c
+
+                    $scope.currentCategory = $stateParams.c;
+                    $scope.currentFacet = $stateParams.fq;
                     $scope.currentCategoryQuery = new Query().addFacet("facet_kategorie", $stateParams.c);
                     $scope.currentCategoryQuery.q = "*";
-                    $scope.currentCategoryQuery.limit = 0;
 
                     Entity.query($scope.currentCategoryQuery.toFlatObject(), function (response) {
-                        $scope.facets = response.facets;
+                        var filteredFacets = response.facets.filter( function(facet){ return facet.name != "facet_geo"});
+
+                        filteredFacets = filteredFacets.sort(function (a, b) {
+                            if($filter('transl8')(a.name).toLowerCase() < $filter('transl8')(b.name).toLowerCase()) return -1;
+                            if($filter('transl8')(a.name).toLowerCase() > $filter('transl8')(b.name).toLowerCase()) return 1;
+                            return 0;
+                        });
+
+                        var itemCounter = 0;
+                        var pageCounter = 0;
+                        $scope.facets = [[]];
+                        $scope.facetCount = filteredFacets.length;
+
+                        $scope.currentFacetPage = 0;
+                        for(var i = 0; i < filteredFacets.length; i++) {
+                            if(itemCounter == $scope.panelSize) {
+                                $scope.facets.push([]);
+                                pageCounter += 1;
+                                itemCounter = 0;
+                            }
+
+                            if(filteredFacets[i].name == $scope.currentFacet){
+                                $scope.currentFacetPage = pageCounter;
+                            }
+
+                            $scope.facets[pageCounter].push(filteredFacets[i]);
+                            itemCounter += 1;
+                        }
                         $scope.resultSize = response.size;
                     });
                 } else {
                     $scope.facets = undefined;
+                    $scope.facetValues = undefined;
                 }
             }
 
+            $scope.previousFacetPage = function() {
+                $scope.currentFacetPage -= 1;
+            };
+
+            $scope.nextFacetPage = function() {
+                $scope.currentFacetPage += 1;
+            };
+
             function loadFacetValues() {
+
                 if ($stateParams.fq) {
-                    if ($scope.currentFacet == $stateParams.fq && $scope.groupedBy == $stateParams.group) return;
+                    if ($scope.currentFacet == $stateParams.fq
+                            && $scope.currentValue == $stateParams.fv
+                            && $scope.groupedBy == $stateParams.group
+                            && $scope.facetValues){
+                        return;
+                    }
+
+                    if($scope.groupedBy != $stateParams.group){
+                        $scope.currentValuePage = 0;
+                    }
+
+                    $scope.currentFacet = $stateParams.fq;
+                    $scope.currentValue = $stateParams.fv;
 
                     var url = '/data/index/' + $stateParams.fq;
                     if ($stateParams.group) {
@@ -50,40 +112,93 @@ angular.module('arachne.controllers')
                         $scope.groupedBy = undefined;
                     }
                     $http.get(url).success(function (data) {
-                        $scope.values = data.facetValues;
-                        $scope.currentFacet = $stateParams.fq
-                    });
-                } else {
-                    $scope.values = undefined;
-                    $scope.currentFacet = undefined;
-                    $scope.entityResultSize = 0;
-                }
-            }
-            
-            function loadEntities() {
-                if ($stateParams.fv) {
-                    if ($scope.currentValue == $stateParams.fv) return;
+                        var preprocessedValues = data.facetValues.filter( function(value){ return value.trim() != ""});
+                        preprocessedValues = preprocessedValues.map(function(value) {
+                            return value.trim();
+                        });
+                        // Filtering duplicates
+                        var temp = preprocessedValues.filter(function(value, index, self){
+                            return index == self.indexOf(value);
+                        });
+                        preprocessedValues = temp.sort(function (a, b) {
+                            if(a.toLowerCase() < b.toLowerCase()) return -1;
+                            if(a.toLowerCase() > b.toLowerCase()) return 1;
+                            return 0;
+                        });
 
-                    $scope.currentQuery = new Query().addFacet("facet_kategorie", $stateParams.c).addFacet($stateParams.fq, $stateParams.fv);
-                    $scope.currentQuery.q = "*";
-                    
-                    Entity.query($scope.currentQuery.toFlatObject(), function (response) {
-                        $scope.entities = $filter('cellsFromEntities')(response.entities, $scope.currentQuery);
-                        $scope.currentValue = $stateParams.fv
-                        window.scrollTo({'top':0})
-                        $scope.entityResultSize = response.size;
+                        var itemCounter = 0;
+                        var pageCounter = 0;
+                        $scope.facetValues = [[]];
+                        $scope.valuesCount = preprocessedValues.length;
+
+                        if(preprocessedValues.length + 2 < $scope.panelSize) {
+                            $scope.valueRows = 1;
+                        }
+                        else {
+                            $scope.valueRows = 2;
+                        }
+
+                        $scope.currentValuePage = 0;
+                        for(var i = 0; i < preprocessedValues.length; i++) {
+                            if(itemCounter + 2 == $scope.panelSize * 2) {
+                                $scope.facetValues.push([]);
+                                pageCounter += 1;
+                                itemCounter = 0;
+                            }
+
+                            $scope.facetValues[pageCounter].push(preprocessedValues[i]);
+                            if(preprocessedValues[i] == $scope.currentValue){
+                                $scope.currentValuePage = pageCounter;
+                            }
+
+                            itemCounter += 1;
+                        }
                     });
                 } else {
-                    $scope.entities = [];
+                    $scope.facetValues = undefined;
                     $scope.currentValue = undefined;
-                    $scope.entityResultSize = 0;
                 }
             }
+
+            $scope.previousValuePage = function() {
+                $scope.currentValuePage -= 1;
+            };
+
+            $scope.nextValuePage = function() {
+                $scope.currentValuePage += 1;
+            };
+
+            $scope.startIndexSearch = function() {
+                $location.url("search" + getCurrentQuery().toString());
+            };
+
+            function updatePreviewResultSize() {
+                Entity.query(getCurrentQuery().toFlatObject(), function (response) {
+                    $scope.entityResultSize = response.size;
+                });
+            }
+
+            function getCurrentQuery() {
+                var query = new Query();
+
+                if($stateParams.c){
+                    query = query.addFacet("facet_kategorie", $stateParams.c)
+                }
+
+                if($stateParams.fq && $stateParams.fv){
+                    query = query.addFacet($stateParams.fq, $stateParams.fv)
+                }
+
+                query.q = "*";
+                return query;
+            }
+
             function load() {
                 loadFacets();
                 loadFacetValues();
-                loadEntities();
+                updatePreviewResultSize();
             }
+
             load();
         }
     ]);
