@@ -56,6 +56,7 @@ angular.module('arachne.controllers')
                         $scope.facets = [[]];
                         $scope.facetCount = filteredFacets.length;
 
+                        $scope.currentFacetPage = 0;
                         for(var i = 0; i < filteredFacets.length; i++) {
                             if(itemCounter == $scope.panelSize) {
                                 $scope.facets.push([]);
@@ -63,7 +64,6 @@ angular.module('arachne.controllers')
                                 itemCounter = 0;
                             }
 
-                            $scope.currentFacetPage = 0;
                             if(filteredFacets[i].name == $scope.currentFacet){
                                 $scope.currentFacetPage = pageCounter;
                             }
@@ -138,6 +138,7 @@ angular.module('arachne.controllers')
                             $scope.valueRows = 2;
                         }
 
+                        $scope.currentValuePage = 0;
                         for(var i = 0; i < preprocessedValues.length; i++) {
                             if(itemCounter + 2 == $scope.panelSize * 2) {
                                 $scope.facetValues.push([]);
@@ -146,7 +147,6 @@ angular.module('arachne.controllers')
                             }
 
                             $scope.facetValues[pageCounter].push(preprocessedValues[i]);
-                            $scope.currentValuePage = 0;
                             if(preprocessedValues[i] == $scope.currentValue){
                                 $scope.currentValuePage = pageCounter;
                             }
