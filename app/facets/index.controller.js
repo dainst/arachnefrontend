@@ -127,6 +127,13 @@ angular.module('arachne.controllers')
                         $scope.facetValues = [[]];
                         $scope.valuesCount = preprocessedValues.length;
 
+                        if(preprocessedValues.length + 2 < $scope.panelSize) {
+                            $scope.valueRows = 1;
+                        }
+                        else {
+                            $scope.valueRows = 2;
+                        }
+
                         for(var i = 0; i < preprocessedValues.length; i++) {
                             if(itemCounter + 2 == $scope.panelSize * 2) {
                                 $scope.facetValues.push([]);
