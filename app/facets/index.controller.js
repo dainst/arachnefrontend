@@ -63,6 +63,7 @@ angular.module('arachne.controllers')
                                 itemCounter = 0;
                             }
 
+                            $scope.currentFacetPage = 0;
                             if(filteredFacets[i].name == $scope.currentFacet){
                                 $scope.currentFacetPage = pageCounter;
                             }
@@ -70,10 +71,6 @@ angular.module('arachne.controllers')
                             $scope.facets[pageCounter].push(filteredFacets[i]);
                             itemCounter += 1;
                         }
-
-
-
-                        if($scope.currentFacetPage == undefined) $scope.currentFacetPage = 0;
                         $scope.resultSize = response.size;
                     });
                 } else {
@@ -149,15 +146,13 @@ angular.module('arachne.controllers')
                             }
 
                             $scope.facetValues[pageCounter].push(preprocessedValues[i]);
-
+                            $scope.currentValuePage = 0;
                             if(preprocessedValues[i] == $scope.currentValue){
                                 $scope.currentValuePage = pageCounter;
                             }
 
                             itemCounter += 1;
                         }
-
-                        if($scope.currentValuePage == undefined) $scope.currentValuePage = 0;
                     });
                 } else {
                     $scope.facetValues = undefined;
