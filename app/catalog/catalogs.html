@@ -48,6 +48,21 @@
                  
             </div>
         </div>
+
+        <div class="panel panel-default" ng-show="!catalogs.length">
+            <div class="panel-heading">
+                <div class="panel-title">{{ 'catalog_no_catalog_info' | transl8 }}</div>
+            </div>
+            <div class="panel-body">
+                <p>{{ 'catalog_no_catalog_help' | transl8 }}</p>
+                <p>
+                    <strong>{{ 'general_hint' | transl8 }}</strong>
+                    &nbsp;
+                    {{ 'catalog_no_catalog_hint_note' | transl8 }}
+                </p>
+            </div>
+        </div>
+
     </div>
 </div>
 
