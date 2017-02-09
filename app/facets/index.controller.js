@@ -38,7 +38,7 @@ angular.module('arachne.controllers')
                     if ($stateParams.c == $scope.currentCategory) return;
 
                     $scope.currentCategory = $stateParams.c;
-                    $scope.currentFacet = undefined;
+                    $scope.currentFacet = $stateParams.fq;
                     $scope.currentCategoryQuery = new Query().addFacet("facet_kategorie", $stateParams.c);
                     $scope.currentCategoryQuery.q = "*";
 
@@ -63,9 +63,15 @@ angular.module('arachne.controllers')
                                 itemCounter = 0;
                             }
 
+                            if(filteredFacets[i].name == $scope.currentFacet){
+                                $scope.currentFacetPage = pageCounter;
+                            }
+
                             $scope.facets[pageCounter].push(filteredFacets[i]);
                             itemCounter += 1;
                         }
+
+
 
                         if($scope.currentFacetPage == undefined) $scope.currentFacetPage = 0;
                         $scope.resultSize = response.size;
@@ -89,7 +95,8 @@ angular.module('arachne.controllers')
                 if ($stateParams.fq) {
                     if ($scope.currentFacet == $stateParams.fq
                             && $scope.currentValue == $stateParams.fv
-                            && $scope.groupedBy == $stateParams.group){
+                            && $scope.groupedBy == $stateParams.group
+                            && $scope.facetValues){
                         return;
                     }
 
@@ -140,7 +147,13 @@ angular.module('arachne.controllers')
                                 pageCounter += 1;
                                 itemCounter = 0;
                             }
+
                             $scope.facetValues[pageCounter].push(preprocessedValues[i]);
+
+                            if(preprocessedValues[i] == $scope.currentValue){
+                                $scope.currentValuePage = pageCounter;
+                            }
+
                             itemCounter += 1;
                         }
 
@@ -148,7 +161,7 @@ angular.module('arachne.controllers')
                     });
                 } else {
                     $scope.facetValues = undefined;
-                    $scope.currentFacetValue = undefined;
+                    $scope.currentValue = undefined;
                 }
             }
 
