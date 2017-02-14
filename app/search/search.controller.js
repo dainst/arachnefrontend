@@ -197,7 +197,6 @@ angular.module('arachne.controllers')
             $scope.loadMoreFacetValues = function (facet) {
                 searchService.loadMoreFacetValues(facet).then(function (hasMore) {
                     facet.hasMore = hasMore;
-                    console.log(facet.name, facet.hasMore);
                 }, function (response) {
                     if (response.status == '404') messages.add('backend_missing');
                     else messages.add('search_' + response.status);
