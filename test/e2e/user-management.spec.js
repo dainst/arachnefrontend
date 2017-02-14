@@ -393,7 +393,6 @@ describe('user management page', function () {
             .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
             .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
             .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-            .then(navbarPage.passwordResetTypeInZIP(common.getTestUserZIP()))
             .then(navbarPage.passwordResetConfirmNoBot)
             .then(navbarPage.submitPasswordReset)
             .then(function () {
