@@ -22,17 +22,6 @@ angular.module('arachne.controllers')
                 }
             };
 
-            // TODO Abstract Sections-Template and Logic to seperate unit - for reuse
-            // LOGIC for sections-iteration
-            $scope.isArray = function (value) {
-                if (angular.isArray(value)) {
-                    if (value.length == 1) return false;
-                    return true;
-                }
-                return false;
-            };
-
-
             // if no id given, but query get id from search and reload
             if (!$stateParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
 

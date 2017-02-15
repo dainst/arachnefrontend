@@ -1,61 +1,3 @@
-<script type="text/ng-template" id="sections_template.html">
-
-    <div ng-if="!entity.sections">
-        <em>{{'entity_no_further_info'|transl8}}</em>
-    </div>
-    <div class="sections"
-         ng-repeat="section in entity.sections"
-         ng-include="'section_template.html'">
-    </div>
-
-    <br>
-    <!-- Editor Section -->
-    <div class="sections" ng-if="entity.editorSection">
-        <li ng-if="!entity.editorSection.value" ng-class="{'thumbnail' : entity.editorSection.contextEntity}" style="list-style-type:none;">
-            <strong ng-if="entity.editorSection.label">{{entity.editorSection.label}}</strong>
-            <ul ng-repeat="section in (entity.editorSection.content || entity.editorSection.contextEntity)" ng-include="'section_template.html'"></ul>
-        </li>
-
-        <li ng-if="entity.editorSection.value" ng-switch="isArray(entity.editorSection.value)" style="list-style-type:none;">
-            <span ng-switch-when="false" ng-bind-html="entity.editorSection.value | nl2br"></span>
-            <div ng-switch-when="true">
-                <div class="section-item" ng-repeat="valueItem in entity.editorSection.value track by $index" ng-bind-html="valueItem | nl2br"></div>
-            </div>
-        </li>
-    </div>
-
-    <div ng-if="entity.additionalContent.ocrText">
-        <div class="page-header"><h4>OCR Text {{'entity_analysis'|transl8}}</h4></div>
-        <ul>{{entity.additionalContent.ocrText}}</ul>
-    </div>
-
-</script>
-
-<script type="text/ng-template" id="section_template.html">
-
-    <li ng-if="!section.value" ng-class="{'thumbnail' : section.contextEntity}" style="list-style-type:none;">
-        <strong ng-if="section.label">{{section.label}}</strong>
-        <ul ng-repeat="section in (section.content || section.contextEntity)" ng-include="'section_template.html'"></ul>
-    </li>
-
-    <li ng-if="section.value" ng-switch="isArray(section.value)" style="list-style-type:none;">
-        <span ng-switch-when="false" ng-bind-html="section.value | nl2br"></span>
-        <div ng-switch-when="true">
-            <div class="section-item" ng-if="$index <= 3" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br"></div>
-            <div class="section-item" ng-if="$index > 3" ng-repeat="valueItem in section.value track by $index" ng-bind-html="valueItem | nl2br" uib-collapse="!isCollapsed"></div>
-            <div ng-show="section.value.length > 3" class="more">
-                <em ng-show="!isCollapsed">
-                    <a class="btn btn-link" href="#" ng-click="isCollapsed = !isCollapsed">{{ 'ui_show_more' | transl8 }}</a>
-                </em>
-                <em ng-show="isCollapsed">
-                    <a class="btn btn-link" href="#" ng-click="isCollapsed = !isCollapsed">{{ 'ui_show_less' | transl8 }}</a>
-                </em>
-            </div>
-        </div>
-    </li>
-
-</script>
-
 <div ng-cloak class="row"  ng-controller="EntityController">
     <ar-schemaorg-jsonld entity="entity"></ar-schemaorg-jsonld>
 
@@ -72,7 +14,6 @@
         </div>
 
         <!-- CURRENT QUERY STATUS -->
-
 
         <div class="row">
             <div class="col-md-12">
@@ -185,7 +126,7 @@
         <div class="row">
             <!-- CONTENT SECTION -->
             <div class="col-md-8">
-                <div ng-include="'sections_template.html'"></div>
+                <div ar-entity-sections entity="entity"></div>
             </div>
             <!-- END CONTENT SECTION -->
 
