@@ -35,7 +35,7 @@
 						<span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> Zurück
 					</a>
 					<small class="text-muted" style="padding: 0px 8px;">
-						<strong>Seite {{currentFacetPage + 1}} / {{facets.length}}</strong>
+						<strong>{{ 'ui_page' | transl8 }} {{currentFacetPage + 1}} / {{facets.length}}</strong>
 					</small>
 					<a ng-click="nextFacetPage()"
 					   class="btn btn-sm btn-default"
@@ -72,7 +72,7 @@
 					   class="btn btn-sm btn-default"
 					   style="border-radius:10px;width:100%; padding-top:2px;padding-bottom:2px;margin-top:2px;margin-bottom:2px;margin-left:2px;"
 					   ng-class="{ 'disabled': currentValuePage == 0 }">
-						<span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> Zurück
+						<span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> {{ 'ui_back' | transl8 }}
 					</a>
 
 					<li ng-repeat="facetValue in facetValues[currentValuePage]" ng-class="{selected: facetValue == currentValue}">
@@ -83,7 +83,7 @@
 					   class="btn btn-sm btn-default"
 					   style="border-radius:10px;width:100%;padding-top:2px;padding-bottom:2px;margin-top:2px;margin-bottom:2px;margin-right:2px;float:right;"
 					   ng-class="{ 'disabled': currentValuePage + 1 >= facetValues.length }">
-						Vor <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
+						{{ 'ui_on' | transl8 }} <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
 					</a>
 
 				</ul>

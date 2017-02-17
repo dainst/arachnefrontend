@@ -7,19 +7,19 @@
                    class="btn btn-sm btn-default"
                    ng-class="{ 'active': !currentQuery.view}">
                     <span class="glyphicon glyphicon-th"></span>
-                    Kacheln
+                    {{ 'ui_tiles' | transl8 }}
                 </a>
                 <a ng-href="search{{currentQuery.setParam('view','list').toString()}}"
                    class="btn btn-sm btn-default"
                    ng-class="{ 'active': currentQuery.view == 'list' }">
                     <span class="glyphicon glyphicon-th-list"></span>
-                    Liste
+                    {{ 'ui_list' | transl8 }}
                 </a>
                 <a ng-href="map{{currentQuery.removeParam('view').toString()}}"
                    class="btn btn-sm btn-default"
                    ng-class="{ 'active': currentQuery.view == 'map' }">
                     <span class="glyphicon glyphicon-map-marker"></span>
-                    Karte
+                    {{ 'ui_map' | transl8 }}
                 </a>
             </div>
 
@@ -46,7 +46,7 @@
            ng-class="{ 'disabled': currentPage == 1 }">
             <span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> Zurück
         </a>
-        <small class="text-muted" style="padding: 0px 8px;"><strong>Seite {{currentPage}} / {{totalPages}}</strong>
+        <small class="text-muted" style="padding: 0px 8px;"><strong>{{ 'ui_page' | transl8 }} {{currentPage}} / {{totalPages}}</strong>
         </small>
         <a ng-click="nextPage()"
            class="btn btn-sm btn-default"
@@ -62,13 +62,13 @@
         <div class="btn-group" uib-dropdown>
             <button type="button" class="btn btn-sm btn-default" uib-dropdown-toggle>
                 <span ng-show="currentQuery.sort">{{ currentQuery.sort | transl8 }}</span>
-                <span ng-hide="currentQuery.sort">Relevanz</span>
+                <span ng-hide="currentQuery.sort">{{ 'ui_relevance' | transl8 }}</span>
                 <span class="caret"></span>
             </button>
             <ul uib-dropdown-menu class="pull-right" role="menu">
                 <li>
                     <a ng-href="search{{currentQuery.removeParam('sort').removeParam('offset').toString()}}">
-                        Relevanz
+                        {{ 'ui_relevance' | transl8 }}
                     </a>
                 </li>
                 <li ng-repeat="sortableField in sortableFields">

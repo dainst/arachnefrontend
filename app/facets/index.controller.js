@@ -5,7 +5,6 @@ angular.module('arachne.controllers')
             $scope.currentFacet = undefined;
             $scope.currentValue = undefined;
             $scope.groupedBy = undefined;
-
             $scope.entityResultSize = 0;
 
             $scope.minPanelSize = 14;
@@ -30,11 +29,11 @@ angular.module('arachne.controllers')
             });
 
             $rootScope.$on('$locationChangeSuccess', function () {
-                load()
+                load();
             });
 
             function loadFacets() {
-                if ($stateParams.c) { 
+                if ($stateParams.c) {
                     if ($stateParams.c == $scope.currentCategory) return;
 
                     $scope.currentCategory = $stateParams.c;
@@ -104,7 +103,7 @@ angular.module('arachne.controllers')
                     $scope.currentFacet = $stateParams.fq;
                     $scope.currentValue = $stateParams.fv;
 
-                    var url = '/data/index/' + $stateParams.fq;
+                    var url = '/data/index/' + $stateParams.c + '/' + $stateParams.fq;
                     if ($stateParams.group) {
                         $scope.groupedBy = $stateParams.group;
                         url += "?group=" + $scope.groupedBy;
@@ -136,6 +135,16 @@ angular.module('arachne.controllers')
                         }
                         else {
                             $scope.valueRows = 2;
+                        }
+
+                        if($scope.facets != undefined) {
+                            var currentIndex = 0;
+                            for (var i = 0; i < $scope.facets[0].length; i++) {
+                                if($scope.facets[0][i].name == $scope.currentFacet) {
+                                    currentIndex = i; //This will be needed at thursday, 14.02.2017
+                                    break;
+                                }
+                            }
                         }
 
                         $scope.currentValuePage = 0;
