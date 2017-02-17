@@ -103,7 +103,7 @@ angular.module('arachne.controllers')
                     $scope.currentFacet = $stateParams.fq;
                     $scope.currentValue = $stateParams.fv;
 
-                    var url = '/data/index/' + $stateParams.fq;
+                    var url = '/data/index/' + $stateParams.c + '/' + $stateParams.fq;
                     if ($stateParams.group) {
                         $scope.groupedBy = $stateParams.group;
                         url += "?group=" + $scope.groupedBy;
