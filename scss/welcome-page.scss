@@ -10,41 +10,15 @@
 	}
 
 	.bar {
+		margin: 0 -30px;
 		background-color: #efefef;
 	}
 
 	.line-right {
 		border-right: 1px solid $navbar-default-bg;
-		padding-right: 1.1em;
 	}
 
 	.project-chevron:hover {
-	  filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5));
+		filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5));
 	}
-
-	.project-chevron {
-		padding-top: 1.8em;
-	}
-
-	@media screen and (max-width: 991px) {
-		.project-chevron {
-			-ms-transform: rotate(90deg); // IE 9
-			-webkit-transform: rotate(90deg); // Chrome, Safari, Opera
-			transform: rotate(90deg);
-			padding: 0;
-		}
-
-		.line-right {
-			border-right: none;
-		}
-
-		img.space-around {
-			padding-bottom: 1.1em;
-		}
-
-		.bar {
-			background-color: #fff;
-		}
-	}
-
 }
