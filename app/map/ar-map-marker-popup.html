@@ -48,6 +48,10 @@
 </div>
 
 <div ng-if="listLength > 0 && shortForm">
+    <span ng-if="place.relation">
+        {{place.relation}}
+        <br/>
+    </span>
     {{listLength}} {{(listLength > 1 ? 'entity_linked_objects' : 'entity_linked_object') | transl8 | decapitalize}}
 </div>
 
