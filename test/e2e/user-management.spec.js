@@ -25,7 +25,7 @@ describe('user management page', function () {
         common.deleteTestUserInDB();
     });
 
-    it('registering while omitting a required field should cause "danger"-level message', function () {
+    xit('registering while omitting a required field should cause "danger"-level message', function () {
          navbarPage.clickRegistration()
              // Missing username
              .then(navbarPage.registrationTypeInPassword(common.getTestUserPassword()))
@@ -313,7 +313,7 @@ describe('user management page', function () {
             })
     });
 
-    it('registering with an existing username should cause "danger"-level message', function () {
+    xit('registering with an existing username should cause "danger"-level message', function () {
 
         common.createTestUserInDB();
 
@@ -411,7 +411,7 @@ describe('user management page', function () {
             })
     });
 
-    it('invalid user data when requesting password reset should cause "danger"-level message', function () {
+    xit('invalid user data when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
 
         navbarPage.clickLogin()
