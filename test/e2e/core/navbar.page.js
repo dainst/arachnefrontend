@@ -11,7 +11,7 @@ var NavbarPage = function() {
     var submitLoginButton = element(by.id('submit-login'));
     var closeLoginButton = element(by.css('.modal-header > [ng-click="cancel()"]'));
     var forgotPasswordLink = element(by.css('a[href*="pwdreset"]'));
-    var loginWarning = element(by.css('p.alert.alert-warning'))
+    var loginWarning = element(by.css('p.alert.alert-warning'));
 
     var logoutButton = element(by.css('[ng-click="logoutFunction();"]'));
 
@@ -117,10 +117,6 @@ var NavbarPage = function() {
 
     this.passwordResetTypeInLastname = function (text) {
         return common.typeIn(registrationInputLastname, text); // Same Angular model binding as registration.
-    };
-
-    this.passwordResetTypeInZIP = function (text) {
-        return common.typeIn(registrationInputZIP, text); // Same Angular model binding as registration.
     };
 
     this.passwordResetConfirmNoBot = function () {
