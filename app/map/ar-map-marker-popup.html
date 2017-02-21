@@ -18,7 +18,7 @@
         <div class="col-xs-6 text-right" ng-if="listLength > limit">
             <strong>
                 <span ng-if="offset > 0">
-                    <span class="clickable small glyphicon glyphicon-chevron-left" ng-click="get(offset-3, limit)"></span>
+                    <span class="clickable small glyphicon glyphicon-chevron-left" ng-click="get(offset-5, limit)"></span>
                 </span>
                 <span ng-if="offset <= 0">
                     <span class="clickable small glyphicon glyphicon-chevron-left text-muted"></span>
@@ -27,7 +27,7 @@
                 {{offset+1}}-{{(offset+limit > listLength) ? listLength : offset+limit}}
 
                 <span ng-if="(offset + limit) < listLength">
-                    <span class="clickable small glyphicon glyphicon-chevron-right" ng-click="get(offset+3, limit)"></span>
+                    <span class="clickable small glyphicon glyphicon-chevron-right" ng-click="get(offset+5, limit)"></span>
                 </span>
                 <span ng-if="(offset + limit) >= listLength">
                     <span class="clickable small glyphicon glyphicon-chevron-right text-muted"></span>
