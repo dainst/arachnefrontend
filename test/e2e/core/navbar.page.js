@@ -186,7 +186,8 @@ var NavbarPage = function() {
 
     this.submitRegistration = function () {
         browser.wait(EC.visibilityOf(submitRegistrationButton), 5000);
-        return submitRegistrationButton.click()
+        submitRegistrationButton.click()
+        browser.sleep(10000)
     };
 
     this.clickCancelRegistration = function () {
