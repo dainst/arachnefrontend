@@ -9,12 +9,114 @@ var hasha = require('hasha');
 
 var common = require('./common');
 
-function reloadRegistration() {
-    return frontPage.load()
+
+var usernameOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInUsername(""))
+        .then(navbarPage.submitRegistration)
         .then(function () {
-            return navbarPage.typeInCompleteRegistrationCredentials();
+            return expect(messageBox.getLevel()).toEqual('danger');
         })
-}
+};
+
+var passwordOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInPassword(""))
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var passwordValidationOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInPasswordValidation(""))
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var firstnameOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInFirstname(""))
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var lastnameOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInLastname(""))
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var emailOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInEmail(""))
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var emailValidationOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInEmailValidation(""))
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var zipOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInZIP(""))
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var cityOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInPlace(""))
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var streetOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationTypeInStreet(""))
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var countryOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationSelectCountryByIndex())
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        })
+};
+
+var confirmNoRobotOmitted = function () {
+    return navbarPage.typeInCompleteRegistrationCredentials()
+        .then(navbarPage.registrationConfirmNoBot) // click again to uncheck
+        .then(navbarPage.submitRegistration)
+        .then(function () {
+            return expect(messageBox.getLevel()).toEqual('danger');
+        });
+};
 
 describe('user management page', function () {
 
@@ -31,78 +133,29 @@ describe('user management page', function () {
     });
 
     xit('registering while omitting a required field should cause "danger"-level message', function () {
-         navbarPage.typeInCompleteRegistrationCredentials()
-             //Missing username
-             .then(navbarPage.registrationTypeInUsername(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing password
-             .then(navbarPage.registrationTypeInPassword(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing passwordValidation
-             .then(navbarPage.registrationTypeInPasswordValidation(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing firstname
-             .then(navbarPage.registrationTypeInFirstname(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing lastname
-             .then(navbarPage.registrationTypeInLastname(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing email
-             .then(navbarPage.registrationTypeInEmail(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing email validation
-             .then(navbarPage.registrationTypeInEmailValidation(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing ZIP
-             .then(navbarPage.registrationTypeInZIP(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing city
-             .then(navbarPage.registrationTypeInPlace(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing street
-             .then(navbarPage.registrationTypeInStreet(""))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing selected country
-             .then(navbarPage.registrationSelectCountryByIndex(0))
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             })
-             .then(reloadRegistration)
-             // Missing no-robot confirmation
-             .then(navbarPage.registrationConfirmNoBot) // click again to uncheck
-             .then(function () {
-                 return expect(messageBox.getLevel()).toEqual('danger');
-             });
+        usernameOmitted();
+        frontPage.load();
+        passwordOmitted();
+        frontPage.load();
+        passwordValidationOmitted();
+        frontPage.load();
+        firstnameOmitted();
+        frontPage.load();
+        lastnameOmitted();
+        frontPage.load();
+        emailOmitted();
+        frontPage.load();
+        emailValidationOmitted();
+        frontPage.load();
+        zipOmitted();
+        frontPage.load();
+        cityOmitted();
+        frontPage.load();
+        streetOmitted();
+        // frontPage.load();
+        // countryOmitted();
+        frontPage.load();
+        confirmNoRobotOmitted();
     });
 
     it('user should be able to register', function () {
