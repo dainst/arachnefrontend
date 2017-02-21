@@ -1,6 +1,7 @@
 var request = require('request');
 var hasha = require('hasha');
-var config = require('../../config/dev-config.json')
+var config = require('../../config/dev-config.json');
+var EC = protractor.ExpectedConditions;
 
 
 var Common = function () {
@@ -19,6 +20,7 @@ var Common = function () {
     var testUserPhone = '1234567890';
 
     this.typeIn = function (inputField, text) {
+        browser.wait(EC.visibilityOf(inputField), 5000);
         inputField.clear();
         for (var i in text) {
             inputField.sendKeys(text[i]);

@@ -141,7 +141,6 @@ var NavbarPage = function() {
     };
 
     this.registrationTypeInFirstname = function (text) {
-        browser.wait(EC.visibilityOf(registrationInputFirstname), 5000);
         return common.typeIn(registrationInputFirstname, text);
     };
 
@@ -184,6 +183,7 @@ var NavbarPage = function() {
     };
 
     this.submitRegistration = function () {
+        browser.wait(EC.visibilityOf(submitRegistrationButton), 5000);
         return submitRegistrationButton.click()
     };
 
