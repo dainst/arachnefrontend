@@ -6,6 +6,7 @@ var messageBox = require('./core/message-box.page');
 
 var request = require('request');
 var hasha = require('hasha');
+var EC = protractor.ExpectedConditions;
 
 var common = require('./common');
 
@@ -32,7 +33,7 @@ describe('user management page', function () {
             })
     });
 
-    xit('registering while omitting the password field should cause "danger"-level message', function () {
+    it('registering while omitting the password field should cause "danger"-level message', function () {
         return navbarPage.typeInCompleteRegistrationCredentials()
             .then(navbarPage.registrationTypeInPassword(""))
             .then(navbarPage.submitRegistration)
@@ -50,13 +51,11 @@ describe('user management page', function () {
             })
     });
 
-    xit('registering while omitting the firstname field should cause "danger"-level message', function () {
-        return navbarPage.typeInCompleteRegistrationCredentials()
-            .then(navbarPage.registrationTypeInFirstname(""))
-            .then(navbarPage.submitRegistration)
-            .then(function () {
-                return expect(messageBox.getLevel()).toEqual('danger');
-            })
+    it('registering while omitting the firstname field should cause "danger"-level message', function () {
+        navbarPage.typeInCompleteRegistrationCredentials()
+        navbarPage.registrationTypeInFirstname("")
+        navbarPage.submitRegistration()
+        expect(messageBox.getLevel()).toEqual('danger');
     });
 
     xit('registering while omitting the lastname field should cause "danger"-level message', function () {

@@ -1,4 +1,5 @@
 var common = require('../common');
+var EC = protractor.ExpectedConditions;
 
 var NavbarPage = function() {
 
@@ -140,6 +141,7 @@ var NavbarPage = function() {
     };
 
     this.registrationTypeInFirstname = function (text) {
+        browser.wait(EC.visibilityOf(registrationInputFirstname), 5000);
         return common.typeIn(registrationInputFirstname, text);
     };
 

@@ -10,6 +10,8 @@ var MessageBoxPage = function() {
 	};
 
 	this.getLevel = function() {
+        browser.wait(EC.visibilityOf(messageBox), 5000);
+
 		return messageBox.getAttribute('class').then(function(value) {
 			var classes = value.split(' ');
 			for (var i = 0; i < classes.length; i++) {
