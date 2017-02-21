@@ -51,11 +51,12 @@ describe('user management page', function () {
             })
     });
 
-    it('registering while omitting the firstname field should cause "danger"-level message', function () {
+    fit('registering while omitting the firstname field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials()
         navbarPage.registrationTypeInFirstname("")
         navbarPage.submitRegistration()
         expect(messageBox.getLevel()).toEqual('danger');
+        // browser.wait(21000);
     });
 
     xit('registering while omitting the lastname field should cause "danger"-level message', function () {
@@ -134,7 +135,7 @@ describe('user management page', function () {
     //     // all-in-one
     // });
 
-    it('user should be able to register', function () {
+    xit('user should be able to register', function () {
         navbarPage.typeInCompleteRegistrationCredentials()
             .then(navbarPage.submitRegistration)
             .then(function () {
