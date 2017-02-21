@@ -9,115 +9,6 @@ var hasha = require('hasha');
 
 var common = require('./common');
 
-
-var usernameOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInUsername(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var passwordOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInPassword(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var passwordValidationOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInPasswordValidation(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var firstnameOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInFirstname(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var lastnameOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInLastname(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var emailOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInEmail(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var emailValidationOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInEmailValidation(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var zipOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInZIP(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var cityOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInPlace(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var streetOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationTypeInStreet(""))
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var countryOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationSelectCountryByIndex())
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        })
-};
-
-var confirmNoRobotOmitted = function () {
-    return navbarPage.typeInCompleteRegistrationCredentials()
-        .then(navbarPage.registrationConfirmNoBot) // click again to uncheck
-        .then(navbarPage.submitRegistration)
-        .then(function () {
-            return expect(messageBox.getLevel()).toEqual('danger');
-        });
-};
-
 describe('user management page', function () {
 
     beforeAll(function () {
@@ -132,31 +23,117 @@ describe('user management page', function () {
         common.deleteTestUserInDB();
     });
 
-    xit('registering while omitting a required field should cause "danger"-level message', function () {
-        usernameOmitted();
-        frontPage.load();
-        passwordOmitted();
-        frontPage.load();
-        passwordValidationOmitted();
-        frontPage.load();
-        firstnameOmitted();
-        frontPage.load();
-        lastnameOmitted();
-        frontPage.load();
-        emailOmitted();
-        frontPage.load();
-        emailValidationOmitted();
-        frontPage.load();
-        zipOmitted();
-        frontPage.load();
-        cityOmitted();
-        frontPage.load();
-        streetOmitted();
-        // frontPage.load();
-        // countryOmitted();
-        frontPage.load();
-        confirmNoRobotOmitted();
+    xit('registering while omitting the username field cause "danger"-level message', function () {
+        navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInUsername(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
     });
+
+    xit('registering while omitting the password field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInPassword(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the password validation field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInPasswordValidation(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the firstname field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInFirstname(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the lastname field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInLastname(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the email field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInEmail(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the email validation field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInEmailValidation(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the zip code field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInZIP(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the city field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInPlace(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the street field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationTypeInStreet(""))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the country field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationSelectCountryByIndex(0))
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            })
+    });
+
+    xit('registering while omitting the no-robot confirmation field should cause "danger"-level message', function () {
+        return navbarPage.typeInCompleteRegistrationCredentials()
+            .then(navbarPage.registrationConfirmNoBot) // click again to uncheck
+            .then(navbarPage.submitRegistration)
+            .then(function () {
+                return expect(messageBox.getLevel()).toEqual('danger');
+            });
+    });
+
+    // xit('registering while omitting a required field should cause "danger"-level message', function () {
+    //     // all-in-one
+    // });
 
     it('user should be able to register', function () {
         navbarPage.typeInCompleteRegistrationCredentials()
