@@ -51,7 +51,7 @@ describe('user management page', function () {
             })
     });
 
-    fit('registering while omitting the firstname field should cause "danger"-level message', function () {
+    it('registering while omitting the firstname field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials()
         navbarPage.registrationTypeInFirstname("")
         navbarPage.submitRegistration()
