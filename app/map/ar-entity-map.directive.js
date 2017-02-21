@@ -9,8 +9,7 @@ angular.module('arachne.widgets.map')
             return {
                 restrict: 'A',
                 scope: {
-                    places: "=",
-                    entityCallback: "="
+                    places: "="
                 },
                 link: function (scope, element, attrs) {
 
@@ -71,6 +70,7 @@ angular.module('arachne.widgets.map')
                                 var linkFunction = null;
 
                                 newScope.place = place;
+
                                 if (place.isFixed === true) {
                                     linkFunction = function(innerScope) {
                                         var title = (innerScope.place.gazetteerId) ?
@@ -82,9 +82,8 @@ angular.module('arachne.widgets.map')
                                         return [title + body];
                                     }
                                 } else {
-                                    var html = '<div con10t-map-popup place="place" entity-callback="entityCallback"></div>';
+                                    var html = '<div ar-map-marker-popup place="place" short-form="true"></div>';
                                     linkFunction = $compile(angular.element(html));
-                                    newScope.entityCallback = scope.entityCallback;
                                 }
 
                                 var icon = 'record';

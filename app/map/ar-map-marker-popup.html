@@ -1,7 +1,6 @@
 <strong>{{place.name}}</strong>
 
-<div ng-if="listLength > 0">
-
+<div ng-if="listLength > 0 && !shortForm">
     <div class="row">
 
         <!-- small lists do not page -->
@@ -15,27 +14,26 @@
         <div class="col-xs-6" ng-if="listLength > limit">
             <strong>{{listLength}} {{'entity_linked_objects' | transl8 | decapitalize}}</strong>
         </div>
-        <div class="col-xs-6 text-right" ng-if="listLength > limit">
-            <strong>
-                <span ng-if="offset > 0">
-                    <span class="clickable small glyphicon glyphicon-chevron-left" ng-click="get(offset-5, limit)"></span>
-                </span>
-                <span ng-if="offset <= 0">
-                    <span class="clickable small glyphicon glyphicon-chevron-left text-muted"></span>
-                </span>
+            <div class="col-xs-6 text-right" ng-if="listLength > limit">
+                <strong>
+                    <span ng-if="offset > 0">
+                        <span class="clickable small glyphicon glyphicon-chevron-left" ng-click="get(offset-5, limit)"></span>
+                    </span>
+                    <span ng-if="offset <= 0">
+                        <span class="clickable small glyphicon glyphicon-chevron-left text-muted"></span>
+                    </span>
 
-                {{offset+1}}-{{(offset+limit > listLength) ? listLength : offset+limit}}
+                    {{offset+1}}-{{(offset+limit > listLength) ? listLength : offset+limit}}
 
-                <span ng-if="(offset + limit) < listLength">
-                    <span class="clickable small glyphicon glyphicon-chevron-right" ng-click="get(offset+5, limit)"></span>
-                </span>
-                <span ng-if="(offset + limit) >= listLength">
-                    <span class="clickable small glyphicon glyphicon-chevron-right text-muted"></span>
-                </span>
-            </strong>
+                    <span ng-if="(offset + limit) < listLength">
+                        <span class="clickable small glyphicon glyphicon-chevron-right" ng-click="get(offset+5, limit)"></span>
+                    </span>
+                    <span ng-if="(offset + limit) >= listLength">
+                        <span class="clickable small glyphicon glyphicon-chevron-right text-muted"></span>
+                    </span>
+                </strong>
+            </div>
         </div>
-
-    </div>
 
     <ul style="margin-left:0px">
         <li ng-repeat="entity in shownEntities track by $index"
@@ -47,6 +45,10 @@
             </a>
         </li>
     </ul>
+</div>
+
+<div ng-if="listLength > 0 && shortForm">
+    {{listLength}} {{(listLength > 1 ? 'entity_linked_objects' : 'entity_linked_object') | transl8 | decapitalize}}
 </div>
 
 <div ng-if="(shownEntities.length>1) && place.query">

@@ -11,10 +11,12 @@ var arMapMarkerPopup = ['$location', 'Entity', function($location, Entity) {
         restrict: 'A',
         scope: {
             place: '=',
-            entityCallback: '='
+            entityCallback: '=',
+            shortForm: '='
         },
         templateUrl: 'app/map/ar-map-marker-popup.html',
         link: function(scope, element, attrs) {
+
             scope.get = function(offset, limit) {
                 if (offset < 0) offset = 0;
 
@@ -48,5 +50,7 @@ var arMapMarkerPopup = ['$location', 'Entity', function($location, Entity) {
 
 
 angular.module('arachne.widgets.map')
-    .directive('arMapMarkerPopup', arMapMarkerPopup)
+    .directive('arMapMarkerPopup', arMapMarkerPopup);
+
+angular.module('arachne.widgets.map')
     .directive('con10tMapPopup', arMapMarkerPopup);
