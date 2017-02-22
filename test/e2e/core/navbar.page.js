@@ -230,6 +230,15 @@ var NavbarPage = function() {
         this.registrationSelectCountryByIndex(4);
         this.registrationTypeInPhone(common.getTestUserPhone());
         this.registrationConfirmNoBot();
+    };
+
+    this.typeInCompleteResetCredentials = function () {
+        this.clickPasswordReset();
+        this.passwordResetTypeInUsername(common.getTestUserName());
+        this.passwordResetTypeInEmail(common.getTestUserEmail());
+        this.passwordResetTypeInFirstname(common.getTestUserFirstname());
+        this.passwordResetTypeInLastname(common.getTestUserLastname());
+        this.passwordResetConfirmNoBot();
     }
 };
 

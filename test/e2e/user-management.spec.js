@@ -23,6 +23,12 @@ describe('user management page', function () {
         common.deleteTestUserInDB();
     });
 
+    it('user should be able to register', function () {
+        navbarPage.typeInCompleteRegistrationCredentials();
+        navbarPage.submitRegistration();
+        expect(messageBox.getLevel()).toEqual('success');
+    });
+
     /* ---- Tests for omitting a required field in registration ---- */
     xit('registering while omitting the username field cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
@@ -66,7 +72,7 @@ describe('user management page', function () {
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    xit('registering while omitting the email validation field should cause "danger"-level message', function () {
+    it('registering while omitting the email validation field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInEmailValidation("");
         navbarPage.submitRegistration();
@@ -109,183 +115,112 @@ describe('user management page', function () {
     });
     /* ---- End omission tests ---- */
 
-    it('user should be able to register', function () {
+    xit('registering with an existing username should cause "danger"-level message', function () {
+        common.createTestUserInDB();
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.submitRegistration();
-        expect(messageBox.getLevel()).toEqual('success');
-    });
-
-    xit('registering with an existing username should cause "danger"-level message', function () {
-
-        common.createTestUserInDB();
-
-        navbarPage.typeInCompleteRegistrationCredentials()
-            .then(navbarPage.submitRegistration)
-            .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
-            });
+        expect(messageBox.getLevel()).toEqual('danger');
     });
 
     it('should be able to login and logout', function () {
         common.createTestUserInDB();
-
-        navbarPage.clickLogin()
-            .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
-            .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
-            .then(function() {
-                return navbarPage.submitLogin()
-			})
-            .then(function () {
-                return navbarPage.getLoggedInUserName();
-            })
-            .then(function (name) {
-                return expect(name).toEqual(common.getTestUserName());
-            })
-            .then(function() {
-                return navbarPage.clickLoggedInUser();
-            })
-            .then(function() {
-                return navbarPage.clickLogout();
-            })
-            .then(function () {
-                expect(navbarPage.isUserLoggedIn()).toBe(false);
-            })
+        //login
+        navbarPage.clickLogin();
+        navbarPage.loginTypeInUsername(common.getTestUserName());
+        navbarPage.loginTypeInPassword(common.getTestUserPassword());
+        navbarPage.submitLogin();
+        expect(navbarPage.getLoggedInUserName()).toEqual(common.getTestUserName());
+        //logout
+        navbarPage.clickLoggedInUser();
+        navbarPage.clickLogout();
+        expect(navbarPage.isUserLoggedIn()).toBe(false);
     });
 
-    it('invalid user data on login should cause "danger"-level message', function () {
+    it('invalid username on login should cause "warning"-level message', function () {
         common.createTestUserInDB();
+        navbarPage.clickLogin();
+        navbarPage.loginTypeInUsername('e2e_test_imposter');
+        navbarPage.loginTypeInPassword(common.getTestUserPassword());
+		navbarPage.submitLogin();
+		browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
+    });
 
-        navbarPage.clickLogin()
-            .then(navbarPage.loginTypeInUsername('e2e_test_imposter'))
-            .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
-			.then(function() {
-				return navbarPage.submitLogin()
-			})
-            .then(function () {
-                return browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
-            })
-            .then(frontPage.load)
-            .then(function () {
-                return navbarPage.clickLogin();
-            })
-            .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
-            .then(navbarPage.loginTypeInPassword('tset'))
-			.then(function() {
-				return navbarPage.submitLogin()
-			})
-            .then(function () {
-                browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
-            })
+    it('invalid user password on login should cause "warning"-level message', function () {
+        common.createTestUserInDB();
+        frontPage.load();
+        navbarPage.clickLogin();
+        navbarPage.loginTypeInUsername(common.getTestUserName());
+        navbarPage.loginTypeInPassword('tset');
+        navbarPage.submitLogin();
+        browser.wait(EC.presenceOf(navbarPage.getLoginWarning()));
     });
 
     it('should be able to close login modal', function () {
-        navbarPage.clickLogin()
-            .then(navbarPage.closeLoginModal)
-            .then(function() {
-                browser.wait(EC.stalenessOf(navbarPage.getLoginModal()))
-            })
+        navbarPage.clickLogin();
+        navbarPage.closeLoginModal();
+        browser.wait(EC.stalenessOf(navbarPage.getLoginModal()));
     });
     
     it('should be able to request password reset', function () {
         common.createTestUserInDB();
-
-        navbarPage.clickLogin()
-            .then(navbarPage.clickPasswordReset)
-            .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-            .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-            .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-            .then(navbarPage.passwordResetConfirmNoBot)
-            .then(navbarPage.submitPasswordReset)
-            .then(function () {
-                expect(messageBox.getLevel()).toEqual('success');
-            })
+        navbarPage.clickLogin();
+        navbarPage.typeInCompleteResetCredentials();
+        navbarPage.submitPasswordReset();
+        expect(messageBox.getLevel()).toEqual('success');
     });
 
     it('empty user data when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
-
-        navbarPage.clickLogin()
-            .then(navbarPage.clickPasswordReset)
-            .then(navbarPage.submitPasswordReset)
-            .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
-            })
+        navbarPage.clickLogin();
+        navbarPage.clickPasswordReset();
+        navbarPage.submitPasswordReset();
+        expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    xit('invalid user data when requesting password reset should cause "danger"-level message', function () {
+    /* ---- Tests for invalid user data for reset ---- */
+    xit('invalid username when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
-
-        navbarPage.clickLogin()
-            // invalid username
-            .then(navbarPage.clickPasswordReset)
-            .then(navbarPage.passwordResetTypeInUsername('e2e_test_imposter'))
-            .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-            .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-            .then(navbarPage.passwordResetConfirmNoBot)
-            .then(navbarPage.submitPasswordReset)
-            .then(function () {
-                return expect(messageBox.getLevel()).toEqual('danger');
-            })
-            .then(frontPage.load)
-            .then(function () {
-                return navbarPage.clickLogin()
-            })
-            //invalid email
-            .then(navbarPage.clickPasswordReset)
-            .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-            .then(navbarPage.passwordResetTypeInEmail('email@scam.com'))
-            .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-            .then(navbarPage.passwordResetConfirmNoBot)
-            .then(navbarPage.submitPasswordReset)
-            .then(function () {
-                return expect(messageBox.getLevel()).toEqual('danger');
-            })
-            .then(frontPage.load)
-            .then(function () {
-                return navbarPage.clickLogin()
-            })
-            // invalid firstname
-            .then(navbarPage.clickPasswordReset)
-            .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-            .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-            .then(navbarPage.passwordResetTypeInFirstname('Moritz'))
-            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-            .then(navbarPage.passwordResetConfirmNoBot)
-            .then(navbarPage.submitPasswordReset)
-            .then(function () {
-                return expect(messageBox.getLevel()).toEqual('danger');
-            })
-            .then(frontPage.load)
-            .then(function () {
-                return navbarPage.clickLogin()
-            })
-            // invalid lastname
-            .then(navbarPage.clickPasswordReset)
-            .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-            .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-            .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-            .then(navbarPage.passwordResetTypeInLastname('What?'))
-            .then(navbarPage.passwordResetConfirmNoBot)
-            .then(navbarPage.submitPasswordReset)
-            .then(function () {
-                expect(messageBox.getLevel()).toEqual('danger');
-            })
-            .then(frontPage.load)
-            .then(function () {
-                return navbarPage.clickLogin()
-            })
-            // missing no-robot confirmation
-            .then(navbarPage.clickPasswordReset)
-            .then(navbarPage.passwordResetTypeInUsername(common.getTestUserName()))
-            .then(navbarPage.passwordResetTypeInEmail(common.getTestUserEmail()))
-            .then(navbarPage.passwordResetTypeInFirstname(common.getTestUserFirstname()))
-            .then(navbarPage.passwordResetTypeInLastname(common.getTestUserLastname()))
-            .then(navbarPage.submitPasswordReset)
-            .then(function () {
-                return expect(messageBox.getLevel()).toEqual('danger');
-            })
+        navbarPage.clickLogin();
+        navbarPage.typeInCompleteResetCredentials();
+        navbarPage.passwordResetTypeInUsername('e2e_test_imposter');
+        navbarPage.submitPasswordReset();
+        expect(messageBox.getLevel()).toEqual('danger');
     });
+
+    xit('invalid email when requesting password reset should cause "danger"-level message', function () {
+        common.createTestUserInDB();
+        navbarPage.clickLogin();
+        navbarPage.typeInCompleteResetCredentials();
+        navbarPage.passwordResetTypeInEmail('email@scam.com');
+        navbarPage.submitPasswordReset();
+        expect(messageBox.getLevel()).toEqual('danger');
+    });
+
+    xit('invalid firstname when requesting password reset should cause "danger"-level message', function () {
+        common.createTestUserInDB();
+        navbarPage.clickLogin();
+        navbarPage.typeInCompleteResetCredentials();
+        navbarPage.passwordResetTypeInFirstname('Moritz');
+        navbarPage.submitPasswordReset();
+        expect(messageBox.getLevel()).toEqual('danger');
+    });
+
+    xit('invalid lastname when requesting password reset should cause "danger"-level message', function () {
+        common.createTestUserInDB();
+        navbarPage.clickLogin();
+        navbarPage.typeInCompleteResetCredentials();
+        navbarPage.passwordResetTypeInLastname('What?');
+        navbarPage.submitPasswordReset();
+        expect(messageBox.getLevel()).toEqual('danger');
+    });
+
+    xit('invalid no-robot confirmation when requesting password reset should cause "danger"-level message', function () {
+        common.createTestUserInDB();
+        navbarPage.clickLogin();
+        navbarPage.typeInCompleteResetCredentials();
+        navbarPage.passwordResetConfirmNoBot(); // click again to uncheck
+        navbarPage.submitPasswordReset();
+        expect(messageBox.getLevel()).toEqual('danger');
+    });
+    /* ---- End invalid reset data tests ---- */
 });
