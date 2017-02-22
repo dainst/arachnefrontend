@@ -72,7 +72,7 @@ describe('user management page', function () {
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the email validation field should cause "danger"-level message', function () {
+    xit('registering while omitting the email validation field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInEmailValidation("");
         navbarPage.submitRegistration();
