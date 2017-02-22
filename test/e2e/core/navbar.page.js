@@ -151,21 +151,27 @@ var NavbarPage = function() {
     this.registrationTypeInEmail = function (text) {
         return common.typeIn(registrationInputEmail, text);
     };
+
     this.registrationTypeInEmailValidation = function (text) {
         return common.typeIn(registrationInputEmailValidation, text);
     };
+
     this.registrationTypeInInstitution = function (text) {
         return common.typeIn(registrationInputInstitution, text);
     };
+
     this.registrationTypeInHomepage = function (text) {
         return common.typeIn(registrationHomepage, text);
     };
+
     this.registrationTypeInZIP = function (text) {
         return common.typeIn(registrationInputZIP, text);
     };
+
     this.registrationTypeInPlace = function (text) {
         return common.typeIn(registrationInputPlace, text);
     };
+
     this.registrationTypeInStreet = function (text) {
         return common.typeIn(registrationInputStreet, text);
     };
@@ -186,7 +192,7 @@ var NavbarPage = function() {
 
     this.submitRegistration = function () {
         browser.wait(EC.visibilityOf(submitRegistrationButton), 5000);
-        submitRegistrationButton.click()
+        submitRegistrationButton.click();
         browser.sleep(10000)
     };
 
@@ -208,22 +214,22 @@ var NavbarPage = function() {
     };
 
     this.typeInCompleteRegistrationCredentials = function () {
-        this.clickRegistration()
-        this.registrationTypeInUsername(common.getTestUserName())
-        this.registrationTypeInPassword(common.getTestUserPassword())
-        this.registrationTypeInPasswordValidation(common.getTestUserPassword())
-        this.registrationTypeInFirstname(common.getTestUserFirstname())
-        this.registrationTypeInLastname(common.getTestUserLastname())
-        this.registrationTypeInEmail(common.getTestUserEmail())
-        this.registrationTypeInEmailValidation(common.getTestUserEmail())
-        this.registrationTypeInInstitution(common.getTestUserInstitution())
-        this.registrationTypeInHomepage(common.getTestUserHomepage())
-        this.registrationTypeInZIP(common.getTestUserZIP())
-        this.registrationTypeInPlace(common.getTestUserCity())
-        this.registrationTypeInStreet(common.getTestUserStreet())
-        this.registrationSelectCountryByIndex(4)
-        this.registrationTypeInPhone(common.getTestUserPhone())
-        this.registrationConfirmNoBot()
+        this.clickRegistration();
+        this.registrationTypeInUsername(common.getTestUserName());
+        this.registrationTypeInPassword(common.getTestUserPassword());
+        this.registrationTypeInPasswordValidation(common.getTestUserPassword());
+        this.registrationTypeInFirstname(common.getTestUserFirstname());
+        this.registrationTypeInLastname(common.getTestUserLastname());
+        this.registrationTypeInEmail(common.getTestUserEmail());
+        this.registrationTypeInEmailValidation(common.getTestUserEmail());
+        this.registrationTypeInInstitution(common.getTestUserInstitution());
+        this.registrationTypeInHomepage(common.getTestUserHomepage());
+        this.registrationTypeInZIP(common.getTestUserZIP());
+        this.registrationTypeInPlace(common.getTestUserCity());
+        this.registrationTypeInStreet(common.getTestUserStreet());
+        this.registrationSelectCountryByIndex(4);
+        this.registrationTypeInPhone(common.getTestUserPhone());
+        this.registrationConfirmNoBot();
     }
 };
 
