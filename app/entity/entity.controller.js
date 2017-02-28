@@ -18,7 +18,7 @@ angular.module('arachne.controllers')
 
             $scope.goToResultIndex = function (resultIndex) {
                 if (resultIndex > 0 && resultIndex <= $scope.resultSize) {
-                    $location.url('/entity/' + $scope.currentQuery.setParam('resultIndex',resultIndex).toString());    
+                    $location.url('/entity/' + $scope.currentQuery.setParam('resultIndex',resultIndex).toString());
                 }
             };
 
@@ -38,6 +38,11 @@ angular.module('arachne.controllers')
                 Entity.get({id: $stateParams.id, live: live}, function (data) {
 
                     $scope.entity = data;
+                    // very ugly exception for Berliner Skulpturennetzwerk
+                    // hide all data not in datenblatt_berlin
+                    if (data.sections[0].label == 'Datenblatt Berlin') {
+                        data.sections = data.sections.slice(0,1);
+                    }
                     categoryService.getCategoryHref($scope.entity.type).then(function (categoryHref) {
                         $scope.entity.categoryHref = categoryHref;
                     });
@@ -68,7 +73,7 @@ angular.module('arachne.controllers')
                     $scope.entity.lastModified = new Date(data.lastModified).toISOString();
 
                     document.title = $scope.entity.title + " | Arachne";
-                    
+
                 }, function (response) {
                     $scope.error = true;
                     messages.add("entity_" + response.status);
