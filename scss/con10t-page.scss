@@ -11,6 +11,10 @@
     @include make-md-column-pull(4);
 }
 
+.con10t-page .con10t-row .con10t-content-center {
+    @include make-md-column(12);
+}
+
 .con10t-page .con10t-row .con10t-sidebar {
     @include make-md-column(4);
     @include make-md-column-push(8);
