@@ -209,6 +209,29 @@ angular.module('arachne.controllers')
 			});
 		};
 
+		$scope.manageEditors = function() {
+            var editableCatalog = {
+                userIds: $scope.catalog.userIds,
+            };
+            var manageEditorModal = $uibModal.open({
+                templateUrl: 'app/catalog/catalog-manage-editor.html',
+                controller: 'ManageEditorController',
+                resolve: { catalog: function() { return editableCatalog }, edit: true }
+            });
+            manageEditorModal.close = function(editedCatalog) {
+                    $scope.catalog.userIds = editedCatalog.userIds;
+                    Catalog.update({id: $scope.catalog.id}, $scope.catalog, function () {
+                        CatalogEntry.update({id: $scope.catalog.root.id}, $scope.catalog.root, function () {
+                            manageEditorModal.dismiss();
+                        }, function () {
+                            messages.add('default');
+                        });
+                    }, function () {
+                        messages.add('default');
+                    });
+            }
+		};
+
 	    function initialize(entry) {
 	        $scope.entryMap[entry.id] = entry;
 

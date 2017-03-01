@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ 'catalog_add_user' | transl8 }}:</h4>
+</div>
+<div class="modal-body">
+    {{ 'catalog_add_user' | transl8 }}:
+    <div class="input-group">
+        <input type="label" class="form-control" ng-model="username" placeholder="{{ 'ui_username' | transl8 }}">
+        <span class="input-group-btn">
+            <button class="btn btn-default" ng-click="add(username)">OK</button>
+        </span>
+    </div>
+</div>
+<div class="modal-body">
+    <h4 class="modal-title">{{ 'catalog_editors' | transl8 }}:</h4>
+    <div class="list-group">
+        <li class="list-group-item" ng-repeat="username in usernames">
+            <div class="input-group">
+                {{username}}
+                <span class="input-group-btn">
+                    <button class="btn btn-xs btn-default" ng-click="remove(username)"><span class="glyphicon glyphicon-trash"></span></button>
+                </span>
+            </div>
+        </li>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="$close(catalog)">OK</button>
+    <button class="btn btn-default" ng-click="$dismiss()">{{'ui_dismiss' | transl8}}</button>
+</div>

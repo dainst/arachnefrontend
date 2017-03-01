@@ -103,6 +103,11 @@
 							tooltip-append-to-body="true">
 						<span class="glyphicon glyphicon-edit"></span>
 					</button>
+					<button class="btn btn-default" ng-click="manageEditors()"
+							uib-tooltip="{{ 'catalog_add_user' | transl8 }}"
+							tooltip-append-to-body="true">
+						<span class="glyphicon glyphicon-user"></span>
+					</button>
 					<button class="btn btn-default" ng-click="addChild(null, catalog.root)"
 							uib-tooltip="{{ 'catalog_create_entry' | transl8 }}"
 							tooltip-append-to-body="true">
