@@ -12,7 +12,6 @@ angular.module('arachne.controllers')
                 for (var i = 0; i < $scope.catalog.userIds.length; i++) {
                     $http.get(arachneSettings.dataserviceUri + '/userid/' + $scope.catalog.userIds[i])
                         .success(function (user) {
-                            console.log(user);
                             if (user != null) {
                                 $scope.usernames.push(user.username);
                             }
