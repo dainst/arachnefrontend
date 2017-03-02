@@ -1,28 +1,32 @@
-<div ng-controller="WelcomePageController" class="container-fluid welcome-page">
+<style>
+    .navbar-default {
+        background-color: transparent !important;
+    }
+</style>
 
-    <div id="top"></div>
-    <div class="row">
-        <div class="col-xs-12 col-xs-offset-0 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center"
-             style="margin-top: 20px; height:262px; min-width:358px; margin-bottom: 40px;">
-            <img style="opacity: 0.57; height: 80px; width: 80px; margin-right:15px; vertical-align:baseline;"
-                 src="img/arachnelogo.png">
+<div ng-controller="WelcomePageController">
+
+    <div id="homepage-search">
+
+        <div class="text-center"
+             id="arachne-search">
+
+            <img id="arachne-logo" src="img/arachnelogo.png">
+
             <h1 class="text-left"
-                style="opacity: 0.57; font-weight: 300; font-size: 65px; margin-bottom:30px; padding-top:0; display:inline-block;">
-                <small style="font-weight: 300; top:29px; position:relative; font-size:35px;">
-                    iDAI.objects
-                </small>
-                <br>
-                arachne
+                id="arachne-brand">
+                <div id="brand-top">iDAI.objects</div>
+                <div id="brand-bottom">arachne</div>
             </h1>
 
             <idai-search id="start-page-search"></idai-search>
 
             <br>
 
-            <ul class="list-inline text-muted">
-                <li ng-show="entityCount" style="opacity:.8;">
+            <ul class="list-inline">
+                <li ng-show="entityCount">
                     {{'ui_total'|transl8}}
-                    <strong ng-bind="entityCount | transl8Number"></strong>
+                    <span style="color: #fff;" ng-bind="entityCount | transl8Number"></span>
                     {{'ui_entries'|transl8}}
                 </li>
                 <li>
@@ -36,58 +40,113 @@
                     </a>
                 </li>
                 <li>
-                    <a href="info/faq" style="outline: none;"><span class="glyphicon glyphicon-question-sign"></span>
+                    <a href="info/faq" style="outline: none;"><span
+                            class="glyphicon glyphicon-question-sign"></span>
                         FAQ</a>
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="row bar" style="margin-top: 60px;">
-        <div class="col-md-2 col-md-offset-1">
-            <h3>
-                <a href="categories" style="outline: none;">{{'startsite_categories'|transl8}}</a>
-            </h3>
-        </div>
-        <div class="col-md-2">
-            <h3>
-                <a href="projects" style="outline: none;">{{'startsite_projects'|transl8}}</a>
-            </h3>
+    <div id="categories-teaser" class="container-fluid">
+        <div class="row">
+            <div class="col-xs-2 category">
+                <a href="category/?c=bauwerksteil">
+                    <img src="img/frontpage/categories/bauwerksteile.jpg"
+                         alt="Bauwerksteile"
+                         class="img-responsive">
+                </a>
+            </div>
+            <div class="col-xs-2 category">
+                <a href="category/?c=relief">
+                    <img src="img/frontpage/categories/szenen.jpg"
+                         alt="Bauwerksteile"
+                         class="img-responsive">
+                </a>
+            </div>
+            <div class="col-xs-2 category">
+                <a href="category/?c=topographie">
+                    <img src="img/frontpage/categories/topographien.jpg"
+                         alt="Bauwerksteile"
+                         class="img-responsive">
+                </a>
+            </div>
+            <div class="col-xs-2">
+                <a href="categories">
+                    <img src="img/frontpage/categories/categories.jpg"
+                         alt="Kategorienübersicht"
+                         class="img-responsive">
+                </a>
+            </div>
+            <div class="col-xs-2 category">
+                <a href="category/?c=gruppen">
+                    <img src="img/frontpage/categories/mehrteilige-denkmaeler.jpg"
+                         alt="Mehrteilige Denkmäler"
+                         class="img-responsive">
+                </a>
+            </div>
+            <div class="col-xs-2 category">
+                <a href="category/?c=typus">
+                    <img src="img/frontpage/categories/typen.jpg"
+                         alt="Typen"
+                         class="img-responsive">
+                </a>
+            </div>
         </div>
     </div>
 
-    <div class="row bar">
-        <div class="col-md-2 col-md-offset-1 line-right">
-            <a href="categories">
-                <img src="img/categories.png" class="img-responsive">
-            </a>
+    <div id="projects-teaser" class="container-fluid">
+
+        <!--
+        <div class="row">
+            <div class="col-md-12" style="text-align: center;">
+                <h2>{{'startsite_projects'|transl8}}</h2>
+            </div>
         </div>
-        <div ng-repeat="slide in activeSlides track by $index" index="$index" class="col-md-2 slide">
-            <a ng-href="project/{{slide.id}}">
-                <img ng-src="{{slide.image}}" class="img-responsive">
-                <div class="carousel-caption">
-                    <h4>{{slide.title}}</h4>
+        -->
+
+        <div class="row"
+             ng-repeat="project in projects track by $index">
+
+            <div class="row is-flex" ng-if="$index % 2 === 0">
+                <div class="col-md-6 teasertext">
+                    <h2>{{ project.title[lang] }}</h2>
+                    <a href="project/{{ project.id }}">
+                        {{ project.teaser[lang] }}
+                    </a>
                 </div>
-           </a>
+                <div class="col-md-6 teaserimage-right">
+                    <a href="project/{{ project.id }}">
+                        <img src="con10t/frontimages/{{ project.img }}"
+                             alt="{{ project.title }}"
+                             class="img-responsive">
+                    </a>
+                </div>
+            </div>
+            <div class="row is-flex" ng-if="$index % 2 !== 0">
+                <div class="col-md-6 teaserimage-left">
+                    <a href="project/{{ project.id }}">
+                        <img src="con10t/frontimages/{{ project.img }}"
+                             alt="{{ project.title }}"
+                             class="img-responsive">
+                    </a>
+                </div>
+                <div class="col-md-6 teasertext">
+                    <h2>{{ project.title[lang] }}</h2>
+                    <a href="project/{{ project.id }}">
+                        {{ project.teaser[lang] }}
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="col-md-1" style="height: 100%">
-            <a ng-click="nextProject()" href="#">
-                <img class="img-responsive project-chevron" src="img/chevron-right.png">
-            </a>
+        <div class="row all-projects">
+            <div class="col-md-12">
+                <a href="projects" class="btn btn-default btn-lg">
+                    {{'startsite_show_all_projects'|transl8}}
+                </a>
+            </div>
         </div>
-    </div>
 
-    <div class="row bar" style="padding-bottom: 20px;">
-        <div class="col-md-2 col-md-offset-1">
-            <p class="pull-right" style="margin:15px 0px 0px 20px;">
-                <a href="categories"> ... {{'startsite_show_all_categories'|transl8}} </a>
-            </p>
-        </div>
-        <div class="col-md-2 col-md-offset-6">
-            <p class="pull-right" style="margin:15px 0px 0px 20px;">
-                <a href="projects"> ... {{'startsite_show_all_projects'|transl8}} </a>
-            </p>
-        </div>
     </div>
 
 </div>
