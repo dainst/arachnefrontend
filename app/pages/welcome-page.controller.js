@@ -10,7 +10,9 @@ angular.module('arachne.controllers')
             $http.get('con10t/front.json').success(function (projects) {
                 $scope.projects = projects;
 
-                if ((navigator.language || navigator.userLanguage) === 'de') {
+                var lang = navigator.language || navigator.userLanguage;
+
+                if (lang === 'de' || lang === 'de-de') {
                     $scope.lang = 'de';
                 } else {
                     $scope.lang = 'en';
