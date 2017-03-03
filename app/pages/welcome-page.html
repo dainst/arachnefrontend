@@ -20,12 +20,11 @@
             <ul class="list-inline">
                 <li ng-show="entityCount">
                     {{'ui_total'|transl8}}
-                    <span style="color: #fff;" ng-bind="entityCount | transl8Number"></span>
-                    {{'ui_entries'|transl8}}
+                    <a href="search?q=*"><span style="margin: 0 5px 0 3px; color: #fff;" ng-bind="entityCount | transl8Number"></span></a>{{'ui_entries'|transl8}}
                 </li>
                 <li>
                     <a href="search">
-                        <span class="glyphicon glyphicon-search"></span> {{'ui_showall'|transl8}}
+                        <span class="glyphicon glyphicon-th"></span> {{'startsite_projects'|transl8}}
                     </a>
                 </li>
                 <li>
