@@ -127,17 +127,17 @@
                 </div>
             </div>
             <div class="row is-flex" ng-if="$index % 2 !== 0">
-                <div class="col-md-6 teaserimage-left">
+                <div class="col-md-6 col-md-push-6 teasertext">
+                    <h2>{{ project.title[lang] }}</h2>
+                    <a href="project/{{ project.id }}">
+                        {{ project.teaser[lang] }}
+                    </a>
+                </div>
+                <div class="col-md-6 col-md-pull-6 teaserimage-left">
                     <a href="project/{{ project.id }}">
                         <img src="con10t/frontimages/{{ project.img }}"
                              alt="{{ project.title }}"
                              class="img-responsive">
-                    </a>
-                </div>
-                <div class="col-md-6 teasertext">
-                    <h2>{{ project.title[lang] }}</h2>
-                    <a href="project/{{ project.id }}">
-                        {{ project.teaser[lang] }}
                     </a>
                 </div>
             </div>
