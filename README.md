@@ -45,6 +45,8 @@ The static files representing the project pages are stored in the directory `con
 
 The `con10t`-repository (https://github.com/dainst/con10t) is automatically checked out when building Arachne 4 Frontend with "npm run build" if the con10t-folder doesn't already exist.
 
+The con10t submodule provides many valuable widgets which can be used on project pages. You can find a demonstration of the widgets at https://arachne.dainst.org/project/widgetsdemo.
+
 #### Updating the submodule con10t
 
 Within the folder of the submodule execute
