@@ -70,7 +70,11 @@ angular.module('arachne.controllers')
                         $scope.entity.places = false;
                     }
 
-                    $scope.entity.lastModified = new Date(data.lastModified).toISOString();
+                    if (data.lastModified) {
+                        $scope.entity.lastModified = new Date(data.lastModified).toISOString();
+                    } else {
+                        $scope.entity.lastModified = "";
+                    }
 
                     document.title = $scope.entity.title + " | Arachne";
 
