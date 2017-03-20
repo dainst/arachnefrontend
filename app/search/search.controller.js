@@ -109,7 +109,7 @@ angular.module('arachne.controllers')
                     var len = entities.length;
                     $scope.entitiesToAdd = len;
 
-                    for (var i = len; i--;) {
+                    for (var i = 0; i < len; i++) {
 
                         Entity.get({id: entities[i].entityId}, function (entity) {
                             $scope.addCatalogEntry(newCatalog, entity);
