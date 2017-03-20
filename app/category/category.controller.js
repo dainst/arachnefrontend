@@ -224,7 +224,9 @@ angular.module('arachne.controllers')
                 $scope.currentEntityPage += 1;
                 updatePreviewResultSize();
             };
-            
 
+            $scope.startIndexSearch = function() {
+                $location.url("search" + getCurrentQuery().toString());
+            };
         }
     ]);
