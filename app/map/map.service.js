@@ -19,7 +19,7 @@ angular.module('arachne.widgets.map')
         'osm': {
             'name': 'OpenStreetMap',
             'type': 'xyz',
-            'url': 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
+            'url': 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b47a3cf895b94aedad41e5cfb5222b87',
             'yayerOptions': {
                 'subdomains': ['a', 'b', 'c'],
                 'attribution': '&copy; <a href=\'https://www.opencyclemap.org\'>OpenCycleMap</a>, &copy; <a href=\'https://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
@@ -94,7 +94,7 @@ angular.module('arachne.widgets.map')
         map.removeLayer(activeOverlays[key]);
         delete activeOverlays[key];
     };
-    
+
 
     return {
 
@@ -110,7 +110,7 @@ angular.module('arachne.widgets.map')
         setLimit: function(lim) {
             limit = lim;
         },
-        
+
         underLimit: function() {
             var facetGeo = searchService.getFacet("facet_geo");
             if (facetGeo) {
@@ -119,7 +119,7 @@ angular.module('arachne.widgets.map')
                 return searchService.getSize() < limit
             }
         },
-        
+
 
         /**
          * Initialize the Map given an Attribute id of an
@@ -165,7 +165,7 @@ angular.module('arachne.widgets.map')
                 popupOpen=false;
                 getCurrentPage().then(feedListenersWithUpdates);
             });
-            
+
             map.on('moveend', function () {
                 if (!popupOpen) getCurrentPage().then(feedListenersWithUpdates);
             });

@@ -35,7 +35,7 @@ angular.module('arachne.widgets.map')
                     });
                     // / Disable dragging functionality if outside of container bounds
 
-                    var layer = L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png', {
+                    var layer = L.tileLayer('http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b47a3cf895b94aedad41e5cfb5222b87', {
                         maxZoom: 18,
                         minZoom: 2
                     });
