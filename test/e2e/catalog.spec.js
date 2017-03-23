@@ -53,6 +53,10 @@ describe('catalog page', function() {
 
     it('should show markers in map view', function() {
 
+        var width = 1024;
+        var height = 768;
+        browser.driver.manage().window().setSize(width, height);
+
         catalogPage.load(105);
 
         expect(catalogPage.getMarkers().count()).toBe(0);
