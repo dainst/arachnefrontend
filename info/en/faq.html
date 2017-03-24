@@ -10,7 +10,7 @@
 
             <h2 id="Suche">Search</h2>
             <uib-accordion>
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         How to combine multiple keywords?
                     </uib-accordion-heading>
@@ -19,9 +19,9 @@
                         found. By default, keywords are linked with a logical AND.
                     </p>
                     <p class="query-example">Example: <a href="search?q=Akropolis Athen">Akropolis Athen</a></p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         How to exclude keywords?
                     </uib-accordion-heading>
@@ -32,9 +32,9 @@
                     </p>
 
                     <p class="query-example">Example: <a href="search?q=Akropolis -Athen">Akropolis -Athen</a></p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         How to enter complex logical operators in a search query?
                     </uib-accordion-heading>
@@ -47,9 +47,9 @@
 
                     <p class="query-example">Example: <a href="search?q=Herakles AND (Dionysos OR Bacchus)">Herakles AND
                         (Dionysos OR Bacchus)</a></p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         How to search for entire phrases instead of multiple loose words?
                     </uib-accordion-heading>
@@ -60,9 +60,9 @@
 
                     <p class="query-example">Example: <a href="search?q=&quot;Akropolis von Athen&quot;">"Akropolis von
                         Athen"</a></p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         How to specifically search in single fields rather than searching the entire content of an
                         object?
@@ -95,9 +95,9 @@
                         A more convenient way is the "show all" link on the category pages, e.g. for
                         <a href="category/?c=topographie">Topographies</a>.
                         A list of all categories is given <a href="categories">here</a>.</p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Which wildcards are supported?
                     </uib-accordion-heading>
@@ -113,9 +113,9 @@
                     <p class="query-example">Example: <a href="search?q=Akropolis*">Akropolis*</a><br/>
                         <small>(finds next to "Akropolis" terms like "Akropolismuseum" or "Akropolisberg")</small>
                     </p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Are regular expressions supported?
                     </uib-accordion-heading>
@@ -129,9 +129,9 @@
                     <p class="query-example">Example: <a href="search?q=/Pompe[ij]/">/Pompe[ij]/</a><br/>
                         <small>(finds results for “Pompeii” as well as for “Pompeji”)</small>
                     </p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Are exclusively objects found, that contain the exact entered keywords?
                     </uib-accordion-heading>
@@ -151,9 +151,9 @@
                     <p class="query-example">Example: <a href="search?q=Pompei~">Pompei~</a><br/>
                         <small>(finds “Pompei”, as well as “Pompeji” or “Pompeii”)</small>
                     </p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         <span id="syntax_error"></span>
                         The search query caused a syntax error, what to do?
@@ -164,14 +164,14 @@
                         phrase within `"`.</p>
                     <p class="query-example">Example: <a href="search?q=87\/243">87\/243</a>
                     </p>
-                </uib-accordion-group>
+                </div>
 
             </uib-accordion>
 
             <h2 id="Suchergebnis">Search result view</h2>
 
             <uib-accordion>
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         What determines the order of search results?
                     </uib-accordion-heading>
@@ -188,9 +188,9 @@
                     </p>
 
                     <p>The default sorting can be changed right above the display of search results</p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Why are there sometimes more sometimes less filters being offered?
                     </uib-accordion-heading>
@@ -210,21 +210,21 @@
                         the
                         corresponding filter is not displayed.
                     </p>
-                </uib-accordion-group>
+                </div>
 
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Do filters show all available values?
                     </uib-accordion-heading>
                     <p>No. Only the most common values for the specific search result are displayed</p>
-                </uib-accordion-group>
+                </div>
 
             </uib-accordion>
 
             <h2 id="Troubleshooting">Troubleshooting</h2>
 
             <uib-accordion>
-                <uib-accordion-group>
+                <div uib-accordion-group>
                     <uib-accordion-heading>
                         Why isn't Arachne displayed correctly in my webbrowser?
                     </uib-accordion-heading>
@@ -238,7 +238,7 @@
                         <li>JavaScript is enabled in your webbrowser</li>
                         <li>your ad blocking software isn't acting against Arachne.</li>
                     </ul>
-                </uib-accordion-group>
+                </div>
             </uib-accordion>
 
         </div>
