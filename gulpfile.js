@@ -250,6 +250,7 @@ gulp.task('watch-css', ['minify-css'], function(done) { reload(); done(); });
 gulp.task('watch-js', ['minify-js'], function(done) { reload(); done(); });
 gulp.task('watch-index', ['copy-index'], function(done) { reload(); done(); });
 gulp.task('watch-con10t', ['copy-con10t'], function(done) { reload(); done(); });
+gulp.task('watch-info', ['copy-info'], function(done) { reload(); done(); });
 
 // runs the development server and sets up browser reloading
 gulp.task('server', function () {
@@ -277,5 +278,6 @@ gulp.task('server', function () {
     gulp.watch('app/**/*.html', ['watch-js']);
     gulp.watch('index.html', ['watch-index']);
     gulp.watch('con10t/**/*', ['watch-con10t']);
+    gulp.watch('info/**/*', ['watch-info']);
 
 });
