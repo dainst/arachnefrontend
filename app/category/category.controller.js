@@ -173,7 +173,6 @@ angular.module('arachne.controllers')
             }
 
             $rootScope.$on('$locationChangeSuccess', function () {
-                console.log("locationChangeSuccess")
                 loadFacetValues();
                 updatePreviewResultSize();
             });
