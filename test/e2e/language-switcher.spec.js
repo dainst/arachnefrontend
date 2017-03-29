@@ -55,6 +55,11 @@ describe('language switcher', function() {
         expect(element.all(by.css('.navbar-links')).get(3).getText()).toBe('About Arachne');
         expect(element.all(by.css('.all-projects')).get(0).getText()).toBe('Show all projects');
 
+        languageSwitcher.click();
+
+        // Set frontends language to german, again
+        languageSwitcher.all(by.css('li')).get(0).click();
+
     });
 
 });
