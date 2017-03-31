@@ -86,7 +86,7 @@
 									({{categories[entity.type]["singular"]}} {{ 'ui_no_title' | transl8 }})
 								</div>
 								<div ng-bind-html="entity.title" ng-if="entity.title!=''"></div>
-								<div class="text-muted">{{entity.subtitle}}</div>
+								<div class="text-muted" ng-bind-html="entity.subtitle">{{entity.subtitle}}</div>
 							</a>
 						</td>
 						<td class="text-right">
