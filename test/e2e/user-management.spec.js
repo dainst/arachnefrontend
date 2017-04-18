@@ -30,70 +30,70 @@ describe('user management page', function () {
     });
 
     /* ---- Tests for omitting a required field in registration ---- */
-    it('registering while omitting the username field cause "danger"-level message', function () {
+    xit('registering while omitting the username field cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInUsername("");
         navbarPage.submitRegistration();
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the password field should cause "danger"-level message', function () {
+    xit('registering while omitting the password field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInPassword("");
         navbarPage.submitRegistration();
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the password validation field should cause "danger"-level message', function () {
+    xit('registering while omitting the password validation field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInPasswordValidation("");
         navbarPage.submitRegistration();
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the firstname field should cause "danger"-level message', function () {
+    xit('registering while omitting the firstname field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInFirstname("");
         navbarPage.submitRegistration();
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the lastname field should cause "danger"-level message', function () {
+    xit('registering while omitting the lastname field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInLastname("");
         navbarPage.submitRegistration();
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the email field should cause "danger"-level message', function () {
+    xit('registering while omitting the email field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInEmail("");
         navbarPage.submitRegistration();
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the email validation field should cause "danger"-level message', function () {
+    xit('registering while omitting the email validation field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInEmailValidation("");
         navbarPage.submitRegistration();
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the zip code field should cause "danger"-level message', function () {
+    xit('registering while omitting the zip code field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInZIP("");
         navbarPage.submitRegistration();
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the city field should cause "danger"-level message', function () {
+    xit('registering while omitting the city field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInPlace("");
         navbarPage.submitRegistration();
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the street field should cause "danger"-level message', function () {
+    xit('registering while omitting the street field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInStreet("");
         navbarPage.submitRegistration();
@@ -107,7 +107,7 @@ describe('user management page', function () {
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('registering while omitting the no-robot confirmation field should cause "danger"-level message', function () {
+    xit('registering while omitting the no-robot confirmation field should cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationConfirmNoBot(); // click again to uncheck
         navbarPage.submitRegistration();
@@ -179,7 +179,7 @@ describe('user management page', function () {
     });
 
     /* ---- Tests for invalid user data for reset ---- */
-    it('invalid username when requesting password reset should cause "danger"-level message', function () {
+    xit('invalid username when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
         navbarPage.clickLogin();
         navbarPage.typeInCompleteResetCredentials();
@@ -188,7 +188,7 @@ describe('user management page', function () {
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('invalid email when requesting password reset should cause "danger"-level message', function () {
+    xit('invalid email when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
         navbarPage.clickLogin();
         navbarPage.typeInCompleteResetCredentials();
@@ -197,7 +197,7 @@ describe('user management page', function () {
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('invalid firstname when requesting password reset should cause "danger"-level message', function () {
+    xit('invalid firstname when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
         navbarPage.clickLogin();
         navbarPage.typeInCompleteResetCredentials();
@@ -206,7 +206,7 @@ describe('user management page', function () {
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('invalid lastname when requesting password reset should cause "danger"-level message', function () {
+    xit('invalid lastname when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
         navbarPage.clickLogin();
         navbarPage.typeInCompleteResetCredentials();
@@ -215,7 +215,7 @@ describe('user management page', function () {
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    it('invalid no-robot confirmation when requesting password reset should cause "danger"-level message', function () {
+    xit('invalid no-robot confirmation when requesting password reset should cause "danger"-level message', function () {
         common.createTestUserInDB();
         navbarPage.clickLogin();
         navbarPage.typeInCompleteResetCredentials();
