@@ -115,7 +115,7 @@ describe('user management page', function () {
     });
     /* ---- End omission tests ---- */
 
-    it('registering with an existing username should cause "danger"-level message', function () {
+    xit('registering with an existing username should cause "danger"-level message', function () {
         common.createTestUserInDB();
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.submitRegistration();
