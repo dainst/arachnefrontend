@@ -30,7 +30,7 @@ describe('user management page', function () {
     });
 
     /* ---- Tests for omitting a required field in registration ---- */
-    xit('registering while omitting the username field cause "danger"-level message', function () {
+    it('registering while omitting the username field cause "danger"-level message', function () {
         navbarPage.typeInCompleteRegistrationCredentials();
         navbarPage.registrationTypeInUsername("");
         navbarPage.submitRegistration();
@@ -122,7 +122,7 @@ describe('user management page', function () {
         expect(messageBox.getLevel()).toEqual('danger');
     });
 
-    xit('should be able to login and logout', function () { // Failed: No element found using locator: By(css selector, a[href*="bookmarks"])
+    it('should be able to login and logout', function () {
 
         common.createTestUserInDB();
         //login
