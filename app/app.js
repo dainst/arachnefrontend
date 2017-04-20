@@ -44,6 +44,7 @@ angular.module('arachne',[
 			.state('catalogs', { url: '/catalogs', templateUrl: 'app/catalog/catalogs.html', data: { pageTitle: title }})
 			.state('catalog', { url: '/catalog/:id?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }})
 			.state('catalog.entry', { url: '/:entryId?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }})
+            .state('books', { url: '/books/:id?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }})
 			.state('entity', { url: '/entity/:id?/:params?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }})
 			.state('entityImages', { url: '/entity/:entityId/images', templateUrl: 'app/entity/entity-images.html', data: { pageTitle: title }})
 			.state('entityImage', { url: '/entity/:entityId/image/:imageId', templateUrl: 'app/entity/entity-image.html', data: { pageTitle: title }})

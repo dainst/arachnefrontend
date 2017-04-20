@@ -5,6 +5,7 @@ angular.module('arachne.controllers')
     .controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$uibModal', 'Entity', '$location', 'arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
         function ($rootScope, $stateParams, searchService, $scope, $uibModal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messages) {
 
+
             $rootScope.hideFooter = false;
 
             $scope.user = authService.getUser();
@@ -22,6 +23,21 @@ angular.module('arachne.controllers')
                 }
             };
 
+            //if id is not a number (=> string)
+            if (isNaN($stateParams.id)) {
+                var live = $location.search()["live"] == "true";
+
+                Entity.books({id: $stateParams.id, live: live}, function (data) {
+                    $scope = data;
+
+                    if($scope.entityId == null) {
+                        $location.url('404');
+                    } else {
+                        $location.url('entity/' + $scope.entityId);
+                        $location.replace();
+                    }
+                });
+            }
             // if no id given, but query get id from search and reload
             if (!$stateParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
 
@@ -115,6 +131,5 @@ angular.module('arachne.controllers')
 
                 }
             }
-
         }
     ]);

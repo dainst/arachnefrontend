@@ -24,7 +24,11 @@ function($resource, arachneSettings, $q) {
             },
             contexts: {
                 method: 'GET',
-                params: { endpoint: 'contexts'}
+                params: { endpoint: 'contexts' }
+            },
+            books: {
+                method: 'GET',
+                params: { endpoint: 'books' }
             },
             specialNavigations: {
                 method: 'GET',
