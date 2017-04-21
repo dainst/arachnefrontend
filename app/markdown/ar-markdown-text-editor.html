@@ -24,6 +24,19 @@
         <button class="btn btn-default" ng-click="formatText('link')">
             <span class="fa fa-link"></span>
         </button>
+
+        <button class="btn btn-default" ng-click="formatText('align-left')">
+            <span class="fa fa-align-left"></span>
+        </button>
+        <button class="btn btn-default" ng-click="formatText('align-center')">
+            <span class="fa fa-align-center"></span>
+        </button>
+        <button class="btn btn-default" ng-click="formatText('align-right')">
+            <span class="fa fa-align-right"></span>
+        </button>
+        <button class="btn btn-default" ng-click="formatText('align-justify')">
+            <span class="fa fa-align-justify"></span>
+        </button>
     </div>
     <textarea style="resize: vertical;" type="text" class="form-control" ng-model="markdownText" ng-trim="false"
               placeholder="{{placeholder}}" rows="10"></textarea>
