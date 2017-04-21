@@ -49,13 +49,25 @@ angular.module('arachne.controllers')
 	    };
 
 	    $scope.addChild = function(scope, entry) {
+
 	        if (!entry.children) entry.children = [];
 	        var editEntryModal = $uibModal.open({
 	            templateUrl: 'app/catalog/edit-entry.html'
 	        });
+
 	        editEntryModal.close = function(newEntry, entity) {
-	            if (entity) newEntry.arachneEntityId = entity.entityId;
-	            else newEntry.arachneEntityId = null;
+
+	            if (entity) {
+	            	newEntry.arachneEntityId = entity.entityId;
+                } else {
+	            	newEntry.arachneEntityId = null;
+                }
+
+                // Use associated entity title as label if label is not set
+                if (!newEntry.label && entity.title) {
+	            	newEntry.label = entity.title;
+				}
+
 	            newEntry.parentId = entry.id;
 	            newEntry.indexParent = entry.children.length;
 	            CatalogEntry.save({}, newEntry, function(result) {
@@ -122,8 +134,18 @@ angular.module('arachne.controllers')
 	            resolve: { entry: function() { return editableEntry } }
 	        });
 	        editEntryModal.close = function(editedEntry, entity) {
-	            if (entity) editedEntry.arachneEntityId = entity.entityId;
-	            else editedEntry.arachneEntityId = null;
+
+	            if (entity) {
+	            	editedEntry.arachneEntityId = entity.entityId;
+                } else {
+	            	editedEntry.arachneEntityId = null;
+                }
+
+                // Use associated entity title as label if label is not set
+                if (!editedEntry.label && entity.title) {
+                    editedEntry.label = entity.title;
+                }
+
 	            angular.copy(editedEntry, entry);
 	            entry.indexParent = getIndexParent(entry);
 	            CatalogEntry.update({ id: entry.id }, entry, function() {
