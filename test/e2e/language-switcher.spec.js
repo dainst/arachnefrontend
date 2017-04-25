@@ -1,6 +1,6 @@
 describe('language switcher', function() {
 
-    xit('opens a submenu which lets users to choose between german and english', function() { // Failed: Timeout
+    it('opens a submenu which lets users to choose between german and english', function() {
 
         browser.get('/');
 
@@ -19,7 +19,7 @@ describe('language switcher', function() {
 
     });
 
-    xit('changes the frontends language from german to english', function() { // Failed: Timeout
+    it('changes the frontends language from german to english', function() {
 
         browser.get('/');
 
