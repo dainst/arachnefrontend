@@ -34,7 +34,7 @@ describe ('StaticContentController', function() {
 				"title" : title
 			});
 			$provide.value('language', {
-				browserPrimaryLanguage: function () {
+				currentLanguage: function () {
 					return primaryLanguage;
 				}
 			});
