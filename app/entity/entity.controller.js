@@ -22,7 +22,6 @@ angular.module('arachne.controllers')
                     $location.url('/entity/' + $scope.currentQuery.setParam('resultIndex',resultIndex).toString());
                 }
             };
-
             //if id is not a number (=> string)
             if (isNaN($stateParams.id)) {
                 var live = $location.search()["live"] == "true";
@@ -34,7 +33,6 @@ angular.module('arachne.controllers')
                         $location.url('404');
                     } else {
                         $location.url('entity/' + $scope.entityId);
-                        $location.replace();
                     }
                 });
             }

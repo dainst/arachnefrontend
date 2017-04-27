@@ -26,6 +26,10 @@
 			</select>
 		</div>
 	</div>
+	{{ 'catalog_projectId' | transl8 }}:
+	<div class="form-group">
+		<input type="text" class="form-control" ng-model="catalog.projectId" placeholder="{{ 'catalog_projectId' | transl8 }}">
+	</div>
 	<div ng-if="catalog.generateTexts != undefined" class="form-group">
 		<div class="checkbox">
 			<label>

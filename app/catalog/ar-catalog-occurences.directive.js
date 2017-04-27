@@ -13,6 +13,7 @@ angular.module('arachne.directives')
 				link: function (scope, element, attrs) {
 
 					scope.catalogEntries = [];
+                    scope.projectEntries = [];
 
 					scope.previewCatalogEntry = function (catalogEntry) {
 						var entityPreview = {
@@ -72,6 +73,9 @@ angular.module('arachne.directives')
 							 $http.get(arachneSettings.dataserviceUri + "/catalog/list/" + scope.entity.entityId)
 								.success(function (data) {
 									scope.catalogEntries = data;
+                                    for (var i = 0, len = scope.catalogEntries.length; i < len; i++)
+                                        if(scope.catalogEntries[i].projectId != "")
+                                            scope.projectEntries.push(scope.catalogEntries[i]);
 								}).error(function (result) {
 									console.log("Error requesting /catalog/list/ in ar-catalog-occurences-directive");
 								}

@@ -33,7 +33,10 @@ angular.module('arachne.controllers')
                 });
                 
                 editCatalogModal.close = function(newCatalog) {
-
+                    if(!newCatalog.projectId) {
+                        newCatalog.projectId = "";
+                    }
+                    console.log(newCatalog);
                     newCatalog.public = false;
                     Catalog.save({}, newCatalog, function(result) {
                         $scope.catalogs.push(result);

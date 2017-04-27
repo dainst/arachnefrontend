@@ -160,6 +160,7 @@ angular.module('arachne.controllers')
 	        var editableCatalog = {
 	            author: $scope.catalog.author,
 	            public: $scope.catalog.public,
+	            projectId: $scope.catalog.projectId,
 	            root: {
 	                label: $scope.catalog.root.label,
 	                text: $scope.catalog.root.text
@@ -173,6 +174,7 @@ angular.module('arachne.controllers')
 	        editCatalogModal.close = function(editedCatalog) {
 	            $scope.catalog.author = editedCatalog.author;
 	            $scope.catalog.public = editedCatalog.public;
+	            $scope.catalog.projectId = editedCatalog.projectId;
 	            $scope.catalog.root.label = editedCatalog.root.label;
 	            $scope.catalog.root.text = editedCatalog.root.text;
 
