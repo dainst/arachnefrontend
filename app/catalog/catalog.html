@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="entries_renderer.html">
 	
 	<div class="catalog-entry" ui-tree-handle
-			ng-class="{ moveable: editable, clickable: !editable, active: activeEntry.id == entry.id }"
+			ng-class="{ moveable: editable && !removeItems, clickable: !editable && !removeItems, active: activeEntry.id == entry.id }"
 			ng-init="entry.show = false"
 			ng-click="!editable && selectEntry(entry);">
 
@@ -30,7 +30,7 @@
             </small>
         </span>
 
-		<span ng-show="editable" class="edit-section">
+		<span ng-show="editable && !removeItems" class="edit-section">
 			<a class="edit-btn pull-right"
 	                ng-click="removeEntry(this, entry)"
 	                uib-tooltip="{{ 'catalog_delete_entry' | transl8 }}"
@@ -54,7 +54,13 @@
 			</a>
 		</span>
 
+		<input type="checkbox" ng-if="removeItems"
+			   ng-change="syncEntriesToRemove(addEntry, entry, this)" ng-model="addEntry"
+			   style="width: 25px; height: 25px; margin-top: -1px;" class="pull-right">
+
 	</div>
+
+
 
 	<ol ng-class="{hidden:collapsed}" ui-tree-nodes ng-model="entry.children">
 
@@ -113,6 +119,21 @@
 							tooltip-append-to-body="true">
 						<span class="glyphicon glyphicon-file"></span>
 					</button>
+
+					<style>
+						.removemode {
+							background-color: #ccc;
+						}
+					</style>
+
+					<button class="btn btn-default" style="margin-left: -1px;"
+							ng-click="removeItems = !removeItems"
+							ng-class="{ removemode: removeItems }"
+							uib-tooltip="{{ 'catalog_delete_entries' | transl8 }}"
+							tooltip-append-to-body="true">
+						<span class="glyphicon glyphicon-remove-sign"></span>
+					</button>
+
 					<button class="btn btn-default" ng-click="removeCatalog()"
 							uib-tooltip="{{ 'catalog_delete' | transl8 }}"
 							tooltip-append-to-body="true">
@@ -136,8 +157,9 @@
 
 		<hr>
 
-		<div ng-if="catalog.root.children.length > 0" ui-tree="treeOptions" data-drag-enabled="editable" id="tree-root">
+		<div ng-if="catalog.root.children.length > 0" ui-tree="treeOptions" data-drag-enabled="editable && !removeItems" id="tree-root">
 			<ol ui-tree-nodes="nodes" ng-model="catalog.root.children" ng-class="{hidden: collapsed}">
+
 				<li ng-repeat="entry in catalog.root.children"
 						ui-tree-node collapsed="{{entry.totalChildren > 0}}"
 						ng-include="'entries_renderer.html'">
@@ -158,11 +180,18 @@
 			</ol>
 		</div>
 
-		<div ng-show="editable && catalog.root.children.length == catalog.root.totalChildren" class="catalog-entry"
+		<div ng-show="!removeItems && editable && catalog.root.children.length == catalog.root.totalChildren" class="catalog-entry"
 					style="cursor: pointer;" ng-click="addChild(null, catalog.root)">
 			<a style="display: block;">
 				<em><span class="glyphicon glyphicon-file"></span> {{ 'catalog_create_entry' | transl8 }}</em>
 			</a>
+		</div>
+
+		<div ng-show="removeItems">
+			<button type="button"
+					class="btn btn-primary pull-right"
+					ng-class="{ disabled: itemsToRemove.length === 0 }"
+					ng-click="itemsToRemove.length > 0 && removeEntries()">{{ 'catalog_delete_entries_button' | transl8 }}</button>
 		</div>
 
 	</div>
