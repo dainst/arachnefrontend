@@ -7,8 +7,10 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  */
-.controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', 'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService',
-	function ($rootScope, $scope, $state, $stateParams, $uibModal, Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, messages) {
+.controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window',
+	'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService',
+	function ($rootScope, $scope, $state, $stateParams, $uibModal, $window,
+			  Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, messages) {
 
 		$rootScope.hideFooter = true;
 		$scope.entryMap = {};
@@ -16,6 +18,10 @@ angular.module('arachne.controllers')
 		$scope.childrenLimit = 20;
 		$scope.editable = false;
 		$scope.error = false;
+
+		$scope.removeItems = false;
+		$scope.itemsToRemove = [];
+
 		if ($stateParams.view == 'map') $scope.map = true;
 
 	    $scope.treeOptions = {
@@ -116,6 +122,8 @@ angular.module('arachne.controllers')
 	            templateUrl: 'app/catalog/delete-entry.html'
 	        });
 	        deleteModal.close = function() {
+
+	        	console.log(scope, CatalogEntry, 'HERE', entry)
 	            scope.remove();
 	            $scope.entryMap[entry.parentId].totalChildren -= 1;
 	            CatalogEntry.remove({ id: entry.id }, function() {
@@ -125,6 +133,53 @@ angular.module('arachne.controllers')
 	            });
 	        }
 	    };
+
+	    $scope.syncEntriesToRemove = function(addEntry, entry, rendererScope) {
+
+	    	if (addEntry) {
+                $scope.itemsToRemove.push(entry);
+			} else {
+
+	    		var len = $scope.itemsToRemove.length, i = len, cur;
+
+	    		for (i; i--;) {
+
+	    			cur = $scope.itemsToRemove[i];
+
+	    			if (cur.id === entry.id) {
+	    				$scope.itemsToRemove.splice(i, 1);
+	    				return true;
+					}
+				}
+			}
+		};
+
+        $scope.removeEntries = function() {
+
+            var deleteModal = $uibModal.open({
+                templateUrl: 'app/catalog/delete-entries.html'
+            });
+
+            deleteModal.close = function() {
+
+                var len = $scope.itemsToRemove.length, i = len, entry;
+
+                for (i; i--;) {
+
+                	entry = $scope.itemsToRemove[i];
+
+                    $scope.entryMap[entry.parentId].totalChildren -= 1;
+                    CatalogEntry.remove({ id: entry.id }, function() {
+                        deleteModal.dismiss();
+                    }, function() {
+                        messages.add('default');
+                    });
+
+				}
+                $scope.itemsToRemove.length = 0;
+                $window.location.reload();
+            }
+        };
 
 	    $scope.editEntry = function(entry) {
 	        var editableEntry = angular.copy(entry);
