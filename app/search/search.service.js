@@ -25,7 +25,7 @@ function($location, Entity, $rootScope, Query, $q) {
             _result = { entities: [] };
         }
         _currentQuery = newQuery;
-
+        _currentRequest = false;
     });
 
     function getCachedChunk(offset) {
