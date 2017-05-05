@@ -54,7 +54,7 @@ angular.module('arachne.widgets.map')
 
         /**
          * Set the map's view:
-         * fit bounds to entities only when zoom or coordinates are not explicitely
+         * fit bounds to entities only when zoom or coordinates are not explicitly
          * required by the url, else use the url settings
          */
         function fitViewToMarkers(zoom,lat,lng,places) {

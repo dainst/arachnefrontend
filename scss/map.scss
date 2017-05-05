@@ -13,7 +13,7 @@
   padding-left: 115px;
   right: 0;
   bottom: 0;
-  top: 40px;
+  top: 50px;
   height: 100%;
   padding-bottom: 50px;
 }
@@ -52,6 +52,11 @@
   cursor: pointer;
 }
 
-.map-fullscreen #map{
-  top: 50px;
+.map-fullscreen #gradientBar {
+  width: 100%;
+  height: 15px;
+  background: -webkit-linear-gradient(left, #C7EBAB , yellow, #EA512D);
+  background: -o-linear-gradient(left, #C7EBAB , yellow, #EA512D);
+  background: -moz-linear-gradient(left, #C7EBAB , yellow, #EA512D);
+  background: linear-gradient(to right, #C7EBAB , yellow, #EA512D);
 }
