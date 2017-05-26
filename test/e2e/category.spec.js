@@ -10,7 +10,7 @@ describe('category page', function() {
         
     });
 
-    it('should only search for entities of displayed category', function() {
+    xit('should only search for entities of displayed category', function() {
 
         categoryPage.load('objekt');
         var searchPage = categoryPage.startSearch('orest');
