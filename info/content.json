@@ -1,63 +1,72 @@
-
-  {
-    "id": "Overview",
-    "title": {
-      "de": "Inhalte"
-    }
-    ,"children": [
+{
+  "id": "Overview",
+  "title": {
+    "de": "Inhalte"
+  },
+  "children": [
     {
       "id": "navbar",
-      "children":[
-	      {
-	        "id": "faq",
-	        "title": {
-	          "de": "FAQ",
-              "en": "FAQ"
-	        }
-	      },
-	      {
-	        "id": "apis",
-	        "title": {
-	          "de": "APIs",
-			  "en": "APIs"
-	        }
-	      },
-      {
-        "id": "order",
-        "title": {
-		  "en": "Order",
-          "de": "Bestellungen"
+      "children": [
+        {
+          "id": "faq",
+          "path": "info/",
+          "title": {
+            "de": "FAQ",
+            "en": "FAQ"
+          }
+        },
+        {
+          "id": "apis",
+          "path": "info/",
+          "title": {
+            "de": "APIs",
+            "en": "APIs"
+          }
+        },
+        {
+          "id": "order",
+          "path": "info/",
+          "title": {
+            "en": "Order",
+            "de": "Bestellungen"
+          }
+        },
+        {
+          "id": "about",
+          "path": "info/",
+          "title": {
+            "de": "Über Arachne",
+            "en": "About Arachne"
+          }
+        },
+        {
+          "id": "projects",
+          "path": "",
+          "title": {
+            "de": "Projekte",
+            "en": "Projects"
+          }
         }
-      },
-      {
-        "id": "about",
-        "title": {
-          "de": "Über Arachne",
-          "en": "About Arachne"
-        }
-      }
-	  
-	  
-	  
       ]
     },
     {
       "id": "footer",
       "children": [
-      {
-        "id": "imprint",
-        "title": {
-		  "de": "Impressum",
-          "en": "Imprint"
+        {
+          "id": "imprint",
+          "title": {
+            "de": "Impressum",
+            "en": "Imprint"
+          }
+        },
+        {
+          "id": "privacy",
+          "title": {
+            "de": "Datenschutz",
+            "en": "Privacy"
+          }
         }
-      },
-      {
-        "id": "privacy",
-        "title": {
-          "de": "Datenschutz",
-          "en": "Privacy"
-        }
-      }]
+      ]
     }
   ]
 }
