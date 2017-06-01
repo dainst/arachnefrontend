@@ -5,7 +5,6 @@ angular.module('arachne.controllers')
     .controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$uibModal', 'Entity', '$location', 'arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
         function ($rootScope, $stateParams, searchService, $scope, $uibModal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messages) {
 
-
             $rootScope.hideFooter = false;
 
             $scope.user = authService.getUser();
@@ -48,8 +47,10 @@ angular.module('arachne.controllers')
             } else {
 
                 var live = $location.search()["live"] == "true";
-
-                Entity.get({id: $stateParams.id, live: live}, function (data) {
+                var lang = null;
+                if(localStorage.lang)
+                    lang = localStorage.lang;
+                Entity.get({id: $stateParams.id, live: live, lang: lang}, function (data) {
 
                     $scope.entity = data;
                     // very ugly exception for Berliner Skulpturennetzwerk
