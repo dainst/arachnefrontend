@@ -19,6 +19,9 @@ angular.module('arachne.controllers')
 		$scope.editable = false;
 		$scope.error = false;
 
+		$scope.showThumbnails = false;
+		$scope.cells = [];
+
 		$scope.removeItems = false;
 		$scope.itemsToRemove = [];
 
@@ -266,7 +269,7 @@ angular.module('arachne.controllers')
 	    };
 
 	    $scope.selectEntry = function(entry) {
-	    	$state.transitionTo('catalog.entry', { id: $scope.catalog.id, entryId: entry.id }, { notify: false });
+	    	$state.transitionTo('catalog.entry', { id: $scope.catalog.id, entryId: entry.id }, { notify: true });
 	    	showEntry(entry);
 	    };
 
@@ -345,6 +348,9 @@ angular.module('arachne.controllers')
 	    }
 
 	    function showEntry(entry) {
+
+	    	$scope.showThumbnails = false;
+
 	    	$scope.activeEntry = entry;
 	    	if (entry.arachneEntityId) {
 	    		Entity.get({id: entry.arachneEntityId}, function(entity) {
@@ -353,9 +359,43 @@ angular.module('arachne.controllers')
 	    			messages.add('default');
 	    		});
 	    	} else {
+
+	    		if (entry.totalChildren > 0) {
+					showThumbnails(entry);
+				}
 	    		$scope.activeEntity = null;
 	    	}
 	    }
+
+	    function showThumbnails(entry) {
+
+            $scope.cells.length = 0;
+            $scope.loadingThumbnails = true;
+
+            CatalogEntry.get({ id: entry.id, limit: $scope.childrenLimit, offset: 0 }, function(result) {
+
+            	for (var i = 0; i < result.children.length; i++) {
+
+            		if (result.children[i].arachneEntityId) {
+                        Entity.get({id: result.children[i].arachneEntityId}, function(entity) {
+
+                        	$scope.cells.push({
+								title: entity.title,
+								thumbnail: arachneSettings.dataserviceUri + '/image/width/'+ entity.thumbnailId + '?width=200'
+                            });
+                        }, function() {
+                            messages.add('default');
+                        });
+                    }
+                }
+
+                $scope.loadingThumbnails = false;
+            }, function() {
+                messages.add('backend_missing');
+            });
+
+            $scope.showThumbnails = entry.totalChildren > 0;
+		}
 
 	    function checkIfEditable() {
 			if (!$scope.user) {
