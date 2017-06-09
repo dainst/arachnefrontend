@@ -350,8 +350,8 @@ angular.module('arachne.controllers')
 	    function showEntry(entry) {
 
 	    	$scope.showThumbnails = false;
-
 	    	$scope.activeEntry = entry;
+
 	    	if (entry.arachneEntityId) {
 	    		Entity.get({id: entry.arachneEntityId}, function(entity) {
 	    			$scope.activeEntity = entity;
@@ -359,7 +359,6 @@ angular.module('arachne.controllers')
 	    			messages.add('default');
 	    		});
 	    	} else {
-
 	    		if (entry.totalChildren > 0) {
 					showThumbnails(entry);
 				}
@@ -372,6 +371,8 @@ angular.module('arachne.controllers')
             $scope.cells.length = 0;
             $scope.loadingThumbnails = true;
 
+            var cellImage;
+
             CatalogEntry.get({ id: entry.id, limit: $scope.childrenLimit, offset: 0 }, function(result) {
 
             	for (var i = 0; i < result.children.length; i++) {
@@ -379,9 +380,15 @@ angular.module('arachne.controllers')
             		if (result.children[i].arachneEntityId) {
                         Entity.get({id: result.children[i].arachneEntityId}, function(entity) {
 
+                        	if (!entity.thumbnailId) {
+                        		cellImage = 'img/placeholder/placeholderNoImage.png';
+							} else {
+                        		cellImage = arachneSettings.dataserviceUri + '/image/width/'+ entity.thumbnailId + '?width=200';
+							}
+
                         	$scope.cells.push({
 								title: entity.title,
-								thumbnail: arachneSettings.dataserviceUri + '/image/width/'+ entity.thumbnailId + '?width=200'
+								thumbnail: cellImage
                             });
                         }, function() {
                             messages.add('default');
