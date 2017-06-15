@@ -3,3 +3,11 @@
 .dropdown-menu>.active>a:hover {
   color: #fff!important;
 }
+
+.panel-multi {
+  border-color: #ddd;
+}
+
+.panel-multi .panel-body-small {
+  border-bottom: 1px solid #ddd;
+}

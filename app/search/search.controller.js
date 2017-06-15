@@ -203,6 +203,21 @@ angular.module('arachne.controllers')
                 });
             };
 
+            function _buildFacetGroups() {
+                console.log($scope.facets);
+
+				$scope.facetGroups = {};
+
+				$scope.facets.map(function(facet) {
+                    var group = (facet.group) ? facet.group : facet.name;
+					if (typeof $scope.facetGroups[group] === "undefined") {
+						$scope.facetGroups[group] = [];
+                    }
+					$scope.facetGroups[group].push(facet);
+                });
+
+            }
+
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
 
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
@@ -220,6 +235,7 @@ angular.module('arachne.controllers')
                     $scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
                     $scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
                     $scope.facets = searchService.getFacets();
+					_buildFacetGroups();
                     var insert = [];
 
                     for (var i = 0; i < $scope.facets.length; i++) {
