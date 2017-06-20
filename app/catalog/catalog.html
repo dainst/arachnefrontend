@@ -234,28 +234,61 @@
 
                 <div class="col-md-12">
 
-                    <div ng-repeat="cell in cells | orderBy : 'position'">
+                    <div ng-if="activeEntry.text"
+                         class="row">
 
-                        <div class="ar-imagegrid-cell"
-                             style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
+                        <div class="col-md-12">
 
-                            <a>
-                                <div style="background-color: #ddd; text-align:center; position: relative; width: 190px; height: 225px;">
-
-                                    <div ng-show="loadingThumbnails"
-                                         class="loading"></div>
-
-                                    <span ng-if="cell.title"
-                                          class="label label-default"
-                                          ng-style="{'max-width':(190-10)+'px'};">{{cell.label}}</span>
-
-                                    <span style="display: inline-block; height: 100%; vertical-align: middle;"></span>
-                                    <img
-                                            style="vertical-align:middle;" ng-src="{{ cell.thumbnail }}"
-                                            width="175px">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <span class="glyphicon glyphicon-file"></span>
+                                        {{ 'catalog_description' | transl8 }}
+                                    </h2>
                                 </div>
-                            </a>
+                                <div class="panel-body catalog-text">
+                                    <span markdown-to-html="activeEntry.text"></span>
+                                </div>
+                            </div>
+
                         </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <span class="glyphicon glyphicon-picture"></span>
+                                        {{ 'catalog_preview' | transl8 }}
+                                    </h2>
+                                </div>
+                                <div class="panel-body catalog-text">
+                                    <div ng-repeat="cell in cells | orderBy : 'position'">
+
+                                        <div style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
+
+                                            <a class="cell-link">
+                                                <div class="preview-cell"
+                                                     style="background-color: #eee; text-align:center; position: relative; width: 190px; height: 225px; overflow: hidden;">
+
+                                                    <div ng-show="loadingThumbnails" class="loading"></div>
+
+                                                    <div style="display: inline-block; height: 100%; vertical-align: middle;"></div>
+                                                    <img style="vertical-align:middle; width: 175px;"
+                                                         ng-src="{{ cell.thumbnail }}">
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -267,7 +300,7 @@
 
                 <div class="col-md-8">
 
-                    <div ng-if="activeEntry.text" class="panel panel-default">
+                    <div ng-if="activeEntry.text && !showThumbnails" class="panel panel-default">
                         <div class="panel-heading">
                             <h2 class="panel-title">
                                 <span class="glyphicon glyphicon-file"></span>
