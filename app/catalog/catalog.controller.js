@@ -375,26 +375,31 @@ angular.module('arachne.controllers')
 
             CatalogEntry.get({ id: entry.id, limit: $scope.childrenLimit, offset: 0 }, function(result) {
 
-            	for (var i = 0; i < result.children.length; i++) {
+            	result.children.forEach(function(cell, index) {
 
-            		if (result.children[i].arachneEntityId) {
-                        Entity.get({id: result.children[i].arachneEntityId}, function(entity) {
+                    if (cell.arachneEntityId) {
 
-                        	if (!entity.thumbnailId) {
-                        		cellImage = 'img/placeholder/placeholderNoImage.png';
-							} else {
-                        		cellImage = arachneSettings.dataserviceUri + '/image/width/'+ entity.thumbnailId + '?width=200';
-							}
+                        Entity.get({id: cell.arachneEntityId}, function(entity) {
 
-                        	$scope.cells.push({
-								title: entity.title,
-								thumbnail: cellImage
+                            if (!entity.thumbnailId) {
+                                cellImage = 'img/placeholder/placeholderNoImage.png';
+                            } else {
+                                cellImage = arachneSettings.dataserviceUri + '/image/width/'+ entity.thumbnailId + '?width=200';
+                            }
+
+                            $scope.cells.push({
+                                position: index,
+                                title: entity.title,
+                                thumbnail: cellImage
                             });
                         }, function() {
                             messages.add('default');
                         });
+
+                        index++;
                     }
-                }
+
+				});
 
                 $scope.loadingThumbnails = false;
             }, function() {
