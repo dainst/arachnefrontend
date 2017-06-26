@@ -1,67 +1,63 @@
 <div class="modal-header">
     <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
-    <h4 class="modal-title">{{'ui_download_as' | transl8}}&nbsp;{{dlMode}}</h4>
+    <h4 class="modal-title">{{'ui_download_as' | transl8}}&nbsp;{{mode.toUpperCase()}}</h4>
 </div>
 <div class="modal-body">
 
-    <p>{{'ui_download_limit' | transl8 }}</p>
-
-    <!-- Possible second form for data type selection for download, when more data types are implemented -->
+    <p>{{'ui_download_select' | transl8 }}:</p>
 
     <form class="form-inline" role="form">
         <div class="row">
-            <div class="form-group col-sm-offset-1">
-                <label class="control-label">Limit:&nbsp;</label>
-            </div>
 
-            <div class="form-group">
+            <div class="form-group space-right col-sm-offset-1">
                 <div class="radio">
                     <label class="radio-inline control-label">
-                        <input type="radio" id="limit_100" ng-model="limit" value="100" checked>
-                        100
+                        <input type="radio" id="mode_csv" ng-model="mode" value="csv" checked>
+                        CSV
                     </label>
                     &nbsp;
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group space-right">
                 <div class="radio">
                     <label class="radio-inline control-label">
-                        <input type="radio" id="limit_500" ng-model="limit" value="500">
-                        500
+                        <input type="radio" id="mode_json" ng-model="mode" value="json">
+                        JSON
                     </label>
                     &nbsp;
                 </div>
             </div>
 
-            <div class="form-group">
+            <!--  not implemented yet, therefore radios disabled -->
+            <div class="form-group space-right">
                 <div class="radio">
                     <label class="radio-inline control-label">
-                        <input type="radio" id="limit_1000" ng-model="limit" value="1000">
-                        1000
+                        <input type="radio" id="mode_xml" ng-model="mode" value="xml" disabled>
+                        XML
                     </label>
                     &nbsp;
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group space-right">
                 <div class="radio">
                     <label class="radio-inline control-label">
-                        <input type="radio" id="limit_other" ng-model="limit" value="other">
-                        {{'ui_download_limit_other' | transl8 }}:
+                        <input type="radio" id="mode_pdf" ng-model="mode" value="pdf" disabled>
+                        PDF
                     </label>
                     &nbsp;
                 </div>
-                <input placeholder="max. 10000" type="number" class="form-control"
-                       id="limit_actual" ng-model="actual" max="10000">
             </div>
         </div>
+
+        <p ng-if="resultSize > 300" class="space-top"><i>{{'ui_download_big' | transl8 }}</i></p>
 
         <div class="row">
             <div class="form-group col-sm-offset-1">
                 <a class="btn btn-primary" target="_self" ng-href="{{downloadAs()}}" ng-click="cancel()" download="{{filename}}">{{'ui_download' | transl8}}</a>
                 &nbsp;
-                <button class="btn btn-default" ng-click="cancel()">{{'ui_download_cancel' | transl8 }}</button>
+                <button class="btn btn-default" ng-click="cancel()">{{'ui_cancel' | transl8 }}</button>
             </div>
         </div>
 

@@ -30,8 +30,8 @@ angular.module('arachne.controllers')
 
             $scope.openDownloadDialog = function () {
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'app/search/downloadCSV-modal.html',
-                    controller: 'DownloadCSVController'
+                    templateUrl: 'app/search/download-modal.html',
+                    controller: 'DownloadController'
                 });
                 modalInstance.result.then(function () {
                     $window.location.reload();
