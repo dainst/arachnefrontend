@@ -14,9 +14,13 @@ angular.module('arachne.controllers')
 
             $scope.downloadAs = function () {
                 var currentQuery = $scope.currentQuery;
+                var currentSize = $scope.resultSize;
+                // failsafe control to not exceed limit
+                if (currentSize > 10000)
+                    currentSize = 10000;
                 var currentMode = $scope.mode;
                 $scope.filename = 'currentSearch.' + currentMode;
-                return arachneSettings.dataserviceUri + '/search.' + currentMode + '?q=' + currentQuery.q;
+                return arachneSettings.dataserviceUri + '/search.' + currentMode + '?q=' + currentQuery.q + '&limit=' + currentSize;
             };
 
             $scope.cancel = function () {

@@ -23,10 +23,17 @@
                 </a>
             </div>
 
-            <button tooltip-placement="auto bottom"
+            <button ng-if="resultSize <= 10000" tooltip-placement="auto bottom"
                     uib-tooltip="{{'ui_download_as' | transl8}}"
                     type="button" ng-click="openDownloadDialog()"
                     class="btn btn-sm btn-default">
+                <span class="glyphicon glyphicon-download-alt"></span>
+            </button>
+
+            <button ng-if="resultSize > 10000" tooltip-placement="auto bottom"
+                    uib-tooltip="{{'ui_download_too-big' | transl8}}"
+                    type="button"
+                    class="btn btn-sm btn-default disabled">
                 <span class="glyphicon glyphicon-download-alt"></span>
             </button>
 

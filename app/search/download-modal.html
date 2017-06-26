@@ -33,6 +33,16 @@
             <div class="form-group space-right">
                 <div class="radio">
                     <label class="radio-inline control-label">
+                        <input type="radio" id="mode_html" ng-model="mode" value="html" disabled>
+                        HTML
+                    </label>
+                    &nbsp;
+                </div>
+            </div>
+
+            <div class="form-group space-right">
+                <div class="radio">
+                    <label class="radio-inline control-label">
                         <input type="radio" id="mode_xml" ng-model="mode" value="xml" disabled>
                         XML
                     </label>
@@ -51,7 +61,7 @@
             </div>
         </div>
 
-        <p ng-if="resultSize > 300" class="space-top"><i>{{'ui_download_big' | transl8 }}</i></p>
+        <p ng-if="resultSize > 3000" class="space-top"><i>{{'ui_download_big' | transl8 }}</i></p>
 
         <div class="row">
             <div class="form-group col-sm-offset-1">
