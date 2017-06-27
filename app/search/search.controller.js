@@ -5,6 +5,7 @@ angular.module('arachne.controllers')
 /**
  * @author: Jan G. Wieners
  * @author: Thomas Kleinke
+ * @author Patrick Jominet
  */
 
     .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
@@ -26,6 +27,16 @@ angular.module('arachne.controllers')
             categoryService.getCategoriesAsync().then(function (categories) {
                 $scope.categories = categories;
             });
+
+            $scope.openDownloadDialog = function () {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'app/search/download-modal.html',
+                    controller: 'DownloadController'
+                });
+                modalInstance.result.then(function () {
+                    $window.location.reload();
+                });
+            };
 
             $scope.createCatalogTextForCurrentQuery = function () {
 

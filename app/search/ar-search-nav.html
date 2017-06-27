@@ -23,6 +23,20 @@
                 </a>
             </div>
 
+            <button ng-if="resultSize <= 10000" tooltip-placement="auto bottom"
+                    uib-tooltip="{{'ui_download_as' | transl8}}"
+                    type="button" ng-click="openDownloadDialog()"
+                    class="btn btn-sm btn-default">
+                <span class="glyphicon glyphicon-download-alt"></span>
+            </button>
+
+            <button ng-if="resultSize > 10000" tooltip-placement="auto bottom"
+                    uib-tooltip="{{'ui_download_too-big' | transl8}}"
+                    type="button"
+                    class="btn btn-sm btn-default disabled">
+                <span class="glyphicon glyphicon-download-alt"></span>
+            </button>
+
             <button ng-if="user.username && resultSize <= 300" tooltip-placement="auto bottom"
                     uib-tooltip="{{'search_catalog_create' | transl8}}"
                     type="button" ng-click="createCatalogFromSearch()"
@@ -36,6 +50,7 @@
                     class="btn btn-sm btn-default disabled">
                 <span class="glyphicon glyphicon-inbox"></span>
             </button>
+
         </div>
     </div>
 
@@ -46,7 +61,8 @@
            ng-class="{ 'disabled': currentPage == 1 }">
             <span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> Zurück
         </a>
-        <small class="text-muted" style="padding: 0px 8px;"><strong>{{ 'ui_page' | transl8 }} {{currentPage}} / {{totalPages}}</strong>
+        <small class="text-muted" style="padding: 0px 8px;"><strong>{{ 'ui_page' | transl8 }} {{currentPage}} /
+            {{totalPages}}</strong>
         </small>
         <a ng-click="nextPage()"
            class="btn btn-sm btn-default"
