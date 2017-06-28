@@ -97,6 +97,9 @@ gulp.task('concat-deps', function () {
 
 // minifies and concatenates js files in build dir
 gulp.task('minify-js', ['concat-js', 'html2js-js', 'html2js-partials'], function () {
+
+	var gutil = require('gulp-util');
+
     return gulp.src(['dist/' + pkg.name + '.js',
         'dist/' + pkg.name + '-partials-tpls.js',
         'dist/' + pkg.name + '-js-tpls.js'
@@ -104,6 +107,7 @@ gulp.task('minify-js', ['concat-js', 'html2js-js', 'html2js-partials'], function
         .pipe(concat(pkg.name + '.js'))
         .pipe(gulp.dest('dist/'))
         .pipe(uglify())
+        //.on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(concat(pkg.name + '.min.js'))
         .pipe(gulp.dest('dist/'));
 });

@@ -19,18 +19,19 @@
 
 	<!-- Linke Spalte -->
 	<div class="col-md-2 col-sm-3" ng-if="resultSize">
-		<div>
-		<small class="text-muted">
-			{{"ui_total"|transl8}} <strong>{{ resultSize|number }}</strong>
-			<span ng-show="resultSize > 1"> {{"ui_entries"|transl8}}</span>
-			<span ng-hide="resultSize > 1"> {{"ui_entry"|transl8}}</span>
-			<span ng-show="numPages > 1"><br> auf <strong>{{numPages|number}}</strong> {{"ui_pages"|transl8}}</span>
+		<small ng-if="searchScope !== null">
+			<div ar-search-scope scope="searchScope"></div>
 		</small>
+
+		<div>
+			<small class="text-muted">
+				{{"ui_total"|transl8}} <strong>{{ resultSize|number }}</strong>
+				<span ng-show="resultSize > 1"> {{"ui_entries"|transl8}}</span>
+				<span ng-hide="resultSize > 1"> {{"ui_entry"|transl8}}</span>
+				<span ng-show="numPages > 1"><br> auf <strong>{{numPages|number}}</strong> {{"ui_pages"|transl8}}</span>
+			</small>
 		</div>
 		<small>
-
-			<div ar-active-facets route="search" current-query="currentQuery"></div>
-
 			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
 			<div ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
 					ng-repeat="facet in facets"
@@ -44,7 +45,7 @@
 				</div>
 				<ul class="list-unstyled" ng-show="facet.open">
 					<li ng-repeat="facetValue in facet.values" class="facet-value">
-						<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+						<a ng-href="{{getSearchPath()}}search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
 							<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
 							{{facetValue.value | stripCoords}}
 						</a>

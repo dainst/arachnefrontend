@@ -7,16 +7,27 @@ angular.module('arachne.controllers')
  * @author: Thomas Kleinke
  */
 
-    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
-        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, messages, $uibModal, $http, Entity, authService, $timeout) {
+    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter',
+        'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', '$http', 'Entity',
+        'authService', '$timeout', 'projectSearchService',
+        function ($rootScope, $scope, searchService, categoryService, $filter,
+                  arachneSettings, $location, Catalog, messages, $uibModal, $http, Entity,
+                  authService, $timeout, projectSearchService) {
 
             // To indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.illegalQuery = false;
             $rootScope.hideFooter = false;
             $scope.user = authService.getUser();
             $scope.currentQuery = searchService.currentQuery();
+
+            //tmp to debug
+			$scope.searchScope = projectSearchService.currentScope;
+
+
             $scope.q = angular.copy($scope.currentQuery.q);
             $scope.sortableFields = arachneSettings.sortableFields;
+
+
 
             // Ignore unknown sort fields
             if (arachneSettings.sortableFields.indexOf($scope.currentQuery.sort) == -1) {
@@ -116,6 +127,7 @@ angular.module('arachne.controllers')
                         }, function () {
                             messages.add('default');
                         }, function () {
+                        }, function () {
                             messages.add('default');
                         });
                     }
@@ -173,6 +185,10 @@ angular.module('arachne.controllers')
                 });
             };
 
+            $scope.refresh = function() {
+                $scope.$apply();
+            }
+
             $scope.go = function (path) {
                 $location.url(path);
             };
@@ -201,6 +217,10 @@ angular.module('arachne.controllers')
                     if (response.status == '404') messages.add('backend_missing');
                     else messages.add('search_' + response.status);
                 });
+            };
+
+            $scope.getSearchPath = function() {
+                return projectSearchService.currentSearchPath;
             };
 
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {

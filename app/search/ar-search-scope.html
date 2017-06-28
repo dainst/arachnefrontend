@@ -1,0 +1,25 @@
+<div style="
+	background: 		#37588e;
+	border-radius: 		4px;
+	margin: 			0 0 10px;
+">
+ 	<a href="{{projectPage}}">
+
+		<div ng-show="hasImage">
+			<img src="{{imagePath}}" style="width:100%; height: auto; border-radius: 4px;">
+
+		</div>
+
+		<div ng-show="!hasImage" style="
+			font-size: 		13px;
+			text-align:		center;
+			font-weight:	bold;
+			padding: 		9.5px;
+			min-height:		36px;
+			color:			white
+			"
+		>{{title}}</div>
+
+ 	</a>
+
+</div>
