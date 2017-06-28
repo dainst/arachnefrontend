@@ -3,13 +3,13 @@
     <div class="col-sm-4">
         <div class="btn-toolbar">
             <div class="btn-group">
-                <a ng-href="search{{currentQuery.removeParam('view').toString()}}"
+                <a ng-href="{{getSearchPath()}}search{{currentQuery.removeParam('view').toString()}}"
                    class="btn btn-sm btn-default"
                    ng-class="{ 'active': !currentQuery.view}">
                     <span class="glyphicon glyphicon-th"></span>
                     {{ 'ui_tiles' | transl8 }}
                 </a>
-                <a ng-href="search{{currentQuery.setParam('view','list').toString()}}"
+                <a ng-href="{{getSearchPath()}}search{{currentQuery.setParam('view','list').toString()}}"
                    class="btn btn-sm btn-default"
                    ng-class="{ 'active': currentQuery.view == 'list' }">
                     <span class="glyphicon glyphicon-th-list"></span>
@@ -83,22 +83,22 @@
             </button>
             <ul uib-dropdown-menu class="pull-right" role="menu">
                 <li>
-                    <a ng-href="search{{currentQuery.removeParam('sort').removeParam('offset').toString()}}">
+                    <a ng-href="{{getSearchPath()}}search{{currentQuery.removeParam('sort').removeParam('offset').toString()}}">
                         {{ 'ui_relevance' | transl8 }}
                     </a>
                 </li>
                 <li ng-repeat="sortableField in sortableFields">
-                    <a ng-href="search{{currentQuery.setParam('sort',sortableField).removeParam('offset').toString()}}">
+                    <a ng-href="{{getSearchPath()}}search{{currentQuery.setParam('sort',sortableField).removeParam('offset').toString()}}">
                         {{ sortableField | transl8 }}
                     </a>
                 </li>
             </ul>
         </div>
-        <a ng-href="search{{currentQuery.setParam('desc','true').removeParam('offset').toString()}}"
+        <a ng-href="{{getSearchPath()}}search{{currentQuery.setParam('desc','true').removeParam('offset').toString()}}"
            ng-show="currentQuery.sort && !currentQuery.desc" type="button" class="btn btn-sm btn-default">
             <span class="glyphicon glyphicon-sort-by-alphabet"></span>
         </a>
-        <a ng-href="search{{currentQuery.removeParam('desc').removeParam('offset').toString()}}"
+        <a ng-href="{{getSearchPath()}}search{{currentQuery.removeParam('desc').removeParam('offset').toString()}}"
            ng-show="currentQuery.sort && currentQuery.desc" type="button" class="btn btn-sm btn-default">
             <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
         </a>

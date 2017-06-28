@@ -24,7 +24,7 @@ return {
         });
 
         function updateHref() {
-            var href = "http://arachne.dainst.org/search?q=" + scope.q;
+            var href = "/search?q=" + scope.q;
             if (scope.fq) {
                 // split at every NOT escaped comma by replacing the comma with ETB, then split at every ETB
                 var split, fqs = scope.fq.replace(/([^\\]),/g, '$1\u0017').split('\u0017');

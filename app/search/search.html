@@ -17,102 +17,103 @@
         </div>
     </div>
 
-    <!-- Linke Spalte -->
-    <div class="col-md-2 col-sm-3" ng-if="resultSize">
-        <div>
-            <small class="text-muted">
-                {{"ui_total"|transl8}} <strong>{{ resultSize|number }}</strong>
-                <span ng-show="resultSize > 1"> {{"ui_entries"|transl8}}</span>
-                <span ng-hide="resultSize > 1"> {{"ui_entry"|transl8}}</span>
-                <span ng-show="numPages > 1"><br> auf <strong>{{numPages|number}}</strong> {{"ui_pages"|transl8}}</span>
-            </small>
-        </div>
-        <small>
+	<!-- Linke Spalte -->
+	<div class="col-md-2 col-sm-3" ng-if="resultSize">
+		<small ng-if="searchScope !== null">
+			<div ar-search-scope scope="searchScope"></div>
+		</small>
 
-            <div ar-active-facets route="search" current-query="currentQuery"></div>
+		<div>
+			<small class="text-muted">
+				{{"ui_total"|transl8}} <strong>{{ resultSize|number }}</strong>
+				<span ng-show="resultSize > 1"> {{"ui_entries"|transl8}}</span>
+				<span ng-hide="resultSize > 1"> {{"ui_entry"|transl8}}</span>
+				<span ng-show="numPages > 1"><br> auf <strong>{{numPages|number}}</strong> {{"ui_pages"|transl8}}</span>
+			</small>
+		</div>
+		<small>
+			<div ar-active-facets route="search" current-query="currentQuery"></div>
+			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
+			<div ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
+				 ng-repeat="facet in facets"
+				 class="panel panel-default facet {{facet.name}}">
+				<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+					<h5 class="panel-title">
+						<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+						<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
+						&nbsp;{{facet.name | transl8 }}
+					</h5>
+				</div>
+				<ul class="list-unstyled" ng-show="facet.open">
+					<li ng-repeat="facetValue in facet.values" class="facet-value">
+						<a ng-href="{{getSearchPath()}}search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+							<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
+							{{facetValue.value | stripCoords}}
+						</a>
+					</li>
+					<li ng-show="facet.hasMore" class="more">
+						<i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
+					</li>
+				</ul>
+			</div>
 
-            <h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
-            <div ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
-                 ng-repeat="facet in facets"
-                 class="panel panel-default facet {{facet.name}}">
-                <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
-                    <h5 class="panel-title">
-                        <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
-                        <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
-                        &nbsp;{{facet.name | transl8 }}
-                    </h5>
-                </div>
-                <ul class="list-unstyled" ng-show="facet.open">
-                    <li ng-repeat="facetValue in facet.values" class="facet-value">
-                        <a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-                            <strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
-                            {{facetValue.value | stripCoords}}
-                        </a>
-                    </li>
-                    <li ng-show="facet.hasMore" class="more">
-                        <i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
-                    </li>
-                </ul>
-            </div>
+		</small>
+	</div>
 
-        </small>
+	<!-- Rechte Spalte -->
+	<div ng-if="resultSize"
+		 class="col-md-10 col-sm-9">
 
-    </div>
+		<div ar-search-nav></div>
 
-    <!-- Rechte Spalte -->
-    <div ng-if="resultSize"
-         class="col-md-10 col-sm-9">
+		<div class="row">
+			<div class="col-md-12"
+				 ng-switch="currentQuery.view">
 
-        <div ar-search-nav></div>
+				<!-- Listendarstellung -->
+				<div ng-switch-when="list">
+					<table class="table table-hover">
+						<tr>
+							<th>#</th>
+							<th>{{ 'facet_kategorie' | transl8 }}</th>
+							<th>{{ 'title' | transl8 }}</th>
+							<th></th>
+						</tr>
+						<tr ng-repeat="entity in entities" class="small">
+							<td>{{entity.entityId}}</td>
+							<td>
+								{{ printCategoryName(entity.type) }}
+							</td>
+							<td>
+								<a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index+1).toString()}}">
+									<div ng-if="entity.title==''">
+										({{categories[entity.type]["singular"]}} {{ 'ui_no_title' | transl8 }})
+									</div>
+									<div ng-bind-html="entity.title" ng-if="entity.title!=''"></div>
+									<div class="text-muted" ng-bind-html="entity.subtitle">{{entity.subtitle}}</div>
+								</a>
+							</td>
+							<td class="text-right">
+								<img ar-img img-id="{{entity.thumbnailId}}" img-height="40">
+							</td>
+						</tr>
+					</table>
+				</div>
 
-        <div class="row">
-            <div class="col-md-12"
-                 ng-switch="currentQuery.view">
+				<!-- Griddarstellung -->
+				<div ar-imagegrid
+					 cells="cells"
+					 columns="5"
+					 margin="4"
+					 complete="$parent.imageGridComplete"
+					 ng-switch-default="tiles">
+				</div>
 
-                <!-- Listendarstellung -->
-                <div ng-switch-when="list">
-                    <table class="table table-hover">
-                        <tr>
-                            <th>#</th>
-                            <th>{{ 'facet_kategorie' | transl8 }}</th>
-                            <th>{{ 'title' | transl8 }}</th>
-                            <th></th>
-                        </tr>
-                        <tr ng-repeat="entity in entities" class="small">
-                            <td>{{entity.entityId}}</td>
-                            <td>
-                                {{ printCategoryName(entity.type) }}
-                            </td>
-                            <td>
-                                <a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index+1).toString()}}">
-                                    <div ng-if="entity.title==''">
-                                        ({{categories[entity.type]["singular"]}} {{ 'ui_no_title' | transl8 }})
-                                    </div>
-                                    <div ng-bind-html="entity.title" ng-if="entity.title!=''"></div>
-                                    <div class="text-muted" ng-bind-html="entity.subtitle">{{entity.subtitle}}</div>
-                                </a>
-                            </td>
-                            <td class="text-right">
-                                <img ar-img img-id="{{entity.thumbnailId}}" img-height="40">
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+			</div>
+		</div>
 
-                <!-- Griddarstellung -->
-                <div ar-imagegrid
-                     cells="cells"
-                     columns="5"
-                     margin="4"
-                     complete="$parent.imageGridComplete"
-                     ng-switch-default="tiles">
-                </div>
+		<div ng-hide="!currentQuery.view && !imageGridComplete" ar-search-nav></div>
 
-            </div>
-        </div>
-
-        <div ng-hide="!currentQuery.view && !imageGridComplete" ar-search-nav></div>
-
-    </div>
+	</div>
 
 </div>

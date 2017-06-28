@@ -9,24 +9,39 @@ angular.module('arachne.services')
  *
  * @author: Sebastian Cuy
  */
-.factory('searchService', ['$location', 'Entity', '$rootScope', 'Query', '$q',
-function($location, Entity, $rootScope, Query, $q) {
+.factory('searchService', ['$location', 'Entity', '$rootScope', 'Query', '$q', 'projectSearchService',
+function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
     var dirty = false;
+
     var _currentQuery = Query.fromSearch($location.search());
-    var _result = { entities: [] };
+
+	/**
+	 * @type {{entities: Array}}
+	 * @private
+	 */
+	var _result = { entities: [] };
     var _currentRequest = false;
     var CHUNK_SIZE = 50;
 
     $rootScope.$on("$locationChangeSuccess", function() {
 
         var newQuery = Query.fromSearch($location.search());
+
+
+        console.log(newQuery.toFlatObject(),_currentQuery.toFlatObject())
+
         if (!angular.equals(newQuery.toFlatObject(),_currentQuery.toFlatObject())) {
+			console.log("UNEQUAL")
             _result = { entities: [] };
         }
         _currentQuery = newQuery;
+		projectSearchService.overrideQueryWithProjectScope(_currentQuery);
+		console.log('LL',  _currentQuery)
         _currentRequest = false;
     });
+
+
 
     function getCachedChunk(offset) {
         var limit = parseFloat(_currentQuery.limit);
@@ -77,7 +92,17 @@ function($location, Entity, $rootScope, Query, $q) {
      *   .reject() gets called otherwise 
      */
     function performAndParseRequest(offset,query,deferred) {
-        if(query.q == "null" || query.q == "undefined")
+
+        // if search-scopes.json is not loaded yet, wait until it's done and continue
+        if (!projectSearchService.isReady) {
+			projectSearchService.onInitialized = function() {
+				projectSearchService.overrideQueryWithProjectScope(query);
+				performAndParseRequest(offset,query,deferred)
+            };
+            return;
+        }
+
+        if(query.q === "null" || typeof query.q === "undefined")
             query.q = "*";
         _currentRequest = { query: query, request: Entity.query(query.toFlatObject()) };
         _currentRequest.request.$promise.then(function(data) {
@@ -121,8 +146,11 @@ function($location, Entity, $rootScope, Query, $q) {
 
         // get current facets
         getFacets: function() {
+            console.log(_result.facets);
             return _result.facets;
         },
+
+
 
         // return the facet with field .name equal to name or null
         // if none such facet is present in the current result

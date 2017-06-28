@@ -36,11 +36,12 @@ angular.module('arachne',[
 		$resourceProvider.defaults.cancellable = true;
 
 		$urlRouterProvider.when('', '/');
-		$urlRouterProvider.otherwise('/404');
+		//$urlRouterProvider.otherwise('/404');
 
 		var title = "Arachne";
 
 		$stateProvider
+
 			.state('404', { url: '/404', templateUrl: 'app/pages/404.html', data: { pageTitle: 'Arachne | 404' }})
 			.state('welcome', { url: '/', templateUrl: 'app/pages/welcome-page.html', data: { pageTitle: title }})
 			.state('catalogs', { url: '/catalogs', templateUrl: 'app/catalog/catalogs.html', data: { pageTitle: title }})
@@ -65,8 +66,11 @@ angular.module('arachne',[
 			.state('pwdchange', { url: '/pwdchange', templateUrl: 'app/users/pwd-change.html', data: { pageTitle: title }})
 			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }})
 			.state('project', { url: '/project/:title?q&fq', templateUrl: 'app/pages/static.html', data: { pageTitle: title }})
+			.state('projectSearch', { url: '/project/:title/search?q', templateUrl: 'app/search/search.html', data: { pageTitle: title }})
 			.state('index', { url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: false, data: { pageTitle: title }})
-			.state('info', { url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }}); // Named it info, not static, to sound not too technical.
+			.state('info', { url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }}) // Named it info, not static, to sound not too technical.
+
+
 	}
 ])
 /**
