@@ -40,16 +40,17 @@ angular.module('arachne.services')
 				 * takes a query object and overrides it's parts by given project specific scope query
 				 * @param query
 				 */
-				overrideQueryWithProjectScope: function(query) {
+				get scopeData() {
 					if (typeof scopes[this.currentScope] === "undefined") {
-						console.log('unregistered scope >>', this.currentScope);
-
-						return;
+						console.log('unregistered scope >>', this.currentScope, '<<');
+						return {};
 					}
 
 					console.log('overwrite query with >>', this.currentScope, '<< properties');
 
-					console.log(query);
+					return scopes[this.currentScope];
+
+					/*
 					angular.forEach(scopes[this.currentScope], function(value, key) {
 						if (angular.isArray(value)) {
 							query[key] = query[key].concat(value);
@@ -57,7 +58,7 @@ angular.module('arachne.services')
 							query[key] = value;
 						}
 					});
-					console.log(query);
+					*/
 
 				},
 

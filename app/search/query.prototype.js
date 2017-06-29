@@ -90,6 +90,29 @@ angular.module('arachne.services')
             return this.facets.length > 0;
         },
 
+		/**
+         * returns a COPY of this, extended by that
+		 * @param that
+		 * @returns {Query}
+		 */
+		extend: function(that) {
+		    var extendedQuery = angular.copy(this);
+			for(var key in that) {
+				if (key === 'facets') {
+					extendedQuery.facets = extendedQuery.facets.concat(that.facets);
+				} else if (key === 'restrict') {
+					extendedQuery[key] = that[key]; //??
+                } else if (key === 'q') {
+					extendedQuery.q += ' ' + that.q;
+				} else if (key === 'catalogIds') {
+					extendedQuery[key] = that[key]; //??
+				} else if (['fl','limit','sort','desc','ghprec','bbox','sf','fo','facet','offset'].indexOf(key) !== -1) {
+					extendedQuery[key] = that[key];
+				}
+			}
+            return extendedQuery;
+        },
+
         // returns a representation of this query as GET parameters
         // If a paramter is given as an array, mutiple GET-Paramters with
         // the same name are constructed (conforming to $location)

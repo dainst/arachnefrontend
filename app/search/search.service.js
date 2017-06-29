@@ -28,15 +28,10 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         var newQuery = Query.fromSearch($location.search());
 
-
-        console.log(newQuery.toFlatObject(),_currentQuery.toFlatObject())
-
         if (!angular.equals(newQuery.toFlatObject(),_currentQuery.toFlatObject())) {
-			console.log("UNEQUAL")
             _result = { entities: [] };
         }
         _currentQuery = newQuery;
-		projectSearchService.overrideQueryWithProjectScope(_currentQuery);
 		console.log('LL',  _currentQuery)
         _currentRequest = false;
     });
@@ -93,11 +88,9 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
      *   .reject() gets called otherwise 
      */
     function performAndParseRequest(offset,query,deferred) {
-		console.log('PAPR')
         // if search-scopes.json is not loaded yet, wait until it's done and continue
         if (!projectSearchService.isReady) {
 			projectSearchService.onInitialized = function() {
-				projectSearchService.overrideQueryWithProjectScope(query);
 				performAndParseRequest(offset,query,deferred)
             };
             return;
@@ -105,7 +98,13 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         if(query.q === "null" || typeof query.q === "undefined")
             query.q = "*";
-        _currentRequest = { query: query, request: Entity.query(query.toFlatObject()) };
+var d = query.extend(projectSearchService.scopeData);
+console.log('ask for', d);
+        _currentRequest = {
+            query: query,
+            request: Entity.query(d.toFlatObject())
+        };
+
         _currentRequest.request.$promise.then(function(data) {
             _currentRequest = false;
             _result.size = data.size;
@@ -128,7 +127,6 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         // get a single entity from the current result
         getEntity: function(resultIndex) {
-			console.log('GE')
             var deferred = $q.defer();
 
             if (resultIndex < 1) {
