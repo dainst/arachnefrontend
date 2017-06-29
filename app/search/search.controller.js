@@ -164,7 +164,7 @@ angular.module('arachne.controllers')
                         },
                         function (error) {
                             messages.add('default');
-                            console.log(error)
+                            console.warn(error)
                         });
                 }
             };
@@ -191,10 +191,10 @@ angular.module('arachne.controllers')
                     if (result.entities) {
                         $scope.processCatalogEntities(result.entities)
                     } else {
-                        console.log('No entities could be retrieved.');
+                        console.warn('No entities could be retrieved.');
                     }
                 }, function (err) {
-                    console.log('Error in retrieving entities.', err);
+                    console.warn('Error in retrieving entities.', err);
                 });
             };
 

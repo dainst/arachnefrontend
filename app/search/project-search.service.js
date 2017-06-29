@@ -50,15 +50,7 @@ angular.module('arachne.services')
 
 					return scopes[this.currentScope];
 
-					/*
-					angular.forEach(scopes[this.currentScope], function(value, key) {
-						if (angular.isArray(value)) {
-							query[key] = query[key].concat(value);
-						} else {
-							query[key] = value;
-						}
-					});
-					*/
+
 
 				},
 
@@ -72,7 +64,6 @@ angular.module('arachne.services')
 
 
 			$http.get('con10t/search-scopes.json').then(function(response) {
-				console.log('GOT', response);
 				scopes = response.data;
 				projectSearchService.isReady = true;
 				projectSearchService.onInitialized();

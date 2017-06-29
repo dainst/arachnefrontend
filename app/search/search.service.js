@@ -32,7 +32,6 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
             _result = { entities: [] };
         }
         _currentQuery = newQuery;
-		console.log('LL',  _currentQuery)
         _currentRequest = false;
     });
 
@@ -52,7 +51,6 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
      * @return { Promise<entities> }
      **/
     function retrieveChunk(offset) {
-        console.log('RC')
         var deferred = $q.defer();
 
         if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
@@ -98,8 +96,8 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         if(query.q === "null" || typeof query.q === "undefined")
             query.q = "*";
-var d = query.extend(projectSearchService.scopeData);
-console.log('ask for', d);
+        var d = query.extend(projectSearchService.scopeData);
+        console.log('ask for', d);
         _currentRequest = {
             query: query,
             request: Entity.query(d.toFlatObject())
@@ -197,7 +195,6 @@ console.log('ask for', d);
 
         // get current page as defined by the query's offset
         getCurrentPage: function() {
-            console.log('GCP')
             var offset = _currentQuery.offset;
             if (angular.isUndefined(offset)) offset = 0;
             return retrieveChunk(offset);
