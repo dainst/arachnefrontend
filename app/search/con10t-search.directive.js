@@ -19,8 +19,21 @@ return {
             scope.placeholder = $filter('transl8')('ui_projectsearchplaceholder');
 
         scope.search = function() {
-            var url = "search?q=";
-            if(scope.catalogId != undefined && scope.catalogId != "")
+
+
+			var url = '';
+			if (
+                (typeof scope.catalogId === "undefined") &&
+                (typeof scope.appendQuery === "undefined") &&
+                (typeof scope.q === "undefined")
+            ) {
+				url += $location.url() + '/';
+            }
+ console.log(url, $location.url())
+
+            url += "search?q=";
+
+			if(scope.catalogId != undefined && scope.catalogId != "")
                 url += "catalogPaths:"+$filter('escapeSlashes')(scope.catalogId)+"+";
 
             if(scope.q != null && scope.q != "")
