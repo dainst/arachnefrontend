@@ -19,6 +19,7 @@
 
 	<!-- Linke Spalte -->
 	<div class="col-md-2 col-sm-3" ng-if="resultSize">
+
 		<small ng-if="searchScope !== null">
 			<div ar-search-scope scope="searchScope"></div>
 		</small>
@@ -31,7 +32,11 @@
 				<span ng-show="numPages > 1"><br> auf <strong>{{numPages|number}}</strong> {{"ui_pages"|transl8}}</span>
 			</small>
 		</div>
+
 		<small>
+
+			<div ar-active-facets route="{{getSearchPath()}}search" current-query="currentQuery"></div>
+
 			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
 			<div ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
 					ng-repeat="facet in facets"
@@ -55,8 +60,8 @@
 					</li>
 				</ul>
 			</div>
-
 		</small>
+
 	</div>
 
 	<!-- Rechte Spalte -->

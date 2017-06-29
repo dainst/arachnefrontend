@@ -31,7 +31,6 @@ angular.module('arachne.directives')
 
 		function getLocalized(set) {
 			var lang = language.currentLanguage();
-			console.log(lang, set);
 			if (typeof set[lang] !== "undefined") {
 				return set[lang]
 			} else {

@@ -185,10 +185,6 @@ angular.module('arachne.controllers')
                 });
             };
 
-            $scope.refresh = function() {
-                $scope.$apply();
-            }
-
             $scope.go = function (path) {
                 $location.url(path);
             };
@@ -222,9 +218,14 @@ angular.module('arachne.controllers')
             $scope.getSearchPath = function() {
                 return projectSearchService.currentSearchPath;
             };
+console.log('1')
+			/**
+             * Problem: der folgende code wird einfach noch mal ausfegührt (warum?!) wenn man in serach die url ändert (einen Filter anwählt)
+             * wenn man das in projctsearchmacht passiert es naicht... warum?!
+			 */
 
-            if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
-
+			if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
+				console.log('1a')
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
                     messages.clear();
                     messages.add('ui_search_too_big', 'warning', false);
@@ -232,9 +233,9 @@ angular.module('arachne.controllers')
                 }, 1000);
 
             } else {
-
+				console.log('1b')
                 searchService.getCurrentPage().then(function (entities) {
-
+					console.log('1b-')
                     $scope.entities = entities;
                     $scope.resultSize = searchService.getSize();
                     $scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
