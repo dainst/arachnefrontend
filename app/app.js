@@ -64,7 +64,7 @@ angular.module('arachne',[
 			.state('pwdchange', { url: '/pwdchange', templateUrl: 'app/users/pwd-change.html', data: { pageTitle: title }})
 			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }})
 			.state('project', { url: '/project/:title?q&fq', templateUrl: 'app/pages/static.html', data: { pageTitle: title }})
-			.state('projectSearch', { url: '/project/:title/search?q', templateUrl: 'app/search/search.html', data: { pageTitle: title }})
+			.state('projectSearch', { url: '/project/:title/search?q&fq&view&sort&offset&limit&desc', templateUrl: 'app/search/search.html', data: { pageTitle: title }})
 			.state('index', { url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: false, data: { pageTitle: title }})
 			.state('info', { url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }}) // Named it info, not static, to sound not too technical.
 
