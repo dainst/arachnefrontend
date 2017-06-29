@@ -57,6 +57,7 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
      * @return { Promise<entities> }
      **/
     function retrieveChunk(offset) {
+        console.log('RC')
         var deferred = $q.defer();
 
         if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
@@ -92,7 +93,7 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
      *   .reject() gets called otherwise 
      */
     function performAndParseRequest(offset,query,deferred) {
-
+		console.log('PAPR')
         // if search-scopes.json is not loaded yet, wait until it's done and continue
         if (!projectSearchService.isReady) {
 			projectSearchService.onInitialized = function() {
@@ -118,6 +119,7 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
             }
             deferred.resolve(data.entities);
         }, function(response) {
+            console.warn(response)
             deferred.reject(response);
         });
     }
@@ -126,7 +128,7 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         // get a single entity from the current result
         getEntity: function(resultIndex) {
-
+			console.log('GE')
             var deferred = $q.defer();
 
             if (resultIndex < 1) {
@@ -197,6 +199,7 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         // get current page as defined by the query's offset
         getCurrentPage: function() {
+            console.log('GCP')
             var offset = _currentQuery.offset;
             if (angular.isUndefined(offset)) offset = 0;
             return retrieveChunk(offset);

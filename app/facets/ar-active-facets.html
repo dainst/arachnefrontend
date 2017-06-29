@@ -1,6 +1,6 @@
-<div ng-if="(facets.length > 0) || (currentQuery.restrict && route == 'search')">
+<div ng-if="(facets.length > 0) || (currentQuery.restrict && route.substr(-6) == 'search')">
 	<h5 class="text-muted uppercase"><strong>Aktive Filter</strong></h5>
-	<a ng-if="currentQuery.restrict && route == 'search'"
+	<a ng-if="currentQuery.restrict && route.substr(-6) == 'search'"
 			ng-href="{{route}}{{currentQuery.removeParam('restrict').toString()}}"
 			class="btn btn-sm btn-block btn-warning linethrough-hover"
 			style="white-space:normal;">
