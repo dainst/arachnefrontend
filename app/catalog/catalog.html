@@ -8,8 +8,6 @@
         <a data-nodrag ng-show="entry.totalChildren > 0"
            ng-class="{ 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed }"
            class="glyphicon text-muted clickable"
-           id="{{ entry.id }}"
-           collapsed="{{ collapsed }}"
            style="text-decoration: none; margin-right: 5px;"
            ng-click="toggleNode(this, entry); $event.stopPropagation();"></a>
 
