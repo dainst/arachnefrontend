@@ -1,5 +1,5 @@
 <div class="row" ng-controller="SearchController">
-	
+
 	<!-- Loading-Icon -->
 	<div ng-hide="illegalQuery || resultSize >= 0">
 		<div class="loading" style="margin-top:70px;"></div>
@@ -21,10 +21,10 @@
 	<div class="col-md-2 col-sm-3" ng-if="resultSize">
 		<div>
 		<small class="text-muted">
-			{{"ui_total"|transl8}} <strong>{{ resultSize|number }}</strong>
+			{{"ui_total"|transl8}} <strong>{{ resultSize|transl8Number }}</strong>
 			<span ng-show="resultSize > 1"> {{"ui_entries"|transl8}}</span>
 			<span ng-hide="resultSize > 1"> {{"ui_entry"|transl8}}</span>
-			<span ng-show="numPages > 1"><br> auf <strong>{{numPages|number}}</strong> {{"ui_pages"|transl8}}</span>
+			<span ng-show="numPages > 1"><br> auf <strong>{{numPages|transl8Number}}</strong> {{"ui_pages"|transl8}}</span>
 		</small>
 		</div>
 		<small>
@@ -47,7 +47,7 @@
 					<ul class="list-unstyled panel-body-small" ng-show="facet.open">
 						<li ng-repeat="facetValue in facet.values" class="facet-value">
 							<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-								<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
+								<strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
 								{{facetValue.value | stripCoords}}
 							</a>
 						</li>
@@ -66,7 +66,7 @@
 			class="col-md-10 col-sm-9">
 
 		<div ar-search-nav></div>
-		
+
 		<div class="row">
 			<div class="col-md-12"
 					ng-switch="currentQuery.view">
@@ -79,7 +79,7 @@
 						<th>{{ 'facet_kategorie' | transl8 }}</th>
 						<th>{{ 'title' | transl8 }}</th>
 						<th></th>
-					</tr>	
+					</tr>
 					<tr ng-repeat="entity in entities" class="small">
 						<td>{{entity.entityId}}</td>
 						<td>{{categories[entity.type]["singular"]}}</td>
@@ -98,14 +98,14 @@
 					</tr>
 					</table>
 				</div>
-				
+
 				<!-- Griddarstellung -->
 				<div ar-imagegrid
 					cells="cells"
 					columns="5"
 					margin="4"
 					complete="$parent.imageGridComplete"
-					ng-switch-default="tiles">					
+					ng-switch-default="tiles">
 				</div>
 
 			</div>
