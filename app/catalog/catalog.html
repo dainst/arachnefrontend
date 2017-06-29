@@ -8,6 +8,8 @@
         <a data-nodrag ng-show="entry.totalChildren > 0"
            ng-class="{ 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed }"
            class="glyphicon text-muted clickable"
+           id="{{ entry.id }}"
+           collapsed="{{ collapsed }}"
            style="text-decoration: none; margin-right: 5px;"
            ng-click="toggleNode(this, entry); $event.stopPropagation();"></a>
 
@@ -17,7 +19,7 @@
               ng-click="selectEntry(entry)"></span>
 
         <span data-nodrag class="entry-label clickable"
-              ng-click="selectEntry(entry)">
+              ng-click="selectEntry(entry, this)">
             {{entry.label}}
             <small ng-if="entry.arachneEntityId" class="text-muted"><i>{{ entry.arachneEntityId }}</i></small>
             <small>
@@ -271,7 +273,8 @@
 
                                         <div style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
 
-                                            <a class="cell-link">
+                                            <a class="cell-link"
+                                               ng-click="selectEntry(cell.entity);">
                                                 <div class="preview-cell"
                                                      style="background-color: #eee; text-align:center; position: relative; width: 190px; height: 225px; overflow: hidden;">
 

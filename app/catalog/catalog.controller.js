@@ -6,6 +6,7 @@ angular.module('arachne.controllers')
  * Handles the layout for viewing and editing a catalog.
  *
  * @author: Sebastian Cuy
+ * @author: Jan G. Wieners
  */
 .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window',
 	'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService',
@@ -94,6 +95,7 @@ angular.module('arachne.controllers')
 	    };
 
 	    $scope.toggleNode = function(scope, entry) {
+
 	    	if (entry.totalChildren > 0) {
 		        if (!entry.children || entry.children.length == 0) {
 		            entry.loading = true;
@@ -268,9 +270,12 @@ angular.module('arachne.controllers')
 	        }
 	    };
 
-	    $scope.selectEntry = function(entry) {
+	    $scope.currentTreeScope = null;
+
+	    $scope.selectEntry = function(entry, treeScope) {
+
 	    	$state.transitionTo('catalog.entry', { id: $scope.catalog.id, entryId: entry.id }, { notify: true });
-	    	showEntry(entry);
+	    	showEntry(entry, treeScope);
 	    };
 
 	    $scope.selectEntity = function(entity) {
@@ -347,7 +352,15 @@ angular.module('arachne.controllers')
 	        });
 	    }
 
-	    function showEntry(entry) {
+	    function showEntry(entry, treeScope) {
+
+	    	// Toggle collapsed parent when selecting a thumbnail image in catalog preview
+	    	if (!treeScope && $scope.currentTreeScope) {
+
+				if ($scope.currentTreeScope.collapsed) {
+					$scope.currentTreeScope.toggle();
+				}
+            }
 
 	    	$scope.showThumbnails = false;
 	    	$scope.activeEntry = entry;
@@ -359,15 +372,19 @@ angular.module('arachne.controllers')
 	    			messages.add('default');
 	    		});
 	    	} else {
+
 	    		if (entry.totalChildren > 0) {
-					showThumbnails(entry);
-				}
+					showThumbnails(entry, treeScope);
+				} else {
+                    $scope.currentTreeScope = null;
+                }
 	    		$scope.activeEntity = null;
 	    	}
 	    }
 
-	    function showThumbnails(entry) {
+	    function showThumbnails(entry, treeScope) {
 
+	    	$scope.currentTreeScope = treeScope;
             $scope.cells.length = 0;
             $scope.loadingThumbnails = true;
 
@@ -390,7 +407,8 @@ angular.module('arachne.controllers')
                             $scope.cells.push({
                                 position: index,
                                 title: entity.title,
-                                thumbnail: cellImage
+                                thumbnail: cellImage,
+								entity: cell
                             });
                         }, function() {
                             messages.add('default');

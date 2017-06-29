@@ -119,6 +119,7 @@
 }
 
 .preview-cell:hover {
+  cursor: pointer;
   transition: 0.3s;
   box-shadow: 0 0 10px #777;
 }
