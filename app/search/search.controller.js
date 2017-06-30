@@ -23,8 +23,8 @@ angular.module('arachne.controllers')
             $scope.user = authService.getUser();
             $scope.currentQuery = searchService.currentQuery();
 
-            //tmp to debug
-			$scope.searchScope = projectSearchService.currentScope;
+			$scope.searchScope = projectSearchService.currentScopeName;
+			$scope.getSearchScope = projectSearchService.getScope;
 
 
             $scope.q = angular.copy($scope.currentQuery.q);
@@ -216,7 +216,7 @@ angular.module('arachne.controllers')
 
             $scope.onSelectPage = function () {
                 var newOffset = ($scope.currentPage - 1) * $scope.currentQuery.limit;
-                $location.url('search' + $scope.currentQuery.setParam('offset', newOffset).toString());
+                $location.url(projectSearchService.currentSearchPath + 'search' + $scope.currentQuery.setParam('offset', newOffset).toString());
             };
 
             $scope.loadMoreFacetValues = function (facet) {

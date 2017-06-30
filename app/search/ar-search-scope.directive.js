@@ -10,7 +10,7 @@
  */
 angular.module('arachne.directives')
 
-	.directive('arSearchScope', ['$q', '$http', 'language', function ($q, $http, language) {
+	.directive('arSearchScope', ['$q', 'projectSearchService', function ($q, projectSearchService) {
 
 		// preloads image and checks if exists
 		function isImage(src) {
@@ -29,14 +29,7 @@ angular.module('arachne.directives')
 			return deferred.promise;
 		}
 
-		function getLocalized(set) {
-			var lang = language.currentLanguage();
-			if (typeof set[lang] !== "undefined") {
-				return set[lang]
-			} else {
-				return set[Object.keys(set)[0]];
-			}
-		}
+
 
 
 		return {
@@ -66,47 +59,9 @@ angular.module('arachne.directives')
 					}
 				)
 
-				/**
-				 * STAND
-				 * - make sure, that content.json get loaded correctly and only once
-				 * - correct language
-				 * 
-				 *
-				 * @type {{}}
-				 */
-
-
 				// project title
-				var titlesMap = {};
-				scope.title = scope.scope;
-				scope.getFullTitle = function getFullTitle() {
-					function flatten(tree, map) {
-						tree.map(function(branch) {
-							map[branch.id] = branch.title;
-							if (typeof branch.children !== "undefined") {
-								flatten(branch.children, map);
-							}
-						});
-					}
-
-
-					scope.title =
-						(typeof titlesMap[scope.scope] !== "undefined") &&
-						(typeof titlesMap[scope.scope].de !== "undefined") ?
-							getLocalized(titlesMap[scope.scope]) :
-							scope.title;
-
-					// if titlesMap not built yet, do it
-					if (Object.keys(titlesMap).length === 0) {
-						$http.get('con10t/content.json').then(function(response) {
-							flatten([response.data], titlesMap);
-							scope.getFullTitle(scope.scope)
-						});
-					}
-				}
-
-				scope.getFullTitle();
-
+				scope.name = scope.scope;
+				scope.title = projectSearchService.currentScopeTitle
 
 			}
 		}
