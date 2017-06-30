@@ -96,11 +96,11 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         if(query.q === "null" || typeof query.q === "undefined")
             query.q = "*";
-        var d = query.extend(projectSearchService.currentScopeData);
-        console.log('ask for', d);
+        var finalQuery = query.extend(projectSearchService.currentScopeData);
+        //console.log('ask for', finalQuery);
         _currentRequest = {
             query: query,
-            request: Entity.query(d.toFlatObject())
+            request: Entity.query(finalQuery.toFlatObject())
         };
 
         _currentRequest.request.$promise.then(function(data) {
@@ -144,7 +144,7 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         // get current facets
         getFacets: function() {
-            console.log(_result.facets);
+            //console.log(_result.facets);
             return _result.facets;
         },
 

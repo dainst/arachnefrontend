@@ -78,16 +78,15 @@ angular.module('arachne.services')
 				},
 
 				get currentScopeTitle() {
-					console.log('get titile', projectSearchService.currentScopeName, scopeTitles)
 					return getScopeTitle(projectSearchService.currentScopeName);
 				},
 
 				get currentScopeData() {
 					if (typeof scopes[projectSearchService.currentScopeName] === "undefined") {
-						console.log('unregistered scope >>', projectSearchService.currentScopeName, '<<');
+						//console.log('unregistered scope >>', projectSearchService.currentScopeName, '<<');
 						return {};
 					}
-					console.log('scope query >>', projectSearchService.currentScopeName, '<<');
+					//console.log('scope query >>', projectSearchService.currentScopeName, '<<');
 					return scopes[projectSearchService.currentScopeName];
 				},
 
