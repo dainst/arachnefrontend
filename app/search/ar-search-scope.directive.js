@@ -61,7 +61,7 @@ angular.module('arachne.directives')
 
 				// project title
 				scope.name = scope.scope;
-				scope.title = projectSearchService.currentScopeTitle
+				scope.currentScopeTitle = projectSearchService.currentScopeTitle;
 
 			}
 		}
