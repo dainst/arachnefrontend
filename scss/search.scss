@@ -4,7 +4,34 @@
   color: #fff!important;
 }
 
-.btn-leaveProject {
-  display:none
+.search-scope {
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 
+.search-scope a:hover {
+  text-decoration: none !important;
+}
+
+.search-scope .search-scope-title {
+  background: rgba(189, 188, 188, 0.7) none repeat scroll 0% 0%;
+  color: black;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 0;
+  padding: 13px;
+}
+
+.search-scope img {
+  width:100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.search-scope:hover {
+  //box-shadow: 0 0 10px #777;
+}
+
+.search-scope:hover .search-scope-title {
+  background: #777
+}

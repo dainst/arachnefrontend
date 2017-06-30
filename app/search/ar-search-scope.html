@@ -1,20 +1,8 @@
-<div style="margin-top: 10px;margin-bottom: 0px;">
+<div class="search-scope">
  	<a href="{{projectPage}}">
-
 		<div ng-show="hasImage">
-			<img src="{{imagePath}}" style="width:100%; height: auto; border-radius: 4px;">
-
+			<img src="{{imagePath}}">
 		</div>
-
-		<div ng-show="!hasImage" style="
-			background: 	rgba(0, 0, 0, 0.6) none repeat scroll 0% 0%;
-			color: 			white;
-			font-size: 		16px;
-			text-align:		center;
-			margin-bottom: 0px;
-			padding: 13px;"
-		>{{title}}</div>
-
+		<div class="search-scope-title" ng-show="!hasImage">{{title}}</div>
  	</a>
-
 </div>

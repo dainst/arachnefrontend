@@ -5,20 +5,9 @@
 		<div class="loading" style="margin-top:70px;"></div>
 	</div>
 
-	<!-- Meldung für leeres Suchergebnis -->
-	<div ng-if="resultSize == 0 && !error">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2 text-center">
-				 {{ 'search_no_results' | transl8 }}<strong>"{{q}}"</strong>
-				<span ng-if="currentQuery.hasFacets()">
-					{{ 'search_current_filters' | transl8 }}.
-				</span>
-			</div>
-		</div>
-	</div>
 
 	<!-- Linke Spalte -->
-	<div class="col-md-2 col-sm-3" ng-if="resultSize">
+	<div class="col-md-2 col-sm-3">
 
 		<small ng-if="searchScope !== null">
 			<div ar-search-scope scope="searchScope"></div>
@@ -62,6 +51,23 @@
 			</div>
 		</small>
 
+	</div>
+
+	<!-- Meldung für leeres Suchergebnis -->
+	<div ng-if="resultSize == 0 && !error" class="col-md-10 col-sm-9">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 text-center">
+				{{ 'search_no_results' | transl8 }} <strong>"{{q}}"</strong>
+				<span ng-if="currentQuery.hasFacets()">
+					{{ 'search_current_filters' | transl8 }}.
+				</span>
+				<span ng-if="searchScope">
+					{{ 'search_current_scope' | transl8 }} <strong>"{{getSearchScope().title}}"</strong>
+					<br>
+					<a href="search/{{currentQuery.toString()}}">{{ 'search_whole_arachne' | transl8 }}</a>
+				</span>
+			</div>
+		</div>
 	</div>
 
 	<!-- Rechte Spalte -->

@@ -96,7 +96,7 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         if(query.q === "null" || typeof query.q === "undefined")
             query.q = "*";
-        var d = query.extend(projectSearchService.scopeData);
+        var d = query.extend(projectSearchService.currentScopeData);
         console.log('ask for', d);
         _currentRequest = {
             query: query,
