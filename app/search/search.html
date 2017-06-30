@@ -9,8 +9,8 @@
 	<!-- Linke Spalte -->
 	<div class="col-md-2 col-sm-3">
 
-		<small ng-if="searchScope !== null">
-			<div ar-search-scope scope="searchScope"></div>
+		<small ng-if="searchScope() !== null">
+			<div ar-search-scope scope="searchScope()"></div>
 		</small>
 
 		<div>
@@ -61,8 +61,8 @@
 				<span ng-if="currentQuery.hasFacets()">
 					{{ 'search_current_filters' | transl8 }}.
 				</span>
-				<span ng-if="searchScope">
-					{{ 'search_current_scope' | transl8 }} <strong>"{{getSearchScope().title}}"</strong>
+				<span ng-if="searchScope()">
+					{{ 'search_current_scope' | transl8 }} <strong>"{{getSearchTitle()}}"</strong>
 					<br>
 					<a href="search/{{currentQuery.toString()}}">{{ 'search_whole_arachne' | transl8 }}</a>
 				</span>

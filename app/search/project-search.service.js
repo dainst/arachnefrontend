@@ -22,15 +22,6 @@ angular.module('arachne.services')
 
 			function getScopeTitle(scopeName) {
 
-				function flatten(tree, map) {
-					tree.map(function(branch) {
-						map[branch.id] = branch.title;
-						if (typeof branch.children !== "undefined") {
-							flatten(branch.children, map);
-						}
-					});
-				}
-
 				function getLocalized(set) {
 					var lang = language.currentLanguage();
 					if (typeof set[lang] !== "undefined") {
@@ -40,19 +31,15 @@ angular.module('arachne.services')
 					}
 				}
 
-				// if scopeTitles not built yet, do it
+				// if scopeTitles not built yet return name
 				if (Object.keys(scopeTitles).length === 0) {
-					// @ TODO make sure, that content.json get loaded correctly and only once
-					$http.get('con10t/content.json').then(function(response) {
-						flatten([response.data], scopeTitles);
-						getScopeTitle(scopeName)
-					});
+					return scopeName;
 				}
 
-				return ((typeof scopeTitles[scopeName] !== "undefined") &&
-					(typeof scopeTitles[scopeName].de !== "undefined")) ?
-						getLocalized(scopeTitles[scopeName]) :
-						scopeName;
+				return (typeof scopeTitles[scopeName] !== "undefined") ?
+					getLocalized(scopeTitles[scopeName]) :
+					scopeName;
+
 			}
 
 
@@ -65,7 +52,7 @@ angular.module('arachne.services')
 				 * get the name of current search scope (=project)
 				 * @returns {*}
 				 */
-				get currentScopeName() {
+				currentScopeName: function() {
 					currentScopeName =
 						(typeof $stateParams.title === "undefined" || $stateParams.title === '') ?
 							null :
@@ -73,30 +60,21 @@ angular.module('arachne.services')
 					return currentScopeName;
 				},
 
-				get currentSearchPath() {
-					return (projectSearchService.currentScopeName === null) ? '' : 'project/' + projectSearchService.currentScopeName + '/';
+				currentScopePath: function() {
+					return (currentScopeName === null) ? '' : 'project/' + currentScopeName + '/';
 				},
 
-				get currentScopeTitle() {
-					return getScopeTitle(projectSearchService.currentScopeName);
+				currentScopeTitle: function() {
+					return getScopeTitle(currentScopeName);
 				},
 
-				get currentScopeData() {
-					if (typeof scopes[projectSearchService.currentScopeName] === "undefined") {
+				currentScopeData: function() {
+					if (typeof scopes[currentScopeName] === "undefined") {
 						//console.log('unregistered scope >>', projectSearchService.currentScopeName, '<<');
 						return {};
 					}
 					//console.log('scope query >>', projectSearchService.currentScopeName, '<<');
-					return scopes[projectSearchService.currentScopeName];
-				},
-
-				getScope: function getScope() {
-					return {
-						name: projectSearchService.currentScopeName,
-						path: projectSearchService.currentSearchPath,
-						title: projectSearchService.currentScopeTitle,
-						data: projectSearchService.currentScopeData,
-					}
+					return scopes[currentScopeName];
 				}
 
 
@@ -107,6 +85,19 @@ angular.module('arachne.services')
 				scopes = response.data;
 				projectSearchService.isReady = true;
 				projectSearchService.onInitialized();
+			});
+
+
+			$http.get('con10t/content.json').then(function(response) {
+				function flatten(tree, map) {
+					tree.map(function(branch) {
+						map[branch.id] = branch.title;
+						if (typeof branch.children !== "undefined") {
+							flatten(branch.children, map);
+						}
+					});
+				}
+				flatten([response.data], scopeTitles);
 			});
 
 
