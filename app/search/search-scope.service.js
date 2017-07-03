@@ -10,7 +10,7 @@ angular.module('arachne.services')
 
  *
  */
-	.factory('projectSearchService', ['$location', '$rootScope', 'Query', '$http', '$stateParams', 'language',
+	.factory('searchScope', ['$location', '$rootScope', 'Query', '$http', '$stateParams', 'language',
 		function($location, $rootScope, Query, $http, $stateParams, language) {
 
 			var currentScopeName = null;
@@ -43,7 +43,7 @@ angular.module('arachne.services')
 			}
 
 
-			var projectSearchService = {
+			var searchScope = {
 
 				isReady: false,
 				onInitialized: function(){console.log("!")},
@@ -70,10 +70,10 @@ angular.module('arachne.services')
 
 				currentScopeData: function() {
 					if (typeof scopes[currentScopeName] === "undefined") {
-						//console.log('unregistered scope >>', projectSearchService.currentScopeName, '<<');
+						//console.log('unregistered scope >>', searchScope.currentScopeName, '<<');
 						return {};
 					}
-					//console.log('scope query >>', projectSearchService.currentScopeName, '<<');
+					//console.log('scope query >>', searchScope.currentScopeName, '<<');
 					return scopes[currentScopeName];
 				}
 
@@ -83,8 +83,8 @@ angular.module('arachne.services')
 
 			$http.get('con10t/search-scopes.json').then(function(response) {
 				scopes = response.data;
-				projectSearchService.isReady = true;
-				projectSearchService.onInitialized();
+				searchScope.isReady = true;
+				searchScope.onInitialized();
 			});
 
 
@@ -101,7 +101,7 @@ angular.module('arachne.services')
 			});
 
 
-			return projectSearchService;
+			return searchScope;
 
 		}]
 	)
