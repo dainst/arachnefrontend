@@ -10,7 +10,7 @@
  */
 angular.module('arachne.directives')
 
-	.directive('arSearchScope', ['$q', 'projectSearchService', function ($q, projectSearchService) {
+	.directive('arSearchScope', ['$q', 'searchScope', function ($q, searchScope) {
 
 		// preloads image and checks if exists
 		function isImage(src) {
@@ -61,7 +61,7 @@ angular.module('arachne.directives')
 
 				// project title
 				scope.name = scope.scope;
-				scope.currentScopeTitle = projectSearchService.currentScopeTitle;
+				scope.currentScopeTitle = searchScope.currentScopeTitle;
 
 			}
 		}

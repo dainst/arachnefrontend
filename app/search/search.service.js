@@ -9,8 +9,8 @@ angular.module('arachne.services')
  *
  * @author: Sebastian Cuy
  */
-.factory('searchService', ['$location', 'Entity', '$rootScope', 'Query', '$q', 'projectSearchService',
-function($location, Entity, $rootScope, Query, $q, projectSearchService) {
+.factory('searchService', ['$location', 'Entity', '$rootScope', 'Query', '$q', 'searchScope',
+function($location, Entity, $rootScope, Query, $q, searchScope) {
 
     var dirty = false;
 
@@ -87,8 +87,8 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
      */
     function performAndParseRequest(offset,query,deferred) {
         // if search-scopes.json is not loaded yet, wait until it's done and continue
-        if (!projectSearchService.isReady) {
-			projectSearchService.onInitialized = function() {
+        if (!searchScope.isReady) {
+			searchScope.onInitialized = function() {
 				performAndParseRequest(offset,query,deferred)
             };
             return;
@@ -96,7 +96,7 @@ function($location, Entity, $rootScope, Query, $q, projectSearchService) {
 
         if(query.q === "null" || typeof query.q === "undefined")
             query.q = "*";
-        var finalQuery = query.extend(projectSearchService.currentScopeData);
+        var finalQuery = query.extend(searchScope.currentScopeData());
         //console.log('ask for', finalQuery);
         _currentRequest = {
             query: query,

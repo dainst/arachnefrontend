@@ -11,10 +11,10 @@ angular.module('arachne.controllers')
 
     .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter',
         'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', '$http', 'Entity',
-        'authService', '$timeout', 'projectSearchService',
+        'authService', '$timeout', 'searchScope',
         function ($rootScope, $scope, searchService, categoryService, $filter,
                   arachneSettings, $location, Catalog, messages, $uibModal, $http, Entity,
-                  authService, $timeout, projectSearchService) {
+                  authService, $timeout, searchScope) {
 
 
             // To indicate that the query will not be performed because it violates one or more constraints of some sort
@@ -23,8 +23,8 @@ angular.module('arachne.controllers')
             $scope.user = authService.getUser();
             $scope.currentQuery = searchService.currentQuery();
 
-			$scope.searchScope = projectSearchService.currentScopeName;
-			$scope.getSearchTitle = projectSearchService.currentScopeTitle;
+			$scope.searchScope = searchScope.currentScopeName;
+			$scope.getSearchTitle = searchScope.currentScopeTitle;
 
 
             $scope.q = angular.copy($scope.currentQuery.q);
@@ -216,7 +216,7 @@ angular.module('arachne.controllers')
 
             $scope.onSelectPage = function () {
                 var newOffset = ($scope.currentPage - 1) * $scope.currentQuery.limit;
-                $location.url(projectSearchService.currentScopePath() + 'search' + $scope.currentQuery.setParam('offset', newOffset).toString());
+                $location.url(searchScope.currentScopePath() + 'search' + $scope.currentQuery.setParam('offset', newOffset).toString());
             };
 
             $scope.loadMoreFacetValues = function (facet) {
@@ -246,7 +246,7 @@ angular.module('arachne.controllers')
 			};
             
             $scope.getSearchPath = function() {
-                return projectSearchService.currentScopePath();
+                return searchScope.currentScopePath();
             };
 
 			if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
