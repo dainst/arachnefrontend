@@ -128,7 +128,6 @@ angular.module('arachne.widgets.map')
                                 places
                             );
                         }
-                            
                     }
                     else {
                         placesPainter.clear();
@@ -154,18 +153,16 @@ angular.module('arachne.widgets.map')
                     } // 3 is to prevent wrong bbox searches
                     // when the window is bigger than the world,
                 );
-
                 heatmapPainter.setMap(mapService.getMap());
+
                 placesPainter.setMap(mapService.getMap());
                 placesPainter.setEntityCallback(scope.entityCallback);
-
                 placesPainter.setFixedPlaces(scope.pinList);
 
                 // Add baselayers and activate one, given by url
                 // parameter "baselayer" or a default value
                 mapService.setBaselayers(scope.baselayers);
                 mapService.activateBaselayer(cq.baselayer || "osm");
-
 
                 var bb = placesPainter.getFixedPlacesBoundingBox();
                 if (bb) {

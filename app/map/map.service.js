@@ -124,13 +124,14 @@ angular.module('arachne.widgets.map')
         /**
          * Initialize the Map given an Attribute id of an
          * HTML-Element.
-         *  Params are the same as those of Learflet's L.map():
+         * Params are the same as those of Leaflet's L.map():
          * http://leafletjs.com/reference.html#map-constructor
          *
          * TODO: This thing here should absolutely not return the map object. Instead the service should encapsulate it.
          * @return the map governed by the mapService.
          */
         initializeMap: function (id, options) {
+
             map = L.map(id, options);
             L.Icon.Default.imagePath = 'img';
 
@@ -153,9 +154,6 @@ angular.module('arachne.widgets.map')
                 map.dragging._draggable._freeze = false;
             });
             // / Disable dragging functionality if outside of container bounds
-
-
-
 
             map.on('popupopen', function(e) {
                 popupOpen=true;
@@ -232,10 +230,10 @@ angular.module('arachne.widgets.map')
         // Removes the old baselayer if neccessary and sets a new one
         // identified by it's key
         activateBaselayer: function (key) {
-            if (activeBaselayer) {
-                map.removeLayer(activeBaselayer);
-            }
 
+            if (activeBaselayer) {
+                map.removeLayer(baselayers[activeBaselayer]);
+            }
             var layerConfig = baselayers[key];
             activeBaselayer = L.tileLayer(layerConfig.url, layerConfig.layerOptions);
             activeBaselayerKey = key;
@@ -249,7 +247,6 @@ angular.module('arachne.widgets.map')
             } else {
                 _activateOverlay(key);
             }
-
         },
 
         /**
