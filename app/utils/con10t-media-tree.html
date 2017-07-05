@@ -43,9 +43,9 @@
              class="header-teaser"
              img-id="{{ headerTeaser }}"
              img-width="800">
-        <h1>{{ title }}</h1>
+        <h1 class="text-center">{{ title }}</h1>
         <div class="row is-flex">
-            <figure ng-repeat="image in headerImages track by $index" class="col-md-{{ image.cols }}">
+            <figure ng-repeat="image in images track by $index" class="col-md-4">
 
                 <a href="{{ arachneUrl }}/entity/{{ image.entityid }}">
                     <img ar-img

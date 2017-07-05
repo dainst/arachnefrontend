@@ -4,23 +4,22 @@ angular.module('arachne.widgets.directives')
 
 /**
  * @author: Jan G. Wieners
+ * @author Patrick Jominet
  */
-    .directive('con10tMediaTree', ['arachneSettings', function(arachneSettings) {
+    .directive('con10tMediaTree', ['arachneSettings', function (arachneSettings) {
         return {
             restrict: 'E',
+            templateUrl: 'app/utils/con10t-media-tree.html',
             scope: {
                 title: '@',
                 headerTeaser: '@',
-                headerImages: '='
+                images: '='
             },
             transclude: true,
-            templateUrl: 'app/utils/con10t-media-tree.html',
-
-            link: function(scope, element, attrs, ctrl, $transclude) {
-
+            link: function (scope, element, attrs, $transclude) {
                 scope.arachneUrl = arachneSettings.arachneUrl;
 
-                $transclude(function(clone){
+                $transclude(function (clone) {
                     scope.showCaption = clone.length;
                 });
             }
