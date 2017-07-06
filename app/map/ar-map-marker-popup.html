@@ -56,7 +56,7 @@
 </div>
 
 <div ng-if="(shownEntities.length>1) && place.query">
-    <a class="btn btn-xs btn-primary" href="search{{place.query.toString()}}" target="_blank">
+    <a class="btn btn-xs btn-primary" href="{{getScopePath()}}search{{place.query.toString()}}" target="_blank">
         <span class="glyphicon glyphicon-search"></span> {{'ui_showallobjects' | transl8}}
     </a>
 </div>

@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-    .controller('MenuController', ['$scope', '$uibModal', 'authService', '$location', '$window',
-        function ($scope, $uibModal, authService, $location, $window) {
+    .controller('MenuController', ['$scope', '$uibModal', 'authService', '$location', '$window', 'searchScope',
+        function ($scope, $uibModal, authService, $location, $window, searchScope) {
 
             $scope.user = authService.getUser();
 
@@ -27,4 +27,12 @@ angular.module('arachne.controllers')
                 $scope.user = authService.getUser();
                 $window.location = '/';
             }
+
+            // serach scoping
+			$scope.searchScope = searchScope.currentScopeName;
+			$scope.getScopePath = searchScope.currentScopePath;
+			$scope.getSearchPath  = function(q) {
+			    return searchScope.currentSearchPath() + '?q=' + q;
+            }
+
         }]);

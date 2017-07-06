@@ -23,9 +23,7 @@ angular.module('arachne.controllers')
             $scope.user = authService.getUser();
             $scope.currentQuery = searchService.currentQuery();
 
-			$scope.searchScope = searchScope.currentScopeName;
 			$scope.getSearchTitle = searchScope.currentScopeTitle;
-
 
             $scope.q = angular.copy($scope.currentQuery.q);
             $scope.sortableFields = arachneSettings.sortableFields;
@@ -228,7 +226,6 @@ angular.module('arachne.controllers')
                 });
             };
 
-
             $scope.printCategoryName = function (entityName) {
 
 				var cur;
@@ -248,6 +245,7 @@ angular.module('arachne.controllers')
             $scope.getSearchPath = function() {
                 return searchScope.currentScopePath();
             };
+
 
 			if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.

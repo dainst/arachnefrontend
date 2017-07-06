@@ -37,7 +37,7 @@
 
 		<small>
 
-			<div ar-active-facets route="{{getSearchPath()}}search" current-query="currentQuery"></div>
+			<div ar-active-facets route="{{getScopePath()}}search" current-query="currentQuery"></div>
 
 			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
 			<div ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
@@ -52,7 +52,7 @@
 				</div>
 				<ul class="list-unstyled" ng-show="facet.open">
 					<li ng-repeat="facetValue in facet.values" class="facet-value">
-						<a ng-href="{{getSearchPath()}}search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+						<a ng-href="{{getScopePath()}}search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
 							<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
 							{{facetValue.value | stripCoords}}
 						</a>

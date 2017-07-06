@@ -1,12 +1,17 @@
 <div hide-footer class="row map-fullscreen">
 
     <div id="menu" class="col-sm-2">
-        <h3 class="text-muted uppercase">
+
+        <span ng-if="searchScope() !== null">
+			<div ar-search-scope scope="searchScope()"></div>
+        </span>
+
+        <h3 ng-if="searchScope() === null" class="text-muted uppercase">
             {{'ui_gridmap_heading'|transl8}}
         </h3>
 
         <div con10t-map-menu-search-info type="grid"></div>
-        <div con10t-map-menu-search-field heading="{{'ui_current_search'|transl8}}"></div>
+
         <div con10t-map-menu-facet-search></div>
         <div con10t-map-menu-legend></div>
     </div>

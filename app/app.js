@@ -36,9 +36,16 @@ angular.module('arachne',[
 		$resourceProvider.defaults.cancellable = true;
 
 		$urlRouterProvider.when('', '/');
-		//$urlRouterProvider.otherwise('/404');
+		$urlRouterProvider.otherwise('/404');
 
 		var title = "Arachne";
+
+
+		var loadingPromises = {
+			'getSearchScopes': function (searchScope) {
+				return searchScope.loadingPromise;
+			}
+		}
 
 		$stateProvider
 
@@ -54,7 +61,16 @@ angular.module('arachne',[
 			.state('search', { url: '/search?q&fq&view&sort&offset&limit&desc', templateUrl: 'app/search/search.html', data: { pageTitle: title }})
             .state('categories', { url: '/categories', templateUrl: 'app/category/categories.html', data: { pageTitle: title }})
 			.state('category', { url: '/category/:category', templateUrl: 'app/category/category.html', data: { pageTitle: title }})
-			.state('map', { url: '/map?q&fq', templateUrl: 'app/map/map.html', data: { pageTitle: title }})
+
+			.state('map', {
+				url: '/map?q&fq',
+				templateUrl: 'app/map/map.html',
+				data: {
+					pageTitle: title,
+					searchPage: 'map'
+				}
+			})
+
 			.state('gridmap', { url: '/gridmap', templateUrl: 'app/map/gridmap.html', data: { pageTitle: title }})
 			.state('3d', { url: '/3d', templateUrl: 'app/3d/3d.html', data: { pageTitle: title }})
 			.state('projects', { url: '/projects', templateUrl: 'app/pages/projects.html', data: { pageTitle: title }})
@@ -66,10 +82,26 @@ angular.module('arachne',[
 			.state('pwdchange', { url: '/pwdchange', templateUrl: 'app/users/pwd-change.html', data: { pageTitle: title }})
 			.state('userActivation', { url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }})
 			.state('project', { url: '/project/:title?q&fq', templateUrl: 'app/pages/static.html', data: { pageTitle: title }})
-			.state('projectSearch', { url: '/project/:title/search?q&fq&view&sort&offset&limit&desc', templateUrl: 'app/search/search.html', data: { pageTitle: title }})
 			.state('index', { url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: false, data: { pageTitle: title }})
 			.state('info', { url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }}) // Named it info, not static, to sound not too technical.
 
+			.state('project-search', {
+				url: '/project/:title/search?q&fq&view&sort&offset&limit&desc',
+				templateUrl: 'app/search/search.html',
+				data: {
+					pageTitle: title
+				},
+				resolve: loadingPromises
+			})
+			.state('project-map', {
+				url: '/project/:title/map?q&fq',
+				templateUrl: 'app/map/map.html',
+				data: {
+					pageTitle: title,
+					searchPage: 'map'
+				},
+				resolve: loadingPromises
+			})
 
 	}
 ])
