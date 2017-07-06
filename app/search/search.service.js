@@ -51,6 +51,7 @@ function($location, Entity, $rootScope, Query, $q, searchScope) {
      * @return { Promise<entities> }
      **/
     function retrieveChunk(offset) {
+
         var deferred = $q.defer();
 
         if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
@@ -86,18 +87,11 @@ function($location, Entity, $rootScope, Query, $q, searchScope) {
      *   .reject() gets called otherwise 
      */
     function performAndParseRequest(offset,query,deferred) {
-        // if search-scopes.json is not loaded yet, wait until it's done and continue
-        if (!searchScope.isReady) {
-			searchScope.onInitialized = function() {
-				performAndParseRequest(offset,query,deferred)
-            };
-            return;
-        }
 
         if(query.q === "null" || typeof query.q === "undefined")
             query.q = "*";
         var finalQuery = query.extend(searchScope.currentScopeData());
-        //console.log('ask for', finalQuery);
+        //console.log('ask for', finalQuery, searchScope.currentScopeData());
         _currentRequest = {
             query: query,
             request: Entity.query(finalQuery.toFlatObject())

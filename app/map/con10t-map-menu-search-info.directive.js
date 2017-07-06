@@ -6,8 +6,8 @@ angular.module('arachne.widgets.map')
  * @author: David Neugebauer
  * @author: Daniel M. de Oliveira
  */
-    .directive('con10tMapMenuSearchInfo', ['$uibModal', '$location', 'searchService', 'placesService', 'mapService',
-        function ($uibModal, $location, searchService, placesService, mapService) {
+    .directive('con10tMapMenuSearchInfo', ['$uibModal', '$location', 'searchService', 'placesService', 'mapService', 'searchScope',
+        function ($uibModal, $location, searchService, placesService, mapService, searchScope) {
             return {
                 restrict: 'A',
                 scope: {
@@ -18,7 +18,9 @@ angular.module('arachne.widgets.map')
                 templateUrl: 'app/map/con10t-map-menu-search-info.html',
                 link: function (scope) {
 
+                    scope.searchScope = searchScope.getSe
                     scope.currentQuery = searchService.currentQuery();
+                    scope.getScopePath = searchScope.currentScopePath;
 
                     // renders a modal that contains a link to the current map's view
                     scope.showLinkModal = function () {
@@ -55,7 +57,6 @@ angular.module('arachne.widgets.map')
                     };
 
                     function placesCount(entities) {
-
                         if (mapService.underLimit()) {
                             // var placesCount =
                             return placesService.makePlacesFromEntities(entities, searchService.currentQuery().bbox.split(",")).length;
@@ -66,7 +67,6 @@ angular.module('arachne.widgets.map')
                     var queryListener = function (entities) {
                         // basic information about the search depends on the type of the map
                         // (either a geogrid or a map with Place objects)
-
                         scope.placesCount = placesCount(entities);
                         scope.entityCount = searchService.getSize();
 

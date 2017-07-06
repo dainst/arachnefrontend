@@ -6,7 +6,7 @@
 'use strict';
 
 
-var arMapMarkerPopup = ['$location', 'Entity', function($location, Entity) {
+var arMapMarkerPopup = ['$location', 'Entity', 'searchScope', function($location, Entity, searchScope) {
     return {
         restrict: 'A',
         scope: {
@@ -24,7 +24,8 @@ var arMapMarkerPopup = ['$location', 'Entity', function($location, Entity) {
                 scope.limit = limit;
 
                 var query = scope.place.query.setParam('offset', offset).setParam('limit', limit);
-                Entity.query(query.toFlatObject(), function(result) {
+				var finalQuery = query.extend(searchScope.currentScopeData());
+                Entity.query(finalQuery.toFlatObject(), function(result) {
                     scope.shownEntities = result.entities;
                     scope.listLength = result.size;
                 });
@@ -43,6 +44,10 @@ var arMapMarkerPopup = ['$location', 'Entity', function($location, Entity) {
             scope.limit = 5;
             if (scope.place.isFixed !== true) { // maybe null  more likely than undefined if not defined
                 scope.get(scope.offset, scope.limit);
+            }
+
+            scope.getScopePath = function() {
+                return searchScope.currentScopePath()
             }
         }
     }

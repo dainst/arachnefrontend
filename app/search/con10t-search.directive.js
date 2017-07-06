@@ -29,7 +29,7 @@ return {
             ) {
 				url += $location.url() + '/';
             }
-
+ console.log(url, $location.url())
 
             url += "search?q=";
 

@@ -10,8 +10,8 @@ angular.module('arachne.services')
 
  *
  */
-	.factory('searchScope', ['$location', '$rootScope', 'Query', '$http', '$stateParams', 'language',
-		function($location, $rootScope, Query, $http, $stateParams, language) {
+	.factory('searchScope', ['$location', '$rootScope', 'Query', '$http', '$stateParams', 'language', '$state',
+		function($location, $rootScope, Query, $http, $stateParams, language, $state) {
 
 			var currentScopeName = null;
 
@@ -45,8 +45,7 @@ angular.module('arachne.services')
 
 			var searchScope = {
 
-				isReady: false,
-				onInitialized: function(){console.log("!")},
+				loadingPromise: $http.get('con10t/search-scopes.json').then(function(response) {scopes = response.data}),
 
 				/**
 				 * get the name of current search scope (=project)
@@ -60,8 +59,16 @@ angular.module('arachne.services')
 					return currentScopeName;
 				},
 
+				// returns i.E. project/gipsleipzigsamml
 				currentScopePath: function() {
 					return (currentScopeName === null) ? '' : 'project/' + currentScopeName + '/';
+				},
+
+				// returns i.E. project/gipsleipzigsamml/search
+				currentSearchPath: function() {
+					var definedSearchPage = $state.current.data.searchPage;
+					definedSearchPage = (typeof definedSearchPage !== "undefined") ? definedSearchPage : 'search';
+					return searchScope.currentScopePath() + definedSearchPage;
 				},
 
 				currentScopeTitle: function() {
@@ -69,6 +76,7 @@ angular.module('arachne.services')
 				},
 
 				currentScopeData: function() {
+					currentScopeName = searchScope.currentScopeName();
 					if (typeof scopes[currentScopeName] === "undefined") {
 						//console.log('unregistered scope >>', searchScope.currentScopeName, '<<');
 						return {};
@@ -79,13 +87,6 @@ angular.module('arachne.services')
 
 
 			};
-
-
-			$http.get('con10t/search-scopes.json').then(function(response) {
-				scopes = response.data;
-				searchScope.isReady = true;
-				searchScope.onInitialized();
-			});
 
 
 			$http.get('con10t/content.json').then(function(response) {

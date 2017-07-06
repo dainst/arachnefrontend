@@ -4,14 +4,14 @@
          ng-repeat="facetValue in facetValues" ng-click="loadEntities($index)">
 
         <uib-accordion-heading>
-            <a href="{{getSearchPath()}}search{{facetQueries[$index].toString()}}">
+            <a href="{{getScopePath()}}search{{facetQueries[$index].toString()}}">
                 <span class="badge pull-right">{{facetValue.count}}</span>
                 {{facetValue.value}}
             </a>
         </uib-accordion-heading>
         <div>
             <a ng-show="facetValue.count > 1"
-               ng-href="{{getSearchPath()}}search{{facetQueries[$index].toString()}}"
+               ng-href="{{getScopePath()}}search{{facetQueries[$index].toString()}}"
                style="cursor:pointer;"
                class="text-center list-group-item">
                 <span class="glyphicon glyphicon-search"></span>
@@ -24,7 +24,7 @@
                 <div ar-entity-title entity="entity"></div>
             </a>
             <a ng-show="facetValue.count > entities[$index].length"
-               ng-href="{{getSearchPath()}}search{{facetQueries[$index].toString()}}"
+               ng-href="{{getScopePath()}}search{{facetQueries[$index].toString()}}"
                style="cursor:pointer;"
                class="text-center list-group-item">
                 ...

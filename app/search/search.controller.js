@@ -20,9 +20,7 @@ angular.module('arachne.controllers')
             $scope.user = authService.getUser();
             $scope.currentQuery = searchService.currentQuery();
 
-			$scope.searchScope = searchScope.currentScopeName;
 			$scope.getSearchTitle = searchScope.currentScopeTitle;
-
 
             $scope.q = angular.copy($scope.currentQuery.q);
             $scope.sortableFields = arachneSettings.sortableFields;
@@ -215,9 +213,7 @@ angular.module('arachne.controllers')
                 });
             };
 
-            $scope.getSearchPath = function() {
-                return searchScope.currentScopePath();
-            };
+
 
 
 			if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
