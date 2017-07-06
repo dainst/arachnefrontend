@@ -18,6 +18,8 @@ angular.module('arachne.widgets.directives')
             transclude: true,
             link: function (scope, element, attrs, $transclude) {
                 scope.arachneUrl = arachneSettings.arachneUrl;
+                scope.cols = 12 / scope.images.length;
+                scope.hasTeaser = attrs.headerTeaser;
 
                 $transclude(function (clone) {
                     scope.showCaption = clone.length;
