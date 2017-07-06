@@ -9,7 +9,9 @@ return {
     scope: {
         catalogId: '@',
         fq: '@',
-        appendQuery: '@'
+        appendQuery: '@',
+        scopeName: '@',
+        searchPage: '@'
     },
     link: function(scope, element, attrs) {
         scope.placeholder = attrs.searchPlaceholder;
@@ -20,18 +22,17 @@ return {
 
         scope.search = function() {
 
-
 			var url = '';
-			if (
-                (typeof scope.catalogId === "undefined") &&
-                (typeof scope.appendQuery === "undefined") &&
-                (typeof scope.q === "undefined")
-            ) {
-				url += $location.url() + '/';
-            }
- console.log(url, $location.url())
 
-            url += "search?q=";
+			if (typeof scope.scopeName === "undefined") {
+				url += $location.url() + '/';
+            } else {
+			    url += 'project/' + scope.scopeName + '/';
+            }
+
+            url += (typeof scope.searchPage !== "undefined") ? scope.searchPage : 'search';
+
+            url += "?q=";
 
 			if(scope.catalogId != undefined && scope.catalogId != "")
                 url += "catalogPaths:"+$filter('escapeSlashes')(scope.catalogId)+"+";

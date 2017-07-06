@@ -36,7 +36,7 @@ angular.module('arachne',[
 		$resourceProvider.defaults.cancellable = true;
 
 		$urlRouterProvider.when('', '/');
-		$urlRouterProvider.otherwise('/404');
+		//$urlRouterProvider.otherwise('/404');
 
 		var title = "Arachne";
 
@@ -109,10 +109,11 @@ angular.module('arachne',[
  * Change <title> after page change
  * Jan G. Wieners
  */
-.run(['$rootScope',function($rootScope) {
+.run(['$rootScope','searchScope', function($rootScope, searchScope) {
 
 	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-		document.title = toState.data.pageTitle;
+		document.title = (typeof toParams.title !== "undefined") ? searchScope.getScopeTitle(toParams.title) + ' |\u00A0' : '';
+		document.title += toState.data.pageTitle;
 	});
 }])
 .constant('arachneSettings', {

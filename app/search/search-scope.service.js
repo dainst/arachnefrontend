@@ -83,6 +83,10 @@ angular.module('arachne.services')
 					}
 					//console.log('scope query >>', searchScope.currentScopeName, '<<');
 					return scopes[currentScopeName];
+				},
+
+				getScopeTitle: function(scopeName) {
+					return getScopeTitle(scopeName);
 				}
 
 
@@ -99,6 +103,11 @@ angular.module('arachne.services')
 					});
 				}
 				flatten([response.data], scopeTitles);
+
+				searchScope.currentScopeName();
+
+				document.title = (searchScope.currentScopeTitle() !== null) ? searchScope.currentScopeTitle() + ' |\u00A0' : '';
+				document.title += (typeof $state.current.data !== "undefined") ? $state.current.data.pageTitle : '';
 			});
 
 

@@ -2,7 +2,7 @@
 
 angular.module('arachne.widgets.directives')
 
-.directive('con10tSearchQuery', function() {
+.directive('con10tSearchQuery', ['$location', function($location) {
 return {
     restrict: 'A',
 
@@ -24,7 +24,7 @@ return {
         });
 
         function updateHref() {
-            var href = "/search?q=" + scope.q;
+            var href = $location.url() + "/search?q=" + scope.q;
             if (scope.fq) {
                 // split at every NOT escaped comma by replacing the comma with ETB, then split at every ETB
                 var split, fqs = scope.fq.replace(/([^\\]),/g, '$1\u0017').split('\u0017');
@@ -38,4 +38,4 @@ return {
         }
 
     }
-}});
+}}]);
