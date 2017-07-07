@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "3dviewer": "https://github.com/dainst/3dviewer.git#v1.0.1",
-    "angular": "1.5.8",
-    "angular-cookies": "1.5.8",
+    "angular": "1.5.11",
+    "angular-cookies": "1.5.11",
     "angular-md5": "^0.1.10",
-    "angular-resource": "1.5.8",
-    "angular-sanitize": "1.5.8",
+    "angular-resource": "1.5.11",
+    "angular-sanitize": "1.5.11",
     "angular-ui-bootstrap": "2.5.0",
     "angular-ui-router": "0.3.1",
     "angular-ui-tree": "2.22.5",
@@ -28,7 +28,7 @@
     "d3": "4.9.1",
     "drmonty-leaflet-awesome-markers": "2.0.2",
     "font-awesome": "4.7.0",
-    "idai-components": "git+http://oneeyedjacks02.dai-cloud.uni-koeln.de/idai-components-builds/13/.git",
+    "idai-components": "git+http://oneeyedjacks02.dai-cloud.uni-koeln.de/idai-components-builds/57/.git",
     "leaflet": "1.1.0",
     "leaflet.heat": "0.2.0",
     "leaflet.markercluster": "1.0.6",
@@ -36,7 +36,7 @@
     "showdown": "1.7.1"
   },
   "devDependencies": {
-    "angular-mocks": "1.5.8",
+    "angular-mocks": "1.5.11",
     "bootstrap-sass": "3.3.7",
     "browser-sync": "2.18.12",
     "chromedriver": "2.30.1",
