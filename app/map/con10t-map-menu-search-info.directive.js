@@ -13,14 +13,21 @@ angular.module('arachne.widgets.map')
                 scope: {
                     // "grid" or "places", depending on the map's type, different
                     // search results are required
-                    type: '@'
+                    type: '@',
+                    // a scope path like "grako" or "antiksammleipzig".. usually not required
+                    searchScope: '@'
                 },
                 templateUrl: 'app/map/con10t-map-menu-search-info.html',
                 link: function (scope) {
 
-                    scope.searchScope = searchScope.getSe
                     scope.currentQuery = searchService.currentQuery();
-                    scope.getScopePath = searchScope.currentScopePath;
+
+                    scope.getScopePath = function() {
+                        if ((typeof scope.searchScope !== "undefined") && scope.searchScope) {
+                            return "project/" + scope.searchScope + '/';
+                        }
+                        return searchScope.currentScopePath();
+					}
 
                     // renders a modal that contains a link to the current map's view
                     scope.showLinkModal = function () {
