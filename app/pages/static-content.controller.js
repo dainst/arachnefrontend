@@ -48,7 +48,12 @@ angular.module('arachne.controllers')
                 $templateCache.remove($scope.templateUrl);
 
             } else {
-                $http.get(CONTENT_TOC.replace('{LOCATION}', contentDir)).success(function (data) {
+
+                $http.get((CONTENT_TOC.replace('{LOCATION}'), contentDir))
+
+                    .then(function (result) {
+
+                        var data = result.data;
                     var lang = localizedContent.determineLanguage(data, $stateParams.title);
                     $scope.templateUrl = content_url.replace('{LANG}', lang);
 
@@ -66,6 +71,8 @@ angular.module('arachne.controllers')
                         var link = element.parentElement.parentElement;
                         link.dispatchEvent(clickEvent);
                     }, 500);
+                }).catch(function(error) {
+                    console.log(error)
                 });
             }
         }]);

@@ -1,6 +1,6 @@
 angular.module('arachne.controllers')
-    .controller('IndexController', ['$rootScope', '$scope', 'categoryService', 'Entity', 'Query', '$stateParams', '$http','$filter', '$location',
-        function ($rootScope, $scope, categoryService, Entity, Query, $stateParams, $http, $filter, $location) {
+    .controller('IndexController', ['$rootScope', '$scope', '$sce', 'categoryService', 'Entity', 'Query', '$stateParams', '$http','$filter', '$location',
+        function ($rootScope, $scope, $sce, categoryService, Entity, Query, $stateParams, $http, $filter, $location) {
             $scope.currentCategory = undefined;
             $scope.currentFacet = undefined;
             $scope.currentValue = undefined;
@@ -110,8 +110,8 @@ angular.module('arachne.controllers')
                     } else {
                         $scope.groupedBy = undefined;
                     }
-                    $http.get(url).success(function (data) {
-                        var preprocessedValues = data.facetValues.filter( function(value){ return value.trim() != ""});
+                    $http.get(url).then(function (result) {
+                        var preprocessedValues = result.data.facetValues.filter( function(value){ return value.trim() != ""});
                         preprocessedValues = preprocessedValues.map(function(value) {
                             return value.trim();
                         });

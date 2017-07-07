@@ -7,8 +7,10 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy, Oliver Bensch, Thomas Kleinke
  */
-    .controller('CatalogsController',['$scope', '$uibModal', 'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings', 'messageService',
-        function ($scope, $uibModal, authService, Entity, Catalog, CatalogEntry, $http, arachneSettings, messages) {
+    .controller('CatalogsController',['$scope', '$uibModal',
+        'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings', 'messageService',
+        function ($scope, $uibModal,
+                  authService, Entity, Catalog, CatalogEntry, $http, arachneSettings, messages) {
 
             $scope.refreshCatalogs = function(){
                 $scope.loading++;
@@ -55,8 +57,10 @@ angular.module('arachne.controllers')
             $scope.catalogs = [];
             $scope.entryMap = {};
 
-            $http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username).success(function(user) {
-                $scope.user = user;
+            var url = arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username;
+            $http.get(url)
+                .then(function(result) {
+                $scope.user = result.data;
             });
 
             $scope.loading = 0;

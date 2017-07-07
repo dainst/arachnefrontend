@@ -9,8 +9,8 @@ angular.module('arachne.controllers')
  *   user the logged in users personal information.
  *   submit function which sends the user data to the backend in order to update personal information.
  */
-    .controller('EditUserController', ['$scope', '$http', 'arachneSettings', 'authService', 'messageService', '$timeout',
-        function ($scope, $http, arachneSettings, authService, messages, $timeout) {
+    .controller('EditUserController', ['$scope', '$http', '$sce', 'arachneSettings', 'authService', 'messageService', '$timeout',
+        function ($scope, $http, $sce, arachneSettings, authService, messages, $timeout) {
 
             var HEADERS = {
                 "headers": {"Content-Type": "application/json"}
@@ -48,11 +48,14 @@ angular.module('arachne.controllers')
             $scope.user = authService.getUser();
 
             if ($scope.user) {
-                $http.get(arachneSettings.dataserviceUri + "/userinfo/" + authService.getUser().username
-                ).success(function (data) {
-                    $scope.user = data;
-                    $scope.user.emailValidation = $scope.user.email;
-                }).error(function (data) {
+
+                $http.get(arachneSettings.dataserviceUri + "/userinfo/" + authService.getUser().username)
+                    .then(function (result) {
+
+                        var data = result.data;
+                        $scope.user = data;
+                        $scope.user.emailValidation = $scope.user.email;
+                    }).error(function (data) {
                     console.log("no user info found for user " + authService.getUser().username);
                 });
             } else {
@@ -72,9 +75,9 @@ angular.module('arachne.controllers')
                 $http.put(arachneSettings.dataserviceUri + "/userinfo/" + authService.getUser().username,
                     filterWriteProtectedProperties($scope.user),
                     HEADERS
-                ).success(function (data) {
+                ).then(function (data) {
                     putMsg('ui.update.success', 'success')
-                }).error(function (data) {
+                }).catch(function (data) {
                     putMsg(data.message, 'danger');
                 });
             }

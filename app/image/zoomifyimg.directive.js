@@ -2,7 +2,7 @@
 
 angular.module('arachne.directives')
 
-    .directive('zoomifyimg', ['arachneSettings', '$http', function (arachneSettings, $http) {
+    .directive('zoomifyimg', ['arachneSettings', '$http', '$sce', function (arachneSettings, $http, $sce) {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
@@ -113,7 +113,9 @@ angular.module('arachne.directives')
                         this._adjustTilePoint(tilePoint);
                         var imgUri = this.getTileUrl(tilePoint);
                         $http.get(imgUri, {responseType: 'arraybuffer'})
-                            .success(function (data) {
+                            .then(function (result) {
+
+                                var data = result.data;
                                     var blob = new Blob([data], {type: 'image/jpeg'});
                                     tile.src = window.URL.createObjectURL(blob);
                                 }

@@ -2,7 +2,7 @@
 
 angular.module('arachne.directives')
 
-    .directive('arImg', ['arachneSettings', '$http', function (arachneSettings, $http) {
+    .directive('arImg', ['arachneSettings', '$http', '$sce', function (arachneSettings, $http, $sce) {
 
         return {
             scope: {
@@ -27,10 +27,12 @@ angular.module('arachne.directives')
                             imgUri += scope.imgId;
                         }
                         $http.get(imgUri, {responseType: 'arraybuffer'})
-                            .success(function (data) {
+                            .then(function (result) {
+
+                                var data = result.data;
                                 var blob = new Blob([data], {type: 'image/jpeg'});
                                 img.src = window.URL.createObjectURL(blob);
-                            }).error(function (result) {
+                            }).catch(function (result) {
                                 img.src = 'img/placeholder/placeholderError.png';
                                 if (scope.imgWidth) img.width = scope.imgWidth;
                                 if (scope.imgHeight) img.height = scope.imgHeight;

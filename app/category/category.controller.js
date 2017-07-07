@@ -112,11 +112,17 @@ angular.module('arachne.controllers')
                     } else {
                         $scope.groupedBy = undefined;
                     }
-                    $http.get(url).success(function (data) {
-                        var preprocessedValues = data.facetValues.filter( function(value){ return value.trim() != ""});
+
+                    $http.get(url).then(function (data) {
+
+                        var preprocessedValues = data.facetValues.filter( function(value) {
+                            return value.trim() != ""}
+                            );
+
                         preprocessedValues = preprocessedValues.map(function(value) {
                             return value.trim();
                         });
+
                         // Filtering duplicates
                         var temp = preprocessedValues.filter(function(value, index, self){
                             return index == self.indexOf(value);

@@ -5,8 +5,8 @@ angular.module('arachne.services')
 /**
  * contact Form
  */
-.factory('contactService', ['$http', 'arachneSettings', '$resource',
-function($http, arachneSettings, $resource) {
+.factory('contactService', ['arachneSettings', '$resource',
+function(arachneSettings, $resource) {
     var contactService = $resource('', {}, {
         sendContact : {
             url: arachneSettings.dataserviceUri + '/contact',

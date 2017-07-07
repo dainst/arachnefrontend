@@ -10,8 +10,8 @@ angular.module('arachne.controllers')
  *   user {object} the user object
  *   submit {function} the submit function
  */
-    .controller('RegisterController', ['$scope', '$http', '$filter', 'messageService', 'arachneSettings', '$location',
-        function ($scope, $http, $filter, messages, arachneSettings, $location) {
+    .controller('RegisterController', ['$scope', '$http', '$filter', '$sce', 'messageService', 'arachneSettings', '$location',
+        function ($scope, $http, $filter, $sce, messages, arachneSettings, $location) {
 
 
             /**
@@ -48,9 +48,9 @@ angular.module('arachne.controllers')
 
                 $http.post(arachneSettings.dataserviceUri + "/user/register", newUser, {
                     "headers": {"Content-Type": "application/json"}
-                }).success(function (data) {
+                }).then(function () {
                     return callback(true, null);
-                }).error(function (data) {
+                }).catch(function (data) {
                     return callback(false, data.message);
                 });
             };

@@ -3,8 +3,8 @@
 angular.module('arachne.controllers')
 
 //Contact Form Controller
-    .controller('ContactController', ['$scope', '$http', '$uibModal', 'contactService',
-        function ($scope, $http, $uibModal, contactService) {
+    .controller('ContactController', ['$scope', '$uibModal', 'contactService',
+        function ($scope, $uibModal, contactService) {
 
             $scope.success = false;
             $scope.error = "";

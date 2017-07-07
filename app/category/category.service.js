@@ -2,75 +2,78 @@
 
 angular.module('arachne.services')
 
-.factory('categoryService', ['$http', '$filter', '$q', 'transl8',
-function($http, $filter, $q, transl8){
+    .factory('categoryService', ['$http', '$filter', '$q', '$sce', 'transl8',
+        function ($http, $filter, $q, $sce, transl8) {
 
-    var categories = null;
+            var categories = null;
 
-    var deferred = $q.defer();
-    transl8.onLoaded().then(function() {
-        $http.get('config/category.json').then(function (response) {
+            var deferred = $q.defer();
+            transl8.onLoaded().then(function () {
 
-            categories = {};
-            for (var key in response.data) {
-                
-                categories[key] = response.data[key];
-                categories[key]['title'] = $filter('transl8')('type_' + key);
-                categories[key]['queryTitle'] = response.data[key].queryTitle;
-                categories[key]['singular'] = $filter('transl8')('type_singular_' + key);
-                categories[key]['subtitle'] = $filter('transl8')('type_subtitle_' + key);
-                categories[key]['href'] = 'category/?c=' + key;
-                categories[key]['key'] = key;
-            }
-            deferred.resolve(categories);
-        });
-    });
+                $http.get('config/category.json').then(function (response) {
 
-    var factory = {};
+                    categories = {};
+                    for (var key in response.data) {
 
-    factory.getCategoriesAsync = function() {
-        return deferred.promise;
-    };
+                        categories[key] = response.data[key];
+                        categories[key]['title'] = $filter('transl8')('type_' + key);
+                        categories[key]['queryTitle'] = response.data[key].queryTitle;
+                        categories[key]['singular'] = $filter('transl8')('type_singular_' + key);
+                        categories[key]['subtitle'] = $filter('transl8')('type_subtitle_' + key);
+                        categories[key]['href'] = 'category/?c=' + key;
+                        categories[key]['key'] = key;
+                    }
+                    deferred.resolve(categories);
+                }).catch(function (error) {
+                    console.log('ERROR', error)
+                });
+            });
 
-    factory.getCategories = function() {
-        return categories;
-    };
+            var factory = {};
 
-    factory.getSingular = function(category) {
-        if (categories && category in categories && "singular" in categories[category]) {
-            return categories[category].singular;
-        } else {
-            return category;
-        }
-    };
+            factory.getCategoriesAsync = function () {
+                return deferred.promise;
+            };
 
-    factory.getCategoryHref = function(categoryName) {
+            factory.getCategories = function () {
+                return categories;
+            };
 
-        return this.getCategoriesAsync().then(function(result) {
-
-            var cur;
-            for (var category in result) {
-                cur = result[category];
-                if (cur.queryTitle === categoryName) {
-                    return cur.href;
+            factory.getSingular = function (category) {
+                if (categories && category in categories && "singular" in categories[category]) {
+                    return categories[category].singular;
+                } else {
+                    return category;
                 }
-            }
-            return false;
-        });
-    };
+            };
 
-    factory.getCategoryKey = function (categoryName) {
-        return this.getCategoriesAsync().then(function(result) {
-            var cur;
-            for (var category in result) {
-                cur = result[category];
-                if (cur.queryTitle === categoryName) {
-                    return cur.key;
-                }
-            }
-            return false;
-        });
-    }
+            factory.getCategoryHref = function (categoryName) {
 
-    return factory;
-}]);
+                return this.getCategoriesAsync().then(function (result) {
+
+                    var cur;
+                    for (var category in result) {
+                        cur = result[category];
+                        if (cur.queryTitle === categoryName) {
+                            return cur.href;
+                        }
+                    }
+                    return false;
+                });
+            };
+
+            factory.getCategoryKey = function (categoryName) {
+                return this.getCategoriesAsync().then(function (result) {
+                    var cur;
+                    for (var category in result) {
+                        cur = result[category];
+                        if (cur.queryTitle === categoryName) {
+                            return cur.key;
+                        }
+                    }
+                    return false;
+                });
+            }
+
+            return factory;
+        }]);

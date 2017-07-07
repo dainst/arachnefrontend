@@ -4,8 +4,8 @@ angular.module('arachne.services')
 
 // singleton service for authentication, stores credentials in browser cookie
 // if cookie is present the stored credentials get sent with every backend request
-.factory('authService', ['$http', 'arachneSettings', '$filter', '$cookieStore',
-function($http, arachneSettings, $filter, $cookieStore) {
+.factory('authService', ['$http', '$sce', 'arachneSettings', '$filter', '$cookieStore',
+function($http, $sce, arachneSettings, $filter, $cookieStore) {
 
     // initialize to whatever is in the cookie, if anything
     if ($cookieStore.get('ar-authdata')) {
@@ -17,9 +17,12 @@ function($http, arachneSettings, $filter, $cookieStore) {
     return {
 
         setCredentials: function (username, password, successMethod, errorMethod) {
-            var encoded = $filter('base64')(username + ':' + $filter('md5')(password));
+            var encoded = $filter('base64')(username + ':' + $filter('md5')(password)), response;
+
             $http.get(arachneSettings.dataserviceUri + '/userinfo/'+username, { headers: { 'Authorization': 'Basic ' + encoded } })
-                .success(function(response) {
+                .then(function(result) {
+
+                    response = result.data;
 
                     $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
                     $cookieStore.put('ar-authdata', encoded);

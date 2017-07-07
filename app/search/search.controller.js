@@ -8,8 +8,8 @@ angular.module('arachne.controllers')
  * @author Patrick Jominet
  */
 
-    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', '$http', 'Entity', 'authService', '$timeout',
-        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, messages, $uibModal, $http, Entity, authService, $timeout) {
+    .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter', 'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', 'Entity', 'authService', '$timeout',
+        function ($rootScope, $scope, searchService, categoryService, $filter, arachneSettings, $location, Catalog, messages, $uibModal, Entity, authService, $timeout) {
 
             // To indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.illegalQuery = false;

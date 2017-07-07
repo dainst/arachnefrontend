@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-    .controller('EntityImageController', ['$stateParams', '$scope', '$uibModal', 'Entity', 'authService', 'searchService', '$location', 'arachneSettings', '$http', '$window', '$rootScope', 'messageService',
-        function ($stateParams, $scope, $uibModal, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, messages) {
+    .controller('EntityImageController', ['$stateParams', '$scope', '$uibModal', '$sce', 'Entity', 'authService', 'searchService', '$location', 'arachneSettings', '$http', '$window', '$rootScope', 'messageService',
+        function ($stateParams, $scope, $uibModal, $sce, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, messages) {
 
             $rootScope.hideFooter = true;
             $scope.allow = true;
@@ -55,14 +55,17 @@ angular.module('arachne.controllers')
                 var imgUri = arachneSettings.dataserviceUri + "/image/" + $scope.imageId;
                 var entityUri = arachneSettings.dataserviceUri + "/entity/" + $scope.imageId;
 
-                $http.get(imgUri, {responseType: 'blob'}).success(function (data) {
+                $http.get(imgUri, {responseType: 'blob'}).then(function (result) {
 
+                    var data = result.data;
                     var blob = new Blob([data], {type: 'image/jpeg'});
                     var blobUri = $window.URL.createObjectURL(blob);
 
-                    $http.get(entityUri).success(function (data) {
+                    $http.get(entityUri).then(function (nextResult) {
+
+                        var nextData = nextResult.data;
                         if (navigator.appVersion.toString().indexOf('.NET') > 0) {
-                            window.navigator.msSaveBlob(blob, data.filename);
+                            window.navigator.msSaveBlob(blob, nextData.filename);
                         }
                         else {
                             var document = $window.document;
@@ -70,7 +73,7 @@ angular.module('arachne.controllers')
                             document.body.appendChild(a);
                             a.setAttribute('style', 'display:none');
                             a.href = blobUri;
-                            a.download = data.filename;
+                            a.download = nextData.filename;
                             a.click();
                         }
                     });
