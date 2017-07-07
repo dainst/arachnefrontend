@@ -15,8 +15,8 @@ angular.module('arachne.controllers')
  *
  * @author: Daniel M. de Oliveira
  */
-    .controller('DataimportController', ['$scope', '$http', '$location', '$interval', '$sce', 'arachneSettings',
-        function ($scope, $http, $location, $interval, $sce, arachneSettings) {
+    .controller('DataimportController', ['$scope', '$http', '$location', '$interval', 'arachneSettings',
+        function ($scope, $http, $location, $interval, arachneSettings) {
 
             var dataimportUri = arachneSettings.dataserviceUri + '/admin/dataimport';
             var requestPending = false; // true as long as a server request is pending and waiting for an answer or timeout
@@ -56,13 +56,11 @@ angular.module('arachne.controllers')
 
                 $http
                     .get(dataimportUri)
-                    .then(function (result) {
-
-                        var data = result.data;
+                    .success(function (data) {
                         if (successCallback) successCallback();
                         $scope.dataimportInfo = data;
                     })
-                    .catch(function () {
+                    .error(function (data) {
                         $scope.lastActionOutcome = MSG_UNAVAILABLE;
                         $scope.dataimportInfo = undefined;
 
@@ -93,9 +91,7 @@ angular.module('arachne.controllers')
 
                 $http
                     .post(dataimportUri + '?command=start')
-                    .then(function (result) {
-
-                        var data = result.data;
+                    .success(function (data) {
 
                         if (data.status == 'already running')
                             $scope.lastActionOutcome = OUTCOME_DATAIMPORT_RUNNING;
@@ -105,7 +101,7 @@ angular.module('arachne.controllers')
                         // Provide feedback in any case.
                         fetchDataimportInfo();
                     })
-                    .catch(function (data, status) {
+                    .error(function (data, status) {
                         handleError(status);
                     }).finally(function () {
                     requestPending = false;
@@ -121,9 +117,7 @@ angular.module('arachne.controllers')
 
                 $http
                     .post(dataimportUri + '?command=stop')
-                    .then(function (result) {
-
-                        var data = result.data;
+                    .success(function (data) {
 
                         if (data.status == 'not running')
                             $scope.lastActionOutcome = OUTCOME_DATAIMPORT_NOT_RUNNING;
@@ -136,7 +130,7 @@ angular.module('arachne.controllers')
                         // fetchDataimportInfo() is to be called in any case to update the info.
                         fetchDataimportInfo();
                     })
-                    .catch(function (data, status) {
+                    .error(function (data, status) {
                         handleError(status);
                     }).finally(function () {
                     requestPending = false;
@@ -153,5 +147,3 @@ angular.module('arachne.controllers')
 
             fetchDataimportInfo();
         }]);
-
-
