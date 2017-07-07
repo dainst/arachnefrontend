@@ -8,7 +8,9 @@ return {
 
     scope: {
         con10tSearchQuery: '@',
-        con10tSearchFacet: '@'
+        con10tSearchFacet: '@',
+        con10nSearchPage: '@',
+        con10tSearchScope: '@'
     },
 
     link: function(scope, element, attrs) {
@@ -24,7 +26,21 @@ return {
         });
 
         function updateHref() {
-            var href = $location.url() + "/search?q=" + scope.q;
+            var href = '';
+
+            if (typeof scope.con10tSearchScope === "undefined") {
+				href = $location.url();
+            } else if (scope.con10tSearchScope !== '/') {
+				href = 'project/'+ scope.con10tSearchScope;
+            }
+
+			href += '/';
+            href += (typeof scope.con10tSearchPage !== "undefined") ? scope.con10tSearchPage : 'search';
+
+			scope.q = ((typeof scope.q !== "undefined") && scope.q) ? scope.q : '*';
+            href +=  '?q=' + scope.q;
+
+
             if (scope.fq) {
                 // split at every NOT escaped comma by replacing the comma with ETB, then split at every ETB
                 var split, fqs = scope.fq.replace(/([^\\]),/g, '$1\u0017').split('\u0017');
