@@ -49,7 +49,7 @@ angular.module('arachne.controllers')
 
             } else {
 
-                $http.get((CONTENT_TOC.replace('{LOCATION}'), contentDir))
+                $http.get(CONTENT_TOC.replace('{LOCATION}', contentDir))
 
                     .then(function (result) {
 
@@ -72,7 +72,7 @@ angular.module('arachne.controllers')
                         link.dispatchEvent(clickEvent);
                     }, 500);
                 }).catch(function(error) {
-                    console.log(error)
+                    console.log(error);
                 });
             }
         }]);

@@ -12,7 +12,7 @@ angular.module('arachne.controllers')
  * @author: Sebastian Cuy
  */
     .controller('ProjectsController', ['$scope', '$http', 'localizedContent',
-        function ($scope, $http, $sce, localizedContent) {
+        function ($scope, $http, localizedContent) {
 
             var PROJECTS_JSON = 'con10t/content.json';
 
@@ -30,6 +30,8 @@ angular.module('arachne.controllers')
                 localizedContent.reduceTitles(data);
                 projects = data.children;
                 sliceColumns();
+            }).catch(function () {
+                console.log(error);
             });
         }
     ]);

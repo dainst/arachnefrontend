@@ -64,7 +64,6 @@ describe ('StaticContentController', function() {
 		expect(targetPage).toBe('/404')
 	});
 
-
 	it ('should provide a german templateUrl with search param lang=de',function(){
 		prepare('/project','title','de',{ "lang" : "de" });
 		expect(scope.templateUrl).toBe(TEMPLATE_URL.replace('{LANG}','de'));
