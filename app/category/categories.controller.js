@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('arachne.controllers')
-    .controller('CategoriesController', ['$rootScope', '$scope', '$http', '$filter', 'categoryService',
-        function ($rootScope, $scope, $http, $filter, categoryService) {
+    .controller('CategoriesController', ['$rootScope', '$scope', '$filter', 'categoryService',
+        function ($rootScope, $scope, $filter, categoryService) {
 
             $rootScope.hideFooter = false;
 

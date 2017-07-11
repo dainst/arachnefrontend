@@ -17,9 +17,12 @@ function($http, arachneSettings, $filter, $cookieStore) {
     return {
 
         setCredentials: function (username, password, successMethod, errorMethod) {
-            var encoded = $filter('base64')(username + ':' + $filter('md5')(password));
+            var encoded = $filter('base64')(username + ':' + $filter('md5')(password)), response;
+
             $http.get(arachneSettings.dataserviceUri + '/userinfo/'+username, { headers: { 'Authorization': 'Basic ' + encoded } })
-                .success(function(response) {
+                .then(function(result) {
+
+                    response = result.data;
 
                     $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
                     $cookieStore.put('ar-authdata', encoded);
@@ -30,7 +33,7 @@ function($http, arachneSettings, $filter, $cookieStore) {
                     }
 
                     successMethod();
-                }).error(function(response) {
+                }).catch(function(response) {
                     errorMethod(response);
                 });
         },

@@ -2,7 +2,7 @@
 
 angular.module('arachne.directives')
 
-	.directive('arCatalogOccurences', ['arachneSettings', '$http', '$uibModal', 'Catalog', 'CatalogEntry', 
+	.directive('arCatalogOccurences', ['arachneSettings', '$http', '$uibModal', 'Catalog', 'CatalogEntry',
 		function (arachneSettings, $http, $uibModal, Catalog, CatalogEntry) {
 
 			return {
@@ -69,14 +69,17 @@ angular.module('arachne.directives')
 					};
 					
 					scope.loadOccurences = function () {
+
 					   if (scope.entity) {
-							 $http.get(arachneSettings.dataserviceUri + "/catalog/list/" + scope.entity.entityId)
-								.success(function (data) {
-									scope.catalogEntries = data;
+
+					   	var url = arachneSettings.dataserviceUri + "/catalog/list/" + scope.entity.entityId;
+                           $http.get(url)
+								.then(function (result) {
+									scope.catalogEntries = result.data;
                                     for (var i = 0, len = scope.catalogEntries.length; i < len; i++)
                                         if(scope.catalogEntries[i].projectId != "")
                                             scope.projectEntries.push(scope.catalogEntries[i]);
-								}).error(function (result) {
+								}).catch(function (result) {
 									console.log("Error requesting /catalog/list/ in ar-catalog-occurences-directive");
 								}
 							);

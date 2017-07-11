@@ -147,5 +147,3 @@ angular.module('arachne.controllers')
 
             fetchDataimportInfo();
         }]);
-
-

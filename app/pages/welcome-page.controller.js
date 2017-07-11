@@ -2,13 +2,14 @@
 
 angular.module('arachne.controllers')
 
-    .controller('WelcomePageController', ['$rootScope', '$scope', '$http', 'arachneSettings', 'messageService', '$timeout',
-        function ($rootScope, $scope, $http, arachneSettings, messages, $timeout) {
+    .controller('WelcomePageController', ['$rootScope', '$scope', '$http', '$sce', 'arachneSettings', 'messageService', '$timeout',
+        function ($rootScope, $scope, $http, $sce, arachneSettings, messages, $timeout) {
 
             $rootScope.hideFooter = false;
 
-            $http.get('con10t/front.json').success(function (projects) {
-                $scope.projects = projects;
+            $http.get('con10t/front.json').then(function (result) {
+
+                $scope.projects = result.data;
 
                 var lang = navigator.language || navigator.userLanguage;
 
@@ -19,10 +20,11 @@ angular.module('arachne.controllers')
                 }
             });
 
-            $http.get(arachneSettings.dataserviceUri + "/entity/count").success(function (data) {
-                $scope.entityCount = data.entityCount;
-            }).error(function (data) {
-                $timeout(function(){
+            $http.get(arachneSettings.dataserviceUri + "/entity/count")
+                .then(function (result) {
+                    $scope.entityCount = result.data.entityCount;
+                }).catch(function () {
+                $timeout(function () {
                     messages.add("backend_missing");
                 }, 500);
             });

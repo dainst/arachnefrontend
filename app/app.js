@@ -24,10 +24,12 @@ angular.module('arachne',[
 	'arachne.widgets.directives',
 	'arachne.widgets.map'
 ])
-.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider',
-	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider', '$qProvider',
+	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider, $qProvider) {
 
 		$locationProvider.html5Mode(true);
+
+        //$qProvider.errorOnUnhandledRejections(false);
 
 		$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|blob):/);
 

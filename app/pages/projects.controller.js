@@ -24,10 +24,14 @@ angular.module('arachne.controllers')
                 $scope.columns[2] = projects.slice(5);
             };
 
-            $http.get(PROJECTS_JSON).success(function (data) {
+            $http.get(PROJECTS_JSON).then(function (result) {
+
+                var data = result.data;
                 localizedContent.reduceTitles(data);
                 projects = data.children;
                 sliceColumns();
+            }).catch(function () {
+                console.log(error);
             });
         }
     ]);

@@ -8,9 +8,9 @@ angular.module('arachne.controllers')
  * @author: Sebastian Cuy
  * @author: Jan G. Wieners
  */
-    .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window',
+    .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window', '$sce',
         'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService',
-        function ($rootScope, $scope, $state, $stateParams, $uibModal, $window,
+        function ($rootScope, $scope, $state, $stateParams, $uibModal, $window, $sce,
                   Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, messages) {
 
             $rootScope.hideFooter = true;
@@ -447,10 +447,13 @@ angular.module('arachne.controllers')
                 if (!$scope.user) {
                     $scope.editable = false;
                 } else {
-                    $http.get(arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username)
-                        .success(function (user) {
+
+                    var url = arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username;
+                    $http.get()
+                        .then(function (result) {
+                            var user = result.data;
                             $scope.editable = ($scope.catalog.userIds.indexOf(user.id) != -1);
-                        }).error(function () {
+                        }).catch(function () {
                         $scope.editable = false;
                     });
                 }

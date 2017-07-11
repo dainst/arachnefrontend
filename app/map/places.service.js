@@ -23,6 +23,10 @@ angular.module('arachne.widgets.map')
             var placesList = [];
             entityCount = 0;
 
+            if (!entities) {
+                return [];
+            }
+
             for (var i = 0; i < entities.length; i++) {
                 var entity = entities[i];
 

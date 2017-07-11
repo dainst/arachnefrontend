@@ -34,10 +34,12 @@ angular.module('arachne.directives')
                         });
                     });
                     $http.get(cell.imgUri, {responseType: 'blob'})
-                        .success(function (data) {
+                        .then(function (result) {
+
+                            var data = result.data;
                             var blob = new Blob([data], {type: 'image/jpeg'});
                             cell.img.src = window.URL.createObjectURL(blob);
-                        }).error(function (response) {
+                        }).catch(function (response) {
                         cell.img.src = scope.errorplaceholder.src;
                     });
                 };

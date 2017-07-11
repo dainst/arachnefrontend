@@ -43,15 +43,17 @@ angular.module('arachne.controllers')
              * @return callback(isSuccess:boolean,message:string)
              */
             var register = function (user, callback) {
-                if (!user) return callback(false, "ui.register.fieldsMissing");
+
+                if (!user) { return callback(false, "ui.register.fieldsMissing"); }
+
                 var newUser = copyUser(user);
 
                 $http.post(arachneSettings.dataserviceUri + "/user/register", newUser, {
                     "headers": {"Content-Type": "application/json"}
-                }).success(function (data) {
+                }).then(function () {
                     return callback(true, null);
-                }).error(function (data) {
-                    return callback(false, data.message);
+                }).catch(function (error) {
+                    return callback(false, error.data.message);
                 });
             };
 

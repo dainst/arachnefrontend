@@ -11,8 +11,10 @@ angular.module('arachne.controllers')
             this.showInfo = function () {
 
                 if (!$scope.metainfos) {
-                    $http.get(arachneSettings.dataserviceUri + "/model/" + $location.search().id + "?meta=true").success(function (data) {
-                        $scope.metainfos = data;
+                    var url = arachneSettings.dataserviceUri + "/model/" + $location.search().id + "?meta=true";
+                    $http.get(url)
+                        .then(function (result) {
+                        $scope.metainfos = result.data;
                     });
                 }
 
