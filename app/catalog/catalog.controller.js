@@ -8,9 +8,9 @@ angular.module('arachne.controllers')
  * @author: Sebastian Cuy
  * @author: Jan G. Wieners
  */
-    .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window', '$sce',
+    .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window',
         'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService',
-        function ($rootScope, $scope, $state, $stateParams, $uibModal, $window, $sce,
+        function ($rootScope, $scope, $state, $stateParams, $uibModal, $window,
                   Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, messages) {
 
             $rootScope.hideFooter = true;
@@ -449,7 +449,8 @@ angular.module('arachne.controllers')
                 } else {
 
                     var url = arachneSettings.dataserviceUri + '/userinfo/' + $scope.user.username;
-                    $http.get()
+
+                    $http.get(url)
                         .then(function (result) {
                             var user = result.data;
                             $scope.editable = ($scope.catalog.userIds.indexOf(user.id) != -1);
