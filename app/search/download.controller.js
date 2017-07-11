@@ -13,14 +13,17 @@ angular.module('arachne.controllers')
             $scope.mode = 'csv';
 
             $scope.downloadAs = function () {
-                var currentQuery = $scope.currentQuery;
+                var currentQuery = $scope.currentQuery.q;
+                // failsafe control if query is empty
+                if (currentQuery === undefined)
+                    currentQuery = '*';
                 var currentSize = $scope.resultSize;
                 // failsafe control to not exceed limit
                 if (currentSize > 10000)
                     currentSize = 10000;
                 var currentMode = $scope.mode;
                 $scope.filename = 'currentSearch.' + currentMode;
-                return arachneSettings.dataserviceUri + '/search.' + currentMode + '?q=' + currentQuery.q + '&limit=' + currentSize;
+                return arachneSettings.dataserviceUri + '/search.' + currentMode + '?q=' + currentQuery + '&limit=' + currentSize;
             };
 
             $scope.cancel = function () {
