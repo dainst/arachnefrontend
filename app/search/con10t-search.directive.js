@@ -22,10 +22,13 @@ return {
 
         scope.search = function() {
 
-			var url = '';
+            //  http://localhost:8082/project/syrher?lang=en%2Fsearch%3Fq%3D*  /search?q=*
 
+			var url = '';
+			console.log($location.url().split("?")[0])
 			if (typeof scope.scopeName === "undefined") {
-				url += $location.url() + '/';
+			    console.log($location.url().split("?")[0])
+				url += $location.url().split("?")[0] + '/';
             } else {
 			    url += 'project/' + scope.scopeName + '/';
             }
