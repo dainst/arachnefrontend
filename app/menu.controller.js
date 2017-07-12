@@ -28,7 +28,7 @@ angular.module('arachne.controllers')
                 $window.location = '/';
             }
 
-            // serach scoping
+            // search scoping
 			$scope.searchScope = searchScope.currentScopeName;
 			$scope.getScopePath = searchScope.currentScopePath;
 			$scope.getSearchPath  = function(q) {
