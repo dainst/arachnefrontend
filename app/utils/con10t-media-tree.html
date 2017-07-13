@@ -45,7 +45,21 @@
              img-width="800">
         <h1 class="text-center">{{ title }}</h1>
         <div class="row is-flex">
-            <figure ng-repeat="image in images track by $index" class="col-sm-{{ cols }}">
+            <figure ng-repeat="image in firstBatch track by $index" class="col-sm-{{ cols }}">
+
+                <a href="{{ arachneUrl }}/entity/{{ image.entityid }}">
+                    <img ar-img
+                         img-id="{{image.entityid}}"
+                         img-height="200"
+                         class="header-image-centered-cropped">
+                </a>
+                <figcaption>
+                    {{ image.title }}
+                </figcaption>
+            </figure>
+        </div>
+        <div class="row is-flex" ng-if="images.length > 3">
+            <figure ng-repeat="image in secondBatch track by $index" class="col-sm-{{ cols }}"  style="margin-top: .5em">
 
                 <a href="{{ arachneUrl }}/entity/{{ image.entityid }}">
                     <img ar-img
