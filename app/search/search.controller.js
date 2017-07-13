@@ -214,6 +214,22 @@ angular.module('arachne.controllers')
                 });
             };
 
+            $scope.printCategoryName = function (entityName) {
+
+                var cur;
+
+                for (var category in $scope.categories) {
+
+                    cur = $scope.categories[category];
+
+                    if ((cur.queryTitle == entityName) || (cur.key == entityName)) {
+                        return cur.singular;
+                    }
+                }
+
+                return "";
+            };
+
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
 
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
