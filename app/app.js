@@ -36,7 +36,7 @@ angular.module('arachne',[
 		$resourceProvider.defaults.cancellable = true;
 
 		$urlRouterProvider.when('', '/');
-		//$urlRouterProvider.otherwise('/404');
+		$urlRouterProvider.otherwise('/404');
 
 		var title = "Arachne";
 

@@ -37,3 +37,8 @@
 .search-scope:hover .search-scope-title {
   color:black
 }
+
+.search-scope .search-scope-title.long {
+  line-height: normal;
+  font-size: 15px;
+}

@@ -12,9 +12,16 @@ var MapPage = function() {
 
 	this.getZoomInButton = function() {
 		return element(by.css('.leaflet-control-zoom-in'));
+	};
+
+	this.switchToSearchViewButton = function() {
+		return element(by.css('.switch-to-search-view'));
+	};
+
+	this.switchToSearchView = function() {
+		this.switchToSearchViewButton().click();
+		return browser.getCurrentUrl();
 	}
-
-
 
 
 };
