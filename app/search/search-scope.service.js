@@ -78,6 +78,9 @@ angular.module('arachne.services')
 				currentScopeData: function() {
 					currentScopeName = searchScope.currentScopeName();
 					if (typeof scopes[currentScopeName] === "undefined") {
+						searchScope.forwardToScopeless(currentScopeName);
+
+
 						//console.log('unregistered scope >>', searchScope.currentScopeName, '<<');
 						return {};
 					}
@@ -87,6 +90,13 @@ angular.module('arachne.services')
 
 				getScopeTitle: function(scopeName) {
 					return getScopeTitle(scopeName);
+				},
+
+				forwardToScopeless: function(currentScopeName) {
+					// if the serach scope is not defined, we forward to normal, scopeless search.
+					// it might not be the most elegant solution to put a forwarder inside this class... but actually atm
+					// I have no better idea where to put it... feel free to find the right spot
+					$location.url($location.url().replace('/project/' + currentScopeName, ""));
 				}
 
 

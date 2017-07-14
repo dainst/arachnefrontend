@@ -3,7 +3,7 @@ fs = require('fs');
 exports.config = {
     chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver',
     baseUrl: 'http://localhost:8082',
-    specs: ['./delays.js','**/*.spec.js'],
+    specs: ['./delays.js','**/scope-search.spec.js'],
     directConnect: true,
     exclude: [],
     multiCapabilities: [{

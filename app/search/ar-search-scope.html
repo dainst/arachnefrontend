@@ -3,6 +3,10 @@
 		<div ng-show="hasImage">
 			<img ng-src="{{imagePath}}">
 		</div>
-		<div class="search-scope-title" ng-show="!hasImage">{{currentScopeTitle()}}</div>
+		<div
+			class="search-scope-title"
+			ng-show="!hasImage"
+			ng-class="{'long': currentScopeTitle().length > 35}"
+		>{{currentScopeTitle()}}</div>
  	</a>
 </div>

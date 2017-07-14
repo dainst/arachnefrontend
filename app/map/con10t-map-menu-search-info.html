@@ -23,7 +23,7 @@
         <br><br><br>
 
         <span>
-            <a href="{{getScopePath()}}search{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']).toString()}}"
+            <a class="switch-to-search-view" href="{{getScopePath()}}search{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']).toString()}}"
                class="btn btn-primary btn-sm btn-block">
                 {{'ui_objects_shown' | transl8}}:
                 <i class="glyphicon glyphicon-search"> </i>
