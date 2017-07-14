@@ -42,6 +42,21 @@ angular.module('arachne.services')
 
 			}
 
+			function solveAlias(scopeName) {
+				if (scopeName === null) { // unscoped
+					return null;
+				}
+				if (!Object.keys(scopes).length) { // not loaded yet
+					return scopeName;
+				}
+				if (typeof scopes[scopeName].alias !== "undefined") {
+					//console.log('scope ' + scopeName + ' is alias of ' + scopes[scopeName].alias);
+					$stateParams.title = scopes[scopeName].alias;
+					return solveAlias(scopes[scopeName].alias);
+				}
+				return scopeName;
+			}
+
 
 			var searchScope = {
 
@@ -55,7 +70,8 @@ angular.module('arachne.services')
 					currentScopeName =
 						(typeof $stateParams.title === "undefined" || $stateParams.title === '') ?
 							null :
-							$stateParams.title;
+							solveAlias($stateParams.title);
+
 					return currentScopeName;
 				},
 
@@ -77,25 +93,27 @@ angular.module('arachne.services')
 
 				currentScopeData: function() {
 					currentScopeName = searchScope.currentScopeName();
-					if (typeof scopes[currentScopeName] === "undefined") {
+					if (currentScopeName == null) { //scopeless
+						return {};
+					}
+					if (typeof scopes[currentScopeName] === "undefined") { //hopeless
 						searchScope.forwardToScopeless(currentScopeName);
-
-
-						//console.log('unregistered scope >>', searchScope.currentScopeName, '<<');
 						return {};
 					}
 					//console.log('scope query >>', searchScope.currentScopeName, '<<');
 					return scopes[currentScopeName];
 				},
 
+
 				getScopeTitle: function(scopeName) {
 					return getScopeTitle(scopeName);
 				},
 
 				forwardToScopeless: function(currentScopeName) {
-					// if the serach scope is not defined, we forward to normal, scopeless search.
+					// if the search scope is not defined, we forward to normal, scopeless search.
 					// it might not be the most elegant solution to put a forwarder inside this class... but actually atm
 					// I have no better idea where to put it... feel free to find the right spot
+					console.warn('scope ' + currentScopeName + ' is not defined');
 					$location.url($location.url().replace('/project/' + currentScopeName, ""));
 				}
 

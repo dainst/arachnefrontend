@@ -100,7 +100,7 @@ angular.module('arachne.widgets.map')
                 var fitViewToMarkersAllowed=true;
 
                 var cq = searchService.currentQuery();
-                enrichQuery(cq,scope);
+                enrichQuery(cq,scope);   // manually set stuff
 
                 var lastBbox;
 

@@ -91,7 +91,7 @@ function($location, Entity, $rootScope, Query, $q, searchScope) {
         if(query.q === "null" || typeof query.q === "undefined")
             query.q = "*";
         var finalQuery = query.extend(searchScope.currentScopeData());
-        //console.log('ask for', finalQuery, searchScope.currentScopeData());
+        //console.log('ask for', finalQuery, searchScope.currentScopeData(), searchScope.currentScopeName());
         _currentRequest = {
             query: query,
             request: Entity.query(finalQuery.toFlatObject())
