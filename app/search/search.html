@@ -77,7 +77,7 @@
 				<span ng-if="searchScope()">
 					{{ 'search_current_scope' | transl8 }} <strong>"{{getSearchTitle()}}"</strong>
 					<br>
-					<a href="search/{{currentQuery.toString()}}">{{ 'search_whole_arachne' | transl8 }}</a>
+					<a href="search{{currentQuery.toString()}}">{{ 'search_whole_arachne' | transl8 }}</a>
 				</span>
 			</div>
 		</div>
