@@ -77,6 +77,7 @@ angular.module('arachne.services')
 
 				// returns i.E. project/gipsleipzigsamml
 				currentScopePath: function() {
+					//console.log(currentScopeName)
 					return (currentScopeName === null) ? '' : 'project/' + currentScopeName + '/';
 				},
 
