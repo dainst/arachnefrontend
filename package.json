@@ -28,7 +28,7 @@
     "d3": "4.10.0",
     "drmonty-leaflet-awesome-markers": "2.0.2",
     "font-awesome": "4.7.0",
-    "idai-components": "git+http://oneeyedjacks02.dai-cloud.uni-koeln.de/idai-components-builds/57/.git",
+    "idai-components": "^2.2.0",
     "leaflet": "1.1.0",
     "leaflet.heat": "0.2.0",
     "leaflet.markercluster": "1.0.6",
