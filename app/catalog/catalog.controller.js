@@ -414,16 +414,10 @@ angular.module('arachne.controllers')
 
                             Entity.get({id: cell.arachneEntityId}, function (entity) {
 
-                                if (!entity.thumbnailId) {
-                                    cellImage = 'img/placeholder/placeholderNoImage.png';
-                                } else {
-                                    cellImage = arachneSettings.dataserviceUri + '/image/width/' + entity.thumbnailId + '?width=200';
-                                }
-
                                 $scope.cells.push({
                                     position: index,
                                     title: entity.title,
-                                    thumbnail: cellImage,
+                                    entityId: entity.thumbnailId,
                                     entity: cell
                                 });
                             }, function () {
