@@ -404,8 +404,6 @@ angular.module('arachne.controllers')
                 $scope.cells.length = 0;
                 $scope.loadingThumbnails = true;
 
-                var cellImage;
-
                 CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: 0}, function (result) {
 
                     result.children.forEach(function (cell, index) {
@@ -414,12 +412,13 @@ angular.module('arachne.controllers')
 
                             Entity.get({id: cell.arachneEntityId}, function (entity) {
 
-                                $scope.cells.push({
+                                $scope.cells[index-1] = {
                                     position: index,
                                     title: entity.title,
                                     entityId: entity.thumbnailId,
                                     entity: cell
-                                });
+                                };
+
                             }, function () {
                                 messages.add('default');
                             });
