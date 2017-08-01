@@ -203,21 +203,23 @@
 
     </div>
 
-    <div ng-if="map && catalog" style="position: absolute; top:120px; left: 10px; z-index: 100000;"
-         class="leaflet-bar">
-        <a ng-click="$parent.map = false" class="clickable"
-           uib-tooltip="{{ 'catalog_list' | transl8 }}"
-           tooltip-append-to-body="true"
-           tooltip-placement="right">
-            <span class="glyphicon glyphicon-list"></span>
-        </a>
-    </div>
-
     <div con10t-map ng-if="map && catalog"
          catalog-id="catalogId"
          id="map" class="col-md-4 fullscreencol"
          entity-callback="selectEntity">
+
+        <div ng-if="map && catalog" style="position: absolute; top: 80px; left: 10px; z-index: 23;"
+             class="leaflet-bar">
+            <a ng-click="hideMap()" class="clickable"
+               uib-tooltip="{{ 'catalog_list' | transl8 }}"
+               tooltip-append-to-body="true"
+               tooltip-placement="right">
+                <span class="glyphicon glyphicon-list"></span>
+            </a>
+        </div>
     </div>
+
+
 
     <div class="col-md-8 fullscreencol">
 

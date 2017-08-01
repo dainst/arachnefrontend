@@ -335,6 +335,10 @@ angular.module('arachne.controllers')
                 }
             };
 
+            $scope.hideMap = function () {
+                $scope.map = false;
+            };
+
             function initialize(entry) {
                 $scope.entryMap[entry.id] = entry;
 
