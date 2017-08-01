@@ -132,6 +132,10 @@ angular.module('arachne.directives')
 
                         return true;
 
+                        /*
+
+                        // Tile creation from https://github.com/turban/Leaflet.Zoomify/pull/7/files
+
                         //Get out imagesize in pixels for this zoom level and our grid size
                         var imageSize = this._imageSize[this._getZoomForUrl()],
                             gridSize = this._gridSize[this._getZoomForUrl()];
@@ -158,6 +162,8 @@ angular.module('arachne.directives')
                         }
 
                         this._loadTile(tile, coords);
+
+                        */
                     },
 
                     // override to use XHR instead of regular image loading
