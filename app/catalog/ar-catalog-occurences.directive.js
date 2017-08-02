@@ -82,7 +82,7 @@ angular.module('arachne.directives')
 
                                 for (i; i < len; i++) {
 
-                                    if (scope.catalogEntries[i].projectId != "") {
+                                    if (scope.catalogEntries[i].projectId) {
                                         scope.projectEntries.push(scope.catalogEntries[i]);
                                     }
                                 }
