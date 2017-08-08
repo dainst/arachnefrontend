@@ -1,6 +1,6 @@
 'use strict';
 /**
- *  The interessting question was, should a click on the prjekt logo/name lead the user to the project page or to remove
+ *  The interesting question was, should a click on the projekt logo/name lead the user to the project page or to remove
  * the filter as the others do it. I think no body will understand why he leaves a project when he clicks, so I decided
  * to make the logo a link to the project page.
  *
@@ -36,7 +36,7 @@ angular.module('arachne.directives')
 			scope: {
 				scope: '='
 			},
-			templateUrl: 'app/search/ar-search-scope.html',
+			templateUrl: 'app/scope/ar-search-scope.html',
 			link: function(scope, element) {
 
 				// project page

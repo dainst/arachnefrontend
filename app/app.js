@@ -128,6 +128,8 @@ angular.module('arachne',[
 	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 		document.title = (typeof toParams.title !== "undefined") ? searchScope.getScopeTitle(toParams.title) + ' |\u00A0' : '';
 		document.title += toState.data.pageTitle;
+
+		searchScope.refresh(); // refresh scopeObject for navbarSearch
 	});
 }])
 .constant('arachneSettings', {
@@ -139,8 +141,7 @@ angular.module('arachne',[
 	sortableFields : ["entityId", "title", "subtitle"]
 })
 .constant('componentsSettings', {
-		transl8Uri: 'https://arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&application=shared&lang={LANG}&callback=JSON_CALLBACK',
-		searchUri: 'https://arachne.dainst.org/data/suggest?q=',
-		mailTo: 'idai.objects@dainst.org'
-	}
-);
+	transl8Uri: 'https://arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&application=shared&lang={LANG}&callback=JSON_CALLBACK',
+	searchUri: 'https://arachne.dainst.org/data/suggest?q=',
+	mailTo: 'idai.objects@dainst.org'
+});

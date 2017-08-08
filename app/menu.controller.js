@@ -31,8 +31,6 @@ angular.module('arachne.controllers')
             // search scoping
 			$scope.searchScope = searchScope.currentScopeName;
 			$scope.getScopePath = searchScope.currentScopePath;
-			$scope.getSearchPath  = function(q) {
-			    return searchScope.currentSearchPath() + '?q=' + q;
-            }
+			$scope.searchScopeObject = searchScope.scopeSettings;
 
         }]);
