@@ -54,9 +54,10 @@ function($location, Entity, $rootScope, Query, $q, searchScope) {
 
         var deferred = $q.defer();
 
-        if ((!dirty) && (!angular.isUndefined(_result.entities[offset]))) {
+        if ((!dirty) && (!searchScope.dirty) && (!angular.isUndefined(_result.entities[offset]))) {
             deferred.resolve(getCachedChunk(offset));
         } else {
+			searchScope.dirty = false;
             dirty = false;
             var query = _currentQuery.setParam('offset', offset);
             if (!query.q) query.q = "*";
@@ -72,7 +73,7 @@ function($location, Entity, $rootScope, Query, $q, searchScope) {
 
             } // chunk needs to be retrieved 
             else {
-                performAndParseRequest(offset,query,deferred);  
+                performAndParseRequest(offset,query,deferred);
             }
         }
 
