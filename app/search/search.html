@@ -39,13 +39,13 @@
 				</div>
 				<ul class="list-unstyled" ng-show="facet.open">
 					<li ng-repeat="facetValue in facet.values" class="facet-value">
-						<a ng-href="{{getScopePath()}}search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+						<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
 							<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
 							{{facetValue.value | stripCoords}}
 						</a>
 					</li>
 					<li ng-show="facet.hasMore" class="more">
-						<i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a>
+						<i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
 					</li>
 				</ul>
 			</div>
