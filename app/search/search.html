@@ -34,6 +34,9 @@
 			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
 
 			<div ng-repeat="(groupname, facetgroup) in facetGroups" class="panel panel-multi">
+				<div class="facet_group_name" ng-if="!groupname.startsWith('facet_')">
+					{{ 'group_facet_' + groupname | transl8 }}
+				</div>
 				<div ng-repeat="facet in facetgroup"
 						ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
 						class="panel-default facet {{facet.name}}">
