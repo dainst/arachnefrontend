@@ -9,6 +9,7 @@ angular.module('arachne.controllers')
  */
 
 
+>>>>>>> 0a4dc93ecb861ab3b0a1dea0ea0c931d6dd99ca6
     .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter',
         'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', '$http', 'Entity',
         'authService', '$timeout', 'searchScope',
@@ -226,6 +227,7 @@ angular.module('arachne.controllers')
                 });
             };
 
+
             $scope.printCategoryName = function (entityName) {
 
 				var cur;
@@ -245,7 +247,6 @@ angular.module('arachne.controllers')
             $scope.getSearchPath = function() {
                 return searchScope.currentScopePath();
             };
-
 
 			if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
