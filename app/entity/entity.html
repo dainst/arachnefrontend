@@ -23,14 +23,14 @@
 
                         <div class="panel-heading">
 
-                            <a ng-href="search{{currentQuery.removeParam('resultIndex').toString()}}"
+                            <a ar-scoped-href="search{{currentQuery.removeParam('resultIndex').toString()}}"
                                class="btn btn-xs pull-right btn-primary">
                                 <span class="glyphicon glyphicon-arrow-left"></span> {{"ui_to_search_result"|transl8}}
                             </a>
 
                             <div>
                                 <strong class="text-muted uppercase small">{{"ui_current_query"|transl8}}</strong><br>
-                                <span ng-if="!currentQuery.label">{{currentQuery.q}}</span>
+                                <span ng-if="!currentQuery.label">q {{currentQuery.q}}</span>
                                 <i ng-if="currentQuery.label">{{currentQuery.label}}</i>
                             </div>
 
@@ -51,7 +51,7 @@
                         <ul class="list-group">
 
                             <a ng-if="prevEntity"
-                               ng-href="entity/{{prevEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex-1).toString()}}"
+                               ar-scoped-href="entity/{{prevEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex-1).toString()}}"
                                class="list-group-item"
                                style="height:75px; overflow:hidden">
                                 <div>
@@ -81,7 +81,7 @@
                             </li>
 
                             <a ng-if="nextEntity"
-                               ng-href="entity/{{nextEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex+1).toString()}}"
+                               ar-scoped-href="entity/{{nextEntity.entityId}}{{currentQuery.setParam('resultIndex',resultIndex+1).toString()}}"
                                class="list-group-item text-right"
                                style="height:75px; overflow:hidden">
                                 <div>

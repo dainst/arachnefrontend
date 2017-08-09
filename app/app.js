@@ -108,12 +108,8 @@ angular.module('arachne',[
 				registerState(newState, name + '-' + child);
 			});
 		}
-
-
+		
 		angular.forEach(states, registerState);
-
-
-
 
 	}
 ])

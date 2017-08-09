@@ -1,7 +1,7 @@
 <div class="ar-imagegrid-cell"
 		ng-style="{'width':cellWidth+'px', 'margin':cellMargin+'px'}"
 		style="display:inline-block; float:left; overflow: hidden;">
-	<a ng-href="{{href}}" class="ar-imagegrid-cell-link" target="{{target}}">
+	<a ng-href="{{searchScope}}{{href}}" class="ar-imagegrid-cell-link" target="{{target}}">
 		<div ng-style="{'height':cellHeight+'px', 'width':cellWidth+'px'}"
 				style="background-color: #ddd; text-align:center; position: relative;">
 			<span ng-if="cellLabel"

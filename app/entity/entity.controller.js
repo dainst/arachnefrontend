@@ -2,8 +2,12 @@
 
 angular.module('arachne.controllers')
 
-    .controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$uibModal', 'Entity', '$location', 'arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query', 'messageService',
-        function ($rootScope, $stateParams, searchService, $scope, $uibModal, Entity, $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query, messages) {
+    .controller('EntityController', ['$rootScope', '$stateParams', 'searchService', '$scope', '$uibModal', 'Entity',
+        '$location', 'arachneSettings', 'Catalog', 'CatalogEntry', 'authService', 'categoryService', 'Query',
+        'messageService', 'searchScope',
+        function ($rootScope, $stateParams, searchService, $scope, $uibModal, Entity,
+                  $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query,
+                  messages, searchScope) {
 
             $rootScope.hideFooter = false;
 
@@ -18,7 +22,7 @@ angular.module('arachne.controllers')
 
             $scope.goToResultIndex = function (resultIndex) {
                 if (resultIndex > 0 && resultIndex <= $scope.resultSize) {
-                    $location.url('/entity/' + $scope.currentQuery.setParam('resultIndex',resultIndex).toString());
+                    $location.url(searchScope.currentScopePath() + 'entity/' + $scope.currentQuery.setParam('resultIndex',resultIndex).toString());
                 }
             };
             //if id is not a number (=> string)
@@ -40,7 +44,7 @@ angular.module('arachne.controllers')
 
                 var resultIndex = parseInt($scope.currentQuery.resultIndex);
                 searchService.getEntity(resultIndex).then(function (entity) {
-                    $location.url('entity/' + entity.entityId + $scope.currentQuery.toString());
+                    $location.url('/' + searchScope.currentScopePath() + 'entity/' + entity.entityId + $scope.currentQuery.toString());
                     $location.replace();
                 });
 

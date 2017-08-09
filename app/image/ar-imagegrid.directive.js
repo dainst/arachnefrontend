@@ -2,7 +2,8 @@
 
 angular.module('arachne.directives')
 
-    .directive('arImagegrid', ['arachneSettings', '$http', '$sce', '$window', function (arachneSettings, $http, $sce, $window) {
+    .directive('arImagegrid', ['arachneSettings', '$http', '$sce', '$window', 'searchScope',
+            function (arachneSettings, $http, $sce, $window, searchScope) {
         return {
             scope: {
                 cells: '=',
@@ -123,6 +124,9 @@ angular.module('arachne.directives')
                         }
                     });
                 });
+
+
+                scope.searchScopePath = searchScope.currentScopePath();
 
             },
 
