@@ -6,7 +6,7 @@ angular.module('arachne.directives')
         return {
             scope: {
                 href: '@', img: '=', cellHighlighting: '@', cellTitle: '@', cellSubtitle: '@', cellLabel: '@', imgUri: '@',
-                cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@', hideTitle: '@', target: '@'
+                cellWidth: '@', imgWidth: '@', cellHeight: '@', cellMargin: '@', hideTitle: '@', target: '@', searchScope: '@'
             },
             templateUrl: 'app/image/ar-imagegrid-cell.html'
         }

@@ -2,16 +2,16 @@
 
 angular.module('arachne.directives')
 
-.directive('arScoped', ['searchScope', function (searchScope) {
+.directive('arScopedHref', ['searchScope', function (searchScope) {
 
 	return {
 		restrict: 'A',
 		scope: {
-
+			arScopedHref: '@',
 		},
-		link: function(scope, element) {
-			console.log("!", element)
-			element.href = '/ya/' + element.href;
+		link: function(scope, element, attrs) {
+			//console.log("!", element, scope)
+			attrs.$set('href', searchScope.currentScopePath() + scope.arScopedHref);
 		}
 	}
 
