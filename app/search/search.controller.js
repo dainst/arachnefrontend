@@ -9,7 +9,6 @@ angular.module('arachne.controllers')
  */
 
 
->>>>>>> 0a4dc93ecb861ab3b0a1dea0ea0c931d6dd99ca6
     .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter',
         'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', '$http', 'Entity',
         'authService', '$timeout', 'searchScope',

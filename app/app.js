@@ -98,7 +98,7 @@ angular.module('arachne',[
 
 		}
 
-		var scoped = {'project': ['search', 'map', 'entity']};
+		var scoped = {'project': ['search', 'map', 'entity', 'entityImage', 'entityImages']};
 
 		function registerState(state, name) {
 			//console.log(name, state);

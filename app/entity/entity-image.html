@@ -23,7 +23,7 @@
 	<div ng-if="entity" 
 			class="btn-group-vertical"
 			style="opacity:0.8; position:absolute; right:10px; top:90px;">
-		<a class="btn btn-default btn-sm" href="entity/{{entity.entityId}}{{currentQuery.toString()}}">
+		<a class="btn btn-default btn-sm" ar-scoped-href="entity/{{entity.entityId}}{{currentQuery.toString()}}">
 			<div style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height:inherit;" ng-if="entity.title != ''">
 				<span class="glyphicon glyphicon-arrow-left"></span>
 				{{ 'entity.image.back_to' | transl8 }}<br>{{entity.title}}<br>
@@ -43,7 +43,7 @@
 			<span class="glyphicon glyphicon-repeat"></span> {{ 'entity.image.rotate' | transl8 }}
 		</button>
 		<a ng-if="entity.images.length > 1"
-				ng-href="entity/{{entity.entityId}}/images"
+				ar-scoped-href="entity/{{entity.entityId}}/images"
 				 class="btn btn-default btn-sm ">
 			<span class="glyphicon glyphicon-th"></span> {{ 'entity.image.all_images' | transl8 }} ({{entity.images.length}})
 		</a>
@@ -60,15 +60,15 @@
 		</a>
 
 		<a ng-if="imageIndex > 0"
-				ng-href="entity/{{entity.entityId}}/image/{{entity.images[imageIndex-1].imageId}}{{currentQuery.toString()}}"
+		   		ar-scoped-href="entity/{{entity.entityId}}/image/{{entity.images[imageIndex-1].imageId}}{{currentQuery.toString()}}"
 				class="btn btn-link"
 				style="font-size:30px">
 			<span class="glyphicon glyphicon-circle-arrow-left"></span>
 		</a>
 
 		<a ng-if="entity.images.length > 1"
-				 ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}"
-				 class="btn btn-primary btn-sm badge">
+		   		ar-scoped-ar-scoped-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}"
+		   		class="btn btn-primary btn-sm badge">
 			<span class="glyphicon glyphicon-th"></span> {{imageIndex+1}}/{{entity.images.length}}
 		</a>
 
@@ -79,7 +79,7 @@
 		</a>
 
 		<a ng-if="imageIndex < (entity.images.length - 1)"
-				ng-href="entity/{{entity.entityId}}/image/{{entity.images[imageIndex+1].imageId}}{{currentQuery.toString()}}"
+		   		ar-scoped-href="entity/{{entity.entityId}}/image/{{entity.images[imageIndex+1].imageId}}{{currentQuery.toString()}}"
 				class="btn btn-link" style="font-size:30px">
 			<span class="glyphicon glyphicon-circle-arrow-right"></span>
 		</a>

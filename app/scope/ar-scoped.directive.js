@@ -10,7 +10,6 @@ angular.module('arachne.directives')
 			arScopedHref: '@',
 		},
 		link: function(scope, element, attrs) {
-			//console.log("!", element, scope)
 			attrs.$set('href', searchScope.currentScopePath() + scope.arScopedHref);
 		}
 	}
