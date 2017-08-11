@@ -204,8 +204,6 @@ angular.module('arachne.controllers')
             };
 
             function _buildFacetGroups() {
-                console.log($scope.facets);
-
 				$scope.facetGroups = {};
 
 				$scope.facets.map(function(facet) {
@@ -235,9 +233,20 @@ angular.module('arachne.controllers')
                     $scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
                     $scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
                     $scope.facets = searchService.getFacets();
-					_buildFacetGroups();
+                    _buildFacetGroups();
                     var insert = [];
 
+                    // separate default facets from the rest, to display them first
+                    $scope.defaultFacets = [];
+                    arachneSettings.openFacets.forEach(function (openName) {
+                        if (openName in $scope.facetGroups) {
+                            $scope.defaultFacets.push($scope.facetGroups[openName][0]);
+                            delete $scope.facetGroups[openName];
+                        }
+                    });
+
+                    // TODO parts of the following code are probably useless/unused due to the change to facet groups
+                    // only the hasMore stuff is needed for opening these facets from the start
                     for (var i = 0; i < $scope.facets.length; i++) {
 
                         var facet = $scope.facets[i];
