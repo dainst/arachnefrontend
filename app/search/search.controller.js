@@ -214,6 +214,13 @@ angular.module('arachne.controllers')
 					$scope.facetGroups[group].push(facet);
                 });
 
+                // remove facets which have dependOn on one of the displayed facets
+                for (var group in $scope.facetGroups) {
+                    if ($scope.facetGroups[group][0].dependsOn != null &&
+                        'facet_' + $scope.facetGroups[group][0].dependsOn in $scope.facetGroups) {
+                        delete $scope.facetGroups[group];
+                    }
+                }
             }
 
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
