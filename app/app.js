@@ -117,11 +117,25 @@ angular.module('arachne',[
 ])
 /**
  * Change <title> after page change
- * Jan G. Wieners
  */
-.run(['$rootScope','searchScope', function($rootScope, searchScope) {
+.run(['$transitions','searchScope', function($transitions, searchScope) {
 
-	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+/*
+    $transitions.onError({ }, function(trans) {
+		console.log(trans.error())
+		console.log(trans._ignoredReason())
+		console.log(trans._options)
+		console.log('pending:', trans.router.globals.transition)
+		console.log('tc:', trans.treeChanges())
+    });
+*/
+    $transitions.onSuccess({}, function(trans) {
+
+		var toState = trans.to().$$state();
+		var toParams = trans.params();
+
+		console.log('transition done', toState,toParams)
+
 		document.title = (typeof toParams.title !== "undefined") ? searchScope.getScopeTitle(toParams.title) + ' |\u00A0' : '';
 		document.title += toState.data.pageTitle;
 
