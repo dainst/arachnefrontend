@@ -32,7 +32,7 @@ var cssDeps = [
 
 var jsDeps = [
     'node_modules/angular/angular.min.js',
-    'node_modules/angular-ui-router/release/angular-ui-router.min.js',
+    'node_modules/@uirouter/angularjs/release/angular-ui-router.js',
     'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
     'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
     'node_modules/leaflet/dist/leaflet.js',
@@ -91,7 +91,7 @@ gulp.task('concat-js', function() {
 gulp.task('concat-deps', function () {
     return gulp.src(jsDeps)
         .pipe(concat(pkg.name + '-deps.js'))
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(gulp.dest('dist/'));
 });
 
