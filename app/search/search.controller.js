@@ -216,10 +216,16 @@ angular.module('arachne.controllers')
 
                 // remove facets which have dependOn on one of the displayed facets
                 for (var group in $scope.facetGroups) {
-                    if ($scope.facetGroups[group][0].dependsOn != null &&
-                        'facet_' + $scope.facetGroups[group][0].dependsOn in $scope.facetGroups) {
-                        delete $scope.facetGroups[group];
-                    }
+                    $scope.facetGroups[group].forEach(function (facet) {
+                        if (facet.dependsOn != null) {
+                            $scope.facetGroups[group].forEach(function (facet2) {
+                                if ('facet_' + facet.dependsOn == facet2.name) {
+                                    var index = $scope.facetGroups[group].indexOf(facet);
+                                    var xy = $scope.facetGroups[group].splice(index, 1);
+                                }
+                            });
+                        }
+                    });
                 }
             }
 
