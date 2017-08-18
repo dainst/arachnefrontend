@@ -5,7 +5,7 @@ var messageBox = require('./core/message-box.page');
 describe('scoped search result page', function() {
 
 
-    fit('shall have the same results for scopes search or for manually set scope', function() {
+    it('shall have the same results for scopes search or for manually set scope', function() {
 
         searchPage.loadScoped('afrarchcologne', 'search', { fl: 1 });
 
