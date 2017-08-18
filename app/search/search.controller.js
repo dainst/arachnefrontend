@@ -206,7 +206,20 @@ angular.module('arachne.controllers')
             function _buildFacetGroups() {
 				$scope.facetGroups = {};
 
-				$scope.facets.map(function(facet) {
+				var facetNames = window.spasst = $scope.facets.map(function(facet) {
+				   return facet.name;
+                });
+
+				$scope.facets
+
+                .filter(function(facet) {
+                    if (facet.dependsOn === null) {
+                        return true;
+                    }
+                    return (facetNames.indexOf('facet_' + facet.dependsOn) < 0);
+                })
+
+                .map(function(facet) {
                     var group = (facet.group) ? facet.group : facet.name;
 					if (typeof $scope.facetGroups[group] === "undefined") {
 						$scope.facetGroups[group] = [];
@@ -214,19 +227,6 @@ angular.module('arachne.controllers')
 					$scope.facetGroups[group].push(facet);
                 });
 
-                // remove facets which have dependOn on one of the displayed facets
-                for (var group in $scope.facetGroups) {
-                    $scope.facetGroups[group].forEach(function (facet) {
-                        if (facet.dependsOn != null) {
-                            $scope.facetGroups[group].forEach(function (facet2) {
-                                if ('facet_' + facet.dependsOn == facet2.name) {
-                                    var index = $scope.facetGroups[group].indexOf(facet);
-                                    var xy = $scope.facetGroups[group].splice(index, 1);
-                                }
-                            });
-                        }
-                    });
-                }
             }
 
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
