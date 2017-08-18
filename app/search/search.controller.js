@@ -23,11 +23,10 @@ angular.module('arachne.controllers')
             $scope.user = authService.getUser();
             $scope.currentQuery = searchService.currentQuery();
 
-			$scope.getSearchTitle = searchScope.currentScopeTitle;
+            $scope.getSearchTitle = searchScope.currentScopeTitle;
 
             $scope.q = angular.copy($scope.currentQuery.q);
             $scope.sortableFields = arachneSettings.sortableFields;
-
 
 
             // Ignore unknown sort fields
@@ -227,27 +226,49 @@ angular.module('arachne.controllers')
             };
 
 
+            function _buildFacetGroups() {
+                $scope.facetGroups = {};
+
+                var facetNames = $scope.facets.map(function (facet) {
+                    return facet.name;
+                });
+
+
+                $scope.facets
+
+                    .filter(function (facet) {
+                        if (facet.dependsOn === null) {
+                            return true;
+                        }
+                        return (facetNames.indexOf('facet_' + facet.dependsOn) < 0);
+                    })
+
+                    .map(function (facet) {
+                        var group = (facet.group) ? facet.group : facet.name;
+                        if (typeof $scope.facetGroups[group] === "undefined") {
+                            $scope.facetGroups[group] = [];
+                        }
+                        $scope.facetGroups[group].push(facet);
+                    });
+
+            }
+
+
             $scope.printCategoryName = function (entityName) {
-
-				var cur;
-
-				for (var category in $scope.categories) {
-
-					cur = $scope.categories[category];
-
-					if ((cur.queryTitle == entityName) || (cur.key == entityName)) {
-						return cur.singular;
-					}
-				}
-
-				return "";
-			};
-            
-            $scope.getSearchPath = function() {
-                return searchScope.currentScopePath();
+                var cur;
+                for (var category in $scope.categories) {
+                    cur = $scope.categories[category];
+                    if ((cur.queryTitle == entityName) || (cur.key == entityName)) {
+                        return cur.singular;
+                    }
+                }
+                return "";
             };
 
-			if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
+            $scope.getSearchPath = function () {
+                return searchScope.currentScopePath();
+            };
+            if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
                     messages.clear();
                     messages.add('ui_search_too_big', 'warning', false);
@@ -261,8 +282,20 @@ angular.module('arachne.controllers')
                     $scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
                     $scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
                     $scope.facets = searchService.getFacets();
+                    _buildFacetGroups();
                     var insert = [];
 
+                    // separate default facets from the rest, to display them first
+                    $scope.defaultFacets = [];
+                    arachneSettings.openFacets.forEach(function (openName) {
+                        if (openName in $scope.facetGroups) {
+                            $scope.defaultFacets.push($scope.facetGroups[openName][0]);
+                            delete $scope.facetGroups[openName];
+                        }
+                    });
+
+                    // TODO parts of the following code are probably useless/unused due to the change to facet groups
+                    // only the hasMore stuff is needed for opening these facets from the start
                     for (var i = 0; i < $scope.facets.length; i++) {
 
                         var facet = $scope.facets[i];
@@ -292,5 +325,6 @@ angular.module('arachne.controllers')
 
             }
 
+
         }
-    ])
+    ]);

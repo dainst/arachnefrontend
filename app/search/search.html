@@ -1,10 +1,10 @@
 <div class="row" ng-controller="SearchController">
 
+	<!-- Loading-Icon -->
+	<div ng-hide="illegalQuery || resultSize >= 0">
+		<div class="loading" style="margin-top:70px;"></div>
+	</div>
 
-    <!-- Loading-Icon -->
-    <div ng-hide="illegalQuery || resultSize >= 0">
-        <div class="loading" style="margin-top:70px;"></div>
-    </div>
 
     <!-- Meldung für leeres Suchergebnis -->
     <div ng-if="resultSize == 0 && !error">
@@ -23,6 +23,7 @@
 
 		<small ng-if="searchScope() !== null">
 			<div ar-search-scope scope="searchScope()"></div>
+
 		</small>
 
 		<div>
@@ -39,27 +40,55 @@
 			<div ar-active-facets route="{{getScopePath()}}search" current-query="currentQuery"></div>
 
 			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
-			<div ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
-				 ng-repeat="facet in facets"
-				 class="panel panel-default facet {{facet.name}}">
-				<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
-					<h5 class="panel-title">
-						<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
-						<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
-						&nbsp;{{facet.name | transl8 }}
-					</h5>
+
+
+            <div ng-repeat="facet in defaultFacets" class="panel panel-multi panel-default facet {{facet.name}}">
+                <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+                    <h5 class="panel-title">
+                        <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+                        <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
+                        &nbsp;{{facet.name | transl8 }}
+                    </h5>
+                </div>
+                <ul class="list-unstyled panel-body-small" ng-show="facet.open">
+                    <li ng-repeat="facetValue in facet.values" class="facet-value">
+                        <a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+                            <strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
+                            {{facetValue.value | stripCoords}}
+                        </a>
+                    </li>
+                    <li ng-show="facet.hasMore" class="more">
+                        <i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
+                    </li>
+                </ul>
+            </div>
+
+			<div ng-repeat="(groupname, facetgroup) in facetGroups" class="panel panel-multi">
+				<div class="facet_group_name" ng-if="!groupname.startsWith('facet_')">
+					{{ 'group_facet_' + groupname | transl8 }}
 				</div>
-				<ul class="list-unstyled" ng-show="facet.open">
-					<li ng-repeat="facetValue in facet.values" class="facet-value">
-						<a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-							<strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
-							{{facetValue.value | stripCoords}}
-						</a>
-					</li>
-					<li ng-show="facet.hasMore" class="more">
-						<i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
-					</li>
-				</ul>
+				<div ng-repeat="facet in facetgroup"
+						ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
+						class="panel-default facet {{facet.name}}">
+					<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+						<h5 class="panel-title">
+							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
+							&nbsp;{{facet.name | transl8 }}
+						</h5>
+					</div>
+					<ul class="list-unstyled panel-body-small" ng-show="facet.open">
+						<li ng-repeat="facetValue in facet.values" class="facet-value">
+							<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+								<strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
+								{{facetValue.value | stripCoords}}
+							</a>
+						</li>
+						<li ng-show="facet.hasMore" class="more">
+							<i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</small>
 
@@ -119,16 +148,17 @@
 								<img ar-img img-id="{{entity.thumbnailId}}" img-height="40">
 							</td>
 						</tr>
+
 					</table>
 				</div>
 
 				<!-- Griddarstellung -->
 				<div ar-imagegrid
-					 cells="cells"
-					 columns="5"
-					 margin="4"
-					 complete="$parent.imageGridComplete"
-					 ng-switch-default="tiles">
+					cells="cells"
+					columns="5"
+					margin="4"
+					complete="$parent.imageGridComplete"
+					ng-switch-default="tiles">
 				</div>
 
 			</div>

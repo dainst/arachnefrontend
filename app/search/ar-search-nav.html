@@ -60,8 +60,9 @@
            ng-class="{ 'disabled': currentPage == 1 }">
             <span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> {{ 'ui_previous' | transl8 }}
         </a>
-        <small class="text-muted" style="padding: 0px 8px;"><strong>{{ 'ui_page' | transl8 }} {{currentPage}} /
-            {{totalPages}}</strong>
+
+        <small class="text-muted" style="padding: 0px 8px;"><strong>{{ 'ui_page' | transl8 }} {{currentPage | transl8Number}} / {{totalPages | transl8Number}}</strong>
+
         </small>
         <a ng-click="nextPage()"
            class="btn btn-sm btn-default"
