@@ -29,7 +29,7 @@ describe('scoped search result page', function() {
 	it('shall search in the right scope when searching via the nav bar', function() {
 		searchPage.loadScoped('afrarchcologne', 'search', { fl: 1 });
 		searchPage.searchViaNavBar('okapi').then(function(newUrl) {
-		   expect(newUrl).toEqual("/project/afrarchcologne/search?q=okapi");
+		   expect(newUrl).toContain("/project/afrarchcologne/search?q=okapi");
         });
 	});
 
