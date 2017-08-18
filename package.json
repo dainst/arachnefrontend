@@ -35,6 +35,7 @@
     "leaflet.heat": "0.2.0",
     "leaflet.markercluster": "^1.0.6",
     "ng-showdown": "1.1.0",
+    "request": "^2.81.0",
     "showdown": "^1.7.2"
   },
   "devDependencies": {
@@ -58,6 +59,7 @@
     "gulp-sass": "3.1.0",
     "gulp-sort": "2.0.0",
     "gulp-uglify": "3.0.0",
+    "hasha": "3.0.0",
     "jasmine-core": "2.7.0",
     "karma": "1.7.0",
     "karma-chrome-launcher": "2.2.0",
