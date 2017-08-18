@@ -107,6 +107,7 @@ angular.module('arachne',[
 				var newState = angular.copy(states[child]);
 				newState.url = state.url + newState.url;
 				newState.resolve = loadingPromises;
+				newState.data.scoped = true;
 				registerState(newState, name + '-' + child);
 			});
 		}

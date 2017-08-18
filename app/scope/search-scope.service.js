@@ -69,10 +69,15 @@ function($location, $rootScope, Query, $http, $stateParams, language, $state) {
 		 * @returns {*}
 		 */
 		currentScopeName: function() {
-			currentScopeName =
-				(typeof $stateParams.title === "undefined" || $stateParams.title === '') ?
-					null :
-					solveAlias($stateParams.title);
+			if ($state.current.data.scoped !== true) {
+                currentScopeName = null
+			} else {
+                currentScopeName =
+                    (typeof $stateParams.title === "undefined" || $stateParams.title === '') ?
+                        null :
+                        solveAlias($stateParams.title);
+
+            }
 
 			return currentScopeName;
 		},
