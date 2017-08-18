@@ -3,7 +3,7 @@ fs = require('fs');
 exports.config = {
     chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver',
     baseUrl: 'http://localhost:8082',
-    specs: ['./delays.js','**/scope-search.spec.js'],
+    specs: ['./delays.js','**/*.spec.js'],
     directConnect: true,
     exclude: [],
     multiCapabilities: [{
@@ -29,7 +29,8 @@ exports.config = {
                 /\/data\/userinfo\/e2e_test_.*Failed to load resource: the server responded with a status of 401 \(Unauthorized\)/,
                 /\/data\/userinfo\/e2e_test_.*The response had HTTP status code 401./,
                 /http:\/\/localhost:8082\/data\/user\/register.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
-                /http:\/\/localhost:8082\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/
+                /http:\/\/localhost:8082\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
+                /\/data\/image\/height\/.*Failed to load resource: the server responded with a status of 404 (Not Found)/
             ]
         }
     ],
