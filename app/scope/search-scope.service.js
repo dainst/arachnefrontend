@@ -129,23 +129,15 @@ function($location, $rootScope, Query, $http, $stateParams, language, $state) {
 
 		refresh: function()  {
 
+            var path = searchScope.currentScopePath();
 			searchScope.dirty = true;
-			var path = searchScope.currentScopePath();
-			if (searchScope.currentScopeName() !== null) {
-				searchScope.scopeSettings.name		= searchScope.currentScopeName();
-				searchScope.scopeSettings.path 		= path;
-				searchScope.scopeSettings.title		= searchScope.currentScopeTitle();
-				searchScope.scopeSettings.search 	= function(q) {return searchScope.currentSearchPath() + '?q=' + q;};
-				searchScope.scopeSettings.leaveScope= searchScope.forwardToScopeless;
-				searchScope.scopeSettings.page		= path.substring(0, path.length -1);
-			} else {
-				delete searchScope.scopeSettings.name;
-				delete searchScope.scopeSettings.path;
-				delete searchScope.scopeSettings.title;
-				delete searchScope.scopeSettings.search;
-				delete searchScope.scopeSettings.leaveScope;
-				delete searchScope.scopeSettings.page;
-			}
+            searchScope.scopeSettings.name		= searchScope.currentScopeName();
+            searchScope.scopeSettings.path 		= path;
+            searchScope.scopeSettings.title		= searchScope.currentScopeTitle();
+            searchScope.scopeSettings.search 	= function(q) {return searchScope.currentSearchPath() + '?q=' + q;};
+            searchScope.scopeSettings.leaveScope= searchScope.forwardToScopeless;
+            searchScope.scopeSettings.page		= path.substring(0, path.length -1);
+            console.log(searchScope.scopeSettings)
 
 		}
 
