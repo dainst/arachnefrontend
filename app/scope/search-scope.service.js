@@ -137,7 +137,6 @@ function($location, $rootScope, Query, $http, $stateParams, language, $state) {
             searchScope.scopeSettings.search 	= function(q) {return searchScope.currentSearchPath() + '?q=' + q;};
             searchScope.scopeSettings.leaveScope= searchScope.forwardToScopeless;
             searchScope.scopeSettings.page		= path.substring(0, path.length -1);
-            console.log(searchScope.scopeSettings)
 
 		}
 
