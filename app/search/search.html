@@ -6,18 +6,6 @@
 	</div>
 
 
-    <!-- Meldung für leeres Suchergebnis -->
-    <div ng-if="resultSize == 0 && !error">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center">
-                {{ 'search_no_results' | transl8 }}<strong>"{{q}}"</strong>
-                <span ng-if="currentQuery.hasFacets()">
-					{{ 'search_current_filters' | transl8 }}.
-				</span>
-            </div>
-        </div>
-    </div>
-
 	<!-- Linke Spalte -->
 	<div class="col-md-2 col-sm-3">
 
@@ -52,7 +40,7 @@
                 </div>
                 <ul class="list-unstyled panel-body-small" ng-show="facet.open">
                     <li ng-repeat="facetValue in facet.values" class="facet-value">
-                        <a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+                        <a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
                             <strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
                             {{facetValue.value | stripCoords}}
                         </a>
@@ -64,7 +52,7 @@
             </div>
 
 			<div ng-repeat="(groupname, facetgroup) in facetGroups" class="panel panel-multi">
-				<div class="facet_group_name" ng-if="!groupname.startsWith('facet_')">
+				<div class="facet_group_name" ng-if="!groupname.startsWith('facet_') && groupname != 'group_facet_agg_geogrid')">
 					{{ 'group_facet_' + groupname | transl8 }}
 				</div>
 				<div ng-repeat="facet in facetgroup"
@@ -79,9 +67,9 @@
 					</div>
 					<ul class="list-unstyled panel-body-small" ng-show="facet.open">
 						<li ng-repeat="facetValue in facet.values" class="facet-value">
-							<a ng-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-								<strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
-								{{facetValue.value | stripCoords}}
+							<a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+								XXXXX<strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
+								YYYYY {{facetValue.value | stripCoords}}
 							</a>
 						</li>
 						<li ng-show="facet.hasMore" class="more">
