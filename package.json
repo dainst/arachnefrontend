@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "3dviewer": "git+https://github.com/dainst/3dviewer.git#v1.0.1",
-    "@uirouter/angularjs": "^1.0.5",
+    "@uirouter/angularjs": "^1.0.6",
     "angular": "^1.6.5",
     "angular-cookies": "^1.6.5",
     "angular-md5": "^0.1.10",
@@ -30,7 +30,7 @@
     "d3": "^4.10.0",
     "drmonty-leaflet-awesome-markers": "2.0.2",
     "font-awesome": "4.7.0",
-    "idai-components": "2.5.1",
+    "idai-components": "^2.5.1",
     "leaflet": "^1.2.0",
     "leaflet.heat": "0.2.0",
     "leaflet.markercluster": "^1.0.6",
