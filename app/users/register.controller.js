@@ -53,7 +53,7 @@ angular.module('arachne.controllers')
                 }).then(function () {
                     return callback(true, null);
                 }).catch(function (error) {
-                    return callback(false, error.data.message);
+                    return callback(false, angular.isObject(error.data) ? error.data.message : 'default');
                 });
             };
 
