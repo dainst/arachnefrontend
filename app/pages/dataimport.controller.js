@@ -56,17 +56,19 @@ angular.module('arachne.controllers')
 
                 $http
                     .get(dataimportUri)
-                    .success(function (data) {
-                        if (successCallback) successCallback();
-                        $scope.dataimportInfo = data;
-                    })
-                    .error(function (data) {
-                        $scope.lastActionOutcome = MSG_UNAVAILABLE;
-                        $scope.dataimportInfo = undefined;
+                    .then(
+                        function success(data) {
+                            if (successCallback) successCallback();
+                            $scope.dataimportInfo = data.data;
+                            requestPending = false;
+                        },
+                        function error(data) {
+                            $scope.lastActionOutcome = MSG_UNAVAILABLE;
+                            $scope.dataimportInfo = undefined;
+                            requestPending = false;
 
-                    }).finally(function () {
-                    requestPending = false;
-                });
+                        }
+                    )
             }
 
             /**
@@ -91,21 +93,23 @@ angular.module('arachne.controllers')
 
                 $http
                     .post(dataimportUri + '?command=start')
-                    .success(function (data) {
+                    .then(
+                        function success(data) {
+                            if (data.data.status == 'already running')
+                                $scope.lastActionOutcome = OUTCOME_DATAIMPORT_RUNNING;
+                            else
+                                $scope.lastActionOutcome = OUTCOME_START_DATAIMPORT;
 
-                        if (data.status == 'already running')
-                            $scope.lastActionOutcome = OUTCOME_DATAIMPORT_RUNNING;
-                        else
-                            $scope.lastActionOutcome = OUTCOME_START_DATAIMPORT;
+                            // Provide feedback in any case.
+                            fetchDataimportInfo();
 
-                        // Provide feedback in any case.
-                        fetchDataimportInfo();
-                    })
-                    .error(function (data, status) {
-                        handleError(status);
-                    }).finally(function () {
-                    requestPending = false;
-                });
+                            requestPending = false;
+                        },
+                        function error(data) {
+                            handleError(data.status);
+                            requestPending = false;
+                        }
+                    )
             };
 
 
@@ -117,24 +121,26 @@ angular.module('arachne.controllers')
 
                 $http
                     .post(dataimportUri + '?command=stop')
-                    .success(function (data) {
+                    .then(
+                        function success(data) {
+                            if (data.data.status == 'not running')
+                                $scope.lastActionOutcome = OUTCOME_DATAIMPORT_NOT_RUNNING;
+                            else
+                                $scope.lastActionOutcome = OUTCOME_STOP_DATAIMPORT;
 
-                        if (data.status == 'not running')
-                            $scope.lastActionOutcome = OUTCOME_DATAIMPORT_NOT_RUNNING;
-                        else
-                            $scope.lastActionOutcome = OUTCOME_STOP_DATAIMPORT;
+                            // When data.status was 'not running' this does not mean that
+                            // dataimportInfo reflected this at the moment the user requested
+                            // the stopDataimport (again). So the users wish for feedback is valid and
+                            // fetchDataimportInfo() is to be called in any case to update the info.
+                            fetchDataimportInfo();
 
-                        // When data.status was 'not running' this does not mean that
-                        // dataimportInfo reflected this at the moment the user requested
-                        // the stopDataimport (again). So the users wish for feedback is valid and
-                        // fetchDataimportInfo() is to be called in any case to update the info.
-                        fetchDataimportInfo();
-                    })
-                    .error(function (data, status) {
-                        handleError(status);
-                    }).finally(function () {
-                    requestPending = false;
-                });
+                            requestPending = false;
+                        },
+                        function error(data) {
+                            handleError(data.status);
+                            requestPending = false;
+                        }
+                    );
             };
 
             $scope.$watch('constantlyRefresh', function(constantlyRefresh) {
