@@ -67,7 +67,7 @@ describe('scoped search result page', function() {
 		searchPage.loadScoped('afrarchcologne', 'search', { fl: 1 });
 		browser.driver.sleep(500);
 		browser.waitForAngular();
-		var scopelogo = element(by.css("img[src*='/project/afrarchcologne/search-scope.jpg']"));
+		var scopelogo = element(by.css("img[src*='afrarchcologne/search-logo.jpg']"));
 		expect(scopelogo.isPresent()).toBe(true);
 
 	});
