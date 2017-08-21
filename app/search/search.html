@@ -68,8 +68,8 @@
 					<ul class="list-unstyled panel-body-small" ng-show="facet.open">
 						<li ng-repeat="facetValue in facet.values" class="facet-value">
 							<a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-								XXXXX<strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
-								YYYYY {{facetValue.value | stripCoords}}
+								<strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
+								{{facetValue.value | stripCoords}}
 							</a>
 						</li>
 						<li ng-show="facet.hasMore" class="more">
