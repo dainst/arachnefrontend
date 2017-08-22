@@ -8,6 +8,8 @@ angular.module('arachne.directives')
             link: function (scope, element, attrs) {
 
 
+                var blackImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QgWDgEsdZNRrQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAC0lEQVQI12NgQAYAAA4AATHp3RUAAAAASUVORK5CYII=";
+
                 /*
                  * L.TileLayer.Zoomify display Zoomify tiles with Leaflet
                  *
@@ -110,6 +112,7 @@ angular.module('arachne.directives')
 
                         //Load the tile via the original leaflet code
                         L.TileLayer.prototype._addTile.call(this, tilePoint, container);
+
                         var tile = this._tiles[key].el,
                             zoom = this._map.getZoom();
 
@@ -130,40 +133,8 @@ angular.module('arachne.directives')
                             container.appendChild(tile);
                         }
 
-                        return true;
 
-                        /*
 
-                        // Tile creation from https://github.com/turban/Leaflet.Zoomify/pull/7/files
-
-                        //Get out imagesize in pixels for this zoom level and our grid size
-                        var imageSize = this._imageSize[this._getZoomForUrl()],
-                            gridSize = this._gridSize[this._getZoomForUrl()];
-
-                        //The real tile size (default:256) and the display tile size (if zoom > maxNativeZoom)
-                        var	realTileSize = L.GridLayer.prototype.getTileSize.call(this),
-                            displayTileSize = L.TileLayer.prototype.getTileSize.call(this);
-
-                        //Get the current tile to adjust
-                        var key = this._tileCoordsToKey(coords),
-                            tile = this._tiles[key].el;
-
-                        //Calculate the required size of the border tiles
-                        var scaleFactor = L.point(	(imageSize.x % realTileSize.x),
-                            (imageSize.y % realTileSize.y)).unscaleBy(realTileSize);
-
-                        //Update tile dimensions if we are on a border
-                        if ((imageSize.x % realTileSize.x) > 0 && coords.x === gridSize.x - 1) {
-                            tile.style.width = displayTileSize.scaleBy(scaleFactor).x + 'px';
-                        }
-
-                        if ((imageSize.y % realTileSize.y) > 0 && coords.y === gridSize.y - 1) {
-                            tile.style.height = displayTileSize.scaleBy(scaleFactor).y + 'px';
-                        }
-
-                        this._loadTile(tile, coords);
-
-                        */
                     },
 
                     // override to use XHR instead of regular image loading
@@ -171,12 +142,17 @@ angular.module('arachne.directives')
 
                         tile._layer = this;
 
-                        //this._adjustTilePoint(tilePoint);
                         var imgUri = this.getTileUrl(tilePoint);
+
                         $http.get(imgUri, {responseType: 'arraybuffer'})
-                            .success(function (data) {
-                                    var blob = new Blob([data], {type: 'image/jpeg'});
+                            .then(
+                                function (data) {
+                                    var blob = new Blob([data.data], {type: 'image/jpeg'});
                                     tile.src = window.URL.createObjectURL(blob);
+                                },
+                                function (err) {
+                                    //console.warn('Error loading tile: ', imgUri);
+                                    tile.src = blackImage;
                                 }
                             );
 
@@ -186,14 +162,12 @@ angular.module('arachne.directives')
                         });
                     },
 
-                    getTileUrl: function (coords) {
-                        return arachneSettings.dataserviceUri + '/image/zoomify/' + this._entityId + '/' + this._map.getZoom() + '-' + coords.x + '-' + coords.y + '.jpg';
+
+                    getTileUrl: function (tilePoint) {
+                        return arachneSettings.dataserviceUri + '/image/zoomify/' + this._entityId + '/' + tilePoint.z + '-' + tilePoint.x + '-' + tilePoint.y + '.jpg';
                     }
                 });
 
-                L.tileLayer.zoomify = function (url, options) {
-                    return new L.TileLayer.Zoomify(url, options);
-                };
 
                 L.tileLayer.zoomify = function (entityId, options) {
                     return new L.TileLayer.Zoomify(entityId, options);
