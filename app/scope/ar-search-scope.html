@@ -1,12 +1,10 @@
-<div class="search-scope">
- 	<a href="{{projectPage}}">
-		<div ng-show="hasImage">
-			<img ng-src="{{imagePath}}">
-		</div>
-		<div
-			class="search-scope-title"
-			ng-show="!hasImage"
-			ng-class="{'long': currentScopeTitle().length > 40}"
-		>{{currentScopeTitle()}}</div>
- 	</a>
-</div>
+<a href="{{projectPage}}">
+	<div ng-show="hasImage">
+		<img ng-src="{{imagePath}}">
+	</div>
+	<div
+		class="search-scope-title"
+		ng-show="!hasImage"
+		ng-class="{'long': currentScopeTitle().length > 40}"
+	>{{currentScopeTitle()}}</div>
+</a>

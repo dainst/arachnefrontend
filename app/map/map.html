@@ -2,13 +2,13 @@
 
     <div id="menu" class="col-sm-2">
 
-        <span ng-if="searchScope() !== null">
+        <div class="well well-sm"  ng-if="searchScope() !== null">
 			<div ar-search-scope scope="searchScope()"></div>
-        </span>
+        </div>
 
-        <h3 ng-if="searchScope() === null" class="text-muted uppercase">
-            {{'ui_gridmap_heading'|transl8}}
-        </h3>
+        <div class="well well-sm" ng-if="searchScope() === null" class="text-muted uppercase">
+            <div class="search-scope-title">{{'ui_gridmap_heading'|transl8}}</div>
+        </div>
 
         <div con10t-map-menu-search-info type="grid"></div>
 
