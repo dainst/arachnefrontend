@@ -22,15 +22,17 @@ exports.config = {
         {
             package: 'protractor-console-plugin',
             failOnWarning: false,
-            failOnError: false, // TODO: turn back on when console errors are fixed
+            failOnError: true,
             logWarnings: true,
             exclude: [
-                /http:\/\/piwik.dainst.org\/piwik.js.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
+                /http:\/\/piwik\.dainst\.org\/piwik\.js.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
                 /\/data\/userinfo\/e2e_test_.*Failed to load resource: the server responded with a status of 401 \(Unauthorized\)/,
-                /\/data\/userinfo\/e2e_test_.*The response had HTTP status code 401./,
+                /\/data\/userinfo\/e2e_test_.*The response had HTTP status code 401.*/,
                 /http:\/\/localhost:8082\/data\/user\/register.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
                 /http:\/\/localhost:8082\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
-                /\/data\/image\/height\/.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/
+                /\/data\/image\/height\/.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
+                /http:\/\/bogusman02\.dai-cloud\.uni-koeln\.de\/data\/user\/register.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
+                /http:\/\/bogusman02\.dai-cloud\.uni-koeln\.de\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/
             ]
         }
     ],
