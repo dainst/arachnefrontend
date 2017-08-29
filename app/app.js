@@ -27,6 +27,9 @@ angular.module('arachne',[
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider', '$qProvider',
 	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider, $qProvider) {
 
+        // eliminate "Possibly unhandled rejection" errors with Angular 1.5.9
+        $qProvider.errorOnUnhandledRejections(false);
+
 		$locationProvider.html5Mode(true);
 
         //$qProvider.errorOnUnhandledRejections(false);
@@ -45,7 +48,7 @@ angular.module('arachne',[
 			'getSearchScopes': ['searchScope', function (searchScope) {
 				return searchScope.loadingPromise;
 			}]
-		}
+		};
 
 		/**
 		 * we want to realize scope-prefixed urls like project/whatever/search as well as /search
@@ -96,7 +99,7 @@ angular.module('arachne',[
 			'index':			{ url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: false, data: { pageTitle: title }},
 			'info':				{ url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }} // Named it info, not static, to sound not too technical.
 
-		}
+		};
 
 		var scoped = {'project': ['search', 'map', 'entity', 'entityImage', 'entityImages']};
 
