@@ -32,7 +32,8 @@ exports.config = {
                 /http:\/\/localhost:8082\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
                 /\/data\/image\/height\/.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
                 /http:\/\/bogusman02\.dai-cloud\.uni-koeln\.de\/data\/user\/register.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
-                /http:\/\/bogusman02\.dai-cloud\.uni-koeln\.de\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/
+                /http:\/\/bogusman02\.dai-cloud\.uni-koeln\.de\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
+                /http:\/\/localhost:8082\/arachnefrontend-deps.js.*"Possibly unhandled rejection: undefined"/
             ]
         }
     ],
