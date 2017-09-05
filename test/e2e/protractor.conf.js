@@ -30,7 +30,7 @@ exports.config = {
                 /.*\/data\/userinfo\/e2e_test_.*The response had HTTP status code 401.*/,
                 /.*\/data\/user\/register.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
                 /.*\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
-                /.*\/data\/image\/height\/.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/
+                /.*\/data\/image\/.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/
             ]
         }
     ],
