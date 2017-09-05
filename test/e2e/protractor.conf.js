@@ -22,7 +22,7 @@ exports.config = {
         {
             package: 'protractor-console-plugin',
             failOnWarning: false,
-            failOnError: false,
+            failOnError: true,
             logWarnings: true,
             exclude: [
                 /http:\/\/piwik\.dainst\.org\/piwik\.js.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
