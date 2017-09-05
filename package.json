@@ -34,6 +34,7 @@
     "leaflet": "^1.2.0",
     "leaflet.heat": "0.2.0",
     "leaflet.markercluster": "^1.0.6",
+    "leaflet-polylinedecorator": "^1.3.2",
     "ng-showdown": "1.1.0",
     "request": "^2.81.0",
     "showdown": "^1.7.2"
