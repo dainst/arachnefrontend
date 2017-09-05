@@ -37,6 +37,7 @@ var jsDeps = [
     'node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
     'node_modules/leaflet/dist/leaflet.js',
     'node_modules/leaflet.markercluster/dist/leaflet.markercluster.js',
+    'lib/oms.min.js',
     'node_modules/drmonty-leaflet-awesome-markers/js/leaflet.awesome-markers.js',
     'node_modules/leaflet.heat/dist/leaflet-heat.js',
 
