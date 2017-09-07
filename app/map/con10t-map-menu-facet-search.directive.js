@@ -6,7 +6,8 @@ angular.module('arachne.widgets.map')
  * @author David Neugebauer
  * @author Daniel de Oliveira
  */
-.directive('con10tMapMenuFacetSearch', ['$location', 'searchService', 'mapService', function($location, searchService, mapService) {
+.directive('con10tMapMenuFacetSearch', ['$location', 'searchService', 'mapService', 'arachneSettings',
+    function($location, searchService, mapService, arachneSettings) {
 return {
     restrict: 'A',
     scope: {
@@ -42,9 +43,10 @@ return {
         // should perform its default action when rendering the new objects' places
         var paramsToRemove = ['offset', 'lat', 'lng', 'zoom'];
 
-        var facetsHidden = [
-            'facet_fundort', 'facet_aufbewahrungsort', 'facet_geo',
-            'facet_ort', 'agg_geogrid', 'facet_ortsangabe'];
+        var facetsHidden = []
+        // var facetsHidden = [
+        //     'facet_fundort', 'facet_aufbewahrungsort', 'facet_geo',
+        //     'facet_ort', 'agg_geogrid', 'facet_ortsangabe'];
         if (scope.facetsDeny)
             facetsHidden = facetsHidden.concat(scope.facetsDeny);
 
@@ -102,6 +104,30 @@ return {
                 facetsShown[i].values=facetsShown[i].values.slice(0,facetValuesMax);
         }
 
+        function _buildFacetGroups() {
+            scope.facetGroups = {};
+
+            var facetNames = scope.facetsShown.map(function (facet) {
+
+                return facet.name;
+            });
+
+            scope.facetsShown
+                .filter(function (facet) {
+                    if (facet.dependsOn === null) {
+                        return true;
+                    }
+                    return (facetNames.indexOf('facet_' + facet.dependsOn) < 0);
+                })
+                .map(function (facet) {
+                    var group = (facet.group) ? facet.group : facet.name;
+                    if (typeof scope.facetGroups[group] === "undefined") {
+                        scope.facetGroups[group] = [];
+                    }
+                    scope.facetGroups[group].push(facet);
+                });
+        }
+
         searchService.getCurrentPage().then(function() {
             scope.entityCount = searchService.getSize();
             scope.currentQuery = searchService.currentQuery();
@@ -109,6 +135,37 @@ return {
             scope.facetsShown=computeFacetsShown(searchService.getFacets(),scope.facetsAllowed,facetsHidden);
             trimFacetValues(scope.facetsShown,scope.facetValuesLimit);
             scope.activeFacets=computeActiveFacets(scope.currentQuery.facets,scope.facetsSelected);
+
+            _buildFacetGroups();
+            var insert = [];
+
+            // separate default facets from the rest, to display them first
+            scope.defaultFacets = [];
+            arachneSettings.openFacets.forEach(function(openName) {
+                if (openName in scope.facetGroups) {
+                    scope.defaultFacets.push(scope.facetGroups[openName][0]);
+                    delete scope.facetGroups[openName];
+                }
+            });
+
+            for (var i = 0; i < scope.defaultFacets.length; i++) {
+                var facet = scope.defaultFacets[i];
+                facet.open = false;
+                if (facet.values.length < searchService.currentQuery.fl) {
+                    facet.hasMore = false;
+                } else {
+                    facet.hasMore = true;
+                }
+                arachneSettings.openFacets.forEach(function (openName) {
+                    if (facet.name.slice(0, openName.length) == openName) {
+                        insert.unshift(scope.defaultFacets.splice(i--, 1)[0]);
+                        facet.open = true;
+                    }
+                });
+            }
+            insert.forEach(function (facet) {
+                scope.defaultFacets.unshift(facet);
+            });
         });
 
         scope.addFacet = function(facetName, facetValue) {
