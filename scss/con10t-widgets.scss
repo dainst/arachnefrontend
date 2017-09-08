@@ -37,11 +37,11 @@ con10t-catalog-tree .panel {
 
 con10t-toc a, con10t-tree a, con10t-catalog-tree a {
   cursor: pointer;
-  cursor: hand;
+  //cursor: hand;
 }
 
 .con10t-toc-entry {
-  padding-top: 55px; /* Hack:                                                                */
+  padding-top: 75px; /* Hack:                                                                */
   margin-top: -55px; /* Offset headings, because anchors for toc lie under navbar otherwise. */
 }
 
