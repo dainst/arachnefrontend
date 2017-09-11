@@ -45,30 +45,29 @@
         </div>
 
         <div ng-repeat="(groupname, facetgroup) in facetGroups" class="panel panel-default panel-multi">
-            <div class="panel-heading" ng-if="!groupname.startsWith('facet_') && groupname != 'group_facet_agg_geogrid'">
+            <div class="panel-heading" ng-if="!groupname.startsWith('facet_') && groupname != 'agg_geogrid'">
                 <h3 class="panel-title">{{ 'group_facet_' + groupname | transl8 }}</h3>
-
             </div>
             <div ng-repeat="facet in facetgroup"
-                    ng-if="facet.values && facet.name != 'facet_geo'"
+                    ng-if="facet.values && facet.name != 'agg_geogrid'"
                     ng-hide="resultSize < 2"
                     class="panel-default facet {{facet.name}}">
 
-            <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
-                <h5 class="panel-title">
-                    <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
-                    <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
-                    &nbsp;{{facet.name | transl8 }}{{facetsAppend[facet.name]}}
-                </h5>
+                <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+                    <h5 class="panel-title">
+                        <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
+                        <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
+                        &nbsp;{{facet.name | transl8 }}{{facetsAppend[facet.name]}}
+                    </h5>
+                </div>
+                <ul class="list-unstyled facet" ng-show="facet.open">
+                    <li ng-repeat="facetValue in facet.values">
+                        <a style="cursor:pointer" ng-click="addFacet(facet.name, facetValue.value)">
+                            <strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
+                            {{facetValue.value | stripCoords}}
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <ul class="list-unstyled facet" ng-show="facet.open">
-                <li ng-repeat="facetValue in facet.values">
-                    <a style="cursor:pointer" ng-click="addFacet(facet.name, facetValue.value)">
-                        <strong class="pull-right text-muted">{{facetValue.count | number}}</strong>
-                        {{facetValue.value | stripCoords}}
-                    </a>
-                </li>
-            </ul>
         </div>
-    </div>
 </small>
