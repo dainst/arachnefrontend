@@ -44,6 +44,11 @@ angular.module('arachne.widgets.map')
                     map.trackResize = true;
                     L.Icon.Default.imagePath = 'img';
 
+                    var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied: true });
+                    oms.addListener('spiderfy', function(markers) {
+                        map.closePopup();
+                    });
+
                     var markers = [];
 
                     var loadMarkers = function () {
@@ -114,6 +119,7 @@ angular.module('arachne.widgets.map')
 
                                 markers.push(newMarker);
                                 map.addLayer(newMarker);
+                                oms.addMarker(newMarker);
                             }
 
                         }
