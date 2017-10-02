@@ -163,7 +163,6 @@
         <div ng-if="catalog.root.children.length > 0" ui-tree="treeOptions" data-drag-enabled="editable && !removeItems"
              id="tree-root">
             <ol ui-tree-nodes="nodes" ng-model="catalog.root.children" ng-class="{hidden: collapsed}">
-
                 <li ng-repeat="entry in catalog.root.children"
                     ui-tree-node collapsed="{{entry.totalChildren > 0}}"
                     ng-include="'entries_renderer.html'">
@@ -269,18 +268,18 @@
                                     </h2>
                                 </div>
                                 <div class="panel-body catalog-text">
-                                    <div ng-repeat="cell in cells">
+                                    <div ng-repeat="cell in cells track by $index">
 
                                         <div style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
 
                                             <a class="cell-link"
-                                               ng-click="selectEntry(cell.entity);">
+                                               ng-click="selectEntry(cells[$index]);">
                                                 <div class="preview-cell"
                                                      style="background-color: #eee; text-align:center; position: relative; width: 190px; height: 225px; overflow: hidden;">
                                                     <div ng-show="loadingThumbnails" class="loading"></div>
                                                     <div style="display: inline-block; height: 100%; vertical-align: middle;"></div>
                                                     <img ar-img
-                                                         img-id="{{cell.entityId}}"
+                                                         img-id="{{cells[$index].entityId}}"
                                                          img-width="175">
                                                 </div>
                                             </a>
