@@ -8,9 +8,9 @@ angular.module('arachne.controllers')
  * @author: Sebastian Cuy
  * @author: Jan G. Wieners
  */
-    .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window',
+    .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window', '$timeout',
         'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService',
-        function ($rootScope, $scope, $state, $stateParams, $uibModal, $window,
+        function ($rootScope, $scope, $state, $stateParams, $uibModal, $window, $timeout,
                   Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, messages) {
 
             $rootScope.hideFooter = true;
@@ -457,11 +457,59 @@ angular.module('arachne.controllers')
                 }
             }
 
+            function loadEntry(entryId, callback) {
+                CatalogEntry.get({
+                    id: entryId
+                }, function (result) {
+                    initialize(result);
+                    callback(result);
+                }, function () {
+                    messages.add('backend_missing');
+                });
+            }
+
+            function toggleParentHierarchy(entryId) {
+                getAncestorList(entryId, [], function(list){
+                    list.reverse();
+                    toggleEntriesInList(list);
+                });
+            }
+
+            function getAncestorList(entryId, ancestorList, callback) {
+                if($scope.entryMap[entryId] === undefined){
+                    loadEntry(entryId, function(entry){
+                        ancestorList.push(entry);
+                        return getAncestorList(entry.parentId, ancestorList, callback)
+                    })(ancestorList)
+                } // ^- load entry, if not cached already
+                else if($scope.entryMap[entryId].parentId) {
+                    ancestorList.push($scope.entryMap[entryId]);
+                    return getAncestorList($scope.entryMap[entryId].parentId, ancestorList, callback)
+                } // ^- use cached entry, if  cached already
+                else {
+                    return callback(ancestorList);
+                } // ^- if cached but no parentId present, we reached the root node and return the list
+            }
+
+            function toggleEntriesInList(list) {
+
+                var current = list[0];
+
+                // TODO: better way to do this than using $timeout?
+                // i.e. something that explicitly waits until document is retrieved or times out after n milliseconds
+                $timeout(function () {
+                    document.getElementById("entry-"+current.id).click();
+                    if(list.length > 1)
+                        return toggleEntriesInList(list.slice(1));
+                }, 100);
+            }
+
             retrieveCatalog($stateParams.id);
 
             if ($stateParams.entryId) {
                 CatalogEntry.get({id: $stateParams.entryId}, function (entry) {
                     showEntry(entry);
+                    toggleParentHierarchy($stateParams.entryId);
                 });
             }
 

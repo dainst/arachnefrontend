@@ -5,7 +5,7 @@
          ng-init="entry.show = false"
          ng-click="!editable && selectEntry(entry);">
 
-        <a data-nodrag ng-show="entry.totalChildren > 0"
+        <a data-nodrag ng-show="entry.totalChildren > 0" id="entry-{{entry.id}}"
            ng-class="{ 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed }"
            class="glyphicon text-muted clickable"
            style="text-decoration: none; margin-right: 5px;"
