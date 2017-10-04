@@ -168,6 +168,7 @@ angular.module('arachne.widgets.map')
                 if (!popupOpen) getCurrentPage().then(feedListenersWithUpdates);
             });
 
+            popupOpen = false;
             // see comment in apidoc above
             return map;
         },
