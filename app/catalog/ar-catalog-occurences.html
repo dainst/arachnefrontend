@@ -1,9 +1,9 @@
 <uib-accordion>
-    <h5 ng-if="catalogEntries[0]" class="text-muted uppercase">
+    <h5 class="text-muted uppercase">
         <strong>{{'entity_catalogs'|transl8}}</strong>
     </h5>
-    <div uib-accordion-group ng-if="catalogEntries[0]" class="panel panel-default" heading="{{'entity_catalog_info'|transl8}}" is-open="true">
-        <ul class="list-group">
+    <div uib-accordion-group  class="panel panel-default" heading="{{'entity_catalog_info'|transl8}}" is-open="true">
+        <ul class="list-group" ng-if="catalogEntries[0]">
             <li ng-repeat="catalogEntry in catalogEntries" class="list-group-item">
 			    <span ng-if="catalogEntry.entry.text" class="btn btn-primary btn-xs pull-right"
                       ng-click="previewCatalogEntry(catalogEntry)">PREVIEW</span>
