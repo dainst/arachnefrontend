@@ -6,11 +6,11 @@
 	<div class="modal-body">
 		
 		<div ng-if="catalogs.length == 0">
-			<a href="catalog" ng-click="$dismiss()">{{ 'catalog_no_catalog' | transl8 }}</a>
+			<a href="#" ng-click="$dismiss()">{{ 'catalog_no_catalog' | transl8 }}</a>
 		</div>
 		<div id="custom-catalog">
 			<div ng-repeat="catalog in catalogs" >
-				<button class="btn btn-primary" type="submit" ng-click="$close(catalog)">{{ catalog.root.label }}</button><br><br>
+				<a type="submit" ng-click="$close(catalog)">{{ catalog.root.label }}</a><br><br>
 		  	</div>
 	  	</div>
 	</div>

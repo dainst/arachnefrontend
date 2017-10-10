@@ -90,7 +90,7 @@ angular.module('arachne.directives')
                                 scope.deleteDuplicateCatalogueEntries();
 
                             }).catch(function (result) {
-                                console.log("Error requesting /catalog/list/ in ar-catalog-occurences-directive");
+                                console.log("Error Arachne dataservice not reachable");
                             });
                         }
                     };
