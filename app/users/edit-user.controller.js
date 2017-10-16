@@ -55,7 +55,7 @@ angular.module('arachne.controllers')
                         var data = result.data;
                         $scope.user = data;
                         $scope.user.emailValidation = $scope.user.email;
-                    }).error(function (data) {
+                    }).catch(function (data) {
                     console.log("no user info found for user " + authService.getUser().username);
                 });
             } else {
