@@ -6,10 +6,9 @@
 
 angular.module('arachne.controllers')
 
-    .controller('SvgController', ['$scope', '$rootScope', '$http', '$location', 'arachneSettings',
-        function ($scope, $rootScope, $http, $location, arachneSettings) {
+    .controller('SvgController', ['$scope', '$http', '$location', 'arachneSettings',
+        function ($scope, $http, $location, arachneSettings) {
 
-            $rootScope.hideFooter = true;
             $scope.titleDisplay = document.querySelector("#svg-title");
             $scope.licenseDisplay = document.querySelector("#svg-license");
             $scope.modellerDisplay = document.querySelector("#svg-modeller");
@@ -59,7 +58,9 @@ angular.module('arachne.controllers')
 
                     $scope.panZoomObject = svgPanZoom(svgContent, {
                         controlIconsEnabled: false,
-                        maxZoom: 1000
+                        maxZoom: 1000,
+                        fit: true,
+                        contain: true
                     });
 
                 }, function (error) {
