@@ -53,7 +53,8 @@ var jsDeps = [
     'lib/relative-paths-in-partial.js',
     'node_modules/d3/build/d3.min.js',
     'node_modules/angular-ui-swiper/dist/angular-ui-swiper.min.js',
-    'node_modules/angular-md5/angular-md5.js'
+    'node_modules/angular-md5/angular-md5.js',
+    'node_modules/svg-pan-zoom/dist/svg-pan-zoom.js'
 ];
 
 // compile sass and concatenate to single css file in build dir

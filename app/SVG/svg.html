@@ -1,0 +1,29 @@
+<div style="width:100%" class="container" ng-controller="SvgController">
+    <div class="col-md-3" id="svg-metadata-container">
+        <p>
+            <h1 id="svg-title"></h1>
+            <div>Modeller: <span id="svg-modeller"></span></div>
+            <div id="svg-license"></div>
+        </p>
+
+        <p>
+            <button class="btn btn-default btn-block" ng-click="panZoomObject.reset()">Reset</button>
+        </p>
+
+        <p>
+            <div class="btn-group btn-group-justified" role="group" >
+                <a class="btn btn-default" ng-click="panZoomObject.zoomIn()">
+                    <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
+                </a>
+                <a class="btn btn-default" ng-click="panZoomObject.zoomOut()">
+                    <span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span>
+                </a>
+            </div>
+        </p>
+    </div>
+
+    <div class="col-md-9 img-thumbnail" id="svg-container">
+        Loading SVG data...
+        <!-- SVG data gets inserted here -->
+    </div>
+</div>
