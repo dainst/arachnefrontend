@@ -59,8 +59,9 @@ function($location, Entity, $rootScope, Query, $q, searchScope) {
         } else {
 			searchScope.dirty = false;
             dirty = false;
+            if (!_currentQuery.setParam('offset', offset).q)
+                _currentQuery.q = "*";
             var query = _currentQuery.setParam('offset', offset);
-            if (!query.q) query.q = "*";
 
             if (_currentRequest) {
 
