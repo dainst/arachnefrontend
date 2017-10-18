@@ -32,6 +32,7 @@
     <div ng-cloak ui-view autoscroll></div>
 </div>
 <idai-footer ng-hide="$root.hideFooter"
+             ng-class="{tinyfooter: $root.tinyFooter}"
              institutions="{'dai': 'http://www.dainst.de/', 'unikoeln': 'http://archaeologie.uni-koeln.de', 'codarchlab': 'http://archaeologie.uni-koeln.de/node/23'}"
              mailto="idai.objects@dainst.org"
              version="-VERSION-STRING-"></idai-footer>
