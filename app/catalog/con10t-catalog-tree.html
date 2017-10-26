@@ -20,12 +20,18 @@
                 style="color:grey;"
                 aria-hidden="true">
         </span>
-
-        <a class="childcontent"  ng-if="node.arachneEntityId != null" ng-href="entity/{{node.arachneEntityId}}?catalogEntry={{node.id}}">
+        <a class="childcontent"  ng-if="node.arachneEntityId != null && !catalogLinks" ng-href="entity/{{node.arachneEntityId}}?catalogEntry={{node.id}}">
             {{ node.label }}
             <small class="text-muted"><i>{{ node.arachneEntityId }}</i></small>
         </a>
-        <span class="childcontent" ng-if="node.arachneEntityId == null">{{ node.label }}</span>
+
+        <a class="childcontent"  ng-if="catalogLinks" ng-href="catalog/{{node.catalogId}}/{{node.id}}">
+            {{ node.label }}
+            <small class="text-muted"><i>{{ node.arachneEntityId }}</i></small>
+        </a>
+
+        <span class="childcontent" ng-if="node.arachneEntityId == null && !catalogLinks">{{ node.label }}</span>
+
         <small>
             <em ng-if="node.totalChildren == 1">
                 (1 {{ 'ui_entry' | transl8 }})
