@@ -17,11 +17,11 @@
   "dependencies": {
     "3dviewer": "git+https://github.com/dainst/3dviewer.git#v1.0.1",
     "@uirouter/angularjs": "^1.0.6",
-    "angular": "^1.6.5",
-    "angular-cookies": "^1.6.5",
+    "angular": "^1.6.6",
+    "angular-cookies": "^1.6.6",
     "angular-md5": "^0.1.10",
-    "angular-resource": "^1.6.5",
-    "angular-sanitize": "^1.6.5",
+    "angular-resource": "^1.6.6",
+    "angular-sanitize": "^1.6.6",
     "angular-ui-bootstrap": "^2.5.0",
     "angular-ui-tree": "^2.22.5",
     "angulartics": "^1.4.0",
@@ -40,7 +40,7 @@
     "svg-pan-zoom": "3.5.3"
   },
   "devDependencies": {
-    "angular-mocks": "1.5.11",
+    "angular-mocks": "1.6.6",
     "bootstrap-sass": "3.3.7",
     "browser-sync": "2.18.13",
     "chromedriver": "2.31.0",
