@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{facet.name | transl8 }}</h4>
+</div>
+<div class="modal-body">
+    <form ng-submit="searchFacetValue(fvq)" class="input-group form-inline" autocomplete="off">
+        <input type="text" ng-model="fvq"
+               name="fvq" class="form-control"
+               autofocus placeholder="{{ 'facet_modal_search' | transl8 }}">
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </form>
+    <div class="well-sm" ng-if="facetValueRequest != undefined">
+        {{'facet_modal_result' | transl8}}&nbsp;:
+        <a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValueRequest.value).removeParam('offset').toString()}}"
+           ng-click="cancel()">
+            <strong class="pull-right">{{facetValueRequest.count | transl8Number}}</strong>
+            {{facetValueRequest.value | stripCoords}}
+        </a>
+    </div>
+    <hr>
+    <ul class="list-unstyled modal-list">
+        <li ng-repeat="facetValue in facet.values | orderBy : facetValue.value" class="facet-value">
+            <a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}"
+               ng-click="cancel()">
+                <strong class="pull-right">{{facetValue.count | transl8Number}}</strong>
+                {{facetValue.value | stripCoords}}
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="modal-footer">
+    <div align="center">
+        <button ng-click="previousFacetValuePage()"
+                class="btn btn-sm btn-default"
+                style="border-radius:15px"
+                ng-class="{ 'disabled': currentFacetValuePage == 0 }">
+            <span aria-hidden="true" class="glyphicon glyphicon-arrow-left"
+                  style="font-size: 0.9em; margin: 0 5px;"></span>
+        </button>
+        <small class="text-muted" style="padding: 0px 8px;">
+            <strong>{{ 'ui_page' | transl8 }} {{currentFacetValuePage + 1}} / {{getPages()}}</strong>
+        </small>
+        <button ng-click="nextFacetValuePage()"
+                class="btn btn-sm btn-default"
+                style="border-radius:15px"
+                ng-class="{ 'disabled': currentFacetValuePage + 1 >= getPages()}">
+            <span aria-hidden="true" class="glyphicon glyphicon-arrow-right"
+                  style="font-size: 0.9em; margin: 0 5px;"></span>
+        </button>
+    </div>
+</div>

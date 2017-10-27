@@ -1,161 +1,154 @@
 <div class="row" ng-controller="SearchController">
 
-	<!-- Loading-Icon -->
-	<div ng-hide="illegalQuery || resultSize >= 0">
-		<div class="loading" style="margin-top:70px;"></div>
-	</div>
+    <!-- Loading-Icon -->
+    <div ng-hide="illegalQuery || resultSize >= 0">
+        <div class="loading" style="margin-top:70px;"></div>
+    </div>
 
 
-	<!-- Linke Spalte -->
-	<div class="col-md-2 col-sm-3">
+    <!-- Linke Spalte -->
+    <div class="col-md-2 col-sm-3">
 
-		<div class="well well-sm search-scope" ng-if="searchScope() !== null">
-			<div ar-search-scope scope="searchScope()"></div>
-		</div>
+        <div class="well well-sm search-scope" ng-if="searchScope() !== null">
+            <div ar-search-scope scope="searchScope()"></div>
+        </div>
 
-		<div>
-			<small class="text-muted">
-				{{"ui_total"|transl8}} <strong>{{ resultSize|number }}</strong>
-				<span ng-show="resultSize > 1"> {{"ui_entries"|transl8}}</span>
-				<span ng-hide="resultSize > 1"> {{"ui_entry"|transl8}}</span>
-				<span ng-show="numPages > 1"><br> auf <strong>{{numPages|number}}</strong> {{"ui_pages"|transl8}}</span>
-			</small>
-		</div>
+        <div>
+            <small class="text-muted">
+                {{"ui_total"|transl8}} <strong>{{ resultSize|number }}</strong>
+                <span ng-show="resultSize > 1"> {{"ui_entries"|transl8}}</span>
+                <span ng-hide="resultSize > 1"> {{"ui_entry"|transl8}}</span>
+                <span ng-show="numPages > 1"><br> auf <strong>{{numPages|number}}</strong> {{"ui_pages"|transl8}}</span>
+            </small>
+        </div>
 
-		<small>
+        <small>
 
-			<div ar-active-facets route="{{getScopePath()}}search" current-query="currentQuery"></div>
+            <div ar-active-facets route="{{getScopePath()}}search" current-query="currentQuery"></div>
 
-			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
+            <h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
 
 
-            <div ng-repeat="facet in defaultFacets" ng-hide="resultSize < 2" class="panel panel-multi panel-default facet {{facet.name}}">
-                <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+            <div ng-repeat="facet in defaultFacets" ng-hide="resultSize < 2"
+                 class="panel panel-multi panel-default facet {{facet.name}}">
+                <div class="panel-heading" style="padding-left:10px" ng-click="openFacetValueSelectionDialog(facet)">
                     <h5 class="panel-title">
-                        <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
-                        <span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
-                        &nbsp;{{facet.name | transl8 }}
+                        {{facet.name | transl8 }}&nbsp;
+                        <span class="label label-filter pull-right">{{sumAllFacetsValues(facet)}}</span>
                     </h5>
                 </div>
-                <ul class="list-unstyled panel-body-small" ng-show="facet.open">
-                    <li ng-repeat="facetValue in facet.values" class="facet-value">
-                        <a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-                            <strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
-                            {{facetValue.value | stripCoords}}
-                        </a>
-                    </li>
-                    <li ng-show="facet.hasMore" class="more">
-                        <i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
-                    </li>
-                </ul>
+                <!--
+                <div class="panel-body-small">
+                    <ul class="list-unstyled" ng-show="false">
+                        <li ng-repeat="facetValue in facet.values" class="facet-value">
+                            <a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
+                                <strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
+                                {{facetValue.value | stripCoords}}
+                            </a>
+                        </li>
+                        <li ng-show="facet.hasMore" class="more">
+                            <i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
+                        </li>
+                    </ul>
+                </div>
+                -->
             </div>
 
             <div ng-repeat="(groupname, facetgroup) in facetGroups"
                  ng-hide="resultSize < 2"
                  class="panel panel-default panel-multi">
-				<div class="panel-heading" ng-if="!groupname.startsWith('facet_') && groupname != 'group_facet_agg_geogrid'">
+                <div class="panel-heading"
+                     ng-if="!groupname.startsWith('facet_') && groupname != 'group_facet_agg_geogrid'">
                     <h3 class="panel-title">{{ 'group_facet_' + groupname | transl8 }}</h3>
 
-				</div>
-				<div ng-repeat="facet in facetgroup"
-                 ng-if="facet.values && facet.name != 'facet_geo'"
-                 class="panel-default facet {{facet.name}}">
-                     <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
-						<h5 class="panel-title">
-							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
-							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
-							&nbsp;{{facet.name | transl8 }}
-						</h5>
-					</div>
-					<ul class="list-unstyled panel-body-small" ng-show="facet.open">
-						<li ng-repeat="facetValue in facet.values" class="facet-value">
-							<a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-								<strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
-								{{facetValue.value | stripCoords}}
-							</a>
-						</li>
-						<li ng-show="facet.hasMore" class="more">
-							<i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</small>
+                </div>
+                <div ng-repeat="facet in facetgroup"
+                     ng-if="facet.values && facet.name != 'facet_geo'"
+                     class="panel-default facet {{facet.name}}">
+                    <div class="panel-heading" ng-click="openFacetValueSelectionDialog(facet)" style="padding-left:10px">
+                        <h5 class="panel-title">
+                            {{facet.name | transl8 }}&nbsp;
+                            <span class="label label-filter pull-right">{{sumAllFacetsValues(facet)}}</span>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </small>
 
-	</div>
+    </div>
 
-	<!-- Meldung für leeres Suchergebnis -->
-	<div ng-if="resultSize == 0 && !error" class="col-md-10 col-sm-9">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2 text-center">
-				{{ 'search_no_results' | transl8 }} <strong>"{{q}}"</strong>
-				<span ng-if="currentQuery.hasFacets()">
+    <!-- Meldung für leeres Suchergebnis -->
+    <div ng-if="resultSize == 0 && !error" class="col-md-10 col-sm-9">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center">
+                {{ 'search_no_results' | transl8 }} <strong>"{{q}}"</strong>
+                <span ng-if="currentQuery.hasFacets()">
 					{{ 'search_current_filters' | transl8 }}.
 				</span>
-				<span ng-if="searchScope()">
+                <span ng-if="searchScope()">
 					{{ 'search_current_scope' | transl8 }} <strong>"{{getSearchTitle()}}"</strong>
 					<br>
 					<a href="search{{currentQuery.toString()}}">{{ 'search_whole_arachne' | transl8 }}</a>
 				</span>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Rechte Spalte -->
-	<div ng-if="resultSize"
-		 class="col-md-10 col-sm-9">
+    <!-- Rechte Spalte -->
+    <div ng-if="resultSize"
+         class="col-md-10 col-sm-9">
 
-		<div ar-search-nav></div>
+        <div ar-search-nav></div>
 
-		<div class="row">
-			<div class="col-md-12"
-				 ng-switch="currentQuery.view">
+        <div class="row">
+            <div class="col-md-12"
+                 ng-switch="currentQuery.view">
 
-				<!-- Listendarstellung -->
-				<div ng-switch-when="list">
-					<table class="table table-hover">
-						<tr>
-							<th>#</th>
-							<th>{{ 'facet_kategorie' | transl8 }}</th>
-							<th>{{ 'title' | transl8 }}</th>
-							<th></th>
-						</tr>
-						<tr ng-repeat="entity in entities" class="small">
-							<td>{{entity.entityId}}</td>
-							<td>
-								{{ printCategoryName(entity.type) }}
-							</td>
-							<td>
-								<a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index+1).toString()}}">
-									<div ng-if="entity.title==''">
-										({{categories[entity.type]["singular"]}} {{ 'ui_no_title' | transl8 }})
-									</div>
-									<div ng-bind-html="entity.title" ng-if="entity.title!=''"></div>
-									<div class="text-muted" ng-bind-html="entity.subtitle">{{entity.subtitle}}</div>
-								</a>
-							</td>
-							<td class="text-right">
-								<img ar-img img-id="{{entity.thumbnailId}}" img-height="40">
-							</td>
-						</tr>
+                <!-- Listendarstellung -->
+                <div ng-switch-when="list">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>#</th>
+                            <th>{{ 'facet_kategorie' | transl8 }}</th>
+                            <th>{{ 'title' | transl8 }}</th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="entity in entities" class="small">
+                            <td>{{entity.entityId}}</td>
+                            <td>
+                                {{ printCategoryName(entity.type) }}
+                            </td>
+                            <td>
+                                <a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index+1).toString()}}">
+                                    <div ng-if="entity.title==''">
+                                        ({{categories[entity.type]["singular"]}} {{ 'ui_no_title' | transl8 }})
+                                    </div>
+                                    <div ng-bind-html="entity.title" ng-if="entity.title!=''"></div>
+                                    <div class="text-muted" ng-bind-html="entity.subtitle">{{entity.subtitle}}</div>
+                                </a>
+                            </td>
+                            <td class="text-right">
+                                <img ar-img img-id="{{entity.thumbnailId}}" img-height="40">
+                            </td>
+                        </tr>
 
-					</table>
-				</div>
+                    </table>
+                </div>
 
-				<!-- Griddarstellung -->
-				<div ar-imagegrid
-					cells="cells"
-					columns="5"
-					margin="4"
-					complete="$parent.imageGridComplete"
-					ng-switch-default="tiles">
-				</div>
+                <!-- Griddarstellung -->
+                <div ar-imagegrid
+                     cells="cells"
+                     columns="5"
+                     margin="4"
+                     complete="$parent.imageGridComplete"
+                     ng-switch-default="tiles">
+                </div>
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<div ng-hide="!currentQuery.view && !imageGridComplete" ar-search-nav></div>
+        <div ng-hide="!currentQuery.view && !imageGridComplete" ar-search-nav></div>
 
-	</div>
+    </div>
 
 </div>

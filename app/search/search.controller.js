@@ -30,7 +30,7 @@ angular.module('arachne.controllers')
 
 
             // Ignore unknown sort fields
-            if (arachneSettings.sortableFields.indexOf($scope.currentQuery.sort) == -1) {
+            if (arachneSettings.sortableFields.indexOf($scope.currentQuery.sort) === -1) {
                 delete $scope.currentQuery.sort;
             }
 
@@ -38,10 +38,30 @@ angular.module('arachne.controllers')
                 $scope.categories = categories;
             });
 
+            // open modal dialog for downloading current search results
             $scope.openDownloadDialog = function () {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'app/search/download-modal.html',
                     controller: 'DownloadController'
+                });
+                modalInstance.result.then(function () {
+                    $window.location.reload();
+                });
+            };
+
+            // open modal dialog for selecting facet values
+            $scope.openFacetValueSelectionDialog = function (facet) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'app/facets/facet-value-selection-modal.html',
+                    controller: 'FacetValueSelectionController',
+                    resolve: {
+                        status: function () {
+                            return {
+                                facet: facet,
+                                currentQuery: $scope.currentQuery
+                            };
+                        }
+                    }
                 });
                 modalInstance.result.then(function () {
                     $window.location.reload();
@@ -215,7 +235,7 @@ angular.module('arachne.controllers')
                 searchService.loadMoreFacetValues(facet).then(function (hasMore) {
                     facet.hasMore = hasMore;
                 }, function (response) {
-                    if (response.status == '404') messages.add('backend_missing');
+                    if (response.status === '404') messages.add('backend_missing');
                     else messages.add('search_' + response.status);
                 });
             };
@@ -253,7 +273,7 @@ angular.module('arachne.controllers')
                 var cur;
                 for (var category in $scope.categories) {
                     cur = $scope.categories[category];
-                    if ((cur.queryTitle == entityName) || (cur.key == entityName)) {
+                    if ((cur.queryTitle === entityName) || (cur.key === entityName)) {
                         return cur.singular;
                     }
                 }
@@ -289,19 +309,21 @@ angular.module('arachne.controllers')
                         }
                     });
 
+                    // TODO: not working properly, too many requests, need specific backend endpoint to call
+                    // sum up all facet values of one facet
+                    $scope.sumAllFacetsValues = function (facet) {
+                        return facet.values.length;
+                    };
+
                     // TODO parts of the following code are probably useless/unused due to the change to facet groups
                     // only the hasMore stuff is needed for opening these facets from the start
                     for (var i = 0; i < $scope.facets.length; i++) {
 
                         var facet = $scope.facets[i];
                         facet.open = false;
-                        if (facet.values.length < $scope.currentQuery.fl) {
-                            facet.hasMore = false;
-                        } else {
-                            facet.hasMore = true;
-                        }
+                        facet.hasMore = facet.values.length >= $scope.currentQuery.fl;
                         arachneSettings.openFacets.forEach(function (openName) {
-                            if (facet.name.slice(0, openName.length) == openName) {
+                            if (facet.name.slice(0, openName.length) === openName) {
                                 insert.unshift($scope.facets.splice(i--, 1)[0]);
                                 facet.open = true;
                             }
@@ -314,7 +336,7 @@ angular.module('arachne.controllers')
                 }, function (response) {
                     $scope.resultSize = 0;
                     $scope.error = true;
-                    if (response.status == '404') messages.add('backend_missing');
+                    if (response.status === '404') messages.add('backend_missing');
                     else messages.add('search_' + response.status);
                 });
 

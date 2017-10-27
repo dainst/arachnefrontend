@@ -1,0 +1,26 @@
+.modal-list > .facet-value {
+  margin-top: .7em;
+}
+
+.modal-list > li {
+  padding-left: .7em;
+  padding-right: .7em;
+}
+
+.modal-list > li:active,
+.modal-list > li:focus,
+.modal-list > li:hover {
+  background-color: rgba(85,114,161,.9) !important;
+  border-radius: 5px;
+}
+
+.modal-list > li > a {
+  display: block;
+}
+
+.modal-list > li > a:active,
+.modal-list > li > a:focus,
+.modal-list > li > a:hover {
+  text-decoration: none;
+  color: #fff !important;
+}

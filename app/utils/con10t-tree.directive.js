@@ -26,6 +26,7 @@ angular.module('arachne.widgets.directives')
                     scope.hierarchyFacets = attrs.hierarchyFacets.split(',');
 
                 // in the UI, the tree starts with the last provided static facet's name
+                // why last though?
                 scope.treeRoot = [{
                     name: scope.staticFacets[scope.staticFacets.length - 1][1],
                     depth: 0,
@@ -38,7 +39,7 @@ angular.module('arachne.widgets.directives')
 
                 var collectAllFacets = function (node) {
                     var result = [];
-                    if (node.parent != null) {
+                    if (node.parent !== null) {
                         result.push(node.facet);
                         result = result.concat(collectAllFacets(node.parent));
                         return result;
@@ -95,16 +96,13 @@ angular.module('arachne.widgets.directives')
                             var currentResultFacet = response.facets[i];
 
                             // try to find custom hierarchy-facet or wildcard
-                            if ((scope.hierarchyFacets.length > 0 && currentResultFacet.name == (scope.hierarchyFacets[node.depth]))
+                            if ((scope.hierarchyFacets.length > 0 && currentResultFacet.name === (scope.hierarchyFacets[node.depth]))
                                 || (scope.wildcardFacet && currentResultFacet.name.indexOf(scope.wildcardFacet) > -1)) {
 
                                 var len = currentResultFacet.values.length,
                                     value;
 
-                                node.hasMore = true;
-                                if (len < treeQuery.fl) {
-                                    node.hasMore = false;
-                                }
+                                node.hasMore = len >= treeQuery.fl;
 
                                 for (var j = 0; j < len; j++) {
 
@@ -131,7 +129,7 @@ angular.module('arachne.widgets.directives')
 
                 scope.getNodeChildren = function (node) {
 
-                    if (node.children != 0) {
+                    if (node.children !== 0) {
                         return;
                     }
 

@@ -44,7 +44,7 @@ angular.module('arachne.controllers')
             $scope.search = function() {
                 var query = $scope.currentQuery.setParam('q', $scope.q);
                 $location.url('/search' + query.toString());
-            }
+            };
 
             function loadFacets() {
 
@@ -52,7 +52,7 @@ angular.module('arachne.controllers')
                     $scope.currentCategoryQuery.q = "*";
 
                     Entity.query($scope.currentCategoryQuery.toFlatObject(), function (response) {
-                        var filteredFacets = response.facets.filter( function(facet){ return facet.name != "facet_geo"});
+                        var filteredFacets = response.facets.filter( function(facet){ return facet.name !== "facet_geo"});
 
                         filteredFacets = filteredFacets.sort(function (a, b) {
                             if($filter('transl8')(a.name).toLowerCase() < $filter('transl8')(b.name).toLowerCase()) return -1;
@@ -69,13 +69,13 @@ angular.module('arachne.controllers')
                         $scope.currentEntityPage = 0;
 
                         for(var i = 0; i < filteredFacets.length; i++) {
-                            if(itemCounter == $scope.panelSize) {
+                            if(itemCounter === $scope.panelSize) {
                                 $scope.facets.push([]);
                                 pageCounter += 1;
                                 itemCounter = 0;
                             }
 
-                            if(filteredFacets[i].name == $scope.currentFacet){
+                            if(filteredFacets[i].name === $scope.currentFacet){
                                 $scope.currentFacetPage = pageCounter;
                             }
 
@@ -91,14 +91,14 @@ angular.module('arachne.controllers')
 
                 if ($location.search().fq) {
 
-                    if ($scope.currentFacet == $location.search().fq
-                            && $scope.currentValue == $location.search().fv
-                            && $scope.groupedBy == $location.search().group
+                    if ($scope.currentFacet === $location.search().fq
+                            && $scope.currentValue === $location.search().fv
+                            && $scope.groupedBy === $location.search().group
                             && $scope.facetValues){
                         return;
                     }
 
-                    if($scope.groupedBy != $location.search().group){
+                    if($scope.groupedBy !== $location.search().group){
                         $scope.currentValuePage = 0;
                     }
 
@@ -116,7 +116,7 @@ angular.module('arachne.controllers')
                     $http.get(url).then(function (data) {
 
                         var preprocessedValues = data.facetValues.filter( function(value) {
-                            return value.trim() != ""}
+                            return value.trim() !== ""}
                             );
 
                         preprocessedValues = preprocessedValues.map(function(value) {
@@ -125,7 +125,7 @@ angular.module('arachne.controllers')
 
                         // Filtering duplicates
                         var temp = preprocessedValues.filter(function(value, index, self){
-                            return index == self.indexOf(value);
+                            return index === self.indexOf(value);
                         });
                         preprocessedValues = temp.sort(function (a, b) {
                             if(a.toLowerCase() < b.toLowerCase()) return -1;
@@ -145,10 +145,10 @@ angular.module('arachne.controllers')
                             $scope.valueRows = 2;
                         }
 
-                        if($scope.facets != undefined) {
+                        if($scope.facets !== undefined) {
                             var currentIndex = 0;
                             for (var i = 0; i < $scope.facets[0].length; i++) {
-                                if($scope.facets[0][i].name == $scope.currentFacet) {
+                                if($scope.facets[0][i].name === $scope.currentFacet) {
                                     currentIndex = i; //This will be needed at thursday, 14.02.2017
                                     break;
                                 }
@@ -158,14 +158,14 @@ angular.module('arachne.controllers')
                         $scope.currentValuePage = 0;
                         $scope.currentEntityPage = 0;
                         for(var i = 0; i < preprocessedValues.length; i++) {
-                            if(itemCounter + 2 == $scope.panelSize * 2) {
+                            if(itemCounter + 2 === $scope.panelSize * 2) {
                                 $scope.facetValues.push([]);
                                 pageCounter += 1;
                                 itemCounter = 0;
                             }
 
                             $scope.facetValues[pageCounter].push(preprocessedValues[i]);
-                            if(preprocessedValues[i] == $scope.currentValue){
+                            if(preprocessedValues[i] === $scope.currentValue){
                                 $scope.currentValuePage = pageCounter;
                             }
 

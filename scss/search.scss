@@ -1,12 +1,14 @@
+/*
 .dropdown-menu>.active>a,
 .dropdown-menu>.active>a:focus,
 .dropdown-menu>.active>a:hover {
   color: #fff!important;
 }
+*/
 
 .search-scope {
   margin-top: 10px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .search-scope a:hover {
@@ -15,7 +17,7 @@
 
 .search-scope-title {
   margin-bottom: 0;
-  padding: 0px 3px 0px 0px;
+  padding: 0 3px 0 0;
   font-size: 19px;
 
 }
@@ -39,10 +41,28 @@
   font-size: 15px;
 }
 
+/*
 .panel-multi {
   border-color: #ddd;
 }
 
 .panel-multi .panel-body-small {
   border-bottom: 1px solid #ddd;
+}
+*/
+
+.label-filter {
+  background-color: rgba(85,114,161,.9) !important;
+  font-size: 100% !important;
+  color: #fff !important;
+}
+
+.label-filter:hover {
+  cursor: pointer;
+}
+
+.label-filter > a:hover,
+.label-filter > a:active,
+.label-filter > a:focus {
+  text-decoration: none;
 }
