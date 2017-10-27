@@ -219,7 +219,6 @@
     </div>
 
 
-
     <div class="col-md-8 fullscreencol">
 
         <div ng-if="activeEntry">
@@ -285,6 +284,13 @@
                                             </a>
                                         </div>
                                     </div>
+                                </div>
+                                <div ng-if="(cells.length + cellsNotDisplayed) < activeEntry.children.length"
+                                     class="more-thumbnails">
+                                    <a class="btn btn-primary"
+                                       ng-click="showMoreThumbnails()">
+                                        {{ 'ui_show_more' | transl8 }}
+                                    </a>
                                 </div>
                             </div>
 

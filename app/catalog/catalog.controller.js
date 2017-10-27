@@ -17,6 +17,7 @@ angular.module('arachne.controllers')
             $scope.entryMap = {};
             $scope.catalogId = $stateParams.id;
             $scope.childrenLimit = 20;
+            $scope.showMoreThumbnailsCount = 20;
             $scope.editable = false;
             $scope.error = false;
 
@@ -402,9 +403,15 @@ angular.module('arachne.controllers')
                 }
             }
 
-            function showThumbnails(entry, treeScope) {
+            $scope.showMoreThumbnails = function() {
+                $scope.childrenLimit += $scope.showMoreThumbnailsCount;
+                showThumbnails($scope.currentEntry);
+            };
 
-                $scope.currentTreeScope = treeScope;
+            function showThumbnails(entry) {
+
+                $scope.currentEntry = entry;
+                $scope.cellsNotDisplayed = 0;
                 $scope.cells.length = 0;
                 $scope.loadingThumbnails = true;
 
@@ -428,6 +435,8 @@ angular.module('arachne.controllers')
                             });
 
                             index++;
+                        } else {
+                            $scope.cellsNotDisplayed++;
                         }
 
                     });
