@@ -8,21 +8,19 @@ angular.module('arachne.services')
  * and caches query results.
  *
  * @author: Sebastian Cuy
+ * @author: Patrick Jominet
  */
     .factory('searchService', ['$location', 'Entity', '$rootScope', 'Query', '$q', 'searchScope',
         function ($location, Entity, $rootScope, Query, $q, searchScope) {
 
-            var dirty = false;
-
-            var _currentQuery = Query.fromSearch($location.search());
-
-            /**
-             * @type {{entities: Array}}
-             * @private
-             */
+            // ?
             var _result = {entities: []};
+            // ?
+            var _currentQuery = Query.fromSearch($location.search());
+            // ?
             var _currentRequest = false;
             var CHUNK_SIZE = 50;
+            var dirty = false;
 
             $rootScope.$on("$locationChangeSuccess", function () {
 
@@ -36,26 +34,36 @@ angular.module('arachne.services')
             });
 
 
+            /**
+             * get a cached chunk if present
+             *
+             * @param offset: the position from where on to get the chunk
+             * @returns {Array.<*>}
+             */
             function getCachedChunk(offset) {
                 var limit = parseFloat(_currentQuery.limit);
-                var entities = _result.entities.slice(offset, offset + limit);
-                return entities;
+                return _result.entities.slice(offset, offset + limit);
             }
 
-            /** retrieve a chunk from the current search result
+            /**
+             * retrieve a chunk from the current search result
+             *
              * checks if the requested chunk is cached, otherwise
              * a new query is sent to the backend
+             *
              * cancels any previous request
              *
+             * @param offset: the position from where on to get the chunk
              * @return { Promise<entities> }
              **/
             function retrieveChunk(offset) {
 
                 var deferred = $q.defer();
 
+                // if cache holds a chunk
                 if ((!dirty) && (!searchScope.dirty) && (!angular.isUndefined(_result.entities[offset]))) {
                     deferred.resolve(getCachedChunk(offset));
-                } else {
+                } else { // ?
                     searchScope.dirty = false;
                     dirty = false;
                     if (!_currentQuery.setParam('offset', offset).q)
@@ -73,8 +81,7 @@ angular.module('arachne.services')
                             _currentRequest.request.$cancelRequest();
                         }
 
-                    } // chunk needs to be retrieved
-                    else {
+                    } else { // chunk needs to be retrieved
                         performAndParseRequest(offset, query, deferred);
                     }
                 }
@@ -85,8 +92,10 @@ angular.module('arachne.services')
             /**
              * Retrieves a chunk via http.
              *
+             * @param offset: the position from where on to get the next chunk
+             * @param query: query on which the search should be performed
              * @param deferred
-             *   .resolve() gets called when request was succesful
+             *   .resolve() gets called when request was successful
              *   .reject() gets called otherwise
              */
             function performAndParseRequest(offset, query, deferred) {
@@ -94,7 +103,7 @@ angular.module('arachne.services')
                 if (query.q === "null" || query.q === undefined)
                     query.q = "*";
                 var finalQuery = query.extend(searchScope.currentScopeData());
-                //console.log('ask for', finalQuery, searchScope.currentScopeData(), searchScope.currentScopeName());
+                //console.log('ask for:\n', finalQuery, searchScope.currentScopeData(), searchScope.currentScopeName());
                 _currentRequest = {
                     query: query,
                     request: Entity.query(finalQuery.toFlatObject())
@@ -107,9 +116,10 @@ angular.module('arachne.services')
                     if (data.size === 0) {
                         deferred.resolve([]);
                     } else {
-                        if (data.entities) for (var i = 0; i < data.entities.length; i++) {
-                            _result.entities[parseInt(offset) + i] = data.entities[i];
-                        }
+                        if (data.entities)
+                            for (var i = 0; i < data.entities.length; i++) {
+                                _result.entities[parseInt(offset) + i] = data.entities[i];
+                            }
                     }
                     deferred.resolve(data.entities);
                 }, function (response) {
@@ -120,7 +130,12 @@ angular.module('arachne.services')
 
             return {
 
-                // get a single entity from the current result
+                /**
+                 * get a single entity from the current result
+                 *
+                 * @param resultIndex
+                 * @returns {*}
+                 */
                 getEntity: function (resultIndex) {
                     var deferred = $q.defer();
 
@@ -139,15 +154,23 @@ angular.module('arachne.services')
 
                 },
 
-                // get current facets
+                /**
+                 * get all current facets
+                 *
+                 * @returns _result with an appended array containing all facets
+                 */
                 getFacets: function () {
                     //console.log(_result.facets);
                     return _result.facets;
                 },
 
-
-                // return the facet with field .name equal to name or null
-                // if none such facet is present in the current result
+                /**
+                 * get a facet by name
+                 *
+                 * @param name to get by
+                 * @returns the facet with field 'name' equal to param name
+                 * or null if none such facet is present in the current result
+                 */
                 getFacet: function (name) {
                     var result = null;
                     if (_result.facets) {
@@ -161,14 +184,20 @@ angular.module('arachne.services')
                     return result;
                 },
 
-                getFacetValue: function (name) {
+
+                /**
+                 * get a value from facet.values by value
+                 *
+                 * @param value to get by
+                 * @returns the facet.values field 'value' equal to param name
+                 * or null if none such value is present in the current facets
+                 */
+                getFacetValue: function (value) {
                     var result = null;
                     if (_result.facets) {
-                        for (var i = 0; i < _result.facets.length; i++) {
-                            var singleFacet = _result.facets[i];
-                            for (var j = 0; j < singleFacet.values.length; j++) {
-                                var singleValue = singleFacet.values[j];
-                                if (singleValue.name === name) {
+                        for (var singleFacet in _result.facets) {
+                            for (var singleValue in singleFacet.values) {
+                                if (singleValue.value === value) {
                                     result = singleValue;
                                     break;
                                 }
@@ -178,9 +207,14 @@ angular.module('arachne.services')
                     return result;
                 },
 
-                // retrieve more facet values for the given facet
-                // returns a promise that resolves to true if more values
-                // were present and resolves to false otherwise
+                /**
+                 * retrieve more facet values for the given facet
+                 *
+                 * @param facet to load more values from
+                 * @returns a promise that resolves to true
+                 * if still more values were available
+                 * and resolves to false otherwise
+                 */
                 loadMoreFacetValues: function (facet) {
                     var query = angular.extend({limit: 0}, _currentQuery.toFlatObject());
                     query.fo = facet.values.length;
@@ -201,38 +235,46 @@ angular.module('arachne.services')
                     return deferred.promise;
                 },
 
-                // get the total number of facet values for a given facet
-                // returns a promise that resolves to the number of values or -1 when something went wrong
+                /**
+                 * get the total number of facet values for a given facet
+                 *
+                 * @param facet to count the values from
+                 * @returns number of facet.values in one given facet
+                 */
                 getFacetValueSize: function (facet) {
-                    var query = angular.extend({limit: 0}, _currentQuery.toFlatObject());
-                    query.facet = facet.name;
-                    if (!query.q) query.q = "*";
-                    var deferred = $q.defer();
-                    Entity.query(query, function (data) {
-                        if (data.facets && data.facets.length && data.facets[0].values.length) {
-                            deferred.resolve(data.facets[0].values.length);
-                        } else {
-                            deferred.resolve(-1);
+                    var count = 0;
+                    if (facet.values) {
+                        for (var singleValue in facet.values) {
+                            count++;
                         }
-                    }, function (data) {
-                        deferred.reject(data);
-                    });
-                    return deferred.promise;
+                    }
+                    return count;
                 },
 
-                // get current results size
+                /**
+                 * get current results size
+                 *
+                 * @returns {*}
+                 */
                 getSize: function () {
                     return _result.size;
                 },
 
-                // get current page as defined by the query's offset
+                /**
+                 * get current page as defined by the query's offset
+                 *
+                 * @returns {Promise.<entities>}
+                 */
                 getCurrentPage: function () {
                     var offset = _currentQuery.offset;
-                    if (angular.isUndefined(offset)) offset = 0;
+                    if (angular.isUndefined(offset))
+                        offset = 0;
                     return retrieveChunk(offset);
                 },
 
-                // get current query
+                /**
+                 * get current query
+                 */
                 currentQuery: function () {
                     return _currentQuery;
                 },

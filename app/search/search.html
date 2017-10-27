@@ -34,24 +34,9 @@
                 <div class="panel-heading" style="padding-left:10px" ng-click="openFacetValueSelectionDialog(facet)">
                     <h5 class="panel-title">
                         {{facet.name | transl8 }}&nbsp;
-                        <span class="label label-filter pull-right">{{sumAllFacetsValues(facet)}}</span>
+                        <span class="label label-filter pull-right">{{countFacetValues(facet)}}</span>
                     </h5>
                 </div>
-                <!--
-                <div class="panel-body-small">
-                    <ul class="list-unstyled" ng-show="false">
-                        <li ng-repeat="facetValue in facet.values" class="facet-value">
-                            <a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">
-                                <strong class="pull-right text-muted">{{facetValue.count | transl8Number}}</strong>
-                                {{facetValue.value | stripCoords}}
-                            </a>
-                        </li>
-                        <li ng-show="facet.hasMore" class="more">
-                            <i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
-                        </li>
-                    </ul>
-                </div>
-                -->
             </div>
 
             <div ng-repeat="(groupname, facetgroup) in facetGroups"
@@ -68,7 +53,7 @@
                     <div class="panel-heading" ng-click="openFacetValueSelectionDialog(facet)" style="padding-left:10px">
                         <h5 class="panel-title">
                             {{facet.name | transl8 }}&nbsp;
-                            <span class="label label-filter pull-right">{{sumAllFacetsValues(facet)}}</span>
+                            <span class="label label-filter pull-right">{{countFacetValues(facet)}}</span>
                         </h5>
                     </div>
                 </div>

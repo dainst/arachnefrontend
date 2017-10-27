@@ -19,6 +19,7 @@ angular.module('arachne.controllers')
 
             // To indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.illegalQuery = false;
+
             $rootScope.hideFooter = false;
             $scope.user = authService.getUser();
             $scope.currentQuery = searchService.currentQuery();
@@ -34,11 +35,39 @@ angular.module('arachne.controllers')
                 delete $scope.currentQuery.sort;
             }
 
+            // load categories
             categoryService.getCategoriesAsync().then(function (categories) {
                 $scope.categories = categories;
             });
 
-            // open modal dialog for downloading current search results
+            $scope.go = function (path) {
+                $location.url(path);
+            };
+
+            $scope.getSearchPath = function () {
+                return searchScope.currentScopePath();
+            };
+
+            $scope.previousPage = function () {
+                if ($scope.currentPage > 1)
+                    $scope.currentPage -= 1;
+                $scope.onSelectPage();
+            };
+
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.totalPages)
+                    $scope.currentPage += 1;
+                $scope.onSelectPage();
+            };
+
+            $scope.onSelectPage = function () {
+                var newOffset = ($scope.currentPage - 1) * $scope.currentQuery.limit;
+                $location.url(searchScope.currentScopePath() + 'search' + $scope.currentQuery.setParam('offset', newOffset).toString());
+            };
+
+            /**
+             * open modal dialog for downloading current search results
+             */
             $scope.openDownloadDialog = function () {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'app/search/download-modal.html',
@@ -49,7 +78,10 @@ angular.module('arachne.controllers')
                 });
             };
 
-            // open modal dialog for selecting facet values
+            /**
+             * open modal dialog for selecting facet values
+             * @param facet passed over to the modal
+             */
             $scope.openFacetValueSelectionDialog = function (facet) {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'app/facets/facet-value-selection-modal.html',
@@ -68,6 +100,9 @@ angular.module('arachne.controllers')
                 });
             };
 
+            /**
+             * Automatically create a description text for a catalog from the current query
+             */
             $scope.createCatalogTextForCurrentQuery = function () {
 
                 var curQuery = $scope.currentQuery,
@@ -82,6 +117,12 @@ angular.module('arachne.controllers')
                 return text;
             };
 
+            /**
+             * Automatically create a description text for an entry of a catalog
+             *
+             * @param entity from which the text should be created
+             * @returns {string}
+             */
             $scope.createCatalogEntryText = function (entity) {
 
                 var catalogEntryText = "";
@@ -93,9 +134,16 @@ angular.module('arachne.controllers')
                 return catalogEntryText;
             };
 
+            /**
+             * ?
+             *
+             * @param section
+             * @param firstLevel
+             * @returns {string}
+             */
             $scope.createSectionText = function (section, firstLevel) {
 
-                if (!section.content || section.content.length == 0) return "";
+                if (!section.content || section.content.length === 0) return "";
 
                 var sectionText = "";
                 if (section.label && section.label.length > 0) {
@@ -113,17 +161,24 @@ angular.module('arachne.controllers')
                         } else {
                             value = section.content[i].value;
                         }
+
                         value = value.replace(/<hr>/g, "  \n").replace(/<hr\/>/g, "  \n").replace(/<hr \/>/g, "  \n")
                             .replace(/-/g, "\\-").replace(/\*/g, "\\*").replace(/#/g, "\\#");
+
                         sectionText += value + "  \n";
+
                     } else {
                         sectionText += $scope.createSectionText(section.content[i], false) + "  \n";
                     }
                 }
-
                 return sectionText;
             };
 
+            /**
+             * open modal dialog for editing catalogs
+             *
+             * @param entities to add to a catalog
+             */
             $scope.processCatalogEntities = function (entities) {
 
                 var catalogFromSearch = $uibModal.open({
@@ -143,6 +198,7 @@ angular.module('arachne.controllers')
                     }
                 });
 
+                // create catalog on modal close
                 catalogFromSearch.close = function (newCatalog) {
                     newCatalog.root.children = [];
 
@@ -163,6 +219,12 @@ angular.module('arachne.controllers')
                 }
             };
 
+            /**
+             * Add an entity to a given catalog
+             *
+             * @param catalog to add to
+             * @param entity to be added
+             */
             $scope.addCatalogEntry = function (catalog, entity) {
 
                 catalog.root.children.push({
@@ -183,6 +245,10 @@ angular.module('arachne.controllers')
                 }
             };
 
+            /**
+             * Create a catalog from current search result
+             * but only if the search result is smaller than 300 results
+             */
             $scope.createCatalogFromSearch = function () {
                 if (searchService.getSize() > 300) {
                     return;
@@ -210,27 +276,11 @@ angular.module('arachne.controllers')
                 });
             };
 
-            $scope.go = function (path) {
-                $location.url(path);
-            };
-
-            $scope.previousPage = function () {
-                if ($scope.currentPage > 1)
-                    $scope.currentPage -= 1;
-                $scope.onSelectPage();
-            };
-
-            $scope.nextPage = function () {
-                if ($scope.currentPage < $scope.totalPages)
-                    $scope.currentPage += 1;
-                $scope.onSelectPage();
-            };
-
-            $scope.onSelectPage = function () {
-                var newOffset = ($scope.currentPage - 1) * $scope.currentQuery.limit;
-                $location.url(searchScope.currentScopePath() + 'search' + $scope.currentQuery.setParam('offset', newOffset).toString());
-            };
-
+            /**
+             * load more facet.values for a given facet
+             *
+             * @param facet to load values from
+             */
             $scope.loadMoreFacetValues = function (facet) {
                 searchService.loadMoreFacetValues(facet).then(function (hasMore) {
                     facet.hasMore = hasMore;
@@ -240,7 +290,9 @@ angular.module('arachne.controllers')
                 });
             };
 
-
+            /**
+             * Create facet groups from semantically matching facets
+             */
             function _buildFacetGroups() {
                 $scope.facetGroups = {};
 
@@ -248,16 +300,13 @@ angular.module('arachne.controllers')
                     return facet.name;
                 });
 
-
                 $scope.facets
-
                     .filter(function (facet) {
                         if (facet.dependsOn === null) {
                             return true;
                         }
                         return (facetNames.indexOf('facet_' + facet.dependsOn) < 0);
                     })
-
                     .map(function (facet) {
                         var group = (facet.group) ? facet.group : facet.name;
                         if (typeof $scope.facetGroups[group] === "undefined") {
@@ -265,24 +314,33 @@ angular.module('arachne.controllers')
                         }
                         $scope.facetGroups[group].push(facet);
                     });
-
             }
 
-
+            /**
+             * get category name from entity (?)
+             *
+             * @param entityName
+             */
             $scope.printCategoryName = function (entityName) {
-                var cur;
                 for (var category in $scope.categories) {
-                    cur = $scope.categories[category];
-                    if ((cur.queryTitle === entityName) || (cur.key === entityName)) {
-                        return cur.singular;
+                    var currentCategory = $scope.categories[category];
+                    if ((currentCategory.queryTitle === entityName) || (currentCategory.key === entityName)) {
+                        return currentCategory.singular;
                     }
                 }
-                return "";
             };
 
-            $scope.getSearchPath = function () {
-                return searchScope.currentScopePath();
+            /**
+             * Counts the number of facet.values in a given facet
+             *
+             * @param facet to count from
+             * @returns number of values in facet.values
+             */
+            $scope.countFacetValues = function (facet) {
+                return searchService.getFacetValueSize(facet);
             };
+
+            // paging of search results (?)
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
                     messages.clear();
@@ -309,12 +367,6 @@ angular.module('arachne.controllers')
                         }
                     });
 
-                    // TODO: not working properly, too many requests, need specific backend endpoint to call
-                    // sum up all facet values of one facet
-                    $scope.sumAllFacetsValues = function (facet) {
-                        return facet.values.length;
-                    };
-
                     // TODO parts of the following code are probably useless/unused due to the change to facet groups
                     // only the hasMore stuff is needed for opening these facets from the start
                     for (var i = 0; i < $scope.facets.length; i++) {
@@ -329,9 +381,11 @@ angular.module('arachne.controllers')
                             }
                         });
                     }
+
                     insert.forEach(function (facet) {
                         $scope.facets.unshift(facet);
                     });
+
                     $scope.cells = $filter('cellsFromEntities')(entities, $scope.currentQuery);
                 }, function (response) {
                     $scope.resultSize = 0;
@@ -339,9 +393,6 @@ angular.module('arachne.controllers')
                     if (response.status === '404') messages.add('backend_missing');
                     else messages.add('search_' + response.status);
                 });
-
             }
-
-
         }
     ]);
