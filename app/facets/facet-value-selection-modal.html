@@ -34,7 +34,7 @@
 </div>
 <div class="modal-footer">
     <div align="center">
-        <button ng-click="previousFacetValuePage()"
+        <button ng-click="currentFacetValuePage == 0 || previousFacetValuePage()"
                 class="btn btn-sm btn-default"
                 style="border-radius:15px"
                 ng-class="{ 'disabled': currentFacetValuePage == 0 }">
@@ -44,7 +44,7 @@
         <small class="text-muted" style="padding: 0px 8px;">
             <strong>{{ 'ui_page' | transl8 }} {{currentFacetValuePage + 1}} / {{getPages()}}</strong>
         </small>
-        <button ng-click="nextFacetValuePage()"
+        <button ng-click="currentFacetValuePage + 1 >= getPages() || nextFacetValuePage()"
                 class="btn btn-sm btn-default"
                 style="border-radius:15px"
                 ng-class="{ 'disabled': currentFacetValuePage + 1 >= getPages()}">

@@ -18,9 +18,7 @@ angular.module('arachne.controllers')
             };
 
             $scope.getPages = function () {
-                return $scope.facet.values.length / arachneSettings.facetLimit;
-                // TODO use the following when backend can give full count of facet values
-                // return searchService.getFacetValueSize() / arachneSettings.facetLimit;
+                return searchService.getFacetValueSize($scope.facet) / arachneSettings.facetLimit;
             };
 
             $scope.cancel = function () {
