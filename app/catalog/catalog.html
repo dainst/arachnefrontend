@@ -290,6 +290,12 @@
                                     <a class="btn btn-primary"
                                        ng-click="showMoreThumbnails()">
                                         {{ 'ui_show_more' | transl8 }}
+                                        <em ng-if="activeEntry.children.length - (cells.length + cellsNotDisplayed) == 1">
+                                            ({{ 'ui_one_more_entry' | transl8 }})
+                                        </em>
+                                        <em ng-if="activeEntry.children.length - (cells.length + cellsNotDisplayed) > 1">
+                                            ({{activeEntry.children.length - (cells.length + cellsNotDisplayed)}} {{ 'ui_more_entries' | transl8 }})
+                                        </em>
                                     </a>
                                 </div>
                             </div>
