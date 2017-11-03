@@ -17,12 +17,13 @@ angular.module('arachne.controllers')
             $scope.entryMap = {};
             $scope.catalogId = $stateParams.id;
             $scope.childrenLimit = 20;
-            $scope.showMoreThumbnailsCount = 20;
+            $scope.showMoreThumbnailsCount = 0;
             $scope.editable = false;
             $scope.error = false;
 
             $scope.showThumbnails = false;
             $scope.cells = [];
+            $scope.cells.length = 0;
 
             $scope.removeItems = false;
             $scope.itemsToRemove = [];
@@ -403,7 +404,6 @@ angular.module('arachne.controllers')
             }
 
             $scope.showMoreThumbnails = function() {
-                $scope.childrenLimit += $scope.showMoreThumbnailsCount;
                 showThumbnails($scope.currentEntry);
             };
 
@@ -411,19 +411,18 @@ angular.module('arachne.controllers')
 
                 $scope.currentEntry = entry;
                 $scope.cellsNotDisplayed = 0;
-                $scope.cells.length = 0;
                 $scope.loadingThumbnails = true;
 
-                CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: 0}, function (result) {
+                CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: $scope.cells.length-1},
+                    function (result) {
 
-                    result.children.forEach(function (cell, index) {
+                    result.children.forEach(function (cell) {
 
                         if (cell.arachneEntityId) {
 
                             Entity.get({id: cell.arachneEntityId}, function (entity) {
 
-                                $scope.cells[index-1] = {
-                                    position: index,
+                                $scope.cells[cell.indexParent] = {
                                     title: entity.title,
                                     entityId: entity.thumbnailId,
                                     entity: cell
@@ -431,7 +430,6 @@ angular.module('arachne.controllers')
                             }, function () {
                                 messages.add('default');
                             });
-                            index++;
                         } else {
                             $scope.cellsNotDisplayed++;
                         }

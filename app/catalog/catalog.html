@@ -284,18 +284,31 @@
                                                 </div>
                                             </a>
                                         </div>
+
+                                        <div ng-if="!cells[$index]"
+                                             style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
+
+                                            <a class="cell-link">
+                                                <div class="preview-cell"
+                                                     style="cursor: default !important; background-color: #eee; text-align:center; position: relative; width: 190px; height: 225px; overflow: hidden;">
+                                                    <div style="display: inline-block; height: 100%; vertical-align: middle;"></div>
+                                                    <img ar-img
+                                                         img-width="175">
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div ng-if="(cells.length + cellsNotDisplayed) < activeEntry.children.length"
+                                <div ng-if="(cells.length+1) < activeEntry.children.length"
                                      class="more-thumbnails">
                                     <a class="btn btn-primary"
                                        ng-click="showMoreThumbnails()">
                                         {{ 'ui_show_more' | transl8 }}
-                                        <em ng-if="activeEntry.children.length - (cells.length + cellsNotDisplayed) == 1">
+                                        <em ng-if="activeEntry.children.length - (cells.length+1) == 1">
                                             ({{ 'ui_one_more_entry' | transl8 }})
                                         </em>
-                                        <em ng-if="activeEntry.children.length - (cells.length + cellsNotDisplayed) > 1">
-                                            ({{activeEntry.children.length - (cells.length + cellsNotDisplayed)}} {{ 'ui_more_entries' | transl8 }})
+                                        <em ng-if="activeEntry.children.length - (cells.length+1) > 1">
+                                            ({{activeEntry.children.length - (cells.length+1)}} {{ 'ui_more_entries' | transl8 }})
                                         </em>
                                     </a>
                                 </div>
