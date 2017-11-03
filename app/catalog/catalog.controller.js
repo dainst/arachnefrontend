@@ -409,6 +409,14 @@ angular.module('arachne.controllers')
 
             function showThumbnails(entry) {
 
+                if (!$scope.currentEntry) {
+                    $scope.cells.length = 0;
+                } else {
+                    if ($scope.currentEntry.id !== entry.id) {
+                        $scope.cells.length = 0;
+                    }
+                }
+
                 $scope.currentEntry = entry;
                 $scope.cellsNotDisplayed = 0;
                 $scope.loadingThumbnails = true;
