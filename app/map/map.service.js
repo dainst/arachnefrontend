@@ -234,9 +234,8 @@ angular.module('arachne.widgets.map')
 
             // Do not remove osm-baselayer
             if (activeBaselayer && key !== "osm") {
-                map.removeLayer(baselayers[activeBaselayer]);
+                map.removeLayer(baselayers[activeBaselayerKey]);
             }
-
             var layerConfig = baselayers[key];
             activeBaselayer = L.tileLayer(layerConfig.url, layerConfig.layerOptions);
             activeBaselayerKey = key;
