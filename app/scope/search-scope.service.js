@@ -133,7 +133,6 @@ function($location, $rootScope, Query, $http, $stateParams, language, $state) {
 		scopeSettings: {},
 
 		refresh: function()  {
-
             var path = searchScope.currentScopePath();
 			searchScope.dirty = true;
             searchScope.scopeSettings.name		= searchScope.currentScopeName();

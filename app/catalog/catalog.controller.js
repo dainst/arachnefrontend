@@ -133,7 +133,6 @@ angular.module('arachne.controllers')
                 });
                 deleteModal.close = function () {
 
-                    console.log(scope, CatalogEntry, 'HERE', entry)
                     scope.remove();
                     $scope.entryMap[entry.parentId].totalChildren -= 1;
                     CatalogEntry.remove({id: entry.id}, function () {
