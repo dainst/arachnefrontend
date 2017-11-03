@@ -428,16 +428,13 @@ angular.module('arachne.controllers')
                                     entityId: entity.thumbnailId,
                                     entity: cell
                                 };
-
                             }, function () {
                                 messages.add('default');
                             });
-
                             index++;
                         } else {
                             $scope.cellsNotDisplayed++;
                         }
-
                     });
 
                     $scope.loadingThumbnails = false;

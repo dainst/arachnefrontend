@@ -269,7 +269,8 @@
                                 <div class="panel-body catalog-text">
                                     <div ng-repeat="cell in cells track by $index">
 
-                                        <div style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
+                                        <div ng-if="cells[$index]"
+                                             style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
 
                                             <a class="cell-link"
                                                ng-click="selectEntry(cells[$index].entity);">
