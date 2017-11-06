@@ -20,11 +20,11 @@ angular.module('arachne.controllers')
                 d3.json("config/category_relations.json", function(classes) {
 
                     var category_graph = document.getElementById('category_graph');
-                    category_graph.setAttribute('width', window.innerWidth/2)
-                    category_graph.setAttribute('height', window.innerWidth/2)
+                    category_graph.setAttribute('width', (window.innerWidth/2));
+                    category_graph.setAttribute('height', (window.innerWidth/2) - 50);
                     
                     // move images to lower part of the graph
-                    for (var i = 0, leength = classes.length; i < leength; i++) {
+                    for (var i = 0, length = classes.length; i < length; i++) {
                         if (classes[i].name == "marbilder") {
                             classes.splice(4, 0, classes.splice(i, 1)[0]);
                             break;
