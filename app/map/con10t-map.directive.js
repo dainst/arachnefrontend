@@ -153,7 +153,8 @@ angular.module('arachne.widgets.map')
                     mapService.initializeMap(
                         element.attr('id'),
                         {
-                            minZoom: scope.minZoom || 3
+                            minZoom: scope.minZoom || 3,
+                            fullscreenControl: true
                         } // 3 is to prevent wrong bbox searches
                         // when the window is bigger than the world,
                     );

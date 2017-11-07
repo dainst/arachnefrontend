@@ -27,7 +27,8 @@ var cssDeps = [
     'node_modules/leaflet.markercluster/dist/MarkerCluster.css',
     'node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css',
     'node_modules/drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css',
-    'node_modules/angular-ui-swiper/dist/angular-ui-swiper.css'
+    'node_modules/angular-ui-swiper/dist/angular-ui-swiper.css',
+    'node_modules/leaflet-fullscreen/dist/leaflet.fullscreen.css'
 ];
 
 var jsDeps = [
@@ -54,7 +55,8 @@ var jsDeps = [
     'node_modules/d3/build/d3.min.js',
     'node_modules/angular-ui-swiper/dist/angular-ui-swiper.min.js',
     'node_modules/angular-md5/angular-md5.js',
-    'node_modules/svg-pan-zoom/dist/svg-pan-zoom.js'
+    'node_modules/svg-pan-zoom/dist/svg-pan-zoom.js',
+    'node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.min.js'
 ];
 
 // compile sass and concatenate to single css file in build dir
@@ -142,6 +144,11 @@ gulp.task('copy-marker-imgs', function () {
         .pipe(gulp.dest('dist/css/images'));
 });
 
+gulp.task('copy-leaflet-fullscreen-icon', function () {
+    return gulp.src(['node_modules/leaflet-fullscreen/dist/*.png'])
+        .pipe(gulp.dest('dist/css'));
+});
+
 gulp.task('copy-imgs', function () {
     return gulp.src('img/**/*', {base: 'img'})
         .pipe(gulp.dest('dist/img'));
@@ -184,6 +191,7 @@ gulp.task('build', [
     'copy-fonts',
     'copy-imgs',
     'copy-marker-imgs',
+    'copy-leaflet-fullscreen-icon',
     'copy-index',
     'copy-info'
 ]);
