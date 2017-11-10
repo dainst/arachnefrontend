@@ -73,7 +73,7 @@ angular.module('arachne.services')
                     }
                     return false;
                 });
-            }
+            };
 
             return factory;
         }]);

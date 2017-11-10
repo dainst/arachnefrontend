@@ -36,9 +36,11 @@ angular.module('arachne.controllers')
 
             $scope.previousFacetValuePage = function() {
                 $scope.currentFacetValuePage -= 1;
+                $scope.onSelectPage()
             };
 
             $scope.nextFacetValuePage = function() {
                 $scope.currentFacetValuePage += 1;
+                $scope.onSelectPage()
             };
         }]);

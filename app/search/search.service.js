@@ -41,7 +41,7 @@ angular.module('arachne.services')
              * @returns {Array.<*>}
              */
             function getCachedChunk(offset) {
-                var limit = parseFloat(_currentQuery.limit);
+                var limit = parseInt(_currentQuery.limit);
                 return _result.entities.slice(offset, offset + limit);
             }
 
@@ -97,6 +97,8 @@ angular.module('arachne.services')
              * @param deferred
              *   .resolve() gets called when request was successful
              *   .reject() gets called otherwise
+             *
+             * @return functions to be called on the retrieved chunk
              */
             function performAndParseRequest(offset, query, deferred) {
 
