@@ -2,7 +2,7 @@
     <div class="col-md-6 col-md-offset-3 col-xs-12 page-header">
         <h2>{{"navbar_contact"|transl8}}</h2>
         <div class="alert alert-danger" ng-show="error">
-            Error: {{error | transl8}}
+            Error: {{error}}
         </div>
         <div class="alert alert-success" ng-show="success">
             {{"contact_success"|transl8}}
@@ -10,7 +10,8 @@
     </div>
     <div class="col-md-6 col-md-offset-3 col-xs-12 well" ng-hide="success">
         <form novalidate show-validation class="form-horizontal register-form"
-              role="form" name="contactForm">
+              role="form" name="contactForm"
+              ng-keyup="dataChanged()">
 
             <div class="form-group" style="padding-top: 10px;">
                 <label class="col-sm-4 control-label">Name </label>
