@@ -9,8 +9,32 @@ angular.module('arachne.controllers')
  *   user the logged in users personal information.
  *   submit function which sends the user data to the backend in order to update personal information.
  */
-    .controller('EditUserController', ['$scope', '$http', '$sce', 'arachneSettings', 'authService', 'messageService', '$timeout',
-        function ($scope, $http, $sce, arachneSettings, authService, messages, $timeout) {
+    .controller('EditUserController', ['$scope', '$http', '$sce', 'arachneSettings', 'authService', 'messageService', '$timeout', 'transl8',
+        function ($scope, $http, $sce, arachneSettings, authService, messages, $timeout, transl8) {
+
+            $scope.formChange = false;
+
+            $scope.dataChanged = function () {
+                $scope.formChange = true;
+            };
+
+            window.onbeforeunload = function () {
+
+                if ($scope.formChange) {
+                    return transl8.getTranslation('ui_unsaved-changes');
+                }
+            };
+
+            $scope.$on('$locationChangeStart', function (event, next, current) {
+
+                if ($scope.formChange && next !== current) {
+
+                    var answer = confirm(transl8.getTranslation('ui_unsaved-changes'));
+                    if (!answer) {
+                        event.preventDefault();
+                    }
+                }
+            });
 
             var HEADERS = {
                 "headers": {"Content-Type": "application/json"}
@@ -66,6 +90,8 @@ angular.module('arachne.controllers')
 
 
             $scope.submit = function () {
+
+                $scope.formChange = false;
 
                 if ($scope.user.email != $scope.user.emailValidation) {
                     putMsg('ui.update.emailNotSame', 'danger');
