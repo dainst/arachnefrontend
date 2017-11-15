@@ -9,10 +9,10 @@ angular.module('arachne.services')
  */
     .factory('indexService', ['$filter', 'Entity', '$http', 'Query', '$q',
         function ($filter, Entity, $http, Query, $q) {
-            var deferred = $q.defer();
 
             return {
                 loadFacetsAsync: function (category) {
+                    var deferred = $q.defer();
                     var currentCategoryQuery = new Query().addFacet("facet_kategorie", category);
                     currentCategoryQuery.q = "*";
                     Entity.query(currentCategoryQuery.toFlatObject(), function (response) {
@@ -28,11 +28,13 @@ angular.module('arachne.services')
                             return 0;
                         });
 
-                        return deferred.resolve(filteredFacets);
+                        deferred.resolve(filteredFacets);
                     });
+                    return deferred.promise
                 },
 
                 loadFacetValuesAsync: function (url) {
+                    var deferred = $q.defer();
                     $http.get(url).then(function (result) {
                         // get only non empty values
                         var preprocessedValues = result.data.facetValues.filter(function (value) {
@@ -53,8 +55,9 @@ angular.module('arachne.services')
                             return 0;
                         });
 
-                        return preprocessedValues;
+                        deferred.resolve(preprocessedValues);
                     });
+                    return deferred.promise;
                 }
             }
         }]);

@@ -127,33 +127,34 @@ angular.module('arachne.controllers')
                     $scope.currentCategory = $stateParams.c;
                     $scope.currentFacet = $stateParams.fq;
 
-                    var filteredFacets = indexService.loadFacetsAsync($stateParams.c);
+                    indexService.loadFacetsAsync($scope.currentCategory).then(function (filteredFacets) {
+                        var itemsPerPage = 0;
+                        var pageCounter = 0;
+                        // an array containing pages and their respective facets
+                        $scope.facets = [[]];
+                        $scope.facetCount = filteredFacets.length;
 
-                    var itemsPerPage = 0;
-                    var pageCounter = 0;
-                    // an array containing pages and their respective facets
-                    $scope.facets = [[]];
-                    $scope.facetCount = filteredFacets.length;
+                        $scope.currentFacetPage = 0;
+                        for (var i = 0; i < filteredFacets.length; i++) {
+                            // determine number of pages and add pages to array
+                            if (itemsPerPage === $scope.panelSize) {
+                                $scope.facets.push([]);
+                                pageCounter += 1;
+                                itemsPerPage = 0;
+                            }
 
-                    $scope.currentFacetPage = 0;
-                    for (var i = 0; i < filteredFacets.length; i++) {
-                        // determine number of pages and add pages to array
-                        if (itemsPerPage === $scope.panelSize) {
-                            $scope.facets.push([]);
-                            pageCounter += 1;
-                            itemsPerPage = 0;
+                            // Page selection based on selected facet?
+                            if (filteredFacets[i].name === $scope.currentFacet) {
+                                $scope.currentFacetPage = pageCounter;
+                            }
+
+                            // add facets to pages
+                            $scope.facets[pageCounter].push(filteredFacets[i]);
+                            itemsPerPage += 1;
                         }
+                        $scope.resultSize = response.size;
+                    });
 
-                        // Page selection based on selected facet?
-                        if (filteredFacets[i].name === $scope.currentFacet) {
-                            $scope.currentFacetPage = pageCounter;
-                        }
-
-                        // add facets to pages
-                        $scope.facets[pageCounter].push(filteredFacets[i]);
-                        itemsPerPage += 1;
-                    }
-                    $scope.resultSize = response.size;
                 } else {
                     $scope.facets = undefined;
                     $scope.facetValues = undefined;
@@ -188,48 +189,49 @@ angular.module('arachne.controllers')
                         url += "?group=" + $scope.groupedBy;
                     } else $scope.groupedBy = undefined;
 
-                    var preprocessedValues = indexService.loadFacetValuesAsync(url);
+                    indexService.loadFacetValuesAsync(url).then(function (preprocessedValues) {
+                        var itemsPerPage = 0;
+                        var pageCounter = 0;
+                        // an array containing pages and their respective facet values
+                        $scope.facetValues = [[]];
+                        $scope.valuesCount = preprocessedValues.length;
 
-                    var itemsPerPage = 0;
-                    var pageCounter = 0;
-                    // an array containing pages and their respective facet values
-                    $scope.facetValues = [[]];
-                    $scope.valuesCount = preprocessedValues.length;
+                        // ?
+                        if (preprocessedValues.length + 2 < $scope.panelSize)
+                            $scope.valueRows = 1;
+                        else $scope.valueRows = 2;
 
-                    // ?
-                    if (preprocessedValues.length + 2 < $scope.panelSize)
-                        $scope.valueRows = 1;
-                    else $scope.valueRows = 2;
-
-                    // ???
-                    if ($scope.facets !== undefined) {
-                        var currentIndex = 0;
-                        for (var index = 0; index < $scope.facets[0].length; index++) {
-                            if ($scope.facets[0][index].name === $scope.currentFacet) {
-                                currentIndex = index; //This will be needed at thursday, 14.02.2017 ???
-                                break;
+                        // ???
+                        if ($scope.facets !== undefined) {
+                            var currentIndex = 0;
+                            for (var index = 0; index < $scope.facets[0].length; index++) {
+                                if ($scope.facets[0][index].name === $scope.currentFacet) {
+                                    currentIndex = index; //This will be needed at thursday, 14.02.2017 ???
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    $scope.currentValuePage = 0;
-                    for (var i = 0; i < preprocessedValues.length; i++) {
-                        // determine number of pages and add pages to array
-                        if (itemsPerPage + 2 === $scope.panelSize * 2) {
-                            $scope.facetValues.push([]);
-                            pageCounter += 1;
-                            itemsPerPage = 0;
+                        $scope.currentValuePage = 0;
+                        for (var i = 0; i < preprocessedValues.length; i++) {
+                            // determine number of pages and add pages to array
+                            if (itemsPerPage + 2 === $scope.panelSize * 2) {
+                                $scope.facetValues.push([]);
+                                pageCounter += 1;
+                                itemsPerPage = 0;
+                            }
+
+                            // Page selection based on selected facet value?
+                            if (preprocessedValues[i] === $scope.currentValue) {
+                                $scope.currentValuePage = pageCounter;
+                            }
+
+                            // add facet values to pages
+                            $scope.facetValues[pageCounter].push(preprocessedValues[i]);
+                            itemsPerPage += 1;
                         }
+                    });
 
-                        // Page selection based on selected facet value?
-                        if (preprocessedValues[i] === $scope.currentValue) {
-                            $scope.currentValuePage = pageCounter;
-                        }
-
-                        // add facet values to pages
-                        $scope.facetValues[pageCounter].push(preprocessedValues[i]);
-                        itemsPerPage += 1;
-                    }
                 } else {
                     $scope.facetValues = undefined;
                     $scope.currentValue = undefined;
