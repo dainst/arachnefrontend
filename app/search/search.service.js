@@ -22,6 +22,9 @@ angular.module('arachne.services')
             var CHUNK_SIZE = 50;
             var dirty = false;
 
+            /**
+             * Execute search with current query if location is changed
+             */
             $rootScope.$on("$locationChangeSuccess", function () {
 
                 var newQuery = Query.fromSearch($location.search());
