@@ -11,6 +11,11 @@ angular.module('arachne.services')
         function ($filter, Entity, $http, Query, $q) {
 
             return {
+                /**
+                 * Load facets according to category asynchronously
+                 *
+                 * @param category for which to get the facets
+                 */
                 loadFacetsAsync: function (category) {
                     var deferred = $q.defer();
                     var currentCategoryQuery = new Query().addFacet("facet_kategorie", category);
@@ -33,6 +38,11 @@ angular.module('arachne.services')
                     return deferred.promise
                 },
 
+                /**
+                 * Load facet values according to params given in the url
+                 *
+                 * @param url from which to get the params
+                 */
                 loadFacetValuesAsync: function (url) {
                     var deferred = $q.defer();
                     $http.get(url).then(function (result) {

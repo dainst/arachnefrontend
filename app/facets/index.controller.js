@@ -36,7 +36,7 @@ angular.module('arachne.controllers')
             };
 
             /**
-             * Reload view if URL gets changed (additional params added)
+             * Reload view if URL gets changed (e.g. additional params added)
              */
             $rootScope.$on('$locationChangeSuccess', function () {
                 console.log($stateParams);
@@ -118,6 +118,7 @@ angular.module('arachne.controllers')
 
             /**
              * Load facets for a selected category from url param 'c'
+             * and create panel paging accordingly
              */
             function loadFacets() {
                 if ($stateParams.c) {
@@ -127,7 +128,7 @@ angular.module('arachne.controllers')
                     $scope.currentCategory = $stateParams.c;
                     $scope.currentFacet = $stateParams.fq;
 
-                    indexService.loadFacetsAsync($scope.currentCategory).then(function (filteredFacets) {
+                    indexService.loadFacetsAsync($stateParams.c).then(function (filteredFacets) {
                         var itemsPerPage = 0;
                         var pageCounter = 0;
                         // an array containing pages and their respective facets
@@ -152,7 +153,7 @@ angular.module('arachne.controllers')
                             $scope.facets[pageCounter].push(filteredFacets[i]);
                             itemsPerPage += 1;
                         }
-                        $scope.resultSize = response.size;
+                        $scope.resultSize = filteredFacets.size;
                     });
 
                 } else {
@@ -163,6 +164,7 @@ angular.module('arachne.controllers')
 
             /**
              * Load facets values for a selected facet from url param 'fq', 'fv' and 'group'
+             * and create panel paging accordingly
              */
             function loadFacetValues() {
                 if ($stateParams.fq) {
@@ -182,7 +184,7 @@ angular.module('arachne.controllers')
                     $scope.currentFacet = $stateParams.fq;
                     $scope.currentValue = $stateParams.fv;
 
-                    // construct query to get facet values
+                    // construct query url to get facet values
                     var url = '/data/index/' + $stateParams.c + '/' + $stateParams.fq;
                     if ($stateParams.group) {
                         $scope.groupedBy = $stateParams.group;
