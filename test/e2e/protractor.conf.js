@@ -6,6 +6,7 @@ exports.config = {
     specs: ['./delays.js','**/*.spec.js'],
     directConnect: true,
     exclude: [],
+    chromeOnly: true,
     multiCapabilities: [{
         browserName: 'chrome'
     }],
