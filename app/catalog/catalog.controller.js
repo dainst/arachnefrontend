@@ -64,7 +64,8 @@ angular.module('arachne.controllers')
 
                 if (!entry.children) entry.children = [];
                 var editEntryModal = $uibModal.open({
-                    templateUrl: 'app/catalog/edit-entry.html'
+                    templateUrl: 'app/catalog/edit-entry.html',
+                    backdrop: 'static'
                 });
 
                 editEntryModal.close = function (newEntry, entity) {
@@ -130,7 +131,8 @@ angular.module('arachne.controllers')
 
             $scope.removeEntry = function (scope, entry) {
                 var deleteModal = $uibModal.open({
-                    templateUrl: 'app/catalog/delete-entry.html'
+                    templateUrl: 'app/catalog/delete-entry.html',
+                    backdrop: 'static'
                 });
                 deleteModal.close = function () {
 
@@ -167,7 +169,8 @@ angular.module('arachne.controllers')
             $scope.removeEntries = function () {
 
                 var deleteModal = $uibModal.open({
-                    templateUrl: 'app/catalog/delete-entries.html'
+                    templateUrl: 'app/catalog/delete-entries.html',
+                    backdrop: 'static'
                 });
 
                 deleteModal.close = function () {
@@ -200,7 +203,8 @@ angular.module('arachne.controllers')
                         entry: function () {
                             return editableEntry
                         }
-                    }
+                    },
+                    backdrop: 'static'
                 });
                 editEntryModal.close = function (editedEntry, entity) {
 
@@ -242,7 +246,8 @@ angular.module('arachne.controllers')
                         catalog: function () {
                             return editableCatalog
                         }, edit: true
-                    }
+                    },
+                    backdrop: 'static'
                 });
                 editCatalogModal.close = function (editedCatalog) {
                     $scope.catalog.author = editedCatalog.author;
@@ -269,7 +274,8 @@ angular.module('arachne.controllers')
                 var deleteModal = $uibModal.open({
                     templateUrl: 'app/catalog/delete-catalog.html',
                     controller: 'DeleteCatalogController',
-                    scope: $scope
+                    scope: $scope,
+                    backdrop: 'static'
                 });
 
                 deleteModal.close = function () {
@@ -305,7 +311,8 @@ angular.module('arachne.controllers')
             $scope.showHelp = function () {
                 $uibModal.open({
                     templateUrl: 'app/catalog/edit-catalog-help.html',
-                    controller: 'EditCatalogHelpController'
+                    controller: 'EditCatalogHelpController',
+                    backdrop: 'static'
                 });
             };
 
@@ -316,6 +323,7 @@ angular.module('arachne.controllers')
                 var manageEditorModal = $uibModal.open({
                     templateUrl: 'app/catalog/catalog-manage-editor.html',
                     controller: 'ManageEditorController',
+                    backdrop: 'static',
                     resolve: {
                         catalog: function () {
                             return editableCatalog
