@@ -1,5 +1,9 @@
 angular.module('arachne.controllers')
 
+    /**
+     * Handles operations on and for the edit-entry.html modal. This controller is used for adding multiple entries.
+     * @author: Finn Prox
+     */
     .controller('EditEntryController', ['$scope',
         function ($scope) {
             this.editState = 0; //0 = edit single entry, 1 = edit multiple entries, 2 = import via entity id

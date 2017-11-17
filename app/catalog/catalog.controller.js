@@ -7,6 +7,7 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy
  * @author: Jan G. Wieners
+ * @author: Finn Prox
  */
     .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window', '$timeout',
         'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService',
@@ -70,12 +71,12 @@ angular.module('arachne.controllers')
                 });
 
                 editEntryModal.close = function (newEntry, entity) {
-                    if(newEntry instanceof Array && entity === null) {
+                    if(newEntry instanceof Array && entity === null) { //Multiple entries are added
                         //Iterate through the array of objects which should be added
                         for(var i = 0; i < newEntry.length; i++) {
                             $scope.currentNewEntry = {};
                             if(newEntry[i].index === undefined) { //Array contains entity ids
-                                Entity.get({id: parseInt(newEntry[i])}, function (entity) {
+                                Entity.get({id: parseInt(newEntry[i])}, function (entity) { //Try to find the entity. If found, add it to the catalog
                                     if(entity) {
                                         $scope.currentNewEntry.arachneEntityId = entity.entityId;
                                         $scope.currentNewEntry.label = entity.title;
@@ -92,7 +93,7 @@ angular.module('arachne.controllers')
                                     messages.add('default');
                                 });
                             }
-                            else {
+                            else { //Array contains entries with labels and entities attached to them
                                 if (newEntry[i].entity)
                                     $scope.currentNewEntry.arachneEntityId = newEntry[i].entity.entityId;
                                 else
@@ -113,7 +114,7 @@ angular.module('arachne.controllers')
                             }
                         }
                     }
-                    else {
+                    else { //Only a singular entry is added
                         if (entity) {
                             newEntry.arachneEntityId = entity.entityId;
                         } else {
