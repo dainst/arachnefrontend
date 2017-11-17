@@ -20,6 +20,7 @@ angular.module('arachne.controllers')
             $scope.showMoreThumbnailsCount = 0;
             $scope.editable = false;
             $scope.error = false;
+            $scope.currentNewEntry = {};
 
             $scope.showThumbnails = false;
             $scope.cells = [];
@@ -28,7 +29,7 @@ angular.module('arachne.controllers')
             $scope.removeItems = false;
             $scope.itemsToRemove = [];
 
-            if ($stateParams.view == 'map') $scope.map = true;
+            if ($stateParams.view === 'map') $scope.map = true;
 
             $scope.treeOptions = {
                 beforeDrop: function (event) {
@@ -42,9 +43,9 @@ angular.module('arachne.controllers')
                     }
                     tempEntry.parentId = newParentId;
                     tempEntry.indexParent = event.dest.index;
-                    if (tempEntry.indexParent != movedEntry.indexParent || tempEntry.parentId != movedEntry.parentId) {
+                    if (tempEntry.indexParent !== movedEntry.indexParent || tempEntry.parentId !== movedEntry.parentId) {
                         var promise = CatalogEntry.update({id: movedEntry.id}, tempEntry).$promise.then(function () {
-                            if (movedEntry.parentId != newParentId) {
+                            if (movedEntry.parentId !== newParentId) {
                                 $scope.entryMap[movedEntry.parentId].totalChildren -= 1;
                                 $scope.entryMap[newParentId].totalChildren += 1;
                             }
@@ -69,30 +70,74 @@ angular.module('arachne.controllers')
                 });
 
                 editEntryModal.close = function (newEntry, entity) {
-
-                    if (entity) {
-                        newEntry.arachneEntityId = entity.entityId;
-                    } else {
-                        newEntry.arachneEntityId = null;
-                    }
-
-                    // Use associated entity title as label if label is not set
-                    if (!newEntry.label && entity.title) {
-                        newEntry.label = entity.title;
-                    }
-
-                    newEntry.parentId = entry.id;
-                    newEntry.indexParent = entry.children.length;
-                    CatalogEntry.save({}, newEntry, function (result) {
-                        entry.children.push(result);
-                        entry.totalChildren += 1;
-                        initialize(result);
-                        if (scope && scope.collapsed) {
-                            $scope.toggleNode(scope, entry);
+                    if(newEntry instanceof Array && entity === null) {
+                        //Iterate through the array of objects which should be added
+                        for(var i = 0; i < newEntry.length; i++) {
+                            $scope.currentNewEntry = {};
+                            if(newEntry[i].index === undefined) { //Array contains entity ids
+                                Entity.get({id: parseInt(newEntry[i])}, function (entity) {
+                                    if(entity) {
+                                        $scope.currentNewEntry.arachneEntityId = entity.entityId;
+                                        $scope.currentNewEntry.label = entity.title;
+                                        $scope.currentNewEntry.parentId = entry.id;
+                                        $scope.currentNewEntry.indexParent = entry.children.length;
+                                        CatalogEntry.save({}, $scope.currentNewEntry, function (result) {
+                                            entry.children.push(result);
+                                            entry.totalChildren += 1;
+                                        }, function () {
+                                            messages.add('default');
+                                        });
+                                    }
+                                }, function () {
+                                    messages.add('default');
+                                });
+                            }
+                            else {
+                                if (newEntry[i].entity)
+                                    $scope.currentNewEntry.arachneEntityId = newEntry[i].entity.entityId;
+                                else
+                                    $scope.currentNewEntry.arachneEntityId = null;
+                                // Use associated entity title as label if label is not set
+                                if (!newEntry[i].label && newEntry[i].entity.title)
+                                    $scope.currentNewEntry.label = newEntry[i].entity.title;
+                                else
+                                    $scope.currentNewEntry.label = newEntry[i].label;
+                                $scope.currentNewEntry.parentId = entry.id;
+                                $scope.currentNewEntry.indexParent = entry.children.length;
+                                CatalogEntry.save({}, $scope.currentNewEntry, function (result) {
+                                    entry.children.push(result);
+                                    entry.totalChildren += 1;
+                                }, function () {
+                                    messages.add('default');
+                                });
+                            }
                         }
-                    }, function () {
-                        messages.add('default');
-                    });
+                    }
+                    else {
+                        if (entity) {
+                            newEntry.arachneEntityId = entity.entityId;
+                        } else {
+                            newEntry.arachneEntityId = null;
+                        }
+
+                        // Use associated entity title as label if label is not set
+                        if (!newEntry.label && entity.title) {
+                            newEntry.label = entity.title;
+                        }
+
+                        newEntry.parentId = entry.id;
+                        newEntry.indexParent = entry.children.length;
+                        CatalogEntry.save({}, newEntry, function (result) {
+                            entry.children.push(result);
+                            entry.totalChildren += 1;
+                            initialize(result);
+                            if (scope && scope.collapsed) {
+                                $scope.toggleNode(scope, entry);
+                            }
+                        }, function () {
+                            messages.add('default');
+                        });
+                    }
                     editEntryModal.dismiss();
                 }
             };
@@ -513,14 +558,15 @@ angular.module('arachne.controllers')
             function toggleEntriesInList(list) {
 
                 var current = list[0];
-
-                // TODO: better way to do this than using $timeout?
-                // i.e. something that explicitly waits until document is retrieved or times out after n milliseconds
-                $timeout(function () {
-                    document.getElementById("entry-"+current.id).click();
-                    if(list.length > 1)
-                        return toggleEntriesInList(list.slice(1));
-                }, 100);
+                if (current !== undefined) {
+                    // TODO: better way to do this than using $timeout?
+                    // i.e. something that explicitly waits until document is retrieved or times out after n milliseconds
+                    $timeout(function () {
+                        document.getElementById("entry-" + current.id).click();
+                        if (list.length > 1)
+                            return toggleEntriesInList(list.slice(1));
+                    }, 100);
+                }
             }
 
             retrieveCatalog($stateParams.id);

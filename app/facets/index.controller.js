@@ -137,16 +137,6 @@ angular.module('arachne.controllers')
                             $scope.valueRows = 2;
                         }
 
-                        if($scope.facets != undefined) {
-                            var currentIndex = 0;
-                            for (var i = 0; i < $scope.facets[0].length; i++) {
-                                if($scope.facets[0][i].name == $scope.currentFacet) {
-                                    currentIndex = i; //This will be needed at thursday, 14.02.2017
-                                    break;
-                                }
-                            }
-                        }
-
                         $scope.currentValuePage = 0;
                         for(var i = 0; i < preprocessedValues.length; i++) {
                             if(itemCounter + 2 == $scope.panelSize * 2) {
