@@ -32,7 +32,7 @@
 					<h5 class="panel-title">{{facetCount}} {{ 'ui_filter_plural' | transl8 }}</h5>
 				</div>
 				<div class="panel-nav" align="center">
-					<button ng-click="previousFacetPage()"
+					<button ng-click="currentFacetPage == 0 || previousFacetPage()"
 					   class="btn btn-sm btn-default"
 					   style="border-radius:10px; width: 7em;"
 					   ng-class="{ 'disabled': currentFacetPage == 0 }">
@@ -41,7 +41,7 @@
 					<small class="text-muted" style="padding: 0 8px;">
 						<strong>{{ 'ui_page' | transl8 }} {{currentFacetPage + 1}} / {{facets.length}}</strong>
 					</small>
-					<button ng-click="nextFacetPage()"
+					<button ng-click="currentFacetPage + 1 >= facets.length || nextFacetPage()"
 					   class="btn btn-sm btn-default"
 					   style="border-radius:10px; width: 7em;"
 					   ng-class="{ 'disabled': currentFacetPage + 1 >= facets.length }">
@@ -77,7 +77,7 @@
 
 					<hr class="clearfix">
 
-					<button ng-click="previousValuePage()"
+					<button ng-click="currentValuePage == 0 || previousValuePage()"
 							class="btn btn-sm btn-default"
 							style="border-radius:10px; width: 7em;"
 							ng-class="{ 'disabled': currentValuePage == 0 }">
@@ -86,7 +86,7 @@
 					<small class="text-muted" style="padding: 0 8px;">
 						<strong>{{ 'ui_page' | transl8 }} {{currentValuePage + 1}} / {{facetValues.length}}</strong>
 					</small>
-					<button ng-click="nextValuePage()"
+					<button ng-click="currentValuePage + 1 >= facetValues.length || nextValuePage()"
 							class="btn btn-sm btn-default"
 							style="border-radius:10px; width: 7em;"
 							ng-class="{ 'disabled': currentValuePage + 1 >= facetValues.length }">
