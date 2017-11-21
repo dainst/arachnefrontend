@@ -97,7 +97,7 @@ angular.module('arachne',[
 			'pwdchange':		{ url: '/pwdchange', templateUrl: 'app/users/pwd-change.html', data: { pageTitle: title }},
 			'userActivation':	{ url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }},
 			'project':			{ url: '/project/:title', templateUrl: 'app/pages/static.html', data: { pageTitle: title }},
-			'index':			{ url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: false, data: { pageTitle: title }},
+			'index':			{ url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: true, data: { pageTitle: title }},
 			'info':				{ url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }} // Named it info, not static, to sound not too technical.
 
 		};
