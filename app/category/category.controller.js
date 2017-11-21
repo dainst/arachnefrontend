@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-    .controller('CategoryController', ['$rootScope', '$scope', '$uibModal', 'Query', '$http', 'arachneSettings', 'categoryService', '$location', 'Entity', '$filter',
-        function ($rootScope, $scope, $uibModal, Query, $http, arachneSettings, categoryService, $location, Entity, $filter) {
+    .controller('CategoryController', ['$rootScope', '$scope', '$uibModal', 'Query', '$http', 'arachneSettings', 'categoryService', '$location', 'Entity', '$filter', 'indexService',
+        function ($rootScope, $scope, $uibModal, Query, $http, arachneSettings, categoryService, $location, Entity, $filter, indexService) {
 
 
             $scope.currentFacet = undefined;
@@ -41,64 +41,54 @@ angular.module('arachne.controllers')
                 updatePreviewResultSize();
             });
 
-            $scope.search = function() {
+            $scope.search = function () {
                 var query = $scope.currentQuery.setParam('q', $scope.q);
                 $location.url('/search' + query.toString());
-            }
+            };
 
             function loadFacets() {
 
-                    $scope.currentCategoryQuery = new Query().addFacet("facet_kategorie", $scope.queryTitle);
-                    $scope.currentCategoryQuery.q = "*";
+                indexService.loadFacetsAsync($scope.queryTitle).then(function (filteredFacets) {
 
-                    Entity.query($scope.currentCategoryQuery.toFlatObject(), function (response) {
-                        var filteredFacets = response.facets.filter( function(facet){ return facet.name != "facet_geo"});
+                    var itemsPerPage = 0;
+                    var pageCounter = 0;
+                    $scope.facets = [[]];
+                    $scope.facetCount = filteredFacets.length;
 
-                        filteredFacets = filteredFacets.sort(function (a, b) {
-                            if($filter('transl8')(a.name).toLowerCase() < $filter('transl8')(b.name).toLowerCase()) return -1;
-                            if($filter('transl8')(a.name).toLowerCase() > $filter('transl8')(b.name).toLowerCase()) return 1;
-                            return 0;
-                        });
+                    $scope.currentFacetPage = 0;
+                    $scope.currentEntityPage = 0;
 
-                        var itemCounter = 0;
-                        var pageCounter = 0;
-                        $scope.facets = [[]];
-                        $scope.facetCount = filteredFacets.length;
-
-                        $scope.currentFacetPage = 0;
-                        $scope.currentEntityPage = 0;
-
-                        for(var i = 0; i < filteredFacets.length; i++) {
-                            if(itemCounter == $scope.panelSize) {
-                                $scope.facets.push([]);
-                                pageCounter += 1;
-                                itemCounter = 0;
-                            }
-
-                            if(filteredFacets[i].name == $scope.currentFacet){
-                                $scope.currentFacetPage = pageCounter;
-                            }
-
-                            $scope.facets[pageCounter].push(filteredFacets[i]);
-                            itemCounter += 1;
+                    for (var i = 0; i < filteredFacets.length; i++) {
+                        if (itemsPerPage === $scope.panelSize) {
+                            $scope.facets.push([]);
+                            pageCounter += 1;
+                            itemsPerPage = 0;
                         }
-                        $scope.resultSize = response.size;
-                    });
-                
+
+                        if (filteredFacets[i].name === $scope.currentFacet) {
+                            $scope.currentFacetPage = pageCounter;
+                        }
+
+                        $scope.facets[pageCounter].push(filteredFacets[i]);
+                        itemsPerPage += 1;
+                    }
+                    $scope.resultSize = filteredFacets.size;
+                });
+
             }
 
             function loadFacetValues() {
 
                 if ($location.search().fq) {
 
-                    if ($scope.currentFacet == $location.search().fq
-                            && $scope.currentValue == $location.search().fv
-                            && $scope.groupedBy == $location.search().group
-                            && $scope.facetValues){
+                    if ($scope.currentFacet === $location.search().fq
+                        && $scope.currentValue === $location.search().fv
+                        && $scope.groupedBy === $location.search().group
+                        && $scope.facetValues) {
                         return;
                     }
 
-                    if($scope.groupedBy != $location.search().group){
+                    if ($scope.groupedBy !== $location.search().group) {
                         $scope.currentValuePage = 0;
                     }
 
@@ -113,63 +103,34 @@ angular.module('arachne.controllers')
                         $scope.groupedBy = undefined;
                     }
 
-                    $http.get(url).then(function (data) {
-
-                        var preprocessedValues = data.facetValues.filter( function(value) {
-                            return value.trim() != ""}
-                            );
-
-                        preprocessedValues = preprocessedValues.map(function(value) {
-                            return value.trim();
-                        });
-
-                        // Filtering duplicates
-                        var temp = preprocessedValues.filter(function(value, index, self){
-                            return index == self.indexOf(value);
-                        });
-                        preprocessedValues = temp.sort(function (a, b) {
-                            if(a.toLowerCase() < b.toLowerCase()) return -1;
-                            if(a.toLowerCase() > b.toLowerCase()) return 1;
-                            return 0;
-                        });
-
-                        var itemCounter = 0;
+                    indexService.loadFacetValuesAsync(url).then(function (preprocessedValues) {
+                        var itemsPerPage = 0;
                         var pageCounter = 0;
                         $scope.facetValues = [[]];
                         $scope.valuesCount = preprocessedValues.length;
 
-                        if(preprocessedValues.length + 2 < $scope.panelSize) {
+                        if (preprocessedValues.length + 2 < $scope.panelSize) {
                             $scope.valueRows = 1;
                         }
                         else {
                             $scope.valueRows = 2;
                         }
 
-                        if($scope.facets != undefined) {
-                            var currentIndex = 0;
-                            for (var i = 0; i < $scope.facets[0].length; i++) {
-                                if($scope.facets[0][i].name == $scope.currentFacet) {
-                                    currentIndex = i; //This will be needed at thursday, 14.02.2017
-                                    break;
-                                }
-                            }
-                        }
-
                         $scope.currentValuePage = 0;
                         $scope.currentEntityPage = 0;
-                        for(var i = 0; i < preprocessedValues.length; i++) {
-                            if(itemCounter + 2 == $scope.panelSize * 2) {
+                        for (var i = 0; i < preprocessedValues.length; i++) {
+                            if (itemsPerPage + 2 === $scope.panelSize * 2) {
                                 $scope.facetValues.push([]);
                                 pageCounter += 1;
-                                itemCounter = 0;
+                                itemsPerPage = 0;
                             }
 
                             $scope.facetValues[pageCounter].push(preprocessedValues[i]);
-                            if(preprocessedValues[i] == $scope.currentValue){
+                            if (preprocessedValues[i] === $scope.currentValue) {
                                 $scope.currentValuePage = pageCounter;
                             }
 
-                            itemCounter += 1;
+                            itemsPerPage += 1;
                         }
                     });
                 } else {
@@ -186,9 +147,9 @@ angular.module('arachne.controllers')
             function getCurrentQuery() {
                 var query = new Query();
 
-                query = query.addFacet("facet_kategorie", $scope.queryTitle)
+                query = query.addFacet("facet_kategorie", $scope.queryTitle);
 
-                if($location.search().fq && $location.search().fv){
+                if ($location.search().fq && $location.search().fv) {
                     query = query.addFacet($location.search().fq, $location.search().fv)
                 }
 
@@ -199,38 +160,38 @@ angular.module('arachne.controllers')
             function updatePreviewResultSize() {
                 var query = getCurrentQuery();
                 query.limit = $scope.entitiesSize;
-                query.offset = $scope.currentEntityPage * $scope.entitiesSize
+                query.offset = $scope.currentEntityPage * $scope.entitiesSize;
                 Entity.query(query.toFlatObject(), function (response) {
                     $scope.entityResultSize = response.size;
                     $scope.entities = response.entities;
-                    $scope.entitiesPageLength = Math.ceil(response.size/$scope.entitiesSize);
+                    $scope.entitiesPageLength = Math.ceil(response.size / $scope.entitiesSize);
                 });
             }
 
-            $scope.previousFacetPage = function() {
+            $scope.previousFacetPage = function () {
                 $scope.currentFacetPage -= 1;
             };
-            $scope.nextFacetPage = function() {
+            $scope.nextFacetPage = function () {
                 $scope.currentFacetPage += 1;
             };
 
-            $scope.previousValuePage = function() {
+            $scope.previousValuePage = function () {
                 $scope.currentValuePage -= 1;
             };
-            $scope.nextValuePage = function() {
+            $scope.nextValuePage = function () {
                 $scope.currentValuePage += 1;
             };
 
-            $scope.previousEntityPage = function() {
+            $scope.previousEntityPage = function () {
                 $scope.currentEntityPage -= 1;
                 updatePreviewResultSize();
             };
-            $scope.nextEntityPage = function() {
+            $scope.nextEntityPage = function () {
                 $scope.currentEntityPage += 1;
                 updatePreviewResultSize();
             };
 
-            $scope.startIndexSearch = function() {
+            $scope.startIndexSearch = function () {
                 $location.url("search" + getCurrentQuery().toString());
             };
         }
