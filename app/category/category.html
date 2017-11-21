@@ -1,175 +1,191 @@
 <div ng-controller="CategoryController">
-	<div class="row">
-		<div class="col-md-10 media" style="margin-top:20px;">
-			<div class="media-left">
-				<a href="" style="cursor:default;">
-					<img src="{{ imgUri }}" alt="{{ title }}" class="media-object" style="max-width:420px;">
-				</a>
-			</div>
-			<div class="media-body" style="padding-left:15px;">
-				<h1 class="media-heading">
-					{{ title }}
-				</h1>
-				<hr>
-				<p>{{ subtitle }}</p>
-				<br>
-				<div class="category-search">
-					<form ng-submit="search()"
-							class="input-group form-inline"
-							role="search">
-						<input size="50" type="text" ng-model="q" name="q" class="form-control" placeholder="Suche in dieser Kategorie"></input>
-						<span class="input-group-btn">
+    <div class="row">
+        <div class="col-md-10 media" style="margin-top:20px;">
+            <div class="media-left">
+                <a href="" style="cursor:default;">
+                    <img src="{{ imgUri }}" alt="{{ title }}" class="media-object" style="max-width:420px;">
+                </a>
+            </div>
+            <div class="media-body" style="padding-left:15px;">
+                <h1 class="media-heading">{{ title }}</h1>
+                <hr>
+                <p>{{ subtitle }}</p>
+                <div class="category-search">
+                    <form ng-submit="search()"
+                          class="input-group form-inline"
+                          role="search">
+                        <input size="50" type="text" ng-model="q" name="q" class="form-control"
+                               placeholder="Suche in dieser Kategorie">
+                        <span class="input-group-btn">
 							<button type="submit" class="btn btn-default">
 								&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
 							</button>
 						</span>
-					</form>
-				</div>
-				<br>
-				<ul class="list-inline text-muted">
-					<li ng-show="resultSize">
-						{{"ui_total"|transl8}}
-						<strong ng-bind="resultSize | number"></strong>
-						{{"ui_entries"|transl8}}
-					</li>
-					<li>
-						<a ng-href="search?q=*&fq=facet_kategorie:'{{queryTitle}}'">
-							<span class="glyphicon glyphicon-search"></span> {{'ui_showall'|transl8}}
-						</a>
-					</li>
-					<li ng-show="mapfacet">
-						<a ng-href="map?q=*&fq=facet_kategorie:'{{queryTitle}}'&restrict={{mapfacet}}">
-							<span class="glyphicon glyphicon-map-marker"></span> {{'ui_map'|transl8}}
-						</a>
-					</li>
-				</ul>
-				<br>
+                    </form>
+                </div>
+                <div style="margin-top: 10px;">
+                    <ul class="list-inline text-muted">
+                        <li ng-show="resultSize">
+                            {{"ui_total"|transl8}}
+                            <strong ng-bind="resultSize | number"></strong>
+                            {{"ui_entries"|transl8}}
+                        </li>
+                        <li>
+                            <a ng-href="search?q=*&fq=facet_kategorie:'{{queryTitle}}'">
+                                <span class="glyphicon glyphicon-search"></span> {{'ui_showall'|transl8}}
+                            </a>
+                        </li>
+                        <li ng-show="mapfacet">
+                            <a ng-href="map?q=*&fq=facet_kategorie:'{{queryTitle}}'&restrict={{mapfacet}}">
+                                <span class="glyphicon glyphicon-map-marker"></span> {{'ui_map'|transl8}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <a href="index?c={{queryTitle}}" class="btn btn-primary">{{ title }} {{ 'category_browse_specific' | transl8 }}</a> -->
+            </div>
+        </div>
+    </div>
 
-				<!-- <a href="index?c={{queryTitle}}" class="btn btn-primary">{{ title }} {{ 'category_browse_specific' | transl8 }}</a> -->
-			</div>
-		</div>
-	</div>
-<!-- INDEX -->
-	<div class="row">
-		<div class="page-header h3 col-md-12">
-			{{ title }}-Index
-		</div>
-	</div>	
-	<div class="row">
-		<!-- Facet panel -->
-		<div class="col-md-3">
-			<!-- Facet page navigation-->
-			<div class="panel panel-default" ng-show="facets[currentFacetPage]">
-				<div class="panel-heading">
-					<h5 class="panel-title">{{facetCount}} {{ 'ui_filter_plural' | transl8 }}</h5>
-				</div>
-				<div class="panel-nav" align="center">
-					<a ng-click="previousFacetPage()"
-					   class="btn btn-sm btn-default"
-					   style="border-radius:15px"
-					   ng-class="{ 'disabled': currentFacetPage == 0 }">
-						<span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em; margin: 0 5px;"></span>
-					</a>
-					<small class="text-muted" style="padding: 0px 8px;">
-						<strong>{{ 'ui_page' | transl8 }} {{currentFacetPage + 1}} / {{facets.length}}</strong>
-					</small>
-					<a ng-click="nextFacetPage()"
-					   class="btn btn-sm btn-default"
-					   style="border-radius:15px"
-					   ng-class="{ 'disabled': currentFacetPage + 1 >= facets.length }">
-						<span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em; margin: 0 5px;"></span>
-					</a>
-				</div>
-				<ul class="list-unstyled facet">
-					<li ng-repeat="facet in facets[currentFacetPage]" ng-class="{selected: facet.name == currentFacet}">
-						<a href="category/?c={{category}}&fq={{facet.name}}">{{facet.name | transl8 }}</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+    <!-- INDEX -->
+    <div class="row">
+        <div class="page-header h3 col-md-12">
+            {{ title }}-Index
+        </div>
+    </div>
+    <div class="row">
 
-		<div class="col-md-4" ng-if="facetValues.length">
-			<div class="panel panel-default" ng-show="facetValues">
-				<div class="panel-heading">
-					<h5 class="panel-title">{{valuesCount}} {{ 'facet_values' | transl8 }}</h5>
-				</div>
-				<div class="panel-nav" align="center">
-					<a href="category/?c={{category}}&fq={{currentFacet}}" ng-show="groupedBy">
-						<span class="glyphicon glyphicon-remove"></span>
-					</a>
-					<a href="category/?c={{category}}&fq={{currentFacet}}&group={{letter}}" ng-repeat='letter in ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","x","y","z"]' class="text-uppercase" ng-class="{'btn btn-primary': letter == groupedBy}">
-						{{letter}}
-					</a>
-				</div>
+        <!-- Facets panel -->
+        <div class="col-md-3">
+            <!-- Facet page navigation-->
+            <div class="panel panel-default" ng-show="facets[currentFacetPage]">
+                <div class="panel-heading">
+                    <h5 class="panel-title">{{facetCount}} {{ 'ui_filter_plural' | transl8 }}</h5>
+                </div>
+                <div class="panel-nav" align="center">
+                    <button ng-click="currentFacetPage == 0 || previousFacetPage()"
+                            class="btn btn-sm btn-default"
+                            style="border-radius:10px; width: 7em;"
+                            ng-class="{ 'disabled': currentFacetPage == 0 }">
+                        <span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em; margin: 0 5px;"></span>
+                    </button>
+                    <small class="text-muted" style="padding: 0 8px;">
+                        <strong>{{ 'ui_page' | transl8 }} {{currentFacetPage + 1}} / {{facets.length}}</strong>
+                    </small>
+                    <button ng-click="currentFacetPage + 1 >= facets.length || nextFacetPage()"
+                            class="btn btn-sm btn-default"
+                            style="border-radius:10px; width: 7em;"
+                            ng-class="{ 'disabled': currentFacetPage + 1 >= facets.length }">
+                        <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em; margin: 0 5px;"></span>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled facet">
+                        <li ng-repeat="facet in facets[currentFacetPage]"
+                            ng-class="{selected: facet.name == currentFacet}">
+                            <a href="category/?c={{category}}&fq={{facet.name}}">{{facet.name | transl8 }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-				<ul ng-style="{'columns':valueRows, '-webkit-columns':valueRows, '-moz-columns':valueRows}" class="small list-unstyled facet">
+        <!-- Facet values panel -->
+        <div class="col-md-4" ng-if="facetValues.length">
+            <div class="panel panel-default" ng-show="facetValues">
+                <div class="panel-heading">
+                    <h5 class="panel-title">{{valuesCount}} {{ 'facet_values' | transl8 }}</h5>
+                </div>
+                <div class="panel-nav" align="center">
+                    <a href="category/?c={{category}}&fq={{currentFacet}}" ng-show="groupedBy">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                    <a href="category/?c={{category}}&fq={{currentFacet}}&group={{letter}}"
+                       ng-repeat='letter in ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","x","y","z"]'
+                       class="text-uppercase" ng-class="{'btn btn-primary': letter == groupedBy}">
+                        {{letter}}
+                    </a>
 
-					<a ng-click="previousValuePage()"
-					   class="btn btn-sm btn-default"
-					   style="border-radius:10px;width:100%; padding-top:2px;padding-bottom:2px;margin-top:2px;margin-bottom:2px;margin-left:2px;"
-					   ng-class="{ 'disabled': currentValuePage == 0 }">
-						<span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> {{ 'ui_back' | transl8 }}
-					</a>
+                    <hr class="clearfix">
 
-					<li ng-repeat="facetValue in facetValues[currentValuePage]" ng-class="{selected: facetValue == currentValue}">
-						<a href="category/?c={{category}}&fq={{currentFacet}}&fv={{facetValue}}">{{facetValue}}</a>
-					</li>
+                    <button ng-click="currentValuePage == 0 || previousValuePage()"
+                            class="btn btn-sm btn-default"
+                            style="border-radius:10px; width: 7em;"
+                            ng-class="{ 'disabled': currentValuePage == 0 }">
+                        <span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span>
+                    </button>
+                    <small class="text-muted" style="padding: 0 8px;">
+                        <strong>{{ 'ui_page' | transl8 }} {{currentValuePage + 1}} / {{facetValues.length}}</strong>
+                    </small>
+                    <button ng-click="currentValuePage + 1 >= facetValues.length || nextValuePage()"
+                            class="btn btn-sm btn-default"
+                            style="border-radius:10px; width: 7em;"
+                            ng-class="{ 'disabled': currentValuePage + 1 >= facetValues.length }">
+                        <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
+                    </button>
+                </div>
 
-					<a ng-click="nextValuePage()"
-					   class="btn btn-sm btn-default"
-					   style="border-radius:10px;width:100%;padding-top:2px;padding-bottom:2px;margin-top:2px;margin-bottom:2px;margin-right:2px;float:right;"
-					   ng-class="{ 'disabled': currentValuePage + 1 >= facetValues.length }">
-						{{ 'ui_on' | transl8 }} <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
-					</a>
+                <div class="panel-body">
+                    <ul ng-style="{'columns':valueRows, '-webkit-columns':valueRows, '-moz-columns':valueRows}"
+                        class="small list-unstyled facet">
+                        <li ng-repeat="facetValue in facetValues[currentValuePage]"
+                            ng-class="{selected: facetValue == currentValue}">
+                            <a href="category/?c={{category}}&fq={{currentFacet}}&fv={{facetValue}}">{{facetValue}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-				</ul>
-			</div>
-		</div>
-		<div class="col-md-5" ng-if="entityResultSize > 0">
-			<a ng-click="startIndexSearch()" class="btn btn-default btn-block" style="margin-bottom: 10px" target="_blank">
-				<span class="glyphicon glyphicon-search"></span> {{'ui_to_search_result'|transl8}} ({{entityResultSize}})
-			</a>
-			
-			<table class="table table-hover">
-			<tr>
-				<th>{{ 'title' | transl8 }}</th>
-				<th></th>
-			</tr>	
-			<tr ng-repeat="entity in entities" class="small">
-				<td>
-					<a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index+1).toString()}}" target="_blank">
-						<div ng-if="entity.title==''">
-							({{categories[entity.type]["singular"]}} {{ 'ui_no_title' | transl8 }})
-						</div>
-						<div ng-bind-html="entity.title" ng-if="entity.title!=''"></div>
-						<div class="text-muted">{{entity.subtitle}}</div>
-					</a>
-				</td>
-				<td class="text-right">
-					<img ar-img img-id="{{entity.thumbnailId}}" img-height="40">
-				</td>
-			</tr>
-			</table>
+        <!-- Results Panel -->
+        <div class="col-md-5" ng-if="entityResultSize > 0">
+            <a ng-click="startIndexSearch()" class="btn btn-default btn-block" style="margin-bottom: 10px" target="_blank">
+                <span class="glyphicon glyphicon-search"></span>
+                {{'ui_to_search_result'|transl8}} ({{entityResultSize}})
+            </a>
 
-			<div class="panel-nav" align="center">
-				<a ng-click="previousEntityPage()"
-				   class="btn btn-sm btn-default"
-				   style="border-radius:15px"
-				   ng-class="{ 'disabled': currentEntityPage == 0 }">
-					<span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em; margin: 0 5px;"></span>
-				</a>
-				<small class="text-muted" style="padding: 0px 8px;">
-					<strong>{{ 'ui_page' | transl8 }} {{currentEntityPage + 1}} / {{entitiesPageLength}}</strong>
-				</small>
-				<a ng-click="nextEntityPage()"
-				   class="btn btn-sm btn-default"
-				   style="border-radius:15px"
-				   ng-class="{ 'disabled': currentEntityPage + 1 >= entitiesPageLength }">
-					<span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em; margin: 0 5px;"></span>
-				</a>
-			</div>
+            <table class="table table-hover">
+                <tr>
+                    <th>{{ 'title' | transl8 }}</th>
+                </tr>
+                <tr ng-repeat="entity in entities" class="small">
+                    <td>
+                        <a ng-href="entity/{{entity.entityId}}{{currentQuery.setParam('resultIndex',offset + $index+1).toString()}}"
+                           target="_blank">
+                            <div ng-if="entity.title==''">
+                                ({{categories[entity.type]["singular"]}} {{ 'ui_no_title' | transl8 }})
+                            </div>
+                            <div ng-bind-html="entity.title" ng-if="entity.title!=''"></div>
+                            <div class="text-muted">{{entity.subtitle}}</div>
+                        </a>
+                    </td>
+                    <td class="text-right">
+                        <img ar-img img-id="{{entity.thumbnailId}}" img-height="40">
+                    </td>
+                </tr>
+            </table>
+
+            <div class="panel-nav" align="center">
+                <a ng-click="currentEntityPage == 0 || previousEntityPage()"
+                   class="btn btn-sm btn-default"
+                   style="border-radius:10px; width: 7em;"
+                   ng-class="{ 'disabled': currentEntityPage == 0 }">
+                    <span aria-hidden="true" class="glyphicon glyphicon-arrow-left"
+                          style="font-size: 0.9em; margin: 0 5px;"></span>
+                </a>
+                <small class="text-muted" style="padding: 0px 8px;">
+                    <strong>{{ 'ui_page' | transl8 }} {{currentEntityPage + 1}} / {{entitiesPageLength}}</strong>
+                </small>
+                <a ng-click="currentEntityPage + 1 >= entitiesPageLength || nextEntityPage()"
+                   class="btn btn-sm btn-default"
+                   style="border-radius:10px; width: 7em;"
+                   ng-class="{ 'disabled': currentEntityPage + 1 >= entitiesPageLength }">
+                    <span aria-hidden="true" class="glyphicon glyphicon-arrow-right"
+                          style="font-size: 0.9em; margin: 0 5px;"></span>
+                </a>
+            </div>
 
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
