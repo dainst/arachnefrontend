@@ -1,29 +1,37 @@
+
 <div style="width:100%" class="container" ng-controller="SvgController">
-    <div class="col-md-3" id="svg-metadata-container">
-        <p>
+
+    <div id="svg-status" class="alert-success">Loading SVG data...</div>
+    <div id="svg-container">
+
+        <div id="svg-metadata-container" hidden>
+            <p>
             <h1 id="svg-title"></h1>
             <div>Modeller: <span id="svg-modeller"></span></div>
             <div id="svg-license"></div>
-        </p>
+            </p>
 
-        <p>
-            <button class="btn btn-default btn-block" ng-click="panZoomObject.reset()">Reset</button>
-        </p>
+            <p>
+                <button class="btn btn-default btn-block" ng-click="resetSVG()">Reset</button>
+            </p>
 
-        <p>
+            <p>
             <div class="btn-group btn-group-justified" role="group" >
-                <a class="btn btn-default" ng-click="panZoomObject.zoomIn()">
+                <a class="btn btn-default" ng-click="zoomInSVG()">
                     <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
                 </a>
-                <a class="btn btn-default" ng-click="panZoomObject.zoomOut()">
+                <a class="btn btn-default" ng-click="zoomOutSVG()">
                     <span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span>
                 </a>
             </div>
-        </p>
+            </p>
+        </div>
+
+        <div id="svg-data-container">
+
+        </div>
+
     </div>
 
-    <div class="col-md-9 img-thumbnail" id="svg-container">
-        Loading SVG data...
-        <!-- SVG data gets inserted here -->
-    </div>
+
 </div>

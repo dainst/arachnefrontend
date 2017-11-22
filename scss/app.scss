@@ -577,12 +577,25 @@ con10t-catalog-tree {
   margin-right: 10px;
 }
 
-svg {
-  width: 100%;
-  height: 100%;
+#svg-container{
+  position:relative;
 }
 
-#svg-container{
-  margin-top: 10px;
-  height:90vh;
+#svg-container svg {
+  width: 97vw;
+  height: 95vh;
+}
+
+#svg-metadata-container{
+  background-color: rgba(255,255,255,0.8);
+  width:200px;
+  padding: 10px;
+  position: absolute;
+}
+
+#svg-status {
+  text-align: center;
+  margin-top: 5px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
