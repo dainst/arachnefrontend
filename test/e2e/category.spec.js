@@ -2,7 +2,7 @@ var categoryPage = require('./category/category.page');
 
 describe('category page', function() {
 
-	it('should display total number of entities for bauwerk', function() {
+	xit('should display total number of entities for bauwerk', function() {
 
         categoryPage.load('bauwerk');
         var resultSize = categoryPage.getResultSize();
