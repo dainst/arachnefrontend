@@ -38,7 +38,7 @@ angular.module('arachne.controllers')
             else
                 contentDir = 'con10t';
 
-            var content_url = CONTENT_URL.replace('{NAME}', $stateParams.title).replace('{LOCATION}', contentDir);
+            var content_url = $scope.curl = CONTENT_URL.replace('{NAME}', $stateParams.title).replace('{LOCATION}', contentDir);
 
             if ($location.search()['lang'] != undefined) {
 
@@ -54,24 +54,30 @@ angular.module('arachne.controllers')
                     .then(function (result) {
 
                         var data = result.data;
-                    var lang = localizedContent.determineLanguage(data, $stateParams.title);
-                    $scope.templateUrl = content_url.replace('{LANG}', lang);
+                        var lang = localizedContent.determineLanguage(data, $stateParams.title);
 
-                    // Ensure that images are loaded correctly
-                    $templateCache.remove($scope.templateUrl);
+                        $scope.templateUrl = content_url.replace('{LANG}', lang);
 
-                    if ($stateParams.id) $timeout(function () {
-                        var element = document.getElementById($stateParams.id);
-                        element.scrollIntoView();
-                        var clickEvent = new MouseEvent("click", {
-                            bubbles: false,
-                            cancelable: true,
-                            view: window
+                        // Show german page as fallback if translated page doesn't exist
+                        $http.get($scope.templateUrl).catch(function(error) {
+                            $scope.templateUrl = content_url.replace('{LANG}', 'de');
                         });
-                        var link = element.parentElement.parentElement;
-                        link.dispatchEvent(clickEvent);
-                    }, 500);
-                }).catch(function(error) {
+
+                        // Ensure that images are loaded correctly
+                        $templateCache.remove($scope.templateUrl);
+
+                        if ($stateParams.id) $timeout(function () {
+                            var element = document.getElementById($stateParams.id);
+                            element.scrollIntoView();
+                            var clickEvent = new MouseEvent("click", {
+                                bubbles: false,
+                                cancelable: true,
+                                view: window
+                            });
+                            var link = element.parentElement.parentElement;
+                            link.dispatchEvent(clickEvent);
+                        }, 500);
+                    }).catch(function (error) {
                     console.log(error);
                 });
             }
