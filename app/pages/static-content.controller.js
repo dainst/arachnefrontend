@@ -58,11 +58,6 @@ angular.module('arachne.controllers')
 
                         $scope.templateUrl = content_url.replace('{LANG}', lang);
 
-                        // Show german page as fallback if translated page doesn't exist
-                        $http.get($scope.templateUrl).catch(function(error) {
-                            $scope.templateUrl = content_url.replace('{LANG}', 'de');
-                        });
-
                         // Ensure that images are loaded correctly
                         $templateCache.remove($scope.templateUrl);
 
