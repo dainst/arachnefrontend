@@ -14,11 +14,9 @@ describe('map', function() {
        	expect(marker.count()).not.toBeLessThan(1);
     });
 
-    xit('should show as many markers as many previous storage places exist', function() {
+    it('should show as many markers as many previous storage places exist', function() {
 
-    	browser.get('/entity/1076902');
-
-		browser.sleep(500).then(function() {
+    	browser.get('/entity/1076902').then(function() {
 			var marker = map.getMarkers();
 			expect(marker.count()).toBe(3);
 		})
