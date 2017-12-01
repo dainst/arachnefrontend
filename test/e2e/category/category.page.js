@@ -11,18 +11,17 @@ var CategoryPage = function() {
 	this.load = function(category) {
 		var url = '/category/?c=' + category;
 		browser.get(url);
+        browser.waitForAngular();
 	};
 
 	this.getResultSize = function() {
-		return new Promise(function(resolve, reject) {
-			resultSize.getText().then(function(value) {
-				value = value.replace(/[,.]/, "");
-				resolve(parseInt(value));
-			}, function(err) {
-				reject(err);
-			});
-		});
-	};
+        return new Promise(function(resolve, reject) {
+            return resultSize.getText().then(function(value) {
+                value = value.replace(/[,.]/, "");
+                resolve(parseInt(value));
+            });
+        });
+	}
 
 	this.startSearch = function(query) {
         searchField.sendKeys(query);

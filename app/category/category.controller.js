@@ -72,7 +72,6 @@ angular.module('arachne.controllers')
                         $scope.facets[pageCounter].push(filteredFacets[i]);
                         itemsPerPage += 1;
                     }
-                    $scope.resultSize = filteredFacets.size;
                 });
 
             }
