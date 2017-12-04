@@ -14,27 +14,33 @@ angular.module('arachne.controllers')
     .controller('ProjectsController', ['$scope', '$http', 'localizedContent',
         function ($scope, $http, localizedContent) {
 
-            var PROJECTS_JSON = 'con10t/content.json';
-
-            $scope.lang = localizedContent.determineLanguage();
-            $scope.fallbackLang = 'de';
-
             $scope.columns = [];
-            var projects = [];
-            var sliceColumns = function () {
+
+            $http.get('con10t/content.json').then(function (result) {
+
+                var data = result.data;
+                localizedContent.reduceTitles(data);
+                $scope.sliceColumns(data.children);
+            }).catch(function () {
+                console.log(error);
+            });
+
+            $scope.getProjectLink = function (project) {
+
+                var projectLink = 'project/' + project.id;
+
+                if (project.fallbackLanguage) {
+                    projectLink += '?lang=' + project.fallbackLanguage;
+                }
+
+                return projectLink;
+            };
+
+            $scope.sliceColumns = function (projects) {
+
                 $scope.columns[0] = projects.slice(0, 3);
                 $scope.columns[1] = projects.slice(3, 5);
                 $scope.columns[2] = projects.slice(5);
             };
-
-            $http.get(PROJECTS_JSON).then(function (result) {
-
-                var data = result.data;
-                //localizedContent.reduceTitles(data);
-                projects = data.children;
-                sliceColumns();
-            }).catch(function () {
-                console.log(error);
-            });
         }
     ]);
