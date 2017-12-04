@@ -2,7 +2,7 @@ var categoryPage = require('./category/category.page');
 
 describe('category page', function() {
 
-	fit('should display total number of entities for bauwerk', function() {
+	it('should display total number of entities for bauwerk', function() {
 
         categoryPage.load('bauwerk').then(function() {
             categoryPage.getResultSize()
@@ -14,7 +14,7 @@ describe('category page', function() {
 
     });
 
-    xit('should only search for entities of displayed category', function() {
+    it('should only search for entities of displayed category', function() {
 
         categoryPage.load('objekt').then(function() {
             var searchPage = categoryPage.startSearch('orest');

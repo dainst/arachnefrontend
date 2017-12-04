@@ -138,7 +138,19 @@ angular.module('arachne.controllers')
                 }
             }
 
-            $rootScope.$on('$locationChangeSuccess', function () {
+            $scope.$on('$locationChangeSuccess', function(event, url, oldUrl, state, oldState) {
+
+                const regex = /http:\/\/.*?\/(.*?)\//g;
+                var m1 = url.match(regex);
+                var m2 = oldUrl.match(regex);
+                var ms1 = (m1 !== null) ? m1[0] : null;
+                var ms2 = (m2 !== null) ? m2[0] : null;
+                if (ms1 !== ms2) {
+                    console.log("change url");
+                    return;
+                }
+
+                //loadFacets();
                 loadFacetValues();
                 updatePreviewResultSize();
             });

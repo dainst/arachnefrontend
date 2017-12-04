@@ -74,7 +74,7 @@ angular.module('arachne',[
 			'entityImage':		{ url: '/entity/:entityId/image/:imageId', templateUrl: 'app/entity/entity-image.html', data: { pageTitle: title }},
 			'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc', templateUrl: 'app/search/search.html', data: { pageTitle: title }},
 			'categories':		{ url: '/categories', templateUrl: 'app/category/categories.html', data: { pageTitle: title }},
-			'category':			{ url: '/category/:category', templateUrl: 'app/category/category.html', data: { pageTitle: title }},
+			'category':			{ url: '/category/?c', templateUrl: 'app/category/category.html', data: { pageTitle: title }},
 
 			'map': {
 				url: '/map?q&fq',
