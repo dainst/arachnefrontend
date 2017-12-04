@@ -1,7 +1,8 @@
 fs = require('fs');
+process = require('process');
 
 exports.config = {
-    chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver',
+    chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver' + (process.platform === 'win32' ? '.exe' : ''),
     baseUrl: 'http://localhost:8082',
     specs: ['./delays.js','**/*.spec.js'],
     directConnect: true,
