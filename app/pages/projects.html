@@ -8,8 +8,7 @@
         </div>
         <div class="col-sm-2">
             <form class="form-inline" style="margin-bottom:0">
-                <input class="form-control" style="width: 100%; margin-top: 20px;" type="text" placeholder="Filter"
-                       ng-model="filter">
+                <input class="form-control" style="width: 100%; margin-top: 20px;" type="text" placeholder="Filter" ng-model="filter">
             </form>
         </div>
     </div>
@@ -17,37 +16,43 @@
     <div class="row">
 
         <div ng-repeat="column in columns" class="col-sm-6 col-md-4">
+
             <div ng-repeat="project in column">
+
                 <h3 style="margin-top:25px;">
-                    <a ng-show="project.id" href="project/{{project.id}}" style="color:black;">
-                        {{project.title[lang] || project.title[fallbackLang]}}
+                    <a ng-show="project.id"
+                       ng-href="{{getProjectLink(project)}}"
+                       style="color:black;">
+                        {{project.title}}
                     </a>
-                    <span ng-hide="project.id">{{project.title[lang] || project.title[fallbackLang]}}</span>
+                    <span ng-hide="project.id">{{project.title}}</span>
                 </h3>
                 <hr style="margin-top: 0; margin-bottom:10px;">
                 <ul class="list-unstyled">
                     <li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;">
-						<span ng-hide="project.hidden ||
-									(filter && project.title[lang].toLowerCase().indexOf(filter.toLowerCase()) == -1) ||
-									(filter && project.title[fallbackLang].toLowerCase().indexOf(filter.toLowerCase()) == -1)">
-							<a ng-show="project.id" href="project/{{project.id}}">
-								{{project.title[lang] || project.title[fallbackLang]}}
+						<span ng-hide="project.hidden || (filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1)">
+							<a ng-show="project.id"
+                               ng-href="{{getProjectLink(project)}}">
+								{{project.title}}
 							</a>
-							<span ng-hide="project.id">{{project.title[lang] || project.title[fallbackLang]}}</span>
+							<span ng-hide="project.id">{{project.title}}</span>
 						</span>
                         <ul ng-show="project.children">
-                            <li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;" ng-hide="project.hidden ||
-									(filter && project.title[lang].toLowerCase().indexOf(filter.toLowerCase()) == -1) ||
-									(filter && project.title[fallbackLang].toLowerCase().indexOf(filter.toLowerCase()) == -1)">
-                                <a ng-show="project.id" href="project/{{project.id}}">
-                                    {{project.title[lang] || project.title[fallbackLang]}}
+                            <li ng-repeat="project in project.children"
+                                style="margin: 5px 0 5px 15px;"
+                                ng-hide="project.hidden || (filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1)">
+                                <a ng-show="project.id"
+                                   ng-href="{{getProjectLink(project)}}">
+                                    {{project.title}}
                                 </a>
-                                <span ng-hide="project.id">{{project.title[lang] || project.title[fallbackLang]}}</span>
+                                <span ng-hide="project.id">{{project.title}}</span>
                             </li>
                         </ul>
                     </li>
                 </ul>
+
             </div>
+
         </div>
     </div>
 </div>
