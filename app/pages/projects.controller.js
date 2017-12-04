@@ -25,8 +25,19 @@ angular.module('arachne.controllers')
                 console.log(error);
             });
 
+            $scope.getProjectLink = function (project) {
+
+                var projectLink = 'project/' + project.id;
+
+                if (project.fallbackLanguage) {
+                    projectLink += '?lang=' + project.fallbackLanguage;
+                }
+
+                return projectLink;
+            };
+
             $scope.sliceColumns = function (projects) {
-                
+
                 $scope.columns[0] = projects.slice(0, 3);
                 $scope.columns[1] = projects.slice(3, 5);
                 $scope.columns[2] = projects.slice(5);

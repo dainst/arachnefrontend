@@ -16,9 +16,13 @@
     <div class="row">
 
         <div ng-repeat="column in columns" class="col-sm-6 col-md-4">
+
             <div ng-repeat="project in column">
+
                 <h3 style="margin-top:25px;">
-                    <a ng-show="project.id" href="project/{{project.id}}" style="color:black;">
+                    <a ng-show="project.id"
+                       ng-href="{{getProjectLink(project)}}"
+                       style="color:black;">
                         {{project.title}}
                     </a>
                     <span ng-hide="project.id">{{project.title}}</span>
@@ -27,14 +31,18 @@
                 <ul class="list-unstyled">
                     <li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;">
 						<span ng-hide="project.hidden || (filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1)">
-							<a ng-show="project.id" href="project/{{project.id}}">
+							<a ng-show="project.id"
+                               ng-href="{{getProjectLink(project)}}">
 								{{project.title}}
 							</a>
 							<span ng-hide="project.id">{{project.title}}</span>
 						</span>
                         <ul ng-show="project.children">
-                            <li ng-repeat="project in project.children" style="margin: 5px 0 5px 15px;" ng-hide="project.hidden || (filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1)">
-                                <a ng-show="project.id" href="project/{{project.id}}">
+                            <li ng-repeat="project in project.children"
+                                style="margin: 5px 0 5px 15px;"
+                                ng-hide="project.hidden || (filter && project.title.toLowerCase().indexOf(filter.toLowerCase()) == -1)">
+                                <a ng-show="project.id"
+                                   ng-href="{{getProjectLink(project)}}">
                                     {{project.title}}
                                 </a>
                                 <span ng-hide="project.id">{{project.title}}</span>
@@ -42,7 +50,9 @@
                         </ul>
                     </li>
                 </ul>
+
             </div>
+
         </div>
     </div>
 </div>
