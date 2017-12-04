@@ -9,9 +9,15 @@ var CategoryPage = function() {
 	var searchButton = element(by.css('.category-search form button'));
 	
 	this.load = function(category) {
-		var url = '/category/?c=' + category;
-		browser.get(url);
-        browser.waitForAngular();
+		return new Promise(function(resolve, reject) {
+            var url = '/category/?c=' + category;
+            browser.get(url).then(function() {
+                browser.waitForAngular().then(function() {
+                    resolve();
+                })
+			})
+
+		})
 	};
 
 	this.getResultSize = function() {
