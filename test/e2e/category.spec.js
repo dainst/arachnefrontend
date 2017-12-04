@@ -2,12 +2,14 @@ var categoryPage = require('./category/category.page');
 
 describe('category page', function() {
 
-	xit('should display total number of entities for bauwerk', function() {
+	it('should display total number of entities for bauwerk', function() {
 
         categoryPage.load('bauwerk');
-        var resultSize = categoryPage.getResultSize();
-        expect(resultSize).toBeGreaterThan(0);
-        
+        categoryPage.getResultSize()
+            .then(function(resultSize) {
+                expect(resultSize).toBeGreaterThan(0);
+            }
+        );
     });
 
     xit('should only search for entities of displayed category', function() {
