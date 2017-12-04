@@ -111,7 +111,7 @@ gulp.task('minify-js', ['concat-js', 'html2js-js', 'html2js-partials'], function
         .pipe(concat(pkg.name + '.js'))
         .pipe(gulp.dest('dist/'))
         .pipe(uglify())
-        //.on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(concat(pkg.name + '.min.js'))
         .pipe(gulp.dest('dist/'));
 });
