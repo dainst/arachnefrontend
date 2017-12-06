@@ -1,19 +1,18 @@
 var EC = protractor.ExpectedConditions;
 
-var con10tImage = require('./con10t/con10t-image.page');
+var con10tWidget = require('./con10t/con10t-widget.page');
 
 describe('con10t-image', function() {
 
-    it('should display an image from a given url', function() {
-        browser.get('/project/fotothekmuenchen');
-        var image = con10tImage.getImageFromSrc();
+    fit('should display an image from a given url', function() {
+        browser.get('/project/test_project');
+        var image = con10tWidget.getImageFromSrc();
         expect(image.isPresent()).toBe(true);
     });
 
-    // TODO: schlossfulda or widgetsdemo url do not work, wait for testproject
-    xit('should display an image from an arachne entity identifier', function() {
-        browser.get('/project/widgetsdemo');
-        var image = con10tImage.getImageFromEntity();
+    fit('should display an image from an arachne entity identifier', function() {
+        browser.get('/project/test_project');
+        var image = con10tWidget.getImageFromEntity();
         expect(image.isPresent()).toBe(true);
     });
 

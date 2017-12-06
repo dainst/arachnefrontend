@@ -33,6 +33,7 @@ exports.config = {
                 /.*\/data\/user\/register.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
                 /.*\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
                 /.*\/data\/image\/.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
+                /.*\/data\/catalog\/.*Failed to load resource: the server responded with a status of 403 \(Forbidden\)/,
                 /.*tile\.openstreetmap\.org/
             ]
         }
