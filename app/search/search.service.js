@@ -25,7 +25,11 @@ angular.module('arachne.services')
             /**
              * Execute search with current query if location is changed
              */
-            $rootScope.$on("$locationChangeSuccess", function () {
+            $rootScope.$on("$locationChangeSuccess", function (event, url, oldUrl) {
+
+                if (!$rootScope.isOnPage(url, ["map", "search"])) {
+                    return;
+                }
 
                 var newQuery = Query.fromSearch($location.search());
 

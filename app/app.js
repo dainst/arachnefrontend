@@ -123,7 +123,7 @@ angular.module('arachne',[
 /**
  * Change <title> after page change
  */
-.run(['$transitions', 'searchScope', function($transitions, searchScope) {
+.run(['$transitions', 'searchScope', '$rootScope', function($transitions, searchScope, $rootScope) {
 
 	/*
     $transitions.onError({ }, function(trans) {
@@ -144,6 +144,39 @@ angular.module('arachne',[
 
        	searchScope.refresh(); // refresh scopeObject for navbarSearch
 	});
+
+    /**
+	 * checks if two urls are in the page, and, if provided, if is is the provided one
+     * @param url1
+     * @param url2
+     * @param page
+     * @returns {boolean}
+     */
+    $rootScope.isSamePage = function(url1, url2, page) {
+        var m1 = /http:\/\/.*?\/(.*?)[\/?]/g.exec(url1);
+    	var m2 = /http:\/\/.*?\/(.*?)[\/?]/g.exec(url2);
+        var ms1 = (m1 !== null) ? m1[1] : null;
+        var ms2 = (m2 !== null) ? m2[1] : null;
+        var isp = (typeof page === "undefined") ? true : (ms1 === page);
+        console.log(ms1, ms2, page, (isp && (ms1 === ms2)))
+        return isp && (ms1 === ms2);
+
+
+        /* stand: d
+        - kategorieen seite geht nicht
+        - search service is geänder -> TEST
+        - index page ist changed -> WIE KOMMT MAN DA DRAUF
+
+         */
+	}
+
+    $rootScope.isOnPage = function(url, pages) {
+        var m1 = /\/(\w*)\/?\??[^\?\/]*$/.exec(url);
+        var ms1 = (m1 !== null) ? m1[1] : "nothing";
+        return (pages.indexOf(ms1) !== -1)
+	}
+
+
 }])
 .constant('arachneSettings', {
 	arachneUrl: 'https://arachne.dainst.org',

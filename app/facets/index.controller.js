@@ -38,9 +38,11 @@ angular.module('arachne.controllers')
             /**
              * Reload view if URL gets changed (e.g. additional params added)
              */
-            $rootScope.$on('$locationChangeSuccess', function () {
-                //console.log($stateParams);
-                load();
+            $scope.$on('$locationChangeSuccess', function (event, url1) {
+                if ($rootScope.isOnPage(url1, ["index"])) {
+                    load();
+                }
+
             });
 
             /**
