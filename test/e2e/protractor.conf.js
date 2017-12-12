@@ -4,7 +4,7 @@ process = require('process');
 exports.config = {
     chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver' + (process.platform === 'win32' ? '.exe' : ''),
     baseUrl: 'http://localhost:8082',
-    specs: ['./delays.js','**/*.spec.js'],
+    specs: ['./delays.js','**/user-management.spec.js'],
     directConnect: true,
     exclude: [],
     chromeOnly: true,
@@ -24,7 +24,7 @@ exports.config = {
         {
             package: 'protractor-console-plugin',
             failOnWarning: false,
-            failOnError: true,
+            failOnError: false,
             logWarnings: true,
             exclude: [
                 /http:\/\/piwik\.dainst\.org\/piwik\.js.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,

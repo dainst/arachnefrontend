@@ -3,7 +3,7 @@ var FrontPage = function() {
 	var entityCount = element(by.binding('entityCount'));
 	
 	this.load = function() {
-        browser.get('/');
+        return browser.get('/');
     };
 
     this.getEntityCount = function() {

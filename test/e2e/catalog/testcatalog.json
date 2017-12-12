@@ -1,0 +1,40 @@
+{
+    "author": "e2e_test_user",
+    "public": true,
+    "root": {
+        "label": "Automatisch erstellter Testcatalog",
+        "text": "Dies ist ein automatischer Testcatalog, der von den End-To-End-Tests erstellt und wieder gelöscht wird. Wenn Sie ihn sehen, ist vermutlich etwas passiert, das nicht hätte passieren sollen.",
+        "children": [
+            {
+                "children": [],
+                "label": "Ein Entry!"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "children": [
+                                            {
+                                                "arachneEntityId": 1184191,
+                                                "label": "Fundamente der Innensäulen",
+                                                "text": "Die Fundamente der Innensäulen."
+                                            }
+                                        ],
+                                        "label": "Fundamente"
+                                    }
+                                ],
+                                "label": "Republikanische Zeit"
+                            }
+                        ],
+                        "label": "Aula"
+                    }
+                ],
+                "arachneEntityId": null,
+                "label": "Basilica Aemilia"
+            }
+        ]
+    }
+}

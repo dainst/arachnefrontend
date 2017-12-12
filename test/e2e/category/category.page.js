@@ -12,11 +12,8 @@ var CategoryPage = function() {
 		return new Promise(function(resolve, reject) {
             var url = '/category/?c=' + category;
             browser.get(url).then(function() {
-                browser.waitForAngular().then(function() {
-                    resolve();
-                })
-			})
-
+                browser.waitForAngular().then(resolve, reject);
+			}, reject)
 		})
 	};
 

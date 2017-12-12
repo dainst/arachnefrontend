@@ -20,7 +20,7 @@ describe('search result page', function() {
         expect(moreButton.isDisplayed()).toBe(false);
     });
 
-    it('should show a msg when searchresults exceed 10000', function() {
+    fit('should show a msg when searchresults exceed 10000', function() {
 
         searchPage.load({ offset: 9995, limit: 6, q: '*' });
 

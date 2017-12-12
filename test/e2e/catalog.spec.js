@@ -1,20 +1,55 @@
 var catalogPage = require('./catalog/catalog.page');
 var childrenLimit = 20;
 
+var common = require('./common');
+
 describe('catalog page', function() {
 
+    var testCatalogID = null;
+
+    beforeAll(function(done) {
+        var createTestCatalogPromise = common.createTestCatalog();
+        createTestCatalogPromise.then(
+            function(id) {
+                testCatalogID = id;
+                done();
+            }
+        );
+    });
+
+    afterAll(common.deleteTestUserInDB);
+
+    fit('will be blood', function() {
+        console.log("id:" + testCatalogID);
+        catalogPage.load(testCatalogID).then(function() {
+            browser.sleep(10000);
+        });
+    });
+
+    /**
+     * stand der Dinge:
+     *
+     * es können keine öffentlichen kataloge gespeichert werden(!!!) .. entweder backend ändern, katalog gleich nach dem
+     * anlegen veröffentlichen, oder
+     * einloggen
+     *
+     * @constructor
+     */
+
+
     it('should show more catalog entries on root level after each click on the more button', function() {
+        catalogPage.load(testCatalogID).then(function() {
+            var treeRoot = catalogPage.getTreeRoot();
+            var rootList = catalogPage.getChildrenList(treeRoot);
 
-        catalogPage.load(105);
-        var treeRoot = catalogPage.getTreeRoot();
-        var rootList = catalogPage.getChildrenList(treeRoot);
+            expect(catalogPage.getEntries(rootList).count()).toBe(childrenLimit);
 
-        expect(catalogPage.getEntries(rootList).count()).toBe(childrenLimit);
+            for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
+                catalogPage.getMoreButton(rootList).click();
+                expect(catalogPage.getEntries(rootList).count()).toBe(i);
+            }
+        }, fail);
 
-        for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
-            catalogPage.getMoreButton(rootList).click();
-            expect(catalogPage.getEntries(rootList).count()).toBe(i);
-        }
     });
 
     it('should show more catalog entries on a lower level after each click on the more button', function() {

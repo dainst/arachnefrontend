@@ -1,9 +1,17 @@
+var common = require('../common');
+
 var CatalogPage = function() {
 
     this.load = function(id) {
+
         var url = '/catalog/' + id;
-        browser.get(url);
+        return new Promise(function(resolve, reject) {
+            browser.get(url).then(function() {
+                browser.waitForAngular().then(resolve, reject);
+            }, reject)
+        });
     };
+
 
     this.getTreeRoot = function() {
         return element(by.id('tree-root'));
