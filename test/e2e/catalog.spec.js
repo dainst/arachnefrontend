@@ -64,7 +64,7 @@ describe('catalog page', function() {
         expect(catalogPage.getMarkers().count()).toBe(0);
 
         catalogPage.getMapButton().click();
-        browser.driver.sleep(500);
+        browser.driver.sleep(1000);
         browser.waitForAngular();
 
         expect(catalogPage.getMarkers().count()).toBeGreaterThan(0);
