@@ -13,5 +13,4 @@ function($resource, arachneSettings) {
         	isArray: true
         }
     });
-
 }]);

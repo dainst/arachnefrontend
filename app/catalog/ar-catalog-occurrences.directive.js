@@ -56,7 +56,7 @@ angular.module('arachne.directives')
                                 }
                             });
                             editEntryModal.close = function (newEntry) {
-                                CatalogEntry.save(newEntry, function (data) {
+                                CatalogEntry.save({newEntry}, function (data) {
                                     if (data.error_message) {
                                         console.log(data.error_message);
                                     } else {

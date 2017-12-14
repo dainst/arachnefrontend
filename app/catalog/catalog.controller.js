@@ -30,6 +30,8 @@ angular.module('arachne.controllers')
             $scope.removeItems = false;
             $scope.itemsToRemove = [];
 
+            $scope.toAdd = [];
+
             if ($stateParams.view === 'map') $scope.map = true;
 
             $scope.treeOptions = {
@@ -82,12 +84,7 @@ angular.module('arachne.controllers')
                                         $scope.currentNewEntry.label = entity.title;
                                         $scope.currentNewEntry.parentId = entry.id;
                                         $scope.currentNewEntry.indexParent = entry.children.length;
-                                        CatalogEntry.save({}, $scope.currentNewEntry, function (result) {
-                                            entry.children.push(result);
-                                            entry.totalChildren += 1;
-                                        }, function () {
-                                            messages.add('default');
-                                        });
+                                        $scope.toAdd.push($scope.currentNewEntry);
                                     }
                                 }, function () {
                                     messages.add('default');
@@ -105,12 +102,7 @@ angular.module('arachne.controllers')
                                     $scope.currentNewEntry.label = newEntry[i].label;
                                 $scope.currentNewEntry.parentId = entry.id;
                                 $scope.currentNewEntry.indexParent = entry.children.length;
-                                CatalogEntry.save({}, $scope.currentNewEntry, function (result) {
-                                    entry.children.push(result);
-                                    entry.totalChildren += 1;
-                                }, function () {
-                                    messages.add('default');
-                                });
+                                $scope.toAdd.push($scope.currentNewEntry);
                             }
                         }
                     }
@@ -128,12 +120,17 @@ angular.module('arachne.controllers')
 
                         newEntry.parentId = entry.id;
                         newEntry.indexParent = entry.children.length;
-                        CatalogEntry.save({}, newEntry, function (result) {
-                            entry.children.push(result);
-                            entry.totalChildren += 1;
-                            initialize(result);
-                            if (scope && scope.collapsed) {
-                                $scope.toggleNode(scope, entry);
+                        $scope.toAdd.push(newEntry)
+                    }
+                    if($scope.toAdd.length > 0) {
+                        CatalogEntry.save({}, $scope.toAdd, function (result) {
+                            for(var i = 0; i < result.length; i++) {
+                                entry.children.push(result[i]);
+                                entry.totalChildren += 1;
+                                initialize(result[i]);
+                                if (scope && scope.collapsed) {
+                                    $scope.toggleNode(scope, entry);
+                                }
                             }
                         }, function () {
                             messages.add('default');
@@ -146,7 +143,7 @@ angular.module('arachne.controllers')
             $scope.toggleNode = function (scope, entry) {
 
                 if (entry.totalChildren > 0) {
-                    if (!entry.children || entry.children.length == 0) {
+                    if (!entry.children || entry.children.length === 0) {
                         entry.loading = true;
                         CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: 0}, function (result) {
                             entry.children = result.children;
