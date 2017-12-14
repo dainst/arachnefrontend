@@ -39,7 +39,7 @@ describe('scoped search result page', function() {
 		});
 	});
 
-	it('shall stay in scope when switched to normal search view', function() {
+	xit('shall stay in scope when switched to normal search view', function() {
 		searchPage.loadScoped(null, 'map', {q:"okapi"}).then(function () {
             mapPage.switchToSearchView().then(function(newUrl) {
                 expect(newUrl).toContain("/search?q=okapi");
@@ -54,7 +54,7 @@ describe('scoped search result page', function() {
 		});
 	});
 
-	it('shall stay in scope when switched to normal search view  in scoped search', function() {
+	xit('shall stay in scope when switched to normal search view  in scoped search', function() {
 		searchPage.loadScoped('grako', 'map', {q:"Florenz"}).then(function () {
             mapPage.switchToSearchView().then(function(newUrl) {
                 expect(newUrl).toContain("project/grako/search?q=Florenz");

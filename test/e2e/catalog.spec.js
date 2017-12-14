@@ -51,7 +51,7 @@ describe('catalog page', function() {
         //expect(catalogPage.getCatalogText().isPresent()).toBe(true);
     });
 
-    it('should show markers in map view', function() {
+    xit('should show markers in map view', function() {
 
         var width = 1024;
         var height = 768;
