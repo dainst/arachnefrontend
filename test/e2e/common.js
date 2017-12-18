@@ -1,4 +1,5 @@
 var request = require('request');
+var promisedRequest = require('./promisedRequest');
 var hasha = require('hasha');
 var config = require('../../config/dev-config.json');
 
@@ -24,7 +25,6 @@ var Common = function() {
         console.log("TYPEIN IS DEPRICATED");
         browser.wait(EC.visibilityOf(inputField), 5000);
 
-
         inputField.clear();
         for (var i in text) {
             inputField.sendKeys(text[i]);
@@ -32,48 +32,12 @@ var Common = function() {
         return inputField;
     };
 
-
     this.typeInPromised = function(inputField, text) {
         return browser.wait(EC.visibilityOf(inputField), 5) // they should be there, just to be sure
             .then(function() {
                 inputField.clear();
                 return inputField.sendKeys(text)
             });
-    };
-
-    this.createTestUserInDB = function() {
-        return new Promise(function(resolve, reject) {
-            var hashedPassword = hasha(new Buffer(testUserPassword), {algorithm: 'md5'});
-            request({
-                url: config.backendUri + '/user/register',
-                method: 'POST',
-                json: {
-                    username: testUserName,
-                    password: hashedPassword,
-                    passwordValidation: hashedPassword,
-                    firstname: testUserFirstname,
-                    lastname: testUserLastname,
-                    email: testUserEmail,
-                    emailValidation: testUserEmail,
-                    zip: testUserZIP,
-                    place: testUserCity,
-                    street: testUserStreet,
-                    country: testUserCountry,
-                    iAmHuman: 'humanIAm'
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }, function (error, response, body) {
-                if (!error && response.statusCode === 201 && body.success === 'true') {
-                    resolve(body);
-                } else {
-                    //console.log("error: " + response.statusCode);
-                    reject(response.statusCode);
-                }
-            });
-        })
-
     };
 
     this.deleteTestUserInDB = function() {
@@ -131,32 +95,81 @@ var Common = function() {
         return testUserPhone;
     };
 
-    this.createTestCatalog = function() {
+    function createTestUserInDB() {
         var hashedPassword = hasha(new Buffer(testUserPassword), {algorithm: 'md5'});
-        var testcatalog = require("./catalog/testcatalog");
-        return new Promise(function createTestCatalogPromise(resolve, reject) {
-            createTestUserInDB().then(
-                function createTestUserInDBCallback() {
-                    request.post({
-                        url: config.backendUri + '/catalog',
-                        json: testcatalog,
-                        headers: {'Content-Type': 'application/json'},
-                        auth: {
-                            user: testUserName,
-                            pass: hashedPassword,
-                            sendImmediately: true
-                        }
-                    }, function createTestCatalogCallback(error, response, body) {
-                        if (!error && response.statusCode === 200) {
-                            return resolve(body.id);
-                        } else {
-                            return reject("ERROR creating test catalog: " + response.statusCode);
-                        }
-                    })
-                }
-            );
-        });
+        return promisedRequest("create test user", "post", {
+            url: config.backendUri + '/user/register',
+            json: {
+                username: testUserName,
+                password: hashedPassword,
+                passwordValidation: hashedPassword,
+                firstname: testUserFirstname,
+                lastname: testUserLastname,
+                email: testUserEmail,
+                emailValidation: testUserEmail,
+                zip: testUserZIP,
+                place: testUserCity,
+                street: testUserStreet,
+                country: testUserCountry,
+                iAmHuman: 'humanIAm'
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })();
     }
+
+    this.createTestUserInDB = createTestUserInDB;
+
+    function getAuthData() {
+        var hashedPassword = hasha(new Buffer(testUserPassword), {algorithm: 'md5'});
+        return {
+            user: testUserName,
+            pass: hashedPassword,
+            sendImmediately: true
+        }
+    }
+
+    this.createTestCatalog = function() {
+
+        var testcatalog = require("./catalog/testcatalog");
+
+        function dataToSend(catalog) {
+            var url = config.backendUri + '/catalog';
+            if ((typeof catalog === "object") &&  (typeof catalog.id !== "undefined")) {
+               url += '/' + catalog.id;
+                testcatalog.id = catalog.id;
+            }
+            return {
+                url: url,
+                json: testcatalog,
+                headers: {'Content-Type': 'application/json'},
+                auth: getAuthData()
+            };
+        }
+
+        /**
+         * the catalog endpoint does not allow to save a public catalog. we have to save it first as hidden and then update it as public.
+         * otherwise the e2e_test_user could bot see, or we had to login
+         */
+
+        return createTestUserInDB()
+            .then(promisedRequest("insert Test Catalog", "post", dataToSend))
+            .then(promisedRequest("update catalog to make it public", "put", dataToSend))
+            .then(function(catalog){return catalog.id})
+
+    };
+
+    this.deleteTestCatalog = function(testCatalogId) {
+        return promisedRequest("delete test catalog", 'delete', {
+            url: config.backendUri + '/catalog/' + testCatalogId,
+            headers: {'Content-Type': 'application/json'},
+            auth: getAuthData()
+        })()
+            .then(this.deleteTestUserInDB)
+
+    }
+
 
 };
 

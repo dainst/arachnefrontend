@@ -3,32 +3,24 @@ var common = require('../common');
 var CatalogPage = function() {
 
     this.load = function(id) {
-
         var url = '/catalog/' + id;
-        return new Promise(function(resolve, reject) {
-            browser.get(url).then(function() {
-                browser.waitForAngular().then(resolve, reject);
-            }, reject)
-        });
+        return  browser.get(url)
     };
-
 
     this.getTreeRoot = function() {
         return element(by.id('tree-root'));
     };
 
     this.getChildrenList = function(entry) {
-        return entry.element(by.xpath('./ol'));
+        return entry.element(by.css('ol'));
     };
 
     this.getEntries = function(list) {
-        return list.all(by.xpath('./li'));
+        return list.all(by.css('li'));
     };
 
     this.getRootEntries = function() {
-        var treeRoot = this.getTreeRoot();
-        var rootList = this.getChildrenList(treeRoot);
-        return this.getEntries(rootList);
+        return element.all(by.css('#tree-root > ol > li'));
     };
 
     this.getMoreButton = function(listRoot) {

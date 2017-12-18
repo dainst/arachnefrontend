@@ -3,11 +3,12 @@
     "public": true,
     "root": {
         "label": "Automatisch erstellter Testcatalog",
-        "text": "Dies ist ein automatischer Testcatalog, der von den End-To-End-Tests erstellt und wieder gelöscht wird. Wenn Sie ihn sehen, ist vermutlich etwas passiert, das nicht hätte passieren sollen.",
+        "text": "Dies ist ein automatischer Testcatalog, der von den End-To-End-Tests erstellt und wieder gelöscht wird. Wenn Sie ihn sehen, ist vermutlich etwas passiert, das nicht hätte passieren sollen!",
         "children": [
             {
                 "children": [],
-                "label": "Ein Entry!"
+                "label": "-my fair label-",
+                "arachneEntityId": 1121034
             },
             {
                 "children": [
@@ -18,7 +19,7 @@
                                     {
                                         "children": [
                                             {
-                                                "arachneEntityId": 1184191,
+                                                "arachneEntityId": 1001,
                                                 "label": "Fundamente der Innensäulen",
                                                 "text": "Die Fundamente der Innensäulen."
                                             }
