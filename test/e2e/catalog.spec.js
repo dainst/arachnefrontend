@@ -96,6 +96,7 @@ describe('catalog page', function() {
             .then(expect(catalogPage.getMarkers().count()).toBe(0))
             .then(catalogPage.getMapButton().click())
             .then(expect(catalogPage.getMarkers().count()).toBeGreaterThan(0))
+
     });
 
     /**
