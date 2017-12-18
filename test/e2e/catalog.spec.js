@@ -79,7 +79,7 @@ describe('catalog page', function() {
         /**
          * TODO
          *
-         * catalog läd preview und text erst wenn mana fu catalog text clickt. das ändern
+         * catalog läd preview und text läd erst, wenn man auf catalog text clickt. das ändern und
          * expect(catalogPage.getCatalogText().isPresent()).toBe(true);
          *
          */

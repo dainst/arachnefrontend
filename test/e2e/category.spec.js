@@ -3,15 +3,8 @@ var categoryPage = require('./category/category.page');
 describe('category page', function() {
 
 	it('should display total number of entities for bauwerk', function() {
-
-        categoryPage.load('bauwerk').then(function() {
-            categoryPage.getResultSize()
-                .then(function(resultSize) {
-                        expect(resultSize).toBeGreaterThan(0);
-                    }
-                );
-        });
-
+        categoryPage.load('bauwerk')
+            .then(expect(categoryPage.getResultSize()).toBeGreaterThan(0))
     });
 
     it('should only search for entities of displayed category', function() {
