@@ -1,3 +1,5 @@
+var common = require('../common');
+
 var FrontPage = function() {
 
 	var entityCount = element(by.binding('entityCount'));
@@ -12,10 +14,7 @@ var FrontPage = function() {
 
     this.typeInSearchField = function(text) {
         var searchField = element(by.css('#start-page-search input'));
-        for (var i in text) {
-            searchField.sendKeys(text[i]);
-        }
-        return searchField;
+        return common.typeInPromised(searchField, text);
     };
 
     this.getSearchButton = function() {

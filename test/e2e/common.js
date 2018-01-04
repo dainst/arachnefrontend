@@ -40,8 +40,6 @@ var Common = function() {
             });
     };
 
-
-
     this.getTestUserName = function() {
         return testUserName;
     };

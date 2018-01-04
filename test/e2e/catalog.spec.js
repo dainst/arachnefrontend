@@ -5,8 +5,6 @@ var testCatalogId = null;
 
 var common = require('./common');
 
-common.deleteTestUserInDB();
-
 describe('catalog page', function() {
 
     beforeAll(function(done) {

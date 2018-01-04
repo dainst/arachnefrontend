@@ -33,11 +33,20 @@ var NavbarPage = function() {
     var submitRegistrationButton = element(by.css('[ng-click="submit()"]'));
     var cancelRegistrationButton = element(by.css('[type="reset"]'));
 
+    this.expandNavbar = function() {
+        return new Promise(function expandNavbarPromise(resolve, reject) {
+            browser.wait(EC.visibilityOf(collapsingNavbar), 10)
+                .then(element(by.css('.navbar-toggle')).click)
+                .catch(function() {/*Navbar expanded. Doing nothing*/})
+                .then(resolve)
+        });
+    };
+
 	this.clickLogin = function() {
         return this.expandNavbar()
             .then(loginButton.click())
             .then(browser.wait(EC.visibilityOf(loginModal)))
-	};
+	}.bind(this);
 
 	this.clickRegistration = function() {
         return this.expandNavbar()
@@ -204,14 +213,7 @@ var NavbarPage = function() {
         return cancelRegistrationButton.click()
     };
 
-    this.expandNavbar = function() {
-        return new Promise(function expandNavbarPromise(resolve, reject) {
-            browser.wait(EC.visibilityOf(collapsingNavbar), 10)
-                .then(element(by.css('.navbar-toggle')).click)
-                .catch(function() {/*Navbar expanded. Doing nothing*/})
-                .then(resolve)
-        });
-    };
+
 
 
     this.typeInCompleteRegistrationCredentials = function(skipCountry) {
