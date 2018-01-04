@@ -7,7 +7,7 @@
         "children": [
             {
                 "children": [],
-                "label": "-my fair label-",
+                "label": "Haupteintrag eins",
                 "arachneEntityId": 1121034
             },
             {
@@ -31,11 +31,67 @@
                             }
                         ],
                         "label": "Aula"
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag eins",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag zwo",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag drei",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag vier",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag fünf",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag sechs",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag sieben",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag acht",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag neun",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag zehn",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag elf",
+                        "arachneEntityId": null
                     }
                 ],
                 "arachneEntityId": null,
                 "label": "Basilica Aemilia"
             }
+
         ]
     }
 }

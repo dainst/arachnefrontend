@@ -1,8 +1,11 @@
 var catalogPage = require('./catalog/catalog.page');
-var childrenLimit = 2;
+var rootChildrenCount = 2;
+var subChildrenCount = 12;
 var testCatalogId = null;
 
 var common = require('./common');
+
+common.deleteTestUserInDB();
 
 describe('catalog page', function() {
 
@@ -12,7 +15,9 @@ describe('catalog page', function() {
                 testCatalogId = id;
             })
             .then(done)
-            .catch(done.fail("Test catalog could not be created."));
+            .catch(function(e) {
+                done.fail("Test catalog could not be created: " + e)
+            });
     });
 
     afterAll(function(done) {
@@ -27,55 +32,33 @@ describe('catalog page', function() {
                 .then(catalogPage.getTreeRoot)
                 .then(catalogPage.getChildrenList)
                 .then(function(rootList) {
-                    return expect(catalogPage.getEntries(rootList).count()).toBe(childrenLimit);
+                    var rootEntries = catalogPage.getEntries(rootList);
+                    expect(rootEntries.count()).toBe(rootChildrenCount);
+                    catalogPage.getExpandButton(catalogPage.getEntries(rootList).get(1)).click().then(function() {
+                        var list = catalogPage.getChildrenList(rootEntries.get(1));
+                        expect(catalogPage.getEntries(list).count()).toBe(subChildrenCount);
+                    })
                 })
                 .then(done)
                 .catch(done.fail)
-
-                /*
-                    TODO test read more link
-                    for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
-                        catalogPage.getMoreButton(rootList).click();
-                        expect(catalogPage.getEntries(rootList).count()).toBe(i);
-                    }
-                })*/
         } else {
             done(); // allready failing in afterAll
         }
     });
 
-    xit('should show more catalog entries on a lower level after each click on the more button', function() {
-
-        catalogPage.load(79);
-        var rootEntries = catalogPage.getRootEntries();
-
-        catalogPage.getExpandButton(rootEntries.get(0)).click();
-
-        var list = catalogPage.getChildrenList(rootEntries.get(0));
-        var entries = catalogPage.getEntries(list);
-
-        expect(entries.count()).toBe(childrenLimit);
-
-        for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
-            catalogPage.getMoreButton(list).click();
-            expect(catalogPage.getEntries(list).count()).toBe(i);
-        }
-    });
 
     it('should show information about the selected catalog entry', function(done) {
 
         if (testCatalogId) {
             catalogPage.load(testCatalogId)
-            //.then(browser.sleep(35000))
-                .then(expect(catalogPage.getEntityTitle().isPresent()).toBe(false))
-                .then(expect(catalogPage.getCatalogText().isPresent()).toBe(false))
+                .then(catalogPage.getCatalogTitle().click())
+                .then(expect(catalogPage.getCatalogText().isPresent()).toBe(true))
                 .then(function() {
                     return catalogPage.getRootEntries().get(0);
                 })
                 .then(catalogPage.getEntryLabel)
                 .then(function(label) {return label.click()})
                 .then(expect(catalogPage.getEntityTitle().isPresent()).toBe(true))
-                .then(browser.sleep(5000))
                 .then(done)
                 .catch(done.fail)
         } else {
@@ -107,6 +90,7 @@ describe('catalog page', function() {
     });
 
     /**
+     * TODO
      * dieser test muss fehlschlagen, weil die suche nur mit indizierten daten funktioniert.
      * bis es da eine schöne lösung gibt: xit.
      */

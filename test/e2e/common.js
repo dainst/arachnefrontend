@@ -40,12 +40,7 @@ var Common = function() {
             });
     };
 
-    this.deleteTestUserInDB = function() {
-        var hashedPassword = hasha(new Buffer(testUserPassword), { algorithm: 'md5' });
 
-        request.del(config.backendUri + '/userinfo/' + testUserName)
-            .auth(testUserName, hashedPassword, true);
-    };
 
     this.getTestUserName = function() {
         return testUserName;
@@ -129,6 +124,13 @@ var Common = function() {
             sendImmediately: true
         }
     }
+
+    this.deleteTestUserInDB = function() {
+        var hashedPassword = hasha(new Buffer(testUserPassword), { algorithm: 'md5' });
+
+        request.del(config.backendUri + '/userinfo/' + testUserName)
+            .auth(testUserName, hashedPassword, true);
+    };
 
     this.createTestCatalog = function() {
 

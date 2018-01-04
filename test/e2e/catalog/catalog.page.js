@@ -7,6 +7,10 @@ var CatalogPage = function() {
         return  browser.get(url)
     };
 
+    this.getCatalogTitle = function() {
+        return element(by.css('.catalog-tree h3'));
+    };
+
     this.getTreeRoot = function() {
         return element(by.id('tree-root'));
     };
@@ -24,7 +28,7 @@ var CatalogPage = function() {
     };
 
     this.getMoreButton = function(listRoot) {
-        return listRoot.element(by.xpath('./div'));
+        return listRoot.element(by.css('div'));
     };
 
     this.getExpandButton = function(entry) {
