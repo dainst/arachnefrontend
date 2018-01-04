@@ -1,4 +1,4 @@
-var Con10tImagePage = function() {
+var Con10tWidgetPage = function() {
 	
     var imageFromSrc = element(by.css('.con10t-image-fromsrc'));
     var imageFromEntity = element(by.css('.con10t-image-fromentityid'));
@@ -12,4 +12,4 @@ var Con10tImagePage = function() {
     };
 };
 
-module.exports = new Con10tImagePage();
+module.exports = new Con10tWidgetPage();

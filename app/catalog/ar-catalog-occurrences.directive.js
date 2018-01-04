@@ -2,20 +2,20 @@
 
 angular.module('arachne.directives')
 
-    .directive('arCatalogOccurences', ['arachneSettings', '$http', '$uibModal', 'Catalog', 'CatalogEntry',
+    .directive('arCatalogOccurrences', ['arachneSettings', '$http', '$uibModal', 'Catalog', 'CatalogEntry',
         function (arachneSettings, $http, $uibModal, Catalog, CatalogEntry) {
-
             return {
                 scope: {
                     entity: '='
                 },
-                templateUrl: 'app/catalog/ar-catalog-occurences.html',
+                templateUrl: 'app/catalog/ar-catalog-occurrences.html',
                 link: function (scope, element, attrs) {
 
                     scope.catalogEntries = [];
                     scope.projectEntries = [];
+                    scope.catalogEntrySets = [];
 
-                    scope.previewCatalogEntry = function (catalogEntry) {
+                    scope.previewCatalogEntry = function (catalog, catalogEntry) {
                         var entityPreview = {
                             title: scope.entity.title,
                             subtitle: scope.entity.subtitle,
@@ -24,6 +24,7 @@ angular.module('arachne.directives')
                         var preview = $uibModal.open({
                             templateUrl: 'app/catalog/preview-catalog-entry.html',
                             controller: ['$scope', function ($scope) {
+                                $scope.catalog = catalog;
                                 $scope.catalogEntry = catalogEntry;
                                 $scope.entity = entityPreview;
                             }]
@@ -55,7 +56,7 @@ angular.module('arachne.directives')
                                 }
                             });
                             editEntryModal.close = function (newEntry) {
-                                CatalogEntry.save(newEntry, function (data) {
+                                CatalogEntry.save([newEntry], function (data) {
                                     if (data.error_message) {
                                         console.log(data.error_message);
                                     } else {
@@ -69,16 +70,14 @@ angular.module('arachne.directives')
                     };
 
                     scope.loadOccurences = function () {
-
                         if (scope.entity) {
 
                             var url = arachneSettings.dataserviceUri + "/catalog/list/" + scope.entity.entityId;
 
                             $http.get(url).then(function (result) {
-
                                 scope.catalogEntries = result.data;
 
-                                var i = 0, len = scope.catalogEntries.length, cur;
+                                var i = 0, len = scope.catalogEntries.length;
 
                                 for (i; i < len; i++) {
 
@@ -87,49 +86,53 @@ angular.module('arachne.directives')
                                     }
                                 }
 
-                                scope.deleteDuplicateCatalogueEntries();
+                                scope.arrangeEntries();
 
                             }).catch(function (result) {
-                                console.log("Error requesting /catalog/list/ in ar-catalog-occurences-directive");
+                                console.log("Error Arachne dataservice not reachable");
                             });
                         }
                     };
 
-                    scope.deleteDuplicateCatalogueEntries = function() {
+                    scope.arrangeEntries = function() {
+                        var i, j, n, len = scope.catalogEntries.length, curi, curj, curk, duplicateAlreadyAdded, newCatalog;
 
-                        var entries = [], i, j, len = scope.catalogEntries.length, curi, curj, num = 0;
-
-                        for (i = 0; i < len; i++) {
-
+                        for(i = 0; i < len; i++) {
                             curi = scope.catalogEntries[i];
-
-                            if (curi.duplicate) continue;
-
-                            for (j = 0; j < len; j++) {
-
-                                if (j === i) continue;
-
+                            if(curi.duplicate)
+                                continue;
+                            duplicateAlreadyAdded = false;
+                            for(j = i; j < len; j++) {
                                 curj = scope.catalogEntries[j];
-
-                                if (curi.entry.catalogId === curj.entry.catalogId) {
-
-                                    if (curi.entry.indexParent !== 0) {
-                                        entries[num++] = curi;
-                                    } else if (curj.entry.indexParent !== 0) {
-                                        entries[num++] = curj;
-                                    } else {
-                                        entries[num++] = curi;
+                                if(curi.entry.catalogId === curj.entry.catalogId) {
+                                    if(!duplicateAlreadyAdded) {
+                                        scope.catalogEntrySets.push(scope.getNewCatalogEntrySet(curi));
+                                        duplicateAlreadyAdded = true;
                                     }
+                                    else
+                                        for(n = 0; n < scope.catalogEntrySets.length; n++) {
+                                            curk = scope.catalogEntrySets[n];
+                                            if(curk.catalogId === curj.entry.catalogId)
+                                                scope.catalogEntrySets[n].entries.push(curj.entry);
+                                        }
                                     curi.duplicate = curj.duplicate = true;
                                 }
                             }
-
-                            if (!curi.duplicate) {
-                                entries[num++] = curi;
+                            if(!curi.duplicate) {
+                                scope.catalogEntrySets.push(scope.getNewCatalogEntrySet(curi));
                             }
                         }
+                    };
 
-                        scope.catalogEntries = entries;
+                    scope.getNewCatalogEntrySet = function (catalogEntry) {
+                        var newCatalogEntrySet = {};
+                        newCatalogEntrySet.catalogAuthor = catalogEntry.catalogAuthor;
+                        newCatalogEntrySet.catalogTitle = catalogEntry.catalogTitle;
+                        newCatalogEntrySet.catalogId = catalogEntry.entry.catalogId;
+                        newCatalogEntrySet.entries = [];
+                        newCatalogEntrySet.entries.push(catalogEntry.entry);
+                        newCatalogEntrySet.projectId = catalogEntry.projectId;
+                        return newCatalogEntrySet;
                     };
 
                     scope.$watch('entity', function () {

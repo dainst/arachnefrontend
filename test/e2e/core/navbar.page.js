@@ -31,7 +31,7 @@ var NavbarPage = function() {
     var registrationInputZIP = element(by.model('user.zip'));
     var registrationInputPlace = element(by.model('user.place'));
     var registrationInputStreet = element(by.model('user.street'));
-    var registrationDropdownCountryOptions = element.all(by.repeater('country in countries'));
+    var registrationCountryDropdown = element(by.tagName('idai-country-picker'));
     var registrationPhone = element(by.model('user.phone'));
     var registrationBotConfirm = element(by.model('user.iAmHuman'));
     var submitRegistrationButton = element(by.css('[ng-click="submit()"]'));
@@ -177,8 +177,8 @@ var NavbarPage = function() {
     };
 
     this.registrationSelectCountryByIndex = function (index) {
-        browser.wait(EC.visibilityOf(registrationDropdownCountryOptions.get(index)), 5000);
-        return registrationDropdownCountryOptions.get(index).click();
+        var countryOptions = registrationCountryDropdown.all(by.tagName('option'));
+        countryOptions.get(index).click();
     };
 
     this.registrationTypeInPhone = function (text) {
@@ -213,7 +213,7 @@ var NavbarPage = function() {
             })
     };
 
-    this.typeInCompleteRegistrationCredentials = function () {
+    this.typeInCompleteRegistrationCredentials = function(skipCountry) {
         this.clickRegistration();
         this.registrationTypeInUsername(common.getTestUserName());
         this.registrationTypeInPassword(common.getTestUserPassword());
@@ -227,7 +227,9 @@ var NavbarPage = function() {
         this.registrationTypeInZIP(common.getTestUserZIP());
         this.registrationTypeInPlace(common.getTestUserCity());
         this.registrationTypeInStreet(common.getTestUserStreet());
-        this.registrationSelectCountryByIndex(4);
+        if (skipCountry !== true) {
+            this.registrationSelectCountryByIndex(5);
+        }
         this.registrationTypeInPhone(common.getTestUserPhone());
         this.registrationConfirmNoBot();
     };

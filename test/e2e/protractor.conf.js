@@ -1,11 +1,13 @@
 fs = require('fs');
+process = require('process');
 
 exports.config = {
-    chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver',
+    chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver' + (process.platform === 'win32' ? '.exe' : ''),
     baseUrl: 'http://localhost:8082',
     specs: ['./delays.js','**/*.spec.js'],
     directConnect: true,
     exclude: [],
+    chromeOnly: true,
     multiCapabilities: [{
         browserName: 'chrome'
     }],
@@ -26,13 +28,12 @@ exports.config = {
             logWarnings: true,
             exclude: [
                 /http:\/\/piwik\.dainst\.org\/piwik\.js.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
-                /\/data\/userinfo\/e2e_test_.*Failed to load resource: the server responded with a status of 401 \(Unauthorized\)/,
-                /\/data\/userinfo\/e2e_test_.*The response had HTTP status code 401.*/,
-                /http:\/\/localhost:8082\/data\/user\/register.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
-                /http:\/\/localhost:8082\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
-                /\/data\/image\/height\/.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
-                /http:\/\/bogusman02\.dai-cloud\.uni-koeln\.de\/data\/user\/register.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
-                /http:\/\/bogusman02\.dai-cloud\.uni-koeln\.de\/data\/user\/reset.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/
+                /.*tile\.openstreetmap\.org/,
+                /.*Failed to load resource: the server responded with a status of 400 \(Bad Request\)/,
+                /.*Failed to load resource: the server responded with a status of 401 \(Unauthorized\)/,
+                /.*Failed to load resource: the server responded with a status of 403 \(Forbidden\)/,
+                /.*Failed to load resource: the server responded with a status of 404 \(Not Found\)/,
+                /.*Failed to load resource: the server responded with a status of 500 \(Forbidden\)/
             ]
         }
     ],

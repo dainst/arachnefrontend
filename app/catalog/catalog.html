@@ -5,7 +5,7 @@
          ng-init="entry.show = false"
          ng-click="!editable && selectEntry(entry);">
 
-        <a data-nodrag ng-show="entry.totalChildren > 0"
+        <a data-nodrag ng-show="entry.totalChildren > 0" id="entry-{{entry.id}}"
            ng-class="{ 'glyphicon-folder-open': !collapsed, 'glyphicon-folder-close': collapsed }"
            class="glyphicon text-muted clickable"
            style="text-decoration: none; margin-right: 5px;"
@@ -21,11 +21,11 @@
             {{entry.label}}
             <small ng-if="entry.arachneEntityId" class="text-muted"><i>{{ entry.arachneEntityId }}</i></small>
             <small>
-			    <em ng-if="entry.totalChildren == 1">
+			    <em ng-if="entry.allSuccessors == 1">
                     (1 {{ 'ui_entry' | transl8 }})
                 </em>
-                <em ng-if="entry.totalChildren > 1">
-                    ({{ entry.totalChildren }} {{ 'ui_entries' | transl8 }})
+                <em ng-if="entry.allSuccessors > 1">
+                    ({{ entry.allSuccessors }} {{ 'ui_entries' | transl8 }})
                 </em>
             </small>
         </span>
@@ -163,7 +163,6 @@
         <div ng-if="catalog.root.children.length > 0" ui-tree="treeOptions" data-drag-enabled="editable && !removeItems"
              id="tree-root">
             <ol ui-tree-nodes="nodes" ng-model="catalog.root.children" ng-class="{hidden: collapsed}">
-
                 <li ng-repeat="entry in catalog.root.children"
                     ui-tree-node collapsed="{{entry.totalChildren > 0}}"
                     ng-include="'entries_renderer.html'">
@@ -220,7 +219,6 @@
     </div>
 
 
-
     <div class="col-md-8 fullscreencol">
 
         <div ng-if="activeEntry">
@@ -269,23 +267,50 @@
                                     </h2>
                                 </div>
                                 <div class="panel-body catalog-text">
-                                    <div ng-repeat="cell in cells">
+                                    <div ng-repeat="cell in cells track by $index">
 
-                                        <div style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
+                                        <div ng-if="cells[$index]"
+                                             style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
 
                                             <a class="cell-link"
-                                               ng-click="selectEntry(cell.entity);">
+                                               ng-click="selectEntry(cells[$index].entity);">
                                                 <div class="preview-cell"
                                                      style="background-color: #eee; text-align:center; position: relative; width: 190px; height: 225px; overflow: hidden;">
                                                     <div ng-show="loadingThumbnails" class="loading"></div>
                                                     <div style="display: inline-block; height: 100%; vertical-align: middle;"></div>
                                                     <img ar-img
-                                                         img-id="{{cell.entityId}}"
+                                                         img-id="{{cells[$index].entityId}}"
+                                                         img-width="175">
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <div ng-if="!cells[$index]"
+                                             style="display:inline-block; float:left; overflow: hidden; width: 190px; margin: 2px;">
+
+                                            <a class="cell-link">
+                                                <div class="preview-cell"
+                                                     style="cursor: default !important; background-color: #eee; text-align:center; position: relative; width: 190px; height: 225px; overflow: hidden;">
+                                                    <div style="display: inline-block; height: 100%; vertical-align: middle;"></div>
+                                                    <img ar-img
                                                          img-width="175">
                                                 </div>
                                             </a>
                                         </div>
                                     </div>
+                                </div>
+                                <div ng-if="(cells.length+1) < activeEntry.children.length"
+                                     class="more-thumbnails">
+                                    <a class="btn btn-primary"
+                                       ng-click="showMoreThumbnails()">
+                                        {{ 'ui_show_more' | transl8 }}
+                                        <em ng-if="activeEntry.children.length - (cells.length+1) == 1">
+                                            ({{ 'ui_one_more_entry' | transl8 }})
+                                        </em>
+                                        <em ng-if="activeEntry.children.length - (cells.length+1) > 1">
+                                            ({{activeEntry.children.length - (cells.length+1)}} {{ 'ui_more_entries' | transl8 }})
+                                        </em>
+                                    </a>
                                 </div>
                             </div>
 

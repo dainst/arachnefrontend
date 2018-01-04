@@ -17,6 +17,7 @@ angular.module('arachne.controllers')
                     };
                     $timeout(closeModal, 500);
                 }, function (response) {
+                    console.log("!!!!");
                     $scope.loginerror = true;
                 });
 

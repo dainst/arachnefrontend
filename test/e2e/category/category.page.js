@@ -9,20 +9,25 @@ var CategoryPage = function() {
 	var searchButton = element(by.css('.category-search form button'));
 	
 	this.load = function(category) {
-		var url = '/category/?c=' + category;
-		browser.get(url);
+		return new Promise(function(resolve, reject) {
+            var url = '/category/?c=' + category;
+            browser.get(url).then(function() {
+                browser.waitForAngular().then(function() {
+                    resolve();
+                })
+			})
+
+		})
 	};
 
 	this.getResultSize = function() {
-		return new Promise(function(resolve, reject) {
-			resultSize.getText().then(function(value) {
-				value = value.replace(/[,.]/, "");
-				resolve(parseInt(value));
-			}, function(err) {
-				reject(err);
-			});
-		});
-	};
+        return new Promise(function(resolve, reject) {
+            return resultSize.getText().then(function(value) {
+                value = value.replace(/[,.]/, "");
+                resolve(parseInt(value));
+            });
+        });
+	}
 
 	this.startSearch = function(query) {
         searchField.sendKeys(query);

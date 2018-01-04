@@ -93,7 +93,7 @@ describe('ProjectsController', function () {
         expect(JSON.stringify(scope.columns[0][0].children[0].children[0].title)).toBe('"dede"');
     });
 
-    it('should show an german title (german user)', function () {
+    it('should show a german title (german user)', function () {
         prepare('de', jsonFull);
         expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');
     });
@@ -108,9 +108,9 @@ describe('ProjectsController', function () {
         expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - IT"');
     });
 
-    it('should show an english title (italian user, italian translation missing)', function () {
+    it('should show a german title (italian user, italian translation missing)', function () {
         prepare('it', jsonGermanEnglish);
-        expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objectdatabase"');
+        expect(JSON.stringify(scope.columns[0][0].title)).toBe('"DAI - Objektdatenbank"');
     });
 
     it('should show a german title (italian user, italian and english translation missing)', function () {

@@ -29,7 +29,7 @@
 			<h5 class="text-muted uppercase" ng-hide="resultSize < 2"><strong>Filter</strong></h5>
 
 
-            <div ng-repeat="facet in defaultFacets" class="panel panel-multi panel-default facet {{facet.name}}">
+            <div ng-repeat="facet in defaultFacets" ng-hide="resultSize < 2" class="panel panel-multi panel-default facet {{facet.name}}">
                 <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
                     <h5 class="panel-title">
                         <span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
@@ -50,15 +50,17 @@
                 </ul>
             </div>
 
-			<div ng-repeat="(groupname, facetgroup) in facetGroups" class="panel panel-default panel-multi">
+            <div ng-repeat="(groupname, facetgroup) in facetGroups"
+                 ng-hide="resultSize < 2"
+                 class="panel panel-default panel-multi">
 				<div class="panel-heading" ng-if="!groupname.startsWith('facet_') && groupname != 'group_facet_agg_geogrid'">
                     <h3 class="panel-title">{{ 'group_facet_' + groupname | transl8 }}</h3>
 
 				</div>
 				<div ng-repeat="facet in facetgroup"
-						ng-if="facet.values && facet.name != 'facet_geo'" ng-hide="resultSize < 2"
-						class="panel-default facet {{facet.name}}">
-					<div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
+                 ng-if="facet.values && facet.name != 'facet_geo'"
+                 class="panel-default facet {{facet.name}}">
+                     <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
 						<h5 class="panel-title">
 							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
 							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>

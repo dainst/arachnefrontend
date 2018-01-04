@@ -1,29 +1,96 @@
-<form>
+<form ng-controller="EditEntryController as entryCtrl">
 	<div class="modal-header">
-		<h4 class="modal-title" ng-if="!edit">{{ 'catalog_create_entry' | transl8 }}:</h4>
+        <ul class="nav nav-pills" ng-if="!edit">
+            <li ng-class="{ active:entryCtrl.state(0) }"><a ng-click="entryCtrl.setState(0);">{{ 'catalog_singular_entry' | transl8 }}</a></li>
+            <li ng-class="{ active:entryCtrl.state(1) }"><a ng-click="entryCtrl.setState(1);">{{ 'catalog_multiple_entries' | transl8 }}</a></li>
+            <li ng-class="{ active:entryCtrl.state(2) }"><a ng-click="entryCtrl.setState(2);">{{ 'catalog_import_by_id' | transl8 }}</a></li>
+        </ul>
+        <br />
+        <h4 class="modal-title" ng-if="!edit && entryCtrl.state(0)">{{ 'catalog_create_entry' | transl8 }}:</h4>
+        <h4 class="modal-title" ng-if="!edit && entryCtrl.state(1)">{{ 'catalog_create_entries' | transl8 }}: <small>({{ 'catalog_create_entries_instructions' | transl8 }})</small></h4>
+        <h4 class="modal-title" ng-if="!edit && entryCtrl.state(2)">{{ 'catalog_import_by_id' | transl8 }}: <small>({{ 'catalog_import_by_id_instructions' | transl8 }})</small></h4>
 		<h4 class="modal-title" ng-if="edit">{{'catalog_edit_entry' | transl8}}:</h4>
 	</div>
-	<div class="modal-body">
-		{{ 'catalog_entry_title' | transl8}}:
-		<div class="form-group">
-			<input autofocus type="label" class="form-control" ng-model="entry.label" placeholder="Überschrift">
-		</div>
-		{{ 'catalog_entry_entity' | transl8 }}: <small>({{ 'ui_optional' | transl8 }})</small>
-		<div class="form-group">
-			<idai-picker search-uri="data/search"
-						 result-field="entities"
-						 total-field="size"
-						 selected-item="entity" />
-		</div>
-		{{ 'catalog_description' | transl8 }}: <small>(Optional)</small>
-		<div ar-markdown-text-editor markdown-text="entry.text" placeholder="{{ 'catalog_description' | transl8 }}"></div>
-	</div>
-	<div class="modal-footer">
-    	<input class="btn btn-primary"
-    			type="submit"
-    			ng-click="(!entry.label && !entity.title) || $close(entry, entity)"
-    			ng-class="{ disabled: (!entry.label && !entity.title) }"
-    			value="OK">
-    	<button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8}}</button>
-	</div>
+    <div ng-if="entryCtrl.state(0);">
+        <div class="modal-body">
+            {{ 'catalog_entry_title' | transl8}}:
+            <div class="form-group">
+                <input autofocus type="label" class="form-control" ng-model="entry.label" placeholder="Überschrift">
+            </div>
+            {{ 'catalog_entry_entity' | transl8 }}: <small>({{ 'ui_optional' | transl8 }})</small>
+            <div class="form-group">
+                <idai-picker search-uri="data/search"
+                             result-field="entities"
+                             total-field="size"
+                             selected-item="entity" />
+            </div>
+            {{ 'catalog_description' | transl8 }}: <small>({{ 'ui_optional' | transl8 }})</small>
+            <div ar-markdown-text-editor markdown-text="entry.text" placeholder="{{ 'catalog_description' | transl8 }}"></div>
+        </div>
+        <div class="modal-footer">
+            <input class="btn btn-primary"
+                   type="submit"
+                   ng-click="(!entry.label && !entity.title) || $close(entry, entity)"
+                   ng-class="{ disabled: (!entry.label && !entity.title) }"
+                   value="OK">
+            <button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8}}</button>
+        </div>
+    </div>
+    <div ng-if="entryCtrl.state(1);">
+        <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-xs-4">
+                        {{ 'catalog_entry_title' | transl8}}:
+                    </div>
+                    <div class="form-group col-xs-6">
+                        {{ 'catalog_entry_entity' | transl8 }}: <small>({{ 'ui_optional' | transl8 }})</small>
+                    </div>
+                </div>
+            <div class="row" ng-repeat="newEntry in newEntries">
+                <div class="form-group col-xs-4">
+                    <input autofocus type="label" class="form-control" ng-model="newEntry.label" placeholder="Überschrift">
+                </div>
+                <div class="form-group col-xs-6">
+                    <idai-picker style="white-space: nowrap; overflow: hidden; display: block;" search-uri="data/search"
+                                 result-field="entities"
+                                 total-field="size"
+                                 selected-item="newEntry.entity" />
+                </div>
+                <span class="input-group-btn col-xs-2">
+                    <button class="btn btn-default"
+                            ng-show="newEntry.label || newEntry.entity.title"
+                            ng-click="addEntry(newEntry, entity)"
+                            uib-tooltip="{{ 'catalog_add_entry_help' | transl8 }}"
+                            tooltip-append-to-body="true"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button class="btn btn-default"
+                            ng-show="newEntries.length > 1"
+                            ng-click="removeEntry(newEntry)"
+                            uib-tooltip="{{ 'catalog_remove_entry_help' | transl8 }}"
+                            tooltip-append-to-body="true"><span class="glyphicon glyphicon-trash"></span></button>
+                </span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input class="btn btn-primary"
+                   type="submit"
+                   ng-click="checkDisabled() || $close(returnArrayWithoutEmpty(newEntries), null)"
+                   ng-class="{ disabled: checkDisabled() }"
+                   value="OK">
+            <button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8}}</button>
+        </div>
+    </div>
+    <div ng-if="entryCtrl.state(2);">
+        <div class="modal-body">
+            {{ 'entityId' | transl8}}s: <small>({{ 'catalog_add_entitiyids_comma_separated' | transl8 }})</small>
+            <input autofocus type="label" ng-model="entityIdString" class="form-control" pattern="^\d+(,\d+)*$" placeholder="{{ 'entityId' | transl8}}s" >
+        </div>
+        <div class="modal-footer">
+            <input class="btn btn-primary"
+                   type="submit"
+                   ng-click="(!entityIdString) || $close(returnArrayFromField(entityIdString), null)"
+                   ng-class="{ disabled: (!entityIdString) }"
+                   value="OK">
+            <button class="btn btn-default" ng-click="$dismiss()">{{ 'ui_dismiss' | transl8}}</button>
+        </div>
+    </div>
 </form>

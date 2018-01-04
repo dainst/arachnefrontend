@@ -469,3 +469,8 @@
 	background: #fff;
 	border: 1px solid #666;
 	}
+
+/* fullscreen icon */
+.leaflet-control-fullscreen a {
+	background-position-y: bottom !important;
+}

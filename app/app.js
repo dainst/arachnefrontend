@@ -74,7 +74,7 @@ angular.module('arachne',[
 			'entityImage':		{ url: '/entity/:entityId/image/:imageId', templateUrl: 'app/entity/entity-image.html', data: { pageTitle: title }},
 			'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc', templateUrl: 'app/search/search.html', data: { pageTitle: title }},
 			'categories':		{ url: '/categories', templateUrl: 'app/category/categories.html', data: { pageTitle: title }},
-			'category':			{ url: '/category/:category', templateUrl: 'app/category/category.html', data: { pageTitle: title }},
+			'category':			{ url: '/category/?c', templateUrl: 'app/category/category.html', data: { pageTitle: title }},
 
 			'map': {
 				url: '/map?q&fq',
@@ -87,6 +87,7 @@ angular.module('arachne',[
 
 			'gridmap':			{ url: '/gridmap', templateUrl: 'app/map/gridmap.html', data: { pageTitle: title }},
 			'3d':				{ url: '/3d', templateUrl: 'app/3d/3d.html', data: { pageTitle: title }},
+			'SVG':				{ url: '/SVG', templateUrl: 'app/SVG/svg.html', data: { pageTitle: title }},
 			'projects':			{ url: '/projects', templateUrl: 'app/pages/projects.html', data: { pageTitle: title }},
 			'register':			{ url: '/register', templateUrl: 'app/users/register.html', data: { pageTitle: title }},
 			'editUser':			{ url: '/editUser', templateUrl: 'app/users/edit-user.html', data: { pageTitle: title }},
@@ -96,7 +97,7 @@ angular.module('arachne',[
 			'pwdchange':		{ url: '/pwdchange', templateUrl: 'app/users/pwd-change.html', data: { pageTitle: title }},
 			'userActivation':	{ url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }},
 			'project':			{ url: '/project/:title', templateUrl: 'app/pages/static.html', data: { pageTitle: title }},
-			'index':			{ url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: false, data: { pageTitle: title }},
+			'index':			{ url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: true, data: { pageTitle: title }},
 			'info':				{ url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }} // Named it info, not static, to sound not too technical.
 
 		};
@@ -122,7 +123,7 @@ angular.module('arachne',[
 /**
  * Change <title> after page change
  */
-.run(['$transitions', 'searchScope', function($transitions, searchScope) {
+.run(['$transitions', 'searchScope', '$rootScope', function($transitions, searchScope, $rootScope) {
 
 	/*
     $transitions.onError({ }, function(trans) {
@@ -143,6 +144,39 @@ angular.module('arachne',[
 
        	searchScope.refresh(); // refresh scopeObject for navbarSearch
 	});
+
+    /**
+	 * checks if two urls are in the page, and, if provided, if is is the provided one
+     * @param url1
+     * @param url2
+     * @param page
+     * @returns {boolean}
+     */
+    $rootScope.isSamePage = function(url1, url2, page) {
+        var m1 = /http:\/\/.*?\/(.*?)[\/?]/g.exec(url1);
+    	var m2 = /http:\/\/.*?\/(.*?)[\/?]/g.exec(url2);
+        var ms1 = (m1 !== null) ? m1[1] : null;
+        var ms2 = (m2 !== null) ? m2[1] : null;
+        var isp = (typeof page === "undefined") ? true : (ms1 === page);
+        console.log(ms1, ms2, page, (isp && (ms1 === ms2)))
+        return isp && (ms1 === ms2);
+
+
+        /* stand: d
+        - kategorieen seite geht nicht
+        - search service is geänder -> TEST
+        - index page ist changed -> WIE KOMMT MAN DA DRAUF
+
+         */
+	}
+
+    $rootScope.isOnPage = function(url, pages) {
+        var m1 = /\/(\w*)\/?\??[^\?\/]*$/.exec(url);
+        var ms1 = (m1 !== null) ? m1[1] : "nothing";
+        return (pages.indexOf(ms1) !== -1)
+	}
+
+
 }])
 .constant('arachneSettings', {
 	arachneUrl: 'https://arachne.dainst.org',

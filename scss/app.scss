@@ -15,6 +15,7 @@
 @import "ar-markdown-text-editor.scss";
 @import "welcome-page";
 @import "download-modal";
+@import "footer";
 
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600);
 
@@ -574,4 +575,27 @@ con10t-catalog-tree {
 #usermenu .glyphicon {
   color: rgb(66,139,202);
   margin-right: 10px;
+}
+
+#svg-container{
+  position:relative;
+}
+
+#svg-container svg {
+  width: 97vw;
+  height: 95vh;
+}
+
+#svg-metadata-container{
+  background-color: rgba(255,255,255,0.8);
+  width:200px;
+  padding: 10px;
+  position: absolute;
+}
+
+#svg-status {
+  text-align: center;
+  margin-top: 5px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }

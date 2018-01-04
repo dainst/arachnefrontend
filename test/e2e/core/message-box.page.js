@@ -10,15 +10,21 @@ var MessageBoxPage = function() {
 	};
 
 	this.getLevel = function() {
-        browser.wait(EC.visibilityOf(messageBox), 5000);
-
-		return messageBox.getAttribute('class').then(function(value) {
-			var classes = value.split(' ');
-			for (var i = 0; i < classes.length; i++) {
-				var match = classes[i].match(/alert-(.+)/);
-				if (match != null) return match[1];
-			}
-		});
+		return new Promise(function(resolve, reject) {
+            browser.wait(EC.visibilityOf(messageBox)).then(function() {
+                messageBox.getAttribute('class').then(
+                    function(value) {
+                        var classes = value.split(' ');
+                        for (var i = 0; i < classes.length; i++) {
+                            var match = classes[i].match(/alert-(.+)/);
+                            if (match !== null) {
+                                resolve(match[1]);
+                            }
+                        }
+                    }
+                );
+			});
+		})
 	};
 
 	this.close = function () {

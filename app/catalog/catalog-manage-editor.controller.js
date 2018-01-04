@@ -18,7 +18,7 @@ angular.module('arachne.controllers')
                         .then(function (result) {
 
                             var user = result.data;
-                            if (user != null) {
+                            if (user !== null) {
                                 $scope.usernames.push(user.username);
                             }
                         });
@@ -35,11 +35,11 @@ angular.module('arachne.controllers')
                     .then(function (result) {
 
                         var user = result.data;
-                        if(user == null) {
+                        if(user === null) {
                             messages.add('ui_user_not_found', 'warning', false);
                         }
                         else {
-                            if (user.groupID >= 600 && (catalog.userIds.indexOf(user.id) == -1)) {
+                            if (user.groupID >= 600 && (catalog.userIds.indexOf(user.id) === -1)) {
                                 catalog.userIds.push(user.id);
                                 $scope.getUsernames();
                             }
@@ -61,8 +61,8 @@ angular.module('arachne.controllers')
 
                             var user = result.data;
 
-                            if (user != null) {
-                                if (catalog.userIds.indexOf(user.id) != -1) {
+                            if (user !== null) {
+                                if (catalog.userIds.indexOf(user.id) !== -1) {
                                     catalog.userIds.splice(catalog.userIds.indexOf(user.id), 1);
                                     $scope.getUsernames();
                                 }
