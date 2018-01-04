@@ -12,7 +12,7 @@ describe('catalog page', function() {
                 testCatalogId = id;
             })
             .then(done)
-            .catch(done.fail);
+            .catch(done.fail("Test catalog could not be created."));
     });
 
     afterAll(function(done) {
@@ -22,24 +22,26 @@ describe('catalog page', function() {
     });
 
     it('should show more catalog entries on root level after each click on the more button', function(done) {
+        if (testCatalogId) {
+            catalogPage.load(testCatalogId)
+                .then(catalogPage.getTreeRoot)
+                .then(catalogPage.getChildrenList)
+                .then(function(rootList) {
+                    return expect(catalogPage.getEntries(rootList).count()).toBe(childrenLimit);
+                })
+                .then(done)
+                .catch(done.fail)
 
-        //catalogPage.load(common.getTestCatalogID())
-        catalogPage.load(testCatalogId)
-            .then(catalogPage.getTreeRoot)
-            .then(catalogPage.getChildrenList)
-            .then(function(rootList) {
-                return expect(catalogPage.getEntries(rootList).count()).toBe(childrenLimit);
-            })
-            .then(done)
-            .catch(done.fail)
-
-            /*
-                TODO test read more link
-                for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
-                    catalogPage.getMoreButton(rootList).click();
-                    expect(catalogPage.getEntries(rootList).count()).toBe(i);
-                }
-            })*/
+                /*
+                    TODO test read more link
+                    for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
+                        catalogPage.getMoreButton(rootList).click();
+                        expect(catalogPage.getEntries(rootList).count()).toBe(i);
+                    }
+                })*/
+        } else {
+            done(); // allready failing in afterAll
+        }
     });
 
     xit('should show more catalog entries on a lower level after each click on the more button', function() {
@@ -62,19 +64,24 @@ describe('catalog page', function() {
 
     it('should show information about the selected catalog entry', function(done) {
 
-        catalogPage.load(testCatalogId)
+        if (testCatalogId) {
+            catalogPage.load(testCatalogId)
             //.then(browser.sleep(35000))
-            .then(expect(catalogPage.getEntityTitle().isPresent()).toBe(false))
-            .then(expect(catalogPage.getCatalogText().isPresent()).toBe(false))
-            .then(function() {
-                return catalogPage.getRootEntries().get(0);
-            })
-            .then(catalogPage.getEntryLabel)
-            .then(function(label) {return label.click()})
-            .then(expect(catalogPage.getEntityTitle().isPresent()).toBe(true))
-            .then(browser.sleep(5000))
-            .then(done)
-            .catch(done.fail)
+                .then(expect(catalogPage.getEntityTitle().isPresent()).toBe(false))
+                .then(expect(catalogPage.getCatalogText().isPresent()).toBe(false))
+                .then(function() {
+                    return catalogPage.getRootEntries().get(0);
+                })
+                .then(catalogPage.getEntryLabel)
+                .then(function(label) {return label.click()})
+                .then(expect(catalogPage.getEntityTitle().isPresent()).toBe(true))
+                .then(browser.sleep(5000))
+                .then(done)
+                .catch(done.fail)
+        } else {
+            done(); // allready failing in afterAll
+        }
+
 
         /**
          * TODO
