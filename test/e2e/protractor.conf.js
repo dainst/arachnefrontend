@@ -3,8 +3,12 @@ process = require('process');
 
 exports.config = {
     chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver' + (process.platform === 'win32' ? '.exe' : ''),
-    baseUrl: 'http://bogusman02.dai-cloud.uni-koeln.de',
-    specs: ['./delays.js','**/language-switcher.spec.js'],
+    baseUrl: 'http://localhost:8082', //
+    suites: {
+       util: './util/delays.js',
+       pretest: 'pre-test/pretest.spec.js',
+       tests: '**/*.spec.js'
+    },
     directConnect: true,
     exclude: [],
     chromeOnly: true,
@@ -61,5 +65,11 @@ exports.config = {
                 1200, // With this resolution the navbar is fully expanded.
                 800);
         }});
+
+
+        // fail fast
+        var failFast = require('./util/failfast');
+        jasmine.getEnv().addReporter(failFast.init());
+
     }
 };
