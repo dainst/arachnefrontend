@@ -43,9 +43,14 @@ var MessageBoxPage = function() {
 	this.lastMessage = "";
 
     this.saveLastMessage = function() {
-        return messageText.getText().then(function(text) {
-            this.lastMessage = text;
-        }.bind(this));
+        return messageText.getText().then(
+            function(text) {
+                this.lastMessage = text;
+            }.bind(this),
+            function(){
+                throw "[Message Box not present]";
+            }
+        );
     };
 
     this.saveLastMessageToError = function() {
@@ -53,12 +58,13 @@ var MessageBoxPage = function() {
     };
 
 	this.getText = function() {
-		return messageText.getText().then(saveLastMessage());
+		return messageText.getText()
+            .then(this.saveLastMessage());
 	};
 
 	this.getLevel = function() {
 		return new Promise(function(resolve, reject) {
-            browser.wait(EC.visibilityOf(messageBox))
+            browser.wait(EC.visibilityOf(messageBox), 150)
 				.then(this.saveLastMessage())
                 .catch(this.saveLastMessageToError())
 				.then(function() {

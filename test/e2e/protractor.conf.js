@@ -7,7 +7,7 @@ exports.config = {
     suites: {
        util: './util/delays.js',
        pretest: 'pre-test/pretest.spec.js',
-       tests: '**/*.spec.js'
+       tests: '**/search.spec.js'
     },
     directConnect: true,
     exclude: [],
@@ -67,7 +67,7 @@ exports.config = {
         }});
 
 
-        // fail fast
+        // fail fast - die when pre-test-ckeck faild
         var failFast = require('./util/failfast');
         jasmine.getEnv().addReporter(failFast.init());
 

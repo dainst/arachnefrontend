@@ -1,5 +1,5 @@
 // use higher values to slow down tests for debugging
-var promisesDelay = 0; // 0 should work perfectly fine on a dev machine. the build script will overwrite this automatically.
+var promisesDelay = 150; // 0 should work perfectly fine on a dev machine. the build script will overwrite this automatically.
 
 
 function delayPromises(milliseconds) {
@@ -20,7 +20,7 @@ console.log("Set promises delay to " + promisesDelay + " ms.");
 delayPromises(promisesDelay);
 
 
-var ECWaitTime = 1000;
+var ECWaitTime = 100;
 var shortRest = 200;
 
 

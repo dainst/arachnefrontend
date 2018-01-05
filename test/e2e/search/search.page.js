@@ -6,7 +6,7 @@ var SearchPage = function() {
 	this.load = function(params) {
 		var url = '/search';
 		if (params) url += "?" + querystring.stringify(params);
-		browser.get(url);
+		return browser.get(url);
 	};
 
 	this.loadScoped = function(scope, searchPage, params) {
@@ -14,7 +14,7 @@ var SearchPage = function() {
 		searchPage = searchPage || 'search';
 		var url = scope + searchPage;
 		if (params) url += "?" + querystring.stringify(params);
-		browser.get(url);
+		return browser.get(url);
 	};
 
 	this.getFacetPanel = function(facetName) {
