@@ -4,7 +4,7 @@ process = require('process');
 exports.config = {
     chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver' + (process.platform === 'win32' ? '.exe' : ''),
     baseUrl: 'http://bogusman02.dai-cloud.uni-koeln.de',
-    specs: ['./delays.js','**/*.js'],
+    specs: ['./delays.js','**/language-switcher.spec.js'],
     directConnect: true,
     exclude: [],
     chromeOnly: true,
