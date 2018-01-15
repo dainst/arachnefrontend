@@ -6,30 +6,28 @@ describe('scoped search result page', function() {
 
 
     it('shall have the same results for scopes search or for manually set scope', function() {
-        searchPage.loadScoped('afrarchcologne', 'search', { fl: 1 });
-
-		searchPage.getResultSize().then(function(count) {
-
-			searchPage.load({
+        var count = null;
+    	searchPage.loadScoped('afrarchcologne', 'search', {fl: 1})
+			.then(searchPage.getResultSize)
+			.then(function(result) {count = result})
+			.then(searchPage.load({
                 q: '*',
-				fq: 'facet_bestandsname:"AAArC"',
-				fl: 1
-			});
-
-			searchPage.getResultSize().then(function (count2) {
+                fq: 'facet_bestandsname:"AAArC"',
+                fl: 1
+            }))
+            .then(searchPage.getResultSize)
+            .then(function (count2) {
                 expect(count).toEqual(count2);
-
-			})
-		})
-
+            })
 
     });
 
-	it('shall search in the right scope when searching via the nav bar', function() {
-		searchPage.loadScoped('afrarchcologne', 'search', { fl: 1 });
-		searchPage.searchViaNavBar('okapi').then(function(newUrl) {
-		   expect(newUrl).toContain("/project/afrarchcologne/search?q=okapi");
-        });
+	fit('shall search in the right scope when searching via the nav bar', function() {
+		searchPage.loadScoped('afrarchcologne', 'search', {fl: 1})
+			.then(searchPage.searchViaNavBar('okapi'))
+			.then(function(newUrl) {
+		   		expect(newUrl).toContain("/project/afrarchcologne/search?q=okapi");
+        	});
 	});
 
 	it('shall search on map page when navbar search is used on map page', function() {

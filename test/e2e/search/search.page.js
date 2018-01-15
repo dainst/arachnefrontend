@@ -55,18 +55,18 @@ var SearchPage = function() {
 
 	this.getNavBarSearch = function() {
 		return element(by.css('.idai-navbar-search > form > input[name="q"]'))
-	}
+	};
 
 	this.getNavBarSubmit = function() {
 		return element(by.css('.idai-navbar-search > form > .input-group-btn > button'))
-	}
+	};
 
 	this.searchViaNavBar = function(what) {
-		common.typeIn(this.getNavBarSearch(), what);
-		this.getNavBarSubmit().click();
-		//browser.pause()
-		return browser.getCurrentUrl();
-	}
+		return common.typeInPromised(this.getNavBarSearch(), what)
+			.then(this.getNavBarSubmit().click)
+			.then(browser.getCurrentUrl);
+			// stand: ist null
+	};
 
 	this.getScopeImage = function() {
 		return element(by.css('.search-scope > a > div > img'));
