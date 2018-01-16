@@ -135,7 +135,8 @@ angular.module('arachne.controllers')
                                         $scope.toggleNode(scope, entry);
                                     }
                                 }
-                            }, function () {
+                            }, function (err) {
+                                console.error("Error when creating catalog entry!", err);
                                 messages.add('default');
                             })
                         }
