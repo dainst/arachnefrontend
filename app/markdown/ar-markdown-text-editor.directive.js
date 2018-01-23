@@ -124,30 +124,6 @@ angular.module('arachne.directives')
                                         additionalCharacters += 4;
                                 }
                                 break;
-
-                            case "align-left":
-
-                                modifiedText = '<div class="align-left">' + selectedText + '</div>';
-                                additionalCharacters = 30;
-                                break;
-
-                            case "align-center":
-
-                                modifiedText = '<div class="align-center">' + selectedText + '</div>';
-                                additionalCharacters = 32;
-                                break;
-
-                            case "align-right":
-
-                                modifiedText = '<div class="align-right">' + selectedText + '</div>';
-                                additionalCharacters = 31;
-                                break;
-
-                            case "align-justify":
-
-                                modifiedText = '<div class="align-justify">' + selectedText + '</div>';
-                                additionalCharacters = 33;
-                                break;
                         }
 
                         updateSelection(modifiedText, selectionRange, selectedTextStart, selectedTextEnd, additionalCharacters, blankSpaceSelection);
