@@ -9,34 +9,39 @@ angular.module('arachne.widgets.map')
 .factory('placesPainter', ['$compile', 'Place', function ($compile, Place) {
 
     var markers = null; // used to keep track of markers for deleting them later
+    var translocationLayerGroup = null;
     var map;
     var entityCallback;
-	var fixedPlaces = []; // a set of fixed places given in the directive definition, which shall be shown independent of arachne-content
+    var fixedPlaces = []; // a set of fixed places given in the directive definition, which shall be shown independent of arachne-content
     var boundingBox = { // a bounding box of the fixed places
-		latmin: 90,
-		latmax: 0,
-		lonmin: 180,
-		lonmax: 0
+        latmin: 90,
+        latmax: 0,
+        lonmin: 180,
+        lonmax: 0
 	}
 
-	return {
+    return {
 
-        setMap : function(mp) {
-          map = mp;  
+        setMap: function(mp) {
+          map = mp;
         },
 
-        setEntityCallback : function (ec) {
+        setEntityCallback: function(ec) {
             entityCallback = ec;
         },
-        
-        clear : function () {
+
+        clear: function() {
             if (markers) {
                 map.removeLayer(markers);
             }
             markers = null;
+            if (translocationLayerGroup) {
+                map.removeLayer(translocationLayerGroup);
+            }
+            translocationLayerGroup = null;
         },
 
-		setFixedPlaces: function placesPainter_setFixedPlaces(places) {
+        setFixedPlaces: function placesPainter_setFixedPlaces(places) {
             if (typeof places !== "object") {
                 return;
             }
@@ -65,9 +70,7 @@ angular.module('arachne.widgets.map')
         },
 
         // create the actual places' markers
-        drawPlaces : function(
-            places, // : Place
-            scope) {
+        drawPlaces: function(places, scope) {
 
             if (!places) return;
 
@@ -78,35 +81,37 @@ angular.module('arachne.widgets.map')
                     if (childCount < 10) c += 'small';
                     else if (childCount < 50) c += 'medium';
                     else c += 'large';
-                    return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+                    return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>',
+                                           className: 'marker-cluster' + c,
+                                           iconSize: new L.Point(40, 40) });
                 }
             });
             map.addLayer(markers);
 
             var mergedPlaces = fixedPlaces.concat(places);
-            
+
             for (var i = 0; i < mergedPlaces.length; i++) {
                 var place = mergedPlaces[i];
 
                 if (place.hasCoordinates()) {
-					// Dom-Element für Popup bauen und in Link-Funktion kompilieren
+                    // Dom-Element für Popup bauen und in Link-Funktion kompilieren
                     var newScope = scope.$new(true);
 
                     newScope.place = place;
                     if (place.isFixed === true) {
-						var linkFunction = function(scope) {
-						    var title = (scope.place.gazetteerId) ?
+                        var linkFunction = function(scope) {
+                            var title = (scope.place.gazetteerId) ?
                                 '<strong><a href="https://gazetteer.dainst.org/app/#!/show/' + scope.place.gazetteerId + '" target="_blank">' + scope.place.name + '</a></strong>' :
-								'<strong>' + scope.place.name + '</strong>';
+                                '<strong>' + scope.place.name + '</strong>';
                             var body = (scope.place.text) ?
                                 '<p>' + scope.place.text + '</p>' :
                                 '';
-						    return [title + body];
+                        return [title + body];
                         }
                     } else {
-						var html = '<div con10t-map-popup place="place" entity-callback="entityCallback"></div>';
-						var linkFunction = $compile(angular.element(html));
-						newScope.entityCallback = entityCallback;
+                        var html = '<div con10t-map-popup place="place" entity-callback="entityCallback"></div>';
+                        var linkFunction = $compile(angular.element(html));
+                        newScope.entityCallback = entityCallback;
                     }
 
                     // Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
@@ -130,6 +135,60 @@ angular.module('arachne.widgets.map')
                     }(newScope,linkFunction));
                     markers.addLayer(marker);
                 }
+            }
+        },
+
+        drawTranslocationLines: function(places) {
+
+            //Remove places without location value, without dates and places which have the same consecutive locations
+            for (var i = 0; i < places.length; i++) {
+                if ((typeof places[i].location == 'undefined') ||
+                    (typeof places[i].storageFromYear == 'undefined') ||
+                    (i+1 < places.length &&
+                    JSON.stringify(places[i].location) == JSON.stringify(places[i+1].location))) {
+                    places.splice(i, 1);
+                    i--; // need to decrease the loop counter because the list just got smaller and
+                         // the next object has the same index as this one
+                }
+            }
+
+            if (places && places.length > 1) {
+
+                translocationLayerGroup = L.layerGroup([]);
+
+                for (var i = 0; i < places.length; i++) {
+                    if (i + 1 == places.length) { // stop when last but one array element is reached
+                        continue;
+                    }
+
+                    var latlngs = [
+                        [places[i+1].location.lat, places[i+1].location.lon, i+1],
+                        [places[i].location.lat, places[i].location.lon, i]
+                    ];
+
+                    var hotlineOptions = {
+                        min: 0,
+                        max: places.length - 1,
+                        palette: {
+                        0.0: '#008800',
+                        0.5: '#ffff00',
+                        1.0: '#ff0000'
+                        },
+                        weight: 2,
+                        outlineWidth: 1
+                    }
+
+                    // translocationLayer = L.hotline(latlngs, hotlineOptions).addTo(translocationLayerGroup);
+                    // this.translocationLayerGroup.addLayer(L.hotline(latlngs, hotlineOptions));
+
+                    // translocationLayerGroup = L.layerGroup().addLayer(L.hotline(latlngs, hotlineOptions));
+                    translocationLayerGroup.addLayer(L.hotline(latlngs, hotlineOptions));
+
+                    // map.fitBounds(hotlineLayer.getBounds()); //TODO with this the map endlessly moves around
+                }
+                map.addLayer(translocationLayerGroup);
+
+                // map.fitBounds(translocationLayer);
             }
         }
     }
