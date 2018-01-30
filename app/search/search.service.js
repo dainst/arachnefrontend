@@ -27,7 +27,7 @@ angular.module('arachne.services')
              */
             $rootScope.$on("$locationChangeSuccess", function (event, url, oldUrl) {
 
-                if (!$rootScope.isOnPage(url, ["map", "search"])) {
+                if (!$rootScope.isOnPage(url, ["map", "search", "entity"])) {
                     return;
                 }
 
