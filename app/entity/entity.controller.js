@@ -39,6 +39,7 @@ angular.module('arachne.controllers')
                     }
                 });
             }
+
             // if no id given, but query get id from search and reload
             if (!$stateParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
 
