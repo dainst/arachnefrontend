@@ -160,14 +160,6 @@ angular.module('arachne',[
         var isp = (typeof page === "undefined") ? true : (ms1 === page);
         console.log(ms1, ms2, page, (isp && (ms1 === ms2)))
         return isp && (ms1 === ms2);
-
-
-        /* stand: d
-        - kategorieen seite geht nicht
-        - search service is geänder -> TEST
-        - index page ist changed -> WIE KOMMT MAN DA DRAUF
-
-         */
 	}
 
     $rootScope.isOnPage = function(url, pages) {
