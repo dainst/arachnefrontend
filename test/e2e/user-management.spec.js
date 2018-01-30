@@ -1,8 +1,6 @@
 var frontPage = require('./core/front.page');
 var navbarPage = require('./core/navbar.page');
 var messageBox = require('./core/message-box.page');
-
-
 var common = require('./common');
 
 describe('user management page', function () {

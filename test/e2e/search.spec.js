@@ -6,7 +6,7 @@ describe('search result page', function() {
     beforeEach(messageBox.enableCustomMessage);
 
 
-    fit('should show facet more link when more facet values are available', function() {
+    it('should show "facet more"-link when more facet values are available', function() {
 
         var facetValues = searchPage.getFacetValues('facet_image');
         var moreButton = searchPage.getMoreButton('facet_image');
@@ -16,12 +16,12 @@ describe('search result page', function() {
                 expect(moreButton.isDisplayed()).toBe(true);
                 expect(facetValues.count()).toEqual(1);
             })
-            .then(moreButton.click())
+            .then(moreButton.click)
             .then(function() {
                 expect(facetValues.count()).toEqual(2);
                 expect(moreButton.isDisplayed()).toBe(true);
             })
-            .then(moreButton.click())
+            .then(moreButton.click)
             .then(function() {
                 expect(facetValues.count()).toEqual(2);
                 expect(moreButton.isDisplayed()).toBe(false);
