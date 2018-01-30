@@ -17,8 +17,10 @@ var MapPage = function() {
 	};
 
 	this.switchToSearchView = function() {
-		this.switchToSearchViewButton().click();
-		return browser.getCurrentUrl();
+		return function() {
+            return this.switchToSearchViewButton().click()
+				.then(browser.getCurrentUrl)
+		}.bind(this);
 	}
 
 

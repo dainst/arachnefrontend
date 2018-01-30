@@ -62,10 +62,12 @@ var SearchPage = function() {
 	};
 
 	this.searchViaNavBar = function(what) {
-		return common.typeInPromised(this.getNavBarSearch(), what)
-			.then(this.getNavBarSubmit().click)
-			.then(browser.getCurrentUrl);
-			// stand: ist null
+        return function() {
+            return common.typeInPromised(this.getNavBarSearch(), what)
+                .then(this.getNavBarSubmit().click)
+                .then(browser.getCurrentUrl)
+        }.bind(this)
+
 	};
 
 	this.getScopeImage = function() {
