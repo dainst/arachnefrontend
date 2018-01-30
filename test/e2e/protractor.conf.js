@@ -7,7 +7,7 @@ exports.config = {
     suites: {
        util: './util/delays.js',
        pretest: 'pre-test/pretest.spec.js',
-       tests: '**/scope-search.spec.js'
+       tests: '**/map.spec.js'
     },
     directConnect: true,
     exclude: [],
