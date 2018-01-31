@@ -11,6 +11,7 @@ angular.module('arachne.widgets.map')
  */
 .factory('mapService', [ 'searchService' , function (searchService) {
 
+    var translocationLayerActive = false;
     var map = null;
     var overlays = null; // { key: LayerConfig }
     var activeOverlays = {}; // { key: TileLayer }
@@ -118,6 +119,13 @@ angular.module('arachne.widgets.map')
             } else {
                 return searchService.getSize() < limit
             }
+        },
+
+        getTranslocationLayerActive: function() {
+            return translocationLayerActive;
+        },
+        setTranslocationLayerActive: function(value) {
+            translocationLayerActive = value;
         },
 
 

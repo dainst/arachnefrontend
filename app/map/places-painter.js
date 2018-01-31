@@ -138,6 +138,13 @@ angular.module('arachne.widgets.map')
             }
         },
 
+        clearTranslocationLines: function() {
+            if (translocationLayerGroup) {
+                map.removeLayer(translocationLayerGroup);
+            }
+            translocationLayerGroup = null;
+        },
+
         drawTranslocationLines: function(places) {
 
             //Remove places without location value, without dates and places which have the same consecutive locations
@@ -154,7 +161,7 @@ angular.module('arachne.widgets.map')
 
             if (places && places.length > 1) {
 
-                translocationLayerGroup = L.layerGroup([]);
+                translocationLayerGroup = L.layerGroup();
 
                 for (var i = 0; i < places.length; i++) {
                     if (i + 1 == places.length) { // stop when last but one array element is reached
@@ -179,16 +186,10 @@ angular.module('arachne.widgets.map')
                     }
 
                     // translocationLayer = L.hotline(latlngs, hotlineOptions).addTo(translocationLayerGroup);
-                    // this.translocationLayerGroup.addLayer(L.hotline(latlngs, hotlineOptions));
-
-                    // translocationLayerGroup = L.layerGroup().addLayer(L.hotline(latlngs, hotlineOptions));
                     translocationLayerGroup.addLayer(L.hotline(latlngs, hotlineOptions));
-
-                    // map.fitBounds(hotlineLayer.getBounds()); //TODO with this the map endlessly moves around
                 }
                 map.addLayer(translocationLayerGroup);
 
-                // map.fitBounds(translocationLayer);
             }
         }
     }
