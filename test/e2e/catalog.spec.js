@@ -32,9 +32,9 @@ describe('catalog page', function() {
                 .then(function(rootList) {
                     var rootEntries = catalogPage.getEntries(rootList);
                     expect(rootEntries.count()).toBe(rootChildrenCount);
-                    catalogPage.getExpandButton(catalogPage.getEntries(rootList).get(1)).click().then(function() {
-                        var list = catalogPage.getChildrenList(rootEntries.get(1));
-                        expect(catalogPage.getEntries(list).count()).toBe(subChildrenCount);
+                    catalogPage.getExpandButton(rootEntries.get(1)).click().then(function() {
+                        var list = catalogPage.getEntries(catalogPage.getChildrenList(rootEntries.get(1)));
+                        expect(list.count()).toBe(subChildrenCount)
                     })
                 })
                 .then(done)

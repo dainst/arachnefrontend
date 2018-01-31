@@ -24,7 +24,7 @@ var CategoryPage = function() {
                 resolve(parseInt(value));
             });
         });
-	}
+	};
 
 	this.startSearch = function(query) {
         searchField.sendKeys(query);
