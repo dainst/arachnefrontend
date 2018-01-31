@@ -16,7 +16,7 @@ var CatalogPage = function() {
     };
 
     this.getChildrenList = function(entry) {
-        return entry.element(by.css('ol'));
+        return entry.all(by.css('ol')).first();
     };
 
     this.getEntries = function(list) {
@@ -32,7 +32,7 @@ var CatalogPage = function() {
     };
 
     this.getExpandButton = function(entry) {
-        return entry.element(by.xpath('./div/a'));
+        return entry.all(by.css('div a')).first();
     };
 
     this.getEntryLabel = function(entry) {
