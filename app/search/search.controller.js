@@ -145,9 +145,11 @@ angular.module('arachne.controllers')
 
             $scope.addCatalogEntry = function (catalog, entity) {
 
+                var title = entity.title || "";
+
                 catalog.root.children.push({
                     "arachneEntityId": entity.entityId,
-                    "label": entity.title,
+                    "label": title,
                     "text": catalog.generateTexts ? $scope.createCatalogEntryText(entity) : ""
                 });
 
