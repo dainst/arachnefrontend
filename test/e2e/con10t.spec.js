@@ -74,7 +74,7 @@ describe('con10t-widget', function() {
             });
     });
 
-    fit('tree widget should content tree', function() {
+    it('tree widget should content tree', function() {
         // TODO what if content changes?
 
         browser.get('/project/test_project')
