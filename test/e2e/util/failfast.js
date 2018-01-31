@@ -1,10 +1,9 @@
 /**
- * this is a "reporter" wich allows a brutal quick exit, if a defined class of matchers fails
+ * this is a "reporter" wich allows a brutal quick exit, if message finishes with the String "#DIE#"
  * reason: if we can't access a backend at all for example, there is no use in continuing with the testing
  */
 function failfast() {
 
-    this.failOnMatchers = ["toEqualMsgCritical"];
 
     function die() {
 
@@ -17,6 +16,7 @@ function failfast() {
             process.exit(1);
         });
 
+
     }
 
     function errorOut(result) {
@@ -26,13 +26,23 @@ function failfast() {
         }
     }
 
+    function isCritical(failedExpectation) {
+        if (failedExpectation.message.substr(-5) === "#DIE#") {
+            failedExpectation.message = failedExpectation.message.substr(0, failedExpectation.message.length - 5);
+            return true;
+        }
+        return false;
+    }
+
+
+
     this.init = function() {
         var self = this;
         return {
             specDone: function(result) {
                 if (result.status === 'failed') {
-                    for(var i = 0; i < result.failedExpectations.length; i++) {
-                        if ((self.failOnMatchers.indexOf(result.failedExpectations[i].matcherName) !== -1)) {
+                    for (var i = 0; i < result.failedExpectations.length; i++) {
+                        if (isCritical(result.failedExpectations[i])) {
                             errorOut(result);
                             die();
                             break;

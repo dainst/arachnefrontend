@@ -1,9 +1,6 @@
 /**
- * this allows to send a custom error message for pre-tests
+ * this allows to send a custom error message
  *
- * there are two new matchers
- * - toEqualMsg
- * - toEqualMsgCritical
  *
  * * both take a custom error message as second argument and behave like toEqual
  * * the only difference is the name. in combination with failfast.js failing toEqualMsgCritical-expectations will make the whole testing process stop
@@ -17,7 +14,7 @@ var pretestMessage = function() {
 
         var self = this;
 
-        function toEqualMsg(util, customEqualityTesters) {
+        var compareWithMessage = function(util, customEqualityTesters) {
             return {
                 compare: function (actual, expected, msg) {
                     if (expected === undefined) {
@@ -33,15 +30,15 @@ var pretestMessage = function() {
                     return result;
                 }
             }
-        }
+        };
+
 
         var matchers = {
-            toEqualMsg: toEqualMsg,
-            toEqualMsgCritical: toEqualMsg,
-        }
+            toEqualMsg: compareWithMessage
+        };
 
         jasmine.addMatchers(matchers);
     };
-}
+};
 
 module.exports = new pretestMessage();

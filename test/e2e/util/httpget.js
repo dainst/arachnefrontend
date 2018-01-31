@@ -3,34 +3,43 @@
  * @param siteUrl
  */
 
-// https://stackoverflow.com/questions/25137881/how-to-use-protractor-to-get-the-response-status-code-and-response-text
 
-function httpGet(siteUrl) {
+function httpGet(siteUrl, timeout) {
     var http = require('http');
-    var defer = protractor.promise.defer();
 
-    http.get(siteUrl, function(response) {
+    timeout = timeout || 15;
 
-        var bodyString = '';
+    return new Promise(function(resolve, reject) {
+        http.get(siteUrl, function(response) {
 
-        response.setEncoding('utf8');
+            var bodyString = '';
 
-        response.on("data", function(chunk) {
-            bodyString += chunk;
-        });
+            response.setEncoding('utf8');
 
-        response.on('end', function() {
-            defer.fulfill({
-                statusCode: response.statusCode,
-                bodyString: bodyString
+            response.on("data", function(chunk) {
+                bodyString += chunk;
             });
-        });
 
-    }).on('error', function(e) {
-        defer.reject("Got http.get error: " + e.message);
+            response.on('end', function() {
+                resolve({
+                    statusCode: response.statusCode,
+                    bodyString: bodyString
+                });
+            });
+
+            response.setTimeout(timeout, function() {
+                reject("Got http.get timout after: " + timeout);
+            });
+
+            response.on('error', function(e) {
+                reject("Got http.get error: " + e.message);
+            })
+
+        }).on('error', function(e) {
+            reject("Got http.get error: " + e.message);
+        });
     });
 
-    return defer.promise;
 }
 
 module.exports = httpGet;

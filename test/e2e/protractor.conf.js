@@ -7,7 +7,7 @@ exports.config = {
     suites: {
        util: './util/delays.js',
        pretest: 'pre-test/pretest.spec.js',
-       tests: '**/con10t.spec.js'
+       tests: '**/grumph.spec.js'
     },
     directConnect: true,
     exclude: [],
