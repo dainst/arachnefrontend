@@ -40,7 +40,7 @@ describe('catalog page', function() {
                 .then(done)
                 .catch(done.fail)
         } else {
-            done(); // allready failing in afterAll
+            done(); // already failing in afterAll
         }
     });
 
@@ -60,37 +60,10 @@ describe('catalog page', function() {
                 .then(done)
                 .catch(done.fail)
         } else {
-            done(); // allready failing in afterAll
+            done(); // already failing in afterAll
         }
 
 
-        /**
-         * TODO
-         *
-         * catalog läd preview und text läd erst, wenn man auf catalog text clickt. das ändern und
-         * expect(catalogPage.getCatalogText().isPresent()).toBe(true);
-         *
-         */
-
     });
-
-    xit('should show markers in map view', function() {
-
-        var width = 1024;
-        var height = 768;
-
-        browser.driver.manage().window().setSize(width, height)
-            .then(catalogPage.load(testCatalogId))
-            .then(expect(catalogPage.getMarkers().count()).toBe(0))
-            .then(catalogPage.getMapButton().click())
-            .then(expect(catalogPage.getMarkers().count()).toBeGreaterThan(0))
-
-    });
-
-    /**
-     * TODO
-     * dieser test muss fehlschlagen, weil die suche nur mit indizierten daten funktioniert.
-     * bis es da eine schöne lösung gibt: xit.
-     */
 
 });
