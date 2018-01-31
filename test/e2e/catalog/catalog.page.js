@@ -1,8 +1,14 @@
+var common = require('../common');
+
 var CatalogPage = function() {
 
     this.load = function(id) {
         var url = '/catalog/' + id;
-        browser.get(url);
+        return  browser.get(url)
+    };
+
+    this.getCatalogTitle = function() {
+        return element(by.css('.catalog-tree h3'));
     };
 
     this.getTreeRoot = function() {
@@ -10,25 +16,23 @@ var CatalogPage = function() {
     };
 
     this.getChildrenList = function(entry) {
-        return entry.element(by.xpath('./ol'));
+        return entry.all(by.css('ol')).first();
     };
 
     this.getEntries = function(list) {
-        return list.all(by.xpath('./li'));
+        return list.all(by.css('li'));
     };
 
     this.getRootEntries = function() {
-        var treeRoot = this.getTreeRoot();
-        var rootList = this.getChildrenList(treeRoot);
-        return this.getEntries(rootList);
+        return element.all(by.css('#tree-root > ol > li'));
     };
 
     this.getMoreButton = function(listRoot) {
-        return listRoot.element(by.xpath('./div'));
+        return listRoot.element(by.css('div'));
     };
 
     this.getExpandButton = function(entry) {
-        return entry.element(by.xpath('./div/a'));
+        return entry.all(by.css('div a')).first();
     };
 
     this.getEntryLabel = function(entry) {

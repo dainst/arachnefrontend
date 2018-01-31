@@ -1,73 +1,69 @@
 var catalogPage = require('./catalog/catalog.page');
-var childrenLimit = 20;
+var rootChildrenCount = 2;
+var subChildrenCount = 12;
+var testCatalogId = null;
+
+var common = require('./common');
 
 describe('catalog page', function() {
 
-    it('should show more catalog entries on root level after each click on the more button', function() {
+    beforeAll(function(done) {
+        common.createTestCatalog()
+            .then(function(id) {
+                testCatalogId = id;
+            })
+            .then(done)
+            .catch(function(e) {
+                done.fail("Test catalog could not be created: " + e)
+            });
+    });
 
-        catalogPage.load(105);
-        var treeRoot = catalogPage.getTreeRoot();
-        var rootList = catalogPage.getChildrenList(treeRoot);
+    afterAll(function(done) {
+        common.deleteTestCatalog(testCatalogId)
+        .then(done)
+        .catch(done.fail);
+    });
 
-        expect(catalogPage.getEntries(rootList).count()).toBe(childrenLimit);
-
-        for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
-            catalogPage.getMoreButton(rootList).click();
-            expect(catalogPage.getEntries(rootList).count()).toBe(i);
+    it('should show more catalog entries on root level after each click on the more button', function(done) {
+        if (testCatalogId) {
+            catalogPage.load(testCatalogId)
+                .then(catalogPage.getTreeRoot)
+                .then(catalogPage.getChildrenList)
+                .then(function(rootList) {
+                    var rootEntries = catalogPage.getEntries(rootList);
+                    expect(rootEntries.count()).toBe(rootChildrenCount);
+                    catalogPage.getExpandButton(rootEntries.get(1)).click().then(function() {
+                        var list = catalogPage.getEntries(catalogPage.getChildrenList(rootEntries.get(1)));
+                        expect(list.count()).toBe(subChildrenCount)
+                    })
+                })
+                .then(done)
+                .catch(done.fail)
+        } else {
+            done(); // already failing in afterAll
         }
     });
 
-    it('should show more catalog entries on a lower level after each click on the more button', function() {
 
-        catalogPage.load(79);
-        var rootEntries = catalogPage.getRootEntries();
+    it('should show information about the selected catalog entry', function(done) {
 
-        catalogPage.getExpandButton(rootEntries.get(0)).click();
-
-        var list = catalogPage.getChildrenList(rootEntries.get(0));
-        var entries = catalogPage.getEntries(list);
-
-        expect(entries.count()).toBe(childrenLimit);
-
-        for (var i = childrenLimit * 2; i <= childrenLimit * 4; i += childrenLimit) {
-            catalogPage.getMoreButton(list).click();
-            expect(catalogPage.getEntries(list).count()).toBe(i);
+        if (testCatalogId) {
+            catalogPage.load(testCatalogId)
+                .then(catalogPage.getCatalogTitle().click())
+                .then(expect(catalogPage.getCatalogText().isPresent()).toBe(true))
+                .then(function() {
+                    return catalogPage.getRootEntries().get(0);
+                })
+                .then(catalogPage.getEntryLabel)
+                .then(function(label) {return label.click()})
+                .then(expect(catalogPage.getEntityTitle().isPresent()).toBe(true))
+                .then(done)
+                .catch(done.fail)
+        } else {
+            done(); // already failing in afterAll
         }
-    });
 
-    it('should show information about the selected catalog entry', function() {
 
-        catalogPage.load(105);
-        var rootEntries = catalogPage.getRootEntries();
-
-        expect(catalogPage.getEntityTitle().isPresent()).toBe(false);
-        expect(catalogPage.getCatalogText().isPresent()).toBe(false);
-
-        catalogPage.getEntryLabel(rootEntries.get(0)).click();
-
-        expect(catalogPage.getEntityTitle().isPresent()).toBe(true);
-
-        // TODO Check for catalog text as soon as a suitable test catalog exists
-        //expect(catalogPage.getCatalogText().isPresent()).toBe(true);
-    });
-
-    xit('should show markers in map view', function() {
-
-        var width = 1024;
-        var height = 768;
-        browser.driver.manage().window().setSize(width, height);
-
-        catalogPage.load(105);
-        browser.driver.sleep(500);
-        browser.waitForAngular();
-
-        expect(catalogPage.getMarkers().count()).toBe(0);
-
-        catalogPage.getMapButton().click();
-        browser.driver.sleep(1000);
-        browser.waitForAngular();
-
-        expect(catalogPage.getMarkers().count()).toBeGreaterThan(0);
     });
 
 });

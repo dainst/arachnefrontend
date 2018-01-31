@@ -1,0 +1,97 @@
+{
+    "author": "e2e_test_user",
+    "public": true,
+    "root": {
+        "label": "Automatisch erstellter Testcatalog",
+        "text": "Dies ist ein automatischer Testcatalog, der von den End-To-End-Tests erstellt und wieder gelöscht wird. Wenn Sie ihn sehen, ist vermutlich etwas passiert, das nicht hätte passieren sollen!",
+        "children": [
+            {
+                "children": [],
+                "label": "Haupteintrag eins",
+                "arachneEntityId": 1121034
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "children": [
+                                            {
+                                                "arachneEntityId": 1001,
+                                                "label": "Fundamente der Innensäulen",
+                                                "text": "Die Fundamente der Innensäulen."
+                                            }
+                                        ],
+                                        "label": "Fundamente"
+                                    }
+                                ],
+                                "label": "Republikanische Zeit"
+                            }
+                        ],
+                        "label": "Aula"
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag eins",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag zwo",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag drei",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag vier",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag fünf",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag sechs",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag sieben",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag acht",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag neun",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag zehn",
+                        "arachneEntityId": null
+                    },
+                    {
+                        "children": [],
+                        "label": "Eintrag elf",
+                        "arachneEntityId": null
+                    }
+                ],
+                "arachneEntityId": null,
+                "label": "Basilica Aemilia"
+            }
+
+        ]
+    }
+}

@@ -6,7 +6,7 @@ var SearchPage = function() {
 	this.load = function(params) {
 		var url = '/search';
 		if (params) url += "?" + querystring.stringify(params);
-		browser.get(url);
+		return browser.get(url);
 	};
 
 	this.loadScoped = function(scope, searchPage, params) {
@@ -14,7 +14,7 @@ var SearchPage = function() {
 		searchPage = searchPage || 'search';
 		var url = scope + searchPage;
 		if (params) url += "?" + querystring.stringify(params);
-		browser.get(url);
+		return browser.get(url);
 	};
 
 	this.getFacetPanel = function(facetName) {
@@ -55,18 +55,20 @@ var SearchPage = function() {
 
 	this.getNavBarSearch = function() {
 		return element(by.css('.idai-navbar-search > form > input[name="q"]'))
-	}
+	};
 
 	this.getNavBarSubmit = function() {
 		return element(by.css('.idai-navbar-search > form > .input-group-btn > button'))
-	}
+	};
 
 	this.searchViaNavBar = function(what) {
-		common.typeIn(this.getNavBarSearch(), what);
-		this.getNavBarSubmit().click();
-		//browser.pause()
-		return browser.getCurrentUrl();
-	}
+        return function() {
+            return common.typeInPromised(this.getNavBarSearch(), what)
+                .then(this.getNavBarSubmit().click)
+                .then(browser.getCurrentUrl)
+        }.bind(this)
+
+	};
 
 	this.getScopeImage = function() {
 		return element(by.css('.search-scope > a > div > img'));
