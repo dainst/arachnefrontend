@@ -3,7 +3,7 @@
     <div class="col-md-8">
         <h2 class="entity-title">
             <div class="title">
-                {{ entity.title }} <span ng-if="!entity.title" class="capitalized">{{entity.type}}</span>
+                {{ entity.title }} <i ng-if="!entity.title">{{"ui.no_title" | transl8}}</i>
             </div>
             <div class="subtitle">
                 <small>{{ entity.subtitle }}</small>
