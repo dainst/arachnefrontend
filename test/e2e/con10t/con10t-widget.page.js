@@ -1,3 +1,5 @@
+var EC = protractor.ExpectedConditions;
+
 var Con10tWidgetPage = function() {
 	
     var imageFromSrc = element(by.css('.con10t-image-fromsrc'));
@@ -7,7 +9,8 @@ var Con10tWidgetPage = function() {
     var missingRightsOverlay = element(by.css('#restrictedContent .missingRightsOverlay'));
     var con10tLink = element(by.css('#con10tLink'));
     var subCatalogs = element.all(by.css('#catalogWidget .con10t-catalog-tree-child'));
-    var treeLeaves = element.all(by.css('#treeWidget .childcontent .childcontent'));
+    var treeLeaves = element.all(by.css('#treeWidget .con10t-tree-child .con10t-tree-child'));
+    var treeLeaveOne = element.all(by.css('#treeWidget .con10t-tree-child:first-of-type .con10t-tree-child:first-of-type'));
 
 
 
@@ -37,11 +40,11 @@ var Con10tWidgetPage = function() {
 
     this.getSubCatalogsCount = function() {
         return subCatalogs.count()
-    }
+    };
 
     this.getTreeLeavesCount = function() {
-        return treeLeaves.count()
-    }
+        return treeLeaves.count();
+    };
 
 
 

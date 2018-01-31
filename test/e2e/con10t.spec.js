@@ -74,15 +74,16 @@ describe('con10t-widget', function() {
             });
     });
 
-    it('catalog widget should show catalog', function() {
+    fit('tree widget should content tree', function() {
         // TODO what if content changes?
+
         browser.get('/project/test_project')
             .then(con10tWidget.getTreeLeavesCount)
             .then(function(scc) {
-                expect(scc).toBeGreaterThan(3);
+                expect(scc).toBeGreaterThan(10);
             });
     });
 
-    // map widget and serach widget are tested enaugh in other test suites
+    // map widget and search widget are tested enough in other test suites
 
 });
