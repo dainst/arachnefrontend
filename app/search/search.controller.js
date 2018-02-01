@@ -267,13 +267,14 @@ angular.module('arachne.controllers')
             };
 
             $scope.getUrlForFacetValue = function(facetName, facetValue) {
-                console.error("getUrlForFacetValue - " + facetName + " - " + facetValue);
                 var query = $scope.currentQuery.addFacet(facetName, facetValue)
                     .removeParam('offset');
-                var url = "search" + query.toString();
-                console.error("getUrlForFacetValue - " + url);
-                return url;
-            }
+                return "search" + query.toString();
+            };
+
+            $scope.clickFacetValue = function(facetName, facetValue) {
+                console.error("FACET WAS CLICKED: " + facetName + " - " + facetValue);
+            };
 
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
