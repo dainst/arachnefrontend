@@ -41,6 +41,7 @@ describe('basic scenarios', function() {
             })
 
             .then(searchPage.getFacetButtons('facet_kategorie').get(1).click())
+            .then(searchPage.getFacetButtons('facet_kategorie').get(1).click())
             .then(function() {
                 searchPage.waitForChangedResultSize(lastResultSize);
             })
