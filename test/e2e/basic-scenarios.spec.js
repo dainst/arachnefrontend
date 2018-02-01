@@ -40,7 +40,9 @@ describe('basic scenarios', function() {
                 lastResultSize = resultSize;
             })
 
-            .then(searchPage.getFacetButtons('facet_kategorie').get(1).click())
+            .then(function() {
+                searchPage.getFacetButtons('facet_kategorie').get(1).click()
+            })
             .then(searchPage.getResultSize)
             .then(function(resultSize){
                 expect(resultSize).toBeGreaterThan(0);
@@ -49,7 +51,9 @@ describe('basic scenarios', function() {
                 lastResultSize = resultSize;
             })
 
-            .then(searchPage.getFacetButtons('facet_image').get(0).click())
+            .then(function() {
+                searchPage.getFacetButtons('facet_kategorie').get(1).click()
+            })
             .then(searchPage.getResultSize)
             .then(function(resultSize){
                 expect(resultSize).toBeGreaterThan(0);
