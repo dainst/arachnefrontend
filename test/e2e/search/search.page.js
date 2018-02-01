@@ -34,8 +34,8 @@ var SearchPage = function() {
 	};
 
 	this.getFacetButtons = function(facetName) {
-		var facet = element(by.css('.facet.' + facetName));
-		return facet.all(by.xpath('./ul/li/a'));
+		var facet = element(by.css('.facet.' + facetName + ' ul'));
+		return facet.all(by.css('li'));
 	};
 
 	// this can be used as a hack to prevent getResultSize from getting called

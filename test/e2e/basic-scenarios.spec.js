@@ -40,7 +40,6 @@ describe('basic scenarios', function() {
                 lastResultSize = resultSize;
             })
 
-            .then(function() { browser.sleep(2000); })
             .then(searchPage.getFacetButtons('facet_kategorie').get(1).click())
             .then(function() {
                 searchPage.waitForChangedResultSize(lastResultSize);
