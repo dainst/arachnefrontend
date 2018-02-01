@@ -24,7 +24,7 @@ describe('basic scenarios', function() {
             });
     });
 
-    fit('should search for entities, filter search results and show a single entity with linked entities', function(done) {
+    it('should search for entities, filter search results and show a single entity with linked entities', function(done) {
 
         var lastResultSize = 0;
         var lastEntitityId = 0;
