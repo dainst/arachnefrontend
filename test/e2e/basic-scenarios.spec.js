@@ -24,7 +24,7 @@ describe('basic scenarios', function() {
             });
     });
 
-    it('should search for entities, filter search results and show a single entity with linked entities', function(done) {
+    fit('should search for entities, filter search results and show a single entity with linked entities', function(done) {
 
         var lastResultSize = 0;
         var lastEntitityId = 0;
@@ -52,7 +52,7 @@ describe('basic scenarios', function() {
             })
 
             .then(function() {
-                searchPage.getFacetButtons('facet_kategorie').get(1).click()
+                searchPage.getFacetButtons('facet_image').get(0).click()
             })
             .then(searchPage.getResultSize)
             .then(function(resultSize){
