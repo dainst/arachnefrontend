@@ -39,11 +39,12 @@ describe('basic scenarios', function() {
                 expect(searchPage.getImages().count()).toBe(50);
                 lastResultSize = resultSize;
             })
-
-            .then(searchPage.getFacetButtons('facet_kategorie').get(1).click())
             .then(function() {
-                searchPage.waitForChangedResultSize(lastResultSize);
+                searchPage.getFacetButtons('facet_kategorie').get(1).getAttribute('outerHTML').then(function(html) {
+                    console.log(html);
+                });
             })
+            .then(searchPage.getFacetButtons('facet_kategorie').get(1).click())
             .then(searchPage.getResultSize)
             .then(function(resultSize){
                 expect(resultSize).toBeGreaterThan(0);

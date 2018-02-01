@@ -272,10 +272,6 @@ angular.module('arachne.controllers')
                 return "search" + query.toString();
             };
 
-            $scope.clickFacetValue = function(facetName, facetValue) {
-                console.error("FACET WAS CLICKED: " + facetName + " - " + facetValue);
-            };
-
             if (parseInt($scope.currentQuery.limit) + parseInt($scope.currentQuery.offset) > 10000) {
                 $timeout(function () { // unfortunately we have to do this to wait for the translations to load.
                     messages.clear();
