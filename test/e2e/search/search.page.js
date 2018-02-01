@@ -1,8 +1,10 @@
 var querystring = require('querystring');
 var common = require('../common');
 
+var EC = protractor.ExpectedConditions;
+
 var SearchPage = function() {
-	
+
 	this.load = function(params) {
 		var url = '/search';
 		if (params) url += "?" + querystring.stringify(params);
@@ -36,7 +38,9 @@ var SearchPage = function() {
 
 	this.getResultSize = function() {
 		return new Promise(function(resolve, reject) {
-			element(by.binding('resultSize')).getText().then(function(resultSize) {
+			var resultElem = element(by.binding('resultSize'));
+			browser.wait(EC.presenceOf(resultElem), 5000);
+			resultElem.getText().then(function(resultSize) {
 				resultSize = resultSize.replace(/[,.]/g, "");
 				resolve(parseInt(resultSize));
 			}, function(err) {
