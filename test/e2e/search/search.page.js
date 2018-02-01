@@ -45,6 +45,8 @@ var SearchPage = function() {
 		var resultSizeChanged = function() {
 			var resultElem = element(by.binding('resultSize'));
 			return resultElem.getText().then(function(resultSize) {
+				var parsedResultSize = parseResultSize(resultSize);
+				console.log("parsedResultSize", parsedResultSize, "lastResultSize", lastResultSize);
 				return parseResultSize(resultSize) != lastResultSize;
 			});
 		}
