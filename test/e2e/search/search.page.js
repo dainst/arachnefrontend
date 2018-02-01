@@ -1,7 +1,9 @@
 var querystring = require('querystring');
 var common = require('../common');
 
-var EC = protractor.ExpectedConditions;
+function parseResultSize(resultSize) {
+	return parseInt(resultSize.replace(/[,.]/g, ""));
+}
 
 var SearchPage = function() {
 
@@ -43,19 +45,17 @@ var SearchPage = function() {
 		var resultSizeChanged = function() {
 			var resultElem = element(by.binding('resultSize'));
 			return resultElem.getText().then(function(resultSize) {
-				console.log("resultSize", resultSize, lastResultSize);
-					return resultSize != lastResultSize;
+				return parseResultSize(resultSize) != lastResultSize;
 			});
 		}
 		return browser.wait(resultSizeChanged, 5000);
-	}
+	};
 
 	this.getResultSize = function() {
 		return new Promise(function(resolve, reject) {
 			var resultElem = element(by.binding('resultSize'));
 			resultElem.getText().then(function(resultSize) {
-				resultSize = resultSize.replace(/[,.]/g, "");
-				resolve(parseInt(resultSize));
+				resolve(parseResultSize(resultSize));
 			}, function(err) {
 				reject(err);
 			});
