@@ -40,12 +40,7 @@ describe('basic scenarios', function() {
                 lastResultSize = resultSize;
             })
 
-            .then(
-                browser.actions()
-                    .mouseMove(searchPage.getFacetButtons('facet_kategorie').get(1), {x: 10, y: 10})
-                    .click()
-                    .perform()
-            )
+            .then(searchPage.getFacetButtons('facet_kategorie').get(2).click())
             .then(searchPage.getResultSize)
             .then(function(resultSize){
                 expect(resultSize).toBeGreaterThan(0);
