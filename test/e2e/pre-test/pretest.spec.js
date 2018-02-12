@@ -7,7 +7,7 @@
 var fs = require("fs");
 var toEqualMsg = require('../util/toEqualMsg');
 var httpGet = require('../util/httpget');
-var devConfig = require(__dirname + "/../../../dist/config/dev-config.json");
+var devConfig = require(__dirname + "/../../../config/dev-config.json");
 
 describe('There', function() {
 
