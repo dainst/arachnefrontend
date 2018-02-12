@@ -41,6 +41,8 @@ var jsDeps = [
     'lib/oms.min.js',
     'node_modules/drmonty-leaflet-awesome-markers/js/leaflet.awesome-markers.js',
     'node_modules/leaflet.heat/dist/leaflet-heat.js',
+    'node_modules/leaflet-polylinedecorator/dist/leaflet.polylineDecorator.js',
+    'node_modules/leaflet-hotline/dist/leaflet.hotline.js',
     'node_modules/angulartics/dist/angulartics.min.js',
     'node_modules/angulartics-piwik/dist/angulartics-piwik.min.js',
     'node_modules/angular-resource/angular-resource.min.js',

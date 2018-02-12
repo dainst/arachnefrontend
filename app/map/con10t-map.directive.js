@@ -132,6 +132,13 @@ angular.module('arachne.widgets.map')
                                     places
                                 );
                             }
+
+                            if (mapService.getTranslocationLayerActive()) {
+                                // draw colored lines between the nodes
+                                for (var i = 0; i < entities.length && i < 20; i++) {
+                                    placesPainter.drawTranslocationLines(entities[i].places);
+                                }
+                            }
                         }
                         else {
                             placesPainter.clear();
