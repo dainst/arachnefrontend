@@ -74,7 +74,7 @@ angular.module('arachne',[
 			'entityImage':		{ url: '/entity/:entityId/image/:imageId', templateUrl: 'app/entity/entity-image.html', data: { pageTitle: title }},
 			'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc', templateUrl: 'app/search/search.html', data: { pageTitle: title }},
 			'categories':		{ url: '/categories', templateUrl: 'app/category/categories.html', data: { pageTitle: title }},
-			'category':			{ url: '/category/?c', templateUrl: 'app/category/category.html', data: { pageTitle: title }},
+			'category':			{ url: '/category/?c&fq&fv&group', templateUrl: 'app/category/category.html', data: { pageTitle: title }},
 
 			'map': {
 				url: '/map?q&fq',
@@ -115,7 +115,7 @@ angular.module('arachne',[
 				registerState(newState, name + '-' + child);
 			});
 		}
-		
+
 		angular.forEach(states, registerState);
 
 	}
@@ -147,7 +147,7 @@ angular.module('arachne',[
 
 
     $rootScope.isOnPage = function(url, pages) {
-    	var regex = new RegExp(document.location.protocol + '\/\/' + document.location.host + '\/(\\w*)\/?');
+    	var regex = new RegExp(document.location.protocol + '\/\/[^/]+\/(\\w*)\/?');
         var m1 = regex.exec(url);
         var ms1 = (m1 !== null) ? m1[1] : "nothing";
         return (pages.indexOf(ms1) !== -1)

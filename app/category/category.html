@@ -83,7 +83,7 @@
                     <ul class="list-unstyled facet">
                         <li ng-repeat="facet in facets[currentFacetPage]"
                             ng-class="{selected: facet.name == currentFacet}">
-                            <a href="category/?c={{category}}&fq={{facet.name}}">{{facet.name | transl8 }}</a>
+                            <a ng-href="category/?c={{category}}&fq={{facet.name}}">{{facet.name | transl8 }}</a>
                         </li>
                     </ul>
                 </div>

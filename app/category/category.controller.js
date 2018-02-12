@@ -5,7 +5,6 @@ angular.module('arachne.controllers')
     .controller('CategoryController', ['$rootScope', '$scope', '$uibModal', 'Query', '$http', 'arachneSettings', 'categoryService', '$location', 'Entity', '$filter', 'indexService',
         function ($rootScope, $scope, $uibModal, Query, $http, arachneSettings, categoryService, $location, Entity, $filter, indexService) {
 
-
             $scope.currentFacet = undefined;
             $scope.currentValue = undefined;
             $scope.groupedBy = undefined;
@@ -137,14 +136,6 @@ angular.module('arachne.controllers')
                     $scope.currentValue = undefined;
                 }
             }
-
-            $scope.$on('$locationChangeSuccess', function(event, url) {
-                console.log(url);
-                if ($rootScope.isOnPage(url, ['category'])) {
-                    loadFacetValues();
-                    updatePreviewResultSize();
-                }
-            });
 
             function getCurrentQuery() {
                 var query = new Query();
