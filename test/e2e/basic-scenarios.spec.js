@@ -39,8 +39,16 @@ describe('basic scenarios', function() {
                 expect(searchPage.getImages().count()).toBe(50);
                 lastResultSize = resultSize;
             })
-
-            .then(searchPage.getFacetButtons('facet_kategorie').get(2).click())
+            .then(function() {
+                searchPage.getFacetButtons('facet_kategorie').get(1).getAttribute('outerHTML').then(function(html) {
+                    console.log(html);
+                });
+            })
+            .then(searchPage.getFacetButtons('facet_kategorie').get(1).click())
+            .then(browser.getCurrentUrl)
+            .then(function(actualUrl) {
+                console.log("browserurl", actualUrl);
+            })
             .then(searchPage.getResultSize)
             .then(function(resultSize){
                 expect(resultSize).toBeGreaterThan(0);

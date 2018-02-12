@@ -38,21 +38,6 @@ var SearchPage = function() {
 		return facet.all(by.css('li a'));
 	};
 
-	// this can be used as a hack to prevent getResultSize from getting called
-	// too early, a thing that seems to have happened in some cases on the build
-	// machine which again caused e2e tests to fail
-	this.waitForChangedResultSize = function(lastResultSize) {
-		var resultSizeChanged = function() {
-			var resultElem = element(by.binding('resultSize'));
-			return resultElem.getText().then(function(resultSize) {
-				var parsedResultSize = parseResultSize(resultSize);
-				console.log("parsedResultSize", parsedResultSize, "lastResultSize", lastResultSize);
-				return parseResultSize(resultSize) != lastResultSize;
-			});
-		}
-		return browser.wait(resultSizeChanged, 5000);
-	};
-
 	this.getResultSize = function() {
 		return new Promise(function(resolve, reject) {
 			var resultElem = element(by.binding('resultSize'));
