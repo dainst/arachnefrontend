@@ -364,17 +364,17 @@ hr {
 	margin: 0;
 }
 .facet li {
-	overflow: hidden;
+  overflow: hidden;
   margin: 3px 0;
-	padding: 3px 6px;
 }
 .facet li:hover, .facet li.selected {
-	background-color: rgba(85, 114, 161, 0.9);
+  background-color: rgba(85, 114, 161, 0.9);
   color: white;
 }
 .facet li a {
   color: black;
   display: block;
+  padding: 3px 6px;
 }
 .facet li:hover a {
   color: white;
