@@ -7,7 +7,7 @@ exports.config = {
     suites: {
        util: './util/delays.js',
        pretest: 'pre-test/pretest.spec.js',
-       tests: '**/*.spec.js'
+       tests: '**/basic-scenarios.spec.js'
     },
     directConnect: true,
     exclude: [],
