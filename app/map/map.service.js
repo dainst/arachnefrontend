@@ -21,7 +21,7 @@ angular.module('arachne.widgets.map')
             'name': 'OpenStreetMap',
             'type': 'xyz',
             'url': 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b47a3cf895b94aedad41e5cfb5222b87',
-            'yayerOptions': {
+            'layerOptions': {
                 'subdomains': ['a', 'b', 'c'],
                 'attribution': '&copy; <a href=\'https://www.opencyclemap.org\'>OpenCycleMap</a>, &copy; <a href=\'https://www.openstreetmap.org/copyright\'>OpenStreetMap</a> contributors',
                 'continuousWorld': false,
