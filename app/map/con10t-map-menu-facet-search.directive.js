@@ -8,6 +8,18 @@ angular.module('arachne.widgets.map')
  */
     .directive('con10tMapMenuFacetSearch', ['$location', 'searchService', 'mapService', 'arachneSettings',
         function ($location, searchService, mapService, arachneSettings) {
+
+            // must be replicated from search-service, since map has no search controller
+            function loadMoreFacetValues(facet) {
+                searchService.loadMoreFacetValues(facet).then(function(hasMore) {
+                    facet.hasMore = hasMore;
+                }, function(response) {
+                    console.warn(response)
+                });
+            }
+
+
+
             return {
                 restrict: 'A',
                 scope: {
@@ -26,6 +38,8 @@ angular.module('arachne.widgets.map')
                 },
                 templateUrl: 'app/map/con10t-map-menu-facet-search.html',
                 link: function (scope) {
+
+                    scope.loadMoreFacetValues = loadMoreFacetValues;
 
                     if (!scope.facetValuesLimit) scope.facetValuesLimit = 10;
 
@@ -47,9 +61,9 @@ angular.module('arachne.widgets.map')
                     // var facetsHidden = [
                     //     'facet_fundort', 'facet_aufbewahrungsort', 'facet_geo',
                     //     'facet_ort', 'agg_geogrid', 'facet_ortsangabe'];
-                    if (scope.facetsDeny)
+                    if (scope.facetsDeny) {
                         facetsHidden = facetsHidden.concat(scope.facetsDeny);
-
+                    }
 
                     function computeFacetsShown(facets, allowedFacetsNames, hiddenFacetsNames) {
 
@@ -99,9 +113,11 @@ angular.module('arachne.widgets.map')
                     }
 
 
-                    function trimFacetValues(facetsShown, facetValuesMax) {
-                        for (var i = 0; i < facetsShown.length; i++)
+                    function trimFacetValuesAndSetHasMore(facetsShown, facetValuesMax) {
+                        for (var i = 0; i < facetsShown.length; i++) {
+                            facetsShown[i].hasMore = facetsShown[i].values.length > facetValuesMax;
                             facetsShown[i].values = facetsShown[i].values.slice(0, facetValuesMax);
+                        }
                     }
 
                     function _buildFacetGroups() {
@@ -133,7 +149,7 @@ angular.module('arachne.widgets.map')
                         scope.currentQuery = searchService.currentQuery();
 
                         scope.facetsShown = computeFacetsShown(searchService.getFacets(), scope.facetsAllowed, facetsHidden);
-                        trimFacetValues(scope.facetsShown, scope.facetValuesLimit);
+                        trimFacetValuesAndSetHasMore(scope.facetsShown, scope.facetValuesLimit);
                         scope.activeFacets = computeActiveFacets(scope.currentQuery.facets, scope.facetsSelected);
 
                         _buildFacetGroups();
@@ -151,11 +167,7 @@ angular.module('arachne.widgets.map')
                         for (var i = 0; i < scope.defaultFacets.length; i++) {
                             var facet = scope.defaultFacets[i];
                             facet.open = false;
-                            if (facet.values.length < scope.currentQuery.fl) {
-                                facet.hasMore = false;
-                            } else {
-                                facet.hasMore = true;
-                            }
+
                             arachneSettings.openFacets.forEach(function (openName) {
                                 if (facet.name.slice(0, openName.length) == openName) {
                                     insert.unshift(scope.defaultFacets.splice(i--, 1)[0]);

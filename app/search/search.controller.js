@@ -215,6 +215,7 @@ angular.module('arachne.controllers')
             };
 
             $scope.loadMoreFacetValues = function (facet) {
+                console.log("loadMoreFacetValues in search controllr")
                 searchService.loadMoreFacetValues(facet).then(function (hasMore) {
                     facet.hasMore = hasMore;
                 }, function (response) {
@@ -299,10 +300,7 @@ angular.module('arachne.controllers')
                         }
                     });
 
-                    // TODO parts of the following code are probably useless/unused due to the change to facet groups
-                    // only the hasMore stuff is needed for opening these facets from the start
                     for (var i = 0; i < $scope.facets.length; i++) {
-
                         var facet = $scope.facets[i];
                         facet.open = false;
                         if (facet.values.length < $scope.currentQuery.fl) {

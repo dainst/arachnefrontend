@@ -67,6 +67,9 @@
                             {{facetValue.value | stripCoords}}
                         </a>
                     </li>
+                    <li ng-show="facet.hasMore" class="more">
+                        <i><a href="#" ng-click="loadMoreFacetValues(facet)">{{ 'ui_show_more' | transl8 }}</a></i>
+                    </li>
                 </ul>
             </div>
         </div>
