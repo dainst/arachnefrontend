@@ -9,6 +9,8 @@ angular.module('arachne.controllers')
                   $location, arachneSettings, Catalog, CatalogEntry, authService, categoryService, Query,
                   messages, searchScope) {
 
+            searchService.initQuery();
+
             $rootScope.hideFooter = false;
 
             $scope.user = authService.getUser();

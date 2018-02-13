@@ -17,28 +17,11 @@ angular.module('arachne.services')
             var _result = {entities: []};
             // ?
             var _currentQuery = Query.fromSearch($location.search());
-            // ?
+            // save the currently active request in order to prevent
+            // issueing the same request many times
             var _currentRequest = false;
             var CHUNK_SIZE = 50;
             var dirty = false;
-
-            /**
-             * Execute search with current query if location is changed
-             */
-            $rootScope.$on("$locationChangeSuccess", function (event, url, oldUrl) {
-
-                if (!$rootScope.isOnPage(url, ["map", "search", "entity"])) {
-                    return;
-                }
-
-                var newQuery = Query.fromSearch($location.search());
-
-                if (!angular.equals(newQuery.toFlatObject(), _currentQuery.toFlatObject())) {
-                    _result = {entities: []};
-                }
-                _currentQuery = newQuery;
-                _currentRequest = false;
-            });
 
 
             /**
@@ -71,13 +54,14 @@ angular.module('arachne.services')
                 // if cache holds a chunk
                 if ((!dirty) && (!searchScope.dirty) && (!angular.isUndefined(_result.entities[offset]))) {
                     deferred.resolve(getCachedChunk(offset));
-                } else { // ?
+                } else {
                     searchScope.dirty = false;
                     dirty = false;
                     if (!_currentQuery.setParam('offset', offset).q)
                         _currentQuery.q = "*";
                     var query = _currentQuery.setParam('offset', offset);
 
+                    // check if we are already waiting for a result
                     if (_currentRequest) {
 
                         // If the offset of the url differs from the offset param
@@ -141,12 +125,26 @@ angular.module('arachne.services')
             return {
 
                 /**
+                 * Generates a new query from the location
+                 */
+                initQuery: function() {
+
+                    var newQuery = Query.fromSearch($location.search());
+
+                    if (!angular.equals(newQuery.toFlatObject(), _currentQuery.toFlatObject())) {
+                        _result = {entities: []};
+                    }
+                    _currentQuery = newQuery;
+                    _currentRequest = false;
+                },
+
+                /**
                  * get a single entity from the current result
                  *
                  * @param resultIndex
                  * @returns {*}
                  */
-                getEntity: function (resultIndex) {
+                getEntity: function(resultIndex) {
                     var deferred = $q.defer();
 
                     if (resultIndex < 1) {

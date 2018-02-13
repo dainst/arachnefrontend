@@ -16,6 +16,8 @@ angular.module('arachne.controllers')
                   arachneSettings, $location, Catalog, messages, $uibModal, $http, Entity,
                   authService, $timeout, searchScope) {
 
+            searchService.initQuery();
+
             // To indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.illegalQuery = false;
             $rootScope.hideFooter = false;

@@ -99,6 +99,8 @@ angular.module('arachne.widgets.map')
                 },
                 link: function (scope, element) {
 
+                    searchService.initQuery();
+
                     if (scope.limit === undefined || scope.limit > 1000) scope.limit = 1000;
 
                     var fitViewToMarkersAllowed = true;
