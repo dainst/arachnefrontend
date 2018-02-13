@@ -13,28 +13,14 @@ angular.module('arachne.services')
     .factory('searchService', ['$location', 'Entity', '$rootScope', 'Query', '$q', 'searchScope',
         function ($location, Entity, $rootScope, Query, $q, searchScope) {
 
-            // ?
-            var _result = {entities: []};
+            // the currently active result
+            var _currentResult = { entities: [] };
             // ?
             var _currentQuery = Query.fromSearch($location.search());
             // save the currently active request in order to prevent
             // issueing the same request many times
             var _currentRequest = false;
             var CHUNK_SIZE = 50;
-            var dirty = false;
-
-
-            /**
-             * get a cached chunk if present
-             *
-             * @param offset: the position from where on to get the chunk
-             * @returns {Array.<*>}
-             */
-            function getCachedChunk(offset) {
-                var limit = parseInt(_currentQuery.limit);
-                // entities:
-                return _result.entities.slice(offset, offset + limit);
-            }
 
             /**
              * retrieve a chunk from the current search result
@@ -49,36 +35,23 @@ angular.module('arachne.services')
              **/
             function retrieveChunk(offset) {
 
-                var deferred = $q.defer();
+                searchScope.dirty = false;
+                if (!_currentQuery.setParam('offset', offset).q)
+                    _currentQuery.q = "*";
+                var query = _currentQuery.setParam('offset', offset);
 
-                // if cache holds a chunk
-                if ((!dirty) && (!searchScope.dirty) && (!angular.isUndefined(_result.entities[offset]))) {
-                    deferred.resolve(getCachedChunk(offset));
-                } else {
-                    searchScope.dirty = false;
-                    dirty = false;
-                    if (!_currentQuery.setParam('offset', offset).q)
-                        _currentQuery.q = "*";
-                    var query = _currentQuery.setParam('offset', offset);
+                // check if we are already waiting for a result
+                if (_currentRequest) {
 
-                    // check if we are already waiting for a result
-                    if (_currentRequest) {
-
-                        // If the offset of the url differs from the offset param
-                        if (_currentRequest.query.toString() === query.toString()) {
-                            _currentRequest.request.$promise.then(function (data) {
-                                deferred.resolve(data.entities);
-                            });
-                        } else {
-                            _currentRequest.request.$cancelRequest();
-                        }
-
-                    } else { // chunk needs to be retrieved
-                        performAndParseRequest(offset, query, deferred);
+                    if (_currentRequest.query.toString() === query.toString()) {
+                        return _currentRequest.request.$promise;
+                    } else {
+                        _currentRequest.request.$cancelRequest();
                     }
-                }
 
-                return deferred.promise;
+                }
+                // chunk needs to be retrieved
+                return performAndParseRequest(offset, query);
             }
 
             /**
@@ -92,33 +65,27 @@ angular.module('arachne.services')
              *
              * @return functions to be called on the retrieved chunk
              */
-            function performAndParseRequest(offset, query, deferred) {
+            function performAndParseRequest(offset, query) {
 
-                if (query.q === "null" || query.q === undefined)
+                if (query.q === "null" || query.q === undefined) {
                     query.q = "*";
+                }
                 var finalQuery = query.extend(searchScope.currentScopeData());
-                //console.log('ask for:\n', finalQuery, searchScope.currentScopeData(), searchScope.currentScopeName());
                 _currentRequest = {
                     query: query,
                     request: Entity.query(finalQuery.toFlatObject())
                 };
 
-                _currentRequest.request.$promise.then(function (data) {
+                return _currentRequest.request.$promise.then(function (data) {
+
                     _currentRequest = false;
-                    _result.size = data.size;
-                    _result.facets = data.facets ? data.facets : [];
-                    if (data.size === 0) {
-                        deferred.resolve([]);
-                    } else {
-                        if (data.entities)
-                            for (var i = 0; i < data.entities.length; i++) {
-                                _result.entities[parseInt(offset) + i] = data.entities[i];
-                            }
-                    }
-                    deferred.resolve(data.entities);
+                    _currentResult.size = data.size;
+                    _currentResult.facets = data.facets || [];
+                    _currentResult.entities = data.entities || [];
+                    return _currentResult.entities;
                 }, function (response) {
                     console.warn(response);
-                    deferred.reject(response);
+                    return $q.defer().reject(response);
                 });
             }
 
@@ -132,7 +99,7 @@ angular.module('arachne.services')
                     var newQuery = Query.fromSearch($location.search());
 
                     if (!angular.equals(newQuery.toFlatObject(), _currentQuery.toFlatObject())) {
-                        _result = {entities: []};
+                        _currentResult = {entities: []};
                     }
                     _currentQuery = newQuery;
                     _currentRequest = false;
@@ -156,7 +123,7 @@ angular.module('arachne.services')
                     var offset = Math.floor((resultIndex - 1) / CHUNK_SIZE) * CHUNK_SIZE;
 
                     return retrieveChunk(offset).then(function (entities) {
-                        deferred.resolve(entities[resultIndex - 1 - offset]);
+                        deferred.resolve(entities[resultIndex - 1]);
                         return deferred.promise;
                     });
 
@@ -165,11 +132,10 @@ angular.module('arachne.services')
                 /**
                  * get all current facets
                  *
-                 * @returns _result with an appended array containing all facets
+                 * @returns _currentResult with an appended array containing all facets
                  */
                 getFacets: function () {
-                    //console.log(_result.facets);
-                    return _result.facets;
+                    return _currentResult.facets;
                 },
 
                 /**
@@ -181,10 +147,10 @@ angular.module('arachne.services')
                  */
                 getFacet: function (name) {
                     var result = null;
-                    if (_result.facets) {
-                        for (var i = 0; i < _result.facets.length; i++) {
-                            if (_result.facets[i].name === name) {
-                                result = _result.facets[i];
+                    if (_currentResult.facets) {
+                        for (var i = 0; i < _currentResult.facets.length; i++) {
+                            if (_currentResult.facets[i].name === name) {
+                                result = _currentResult.facets[i];
                                 break;
                             }
                         }
@@ -202,8 +168,8 @@ angular.module('arachne.services')
                  */
                 getFacetValue: function (value) {
                     var result = null;
-                    if (_result.facets) {
-                        for (var singleFacet in _result.facets) {
+                    if (_currentResult.facets) {
+                        for (var singleFacet in _currentResult.facets) {
                             for (var singleValue in singleFacet.values) {
                                 if (singleValue.value === value) {
                                     result = singleValue;
@@ -265,7 +231,7 @@ angular.module('arachne.services')
                  * @returns {*}
                  */
                 getSize: function () {
-                    return _result.size;
+                    return _currentResult.size;
                 },
 
                 /**
@@ -285,15 +251,6 @@ angular.module('arachne.services')
                  */
                 currentQuery: function () {
                     return _currentQuery;
-                },
-
-                /**
-                 * To make sure query gets executed in any case
-                 * next time getCurrentPage gets called.
-                 */
-                markDirty: function () {
-                    dirty = true;
-                    _currentRequest = false;
                 }
             }
         }]);

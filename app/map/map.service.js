@@ -68,11 +68,10 @@ angular.module('arachne.widgets.map')
             console.warn("no limit defined")
         }
 
-        searchService.currentQuery().fl=limit;
+        searchService.currentQuery().fl = limit;
         searchService.currentQuery().bbox = bBoxFromBounds(map.getBounds());
         searchService.currentQuery().ghprec = getGhprecFromZoom();
         searchService.currentQuery().limit = limit;
-        searchService.markDirty();
         return searchService.getCurrentPage();
     };
 

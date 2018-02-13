@@ -13,7 +13,7 @@ angular.module('arachne.widgets.map')
     .directive('con10tMap', ['$filter', 'searchService', 'mapService', 'heatmapPainter', 'placesService', 'placesPainter',
         function ($filter, searchService, mapService, heatmapPainter, placesService, placesPainter) {
 
-            function enrichQuery(currentQuery, scope) {
+            function setDefaultQueryParams(currentQuery, scope) {
 
                 if (!currentQuery.q) currentQuery.q = '*';
 
@@ -106,11 +106,47 @@ angular.module('arachne.widgets.map')
                     var fitViewToMarkersAllowed = true;
 
                     var cq = searchService.currentQuery();
-                    enrichQuery(cq, scope);   // manually set stuff
+                    setDefaultQueryParams(cq, scope);
 
                     var lastBbox;
 
+                    function createMarkerLayer(entities) {
+
+                        placesPainter.clear(); // TODO implement map.removeLayers
+                        heatmapPainter.clear();
+
+                        var places = placesService.makePlacesFromEntities(entities, cq.bbox.split(","));
+
+                        placesPainter.drawPlaces(places, scope);
+
+                        if (fitViewToMarkersAllowed) {
+                            fitViewToMarkers(
+                                cq.zoom, cq.lat, cq.lng,
+                                places
+                            );
+                        }
+
+                        if (mapService.getTranslocationLayerActive()) {
+                            // draw colored lines between the nodes
+                            for (var i = 0; i < entities.length && i < 20; i++) {
+                                placesPainter.drawTranslocationLines(entities[i].places);
+                            }
+                        }
+                    }
+
+                    function createHeatmapLayer() {
+
+                        placesPainter.clear();
+                        heatmapPainter.clear();
+
+                        var bucketsToDraw = null;
+                        var agg_geogrid = searchService.getFacet("agg_geogrid");
+                        if (agg_geogrid) bucketsToDraw = agg_geogrid.values;
+                        heatmapPainter.drawBuckets(cq.bbox, bucketsToDraw);
+                    }
+
                     function mapOnMove(entities) {
+
                         // prevent reissueing search if bbox has not changed
                         if (lastBbox === cq.bbox) {
                             return;
@@ -119,42 +155,13 @@ angular.module('arachne.widgets.map')
                         }
 
                         if (mapService.underLimit()) {
-
-                            placesPainter.clear(); // TODO implement map.removeLayers
-
-                            heatmapPainter.clear();
-
-                            var places = placesService.makePlacesFromEntities(entities, cq.bbox.split(","));
-
-                            placesPainter.drawPlaces(places, scope);
-
-                            if (fitViewToMarkersAllowed) {
-                                fitViewToMarkers(
-                                    cq.zoom, cq.lat, cq.lng,
-                                    places
-                                );
-                            }
-
-                            if (mapService.getTranslocationLayerActive()) {
-                                // draw colored lines between the nodes
-                                for (var i = 0; i < entities.length && i < 20; i++) {
-                                    placesPainter.drawTranslocationLines(entities[i].places);
-                                }
-                            }
-                        }
-                        else {
-                            placesPainter.clear();
-                            heatmapPainter.clear();
-
-                            var bucketsToDraw = null;
-                            var agg_geogrid = searchService.getFacet("agg_geogrid");
-                            if (agg_geogrid) bucketsToDraw = agg_geogrid.values;
-                            heatmapPainter.drawBuckets(cq.bbox, bucketsToDraw);
+                            createMarkerLayer(entities);
+                        } else {
+                            createHeatmapLayer();
                         }
 
                         fitViewToMarkersAllowed = false;
                     }
-
 
                     mapService.setLimit(scope.limit);
                     mapService.registerOnMoveListener(mapOnMove);
@@ -165,7 +172,7 @@ angular.module('arachne.widgets.map')
                             minZoom: scope.minZoom || 3,
                             fullscreenControl: true
                         } // 3 is to prevent wrong bbox searches
-                        // when the window is bigger than the world,
+                        // when the window is bigger than the world
                     );
                     heatmapPainter.setMap(mapService.getMap());
 

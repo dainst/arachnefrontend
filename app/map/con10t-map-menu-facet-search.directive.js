@@ -43,7 +43,7 @@ angular.module('arachne.widgets.map')
                     // should perform its default action when rendering the new objects' places
                     var paramsToRemove = ['offset', 'lat', 'lng', 'zoom'];
 
-                    var facetsHidden = ['facet_geo'];
+                    var facetsHidden = ['facet_geo', 'agg_geogrid'];
                     // var facetsHidden = [
                     //     'facet_fundort', 'facet_aufbewahrungsort', 'facet_geo',
                     //     'facet_ort', 'agg_geogrid', 'facet_ortsangabe'];
@@ -151,7 +151,7 @@ angular.module('arachne.widgets.map')
                         for (var i = 0; i < scope.defaultFacets.length; i++) {
                             var facet = scope.defaultFacets[i];
                             facet.open = false;
-                            if (facet.values.length < searchService.currentQuery.fl) {
+                            if (facet.values.length < scope.currentQuery.fl) {
                                 facet.hasMore = false;
                             } else {
                                 facet.hasMore = true;
