@@ -146,14 +146,6 @@ angular.module('arachne',[
 	});
 
 
-    $rootScope.isOnPage = function(url, pages) {
-    	var regex = new RegExp(document.location.protocol + '\/\/[^/]+\/(\\w*)\/?');
-        var m1 = regex.exec(url);
-        var ms1 = (m1 !== null) ? m1[1] : "nothing";
-        return (pages.indexOf(ms1) !== -1)
-	}
-
-
 }])
 .constant('arachneSettings', {
 	arachneUrl: 'https://arachne.dainst.org',
