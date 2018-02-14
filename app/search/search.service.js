@@ -44,9 +44,9 @@ angular.module('arachne.services')
                 if (_currentRequest) {
 
                     if (_currentRequest.query.toString() === query.toString()) {
-                        return _currentRequest.request.$promise;
+                        return _currentRequest.request;
                     } else {
-                        _currentRequest.request.$cancelRequest();
+                        _currentRequest.queryPromise.$cancelRequest();
                     }
 
                 }
@@ -67,26 +67,35 @@ angular.module('arachne.services')
              */
             function performAndParseRequest(offset, query) {
 
-                if (query.q === "null" || query.q === undefined) {
-                    query.q = "*";
-                }
-                var finalQuery = query.extend(searchScope.currentScopeData());
                 _currentRequest = {
                     query: query,
-                    request: Entity.query(finalQuery.toFlatObject())
-                };
+                    queryPromise: null
+                }
 
-                return _currentRequest.request.$promise.then(function (data) {
+                _currentRequest.request = $q(function(resolve, reject) {
 
-                    _currentRequest = false;
-                    _currentResult.size = data.size;
-                    _currentResult.facets = data.facets || [];
-                    _currentResult.entities = data.entities || [];
-                    return _currentResult.entities;
-                }, function (response) {
-                    console.warn(response);
-                    return $q.defer().reject(response);
-                });
+                    if (query.q === "null" || query.q === undefined) {
+                        query.q = "*";
+                    }
+
+                    var onSuccess = function (data) {
+                        _currentRequest = false;
+                        _currentResult.size = data.size;
+                        _currentResult.facets = data.facets || [];
+                        _currentResult.entities = data.entities || [];
+                        resolve(_currentResult.entities);
+                    };
+
+                    var onError = function (response) {
+                        console.warn(response);
+                        return $q.defer().reject(response);
+                    }
+
+                    var finalQuery = query.extend(searchScope.currentScopeData());
+                    this.queryPromise = Entity.query(finalQuery.toFlatObject(), onSuccess, onError);
+                }.bind(_currentRequest));
+
+                return _currentRequest.request;
             }
 
             return {

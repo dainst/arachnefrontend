@@ -76,7 +76,7 @@ angular.module('arachne.widgets.map')
     };
 
 
-    var feedListenersWithUpdates = function (entities) {
+    var feedListenersWithUpdates = function(entities) {
         for (var i in onMoveListeners)
             onMoveListeners[i](entities);
     };
@@ -163,11 +163,11 @@ angular.module('arachne.widgets.map')
             // / Disable dragging functionality if outside of container bounds
 
             map.on('popupopen', function(e) {
-                popupOpen=true;
+                popupOpen = true;
             });
 
             map.on('popupclose', function(e) {
-                popupOpen=false;
+                popupOpen = false;
                 getCurrentPage().then(feedListenersWithUpdates);
             });
 
