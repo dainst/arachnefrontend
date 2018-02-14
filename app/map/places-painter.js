@@ -9,7 +9,7 @@ angular.module('arachne.widgets.map')
 .factory('placesPainter', ['$compile', 'Place', function ($compile, Place) {
 
     var markers = null; // used to keep track of markers for deleting them later
-    var translocationLayerGroup = null;
+    var translocationLayerGroups = [];
     var map;
     var entityCallback;
     var fixedPlaces = []; // a set of fixed places given in the directive definition, which shall be shown independent of arachne-content
@@ -35,10 +35,7 @@ angular.module('arachne.widgets.map')
                 map.removeLayer(markers);
             }
             markers = null;
-            if (translocationLayerGroup) {
-                map.removeLayer(translocationLayerGroup);
-            }
-            translocationLayerGroup = null;
+            this.clearTranslocationLines();
         },
 
         setFixedPlaces: function placesPainter_setFixedPlaces(places) {
@@ -139,20 +136,29 @@ angular.module('arachne.widgets.map')
         },
 
         clearTranslocationLines: function() {
-            if (translocationLayerGroup) {
-                map.removeLayer(translocationLayerGroup);
-            }
-            translocationLayerGroup = null;
+            translocationLayerGroups.forEach(function(layer) {
+                map.removeLayer(layer);
+            });
+            translocationLayerGroups = [];
         },
 
         drawTranslocationLines: function(places) {
+            translocationLayerGroups.push(this.generateTranslocationLines(places).addTo(map));
+        },
 
-            //Remove places without location value, without dates and places which have the same consecutive locations
+        generateTranslocationLines: function(places) {
+
+            var translocationLayerGroup = new L.layerGroup();
+
+            // Remove places without location value, without dates and places which have the same
+            // consecutive locations
             for (var i = 0; i < places.length; i++) {
                 if ((typeof places[i].location == 'undefined') ||
-                    (typeof places[i].storageFromYear == 'undefined') ||
-                    (i+1 < places.length &&
-                    JSON.stringify(places[i].location) == JSON.stringify(places[i+1].location))) {
+                    (
+                        i+1 < places.length &&
+                        JSON.stringify(places[i].location) == JSON.stringify(places[i+1].location)
+                    )
+                ) {
                     places.splice(i, 1);
                     i--; // need to decrease the loop counter because the list just got smaller and
                          // the next object has the same index as this one
@@ -161,12 +167,7 @@ angular.module('arachne.widgets.map')
 
             if (places && places.length > 1) {
 
-                translocationLayerGroup = L.layerGroup();
-
-                for (var i = 0; i < places.length; i++) {
-                    if (i + 1 == places.length) { // stop when last but one array element is reached
-                        continue;
-                    }
+                for (var i = 0; i < places.length-1; i++) {
 
                     var latlngs = [
                         [places[i+1].location.lat, places[i+1].location.lon, i+1],
@@ -188,9 +189,10 @@ angular.module('arachne.widgets.map')
                     // translocationLayer = L.hotline(latlngs, hotlineOptions).addTo(translocationLayerGroup);
                     translocationLayerGroup.addLayer(L.hotline(latlngs, hotlineOptions));
                 }
-                map.addLayer(translocationLayerGroup);
 
             }
+
+            return translocationLayerGroup;
         }
     }
 }]);

@@ -128,7 +128,7 @@ angular.module('arachne.widgets.map')
 
                         if (mapService.getTranslocationLayerActive()) {
                             // draw colored lines between the nodes
-                            for (var i = 0; i < entities.length && i < 20; i++) {
+                            for (var i = 0; i < entities.length; i++) {
                                 placesPainter.drawTranslocationLines(entities[i].places);
                             }
                         }

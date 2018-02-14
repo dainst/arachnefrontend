@@ -5,7 +5,8 @@
 'use strict';
 
 angular.module('arachne.widgets.map')
-    .directive('arEntityMap', ['$compile', 'Entity', 'Query', function($compile, Entity, Query) {
+    .directive('arEntityMap', ['$compile', 'Entity', 'Query', 'placesPainter',
+        function($compile, Entity, Query, placesPainter) {
             return {
                 restrict: 'A',
                 scope: {
@@ -51,7 +52,7 @@ angular.module('arachne.widgets.map')
 
                     var markers = [];
 
-                    var loadMarkers = function () {
+                    var drawMarkers = function () {
 
                         if (scope.places) {
 
@@ -148,53 +149,19 @@ angular.module('arachne.widgets.map')
                         map._onResize();
                     };
 
-                    var loadDirectionalLines = function () {
+                    var drawTranslocationLines = function () {
 
-                        // Remove places without location value and places which have the same consecutive locations
-                        for (var i = 0; i < scope.places.length; i++) {
-                            if ((typeof scope.places[i].location == 'undefined') ||
-                                (i+1 < scope.places.length &&
-                                JSON.stringify(scope.places[i].location) == JSON.stringify(scope.places[i+1].location))) {
-                                scope.places.splice(i, 1);
-                                i--; // need to decrease the loop counter because the list just got smaller and
-                                     // the next object has the same index as this one
-                            }
-                        }
-
-                        if (scope.places && scope.places.length > 1) {
-                            for (var i = 0; i < scope.places.length-1; i++) {
-
-                                var place1 = scope.places[i];
-                                var place2 = scope.places[i+1];
-
-                                var latlngs = [
-                                    [place2.location.lat, place2.location.lon, i+1],
-                                    [place1.location.lat, place1.location.lon, i]
-                                ];
-
-                                var hotlineOptions = {
-                                    min: 0,
-                                    max: scope.places.length - 1,
-                                    palette: {
-                                    0.0: '#008800',
-                                    0.5: '#ffff00',
-                                    1.0: '#ff0000'
-                                    },
-                                    weight: 2,
-                                    outlineWidth: 1
-                                }
-
-                                scope.hotlineLayer = L.hotline(latlngs, hotlineOptions).addTo(map);
-                            }
-                        }
+                        scope.hotlineLayer = placesPainter
+                            .generateTranslocationLines(scope.places)
+                            .addTo(map);
                     }
 
                     scope.$on('$destroy', function() {
                         scope.hotlineLayer.remove();
                     });
 
-                    loadMarkers();
-                    loadDirectionalLines();
+                    drawMarkers();
+                    drawTranslocationLines();
                 }
             };
         }]);

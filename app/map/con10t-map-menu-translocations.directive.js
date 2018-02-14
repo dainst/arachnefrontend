@@ -4,6 +4,8 @@ angular.module('arachne.widgets.map')
 
 /**
  * @author: Richard Henck
+ * @author: Philipp Franck
+ * @author: Sebastian Cuy
  */
     .directive('con10tMapMenuTranslocations', ['placesPainter', 'heatmapPainter', 'mapService', 'searchService', 'placesService',
         function (placesPainter, heatmapPainter, mapService, searchService, placesService) {
@@ -16,21 +18,23 @@ angular.module('arachne.widgets.map')
                 },
                 templateUrl: 'app/map/con10t-map-menu-translocations.html',
                 link: function (scope) {
-                    scope.translocationView = {
-                        value1 : false
-                    };
+                    scope.isTranslocationViewShown = false;
 
                     scope.toggleTranslocationView = function() {
-                        mapService.setTranslocationLayerActive(scope.translocationView.value1);
+                        scope.isTranslocationViewShown = !scope.isTranslocationViewShown;
+                        mapService.setTranslocationLayerActive(scope.isTranslocationViewShown);
                         searchService.getCurrentPage().then(function (entities) {
                             drawMapEntities(entities);
                         });
                     }
 
+                    scope.$on('$destroy', function() {
+                        placesPainter.clearTranslocationLines();
+                    });
+
                     function drawMapEntities(entities) {
-                        // draw colored lines between the nodes
-                        if (scope.translocationView.value1) {
-                            for (var i = 0; i < entities.length && i < 20; i++) {
+                        if (scope.isTranslocationViewShown) {
+                            for (var i = 0; i < entities.length; i++) {
                                 placesPainter.drawTranslocationLines(entities[i].places);
                             }
                         } else {
