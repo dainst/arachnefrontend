@@ -149,17 +149,6 @@ angular.module('arachne.widgets.map')
                     };
 
                     var loadDirectionalLines = function () {
-                        //TODO sorting even needed? if so, also use days and months for comparison
-                        // scope.places.sort(function(a, b) {
-                        //     var nameA = a.storageFromYear; // ignore upper and lowercase
-                        //     var nameB = b.storageToYear; // ignore upper and lowercase
-                        //
-                        //     if (nameA == nameB) {
-                        //         return 0;
-                        //     } else {
-                        //         return nameA > nameB ? 1 : -1
-                        //     }
-                        // });
 
                         // Remove places without location value and places which have the same consecutive locations
                         for (var i = 0; i < scope.places.length; i++) {
@@ -173,10 +162,7 @@ angular.module('arachne.widgets.map')
                         }
 
                         if (scope.places && scope.places.length > 1) {
-                            for (var i = 0; i < scope.places.length; i++) {
-                                if (i + 1 == scope.places.length) { // stop when last but one array element is reached
-                                    continue;
-                                }
+                            for (var i = 0; i < scope.places.length-1; i++) {
 
                                 var place1 = scope.places[i];
                                 var place2 = scope.places[i+1];
@@ -198,11 +184,14 @@ angular.module('arachne.widgets.map')
                                     outlineWidth: 1
                                 }
 
-                                var hotlineLayer = L.hotline(latlngs, hotlineOptions).addTo(map);
-                                map.fitBounds(hotlineLayer.getBounds());
+                                scope.hotlineLayer = L.hotline(latlngs, hotlineOptions).addTo(map);
                             }
                         }
                     }
+
+                    scope.$on('$destroy', function() {
+                        scope.hotlineLayer.remove();
+                    });
 
                     loadMarkers();
                     loadDirectionalLines();
