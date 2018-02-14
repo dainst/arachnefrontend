@@ -174,20 +174,13 @@ angular.module('arachne.widgets.map')
                         [places[i].location.lat, places[i].location.lon, i]
                     ];
 
-                    var hotlineOptions = {
-                        min: 0,
-                        max: places.length - 1,
-                        palette: {
-                        0.0: '#008800',
-                        0.5: '#ffff00',
-                        1.0: '#ff0000'
-                        },
-                        weight: 2,
-                        outlineWidth: 1
-                    }
+                    var options = {
+                        weight: 1,
+                        delay: 600
+                    };
 
-                    // translocationLayer = L.hotline(latlngs, hotlineOptions).addTo(translocationLayerGroup);
-                    translocationLayerGroup.addLayer(L.hotline(latlngs, hotlineOptions));
+                    L.polyline.antPath(latlngs, options).addTo(translocationLayerGroup);
+
                 }
 
             }
