@@ -1,0 +1,28 @@
+<small class="text-muted" style="margin-right: 10px;">{{"ui_sort_order"|transl8}}:</small>
+<div class="btn-group" uib-dropdown>
+    <button type="button" class="btn btn-sm btn-default" uib-dropdown-toggle>
+        <span ng-show="currentQuery.sort">{{ currentQuery.sort | transl8 }}</span>
+        <span ng-hide="currentQuery.sort">{{ 'ui_relevance' | transl8 }}</span>
+        <span class="caret"></span>
+    </button>
+    <ul uib-dropdown-menu class="pull-right" role="menu">
+        <li>
+            <a ng-href="{{getScopePath()}}search{{currentQuery.removeParam('sort').removeParam('offset').toString()}}">
+                {{ 'ui_relevance' | transl8 }}
+            </a>
+        </li>
+        <li ng-repeat="sortableField in sortableFields">
+            <a ng-href="{{getScopePath()}}search{{currentQuery.setParam('sort',sortableField).removeParam('offset').toString()}}">
+                {{ sortableField | transl8 }}
+            </a>
+        </li>
+    </ul>
+</div>
+<a ng-href="{{getScopePath()}}search{{currentQuery.setParam('desc','true').removeParam('offset').toString()}}"
+   ng-show="currentQuery.sort && !currentQuery.desc" type="button" class="btn btn-sm btn-default">
+    <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+</a>
+<a ng-href="{{getScopePath()}}search{{currentQuery.removeParam('desc').removeParam('offset').toString()}}"
+   ng-show="currentQuery.sort && currentQuery.desc" type="button" class="btn btn-sm btn-default">
+    <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+</a>

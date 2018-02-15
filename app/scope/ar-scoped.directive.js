@@ -7,10 +7,12 @@ angular.module('arachne.directives')
 	return {
 		restrict: 'A',
 		scope: {
-			arScopedHref: '@',
+			arScopedHref: '@'
 		},
 		link: function(scope, element, attrs) {
-			attrs.$set('href', searchScope.currentScopePath() + scope.arScopedHref);
+            scope.$watch(function() {
+                attrs.$set('href', searchScope.currentScopePath() + scope.arScopedHref);
+			});
 		}
 	}
 

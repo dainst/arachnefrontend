@@ -1,0 +1,17 @@
+<a ng-click="previousPage()"
+   class="btn btn-sm btn-default"
+   style="border-radius:15px"
+   ng-class="{ 'disabled': currentPage == 1 }">
+    <span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span> {{ 'ui_previous' | transl8 }}
+</a>
+
+<small class="text-muted" style="padding: 0px 8px;"><strong>{{ 'ui_page' | transl8 }} {{currentPage | transl8Number}} / {{totalPages | transl8Number}}</strong>
+
+</small>
+<a ng-click="nextPage()"
+   class="btn btn-sm btn-default"
+   style="border-radius:15px"
+   ng-class="{ 'disabled': currentPage >= totalPages }"
+   style="margin-top: -3px;">
+    {{ 'ui_next' | transl8 }} <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
+</a>

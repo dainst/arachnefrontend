@@ -38,7 +38,6 @@ angular.module('arachne.widgets.map')
     var limit = undefined;
 
 
-
     /**
      * Guesses a good geohash precision value from the zoomlevel
      * "zoom". The returned value can be used as "ghprec"-param in
@@ -72,6 +71,7 @@ angular.module('arachne.widgets.map')
         searchService.currentQuery().bbox = bBoxFromBounds(map.getBounds());
         searchService.currentQuery().ghprec = getGhprecFromZoom();
         searchService.currentQuery().limit = limit;
+        searchService.currentQuery().view = 'map';
         return searchService.getCurrentPage();
     };
 
@@ -83,7 +83,7 @@ angular.module('arachne.widgets.map')
 
     var _activateOverlay = function(key){
         var layerConfig = overlays[key];
-        if (layerConfig && layerConfig.type == 'wms') {
+        if (layerConfig && layerConfig.type === 'wms') {
             activeOverlays[key] = L.tileLayer.wms(layerConfig.url, layerConfig.layerOptions);
             map.addLayer(activeOverlays[key]);
         }
@@ -97,7 +97,6 @@ angular.module('arachne.widgets.map')
 
 
     return {
-
 
         bBoxFromBounds: function (bounds) {
             return _bBoxFromBounds(bounds);
@@ -127,7 +126,6 @@ angular.module('arachne.widgets.map')
             translocationLayerActive = value;
         },
 
-
         /**
          * Initialize the Map given an Attribute id of an
          * HTML-Element.
@@ -140,6 +138,8 @@ angular.module('arachne.widgets.map')
         initializeMap: function (id, options) {
 
             map = L.map(id, options);
+            new L.Control.Zoom({ position: 'topright' }).addTo(map);
+            new L.Control.Fullscreen({ position: 'topright' }).addTo(map);
             L.Icon.Default.imagePath = 'img';
 
             // Disable dragging functionality if outside of container bounds
@@ -300,12 +300,13 @@ angular.module('arachne.widgets.map')
                 newQuery.overlays = overlays;
             }
 
-            if (activeBaselayerKey != "") {
+            if (activeBaselayerKey !== "") {
                 newQuery.baselayer = activeBaselayerKey;
             }
 
-            if (stripExtraParams)
+            if (stripExtraParams) {
                 return query.removeParams(['lat', 'lng', 'zoom', 'bbox', 'ghprec', 'baselayer']);
+            }
 
             return newQuery;
         }

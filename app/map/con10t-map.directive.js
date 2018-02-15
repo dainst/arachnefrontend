@@ -110,6 +110,20 @@ angular.module('arachne.widgets.map')
 
                     var lastBbox;
 
+                    function _listToLatLngBox(listStr) {
+                        var list = listStr.split(",");
+                        if (!list.length || (list.length !== 4)) {
+                            return false;
+                        }
+                        list = list.map(parseFloat);
+                        return {
+                            latmin: list[0],
+                            latmax: list[2],
+                            lonmin: list[1],
+                            lonmax: list[3]
+                        };
+                    }
+
                     function createMarkerLayer(entities) {
 
                         placesPainter.clear(); // TODO implement map.removeLayers
@@ -170,8 +184,10 @@ angular.module('arachne.widgets.map')
                         element.attr('id'),
                         {
                             minZoom: scope.minZoom || 3,
-                            fullscreenControl: true
-                        } // 3 is to prevent wrong bbox searches
+                            fullscreenControl: false, // will be manually set, ...
+                            zoomControl: false // ..., to have them in the non-default corner
+                        }
+                        // 3 is to prevent wrong bbox searches
                         // when the window is bigger than the world
                     );
                     heatmapPainter.setMap(mapService.getMap());
@@ -185,9 +201,11 @@ angular.module('arachne.widgets.map')
                     mapService.setBaselayers(scope.baselayers);
                     mapService.activateBaselayer(cq.baselayer || "osm");
 
-                    var bb = placesPainter.getFixedPlacesBoundingBox();
-                    if (bb) {
-                        mapService.initializeViewBB(bb);
+                    var bbox = (cq.bbox) ? _listToLatLngBox(cq.bbox) : placesPainter.getFixedPlacesBoundingBox();
+                    var fitViewToMarkersAllowed = !bbox;
+
+                    if (bbox) {
+                        mapService.initializeViewBB(bbox);
                     } else {
                         mapService.initializeView(cq.lat, cq.lng, cq.zoom);
                     }

@@ -59,9 +59,6 @@ angular.module('arachne.services')
              *
              * @param offset: the position from where on to get the next chunk
              * @param query: query on which the search should be performed
-             * @param deferred
-             *   .resolve() gets called when request was successful
-             *   .reject() gets called otherwise
              *
              * @return functions to be called on the retrieved chunk
              */
@@ -70,7 +67,7 @@ angular.module('arachne.services')
                 _currentRequest = {
                     query: query,
                     queryPromise: null
-                }
+                };
 
                 _currentRequest.request = $q(function(resolve, reject) {
 
@@ -89,7 +86,7 @@ angular.module('arachne.services')
                     var onError = function (response) {
                         console.warn(response);
                         return $q.defer().reject(response);
-                    }
+                    };
 
                     var finalQuery = query.extend(searchScope.currentScopeData());
                     this.queryPromise = Entity.query(finalQuery.toFlatObject(), onSuccess, onError);

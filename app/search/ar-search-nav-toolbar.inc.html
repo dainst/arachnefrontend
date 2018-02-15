@@ -1,0 +1,51 @@
+<div class="btn-toolbar">
+    <div class="btn-group">
+        <a ng-href="search{{currentQuery.removeParam('view').toString()}}"
+           class="btn btn-sm btn-default"
+           ng-class="{ 'active': !currentQuery.view}">
+            <span class="glyphicon glyphicon-th"></span>
+            {{ 'ui_tiles' | transl8 }}
+        </a>
+        <a ar-scoped-href="search{{currentQuery.setParam('view','list').toString()}}"
+           class="btn btn-sm btn-default"
+           ng-class="{ 'active': currentQuery.view == 'list' }">
+            <span class="glyphicon glyphicon-th-list"></span>
+            {{ 'ui_list' | transl8 }}
+        </a>
+        <a ar-scoped-href="map{{currentQuery.setParam('view', 'map').toString()}}"
+           class="btn btn-sm btn-default"
+           ng-class="{ 'active': currentQuery.view == 'map' }">
+            <span class="glyphicon glyphicon-map-marker"></span>
+            {{ 'ui_map' | transl8 }}
+        </a>
+    </div>
+
+    <button ng-if="resultSize <= 10000" tooltip-placement="auto bottom"
+            uib-tooltip="{{'ui_download_as' | transl8}}"
+            type="button" ng-click="openDownloadDialog()"
+            class="btn btn-sm btn-default">
+        <span class="glyphicon glyphicon-download-alt"></span>
+    </button>
+
+    <button ng-if="resultSize > 10000" tooltip-placement="auto bottom"
+            uib-tooltip="{{'ui_download_too-big' | transl8}}"
+            type="button"
+            class="btn btn-sm btn-default disabled">
+        <span class="glyphicon glyphicon-download-alt"></span>
+    </button>
+
+    <button ng-if="user.username && resultSize <= 300" tooltip-placement="auto bottom"
+            uib-tooltip="{{'search_catalog_create' | transl8}}"
+            type="button" ng-click="createCatalogFromSearch()"
+            class="btn btn-sm btn-default">
+        <span class="glyphicon glyphicon-inbox"></span>
+    </button>
+
+    <button ng-if="user.username && resultSize > 300" tooltip-placement="auto bottom"
+            uib-tooltip="{{'search_catalog_too-big' | transl8}}"
+            type="button"
+            class="btn btn-sm btn-default disabled">
+        <span class="glyphicon glyphicon-inbox"></span>
+    </button>
+
+</div>

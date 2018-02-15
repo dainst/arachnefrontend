@@ -29,9 +29,10 @@ angular.module('arachne.controllers')
             $scope.q = angular.copy($scope.currentQuery.q);
             $scope.sortableFields = arachneSettings.sortableFields;
 
+            var HIDDEN_FACETS = ['agg_geogrid', 'facet_geo'];
 
             // Ignore unknown sort fields
-            if (arachneSettings.sortableFields.indexOf($scope.currentQuery.sort) == -1) {
+            if (arachneSettings.sortableFields.indexOf($scope.currentQuery.sort) === -1) {
                 delete $scope.currentQuery.sort;
             }
 
@@ -76,7 +77,7 @@ angular.module('arachne.controllers')
 
             $scope.createSectionText = function (section, firstLevel) {
 
-                if (!section.content || section.content.length == 0) return "";
+                if (!section.content || section.content.length === 0) return "";
 
                 var sectionText = "";
                 if (section.label && section.label.length > 0) {
@@ -215,11 +216,10 @@ angular.module('arachne.controllers')
             };
 
             $scope.loadMoreFacetValues = function (facet) {
-                console.log("loadMoreFacetValues in search controllr")
                 searchService.loadMoreFacetValues(facet).then(function (hasMore) {
                     facet.hasMore = hasMore;
                 }, function (response) {
-                    if (response.status == '404') messages.add('backend_missing');
+                    if (response.status === '404') messages.add('backend_missing');
                     else messages.add('search_' + response.status);
                 });
             };
@@ -228,21 +228,21 @@ angular.module('arachne.controllers')
             function _buildFacetGroups() {
                 $scope.facetGroups = {};
 
-                var facetNames = $scope.facets.map(function (facet) {
+                var facetNames = $scope.facets.map(function(facet) {
                     return facet.name;
                 });
 
 
                 $scope.facets
 
-                    .filter(function (facet) {
+                    .filter(function(facet) {
                         if (facet.dependsOn === null) {
                             return true;
                         }
                         return (facetNames.indexOf('facet_' + facet.dependsOn) < 0);
                     })
 
-                    .map(function (facet) {
+                    .map(function(facet) {
                         var group = (facet.group) ? facet.group : facet.name;
                         if (typeof $scope.facetGroups[group] === "undefined") {
                             $scope.facetGroups[group] = [];
@@ -253,18 +253,18 @@ angular.module('arachne.controllers')
             }
 
 
-            $scope.printCategoryName = function (entityName) {
+            $scope.printCategoryName = function(entityName) {
                 var cur;
                 for (var category in $scope.categories) {
                     cur = $scope.categories[category];
-                    if ((cur.queryTitle == entityName) || (cur.key == entityName)) {
+                    if ((cur.queryTitle === entityName) || (cur.key === entityName)) {
                         return cur.singular;
                     }
                 }
                 return "";
             };
 
-            $scope.getSearchPath = function () {
+            $scope.getSearchPath = function() {
                 return searchScope.currentScopePath();
             };
 
@@ -288,12 +288,15 @@ angular.module('arachne.controllers')
                     $scope.totalPages = Math.ceil($scope.resultSize / $scope.currentQuery.limit);
                     $scope.currentPage = $scope.currentQuery.offset / $scope.currentQuery.limit + 1;
                     $scope.facets = searchService.getFacets();
+                    $scope.facets = $scope.facets.filter(function(facet) {
+                        return (HIDDEN_FACETS.indexOf(facet.name) === -1);
+                    });
                     _buildFacetGroups();
                     var insert = [];
 
                     // separate default facets from the rest, to display them first
                     $scope.defaultFacets = [];
-                    arachneSettings.openFacets.forEach(function (openName) {
+                    arachneSettings.openFacets.forEach(function(openName) {
                         if (openName in $scope.facetGroups) {
                             $scope.defaultFacets.push($scope.facetGroups[openName][0]);
                             delete $scope.facetGroups[openName];
@@ -303,13 +306,9 @@ angular.module('arachne.controllers')
                     for (var i = 0; i < $scope.facets.length; i++) {
                         var facet = $scope.facets[i];
                         facet.open = false;
-                        if (facet.values.length < $scope.currentQuery.fl) {
-                            facet.hasMore = false;
-                        } else {
-                            facet.hasMore = true;
-                        }
+                        facet.hasMore = facet.values.length >= $scope.currentQuery.fl;
                         arachneSettings.openFacets.forEach(function (openName) {
-                            if (facet.name.slice(0, openName.length) == openName) {
+                            if (facet.name.slice(0, openName.length) === openName) {
                                 insert.unshift($scope.facets.splice(i--, 1)[0]);
                                 facet.open = true;
                             }
@@ -322,8 +321,7 @@ angular.module('arachne.controllers')
                 }, function (response) {
                     $scope.resultSize = 0;
                     $scope.error = true;
-                    if (response.status == '404') messages.add('backend_missing');
-                    else messages.add('search_' + response.status);
+                    messages.add((response.status === '404') ? 'backend_missing' : 'search_' + response.status);
                 });
 
             }

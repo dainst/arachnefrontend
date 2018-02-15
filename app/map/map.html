@@ -1,8 +1,7 @@
 <div hide-footer class="row map-fullscreen">
 
     <div id="menu" class="col-sm-2">
-
-        <div class="well well-sm"  ng-if="searchScope() !== null">
+        <div class="well well-sm" ng-if="searchScope() !== null">
 			<div ar-search-scope scope="searchScope()"></div>
         </div>
 
@@ -17,5 +16,8 @@
         <div con10t-map-menu-translocations></div>
     </div>
 
+    <div ar-map-nav ></div>
+
     <div con10t-map class="col-sm-10 rhs" id="map"></div>
+
 </div>

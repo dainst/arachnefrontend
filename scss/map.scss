@@ -60,3 +60,23 @@
   background: -moz-linear-gradient(left, #C7EBAB , yellow, #EA512D);
   background: linear-gradient(to right, #C7EBAB , yellow, #EA512D);
 }
+
+.row.map-nav {
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
+  pointer-events: none; /* to enable mapp zoom */
+}
+
+.row.map-nav > div {
+  padding-left: 26px; /* temporary until maps buttons are in top right corner */
+  z-index: 1;
+  pointer-events: auto
+}
+
+.row.map-nav .btn-toolbar > .btn-group,
+.row.map-nav .btn-toolbar > .btn {
+  box-shadow: 0 1px 5px rgba(0,0,0,.45);
+  border-radius: 3px;
+}
+

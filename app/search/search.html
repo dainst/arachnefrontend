@@ -53,12 +53,11 @@
             <div ng-repeat="(groupname, facetgroup) in facetGroups"
                  ng-hide="resultSize < 2"
                  class="panel panel-default panel-multi">
-				<div class="panel-heading" ng-if="!groupname.startsWith('facet_') && groupname != 'group_facet_agg_geogrid'">
+				<div class="panel-heading" ng-if="!groupname.startsWith('facet_')">
                     <h3 class="panel-title">{{ 'group_facet_' + groupname | transl8 }}</h3>
 
 				</div>
 				<div ng-repeat="facet in facetgroup"
-                 ng-if="facet.values && facet.name != 'facet_geo'"
                  class="panel-default facet {{facet.name}}">
                      <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
 						<h5 class="panel-title">
