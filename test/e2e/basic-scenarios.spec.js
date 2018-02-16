@@ -93,7 +93,7 @@ describe('basic scenarios', function() {
 
     });
 
-    fit('should switch between views and keep result set', function() {
+    it('should switch between views and keep result set', function() {
 
         var lastResultSize = 0;
         browser.get('/search?fq=facet_ort:"Berlin,%20Deutschland"&fl=20&q=*')
