@@ -129,7 +129,7 @@ angular.module('arachne.widgets.map')
                         placesPainter.clear(); // TODO implement map.removeLayers
                         heatmapPainter.clear();
 
-                        var places = placesService.makePlacesFromEntities(entities, cq.bbox.split(","));
+                        var places = placesService.makePlacesFromFacet(searchService.getFacet('facet_geo'), cq.bbox.split(","));
 
                         placesPainter.drawPlaces(places, scope);
 
