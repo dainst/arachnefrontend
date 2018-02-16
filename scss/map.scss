@@ -63,7 +63,8 @@
 
 .row.map-nav {
   margin-top: 0;
-  position: relative;
+  position:fixed;
+  width: 100%;
   z-index: 1;
   pointer-events: none; /* to enable mapp zoom */
 }
@@ -71,12 +72,12 @@
 .row.map-nav > div {
   padding-left: 26px; /* temporary until maps buttons are in top right corner */
   z-index: 1;
-  pointer-events: auto
+  pointer-events: none;
 }
 
 .row.map-nav .btn-toolbar > .btn-group,
 .row.map-nav .btn-toolbar > .btn {
   box-shadow: 0 1px 5px rgba(0,0,0,.45);
   border-radius: 3px;
+  pointer-events: auto
 }
-
