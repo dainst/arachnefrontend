@@ -56,7 +56,7 @@ describe('scoped search result page', function() {
 
 	it('shall stay in scope when switched to normal search view in scoped search', function() {
 		searchPage.loadScoped('grako', 'map', {q:"Florenz"})
-			.then(mapPage.switchToSearchView())
+			.then(common.switchView('tiles'))
             .then(function(newUrl) {
                 expect(newUrl).toContain("project/grako/search?q=Florenz");
             });
