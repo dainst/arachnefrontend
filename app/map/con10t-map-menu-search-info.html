@@ -5,7 +5,6 @@
 <div ng-if="entitiesTotal > 0" style="margin-bottom:10px;position:relative">
 
     <small>
-
         <span>
             <strong id="entity-count">{{ entityCount | number }}</strong>
 
@@ -19,26 +18,10 @@
                 {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
             </span>
         </span>
-
-        <br>
-
-        <span>
-            <a class="switch-to-search-view" href="{{getScopePath()}}search{{currentQuery.removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer', 'ghprec']).toString()}}"
-               class="btn btn-primary btn-sm btn-block">
-                {{'ui_objects_shown' | transl8}}:
-                <i class="glyphicon glyphicon-search"> </i>
-            </a>
-        </span>
-
     </small>
 
     <div style="float: right;margin-top: 10px;">
         <span title="{{'ui_map_link_heading' | transl8}}" class="clickable glyphicon glyphicon-link" ng-click="showLinkModal()"></span>
     </div>
 
-    <!--
-    <span>
-        {{'ui_objects_total' | transl8}}: <strong>{{ entitiesTotal | number }}</strong><br>
-    </span>
-    -->
 </div>
