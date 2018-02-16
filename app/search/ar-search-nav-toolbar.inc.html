@@ -1,18 +1,18 @@
 <div class="btn-toolbar">
-    <div class="btn-group">
-        <a ng-href="search{{currentQuery.removeParam('view').toString()}}"
+    <div class="btn-group switch-search-result-view">
+        <a ng-href="search{{currentQuery.removeParam('view').removeParam('fl').toString()}}"
            class="btn btn-sm btn-default"
            ng-class="{ 'active': !currentQuery.view}">
             <span class="glyphicon glyphicon-th"></span>
             {{ 'ui_tiles' | transl8 }}
         </a>
-        <a ar-scoped-href="search{{currentQuery.setParam('view','list').toString()}}"
+        <a ar-scoped-href="search{{currentQuery.setParam('view','list').removeParam('fl').toString()}}"
            class="btn btn-sm btn-default"
            ng-class="{ 'active': currentQuery.view == 'list' }">
             <span class="glyphicon glyphicon-th-list"></span>
             {{ 'ui_list' | transl8 }}
         </a>
-        <a ar-scoped-href="map{{currentQuery.setParam('view', 'map').toString()}}"
+        <a ar-scoped-href="map{{currentQuery.setParam('view', 'map').removeParam('fl').toString()}}"
            class="btn btn-sm btn-default"
            ng-class="{ 'active': currentQuery.view == 'map' }">
             <span class="glyphicon glyphicon-map-marker"></span>
