@@ -8,7 +8,6 @@ angular.module('arachne.widgets.map')
             link: function(scope) {
 
                 scope.$watch(function() {
-                    // because it does not return an object reference unlinke getUser or currentQuery
                     scope.resultSize = searchService.getSize();
                     scope.currentQuery = searchService.currentQuery();
                     scope.user = authService.getUser();

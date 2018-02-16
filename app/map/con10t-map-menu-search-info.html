@@ -7,7 +7,7 @@
     <small>
 
         <span>
-            <strong>{{ entityCount | number }}</strong>
+            <strong id="entity-count">{{ entityCount | number }}</strong>
 
             <span ng-if="entityCount>1">{{'ui_object_plural' | transl8}}</span>
             <span ng-if="entityCount==1">{{'ui_object' | transl8}}</span>

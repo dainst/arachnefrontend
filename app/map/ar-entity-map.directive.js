@@ -150,7 +150,6 @@ angular.module('arachne.widgets.map')
                     };
 
                     var drawTranslocationLines = function () {
-
                         scope.hotlineLayer = placesPainter
                             .generateTranslocationLines(scope.places)
                             .addTo(map);
