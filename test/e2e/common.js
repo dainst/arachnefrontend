@@ -168,7 +168,23 @@ var Common = function() {
         })()
             .then(this.deleteTestUserInDB)
 
-    }
+    };
+
+    this.getSwitchViewButton = function(nr) {
+        return element.all(by.css('.switch-search-result-view .btn')).get(nr);
+    };
+
+    this.switchView = function(view) {
+        var views = {
+            'tiles': 0,
+            'list': 1,
+            'map': 2
+        };
+        return function() {
+            return this.getSwitchViewButton(views[view]).click()
+                .then(browser.getCurrentUrl)
+        }.bind(this);
+    };
 
 
 };

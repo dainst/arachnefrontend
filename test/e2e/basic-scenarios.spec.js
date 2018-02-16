@@ -1,7 +1,10 @@
 var frontPage = require('./core/front.page');
 var searchPage = require('./search/search.page');
 var entityPage = require('./entity/entity.page');
+var mapPage = require('./map/map.page');
 var navbar = require('./core/navbar.page');
+var common = require('./common');
+
 
 describe('basic scenarios', function() {
 
@@ -89,5 +92,42 @@ describe('basic scenarios', function() {
         expect(resultSize).toBeGreaterThan(1000000);
 
     });
+
+    fit('should switch between views and keep result set', function() {
+
+        var lastResultSize = 0;
+        browser.get('/search?fq=facet_ort:"Berlin,%20Deutschland"&fl=20&q=*')
+            .then(searchPage.getResultSize)
+            .then(function(resultSize){
+                expect(resultSize).toBeGreaterThan(100);
+                lastResultSize = resultSize;
+            })
+
+            .then(common.switchView('map'))
+            .then(browser.getCurrentUrl)
+            .then(function(url) {
+                expect(url).toContain("/map");
+                return url;
+            })
+            .then(mapPage.getResultSize)
+            .then(function(resultSize){
+                expect(Math.abs(resultSize - lastResultSize)).toBeLessThan(50);
+                lastResultSize = resultSize;
+            })
+
+            .then(common.switchView('list'))
+            .then(browser.getCurrentUrl)
+            .then(searchPage.getResultSize)
+            .then(function(resultSize){
+                expect(resultSize).toEqual(lastResultSize);
+            })
+
+            .then(common.switchView('tiles'))
+            .then(browser.getCurrentUrl)
+            .then(searchPage.getResultSize)
+            .then(function(resultSize){
+                expect(resultSize).toEqual(lastResultSize);
+            })
+    })
 
 });

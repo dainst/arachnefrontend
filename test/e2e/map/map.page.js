@@ -1,3 +1,7 @@
+function parseResultSize(resultSize) {
+    return parseInt(resultSize.replace(/[,.]/g, ""));
+}
+
 var MapPage = function() {
 
 	this.getHeatmap = function() {
@@ -12,17 +16,24 @@ var MapPage = function() {
 		return element(by.css('.leaflet-control-zoom-in'));
 	};
 
-	this.switchToSearchViewButton = function() {
-		return element(by.css('.switch-to-search-view'));
-	};
+    this.getTranlocationLines = function() {
+        return element.all(by.css('svg path.leaflet-ant-path'));
+    };
 
-	this.switchToSearchView = function() {
-		return function() {
-            return this.switchToSearchViewButton().click()
-				.then(browser.getCurrentUrl)
-		}.bind(this);
-	}
+    this.getTranslocationsButton = function() {
+        return element(by.css('#toggle-translocations'));
+    };
 
+    this.getResultSize = function() {
+        return new Promise(function(resolve, reject) {
+            var resultElem = element(by.css('#entity-count'));
+            resultElem.getText().then(function(resultSize) {
+                resolve(parseResultSize(resultSize));
+            }, function(err) {
+                reject(err);
+            });
+        });
+    }
 
 };
 

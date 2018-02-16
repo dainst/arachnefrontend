@@ -17,10 +17,21 @@ describe('map', function() {
     });
 
     it('should show as many markers as many previous storage places exist', function() {
-
     	browser.get('/entity/1076902').then(function() {
 			var marker = map.getMarkers();
 			expect(marker.count()).toBe(3);
 		})
-	})
+	});
+
+    it('should show translocationline on entity page', function() {
+        browser.get('/entity/1076902')
+            .then(expect(map.getTranlocationLines().count()).toBeGreaterThan(0));
+    });
+
+    it('should show translocationlines on map page when activated', function() {
+        browser.get('/map?fl=1000&zoom=10&lat=50.42208136445244&lng=3.698959350585938')
+            .then(map.getTranslocationsButton().click)
+            .then(expect(map.getTranlocationLines().count()).toBeGreaterThan(0))
+    });
+
 });

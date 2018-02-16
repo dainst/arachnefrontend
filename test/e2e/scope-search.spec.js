@@ -1,6 +1,6 @@
 var searchPage = require('./search/search.page');
 var mapPage = require('./map/map.page');
-var messageBox = require('./core/message-box.page');
+var common = require('./common');
 
 describe('scoped search result page', function() {
 
@@ -39,10 +39,10 @@ describe('scoped search result page', function() {
 	});
 
 	it('shall stay in scope when switched to normal search view', function() {
-		searchPage.loadScoped(null, 'map', {q:"okapi"})
-			.then(mapPage.switchToSearchView())
+		searchPage.loadScoped('grako', 'map', {q:"okapi"})
+			.then(common.switchView('tiles'))
             .then(function(newUrl) {
-                expect(newUrl).toContain("/search?q=okapi");
+                expect(newUrl).toContain("q=okapi");
             })
 	});
 
@@ -61,7 +61,6 @@ describe('scoped search result page', function() {
                 expect(newUrl).toContain("project/grako/search?q=Florenz");
             });
 	});
-
 
 	it('shall load the right logo in scoped search', function() {
 		searchPage.loadScoped('afrarchcologne', 'search', { fl: 1 })
