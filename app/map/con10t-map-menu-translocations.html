@@ -1,7 +1,11 @@
-<div ng-controller="MapMenuController">
-    <h5 class="text-muted uppercase"><strong>{{'translocations' | transl8}}</strong></h5>
-    <label style="font-weight:normal">
-        <input type="checkbox" id="toggle-translocations" ng-model="isTranslocationViewShown" ng-change="toggleTranslocationView()"/>
-        {{'show_translocation_view' | transl8}}
-    </label>
-</div>
+<button
+
+        type="button"
+        tooltip-placement="auto bottom"
+        uib-tooltip="{{((allowTranslocationView()) ? 'show_translocation_view' : 'translocation_view_to_many_results') | transl8}}"
+        class="btn btn-sm btn-default"
+        ng-class="{'active': isTranslocationViewShown}"
+        ng-disabled="!allowTranslocationView()"
+        ng-click="toggleTranslocationView()">
+    <span class="glyphicon glyphicon-random"></span>
+</button>

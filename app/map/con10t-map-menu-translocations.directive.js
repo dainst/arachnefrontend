@@ -10,6 +10,8 @@ angular.module('arachne.widgets.map')
     .directive('con10tMapMenuTranslocations', ['placesPainter', 'heatmapPainter', 'mapService', 'searchService', 'placesService',
         function (placesPainter, heatmapPainter, mapService, searchService, placesService) {
 
+            var MAX_PLACES_FOR_TRASNLOCATIONS = 1000;
+
             return {
                 restrict: 'A',
                 scope: {
@@ -20,13 +22,17 @@ angular.module('arachne.widgets.map')
                 link: function (scope) {
                     scope.isTranslocationViewShown = false;
 
+                    scope.allowTranslocationView = function() {
+                        return !MAX_PLACES_FOR_TRASNLOCATIONS || (searchService.getSize() < MAX_PLACES_FOR_TRASNLOCATIONS);
+                    };
+
                     scope.toggleTranslocationView = function() {
                         scope.isTranslocationViewShown = !scope.isTranslocationViewShown;
                         mapService.setTranslocationLayerActive(scope.isTranslocationViewShown);
                         searchService.getCurrentPage().then(function (entities) {
                             drawMapEntities(entities);
                         });
-                    }
+                    };
 
                     scope.$on('$destroy', function() {
                         placesPainter.clearTranslocationLines();
