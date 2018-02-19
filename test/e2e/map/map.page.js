@@ -9,7 +9,7 @@ var MapPage = function() {
 	};
 
 	this.getMarkers = function() {
-		return element.all(by.css('.awesome-marker:not(.awesome-marker-shadow)'));
+		return element.all(by.css('svg .leaflet-interactive'));
 	};
 
 	this.getZoomInButton = function() {
