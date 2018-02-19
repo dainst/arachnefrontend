@@ -18,7 +18,7 @@ angular.module('arachne.widgets.map')
         latmax: 0,
         lonmin: 180,
         lonmax: 0
-	}
+	};
 
     return {
 
@@ -66,26 +66,47 @@ angular.module('arachne.widgets.map')
             return (fixedPlaces.length) ? boundingBox : false;
         },
 
+        calculateMarkerColor: function(value, min, max) {
+            var mid = (max - min) / 2;
+
+            function calcValue(grd) {
+                var pos1 = value <= mid ? grd[0] : grd[1];
+                var pos2 = value <= mid ? grd[1] : grd[2];
+                var pos = (value - (value <= mid ? min : mid)) / (value <= mid ? mid - min : (max-mid));
+                var len = Math.abs(pos1 - pos2);
+                return parseInt((pos1 > pos2) ? pos1 - (len * pos) : pos1 + (len * pos));
+            }
+
+            function toHex(c) {
+                var hex = c.toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+            }
+
+            var gradient = [
+                [0,   255, 255], //r
+                [255, 255, 0  ], //g
+                [0,   0,   0  ]  //b
+            ];
+
+            return '#' + gradient
+                .map(calcValue)
+                .map(toHex)
+                .join("");
+
+        },
+
         // create the actual places' markers
         drawPlaces: function(places, scope) {
 
             if (!places) return;
 
-            markers = L.markerClusterGroup({
-                iconCreateFunction: function (cluster) {
-                    var childCount = cluster.getChildCount();
-                    var c = ' marker-cluster-';
-                    if (childCount < 10) c += 'small';
-                    else if (childCount < 50) c += 'medium';
-                    else c += 'large';
-                    return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>',
-                                           className: 'marker-cluster' + c,
-                                           iconSize: new L.Point(40, 40) });
-                }
-            });
-            map.addLayer(markers);
+            markers = L.featureGroup().addTo(map);
 
             var mergedPlaces = fixedPlaces.concat(places);
+
+            var maxEntityPerPlace = mergedPlaces.reduce(function(acc, cur) {
+                return Math.max(cur.entityCount, acc);
+            }, 1);
 
             for (var i = 0; i < mergedPlaces.length; i++) {
                 var place = mergedPlaces[i];
@@ -111,16 +132,20 @@ angular.module('arachne.widgets.map')
                         newScope.entityCallback = entityCallback;
                     }
 
-                    // Marker-Objekt anlegen, mit DOM von ausgeführter Link-Funktion verknüpfen
-                    var icon = L.AwesomeMarkers.icon({
-                        icon: 'record',
-                        markerColor: 'cadetblue'
-                    });
-                    var marker = L.marker(new L.LatLng(place.location.lat, place.location.lon), {
-                        icon: icon,
-                        entityCount: place.entityCount,
-                        title: place.name
-                    });
+                    var markerType = 'default';
+
+                    var marker = new L.CircleMarker(
+                        new L.LatLng(place.location.lat, place.location.lon),
+                        {
+                            radius:			6,
+                            fillOpacity:	0.5,
+                            opacity:		1,
+                            weight:         1,
+                            color:          '#000000',
+                            fillColor:      this.calculateMarkerColor(place.entityCount, 1, maxEntityPerPlace)
+                        }
+                    ).addTo(markers);
+
                     marker.on('click', function(newScope,linkFunction) {
                         var popup;
                         return function(e) {
@@ -130,9 +155,10 @@ angular.module('arachne.widgets.map')
                             e.target.openPopup();
                         };
                     }(newScope,linkFunction));
-                    markers.addLayer(marker);
                 }
             }
+            markers.bringToFront();
+            window.xm = markers;
         },
 
         clearTranslocationLines: function() {
@@ -153,10 +179,10 @@ angular.module('arachne.widgets.map')
             // Remove places without location value, without dates and places which have the same
             // consecutive locations
             for (var i = 0; i < places.length; i++) {
-                if ((typeof places[i].location == 'undefined') ||
+                if ((typeof places[i].location === 'undefined') ||
                     (
                         i+1 < places.length &&
-                        JSON.stringify(places[i].location) == JSON.stringify(places[i+1].location)
+                        JSON.stringify(places[i].location) === JSON.stringify(places[i+1].location)
                     )
                 ) {
                     places.splice(i, 1);

@@ -126,8 +126,9 @@ angular.module('arachne.widgets.map')
 
                     function createMarkerLayer(entities) {
 
-                        placesPainter.clear(); // TODO implement map.removeLayers
+                        placesPainter.clear();
                         heatmapPainter.clear();
+
 
                         var places = placesService.makePlacesFromFacet(searchService.getFacet('facet_geo'), cq.bbox.split(","));
 
