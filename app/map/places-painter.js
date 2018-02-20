@@ -73,7 +73,7 @@ angular.module('arachne.widgets.map')
                 var pos1 = value <= mid ? grd[0] : grd[1];
                 var pos2 = value <= mid ? grd[1] : grd[2];
                 var pos = (value - (value <= mid ? min : mid)) / (value <= mid ? mid - min : (max-mid));
-
+                pos = pos * pos;
                 var len = Math.abs(pos1 - pos2);
                 return parseInt((pos1 > pos2) ? pos1 - (len * pos) : pos1 + (len * pos));
             }
@@ -108,7 +108,6 @@ angular.module('arachne.widgets.map')
             var maxEntityPerPlace = mergedPlaces.reduce(function(acc, cur) {
                 return Math.max(cur.entityCount, acc);
             }, 1);
-            //console.log("MAX",maxEntityPerPlace);
 
             for (var i = 0; i < mergedPlaces.length; i++) {
                 var place = mergedPlaces[i];
@@ -147,7 +146,7 @@ angular.module('arachne.widgets.map')
                             className:      'circleMarker',
                             fillColor:      this.calculateMarkerColor(place.entityCount, 1, maxEntityPerPlace)
                         }
-                    ).addTo(markers);
+                    ).addTo(markers)
 
                     marker.on('click', function(newScope,linkFunction) {
                         var popup;
@@ -161,7 +160,6 @@ angular.module('arachne.widgets.map')
                 }
             }
             markers.bringToFront();
-            window.xm = markers;
         },
 
         clearTranslocationLines: function() {
