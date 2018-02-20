@@ -8,9 +8,13 @@ var MapPage = function() {
 		return element(by.css('.leaflet-heatmap-layer'));
 	};
 
-	this.getMarkers = function() {
+	this.getCircleMarkers = function() {
 		return element.all(by.css('svg .leaflet-interactive'));
 	};
+
+    this.getMarkers = function() {
+        return element.all(by.css('.awesome-marker:not(.awesome-marker-shadow)'));
+    };
 
 	this.getZoomInButton = function() {
 		return element(by.css('.leaflet-control-zoom-in'));
