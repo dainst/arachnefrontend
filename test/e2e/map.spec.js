@@ -9,13 +9,13 @@ describe('map', function() {
         });
     });
 
-    fit('it should show some markers for small result size', function () {
+    it('it should show some markers for small result size', function () {
         browser.get('/map?zoom=12&lat=50.42116487566384&lng=4.902398681640625').then(function () {
        	    expect(map.getCircleMarkers().count()).toBeGreaterThanOrEqual(1);
         });
     });
 
-    fit('should show as many markers as many previous storage places exist', function() {
+    it('should show as many markers as many previous storage places exist', function() {
     	browser.get('/entity/1076902').then(function() {
 			expect(map.getMarkers().count()).toBe(3);
 		})
