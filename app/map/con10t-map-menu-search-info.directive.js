@@ -6,8 +6,8 @@ angular.module('arachne.widgets.map')
  * @author: David Neugebauer
  * @author: Daniel M. de Oliveira
  */
-    .directive('con10tMapMenuSearchInfo', ['$uibModal', '$location', 'searchService', 'placesService', 'mapService', 'searchScope',
-        function ($uibModal, $location, searchService, placesService, mapService, searchScope) {
+    .directive('con10tMapMenuSearchInfo', ['searchService', 'placesService', 'mapService', 'searchScope',
+        function (searchService, placesService, mapService, searchScope) {
             return {
                 restrict: 'A',
                 scope: {
@@ -27,41 +27,7 @@ angular.module('arachne.widgets.map')
                             return "project/" + scope.searchScope + '/';
                         }
                         return searchScope.currentScopePath();
-					}
-
-                    // renders a modal that contains a link to the current map's view
-                    scope.showLinkModal = function () {
-                        // construct the link's reference from the current location and the map's query
-                        var host = $location.host();
-                        var port = $location.port();
-                        port = (port === 80) ? "" : ":" + port;
-                        var baseLinkRef = document.getElementById('baseLink').getAttribute("href");
-                        var path = $location.path().substring(1);
-
-                        var query;
-                        if (scope.que)
-                            query = scope.que;
-                        else
-                            query = mapService.getMapQuery(searchService.currentQuery()).toString();
-
-                        scope.linkText = host + port + baseLinkRef + path + query;
-
-                        var modalInstance = $uibModal.open({
-                            templateUrl: 'app/map/map-link-modal.html',
-                            scope: scope
-                        });
-
-                        modalInstance.close = function () {
-                            modalInstance.dismiss();
-                        };
-
-                        // Select and focus the link after the modal rendered
-                        modalInstance.rendered.then(function (what) {
-                            var elem = document.getElementById('link-display');
-                            elem.setSelectionRange(0, elem.firstChild.length);
-                            elem.focus();
-                        })
-                    };
+					};
 
                     function placesCount(entities) {
                         if (mapService.underLimit()) {
@@ -85,7 +51,7 @@ angular.module('arachne.widgets.map')
                         scope.entitiesTotal = searchService.getSize();
                         scope.entityCount = searchService.getSize();
                         scope.placesCount = placesCount(entities);
-                        mapService.registerOnMoveListener("queryListener", queryListener);
+                        mapService.registerOnMoveListener(queryListener);
                     });
                 }
             }
