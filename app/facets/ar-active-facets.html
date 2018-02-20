@@ -1,5 +1,11 @@
-<div ng-if="(facets.length > 0) || (currentQuery.restrict && route.substr(-6) == 'search')">
+<div ng-if="(facets.length > 0) || (currentQuery.restrict && route.substr(-6) == 'search') || currentQuery.bbox">
 	<h5 class="text-muted uppercase"><strong>Aktive Filter</strong></h5>
+	<a ng-if="currentQuery.bbox"
+	   		class="btn btn-sm btn-block btn-primary linethrough-hover"
+	   		ng-href="{{route}}{{currentQuery.removeParam('bbox').removeParam('ghprec').toString()}}">
+		<i>{{'bounding_box' | transl8}}</i><br>
+		<strong>{{getBoundingBoxHumanReadable(currentQuery)}}</strong>
+	</a>
 	<a ng-if="currentQuery.restrict && route.substr(-6) == 'search'"
 			ng-href="{{route}}{{currentQuery.removeParam('restrict').toString()}}"
 			class="btn btn-sm btn-block btn-warning linethrough-hover"

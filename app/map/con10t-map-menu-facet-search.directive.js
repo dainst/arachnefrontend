@@ -169,7 +169,7 @@ angular.module('arachne.widgets.map')
                             facet.open = false;
 
                             arachneSettings.openFacets.forEach(function (openName) {
-                                if (facet.name.slice(0, openName.length) == openName) {
+                                if (facet.name.slice(0, openName.length) === openName) {
                                     insert.unshift(scope.defaultFacets.splice(i--, 1)[0]);
                                     facet.open = true;
                                 }
@@ -192,7 +192,29 @@ angular.module('arachne.widgets.map')
                         query = query.removeFacet(facetName);
                         query = query.removeParams(paramsToRemove);
                         $location.url(query.toString());
-                    }
+                    };
+
+                    scope.removeBBox = function() {
+                        if (scope.currentQuery && scope.currentQuery.bbox) {
+                            delete scope.currentQuery.bbox;
+                            mapService.initializeView();
+                        }
+                    };
+
+                    scope.getBoundingBoxHumanReadable = function() {
+
+                        function cutCoord(c) {
+                            return c.toString().substring(0, 8) + '..'
+                        }
+
+                        if (!scope.currentQuery || !scope.currentQuery.bbox) {
+                            return "";
+                        }
+                        return scope.currentQuery.bbox
+                            .split(',')
+                            .map(cutCoord)
+                            .join(', ');
+                    };
                 }
             }
         }]);
