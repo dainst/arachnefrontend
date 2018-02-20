@@ -85,7 +85,7 @@ angular.module('arachne.widgets.map')
                         scope.entitiesTotal = searchService.getSize();
                         scope.entityCount = searchService.getSize();
                         scope.placesCount = placesCount(entities);
-                        mapService.registerOnMoveListener(queryListener);
+                        mapService.registerOnMoveListener("queryListener", queryListener);
                     });
                 }
             }

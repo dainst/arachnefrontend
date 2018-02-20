@@ -10,7 +10,7 @@ angular.module('arachne.widgets.map')
     .directive('con10tMapMenuTranslocations', ['placesPainter', 'heatmapPainter', 'mapService', 'searchService', 'placesService',
         function (placesPainter, heatmapPainter, mapService, searchService, placesService) {
 
-            var MAX_PLACES_FOR_TRASNLOCATIONS = 1000;
+            var MAX_PLACES_FOR_TRANSLOCATIONS = 1000;
 
             return {
                 restrict: 'A',
@@ -23,14 +23,14 @@ angular.module('arachne.widgets.map')
                     scope.isTranslocationViewShown = false;
 
                     scope.allowTranslocationView = function() {
-                        return !MAX_PLACES_FOR_TRASNLOCATIONS || (searchService.getSize() < MAX_PLACES_FOR_TRASNLOCATIONS);
+                        return !MAX_PLACES_FOR_TRANSLOCATIONS || (searchService.getSize() < MAX_PLACES_FOR_TRANSLOCATIONS);
                     };
 
                     scope.toggleTranslocationView = function() {
                         scope.isTranslocationViewShown = !scope.isTranslocationViewShown;
                         mapService.setTranslocationLayerActive(scope.isTranslocationViewShown);
                         searchService.getCurrentPage().then(function (entities) {
-                            drawMapEntities(entities);
+                            drawTranslocationLines(entities);
                         });
                     };
 
@@ -38,7 +38,7 @@ angular.module('arachne.widgets.map')
                         placesPainter.clearTranslocationLines();
                     });
 
-                    function drawMapEntities(entities) {
+                    function drawTranslocationLines(entities) {
                         if (scope.isTranslocationViewShown) {
                             for (var i = 0; i < entities.length; i++) {
                                 placesPainter.drawTranslocationLines(entities[i].places);
@@ -47,6 +47,15 @@ angular.module('arachne.widgets.map')
                             placesPainter.clearTranslocationLines();
                         }
                     }
+
+                    mapService.registerOnMoveListener("checkTranslocationsLines", function() {
+                        console.log("clear?");
+                        if (!scope.isTranslocationViewShown || !scope.allowTranslocationView()) {
+                            console.log("clear");
+                            placesPainter.clearTranslocationLines();
+                        }
+                    });
+
                 }
             }
         }

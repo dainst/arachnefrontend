@@ -34,7 +34,7 @@ angular.module('arachne.widgets.map')
 
     var popupOpen = false;
 
-    var onMoveListeners = [];
+    var onMoveListeners = {};
     var limit = undefined;
 
 
@@ -77,8 +77,11 @@ angular.module('arachne.widgets.map')
 
 
     var feedListenersWithUpdates = function(entities) {
-        for (var i in onMoveListeners)
+        for (var i in onMoveListeners) {
             onMoveListeners[i](entities);
+            console.log("listener", i)
+        }
+
     };
 
     var _activateOverlay = function(key){
@@ -102,8 +105,8 @@ angular.module('arachne.widgets.map')
             return _bBoxFromBounds(bounds);
         },
 
-        registerOnMoveListener: function (oml) {
-            onMoveListeners.push(oml);
+        registerOnMoveListener: function(name, oml) {
+            onMoveListeners[name] = oml;
         },
 
         setLimit: function(lim) {

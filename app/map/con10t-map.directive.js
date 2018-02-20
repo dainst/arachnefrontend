@@ -179,7 +179,7 @@ angular.module('arachne.widgets.map')
                     }
 
                     mapService.setLimit(scope.limit);
-                    mapService.registerOnMoveListener(mapOnMove);
+                    mapService.registerOnMoveListener("mapOnMove", mapOnMove);
 
                     mapService.initializeMap(
                         element.attr('id'),
