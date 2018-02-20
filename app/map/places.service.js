@@ -78,12 +78,14 @@ angular.module('arachne.widgets.map')
         var buildPlacesFromFacet = function (facet, bbox) {
             var places = [];
             facet.values.forEach(function (value) {
+                console.log(value);
                 var place = new Place().merge(JSON.parse(value.value));
                 if (place.location) {
                     place.query = searchService.currentQuery().removeParams(
                         ['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']);
                     if (place.query.q === '*') place.query.q = "places.gazetteerId:" + place.gazetteerId;
                     else place.query.q = place.query.q + " AND places.gazetteerId:" + place.gazetteerId;
+                    place.entityCount = value.count;
                     places.push(place);
                 }
             });
