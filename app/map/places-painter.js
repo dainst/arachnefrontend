@@ -107,7 +107,7 @@ angular.module('arachne.widgets.map')
             var maxEntityPerPlace = mergedPlaces.reduce(function(acc, cur) {
                 return Math.max(cur.entityCount, acc);
             }, 1);
-            console.log("MAX",maxEntityPerPlace);
+            //console.log("MAX",maxEntityPerPlace);
 
             for (var i = 0; i < mergedPlaces.length; i++) {
                 var place = mergedPlaces[i];
