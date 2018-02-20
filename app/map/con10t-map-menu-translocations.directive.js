@@ -49,9 +49,7 @@ angular.module('arachne.widgets.map')
                     }
 
                     mapService.registerOnMoveListener("checkTranslocationsLines", function() {
-                        console.log("clear?");
                         if (!scope.isTranslocationViewShown || !scope.allowTranslocationView()) {
-                            console.log("clear");
                             placesPainter.clearTranslocationLines();
                         }
                     });

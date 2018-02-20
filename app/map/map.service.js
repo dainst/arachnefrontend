@@ -79,7 +79,6 @@ angular.module('arachne.widgets.map')
     var feedListenersWithUpdates = function(entities) {
         for (var i in onMoveListeners) {
             onMoveListeners[i](entities);
-            console.log("listener", i)
         }
 
     };

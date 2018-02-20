@@ -73,6 +73,7 @@ angular.module('arachne.widgets.map')
                 var pos1 = value <= mid ? grd[0] : grd[1];
                 var pos2 = value <= mid ? grd[1] : grd[2];
                 var pos = (value - (value <= mid ? min : mid)) / (value <= mid ? mid - min : (max-mid));
+
                 var len = Math.abs(pos1 - pos2);
                 return parseInt((pos1 > pos2) ? pos1 - (len * pos) : pos1 + (len * pos));
             }
@@ -143,6 +144,7 @@ angular.module('arachne.widgets.map')
                             opacity:		1,
                             weight:         1,
                             color:          '#000000',
+                            className:      'circleMarker',
                             fillColor:      this.calculateMarkerColor(place.entityCount, 1, maxEntityPerPlace)
                         }
                     ).addTo(markers);
