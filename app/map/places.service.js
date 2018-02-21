@@ -71,21 +71,28 @@ angular.module('arachne.widgets.map')
             return placesList;
         };
 
-        var inBbox = function (bbox, loc) {
-            return bbox[0] > loc.lat && bbox[1] < loc.lon && bbox[2] < loc.lat && bbox[3] > loc.lon;
-        };
-
-        var buildPlacesFromFacet = function (facet, bbox) {
+        var buildPlacesFromFacet = function(facet, bbox) {
+            var bounds = new L.LatLngBounds(
+                new L.LatLng(parseFloat(bbox[0]), parseFloat(bbox[1])),
+                new L.LatLng(parseFloat(bbox[2]), parseFloat(bbox[3]))
+            );
             var places = [];
-            facet.values.forEach(function (value) {
+            facet.values.forEach(function(value) {
                 var place = new Place().merge(JSON.parse(value.value));
                 if (place.location) {
-                    place.query = searchService.currentQuery().removeParams(
-                        ['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']);
-                    if (place.query.q === '*') place.query.q = "places.gazetteerId:" + place.gazetteerId;
-                    else place.query.q = place.query.q + " AND places.gazetteerId:" + place.gazetteerId;
+                    place.query = searchService.currentQuery()
+                        .removeParams(['fl', 'lat', 'lng', 'zoom', 'overlays', 'baselayer']);
+                    if (place.query.q === '*') {
+                        place.query.q = "places.gazetteerId:" + place.gazetteerId;
+                    } else {
+                        place.query.q = place.query.q + " AND places.gazetteerId:" + place.gazetteerId;
+                    }
+
                     place.entityCount = value.count;
-                    places.push(place);
+                    if (bounds.contains(new L.LatLng(parseFloat(place.location.lat), parseFloat(place.location.lon)))) {
+                        places.push(place);
+                    } else {
+                    }
                 }
             });
             return places;

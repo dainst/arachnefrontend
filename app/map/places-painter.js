@@ -112,52 +112,55 @@ angular.module('arachne.widgets.map')
             for (var i = 0; i < mergedPlaces.length; i++) {
                 var place = mergedPlaces[i];
 
-                if (place.hasCoordinates()) {
-                    // Dom-Element für Popup bauen und in Link-Funktion kompilieren
-                    var newScope = scope.$new(true);
-
-                    newScope.place = place;
-                    if (place.isFixed === true) {
-                        var linkFunction = function(scope) {
-                            var title = (scope.place.gazetteerId) ?
-                                '<strong><a href="https://gazetteer.dainst.org/app/#!/show/' + scope.place.gazetteerId + '" target="_blank">' + scope.place.name + '</a></strong>' :
-                                '<strong>' + scope.place.name + '</strong>';
-                            var body = (scope.place.text) ?
-                                '<p>' + scope.place.text + '</p>' :
-                                '';
-                        return [title + body];
-                        }
-                    } else {
-                        var html = '<div con10t-map-popup place="place" entity-callback="entityCallback"></div>';
-                        var linkFunction = $compile(angular.element(html));
-                        newScope.entityCallback = entityCallback;
-                    }
-
-                    var markerType = 'default';
-
-                    var marker = new L.CircleMarker(
-                        new L.LatLng(place.location.lat, place.location.lon),
-                        {
-                            radius:			6,
-                            fillOpacity:	0.5,
-                            opacity:		1,
-                            weight:         1,
-                            color:          '#000000',
-                            className:      'circleMarker',
-                            fillColor:      this.calculateMarkerColor(place.entityCount, 1, maxEntityPerPlace)
-                        }
-                    ).addTo(markers)
-
-                    marker.on('click', function(newScope,linkFunction) {
-                        var popup;
-                        return function(e) {
-                            if (!popup) popup = linkFunction(newScope)[0];
-                            if (e.target.getPopup()) e.target.unbindPopup();
-                            e.target.bindPopup(popup,{ minWidth: 150, autoPan: false });
-                            e.target.openPopup();
-                        };
-                    }(newScope,linkFunction));
+                if (!place.hasCoordinates()) {
+                    continue;
                 }
+
+                // Dom-Element für Popup bauen und in Link-Funktion kompilieren
+                var newScope = scope.$new(true);
+
+                newScope.place = place;
+                if (place.isFixed === true) {
+                    var linkFunction = function(scope) {
+                        var title = (scope.place.gazetteerId) ?
+                            '<strong><a href="https://gazetteer.dainst.org/app/#!/show/' + scope.place.gazetteerId + '" target="_blank">' + scope.place.name + '</a></strong>' :
+                            '<strong>' + scope.place.name + '</strong>';
+                        var body = (scope.place.text) ?
+                            '<p>' + scope.place.text + '</p>' :
+                            '';
+                    return [title + body];
+                    }
+                } else {
+                    var html = '<div con10t-map-popup place="place" entity-callback="entityCallback"></div>';
+                    var linkFunction = $compile(angular.element(html));
+                    newScope.entityCallback = entityCallback;
+                }
+
+                var markerType = 'default';
+
+                var marker = new L.CircleMarker(
+                    new L.LatLng(place.location.lat, place.location.lon),
+                    {
+                        radius:			6,
+                        fillOpacity:	0.5,
+                        opacity:		1,
+                        weight:         1,
+                        color:          '#000000',
+                        className:      'circleMarker',
+                        fillColor:      this.calculateMarkerColor(place.entityCount, 1, maxEntityPerPlace)
+                    }
+                ).addTo(markers);
+                
+                marker.on('click', function(newScope,linkFunction) {
+                    var popup;
+                    return function(e) {
+                        if (!popup) popup = linkFunction(newScope)[0];
+                        if (e.target.getPopup()) e.target.unbindPopup();
+                        e.target.bindPopup(popup,{ minWidth: 150, autoPan: false });
+                        e.target.openPopup();
+                    };
+                }(newScope,linkFunction));
+
             }
             markers.bringToFront();
         },
