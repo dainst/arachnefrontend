@@ -57,5 +57,20 @@ angular.module('arachne.widgets.map')
                     });
                 };
 
+                scope.stripQuery = function(query, view) {
+                    if (view) {
+                        query = query.setParam('view', view);
+                    } else {
+                        query = query.removeParam('view');
+                    }
+
+                    return query
+                        .removeParam('fl')
+                        .removeParam('lat')
+                        .removeParam('lng')
+                        .removeParam('zoom')
+                        .toString();
+                }
+
             }
         }}]);

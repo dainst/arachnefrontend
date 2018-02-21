@@ -74,7 +74,7 @@ angular.module('arachne.widgets.map')
                             for (var i = 0; i < allowedFacetsNames.length; i++) {
 
                                 var matchedFacet = facets.filter(function (facet) {
-                                    return (facet.name == allowedFacetsNames[i]);
+                                    return (facet.name === allowedFacetsNames[i]);
                                 })[0];
 
                                 if (matchedFacet)
@@ -84,7 +84,7 @@ angular.module('arachne.widgets.map')
                             // or it is scope.facets pruned by everything in facetsHidden
                         } else if (facets && hiddenFacetsNames) {
                             facetsShown = facets.filter(function (facet) {
-                                return (hiddenFacetsNames.indexOf(facet.name) == -1)
+                                return (hiddenFacetsNames.indexOf(facet.name) === -1)
                             });
                         }
 
@@ -99,7 +99,7 @@ angular.module('arachne.widgets.map')
                             activeFacets = queryFacets.filter(function (facet) {
                                 for (var i = 0; i < facetsSelected.length; i++) {
                                     var hiddenFacet = facetsSelected[i];
-                                    if ((hiddenFacet.key == facet.key) && (hiddenFacet.value == facet.value)) {
+                                    if ((hiddenFacet.key === facet.key) && (hiddenFacet.value === facet.value)) {
                                         return false;
                                     }
                                 }
@@ -144,7 +144,7 @@ angular.module('arachne.widgets.map')
                             });
                     }
 
-                    searchService.getCurrentPage().then(function () {
+                    function displayFacets () {
                         scope.entityCount = searchService.getSize();
                         scope.currentQuery = searchService.currentQuery();
 
@@ -178,7 +178,10 @@ angular.module('arachne.widgets.map')
                         insert.forEach(function (facet) {
                             scope.defaultFacets.unshift(facet);
                         });
-                    });
+                    }
+
+                    searchService.getCurrentPage().then(displayFacets);
+                    mapService.registerOnMoveListener("updateFacets", displayFacets);
 
                     scope.addFacet = function (facetName, facetValue) {
                         var query = mapService.getMapQuery(searchService.currentQuery(), true);

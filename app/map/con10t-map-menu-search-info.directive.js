@@ -35,21 +35,19 @@ angular.module('arachne.widgets.map')
                         return facet_geo ? facet_geo.values.length : null;
                     }
 
-                    var queryListener = function (entities) {
+                    var updateCounters = function(entities) {
                         // basic information about the search depends on the type of the map
                         // (either a geogrid or a map with Place objects)
                         scope.placesCount = placesCount(entities);
                         scope.entityCount = searchService.getSize();
 
-                        // scope.que=mapService.getMapQuery(searchService.currentQuery()).toString();
-                        // scope.entityCount = searchService.getSize();
                     };
 
                     searchService.getCurrentPage().then(function (entities) {
                         scope.entitiesTotal = searchService.getSize();
                         scope.entityCount = searchService.getSize();
                         scope.placesCount = placesCount(entities);
-                        mapService.registerOnMoveListener("queryListener" ,queryListener);
+                        mapService.registerOnMoveListener("updateCounters", updateCounters);
                     });
                 }
             }

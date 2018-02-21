@@ -150,7 +150,7 @@ angular.module('arachne.widgets.map')
                         fillColor:      this.calculateMarkerColor(place.entityCount, 1, maxEntityPerPlace)
                     }
                 ).addTo(markers);
-                
+
                 marker.on('click', function(newScope,linkFunction) {
                     var popup;
                     return function(e) {
