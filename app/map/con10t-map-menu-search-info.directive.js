@@ -20,6 +20,7 @@ angular.module('arachne.widgets.map')
                 templateUrl: 'app/map/con10t-map-menu-search-info.html',
                 link: function (scope) {
 
+                    scope.placesCount = null;
                     scope.currentQuery = searchService.currentQuery();
 
                     scope.getScopePath = function() {
@@ -30,11 +31,8 @@ angular.module('arachne.widgets.map')
 					};
 
                     function placesCount(entities) {
-                        if (mapService.underLimit()) {
-                            // var placesCount =
-                            return placesService.makePlacesFromEntities(entities, searchService.currentQuery().bbox.split(",")).length;
-                        } else
-                            return undefined;
+                        var facet_geo = searchService.getFacet("facet_geo");
+                        return facet_geo ? facet_geo.values.length : null;
                     }
 
                     var queryListener = function (entities) {
@@ -51,7 +49,7 @@ angular.module('arachne.widgets.map')
                         scope.entitiesTotal = searchService.getSize();
                         scope.entityCount = searchService.getSize();
                         scope.placesCount = placesCount(entities);
-                        mapService.registerOnMoveListener(queryListener);
+                        mapService.registerOnMoveListener("queryListener" ,queryListener);
                     });
                 }
             }
