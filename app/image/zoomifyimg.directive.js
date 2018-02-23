@@ -7,9 +7,6 @@ angular.module('arachne.directives')
             restrict: 'A',
             link: function (scope, element, attrs) {
 
-
-                var blackImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QgWDgEsdZNRrQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAC0lEQVQI12NgQAYAAA4AATHp3RUAAAAASUVORK5CYII=";
-
                 /*
                  * L.TileLayer.Zoomify display Zoomify tiles with Leaflet
                  *
@@ -22,15 +19,14 @@ angular.module('arachne.directives')
 
                 L.TileLayer.Zoomify = L.TileLayer.extend({
                     options: {
-                        continuousWorld: true,
-                        tolerance: 0.8
+                        continuousWorld: false
                     },
                     initialize: function (entityId, options) {
 
                         var options = L.setOptions(this, options);
                         this._entityId = entityId;
 
-                        var imageSize = L.point(options.width, options.height),
+                        var imageSize = L.point(parseInt(options.width), parseInt(options.height)),
                             tileSize = options.tileSize;
 
                         //Build the zoom sizes of the pyramid and cache them in an array
@@ -69,6 +65,32 @@ angular.module('arachne.directives')
                             center = map.options.crs.pointToLatLng(L.point(imageSize.x / 2, imageSize.y / 2), zoom);
 
                         map.setView(center, zoom, true);
+                        map.setMaxZoom(this._gridSize.length - 1);
+                        map.setMinZoom(zoom);
+                    },
+
+                    createTile: function (coords, done) {
+
+                        var tile = document.createElement('img');
+                        tile.alt = '';
+                        tile.setAttribute('role', 'presentation');
+
+                        var imgUri = this.getTileUrl(coords);
+
+                        $http.get(imgUri, {responseType: 'arraybuffer'})
+                            .then(
+                                function (data) {
+                                    var blob = new Blob([data.data], {type: 'image/jpeg'});
+                                    tile.src = window.URL.createObjectURL(blob);
+                                    done(null, tile);
+                                },
+                                function (err) {
+                                    console.warn('Error loading tile: ', imgUri);
+                                    done(err, tile);
+                                }
+                            );
+
+                        return tile;
                     },
 
                     //Calculate the grid size for a given image size (based on tile size)
@@ -80,13 +102,12 @@ angular.module('arachne.directives')
 
                     _getBestFitZoom: function (mapSize) {
 
-                        var tolerance = this.options.tolerance,
-                            zoom = this._imageSize.length - 1,
+                        var zoom = this._imageSize.length - 1,
                             imageSize;
 
                         while (zoom) {
                             imageSize = this._imageSize[zoom];
-                            if (imageSize.x * tolerance < mapSize.x && imageSize.y * tolerance < mapSize.y) {
+                            if (imageSize.x < mapSize.x && imageSize.y < mapSize.y) {
                                 return zoom;
                             }
                             zoom--;
@@ -110,6 +131,14 @@ angular.module('arachne.directives')
                             gridSize = this._gridSize[this._getZoomForUrl()],
                             tileSize = this.options.tileSize;
 
+                        if (tilePoint.x >= gridSize.x
+                            || tilePoint.y > gridSize.y
+                            || tilePoint.x < 0
+                            || tilePoint.y < 0
+                        ) {
+                            return;
+                        }
+
                         //Load the tile via the original leaflet code
                         L.TileLayer.prototype._addTile.call(this, tilePoint, container);
 
@@ -126,42 +155,10 @@ angular.module('arachne.directives')
 
                         L.DomUtil.setPosition(tile, tilePos, L.Browser.chrome || L.Browser.android23);
 
-                        //this._tiles[tilePoint.x + ':' + tilePoint.y] = tile;
-                        this._loadTile(tile, tilePoint);
-
                         if (tile.parentNode !== this._tileContainer) {
                             container.appendChild(tile);
                         }
-
-
-
                     },
-
-                    // override to use XHR instead of regular image loading
-                    _loadTile: function (tile, tilePoint) {
-
-                        tile._layer = this;
-
-                        var imgUri = this.getTileUrl(tilePoint);
-
-                        $http.get(imgUri, {responseType: 'arraybuffer'})
-                            .then(
-                                function (data) {
-                                    var blob = new Blob([data.data], {type: 'image/jpeg'});
-                                    tile.src = window.URL.createObjectURL(blob);
-                                },
-                                function (err) {
-                                    //console.warn('Error loading tile: ', imgUri);
-                                    tile.src = blackImage;
-                                }
-                            );
-
-                        this.fire('tileloadstart', {
-                            tile: tile,
-                            url: tile.src
-                        });
-                    },
-
 
                     getTileUrl: function (tilePoint) {
                         return arachneSettings.dataserviceUri + '/image/zoomify/' + this._entityId + '/' + tilePoint.z + '-' + tilePoint.x + '-' + tilePoint.y + '.jpg';
@@ -177,8 +174,7 @@ angular.module('arachne.directives')
                 L.tileLayer.zoomify(attrs.entityid, {
                     width: scope.imageProperties.width,
                     height: scope.imageProperties.height,
-                    tileSize: scope.imageProperties.tilesize,
-                    tolerance: 0.8
+                    tileSize: scope.imageProperties.tilesize
                 }).addTo(map);
 
             }
