@@ -20,6 +20,58 @@ angular.module('arachne.widgets.map')
         lonmax: 0
 	};
 
+    function getPlacesStats(places) {
+        var stats = places.reduce(function(acc, cur) {
+            return {
+                max: Math.max(cur.entityCount, acc.max),
+                min: Math.min(cur.entityCount, acc.min),
+                sum: acc.sum + cur.entityCount
+            }
+        }, {
+            min: 1,
+            max: 1,
+            sum: 0
+        });
+        stats.count = places.length;
+        stats.mean = stats.sum / stats.count;
+        return stats;
+    }
+
+    function calculateMarkerColor(value, min, max, mid) {
+        console.log("color",value, min, max, mid);
+        mid = mid || ((max - min) / 2);
+
+        function easing(pos) {
+            return Math.sqrt(pos);
+        }
+
+        function calcValue(grd) {
+            var pos1 = value <= mid ? grd[0] : grd[2];
+            var pos2 = value <= mid ? grd[1] : grd[1];
+            var pos = (value - (value <= mid ? min : mid)) / (value <= mid ? mid - min : (max-mid));
+            pos = easing(value <= mid ? pos : 1 - pos);
+            var len = Math.abs(pos1 - pos2);
+            return parseInt((pos1 > pos2) ? pos1 - (len * pos) : pos1 + (len * pos));
+        }
+
+        function toHex(c) {
+            var hex = c.toString(16);
+            return hex.length === 1 ? "0" + hex : hex;
+        }
+
+        var gradient = [
+            [0,   255, 255], //r
+            [255, 255, 0  ], //g
+            [0,   0,   0  ]  //b
+        ];
+
+        return '#' + gradient
+            .map(calcValue)
+            .map(toHex)
+            .join("");
+    }
+
+
     return {
 
         setMap: function(mp) {
@@ -66,35 +118,7 @@ angular.module('arachne.widgets.map')
             return (fixedPlaces.length) ? boundingBox : false;
         },
 
-        calculateMarkerColor: function(value, min, max) {
-            var mid = (max - min) / 2;
 
-            function calcValue(grd) {
-                var pos1 = value <= mid ? grd[0] : grd[1];
-                var pos2 = value <= mid ? grd[1] : grd[2];
-                var pos = (value - (value <= mid ? min : mid)) / (value <= mid ? mid - min : (max-mid));
-                pos = pos * pos;
-                var len = Math.abs(pos1 - pos2);
-                return parseInt((pos1 > pos2) ? pos1 - (len * pos) : pos1 + (len * pos));
-            }
-
-            function toHex(c) {
-                var hex = c.toString(16);
-                return hex.length === 1 ? "0" + hex : hex;
-            }
-
-            var gradient = [
-                [0,   255, 255], //r
-                [255, 255, 0  ], //g
-                [0,   0,   0  ]  //b
-            ];
-
-            return '#' + gradient
-                .map(calcValue)
-                .map(toHex)
-                .join("");
-
-        },
 
         // create the actual places' markers
         drawPlaces: function(places, scope) {
@@ -104,10 +128,8 @@ angular.module('arachne.widgets.map')
             markers = L.featureGroup().addTo(map);
 
             var mergedPlaces = fixedPlaces.concat(places);
-
-            var maxEntityPerPlace = mergedPlaces.reduce(function(acc, cur) {
-                return Math.max(cur.entityCount, acc);
-            }, 1);
+            var stats = getPlacesStats(mergedPlaces);
+            console.log(stats);
 
             for (var i = 0; i < mergedPlaces.length; i++) {
                 var place = mergedPlaces[i];
@@ -142,12 +164,12 @@ angular.module('arachne.widgets.map')
                     new L.LatLng(place.location.lat, place.location.lon),
                     {
                         radius:			6,
-                        fillOpacity:	0.5,
+                        fillOpacity:	0.7,
                         opacity:		1,
                         weight:         1,
                         color:          '#000000',
                         className:      'circleMarker',
-                        fillColor:      this.calculateMarkerColor(place.entityCount, 1, maxEntityPerPlace)
+                        fillColor:      calculateMarkerColor(place.entityCount, stats.min, stats.max, stats.mean)
                     }
                 ).addTo(markers);
 
