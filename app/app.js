@@ -105,7 +105,6 @@ angular.module('arachne',[
 		var scoped = {'project': ['search', 'map', 'entity', 'entityImage', 'entityImages']};
 
 		function registerState(state, name) {
-			//console.log(name, state);
 			$stateProvider.state(name, angular.copy(state));
 			angular.forEach(scoped[name] || [], function(child) {
 				var newState = angular.copy(states[child]);

@@ -50,7 +50,6 @@ function($location, $rootScope, Query, $http, $stateParams, language, $state) {
 			return scopeName;
 		}
 		if ((typeof scopes[scopeName] !== "undefined") && (typeof scopes[scopeName].alias !== "undefined")) {
-			//console.log('scope ' + scopeName + ' is alias of ' + scopes[scopeName].alias);
 			$stateParams.title = scopes[scopeName].alias;
 			return solveAlias(scopes[scopeName].alias);
 		}
@@ -85,7 +84,6 @@ function($location, $rootScope, Query, $http, $stateParams, language, $state) {
 		// returns i.E. project/gipsleipzigsamml
 		currentScopePath: function() {
 			searchScope.currentScopeName();
-			//console.log(currentScopeName)
 			return (currentScopeName === null) ? '' : 'project/' + currentScopeName + '/';
 		},
 
@@ -112,7 +110,6 @@ function($location, $rootScope, Query, $http, $stateParams, language, $state) {
 				searchScope.forwardToScopeless();
 				return {};
 			}
-			//console.log('scope query >>', searchScope.currentScopeName, '<<');
 			return scopes[currentScopeName];
 		},
 

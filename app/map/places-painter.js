@@ -38,7 +38,6 @@ angular.module('arachne.widgets.map')
     }
 
     function calculateMarkerColor(value, min, max, mid) {
-        console.log("color",value, min, max, mid);
         mid = mid || ((max - min) / 2);
 
         function easing(pos) {
@@ -129,7 +128,6 @@ angular.module('arachne.widgets.map')
 
             var mergedPlaces = fixedPlaces.concat(places);
             var stats = getPlacesStats(mergedPlaces);
-            console.log(stats);
 
             for (var i = 0; i < mergedPlaces.length; i++) {
                 var place = mergedPlaces[i];
