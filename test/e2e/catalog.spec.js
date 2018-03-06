@@ -1,9 +1,11 @@
 var catalogPage = require('./catalog/catalog.page');
+var entityPage = require('./entity/entity.page');
+var common = require('./common');
+var navbarPage = require('./core/navbar.page');
+
 var rootChildrenCount = 2;
 var subChildrenCount = 12;
 var testCatalogId = null;
-
-var common = require('./common');
 
 describe('catalog page', function() {
 
@@ -63,7 +65,21 @@ describe('catalog page', function() {
             done(); // already failing in afterAll
         }
 
-
     });
+
+    it('should sho catalog on entity page', function(done) {
+        if (testCatalogId) {
+            entityPage.load(1121034)
+                .then(navbarPage.clickLogin())
+                .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
+                .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
+                .then(navbarPage.submitLogin())
+                .then(expect(entityPage.getLinkedCatalogs().count()).toBeGreaterThan(0))
+                .then(done)
+                .catch(done.fail)
+        } else {
+            done(); // already failing in afterAll
+        }
+    })
 
 });

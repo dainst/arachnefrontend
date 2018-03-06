@@ -2,7 +2,7 @@ var EntityPage = function() {
 
     this.load = function(entityId) {
         var url = '/entity/' + entityId;
-        browser.get(url);
+        return browser.get(url);
     };
 
     this.getEntityId = function() {
@@ -28,6 +28,10 @@ var EntityPage = function() {
     this.getLinkedObjectEntryButtons = function(section) {
         return section.all(by.xpath('./div/div[@class=\'panel-body\']/div/a'));
     };
+
+    this.getLinkedCatalogs = function() {
+        return element.all(by.css('a[href*="catalog/"]'));
+    }
 
 };
 
