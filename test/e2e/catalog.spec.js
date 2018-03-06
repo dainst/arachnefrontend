@@ -67,19 +67,21 @@ describe('catalog page', function() {
 
     });
 
-    it('should sho catalog on entity page', function(done) {
+    it('should show catalog on entity page', function(done) {
         if (testCatalogId) {
-            entityPage.load(1121034)
+            browser.get('/entity/1121034')
                 .then(navbarPage.clickLogin())
                 .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
                 .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
                 .then(navbarPage.submitLogin())
                 .then(expect(entityPage.getLinkedCatalogs().count()).toBeGreaterThan(0))
+                .then(navbarPage.clickLoggedInUser())
+                .then(navbarPage.clickLogout())
                 .then(done)
                 .catch(done.fail)
         } else {
             done(); // already failing in afterAll
         }
-    })
+    });
 
 });
