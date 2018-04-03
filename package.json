@@ -44,7 +44,7 @@
     "angular-mocks": "1.6.7",
     "bootstrap-sass": "3.3.7",
     "browser-sync": "2.18.13",
-    "chromedriver": "2.33.2",
+    "chromedriver": "2.37.0",
     "connect-modrewrite": "0.10.2",
     "cors": "2.8.4",
     "del": "3.0.0",
