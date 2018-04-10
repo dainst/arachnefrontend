@@ -15,6 +15,15 @@ describe('map', function() {
         });
     });
 
+    it('should show referenced entity list when clicking on markers', function () {
+        browser.get('/map?zoom=12&lat=50.42116487566384&lng=4.902398681640625')
+            .then(map.getCircleMarkers().first().click())
+            .then(browser.wait(EC.visibilityOf(map.getLeafletPopup())))
+            .then(function() {
+                expect(map.getCircleMarkerEntities().isPresent()).toBe(true)
+            })
+    });
+
     it('should show as many markers as many previous storage places exist', function() {
     	browser.get('/entity/1076902').then(function() {
 			expect(map.getMarkers().count()).toBe(3);
