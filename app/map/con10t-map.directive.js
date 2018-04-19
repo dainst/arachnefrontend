@@ -10,8 +10,8 @@ angular.module('arachne.widgets.map')
  * @author Daniel de Oliveira
  * @author David Neugebauer
  */
-    .directive('con10tMap', ['$filter', 'searchService', 'mapService', 'heatmapPainter', 'placesService', 'placesPainter',
-        function ($filter, searchService, mapService, heatmapPainter, placesService, placesPainter) {
+    .directive('con10tMap', ['$filter', 'searchService', 'mapService', 'heatmapPainter', 'placesService', 'placesPainter', 'arachneSettings',
+        function ($filter, searchService, mapService, heatmapPainter, placesService, placesPainter, arachneSettings) {
 
             function setDefaultQueryParams(currentQuery, scope) {
 
@@ -101,7 +101,7 @@ angular.module('arachne.widgets.map')
 
                     searchService.initQuery();
 
-                    // if (scope.limit === undefined || scope.limit > 1000) scope.limit = 1000;
+                    if (scope.limit === undefined || scope.limit > 1000) scope.limit = arachneSettings.facetLimit;
 
                     var fitViewToMarkersAllowed = true;
 
