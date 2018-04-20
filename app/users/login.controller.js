@@ -2,27 +2,27 @@
 
 angular.module('arachne.controllers')
 
-    .controller('LoginController', ['$scope', '$uibModalInstance', 'authService', '$timeout',
-        function ($scope, $uibModalInstance, authService, $timeout) {
+/**
+ * Handles display of login form for access via /login URL
+ *
+ * @author: Sebastian Cuy
+ */
+.controller('LoginController', ['$scope', '$location', '$uibModal', '$window', 'authService',
+    function ($scope, $location, $uibModal, $window, authService) {
 
-            $scope.loginData = {};
-            $scope.loginerror = false;
+        var user = authService.getUser();
 
-            $scope.login = function () {
+        if (user) {
+            $window.location.href = '/';
+        } else {
+            var modalInstance = $uibModal.open({
+                templateUrl: 'app/users/login-form.html',
+                controller: 'LoginFormController'
+            });
+            modalInstance.result.then(function (user) {
+                $window.location.href = '/';
+            });
+        }
 
-                authService.setCredentials($scope.loginData.user, $scope.loginData.password, function (response) {
-                    $scope.loginerror = false;
-                    var closeModal = function () {
-                        $uibModalInstance.close(authService.getUser());
-                    };
-                    $timeout(closeModal, 500);
-                }, function (response) {
-                    $scope.loginerror = true;
-                });
-
-            };
-
-            $scope.cancel = function () {
-                $uibModalInstance.dismiss();
-            };
-        }]);
+    }
+]);
