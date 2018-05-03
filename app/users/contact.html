@@ -52,6 +52,18 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="dataProtectionCheck">
+                            {{'ui_data_protection_pre'|transl8}}
+                            <a href="{{'ui_data_protection_url'|transl8}}">{{'ui_data_protection'|transl8}}</a>
+                            {{'ui_data_protection_post'|transl8}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
                     <button type="submit" ng-click="submit()" class="btn btn-primary">{{"ui_send"|transl8}}</button>
                 </div>
             </div>

@@ -30,6 +30,7 @@ var NavbarPage = function() {
     var registrationCountryDropdown = element(by.tagName('idai-country-picker'));
     var registrationPhone = element(by.model('user.phone'));
     var registrationBotConfirm = element(by.model('user.iAmHuman'));
+    var registrationDataProtectionPolicyConfirm = element(by.model('dataProtectionCheck'));
     var submitRegistrationButton = element(by.css('[ng-click="submit()"]'));
     var cancelRegistrationButton = element(by.css('[type="reset"]'));
 
@@ -73,11 +74,11 @@ var NavbarPage = function() {
                 .catch(reject)
         })
     };
-    
+
     this.isNoUserLoggedIn = function() {
         return loginButton.isPresent();
     };
-	
+
     this.getLoggedInUserName = function() {
         return this.expandNavbar()
 			.then(userDropdown.getText)
@@ -117,7 +118,7 @@ var NavbarPage = function() {
     this.clickPasswordReset = function() {
         return forgotPasswordLink.click();
     };
-    
+
     this.passwordResetTypeInUsername = function(text) {
         return common.typeInPromised(registrationInputUsername, text); // Same Angular model binding as registration.
     };
@@ -205,6 +206,10 @@ var NavbarPage = function() {
         return registrationBotConfirm.click()
     };
 
+    this.registrationConfirmDataProtectionPolicy = function() {
+        return registrationDataProtectionPolicyConfirm.click()
+    };
+
     this.submitRegistration = function() {
         return submitRegistrationButton.click();
     };
@@ -233,6 +238,7 @@ var NavbarPage = function() {
             .then(this.registrationSelectCountryByIndex(skipCountry ? null : 5))
             .then(this.registrationTypeInPhone(common.getTestUserPhone()))
             .then(this.registrationConfirmNoBot())
+            .then(this.registrationConfirmDataProtectionPolicy())
     };
 
     this.typeInCompleteResetCredentials = function() {
