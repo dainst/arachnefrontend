@@ -158,5 +158,6 @@ angular.module('arachne',[
 .constant('componentsSettings', {
 	transl8Uri: 'https://arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&application=shared&lang={LANG}',
 	searchUri: 'https://arachne.dainst.org/data/suggest?q=',
+    dataProtectionPolicyUri: 'http://www.dainst.org/datenschutz',
 	mailTo: 'idai.objects@dainst.org'
 });
