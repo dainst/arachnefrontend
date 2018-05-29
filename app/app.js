@@ -22,7 +22,8 @@ angular.module('arachne',[
 	'arachne.directives',
 	'arachne.controllers',
 	'arachne.widgets.directives',
-	'arachne.widgets.map'
+	'arachne.widgets.map',
+    'arachne.visualizations.directives'
 ])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider', '$qProvider',
 	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider, $qProvider) {
