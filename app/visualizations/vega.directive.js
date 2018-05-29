@@ -5,14 +5,15 @@ angular.module('arachne.visualizations.directives')
         return {
             restrict: 'E',
             scope: {
-                spec: '@'
+                spec: '@',
+                name: '@'
             },
             link: function(scope, element, attrs) {
 
                 scope.renderVega = function (spec) {
                     scope.vegaView = new vega.View(vega.parse(spec))
                         .renderer('canvas')
-                        .initialize('#vega-view')
+                        .initialize('[name="' + scope.name + '"]')
                         .hover()
                         .run();
                 };
