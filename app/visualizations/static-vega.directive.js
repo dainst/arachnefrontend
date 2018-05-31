@@ -5,7 +5,7 @@
 // You can then use the variable view as described in https://vega.github.io/vega/docs/api/debugging/
 
 angular.module('arachne.visualizations.directives')
-    .directive('con10tVega', function () { // con10t-vega
+    .directive('con10tStaticVega', function () { // con10t-vega
         return {
             restrict: 'E',
             scope: {
