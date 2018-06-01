@@ -81,3 +81,19 @@
   border-radius: 3px;
   pointer-events: auto
 }
+
+.cluster-marker {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  margin-top: -8px;
+  margin-left: -8px;
+  color: #00b3ee;
+  border: 1px solid black;
+  cursor: pointer
+}
+.cluster-marker-inner {
+  height: 14px;
+  width: 14px;
+  border-radius: 7px;
+}
