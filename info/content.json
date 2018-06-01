@@ -58,13 +58,6 @@
             "de": "Impressum",
             "en": "Imprint"
           }
-        },
-        {
-          "id": "privacy",
-          "title": {
-            "de": "Datenschutz",
-            "en": "Privacy"
-          }
         }
       ]
     }

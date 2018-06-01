@@ -71,5 +71,9 @@ exports.config = {
         var failFast = require('./util/failfast');
         jasmine.getEnv().addReporter(failFast.init());
 
+        // disable cookie notice which blocks some elements in e2e tests
+        browser.get('/');
+        browser.manage().addCookie({name:'idai-cookie-notice', value: '1'});
+
     }
 };

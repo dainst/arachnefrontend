@@ -12,6 +12,14 @@ var MapPage = function() {
 		return element.all(by.css('svg .leaflet-interactive'));
 	};
 
+    this.getLeafletPopup = function() {
+        return element(by.css('.leaflet-popup'));
+    };
+
+    this.getCircleMarkerEntities = function() {
+        return element.all(by.css('.leaflet-popup  li'));
+    };
+
     this.getMarkers = function() {
         return element.all(by.css('.awesome-marker:not(.awesome-marker-shadow)'));
     };

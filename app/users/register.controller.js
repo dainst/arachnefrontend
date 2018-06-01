@@ -70,7 +70,22 @@ angular.module('arachne.controllers')
                     messages.add(msg, 'danger', false);
             };
 
+            /**
+            * Checks checkboxes for iAmNoBot and data protection to be set
+            */
+            var areCheckboxesChecked = function () {
+                return $scope.dataProtectionCheck && $scope.user.iAmHuman;
+            };
+
             $scope.submit = function () {
-                register($scope.user, handleRegisterResult);
+                if (areCheckboxesChecked()) {
+                    register($scope.user, handleRegisterResult);
+                } else {
+                    if ($scope.user.iAmHuman) {
+                        messages.add('ui.register.dataProtection', 'danger', false);
+                    } else {
+                        messages.add('ui.register.bot', 'danger', false);
+                    }
+                }
             };
         }]);

@@ -112,19 +112,10 @@ angular.module('arachne.widgets.map')
                         return activeFacets;
                     }
 
-
-                    function trimFacetValuesAndSetHasMore(facetsShown, facetValuesMax) {
-                        for (var i = 0; i < facetsShown.length; i++) {
-                            facetsShown[i].hasMore = facetsShown[i].values.length > facetValuesMax;
-                            facetsShown[i].values = facetsShown[i].values.slice(0, facetValuesMax);
-                        }
-                    }
-
                     function _buildFacetGroups() {
                         scope.facetGroups = {};
 
                         var facetNames = scope.facetsShown.map(function (facet) {
-
                             return facet.name;
                         });
 
@@ -136,6 +127,7 @@ angular.module('arachne.widgets.map')
                                 return (facetNames.indexOf('facet_' + facet.dependsOn) < 0);
                             })
                             .map(function (facet) {
+                                facet.hasMore = facet.values.length >= arachneSettings.facetLimit;
                                 var group = (facet.group) ? facet.group : facet.name;
                                 if (typeof scope.facetGroups[group] === "undefined") {
                                     scope.facetGroups[group] = [];
@@ -149,7 +141,6 @@ angular.module('arachne.widgets.map')
                         scope.currentQuery = searchService.currentQuery();
 
                         scope.facetsShown = computeFacetsShown(searchService.getFacets(), scope.facetsAllowed, facetsHidden);
-                        trimFacetValuesAndSetHasMore(scope.facetsShown, scope.facetValuesLimit);
                         scope.activeFacets = computeActiveFacets(scope.currentQuery.facets, scope.facetsSelected);
 
                         _buildFacetGroups();

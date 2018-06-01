@@ -58,7 +58,9 @@ var jsDeps = [
     'node_modules/angular-ui-swiper/dist/angular-ui-swiper.min.js',
     'node_modules/angular-md5/angular-md5.js',
     'node_modules/svg-pan-zoom/dist/svg-pan-zoom.js',
-    'node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.min.js'
+    'node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.min.js',
+    'node_modules/idai-cookie-notice/idai-cookie-notice.js',
+    'node_modules/vega/build/vega.js'
 ];
 
 // compile sass and concatenate to single css file in build dir
@@ -282,7 +284,7 @@ gulp.task('server', function () {
             middleware: [
                 proxy(proxyOptions),
                 // rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
-                modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
+                modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.csv|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
             ]
         },
         port: 8082,

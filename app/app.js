@@ -22,7 +22,8 @@ angular.module('arachne',[
 	'arachne.directives',
 	'arachne.controllers',
 	'arachne.widgets.directives',
-	'arachne.widgets.map'
+	'arachne.widgets.map',
+    'arachne.visualizations.directives'
 ])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider', '$qProvider',
 	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider, $qProvider) {
@@ -98,7 +99,8 @@ angular.module('arachne',[
 			'userActivation':	{ url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }},
 			'project':			{ url: '/project/:title', templateUrl: 'app/pages/static.html', data: { pageTitle: title }},
 			'index':			{ url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: true, data: { pageTitle: title }},
-			'info':				{ url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }} // Named it info, not static, to sound not too technical.
+			'info':				{ url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }}, // Named it info, not static, to sound not too technical.
+			'login':			{ url: '/login', templateUrl: 'app/users/login.html', data: { pageTitle: title }}
 
 		};
 
@@ -157,5 +159,6 @@ angular.module('arachne',[
 .constant('componentsSettings', {
 	transl8Uri: 'https://arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&application=shared&lang={LANG}',
 	searchUri: 'https://arachne.dainst.org/data/suggest?q=',
+    dataProtectionPolicyUri: 'http://www.dainst.org/datenschutz',
 	mailTo: 'idai.objects@dainst.org'
 });
