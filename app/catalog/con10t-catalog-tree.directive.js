@@ -28,11 +28,7 @@ angular.module('arachne.widgets.directives')
                     scope.catalog = catalog;
                 });
 				scope.isShown = {};
-				
-				scope.escapePath = function(path){
-					return $filter('escapeSlashes')(path)
-				};
-				
+
 				scope.toggleCollapse = function(node){
 				    if (node.totalChildren) {
 						scope.isShown[node.id] = !scope.isShown[node.id];
@@ -45,7 +41,7 @@ angular.module('arachne.widgets.directives')
 				    	}
 				    }
 				};
-				
+
 				scope.checkIfShown = function(node){
 					return scope.isShown[node.id]; // at first load -> undefined, so it gets hidden but: ugly?
 				};

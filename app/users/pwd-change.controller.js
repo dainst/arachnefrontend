@@ -52,10 +52,15 @@ angular.module('arachne.controllers')
              * @param user
              */
             var checkNewPassword = function (user) {
-                if(user.newPassword != user.newPasswordValidation)
+                if(user.newPassword != user.newPasswordValidation) {
                     messages.add('ui.passwordchange.wrongCheck', 'danger', false);
-                if(user.password == user.newPassword)
+                    return false;
+                }
+                if(user.password == user.newPassword) {
                     messages.add('ui.passwordchange.illegal', 'danger', false);
+                    return false;
+                }
+                return true;
             };
 
             /**
@@ -74,8 +79,7 @@ angular.module('arachne.controllers')
                 }
 
                 var changedUser = copyUser($scope.user);
-                checkNewPassword(changedUser);
-                PwdChange.save({},
+                if(checkNewPassword(changedUser)) PwdChange.save({},
                     changedUser,
                     handleChangeSuccess,
                     handleChangeError

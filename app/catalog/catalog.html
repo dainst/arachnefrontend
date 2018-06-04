@@ -28,7 +28,16 @@
                     ({{ entry.allSuccessors }} {{ 'ui_entries' | transl8 }})
                 </em>
             </small>
+
+            <a class="searchinteraction" ng-if="entry.totalChildren > 0"
+                    ng-href="search?q=catalogPaths:{{entry.path + '/' + entry.id | escapeSlashes}}">
+                <span class="glyphicon glyphicon-search"
+                        title="{{'ui_showall' | transl8}}">
+                </span>
+            </a>
         </span>
+
+
 
         <span ng-show="editable && !removeItems" class="edit-section">
 			<a class="edit-btn pull-right"
