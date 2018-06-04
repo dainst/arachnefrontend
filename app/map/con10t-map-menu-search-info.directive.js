@@ -6,8 +6,8 @@ angular.module('arachne.widgets.map')
  * @author: David Neugebauer
  * @author: Daniel M. de Oliveira
  */
-    .directive('con10tMapMenuSearchInfo', ['searchService', 'placesService', 'mapService', 'searchScope',
-        function (searchService, placesService, mapService, searchScope) {
+    .directive('con10tMapMenuSearchInfo', ['searchService', 'placesService', 'mapService',
+        function (searchService, placesService, mapService) {
             return {
                 restrict: 'A',
                 scope: {
@@ -15,13 +15,17 @@ angular.module('arachne.widgets.map')
                     // search results are required
                     type: '@',
                     // a scope path like "grako" or "antiksammleipzig".. usually not required
-                    searchScope: '@'
+                    searchScope: '@',
+                    linkToSearch: '='
                 },
                 templateUrl: 'app/map/con10t-map-menu-search-info.html',
-                link: function (scope) {
-
+                link: function (scope, element, attrs) {
                     scope.placesCount = null;
                     scope.currentQuery = searchService.currentQuery();
+
+                    scope.showLinkToSearch = function() {
+                        return angular.isUndefined(attrs.linkToSearch) || eval(attrs.linkToSearch);
+                    };
 
                     scope.getScopePath = function() {
                         if ((typeof scope.searchScope !== "undefined") && scope.searchScope) {
@@ -40,6 +44,12 @@ angular.module('arachne.widgets.map')
                         // (either a geogrid or a map with Place objects)
                         scope.placesCount = placesCount(entities);
                         scope.entityCount = searchService.getSize();
+
+                    };
+
+                    scope.searchUrl = function() {
+                        return (this.searchScope ? "project/" + this.searchScope + "/" : "") +
+                               "search" + this.currentQuery.removeParam('fl').removeParam('zoom').toString();
 
                     };
 
