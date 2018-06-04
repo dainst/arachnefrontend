@@ -37,7 +37,7 @@
                 (1 {{ 'ui_entry' | transl8 }})
             </em>
             <em ng-if="node.totalChildren > 1">
-                ({{ node.totalChildren }} {{ 'ui_entries' | transl8 }})
+                ({{ node.allSuccessors }} {{ 'ui_entries' | transl8 }})
             </em>
         </small>
         <a class="searchinteraction" ng-if="node.totalChildren > 0"
