@@ -340,7 +340,7 @@ angular.module('arachne.controllers')
             $scope.currentTreeScope = null;
 
             $scope.selectEntry = function (entry, treeScope) {
-
+                console.log(entry);
                 $state.transitionTo('catalog.entry', {id: $scope.catalog.id, entryId: entry.id}, {notify: true});
                 showEntry(entry, treeScope);
             };
@@ -348,7 +348,7 @@ angular.module('arachne.controllers')
             $scope.selectEntity = function (entity) {
                 CatalogEntry.list({entityId: entity.entityId}, function (result) {
                     for (var i = 0; i < result.length; i++) {
-                        if (result[i].entry.catalogId == $scope.catalog.id) {
+                        if (result[i].entry.catalogId === $scope.catalog.id) {
                             $scope.selectEntry(result[i].entry);
                             break;
                         }
@@ -410,18 +410,20 @@ angular.module('arachne.controllers')
             }
 
             function retrieveCatalog(id) {
-                Catalog.get({id: id, limit: $scope.childrenLimit}, function (result) {
+                Catalog.get({id: id, limit: $scope.childrenLimit}, function(result) {
                     initialize(result.root);
-                    if (result.root.children.length == 0 && result.root.totalChildren > 0) {
+                    if (result.root.children.length === 0 && result.root.totalChildren > 0) {
                         $scope.loadChildren(result.root);
                     } else {
                         result.root.children.forEach(initialize);
                     }
                     $scope.catalog = result;
                     checkIfEditable();
+                    $scope.selectEntry(result.root);
+                    console.log("!!", result);
                 }, function (error) {
                     $scope.error = true;
-                    if (error.status == '403') {
+                    if (error.status === '403') {
                         messages.add('catalog_403');
                     } else {
                         messages.add('default');
@@ -517,7 +519,7 @@ angular.module('arachne.controllers')
                     $http.get(url)
                         .then(function (result) {
                             var user = result.data;
-                            $scope.editable = ($scope.catalog.userIds.indexOf(user.id) != -1);
+                            $scope.editable = ($scope.catalog.userIds.indexOf(user.id) !== -1);
                         }).catch(function () {
                         $scope.editable = false;
                     });
