@@ -40,7 +40,8 @@
                 ({{ node.totalChildren }} {{ 'ui_entries' | transl8 }})
             </em>
         </small>
-        <a class="searchinteraction" ng-if="node.totalChildren > 0" ng-href="search?q=catalogPaths:{{escapePath(node.path + '/' + node.id)}}">
+        <a class="searchinteraction" ng-if="node.totalChildren > 0"
+                ng-href="search?q=catalogPaths:{{node.path + '/' + node.id | escapeSlashes}}">
             <span class="glyphicon glyphicon-search"
                     title="{{'ui_showall' | transl8}}">
             </span>
@@ -68,14 +69,14 @@
     </div>
 </script>
 
-<div class="panel panel-default">
+<div class="panel panel-default catalog">
     <div class="panel-heading" ng-if="catalog.root.label">
         <h3 class="panel-title">
             <a href="/catalog/{{catalog.id}}">{{catalog.root.label}}<br>
             <small>{{catalog.author}}</small></a>
         </h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body catalog-tree">
         <div ng-repeat="node in catalog.root.children" ng-include="'catalogNode'"></div>
         <div ng-if="catalog.root.children.length < catalog.root.totalChildren && !catalog.root.loading">
             <a class="btn btn-link" ng-click="loadMore(catalog.root)">
