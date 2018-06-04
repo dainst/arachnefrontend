@@ -28,28 +28,21 @@ angular.module('arachne.services')
              * checks if the requested chunk is cached, otherwise
              * a new query is sent to the backend
              *
-             * cancels any previous request
-             *
              * @param offset: the position from where on to get the chunk
              * @return { Promise<entities> }
              **/
             function retrieveChunk(offset) {
 
                 searchScope.dirty = false;
-                if (!_currentQuery.setParam('offset', offset).q)
+                if (!_currentQuery.q)
                     _currentQuery.q = "*";
                 var query = _currentQuery.setParam('offset', offset);
 
                 // check if we are already waiting for a result
-                if (_currentRequest) {
-
-                    if (_currentRequest.query.toString() === query.toString()) {
-                        return _currentRequest.request;
-                    } else {
-                        _currentRequest.queryPromise.$cancelRequest();
-                    }
-
+                if (_currentRequest && _currentRequest.query.toString() === query.toString()) {
+                    return _currentRequest.request.$promise;
                 }
+
                 // chunk needs to be retrieved
                 return performAndParseRequest(offset, query);
             }
@@ -64,35 +57,26 @@ angular.module('arachne.services')
              */
             function performAndParseRequest(offset, query) {
 
+                if (query.q === "null" || query.q === undefined) {
+                    query.q = "*";
+                }
+
                 _currentRequest = {
                     query: query,
-                    queryPromise: null
+                    request: null
                 };
 
-                _currentRequest.request = $q(function(resolve, reject) {
-
-                    if (query.q === "null" || query.q === undefined) {
-                        query.q = "*";
-                    }
-
-                    var onSuccess = function (data) {
-                        _currentRequest = false;
-                        _currentResult.size = data.size;
-                        _currentResult.facets = data.facets || [];
-                        _currentResult.entities = data.entities || [];
-                        resolve(_currentResult.entities);
-                    };
-
-                    var onError = function (response) {
-                        console.warn(response);
-                        return $q.defer().reject(response);
-                    };
-
-                    var finalQuery = query.extend(searchScope.currentScopeData());
-                    this.queryPromise = Entity.query(finalQuery.toFlatObject(), onSuccess, onError);
-                }.bind(_currentRequest));
-
-                return _currentRequest.request;
+                var finalQuery = query.extend(searchScope.currentScopeData());
+                _currentRequest.request = Entity.query(finalQuery.toFlatObject());
+                return _currentRequest.request.$promise.then(function(data) {
+                    _currentRequest = false;
+                    _currentResult.size = data.size;
+                    _currentResult.facets = data.facets || [];
+                    _currentResult.entities = data.entities || [];
+                    return _currentResult.entities;
+                }, function(response) {
+                    console.warn("error", response);
+                });
             }
 
             return {
@@ -118,21 +102,10 @@ angular.module('arachne.services')
                  * @returns {*}
                  */
                 getEntity: function(resultIndex) {
-                    var deferred = $q.defer();
-
-                    if (resultIndex < 1) {
-                        deferred.reject();
-                        return deferred.promise;
-                    }
-
-                    // resultIndex starts at 1, offset and data[] start at 0
-                    var offset = Math.floor((resultIndex - 1) / CHUNK_SIZE) * CHUNK_SIZE;
-
-                    return retrieveChunk(offset).then(function (entities) {
-                        deferred.resolve(entities[resultIndex - 1]);
-                        return deferred.promise;
+                    var query = _currentQuery.setParam('offset', resultIndex - 1);
+                    return Entity.query(query).$promise.then(function(data) {
+                        return data.entities[0];
                     });
-
                 },
 
                 /**
@@ -237,6 +210,7 @@ angular.module('arachne.services')
                  * @returns {*}
                  */
                 getSize: function () {
+                    console.log("getSize", _currentResult.size);
                     return _currentResult.size;
                 },
 
