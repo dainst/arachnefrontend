@@ -3,20 +3,30 @@
 </div>
 
 <div ng-if="entitiesTotal > 0" style="margin-bottom:10px;position:relative">
-
-    <small>
-        <span>
+    <a ng-href="{{searchUrl(currentQuery)}}" ng-if="showLinkToSearch()">
+        <small>
             <strong id="entity-count">{{ entityCount | number }}</strong>
 
             <span ng-if="entityCount>1">{{'ui_object_plural' | transl8}}</span>
             <span ng-if="entityCount==1">{{'ui_object' | transl8}}</span>
             <span ng-if="placesCount">
                 {{'ui_at' | transl8}}
-
                 <strong>{{ placesCount |number }}</strong>
                 {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
             </span>
-        </span>
-    </small>
+        </small>
+    </a>
+    <span ng-href="{{searchUrl(currentQuery)}}" ng-if="!showLinkToSearch()">
+        <small>
+            <strong id="entity-count">{{ entityCount | number }}</strong>
 
+            <span ng-if="entityCount>1">{{'ui_object_plural' | transl8}}</span>
+            <span ng-if="entityCount==1">{{'ui_object' | transl8}}</span>
+            <span ng-if="placesCount">
+                {{'ui_at' | transl8}}
+                <strong>{{ placesCount |number }}</strong>
+                {{(placesCount > 1 ? 'ui_place_plural_dative' : 'ui_place') | transl8}}
+            </span>
+        </small>
+    </span>
 </div>

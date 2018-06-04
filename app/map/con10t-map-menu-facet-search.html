@@ -1,5 +1,5 @@
 <!-- Ausgewählte Facetten -->
-<a ng-if="activeFacets.length > 0">
+<div>
     <h5 class="text-muted uppercase"><strong>{{'entity_active_filters' | transl8}}</strong></h5>
 
     <a ng-if="currentQuery && currentQuery.bbox" class="btn btn-sm btn-block btn-primary linethrough-hover" ng-click="removeBBox()">
@@ -8,8 +8,9 @@
     </a>
 
     <a ng-repeat="facet in activeFacets"
-            ng-click="removeFacet(facet.key)"
-            class="btn btn-sm btn-block btn-primary linethrough-hover">
+       ng-if="activeFacets.length > 0"
+       ng-click="removeFacet(facet.key)"
+       class="btn btn-sm btn-block btn-primary linethrough-hover">
         <i>{{facet.key | transl8}}</i><br>
         <strong>{{facet.value}}</strong>
     </a>

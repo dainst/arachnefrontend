@@ -1,4 +1,4 @@
-<div hide-footer class="row map-fullscreen">
+<div hide-footer class="row map-fullscreen" tiny-footer>
 
     <div id="menu" class="col-sm-2">
         <div class="well well-sm" ng-if="searchScope() !== null">
@@ -9,7 +9,7 @@
             <div class="search-scope-title">{{'ui_gridmap_heading'|transl8}}</div>
         </div>
 
-        <div con10t-map-menu-search-info type="grid"></div>
+        <div con10t-map-menu-search-info type="grid" link-to-search="false"></div>
 
         <div con10t-map-menu-facet-search></div>
         <div con10t-map-menu-legend></div>
