@@ -11,7 +11,7 @@ angular.module('arachne.controllers')
 
             searchService.initQuery();
 
-            $rootScope.hideFooter = false;
+            $rootScope.tinyFooter = false;
 
             $scope.user = authService.getUser();
             $scope.serverUri = "http://" + document.location.host + document.getElementById('baseLink').getAttribute("href");

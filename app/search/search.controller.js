@@ -20,7 +20,7 @@ angular.module('arachne.controllers')
 
             // To indicate that the query will not be performed because it violates one or more constraints of some sort
             $scope.illegalQuery = false;
-            $rootScope.hideFooter = false;
+            $rootScope.tinyFooter = false;
             $scope.user = authService.getUser();
             $scope.currentQuery = searchService.currentQuery();
 

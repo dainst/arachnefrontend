@@ -5,7 +5,7 @@ angular.module('arachne.controllers')
     .controller('EntityImageController', ['$stateParams', '$scope', '$uibModal', '$sce', 'Entity', 'authService', 'searchService', '$location', 'arachneSettings', '$http', '$window', '$rootScope', 'messageService',
         function ($stateParams, $scope, $uibModal, $sce, Entity, authService, searchService, $location, arachneSettings, $http, $window, $rootScope, messages) {
 
-            $rootScope.hideFooter = true;
+            $rootScope.tinyFooter = true;
             $scope.allow = true;
 
             var fullscreen = false;

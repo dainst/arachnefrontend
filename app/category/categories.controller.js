@@ -4,7 +4,7 @@ angular.module('arachne.controllers')
     .controller('CategoriesController', ['$rootScope', '$scope', '$filter', 'categoryService',
         function ($rootScope, $scope, $filter, categoryService) {
 
-            $rootScope.hideFooter = false;
+            $rootScope.tinyFooter = false;
 
             categoryService.getCategoriesAsync().then(function (categories) {
                 $scope.categories = [];

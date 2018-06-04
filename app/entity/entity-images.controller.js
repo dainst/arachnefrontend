@@ -5,7 +5,7 @@ angular.module('arachne.controllers')
     .controller('EntityImagesController', ['$stateParams', '$scope', 'Entity', '$filter', 'searchService', '$rootScope', 'messageService',
         function ($stateParams, $scope, Entity, $filter, searchService, $rootScope, messages) {
 
-            $rootScope.hideFooter = true;
+            $rootScope.tinyFooter = true;
             $scope.currentQuery = searchService.currentQuery();
             $scope.entityId = $stateParams.entityId;
             $scope.imageId = $stateParams.imageId;

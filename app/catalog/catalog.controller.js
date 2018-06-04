@@ -14,7 +14,7 @@ angular.module('arachne.controllers')
         function ($rootScope, $scope, $state, $stateParams, $uibModal, $window, $timeout,
                   Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, messages) {
 
-            $rootScope.hideFooter = true;
+            $rootScope.tinyFooter = true;
             $scope.entryMap = {};
             $scope.catalogId = $stateParams.id;
             $scope.childrenLimit = 20;

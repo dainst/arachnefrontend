@@ -5,7 +5,7 @@ angular.module('arachne.controllers')
     .controller('WelcomePageController', ['$rootScope', '$scope', '$http', '$sce', 'arachneSettings', 'messageService', '$timeout',
         function ($rootScope, $scope, $http, $sce, arachneSettings, messages, $timeout) {
 
-            $rootScope.hideFooter = false;
+            $rootScope.tinyFooter = false;
 
             $http.get('con10t/front.json').then(function (result) {
 

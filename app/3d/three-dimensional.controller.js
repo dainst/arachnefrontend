@@ -5,7 +5,7 @@ angular.module('arachne.controllers')
     .controller('ThreeDimensionalController', ['$scope', '$location', '$http', '$uibModal', 'arachneSettings', '$rootScope',
         function ($scope, $location, $http, $uibModal, arachneSettings, $rootScope) {
 
-            $rootScope.hideFooter = true;
+            $rootScope.tinyFooter = true;
             $scope.backendUri = arachneSettings.dataserviceUri;
 
             this.showInfo = function () {

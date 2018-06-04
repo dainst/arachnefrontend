@@ -16,7 +16,7 @@ angular.module('arachne.controllers')
             $scope.currentEntityPage = 0;
             $scope.entitiesPageLength = 0;
 
-            $rootScope.hideFooter = false;
+            $rootScope.tinyFooter = false;
             $scope.category = $location.search().c;
 
             $scope.entities = [];
