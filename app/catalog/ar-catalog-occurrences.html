@@ -1,57 +1,35 @@
-<uib-accordion>
-    <h5 class="text-muted uppercase">
-        <strong>{{'entity_catalogs'|transl8}}</strong>
-    </h5>
-    <div uib-accordion-group  class="panel panel-default" heading="{{'entity_catalog_info'|transl8}}" is-open="true">
-        <ul class="list-group" ng-if="catalogEntrySets[0]">
-            <li ng-repeat="catalogEntry in catalogEntrySets" class="list-group-item">
-                <em>{{catalogEntry.catalogAuthor}}:</em><br>
+<h5 class="text-muted uppercase">
+    <strong>{{'entity_catalogs'|transl8}}</strong>
+</h5>
+
+<div ng-repeat="catalogEntry in catalogEntrySets" class="panel panel-default">
+    <div class="panel-heading">
+        <a ng-if="catalogEntry.projectId" ng-href="project/{{catalogEntry.projectId}}">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-globe" style="font-size: 10px"></span>
+                {{catalogEntry.catalogTitle}}<br>
+                <small>{{catalogEntry.catalogAuthor}}</small>
+            </h3>
+        </a>
+        <a ng-if="!catalogEntry.projectId" ng-href="catalog/{{catalogEntry.catalogId}}">
+            <h3 class="panel-title">
                 <span class="glyphicon glyphicon-inbox" style="font-size: 10px"></span>
-                <a ng-href="catalog/{{catalogEntry.catalogId}}">
-                    <b>
-                        <span class="text-muted uppercase">{{catalogEntry.catalogTitle}}</span>
-                    </b>
-                </a>
-                <ul class="list-group" ng-if="catalogEntry.entries[0] && catalogEntry.entries.length > 1">
-                    <li ng-repeat="entry in catalogEntry.entries" class="list-group-item">
-                        <span ng-if="entry.text" class="btn btn-primary btn-xs pull-right"
-                              ng-click="previewCatalogEntry(catalogEntry, entry)">PREVIEW</span>
-                        <a ng-href="catalog/{{entry.catalogId}}/{{entry.id}}">
-                            <span class="text-muted uppercase">{{entry.label}}</span>
-                        </a>
-                    </li>
-                </ul>
-                <div ng-if="catalogEntry.entries[0] && catalogEntry.entries.length == 1">
-                    <span ng-if="catalogEntry.entries[0].text" class="btn btn-primary btn-xs pull-right"
-                          ng-click="previewCatalogEntry(catalogEntry, catalogEntry.entries[0])">PREVIEW</span>
-                    <a ng-href="catalog/{{catalogEntry.entries[0].catalogId}}/{{catalogEntry.entries[0].id}}">
-                        <span class="text-muted uppercase">{{catalogEntry.entries[0].label}}</span>
-                    </a>
-                </div>
-            </li>
-        </ul>
-        <div class="panel-footer">
-            <button type="button" class="list-group-item btn" style="text-align: center" ng-click="createEntry()">
-			    <span class="text-primary">
-				    <span class="glyphicon glyphicon-plus"></span> {{'add_entity_to_catalogue'|transl8}}
-			    </span>
-            </button>
-        </div>
+                {{catalogEntry.catalogTitle}}<br>
+                <small>{{catalogEntry.catalogAuthor}}</small>
+            </h3>
+        </a>
     </div>
-    <h5 ng-if="projectEntries[0]" class="text-muted uppercase">
-        <strong>{{'entity_projects'|transl8}}</strong>
-    </h5>
-    <div uib-accordion-group ng-if="projectEntries[0]" class="panel panel-default" heading="{{'entity_project_info'|transl8}}">
-        <ul class="list-group">
-            <li ng-repeat="projectEntry in projectEntries" class="list-group-item">
-                <span class="glyphicon glyphicon-inbox" style="font-size: 10px"></span>
-                <b>
-                    <a ng-href="project/{{projectEntry.projectId}}">
-                        <span class="text-muted uppercase">{{projectEntry.catalogTitle}}</span><br>
-                        <small>arachne.dainst.org/project/{{projectEntry.projectId}}</small>
-                    </a>
-                </b>
-            </li>
-        </ul>
+    <div class="list-group" ng-if="catalogEntry.entries[0] && catalogEntry.entries.length > 0">
+        <a ng-repeat="entry in catalogEntry.entries" class="list-group-item"
+                 ng-href="catalog/{{entry.catalogId}}/{{entry.id}}">
+            <span class="glyphicon glyphicon-file"></span>
+            {{entry.label}}
+        </a>
     </div>
-</uib-accordion>
+</div>
+
+<button type="button" class="list-group-item btn" style="text-align: center" ng-click="createEntry()">
+    <span class="text-primary">
+	    <span class="glyphicon glyphicon-plus"></span> {{'add_entity_to_catalogue'|transl8}}
+    </span>
+</button>

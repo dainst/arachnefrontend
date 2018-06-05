@@ -12,24 +12,7 @@ angular.module('arachne.directives')
                 link: function (scope, element, attrs) {
 
                     scope.catalogEntries = [];
-                    scope.projectEntries = [];
                     scope.catalogEntrySets = [];
-
-                    scope.previewCatalogEntry = function (catalog, catalogEntry) {
-                        var entityPreview = {
-                            title: scope.entity.title,
-                            subtitle: scope.entity.subtitle,
-                            thumbnailId: scope.entity.thumbnailId
-                        };
-                        var preview = $uibModal.open({
-                            templateUrl: 'app/catalog/preview-catalog-entry.html',
-                            controller: ['$scope', function ($scope) {
-                                $scope.catalog = catalog;
-                                $scope.catalogEntry = catalogEntry;
-                                $scope.entity = entityPreview;
-                            }]
-                        });
-                    };
 
                     scope.createEntry = function () {
                         //TODO: Parse Sections in entry.text
@@ -78,13 +61,6 @@ angular.module('arachne.directives')
                                 scope.catalogEntries = result.data;
 
                                 var i = 0, len = scope.catalogEntries.length;
-
-                                for (i; i < len; i++) {
-
-                                    if (scope.catalogEntries[i].projectId) {
-                                        scope.projectEntries.push(scope.catalogEntries[i]);
-                                    }
-                                }
 
                                 scope.arrangeEntries();
 
