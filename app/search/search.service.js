@@ -210,7 +210,6 @@ angular.module('arachne.services')
                  * @returns {*}
                  */
                 getSize: function () {
-                    console.log("getSize", _currentResult.size);
                     return _currentResult.size;
                 },
 
