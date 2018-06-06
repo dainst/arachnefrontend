@@ -24,6 +24,7 @@
                  ng-href="catalog/{{entry.catalogId}}/{{entry.id}}">
             <span class="glyphicon glyphicon-file"></span>
             {{entry.label}}
+            <small ng-if="entry.parentLabel"> - {{entry.parentLabel}}</small>
         </a>
     </div>
 </div>

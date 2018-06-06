@@ -75,6 +75,7 @@ angular.module('arachne.directives')
 
                         for(i = 0; i < len; i++) {
                             curi = scope.catalogEntries[i];
+                            scope.loadParentLabel(curi.entry);
                             if(curi.duplicate)
                                 continue;
                             duplicateAlreadyAdded = false;
@@ -84,13 +85,13 @@ angular.module('arachne.directives')
                                     if(!duplicateAlreadyAdded) {
                                         scope.catalogEntrySets.push(scope.getNewCatalogEntrySet(curi));
                                         duplicateAlreadyAdded = true;
-                                    }
-                                    else
+                                    } else {
                                         for(n = 0; n < scope.catalogEntrySets.length; n++) {
                                             curk = scope.catalogEntrySets[n];
                                             if(curk.catalogId === curj.entry.catalogId)
                                                 scope.catalogEntrySets[n].entries.push(curj.entry);
                                         }
+                                    }
                                     curi.duplicate = curj.duplicate = true;
                                 }
                             }
@@ -98,6 +99,14 @@ angular.module('arachne.directives')
                                 scope.catalogEntrySets.push(scope.getNewCatalogEntrySet(curi));
                             }
                         }
+                    };
+
+                    // used to load the parent label in order to distinguish entries when multiple
+                    // entries for the same entity are present in the same catalog
+                    scope.loadParentLabel = function(entry) {
+                        CatalogEntry.get({id:entry.parentId, limit:1, full:false}, function(result) {
+                            entry.parentLabel = result.label;
+                        });
                     };
 
                     scope.getNewCatalogEntrySet = function (catalogEntry) {
