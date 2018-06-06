@@ -562,14 +562,19 @@ angular.module('arachne.controllers')
 
                 var current = list[0];
                 if (current !== undefined) {
-                    // TODO: better way to do this than using $timeout?
-                    // i.e. something that explicitly waits until document is retrieved or times out after n milliseconds
-                    $timeout(function () {
-                        document.getElementById("entry-" + current.id).click();
-                        if (list.length > 1)
-                            return toggleEntriesInList(list.slice(1));
-                    }, 100);
+                    waitForElem("entry-" + current.id, function(elem) {
+                        elem.click();
+                        if (list.length > 1) toggleEntriesInList(list.slice(1));
+                    });
                 }
+            }
+
+            function waitForElem(id, callback) {
+                var elem = document.getElementById(id);
+                $timeout(function() {
+                    if (elem) callback(elem);
+                    else waitForElem(id, callback);
+                }, 50);
             }
 
             retrieveCatalog($stateParams.id, function() {
