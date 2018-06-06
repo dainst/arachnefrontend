@@ -340,7 +340,6 @@ angular.module('arachne.controllers')
             $scope.currentTreeScope = null;
 
             $scope.selectEntry = function (entry, treeScope) {
-                console.log(entry);
                 $state.transitionTo('catalog.entry', {id: $scope.catalog.id, entryId: entry.id}, {notify: true});
                 showEntry(entry, treeScope);
             };
@@ -409,7 +408,7 @@ angular.module('arachne.controllers')
                 return parent.children.indexOf(entry);
             }
 
-            function retrieveCatalog(id) {
+            function retrieveCatalog(id, callback) {
                 Catalog.get({id: id, limit: $scope.childrenLimit}, function(result) {
                     initialize(result.root);
                     if (result.root.children.length === 0 && result.root.totalChildren > 0) {
@@ -419,8 +418,7 @@ angular.module('arachne.controllers')
                     }
                     $scope.catalog = result;
                     checkIfEditable();
-                    $scope.selectEntry(result.root);
-                    console.log("!!", result);
+                    callback();
                 }, function (error) {
                     $scope.error = true;
                     if (error.status === '403') {
@@ -574,14 +572,17 @@ angular.module('arachne.controllers')
                 }
             }
 
-            retrieveCatalog($stateParams.id);
+            retrieveCatalog($stateParams.id, function() {
 
-            if ($stateParams.entryId) {
-                CatalogEntry.get({id: $stateParams.entryId}, function (entry) {
-                    showEntry(entry);
-                    toggleParentHierarchy($stateParams.entryId);
-                });
-            }
+                if ($stateParams.entryId) {
+                    CatalogEntry.get({id: $stateParams.entryId}, function (entry) {
+                        showEntry(entry);
+                        toggleParentHierarchy($stateParams.entryId);
+                    });
+                } else {
+                    $scope.selectEntry(result.root);
+                }
+            });
 
         }
     ]);
