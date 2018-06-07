@@ -11,7 +11,7 @@ var request = require('request');
  */
 
 
-function promisedRequest(task, header, data) {
+function promisedRequest(task, httpMethod, data) {
 
     function isErrorCode(code) {
         return ([200, 201, 203, 204].indexOf(code) !== -1);
@@ -19,11 +19,11 @@ function promisedRequest(task, header, data) {
 
     var promisedRequestFactory = function(value) {
         return new Promise(function promisedRequest(resolve, reject) {
-            if (typeof request[header] !== "function") {
-                reject("'" + header + "' is no valid header!");
+            if (typeof request[httpMethod] !== "function") {
+                reject("'" + httpMethod + "' is no valid http method!");
             }
             data = (typeof data === "function") ? data(value) : data;
-            request[header](data, function(error, response, body) {
+            request[httpMethod](data, function(error, response, body) {
                 if (!error && isErrorCode(response.statusCode)) {
                     //console.log(task + " is done. Value is " + value);
                     var returner = (typeof body === "undefined") ? value : body;
