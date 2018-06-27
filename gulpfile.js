@@ -60,7 +60,8 @@ var jsDeps = [
     'node_modules/svg-pan-zoom/dist/svg-pan-zoom.js',
     'node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.min.js',
     'node_modules/idai-cookie-notice/idai-cookie-notice.js',
-    'node_modules/vega/build/vega.js'
+    'node_modules/vega/build/vega.js',
+    'lib/vega-as-leaflet-layer/bundle.js'
 ];
 
 // compile sass and concatenate to single css file in build dir
