@@ -1,7 +1,7 @@
 'use strict';
 
 // In order to debug your Vega spec, run the following command in your browser's console:
-// view = angular.element(document.getElementsByName('<name attribute>')).scope().$$childHead.vegaView
+// view = angular.element(document.getElementsByName('map-visualization')).scope().$$childHead.layer._view
 // You can then use the variable view as described in https://vega.github.io/vega/docs/api/debugging/
 
 angular.module('arachne.visualizations.directives')
