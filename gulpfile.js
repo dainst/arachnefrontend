@@ -61,6 +61,7 @@ var jsDeps = [
     'node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.min.js',
     'node_modules/idai-cookie-notice/idai-cookie-notice.js',
     'node_modules/vega/build/vega.js',
+    'lib/leaflet-polylineoffset/leaflet.polylineoffset.js',
     'lib/vega-as-leaflet-layer/bundle.js'
 ];
 
@@ -98,9 +99,13 @@ gulp.task('concat-js', function() {
 
 // concatenates and minifies all dependecies into a single file in build dir
 gulp.task('concat-deps', function () {
+
+    var gutil = require('gulp-util');
+
     return gulp.src(jsDeps)
         .pipe(concat(pkg.name + '-deps.js'))
         .pipe(uglify())
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(gulp.dest('dist/'));
 });
 
