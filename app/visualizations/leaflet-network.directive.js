@@ -23,6 +23,8 @@ angular.module('arachne.visualizations.directives')
                     'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b47a3cf895b94aedad41e5cfb5222b87', { })
                     .addTo(scope.map);
 
+                scope.connectionsLayer = new L.layerGroup().addTo(scope.map);
+
                 var icon = 'user';
                 scope.awesomeMarker = L.AwesomeMarkers.icon({
                     icon: icon,
@@ -31,6 +33,7 @@ angular.module('arachne.visualizations.directives')
 
                 scope.connections = [];
                 scope.places = {};
+                scope.activePlace = null;
 
                 var dataQueries = [];
 
@@ -42,8 +45,9 @@ angular.module('arachne.visualizations.directives')
 
                         scope.places = scope.parsePlacesData(responses[0].data);
                         scope.connections = scope.parseConnectionsData(responses[1].data);
-                        // scope.showPlaces();
-                        scope.showConnections();
+
+                        scope.showPlaces();
+                        // scope.showAllConnections();
                     });
 
                 scope.parsePlacesData = function(data){
@@ -62,7 +66,7 @@ angular.module('arachne.visualizations.directives')
                         var values = lines[line_index].split(',');
 
                         if(values.length !== column_headings.length){
-                            console.dir(values)
+                            // console.dir(values) TODO: Parse string fields containing ","
                             line_index += 1;
                             continue
                         }
@@ -89,9 +93,14 @@ angular.module('arachne.visualizations.directives')
                                 scope.places[key].lat, scope.places[key].lng
                             ),
                             {
-                                title: scope.places[key].label, icon: scope.awesomeMarker
+                                title: scope.places[key].label, icon: scope.awesomeMarker, placeId: key
                             })
-                            .addTo(scope.map);
+                            .addTo(scope.map)
+                            .on('click ', function (event) {
+                                scope.activePlace = event.sourceTarget.options.placeId;
+                                scope.showActiveConnections();
+                                console.dir(scope.activePlace)
+                            });
                     }
                 };
 
@@ -120,11 +129,13 @@ angular.module('arachne.visualizations.directives')
                         var connection = {
                             'origin': {
                                 'lat': origin['lat'],
-                                'lng': origin['lng']
+                                'lng': origin['lng'],
+                                'placeId': values[originIndex]
                             },
                             'reception': {
                                 'lat': reception['lat'],
-                                'lng': reception['lng']
+                                'lng': reception['lng'],
+                                'placeId': values[receptionIndex]
                             },
                             'weight': values[weightIndex]
                         };
@@ -135,19 +146,19 @@ angular.module('arachne.visualizations.directives')
                     return connections
                 };
 
-                scope.showConnections = function () {
-                    console.dir( scope.connections);
+                scope.showAllConnections = function () {
+
                     var translocationLayerGroup = new L.layerGroup();
 
                     for (var index in scope.connections){
                         var connection = scope.connections[index];
-                        console.dir(connection);
+
                         var latlngs = [
-                            [connection.origin.lat, connection.origin.lng, index+1],
-                            [connection.reception.lat, connection.reception.lng, index]
+                            L.LatLng(connection.origin.lat, connection.origin.lng),
+                            L.LatLng(connection.reception.lat, connection.reception.lng)
                         ];
 
-                        var offset = Math.log(connection.weight) + 1
+                        var offset = Math.log(connection.weight) + 1;
 
                         var options = {
                             weight: offset * 2,
@@ -162,7 +173,67 @@ angular.module('arachne.visualizations.directives')
 
                     translocationLayerGroup.addTo(scope.map)
 
-                }
+                };
+
+                scope.showActiveConnections = function () {
+
+                    var activeOutgoingConnections = [];
+                    var activeIncomingConnections = [];
+
+                    for (var idx in scope.connections){
+                        if(scope.connections[idx]['origin']['placeId'] === scope.activePlace){
+                            activeOutgoingConnections.push(scope.connections[idx])
+                        }
+                        if(scope.connections[idx]['reception']['placeId'] === scope.activePlace){
+                            activeIncomingConnections.push(scope.connections[idx])
+                        }
+                    }
+                    scope.map.removeLayer(scope.connectionsLayer)
+                    scope.connectionsLayer = new L.layerGroup()
+
+                    for (var index in activeOutgoingConnections) {
+                        var connection = activeOutgoingConnections[index];
+
+                        var latlngs = [
+                            [connection.origin.lat, connection.origin.lng, index+1],
+                            [connection.reception.lat, connection.reception.lng, index]
+                        ];
+
+                        var offset = Math.log(connection.weight) + 1;
+
+                        var options = {
+                            weight: offset * 2,
+                            offset: offset,
+                            delay: 800,
+                            dashArray:[25,20]
+                        };
+
+                        L.polyline.antPath(latlngs, options).addTo(scope.connectionsLayer);
+                    }
+
+                    for (var index in activeIncomingConnections){
+                        var connection = activeIncomingConnections[index];
+
+                        var latlngs = [
+                            [connection.origin.lat, connection.origin.lng, index+1],
+                            [connection.reception.lat, connection.reception.lng, index]
+                        ];
+
+                        var offset = Math.log(connection.weight) + 1;
+
+                        var options = {
+                            weight: offset * 2,
+                            offset: offset,
+                            delay: 800,
+                            dashArray:[25,20],
+                            color: 'red'
+                        };
+
+                        L.polyline.antPath(latlngs, options).addTo(scope.connectionsLayer);
+                    }
+
+                    scope.connectionsLayer.addTo(scope.map);
+                };
             }
         }
     }]);
