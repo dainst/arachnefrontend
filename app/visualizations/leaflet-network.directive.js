@@ -33,7 +33,7 @@ angular.module('arachne.visualizations.directives')
 
                 scope.connections = [];
                 scope.places = {};
-                scope.activePlace = null;
+                scope.selectedPlace = null;
 
                 var dataQueries = [];
 
@@ -159,13 +159,15 @@ angular.module('arachne.visualizations.directives')
                             ),
 
                             {
-                                title: scope.places[key].label, radius: (Math.log(scope.places[key].outgoingCount)  + 1)* 10000, placeId: key
+                                title: scope.places[key].label,
+                                radius: (Math.log(scope.places[key].outgoingCount)  + 1)* 10000,
+                                placeId: key
                             }
                         )
                             .addTo(scope.map)
                             .on('click ', function (event) {
-                                scope.activePlace = event.sourceTarget.options.placeId;
-                                scope.showActiveConnections();
+                                scope.selectedPlace = event.sourceTarget.options.placeId;
+                                scope.showConnectionsForSelectedPlace();
                             });
                     }
                 };
@@ -198,16 +200,16 @@ angular.module('arachne.visualizations.directives')
                     scope.connectionsLayer.addTo(scope.map);
                 };
 
-                scope.showActiveConnections = function () {
+                scope.showConnectionsForSelectedPlace = function () {
 
                     var activeOutgoingConnections = [];
                     var activeIncomingConnections = [];
 
                     for (var idx in scope.connections){
-                        if(scope.connections[idx]['origin']['placeId'] === scope.activePlace){
+                        if(scope.connections[idx]['origin']['placeId'] === scope.selectedPlace){
                             activeOutgoingConnections.push(scope.connections[idx])
                         }
-                        if(scope.connections[idx]['reception']['placeId'] === scope.activePlace){
+                        if(scope.connections[idx]['reception']['placeId'] === scope.selectedPlace){
                             activeIncomingConnections.push(scope.connections[idx])
                         }
                     }
