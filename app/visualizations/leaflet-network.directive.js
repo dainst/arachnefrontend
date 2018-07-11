@@ -86,24 +86,6 @@ angular.module('arachne.visualizations.directives')
                     return places
                 };
 
-                scope.showPlaces = function() {
-                    for(var key in scope.places){
-                        L.marker(
-                            new L.LatLng(
-                                scope.places[key].lat, scope.places[key].lng
-                            ),
-                            {
-                                title: scope.places[key].label, icon: scope.awesomeMarker, placeId: key
-                            })
-                            .addTo(scope.map)
-                            .on('click ', function (event) {
-                                scope.activePlace = event.sourceTarget.options.placeId;
-                                scope.showActiveConnections();
-                                console.dir(scope.activePlace)
-                            });
-                    }
-                };
-
                 scope.parseConnectionsData = function (data) {
 
                     var connections = [];
@@ -113,6 +95,9 @@ angular.module('arachne.visualizations.directives')
                     var originIndex = columnHeadings.indexOf('"origin_id"');
                     var receptionIndex = columnHeadings.indexOf('"reception_id"');
                     var weightIndex = columnHeadings.indexOf('"letter_count"');
+
+                    var placesOutgoingCount = {};
+                    var placesIncomingCount = {};
 
                     var lineIndex = 1;
                     while(lineIndex < lines.length) {
@@ -137,13 +122,52 @@ angular.module('arachne.visualizations.directives')
                                 'lng': reception['lng'],
                                 'placeId': values[receptionIndex]
                             },
-                            'weight': values[weightIndex]
+                            'weight': Number(values[weightIndex])
                         };
+
+                        if(values[originIndex] in placesOutgoingCount){
+                            placesOutgoingCount[values[originIndex]] += connection['weight']
+                        }
+                        else {
+                            placesOutgoingCount[values[originIndex]] = connection['weight']
+                        }
+
+                        if(values[receptionIndex] in placesIncomingCount){
+                            placesIncomingCount[values[receptionIndex]] += connection['weight']
+                        }
+                        else {
+                            placesIncomingCount[values[receptionIndex]] = connection['weight']
+                        }
+
                         connections.push(connection);
                         lineIndex += 1
-
                     }
+
+                    for(var key in scope.places){
+                        scope.places[key]['outgoingCount'] = (placesOutgoingCount[key] ? placesOutgoingCount[key] : 1);
+                        scope.places[key]['incomingCount'] = (placesIncomingCount[key] ? placesIncomingCount[key] : 1);
+                    }
+
                     return connections
+                };
+
+                scope.showPlaces = function() {
+                    for(var key in scope.places){
+                        L.circle(
+                            new L.LatLng(
+                                scope.places[key].lat, scope.places[key].lng
+                            ),
+
+                            {
+                                title: scope.places[key].label, radius: (Math.log(scope.places[key].outgoingCount)  + 1)* 10000, placeId: key
+                            }
+                        )
+                            .addTo(scope.map)
+                            .on('click ', function (event) {
+                                scope.activePlace = event.sourceTarget.options.placeId;
+                                scope.showActiveConnections();
+                            });
+                    }
                 };
 
                 scope.showAllConnections = function () {
