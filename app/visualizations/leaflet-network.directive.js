@@ -171,15 +171,15 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.showAllConnections = function () {
+                    scope.map.removeLayer(scope.connectionsLayer);
+                    scope.connectionsLayer = new L.layerGroup();
 
-                    var translocationLayerGroup = new L.layerGroup();
-
-                    for (var index in scope.connections){
-                        var connection = scope.connections[index];
+                    for (var idx in scope.connections){
+                        var connection = scope.connections[idx];
 
                         var latlngs = [
-                            L.LatLng(connection.origin.lat, connection.origin.lng),
-                            L.LatLng(connection.reception.lat, connection.reception.lng)
+                            new L.LatLng(connection.origin.lat, connection.origin.lng, idx),
+                            new L.LatLng(connection.reception.lat, connection.reception.lng, idx+1)
                         ];
 
                         var offset = Math.log(connection.weight) + 1;
@@ -188,15 +188,14 @@ angular.module('arachne.visualizations.directives')
                             weight: offset * 2,
                             offset: offset,
                             delay: 800,
-                            dashArray:[25,20]
+                            dashArray:[25,20],
+                            color: 'black'
                         };
 
-                        L.polyline.antPath(latlngs, options).addTo(translocationLayerGroup);
+                        L.polyline.antPath(latlngs, options).addTo(scope.connectionsLayer);
 
                     }
-
-                    translocationLayerGroup.addTo(scope.map)
-
+                    scope.connectionsLayer.addTo(scope.map);
                 };
 
                 scope.showActiveConnections = function () {
@@ -215,12 +214,12 @@ angular.module('arachne.visualizations.directives')
                     scope.map.removeLayer(scope.connectionsLayer)
                     scope.connectionsLayer = new L.layerGroup()
 
-                    for (var index in activeOutgoingConnections) {
-                        var connection = activeOutgoingConnections[index];
+                    for (var idx in activeOutgoingConnections) {
+                        var connection = activeOutgoingConnections[idx];
 
                         var latlngs = [
-                            [connection.origin.lat, connection.origin.lng, index+1],
-                            [connection.reception.lat, connection.reception.lng, index]
+                            new L.LatLng(connection.origin.lat, connection.origin.lng),
+                            new L.LatLng(connection.reception.lat, connection.reception.lng)
                         ];
 
                         var offset = Math.log(connection.weight) + 1;
@@ -239,8 +238,8 @@ angular.module('arachne.visualizations.directives')
                         var connection = activeIncomingConnections[index];
 
                         var latlngs = [
-                            [connection.origin.lat, connection.origin.lng, index+1],
-                            [connection.reception.lat, connection.reception.lng, index]
+                            new L.LatLng(connection.origin.lat, connection.origin.lng),
+                            new L.LatLng(connection.reception.lat, connection.reception.lng)
                         ];
 
                         var offset = Math.log(connection.weight) + 1;
