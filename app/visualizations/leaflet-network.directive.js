@@ -24,13 +24,6 @@ angular.module('arachne.visualizations.directives')
                     .addTo(scope.map);
 
                 scope.connectionsLayer = new L.layerGroup().addTo(scope.map);
-
-                var icon = 'user';
-                scope.awesomeMarker = L.AwesomeMarkers.icon({
-                    icon: icon,
-                    markerColor: 'cadetblue'
-                });
-
                 scope.connections = [];
                 scope.places = {};
                 scope.selectedPlace = null;
