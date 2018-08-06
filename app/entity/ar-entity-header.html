@@ -28,7 +28,7 @@
             </thead>
             <tr>
                 <td><strong>{{'ui_category'|transl8}}:</strong></td>
-                <td>
+                <td id="entity-type">
                     <div ng-switch="!!entity.categoryHref">
                         <div ng-switch-when="true">
                             <a ng-href="{{ serverUri }}{{ entity.categoryHref }}">

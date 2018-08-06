@@ -52,7 +52,8 @@
 
                             <a ng-if="resultIndex > 1"
                                ar-scoped-href="entity/{{currentQuery.setParam('resultIndex',resultIndex-1).toString()}}"
-                               class="list-group-item">
+                               class="list-group-item"
+                               id="entityPreviousResult">
                                 <div>
                                     <strong class="text-muted uppercase small">
                                         <span class="glyphicon glyphicon-chevron-left" style="color:black" ></span>
@@ -80,7 +81,8 @@
 
                             <a ng-if="resultIndex < resultSize"
                                ar-scoped-href="entity/{{currentQuery.setParam('resultIndex',resultIndex+1).toString()}}"
-                               class="list-group-item text-right">
+                               class="list-group-item text-right"
+                               id="entityNextResult">
                                 <div>
                                     <strong class="text-muted uppercase small">
                                         &nbsp; {{"entity_next_result"|transl8}}
