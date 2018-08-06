@@ -103,7 +103,7 @@ angular.module('arachne.services')
                  */
                 getEntity: function(resultIndex) {
                     var query = _currentQuery.setParam('offset', resultIndex - 1);
-                    return Entity.query(query).$promise.then(function(data) {
+                    return Entity.query(query.toFlatObject()).$promise.then(function(data) {
                         return data.entities[0];
                     });
                 },
