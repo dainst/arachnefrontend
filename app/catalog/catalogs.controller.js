@@ -7,9 +7,9 @@ angular.module('arachne.controllers')
  *
  * @author: Sebastian Cuy, Oliver Bensch, Thomas Kleinke
  */
-    .controller('CatalogsController',['$scope', '$uibModal',
+    .controller('CatalogsController',['$scope', '$uibModal', '$location',
         'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings', 'messageService',
-        function ($scope, $uibModal,
+        function ($scope, $uibModal, $location,
                   authService, Entity, Catalog, CatalogEntry, $http, arachneSettings, messages) {
 
             $scope.refreshCatalogs = function(){
@@ -33,7 +33,7 @@ angular.module('arachne.controllers')
                     controller: 'EditCatalogController',
                     resolve: { catalog: function() { return catalogBuffer }, edit: false }
                 });
-                
+
                 editCatalogModal.close = function(newCatalog) {
                     if(!newCatalog.projectId)
                         newCatalog.projectId = "";
@@ -51,6 +51,7 @@ angular.module('arachne.controllers')
 
             $scope.user = authService.getUser();
             if ($scope.user === undefined) {
+                $location.url('login?redirectTo=catalogs');
                 return false;
             }
 

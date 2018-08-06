@@ -100,7 +100,7 @@ angular.module('arachne',[
 			'project':			{ url: '/project/:title', templateUrl: 'app/pages/static.html', data: { pageTitle: title}},
 			'index':			{ url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: true, data: { pageTitle: title }},
 			'info':				{ url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }}, // Named it info, not static, to sound not too technical.
-			'login':			{ url: '/login', templateUrl: 'app/users/login.html', data: { pageTitle: title }}
+			'login':			{ url: '/login?redirectTo', templateUrl: 'app/users/login.html', data: { pageTitle: title }}
 
 		};
 
