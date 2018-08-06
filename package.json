@@ -41,12 +41,12 @@
     "request": "2.83.0",
     "showdown": "1.8.4",
     "svg-pan-zoom": "3.5.3",
-    "vega": "^4.0.0-rc.2"
+    "vega": "^4.2.0"
   },
   "devDependencies": {
     "angular-mocks": "1.6.7",
     "bootstrap-sass": "3.3.7",
-    "browser-sync": "2.18.13",
+    "browser-sync": "~2.0.1",
     "chromedriver": "2.37.0",
     "connect-modrewrite": "0.10.2",
     "cors": "2.8.4",
@@ -54,7 +54,7 @@
     "gulp": "3.9.1",
     "gulp-add-src": "0.2.0",
     "gulp-concat": "2.6.1",
-    "gulp-connect": "5.0.0",
+    "gulp-connect": "^5.5.0",
     "gulp-git": "2.4.2",
     "gulp-minify-css": "1.2.4",
     "gulp-minify-html": "1.0.6",
