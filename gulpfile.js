@@ -138,7 +138,6 @@ gulp.task('html2js-js', function () {
     return gulp.src('app/**/*.html')
         .pipe(minifyHtml())
         .pipe(ngHtml2Js({moduleName: 'arachne.js-templates', prefix: 'app/'}))
-        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(concat(pkg.name + '-js-tpls.js'))
         .pipe(gulp.dest('dist/'));
 });
