@@ -7,11 +7,31 @@ angular.module('arachne.visualizations.directives')
                 name: '@'
             },
             link: function () {
+                var names = [
+                    "Braun, Emil",
+                    "Brunn, Heinrich von",
+                    "Bunsen, Christian Karl Josias von",
+                    "Gerhard, Eduard",
+                    "Henzen, Wilhelm",
+                    "Jahn, Otto",
+                    "Lepsius, Carl Richard",
+                    "Michaelis, Adolf",
+                    "Mommsen, Theodor",
+                    "Unbekannt"
+                ];
                 var matrix = [
-                    [11975, 5871, 8916, 2868],
-                    [1951, 10048, 2060, 6171],
-                    [8010, 16145, 8090, 8045],
-                    [1013, 990, 940, 6907]
+                    // Autoren:
+                    // Braun, Brunn, Bunsen, Gerhard, Henzen, Jahn, Lepsius, Michaelis, Mommsen, Unbekannt
+                    [      0,     0,      0,     538,     31,   10,      31,         0,       0,        0], // Braun
+                    [      8,     0,      0,      82,    254,    5,       0,         0,       1,        1], // Brunn
+                    [    100,     2,      0,      67,     10,    0,      23,         0,       0,       21], // Bunsen
+                    [    461,     2,     59,       0,    578,   14,      33,         0,       0,        6], // Gerhard
+                    [     30,    52,      0,     661,      2,    5,      41,         0,       0,        6], // Henzen
+                    [      0,     0,      0,       0,      0,    0,       0,         0,       0,        0], // Jahn
+                    [     92,     0,      2,      48,    245,    0,       0,         0,       0,        5], // Lepsius
+                    [      0,     0,      0,      62,      0,  252,       0,         0,       0,        0], // Michaelis
+                    [      1,     0,      0,       0,    337,    1,       0,         0,       0,       12], // Mommsen
+                    [      0,     0,      0,      21,      0,   12,       0,         0,       0,        0]  // Unbekannt
                 ];
 
                 var svg = d3.select("svg"),
@@ -35,7 +55,10 @@ angular.module('arachne.visualizations.directives')
 
                 var color = d3.scaleOrdinal()
                     .domain(d3.range(4))
-                    .range(["#000000", "#FFDD89", "#957244", "#F26223"]);
+                    .range([
+                        "#cd3d08", "#ec8f00", "#6dae29", "#683f92", "#b60275",
+                        "#2058a5", "#00a592", "#009d3c", "#378974", "#ffca00"
+                    ]);
 
                 var g = svg.append("g")
                     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
