@@ -47,7 +47,7 @@ Retrieves a single formatted entity (same as above).
 **for public access permanently moved to** https://github.com/dainst/arachnefrontend/blob/master/docs/rest-api-reference.md
 
 
-  
+
 ### GET /search/scroll/$scrollId
 
 * **$scrollId** string The scrollId as returned by a prior search with parameter `scroll=true`
@@ -362,7 +362,8 @@ Handles communication between the image server and an IIP compliant viewer on th
             }
         ]
     }
-}```
+}
+```
 
 **PUT /catalog/$catalogId**
 
@@ -370,7 +371,8 @@ Handles communication between the image server and an IIP compliant viewer on th
     "id": 83,
     "author": "Testauthor",
     "public": false
-}```
+}
+```
 
 **POST /catalog/entry**
 
@@ -379,7 +381,8 @@ Handles communication between the image server and an IIP compliant viewer on th
     "label": "Testlabel",
     "parentId": 598,
     "indexParent": 0
-}```
+}
+```
 
 **PUT /catalog/entry/$entryId**
 
@@ -390,7 +393,8 @@ Handles communication between the image server and an IIP compliant viewer on th
     "label": "Updated Testlabel",
     "parentId": 598,
     "indexParent": 1
-}```
+}
+```
 
 </details>
 
@@ -410,7 +414,7 @@ Retrieves all catalogs of the current user
 
 `RequestParameter: full` *optional* (default: `false`)
 `RequestParameter: limit` *optional* (default: 0)
-`RequestParameter: offset *optional* (default: 0)
+`RequestParameter: offset` *optional* (default: 0)
 
 * **$catalogId** long Unique ID of the catalog
 
@@ -512,7 +516,8 @@ Returns 403 if the catalog is not owned by the current user or not public.
     },
     "author": "Testauthor",
     "public": false
-}```
+}
+```
 </details>
 
 
@@ -572,7 +577,8 @@ Newly created catalogs are always private.
             }
         ]
     }
-}```
+}
+```
 </details>
 
 
@@ -595,7 +601,8 @@ Ignores root of the posted catalog, so it can be ommited.
     "id": 83,
     "author": "Testauthor",
     "public": false
-}```
+}
+```
 </details>
 
 
@@ -665,7 +672,8 @@ Returns 422 if the entry cannot be processed.
     "label": "Updated Testlabel",
     "parentId": 598,
     "indexParent": 1
-}```
+}
+```
 </details>
 
 
@@ -689,7 +697,8 @@ Gets the book as JSON. Example:
     { "img_file":"http://arachne.uni-koeln.de/images/stichwerke/antiquities_of_ionia_1/BOOK-antiquitiesofionia01-0001_196.jpg"}
     { "img_file":"http://arachne.uni-koeln.de/images/stichwerke/antiquities_of_ionia_1/BOOK-antiquitiesofionia01-0002_197.jpg"}
   ]
-}```
+}
+```
 
 
 ## 7. Administration
@@ -721,7 +730,8 @@ Gets information about the backend, like the build number of the running instanc
 
 ```{
   "buildNumber" : "69"
-}```
+}
+```
 
 The build number taken is the one configured in `applicationProperties` as property `buildNumber`. If this property is not defined,
 the JSON from `/info` will not contain the `buildNumber` field.
