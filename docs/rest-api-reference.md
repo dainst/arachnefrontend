@@ -8,13 +8,13 @@
 7. [Administration](#Administration)
 8. [Access](#Access)
 
-<br>
+<br>  
 # Features and URLs
 Only the unique parts of the URLs specific to a feature will be used to identify the functionality. The complete URLs are of the form **http://$some_server.$some_domain/$servlet_name/$feature_specific_part**.
 All requests will return JSON. All POST/PUT requests expect JSON. 
 All requests support HTTP basic auth, for some it is mandatory (mostly admin tasks).
 
-<br>
+<br>  
 ## 1. Data retrieval
 
 ### GET /entity/$entityId
@@ -27,7 +27,7 @@ All requests support HTTP basic auth, for some it is mandatory (mostly admin tas
 Retrieves a single formatted entity.
 
 
-<br> 
+<br>  
 ### GET /entity/$category/$categoryId
 
 `RequestParameter: live` *optional* (default: `false`)
@@ -39,7 +39,7 @@ Retrieves a single formatted entity.
 
 Retrieves a single formatted entity (same as above).
 
-<br> 
+<br>  
 ## 2. Search
 
 ### GET /search
@@ -47,7 +47,7 @@ Retrieves a single formatted entity (same as above).
 **for public access permanently moved to** https://github.com/dainst/arachnefrontend/blob/master/docs/rest-api-reference.md
 
 
-<br> 
+<br>  
 ### GET /search/scroll/$scrollId
 
 * **$scrollId** string The scrollId as returned by a prior search with parameter `scroll=true`
@@ -56,7 +56,7 @@ Returns the next 'page' of search results and keeps the search context alive for
 Only accessible for logged in users.
 
 
-<br> 
+<br>  
 ### GET /contexts/$entityId
 
 `RequestParameter: fq` *optional*
@@ -78,7 +78,7 @@ Only accessible for logged in users.
 Returns a search result containing the contexts of the specified entityId.
 
 
-<br> 
+<br>  
 ### GET /index/$facetName
 
 `RequestParameter: group` *optional*
@@ -93,7 +93,7 @@ Returns a list of all unique facet values. If the group parameter is specified o
 '>': Returns all values with initial letters greater than 'z'.
 'a'...'z': Returns all values starting with the specified letter.
 
-<br>
+<br> 
 ## 3. User
 
 ### GET /user/$username
@@ -103,7 +103,7 @@ Returns a list of all unique facet values. If the group parameter is specified o
 Retrieves the user information for the given user name. This endpoint can also be used implement authentication since only logged in users are allowed to retrieve their user info. Admins (gid 800) are also allowed to retrieve info on other users.
 
 
-<br> 
+<br>  
 ### POST /user/reset
 
 * body JSON User information.
@@ -119,7 +119,7 @@ Retrieves the user information for the given user name. This endpoint can also b
 Requests a password reset for the account specified by `username` and `email`. An eMail containing an activation link is sent to the user.
 
 
-<br> 
+<br>  
 ### POST /user/activation/$token`
 
 * **$token** string The activation token identifying a password reset request.
@@ -134,20 +134,20 @@ Requests a password reset for the account specified by `username` and `email`. A
 Sets the password of the account associated with the password reset request identified by the activation token to the provided one.
 
 
-<br> 
+<br>  
 ### DELETE /userinfo/$username
 
 * **$username** string The user that is being deleted.
 
 Users can delete themselves or can be deleted by admins.
 
-<br> 
+<br>  
 ## 4. Image retrieval
 All Images are JPEG encoded.
 The value of the different image resolutions is in pixels and specifies the max value for the largest dimension (either width or height depending on the aspect ration) of the image (**imageResolutionICON, imageResolutionTHUMBNAIL, imageResolutionPREVIEW, imageResolutionHIGH**).
 
 
-<br> 
+<br>  
 ### GET /image/$entityId
 
 * **$entityId** long Unique ArachneID of the image
@@ -156,27 +156,27 @@ Retrieves an image from the image server in the highest possible resolution.
 The resolution depends on the users access rights.
 
 
-<br> 
+<br>  
 ### GET /image/icon/$entityId
 
 * **$entityId** long Unique ArachneID of the image
 Retrieves an image from the image server in icon resolution.
 
 
-<br> 
+<br>  
 ### GET /image/thumbnail/$entityId
 * **$entityId** long Unique ArachneID of the image
 Retrieves an image from the image server in thumbnail resolution.
 
 
-<br> 
+<br>  
 ### GET /image/preview/$entityId
 
 * **$entityId** long Unique ArachneID of the image
 Retrieves an image from the image server in preview resolution.
 
 
-<br> 
+<br>  
 ### GET /image/width/$entityId?width=$width
 
 ``RequestParameter: width`` *mandatory*
@@ -186,7 +186,7 @@ Retrieves an image from the image server in preview resolution.
 Retrieves an image from the image server with the specified width.
 
 
-<br> 
+<br>  
 ### GET /image/height/$entityId?height=$height
 
 `RequestParameter: height` *mandatory*
@@ -197,7 +197,7 @@ Retrieves an image from the image server with the specified width.
 Retrieves an image from the image server with the specified height.
 
 
-<br> 
+<br>  
 ### GET /image/zoomify/$entityId/ImageProperties.xml
 
 * $entityId long Unique ArachneID of the image
@@ -205,7 +205,7 @@ Retrieves an image from the image server with the specified height.
 Retrieves the ImageProperties.xml file for the given image to use with a Zoomify compliant viewer.
 
 
-<br> 
+<br>  
 ### GET /image/zoomify/$entityId/$z-$x-$y.jpg
 
 * **$entityId** long Unique ArachneID of the image
@@ -216,7 +216,7 @@ Retrieves the ImageProperties.xml file for the given image to use with a Zoomify
 Retrieves an image tile to use with a Zoomify compliant viewer.
 
 
-<br> 
+<br>  
 ### GET /image/iipviewer
 
 `RequestParameter: FIF` *mandatory*
@@ -225,12 +225,12 @@ Retrieves an image tile to use with a Zoomify compliant viewer.
 
 Handles communication between the image server and an IIP compliant viewer on the client side.
 
-<br> 
+<br>  
 ## 5. Catalog
 
 <details>
 <summary>Examples for the catalog-API</summary>
-<br>
+<br> 
 **GET /catalog/$catalogId**
 
 ```{
@@ -395,7 +395,7 @@ Handles communication between the image server and an IIP compliant viewer on th
 </details>
 
 
-<br> 
+<br>  
 ### GET /catalog
 
 **RequestParameter: full** *optional* (default: `false`)
@@ -405,7 +405,7 @@ Handles communication between the image server and an IIP compliant viewer on th
 Retrieves all catalogs of the current user
 
 
-<br> 
+<br>  
 ### GET /catalog/$catalogId
 
 `RequestParameter: full` *optional* (default: `false`)
@@ -423,7 +423,7 @@ Returns 403 if the catalog is not owned by the current user or not public.
 
 <details>
 <summary>Example for this Query</summary>
-<br>
+<br> 
 **GET /catalog/$catalogId**
 
 ```{
@@ -516,7 +516,7 @@ Returns 403 if the catalog is not owned by the current user or not public.
 </details>
 
 
-<br> 
+<br>  
 ### POST /catalog
 
 **RequestBody: a catalog object (JSON)**
@@ -530,7 +530,7 @@ Newly created catalogs are always private.
 
 <details>
 <summary>Example for this Query</summary>
-<br>
+<br> 
 **POST /catalog**
 
 ```{
@@ -576,7 +576,7 @@ Newly created catalogs are always private.
 </details>
 
 
-<br> 
+<br>  
 ### PUT /catalog/$catalogId
 **RequestBody: a catalog object (JSON)**
 
@@ -588,7 +588,7 @@ Ignores root of the posted catalog, so it can be ommited.
 
 <details>
 <summary>Example for this Query</summary>
-<br>
+<br> 
 **PUT /catalog/$catalogId**
 
 ```{
@@ -599,7 +599,7 @@ Ignores root of the posted catalog, so it can be ommited.
 </details>
 	
 
-<br> 
+<br>  
 ### DELETE /catalog/$catalogId
 
 * **$catalogId** long Unique ID of the catalog
@@ -608,7 +608,7 @@ Destroys the catalog and all associated CatalogEntries, returns 402.
 Does nothing and returns 403 if the catalog is not owned by the current user.
 
 
-<br> 
+<br>  
 ### GET /catalog/list/$entityId
 
 * **$entityId** long The unique ID of the entity of interest.
@@ -616,7 +616,7 @@ Does nothing and returns 403 if the catalog is not owned by the current user.
 Retrieves a list of all catalogs of the current user of which the given entityId is part of.
 
 
-<br> 
+<br>  
 ### GET /catalog/entry/$catalogentryId
 
 **RequestParameter: full optional** (default: `false`)
@@ -632,7 +632,7 @@ Retrieves a list of all catalogs of the current user of which the given entityId
 Retrieves a single CatalogEntry with specified id.
 Returns 403 if the catalog of the catalogEntry is not owned by the current user or not public.
 
-<br> 
+<br>  
 ### POST /catalog/entry
 
 **RequestBody: a CatalogEntry object (JSON)**
@@ -641,7 +641,7 @@ Creates the posted catalogEntry as a child of the parent CatalogEntry that is sp
 Returns 403 if no user is signed in or if the catalog of the CatalogEntry is not owned by the current user.
 
 
-<br> 
+<br>  
 ### PUT /catalog/entry/$catalogEntryId
 
 **RequestBody: a CatalogEntry object (JSON)**
@@ -655,7 +655,7 @@ Returns 422 if the entry cannot be processed.
 
 <details>
 <summary>Example for this Query</summary>
-<br>
+<br> 
 **PUT /catalog/entry/$entryId**
 
 ```{
@@ -668,7 +668,7 @@ Returns 422 if the entry cannot be processed.
 }```
 </details>
 
-<br>
+<br> 
 ### DELETE /catalog/entry/$catalogEntryId
 
 * **$catalogentryId** long Unique ID of the CatalogEntry
@@ -676,7 +676,7 @@ Returns 422 if the entry cannot be processed.
 Destroys the CatalogEntry, returns 402.
 Does nothing and returns 403 if the catalog of the CatalogEntry is not owned by the current user.
 
-<br>
+<br> 
 ## 6. Book Browser related
 
 ###GET /book/$entityId
@@ -691,21 +691,21 @@ Gets the book as JSON. Example:
   ]
 }```
 
-<br>
+<br> 
 ## 7. Administration
 
 ### GET /admin/cache
 Returns the current backend cache status.
 
-<br>
+<br> 
 ### DELETE /admin/cache
 Deletes the backend cache.
 
-<br>
+<br> 
 ### GET /admin/dataimport
 Returns the current dataimport status.
 
-<br>
+<br> 
 ### POST /admin/dataimport
 
 **RequestParameter: command** *mandatory*
@@ -715,7 +715,7 @@ Returns the current dataimport status.
 Issuing one of the supported commands starts or stops the dataimport.
 HTTP basic access authentication must be used with an account that has an Arachne UserGroupID of at least 800. The password must be MD5 encrypted.
 
-<br>
+<br> 
 ### GET /info
 Gets information about the backend, like the build number of the running instance. Example
 
@@ -726,7 +726,7 @@ Gets information about the backend, like the build number of the running instanc
 The build number taken is the one configured in `applicationProperties` as property `buildNumber`. If this property is not defined,
 the JSON from `/info` will not contain the `buildNumber` field.
 
-<br>
+<br> 
 ## 8. Access
 To use the backend with a authorized user / pw, you need to create a md5 hash of your password, e.g. http://www.miraclesalad.com/webtools/md5.php
 Then for basic auth, enter your username as usual, but take the md5 hashed password as password. As header add "Content-Type": "application/json"
