@@ -21,26 +21,30 @@ angular.module('arachne.visualizations.directives')
                 ];
                 var matrix = [
                     // Autoren:
-                    // Braun, Brunn, Bunsen, Gerhard, Henzen, Jahn, Lepsius, Michaelis, Mommsen, Unbekannt
-                    [      0,     0,      0,     538,     31,   10,      31,         0,       0,        0], // Braun
-                    [      8,     0,      0,      82,    254,    5,       0,         0,       1,        1], // Brunn
-                    [    100,     2,      0,      67,     10,    0,      23,         0,       0,       21], // Bunsen
-                    [    461,     2,     59,       0,    578,   14,      33,         0,       0,        6], // Gerhard
-                    [     30,    52,      0,     661,      2,    5,      41,         0,       0,        6], // Henzen
-                    [      0,     0,      0,       0,      0,    0,       0,         0,       0,        0], // Jahn
-                    [     92,     0,      2,      48,    245,    0,       0,         0,       0,        5], // Lepsius
-                    [      0,     0,      0,      62,      0,  252,       0,         0,       0,        0], // Michaelis
-                    [      1,     0,      0,       0,    337,    1,       0,         0,       0,       12], // Mommsen
-                    [      0,     0,      0,      21,      0,   12,       0,         0,       0,        0]  // Unbekannt
+                    // Braun, Brunn, Bunsen, Gerhard, Henzen,  Jahn, Lepsius, Michaelis, Mommsen, Unbekannt
+                    // (692),  (56),   (61),  (1479), (1457), (299),   (128),       (0),     (1),      (51)
+                    //                                                                                       Rezipienten:
+                    [      0,     0,      0,     538,     31,    10,      31,         0,       0,        0], // Braun (610)
+                    [      8,     0,      0,      82,    254,     5,       0,         0,       1,        1], // Brunn (351)
+                    [    100,     2,      0,      67,     10,     0,      23,         0,       0,       21], // Bunsen (223)
+                    [    461,     2,     59,       0,    578,    14,      33,         0,       0,        6], // Gerhard (1153)
+                    [     30,    52,      0,     661,      2,     5,      41,         0,       0,        6], // Henzen (797)
+                    [      0,     0,      0,       0,      0,     0,       0,         0,       0,        0], // Jahn (0)
+                    [     92,     0,      2,      48,    245,     0,       0,         0,       0,        5], // Lepsius (392)
+                    [      0,     0,      0,      62,      0,   252,       0,         0,       0,        0], // Michaelis (314)
+                    [      1,     0,      0,       0,    337,     1,       0,         0,       0,       12], // Mommsen (351)
+                    [      0,     0,      0,      21,      0,    12,       0,         0,       0,        0]  // Unbekannt (33)
                 ];
 
+                var div = document.querySelector('#svg-container');
+
                 var svg = d3.select("svg"),
-                    width = +svg.attr("width"),
-                    height = +svg.attr("height"),
-                    outerRadius = Math.min(width, height) * 0.5 - 40,
+                    width = div.scrollWidth,
+                    height = div.scrollHeight,
+                    outerRadius = Math.min(width, height) * 0.5 - 120,
                     innerRadius = outerRadius - 30;
 
-                var formatValue = d3.formatPrefix(",.0", 1e3);
+                var formatValue = d3.formatPrefix(",.0", 1e2);
 
                 var chord = d3.chord()
                     .padAngle(0.05)
@@ -81,9 +85,20 @@ angular.module('arachne.visualizations.directives')
                     })
                     .attr("d", arc);
 
+                group.append("text")
+                    .each(function(d) { d.angle = (d.startAngle + d.endAngle) / 2; })
+                    .attr("dy", ".35em")
+                    .attr("transform", function(d) {
+                        return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+                            + "translate(" + (innerRadius + 64) + ")" + (d.angle > Math.PI ? "rotate(180)" : "");
+                    })
+                    .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
+                    .text(function(d) { return names[d.index] })
+                    .style("cursor", "pointer");
+
                 var groupTick = group.selectAll(".group-tick")
                     .data(function (d) {
-                        return groupTicks(d, 1e3);
+                        return groupTicks(d, 1e2);
                     })
                     .enter().append("g")
                     .attr("class", "group-tick")
@@ -96,7 +111,7 @@ angular.module('arachne.visualizations.directives')
 
                 groupTick
                     .filter(function (d) {
-                        return d.value % 5e3 === 0;
+                        return d.value % 1e2 === 0;
                     })
                     .append("text")
                     .attr("x", 8)
