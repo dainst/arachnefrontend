@@ -103,7 +103,7 @@ Returns a list of all unique facet values. If the group parameter is specified o
 
 ### GET /user/$username
 
-* $username String Unique Arachne user name
+* **$username** String Unique Arachne user name
 
 Retrieves the user information for the given user name. This endpoint can also be used implement authentication since only logged in users are allowed to retrieve their user info. Admins (gid 800) are also allowed to retrieve info on other users.
 
@@ -111,7 +111,7 @@ Retrieves the user information for the given user name. This endpoint can also b
 
 ### POST /user/reset
 
-* body JSON User information.
+* **body** JSON User information.
 
 ```
 {
@@ -230,7 +230,7 @@ Retrieves an image tile to use with a Zoomify compliant viewer.
 
 `RequestParameter: FIF` *mandatory*
 
-* FIF long entityId of the image
+* **FIF** long entityId of the image
 
 Handles communication between the image server and an IIP compliant viewer on the client side.
 
@@ -666,7 +666,7 @@ Returns 403 if no user is signed in or if the catalog of the CatalogEntry is not
 
 **RequestBody: a CatalogEntry object (JSON)**
 
-* $catalogentryId long Unique ID of the CatalogEntry
+* **$catalogentryId** long Unique ID of the CatalogEntry
 
 Updates the CatalogEntry, returns 200 and the updated CatalogEntry.
 Returns 403 if the catalog of the CatalogEntry is not owned by the current user.
@@ -703,7 +703,7 @@ Does nothing and returns 403 if the catalog of the CatalogEntry is not owned by 
 ### GET /book/$entityId
 Gets the book as JSON. Example:
 
-* $entityId long Unique ArachneID of the (book's) entity
+* **$entityId** long Unique ArachneID of the (book's) entity
 
 ```{
   pages:[
