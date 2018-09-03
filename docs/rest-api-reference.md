@@ -131,7 +131,7 @@ Requests a password reset for the account specified by `username` and `email`. A
 
 * **$token** string The activation token identifying a password reset request.
 
-* body JSON User information.
+* **body** JSON User information.
 
 ```
 {
@@ -754,4 +754,4 @@ the JSON from `/info` will not contain the `buildNumber` field.
 To use the backend with a authorized user / pw, you need to create a md5 hash of your password, e.g. http://www.miraclesalad.com/webtools/md5.php
 Then for basic auth, enter your username as usual, but take the md5 hashed password as password. As header add "Content-Type": "application/json"
 
-![visual](/screenshots/arachneentitydata.png)
+![visual](/docs/screenshots/arachneentitydata.png)
