@@ -1,12 +1,12 @@
 # Table of Contents
 1. [Data retrieval](#data-retrieval)
-2. [Search](#Search)
-3. [User](#User)
-4. [Image retrieval](#Image retrieval)
-5. [Catalog](#Catalog)
-6. [Book Browser related](#Book Browser related)
-7. [Administration](#Administration)
-8. [Access](#Access)
+2. [Search](#search)
+3. [User](#user)
+4. [Image retrieval](#image-retrieval)
+5. [Catalog](#catalog)
+6. [Book Browser related](#book-browser-related)
+7. [Administration](#administration)
+8. [Access](#access)
 
 
 # Features and URLs
@@ -40,7 +40,7 @@ Retrieves a single formatted entity.
 Retrieves a single formatted entity (same as above).
 
 
-## 2. Search
+## Search
 
 ### GET /search
 
@@ -60,10 +60,15 @@ Only accessible for logged in users.
 ### GET /contexts/$entityId
 
 `RequestParameter: fq` *optional*
+
 `RequestParameter: limit` *optional*
+
 `RequestParameter: offset` *optional*
+
 `RequestParameter: fl` *optional*
+
 `RequestParameter: sort` *optional*
+
 `RequestParameter: desc` *optional*
 
 * **$entityId** long Unique ArachneID of the entity
@@ -94,7 +99,7 @@ Returns a list of all unique facet values. If the group parameter is specified o
 'a'...'z': Returns all values starting with the specified letter.
 
 
-## 3. User
+## User
 
 ### GET /user/$username
 
@@ -108,13 +113,15 @@ Retrieves the user information for the given user name. This endpoint can also b
 
 * body JSON User information.
 
-```{
+```
+{
 "username" : "somename",
 "email" : "some@address.com",
 "firstname": "firstname",
 "lastname": "lastname",
 "zip": "12345"
-}```
+}
+```
 
 Requests a password reset for the account specified by `username` and `email`. An eMail containing an activation link is sent to the user.
 
@@ -126,10 +133,12 @@ Requests a password reset for the account specified by `username` and `email`. A
 
 * body JSON User information.
 
-```{
+```
+{
 "password": "somepassword",
 "passwordConfirm": "somepassword",
-}```
+}
+```
 
 Sets the password of the account associated with the password reset request identified by the activation token to the provided one.
 
@@ -142,7 +151,7 @@ Sets the password of the account associated with the password reset request iden
 Users can delete themselves or can be deleted by admins.
 
 
-## 4. Image retrieval
+## Image retrieval
 All Images are JPEG encoded.
 The value of the different image resolutions is in pixels and specifies the max value for the largest dimension (either width or height depending on the aspect ration) of the image (**imageResolutionICON, imageResolutionTHUMBNAIL, imageResolutionPREVIEW, imageResolutionHIGH**).
 
@@ -179,10 +188,10 @@ Retrieves an image from the image server in preview resolution.
 
 ### GET /image/width/$entityId?width=$width
 
-``RequestParameter: width`` *mandatory*
+`RequestParameter: width` *mandatory*
 
 * **$entityId** long Unique ArachneID of the image
-* **$width int** requested width of the image
+* **$width** int requested width of the image
 Retrieves an image from the image server with the specified width.
 
 
@@ -191,8 +200,8 @@ Retrieves an image from the image server with the specified width.
 
 `RequestParameter: height` *mandatory*
 
-* $entityId long Unique ArachneID of the image
-* $height int requested height of the image
+* **$entityId** long Unique ArachneID of the image
+* **$height int** requested height of the image
 
 Retrieves an image from the image server with the specified height.
 
@@ -200,7 +209,7 @@ Retrieves an image from the image server with the specified height.
 
 ### GET /image/zoomify/$entityId/ImageProperties.xml
 
-* $entityId long Unique ArachneID of the image
+* **$entityId** long Unique ArachneID of the image
 
 Retrieves the ImageProperties.xml file for the given image to use with a Zoomify compliant viewer.
 
@@ -226,7 +235,7 @@ Retrieves an image tile to use with a Zoomify compliant viewer.
 Handles communication between the image server and an IIP compliant viewer on the client side.
 
 
-## 5. Catalog
+## Catalog
 
 <details>
 <summary>Examples for the catalog-API</summary>
@@ -413,7 +422,9 @@ Retrieves all catalogs of the current user
 ### GET /catalog/$catalogId
 
 `RequestParameter: full` *optional* (default: `false`)
+
 `RequestParameter: limit` *optional* (default: 0)
+
 `RequestParameter: offset` *optional* (default: 0)
 
 * **$catalogId** long Unique ID of the catalog
@@ -627,7 +638,9 @@ Retrieves a list of all catalogs of the current user of which the given entityId
 ### GET /catalog/entry/$catalogentryId
 
 **RequestParameter: full optional** (default: `false`)
+
 **RequestParameter: limit optional** (default: 0)
+
 **RequestParameter: offset optional** (default: 0)
 
 * **$catalogentryId** long Unique ID of the CatalogEntry
@@ -685,9 +698,9 @@ Destroys the CatalogEntry, returns 402.
 Does nothing and returns 403 if the catalog of the CatalogEntry is not owned by the current user.
 
 
-## 6. Book Browser related
+## Book Browser related
 
-###GET /book/$entityId
+### GET /book/$entityId
 Gets the book as JSON. Example:
 
 * $entityId long Unique ArachneID of the (book's) entity
@@ -701,7 +714,7 @@ Gets the book as JSON. Example:
 ```
 
 
-## 7. Administration
+## Administration
 
 ### GET /admin/cache
 Returns the current backend cache status.
@@ -737,8 +750,8 @@ The build number taken is the one configured in `applicationProperties` as prope
 the JSON from `/info` will not contain the `buildNumber` field.
 
 
-## 8. Access
+## Access
 To use the backend with a authorized user / pw, you need to create a md5 hash of your password, e.g. http://www.miraclesalad.com/webtools/md5.php
 Then for basic auth, enter your username as usual, but take the md5 hashed password as password. As header add "Content-Type": "application/json"
 
-![alt text](http://dai-softsource.uni-koeln.de/attachments/download/2463/Bildschirmfoto%202017-12-18%20um%2014.35.29.png)
+![visual](/screenshots/arachneentitydata.png)
