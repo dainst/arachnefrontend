@@ -23,9 +23,13 @@ angular.module('arachne.visualizations.directives')
                     'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b47a3cf895b94aedad41e5cfb5222b87', { })
                     .addTo(scope.map);
 
+                scope.mindatePicker = document.querySelector('#min-date-picker');
+                scope.maxdatePicker = document.querySelector('#max-date-picker');
+
                 scope.connectionsLayer = new L.layerGroup().addTo(scope.map);
                 scope.connections = [];
                 scope.selectedPlace = null;
+                scope.displayedPlaces = [];
 
                 var dataQueries = [];
 
@@ -42,7 +46,8 @@ angular.module('arachne.visualizations.directives')
                         scope.letterIndexById = scope.createIndex(scope.letterData, 'id');
 
                         scope.accumulateConnectionsData();
-
+                        scope.getMinMaxDates();
+                        scope.updateState();
                         scope.showPlaces();
                     });
 
@@ -83,9 +88,61 @@ angular.module('arachne.visualizations.directives')
                     return index;
                 };
 
-                scope.accumulateConnectionsData = function () {
+                scope.updateState = function(){
+                    scope.displayedPlaces = [];
+                    scope.selectedPlace = null;
 
-                    scope.connections = {};
+                    var weights = {};
+                    var display = [];
+
+                    for(var i = 0; i < scope.letterData.length; i++){
+                        var currentLetter = scope.letterData[i];
+                        if(Date.parse(currentLetter['origin_date_from']) < scope.minDate
+                            || Date.parse(currentLetter['origin_date_to']) > scope.maxDate) {
+                            continue;
+                        }
+
+                        var originPlace =
+                            scope.placeData[
+                                scope.placeIndexById[
+                                    scope.letterData[i]['origin_id']
+                                    ]
+                                ];
+
+                        var destinationPlace =
+                            scope.placeData[
+                                scope.placeIndexById[
+                                    scope.letterData[i]['destination_id']
+                                    ]
+                                ];
+
+                        if(!display.includes(originPlace['id'])){
+                            display.push(originPlace['id']);
+                        }
+
+                        if(!display.includes(destinationPlace['id'])){
+                            display.push(destinationPlace['id']);
+                        }
+
+                        if(typeof originPlace !== 'undefined') {
+                            if (originPlace['id'] in weights) {
+                                weights[originPlace['id']] += 1;
+                            } else {
+                                weights[originPlace['id']] = 1;
+                            }
+                        }
+                    }
+
+                    for(var i = 0; i < display.length; i++) {
+                        scope.displayedPlaces.push({
+                            'id': display[i],
+                            'weight': weights[display[i]]
+                        })
+
+                    }
+                };
+
+                scope.accumulateConnectionsData = function () {
 
                     for(var i = 0; i < scope.letterData.length; i++){
 
@@ -103,22 +160,6 @@ angular.module('arachne.visualizations.directives')
                                 ]
                             ];
 
-                        if(typeof originPlace !== 'undefined') {
-                            if ('outgoingCount' in originPlace) {
-                                originPlace['outgoingCount'] += 1;
-                            } else {
-                                originPlace['outgoingCount'] = 1;
-                            }
-                        }
-
-                        if(typeof destinationPlace !== 'undefined'){
-                            if('incomingCount' in destinationPlace) {
-                                destinationPlace['incomingCount'] += 1;
-                            } else {
-                                destinationPlace['incomingCount'] = 1;
-                            }
-                        }
-
                         if(
                             typeof originPlace !== 'undefined'
                             && typeof destinationPlace !== 'undefined'
@@ -133,23 +174,54 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
+                scope.getMinMaxDates = function(){
+                  scope.minDate = new Date(8640000000000000);
+                  scope.maxDate = new Date(-8640000000000000);
+
+                  for(var i = 0; i < scope.letterData.length; i++){
+                      var current = scope.letterData[i];
+
+                      if(new Date(current['origin_date_from']) < scope.minDate){
+                          scope.minDate = new Date(current['origin_date_from'])
+                      }
+
+                      if(new Date(current['origin_date_to']) > scope.maxDate) {
+                          scope.maxDate = new Date(current['origin_date_to'])
+                      }
+                  }
+
+                  scope.mindatePicker.min = Date.parse(scope.minDate);
+                  scope.mindatePicker.max = Date.parse(scope.maxDate);
+                  scope.mindatePicker.value = scope.mindatePicker.min;
+
+                  scope.maxdatePicker.min = Date.parse(scope.minDate);
+                  scope.maxdatePicker.max = Date.parse(scope.maxDate);
+                  scope.maxdatePicker.value = scope.maxdatePicker.max;
+                };
+
                 scope.showPlaces = function() {
-                    for(var i = 0; i < scope.placeData.length; i++){
-                        if(
-                            scope.placeData[i]['lat'] === 'null'
-                            || scope.placeData[i]['lng'] === 'null'
-                            || !('outgoingCount' in scope.placeData[i])
+                    for(var i = 0; i < scope.displayedPlaces.length; i++){
+                        var currentId = scope.displayedPlaces[i]['id'];
+                        var currentWeight = scope.displayedPlaces[i]['weight'];
+
+                        var place = scope.placeData[
+                                scope.placeIndexById[currentId]
+                            ];
+
+                        if(place['lat'] === 'null'
+                            || place['lng'] === 'null'
+                            || typeof currentWeight === 'undefined'
                         ) continue;
 
                         L.circle(
                             new L.LatLng(
-                                scope.placeData[i]['lat'], scope.placeData[i]['lng']
+                                place['lat'], place['lng']
                             ),
 
                             {
-                                title: scope.placeData[i]['title'],
-                                radius: (Math.log(scope.placeData[i]['outgoingCount'])  + 1)* 10000,
-                                id: scope.placeData[i]['id']
+                                title: place['title'],
+                                radius: (Math.log(currentWeight)  + 1)* 10000,
+                                id: place['id']
                             }
                         )
                             .addTo(scope.map)
@@ -237,6 +309,7 @@ angular.module('arachne.visualizations.directives')
                             }
                         }
                     }
+
                     scope.map.removeLayer(scope.connectionsLayer);
                     scope.connectionsLayer = new L.layerGroup();
 
@@ -280,7 +353,6 @@ angular.module('arachne.visualizations.directives')
 
                         L.polyline.antPath(latlngs, options).addTo(scope.connectionsLayer);
                     }
-
 
                     scope.connectionsLayer.addTo(scope.map);
                 };
