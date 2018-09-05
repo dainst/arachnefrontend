@@ -55,8 +55,8 @@ angular.module('arachne.visualizations.directives')
                         scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
                         scope.letterIndexById = scope.createIndex(scope.letterData, 'id');
 
-                        scope.accumulateConnectionsData();
                         scope.getMinMaxDates();
+
                         scope.updateState();
                     });
 
@@ -184,25 +184,34 @@ angular.module('arachne.visualizations.directives')
                         })
                     }
 
+                    scope.accumulateConnectionsData();
+
                     scope.showPlaces();
                     scope.showConnectionsForSelectedPlace();
                 };
 
-                scope.accumulateConnectionsData = function () {
-
+                scope.accumulateConnectionsData = function() {
+                    scope.connections = [];
                     for(var i = 0; i < scope.letterData.length; i++){
+                        var currentLetter = scope.letterData[i];
+
+                        if(Date.parse(currentLetter['origin_date_from']) < scope.minDate
+                            || Date.parse(currentLetter['origin_date_to']) > scope.maxDate
+                        ){
+                            continue;
+                        }
 
                         var originPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    scope.letterData[i]['origin_id']
+                                    currentLetter['origin_id']
                                 ]
                             ];
 
                         var destinationPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    scope.letterData[i]['destination_id']
+                                    currentLetter['destination_id']
                                 ]
                             ];
 
