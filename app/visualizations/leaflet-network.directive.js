@@ -1,9 +1,5 @@
 'use strict';
 
-// In order to debug your Vega spec, run the following command in your browser's console:
-// view = angular.element(document.getElementsByName('<name attribute>')).scope().$$childHead.vegaView
-// You can then use the variable view as described in https://vega.github.io/vega/docs/api/debugging/
-
 angular.module('arachne.visualizations.directives')
     .directive('con10tLeafletNetwork', ['$http', '$q', function ($http, $q) {
         return {
