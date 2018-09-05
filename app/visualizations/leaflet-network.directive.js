@@ -25,6 +25,7 @@ angular.module('arachne.visualizations.directives')
 
                 scope.mindatePicker = document.querySelector('#min-date-picker');
                 scope.maxdatePicker = document.querySelector('#max-date-picker');
+                scope.dateDisplay = document.querySelector('#date-range-display');
 
                 scope.mindatePicker.onchange = function(){
                     scope.setMinDate(scope.mindatePicker.value);
@@ -97,13 +98,20 @@ angular.module('arachne.visualizations.directives')
                     return index;
                 };
 
+                scope.updateDateDisplay = function() {
+                    scope.dateDisplay.innerHTML =
+                        scope.minDate.toISOString().substring(0, 10)
+                        + ' to '
+                        + scope.maxDate.toISOString().substring(0, 10)
+                };
+
                 scope.setMinDate = function(value) {
                     if(value < scope.maxdatePicker.value) {
                         scope.maxdatePicker.value = value;
                         scope.mindatePicker.value = scope.minDate;
                         scope.setMaxDate(value)
                     } else {
-                        scope.minDate = value;
+                        scope.minDate = new Date(Number(value));
                         scope.updateState();
                         scope.showPlaces();
                     }
@@ -115,7 +123,7 @@ angular.module('arachne.visualizations.directives')
                         scope.maxdatePicker.value = scope.maxDate;
                         scope.setMinDate(value);
                     } else {
-                        scope.maxDate = value;
+                        scope.maxDate = new Date(Number(value));
                         scope.updateState();
                         scope.showPlaces();
                     }
@@ -128,6 +136,8 @@ angular.module('arachne.visualizations.directives')
 
                     var weights = {};
                     var display = [];
+
+                    scope.updateDateDisplay();
 
                     for(var i = 0; i < scope.letterData.length; i++){
                         var currentLetter = scope.letterData[i];
