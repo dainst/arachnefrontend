@@ -26,7 +26,16 @@ angular.module('arachne.visualizations.directives')
                 scope.mindatePicker = document.querySelector('#min-date-picker');
                 scope.maxdatePicker = document.querySelector('#max-date-picker');
 
+                scope.mindatePicker.onchange = function(){
+                    scope.setMinDate(scope.mindatePicker.value);
+                };
+
+                scope.maxdatePicker.onchange = function(){
+                    scope.setMaxDate(scope.maxdatePicker.value);
+                };
+
                 scope.connectionsLayer = new L.layerGroup().addTo(scope.map);
+                scope.placeLayer = L.layerGroup().addTo(scope.map);
                 scope.connections = [];
                 scope.selectedPlace = null;
                 scope.displayedPlaces = [];
@@ -87,6 +96,31 @@ angular.module('arachne.visualizations.directives')
 
                     return index;
                 };
+
+                scope.setMinDate = function(value) {
+                    if(value < scope.maxdatePicker.value) {
+                        scope.maxdatePicker.value = value;
+                        scope.mindatePicker.value = scope.minDate;
+                        scope.setMaxDate(value)
+                    } else {
+                        scope.minDate = value;
+                        scope.updateState();
+                        scope.showPlaces();
+                    }
+                };
+
+                scope.setMaxDate = function(value) {
+                    if(value > scope.mindatePicker.value) {
+                        scope.mindatePicker.value = value;
+                        scope.maxdatePicker.value = scope.maxDate;
+                        scope.setMinDate(value);
+                    } else {
+                        scope.maxDate = value;
+                        scope.updateState();
+                        scope.showPlaces();
+                    }
+                };
+
 
                 scope.updateState = function(){
                     scope.displayedPlaces = [];
@@ -200,6 +234,10 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.showPlaces = function() {
+
+                    scope.map.removeLayer(scope.placeLayer);
+                    scope.placeLayer = new L.layerGroup();
+
                     for(var i = 0; i < scope.displayedPlaces.length; i++){
                         var currentId = scope.displayedPlaces[i]['id'];
                         var currentWeight = scope.displayedPlaces[i]['weight'];
@@ -224,12 +262,15 @@ angular.module('arachne.visualizations.directives')
                                 id: place['id']
                             }
                         )
-                            .addTo(scope.map)
+                            .addTo(scope.placeLayer)
                             .on('click ', function (event) {
                                 scope.selectedPlace = event.sourceTarget.options.id;
                                 scope.showConnectionsForSelectedPlace();
                             });
                     }
+
+
+                    scope.placeLayer.addTo(scope.map);
                 };
 
                 scope.combineConnectionId = function(originId, destinationId) {
