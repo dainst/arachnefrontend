@@ -27,11 +27,11 @@ angular.module('arachne.visualizations.directives')
                 scope.maxdatePicker = document.querySelector('#max-date-picker');
                 scope.dateDisplay = document.querySelector('#date-range-display');
 
-                scope.mindatePicker.onchange = function(){
+                scope.mindatePicker.oninput = function(){
                     scope.setMinDate(scope.mindatePicker.value);
                 };
 
-                scope.maxdatePicker.onchange = function(){
+                scope.maxdatePicker.oninput = function(){
                     scope.setMaxDate(scope.maxdatePicker.value);
                 };
 
