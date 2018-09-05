@@ -58,7 +58,6 @@ angular.module('arachne.visualizations.directives')
                         scope.accumulateConnectionsData();
                         scope.getMinMaxDates();
                         scope.updateState();
-                        scope.showPlaces();
                     });
 
                 scope.parseTsvData = function(data){
@@ -113,7 +112,6 @@ angular.module('arachne.visualizations.directives')
                     } else {
                         scope.minDate = new Date(Number(value));
                         scope.updateState();
-                        scope.showPlaces();
                     }
                 };
 
@@ -125,14 +123,12 @@ angular.module('arachne.visualizations.directives')
                     } else {
                         scope.maxDate = new Date(Number(value));
                         scope.updateState();
-                        scope.showPlaces();
                     }
                 };
 
 
                 scope.updateState = function(){
                     scope.displayedPlaces = [];
-                    scope.selectedPlace = null;
 
                     var weights = {};
                     var display = [];
@@ -177,13 +173,19 @@ angular.module('arachne.visualizations.directives')
                         }
                     }
 
+                    if(!display.includes(scope.selectedPlace)) {
+                        scope.selectedPlace = null;
+                    }
+
                     for(var i = 0; i < display.length; i++) {
                         scope.displayedPlaces.push({
                             'id': display[i],
                             'weight': weights[display[i]]
                         })
-
                     }
+
+                    scope.showPlaces();
+                    scope.showConnectionsForSelectedPlace();
                 };
 
                 scope.accumulateConnectionsData = function () {
