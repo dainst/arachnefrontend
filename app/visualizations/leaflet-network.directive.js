@@ -9,8 +9,8 @@ angular.module('arachne.visualizations.directives')
         return {
             restrict: 'E',
             scope: {
-                connectionsDataPath: '@',
                 placesDataPath: '@',
+                letterDataPath: '@',
                 lat: '@',
                 lng: '@',
                 zoom: '@'
@@ -25,172 +25,147 @@ angular.module('arachne.visualizations.directives')
 
                 scope.connectionsLayer = new L.layerGroup().addTo(scope.map);
                 scope.connections = [];
-                scope.places = {};
                 scope.selectedPlace = null;
 
                 var dataQueries = [];
 
                 dataQueries.push($http.get(scope.placesDataPath));
-                dataQueries.push($http.get(scope.connectionsDataPath));
+                dataQueries.push($http.get(scope.letterDataPath));
 
                 $q.all(dataQueries)
                     .then(function(responses){
 
-                        scope.places = scope.parsePlacesData(responses[0].data);
-                        scope.connections = scope.parseConnectionsData(responses[1].data);
+                        scope.placeData = scope.parseTsvData(responses[0].data);
+                        scope.letterData = scope.parseTsvData(responses[1].data);
+
+                        scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
+                        scope.letterIndexById = scope.createIndex(scope.letterData, 'id');
+
+                        scope.accumulateConnectionsData();
 
                         scope.showPlaces();
-                        // scope.showAllConnections();
                     });
 
-                scope.parsePlacesData = function(data){
-                    var places = {};
+                scope.parseTsvData = function(data){
+                    var parsedRows = [];
                     var lines = data.split('\n');
 
-                    var column_headings = lines[0].split(',');
-
-                    var id_index = column_headings.indexOf('id');
-                    var latitude_index = column_headings.indexOf('lat');
-                    var longitude_index = column_headings.indexOf('lng');
-                    var label_index = column_headings.indexOf('label');
+                    var headings = lines[0].split('\t');
 
                     var line_index = 1;
-                    while (line_index < lines.length) {
-                        var values = lines[line_index].split(',');
+                    while (line_index < lines.length && lines[line_index].trim() !== '') {
+                        var parsedLine = {};
+                        var values = lines[line_index].split('\t');
 
-                        if(values.length !== column_headings.length){
-                            // console.dir(values) TODO: Parse string fields containing ","
-                            line_index += 1;
-                            continue
+                        var columnIndex = 0;
+
+                        while (columnIndex < headings.length) {
+                            parsedLine[headings[columnIndex]] = values[columnIndex];
+                            columnIndex += 1;
                         }
 
-                        var place = {
-                            'label': values[label_index],
-                            'lat': values[latitude_index],
-                            'lng': values[longitude_index]
-                        };
-
-                        if (place.lat !== 'null' && place.lat !== undefined
-                            && place.lng !== 'null' && place.lng !== undefined)
-                            places[values[id_index]] = place;
+                        parsedRows.push(parsedLine);
                         line_index += 1
                     }
 
-                    return places
+                    return parsedRows
                 };
 
-                scope.parseConnectionsData = function (data) {
+                scope.createIndex = function (data, indexKey){
+                    var index = {};
 
-                    var connections = [];
-                    var lines = data.split('\n');
-
-                    var columnHeadings = lines[0].split(',');
-                    var originIndex = columnHeadings.indexOf('"origin_id"');
-                    var receptionIndex = columnHeadings.indexOf('"reception_id"');
-                    var weightIndex = columnHeadings.indexOf('"letter_count"');
-
-                    var placesOutgoingCount = {};
-                    var placesIncomingCount = {};
-
-                    var lineIndex = 1;
-                    while(lineIndex < lines.length) {
-                        var values = lines[lineIndex].split(',');
-
-                        var origin = scope.places[values[originIndex]];
-                        var reception = scope.places[values[receptionIndex]];
-
-                        if(origin === undefined || reception === undefined){
-                            lineIndex += 1;
-                            continue;
-                        }
-
-                        var connection = {
-                            'origin': {
-                                'lat': origin['lat'],
-                                'lng': origin['lng'],
-                                'placeId': values[originIndex]
-                            },
-                            'reception': {
-                                'lat': reception['lat'],
-                                'lng': reception['lng'],
-                                'placeId': values[receptionIndex]
-                            },
-                            'weight': Number(values[weightIndex])
-                        };
-
-                        if(values[originIndex] in placesOutgoingCount){
-                            placesOutgoingCount[values[originIndex]] += connection['weight']
-                        }
-                        else {
-                            placesOutgoingCount[values[originIndex]] = connection['weight']
-                        }
-
-                        if(values[receptionIndex] in placesIncomingCount){
-                            placesIncomingCount[values[receptionIndex]] += connection['weight']
-                        }
-                        else {
-                            placesIncomingCount[values[receptionIndex]] = connection['weight']
-                        }
-
-                        connections.push(connection);
-                        lineIndex += 1
+                    var i = 0;
+                    while(i < data.length) {
+                        index[data[i][indexKey]] = i;
+                        i += 1;
                     }
 
-                    for(var key in scope.places){
-                        scope.places[key]['outgoingCount'] = (placesOutgoingCount[key] ? placesOutgoingCount[key] : 1);
-                        scope.places[key]['incomingCount'] = (placesIncomingCount[key] ? placesIncomingCount[key] : 1);
-                    }
+                    return index;
+                };
 
-                    return connections
+                scope.accumulateConnectionsData = function () {
+
+                    scope.connections = {};
+
+                    for(var i = 0; i < scope.letterData.length; i++){
+
+                        var originPlace =
+                            scope.placeData[
+                                scope.placeIndexById[
+                                    scope.letterData[i]['origin_id']
+                                ]
+                            ];
+
+                        var destinationPlace =
+                            scope.placeData[
+                                scope.placeIndexById[
+                                    scope.letterData[i]['destination_id']
+                                ]
+                            ];
+
+                        if(typeof originPlace !== 'undefined') {
+                            if ('outgoingCount' in originPlace) {
+                                originPlace['outgoingCount'] += 1;
+                            } else {
+                                originPlace['outgoingCount'] = 1;
+                            }
+                        }
+
+                        if(typeof destinationPlace !== 'undefined'){
+                            if('incomingCount' in destinationPlace) {
+                                destinationPlace['incomingCount'] += 1;
+                            } else {
+                                destinationPlace['incomingCount'] = 1;
+                            }
+                        }
+
+                        if(
+                            typeof originPlace !== 'undefined'
+                            && typeof destinationPlace !== 'undefined'
+                        ) {
+                            var connectionId = scope.combineConnectionId(originPlace['id'], destinationPlace['id']);
+                            if(connectionId in scope.connections){
+                                scope.connections[connectionId] += 1
+                            } else {
+                                scope.connections[connectionId] = 1
+                            }
+                        }
+                    }
                 };
 
                 scope.showPlaces = function() {
-                    for(var key in scope.places){
+                    for(var i = 0; i < scope.placeData.length; i++){
+                        if(
+                            scope.placeData[i]['lat'] === 'null'
+                            || scope.placeData[i]['lng'] === 'null'
+                            || !('outgoingCount' in scope.placeData[i])
+                        ) continue;
+
                         L.circle(
                             new L.LatLng(
-                                scope.places[key].lat, scope.places[key].lng
+                                scope.placeData[i]['lat'], scope.placeData[i]['lng']
                             ),
 
                             {
-                                title: scope.places[key].label,
-                                radius: (Math.log(scope.places[key].outgoingCount)  + 1)* 10000,
-                                placeId: key
+                                title: scope.placeData[i]['title'],
+                                radius: (Math.log(scope.placeData[i]['outgoingCount'])  + 1)* 10000,
+                                id: scope.placeData[i]['id']
                             }
                         )
                             .addTo(scope.map)
                             .on('click ', function (event) {
-                                scope.selectedPlace = event.sourceTarget.options.placeId;
+                                scope.selectedPlace = event.sourceTarget.options.id;
                                 scope.showConnectionsForSelectedPlace();
                             });
                     }
                 };
 
-                scope.showAllConnections = function () {
-                    scope.map.removeLayer(scope.connectionsLayer);
-                    scope.connectionsLayer = new L.layerGroup();
+                scope.combineConnectionId = function(originId, destinationId) {
+                    return originId + '-' + destinationId;
+                };
 
-                    for (var idx in scope.connections){
-                        var connection = scope.connections[idx];
-
-                        var latlngs = [
-                            new L.LatLng(connection.origin.lat, connection.origin.lng, idx),
-                            new L.LatLng(connection.reception.lat, connection.reception.lng, idx+1)
-                        ];
-
-                        var offset = Math.log(connection.weight) + 1;
-
-                        var options = {
-                            weight: offset * 2,
-                            offset: offset,
-                            delay: 800,
-                            dashArray:[25,20],
-                            color: 'black'
-                        };
-
-                        L.polyline.antPath(latlngs, options).addTo(scope.connectionsLayer);
-
-                    }
-                    scope.connectionsLayer.addTo(scope.map);
+                scope.splitConnectionId = function (id) {
+                    return id.split('-')
                 };
 
                 scope.showConnectionsForSelectedPlace = function () {
@@ -199,25 +174,81 @@ angular.module('arachne.visualizations.directives')
                     var activeIncomingConnections = [];
 
                     for (var idx in scope.connections){
-                        if(scope.connections[idx]['origin']['placeId'] === scope.selectedPlace){
-                            activeOutgoingConnections.push(scope.connections[idx])
+                        var originId, destinationId;
+
+                        var split = scope.splitConnectionId(idx);
+                        originId = split[0];
+                        destinationId = split[1];
+
+                        if (originId === scope.selectedPlace) {
+
+                            var origin = scope.placeData[scope.placeIndexById[originId]];
+                            var destination = scope.placeData[scope.placeIndexById[destinationId]];
+
+                            if(
+                                origin['lat'] !== 'null'
+                                && origin['lng'] !== 'null'
+                                && destination['lat'] !== 'null'
+                                && destination['lng'] !== 'null'
+                            ) {
+                                activeOutgoingConnections.push(
+                                    {
+                                        'weight': scope.connections[idx],
+                                        'origin': {
+                                            'lat': origin['lat'],
+                                            'lng': origin['lng'],
+                                            'name': origin['name']
+                                        },
+                                        'destination': {
+                                            'lat': destination['lat'],
+                                            'lng': destination['lng'],
+                                            'name': destination['name']
+                                        }
+                                    }
+                                );
+                            }
                         }
-                        if(scope.connections[idx]['reception']['placeId'] === scope.selectedPlace){
-                            activeIncomingConnections.push(scope.connections[idx])
+
+                        if (destinationId === scope.selectedPlace) {
+                            var origin = scope.placeData[scope.placeIndexById[originId]];
+                            var destination = scope.placeData[scope.placeIndexById[destinationId]];
+
+                            if(
+                                origin['lat'] !== 'null'
+                                && origin['lng'] !== 'null'
+                                && destination['lat'] !== 'null'
+                                && destination['lng'] !== 'null'
+                            ) {
+                                activeIncomingConnections.push(
+                                    {
+                                        'weight': scope.connections[idx],
+                                        'origin': {
+                                            'lat': origin['lat'],
+                                            'lng': origin['lng'],
+                                            'name': origin['name']
+                                        },
+                                        'destination': {
+                                            'lat': destination['lat'],
+                                            'lng': destination['lng'],
+                                            'name': destination['name']
+                                        }
+                                    }
+                                );
+                            }
                         }
                     }
-                    scope.map.removeLayer(scope.connectionsLayer)
-                    scope.connectionsLayer = new L.layerGroup()
+                    scope.map.removeLayer(scope.connectionsLayer);
+                    scope.connectionsLayer = new L.layerGroup();
 
                     for (var idx in activeOutgoingConnections) {
                         var connection = activeOutgoingConnections[idx];
 
                         var latlngs = [
-                            new L.LatLng(connection.origin.lat, connection.origin.lng),
-                            new L.LatLng(connection.reception.lat, connection.reception.lng)
+                            new L.LatLng(connection['origin']['lat'], connection['origin']['lng']),
+                            new L.LatLng(connection['destination']['lat'], connection['destination']['lng'])
                         ];
 
-                        var offset = Math.log(connection.weight) + 1;
+                        var offset = Math.log(connection['weight']) + 1;
 
                         var options = {
                             weight: offset * 2,
@@ -229,15 +260,15 @@ angular.module('arachne.visualizations.directives')
                         L.polyline.antPath(latlngs, options).addTo(scope.connectionsLayer);
                     }
 
-                    for (var index in activeIncomingConnections){
-                        var connection = activeIncomingConnections[index];
+                    for (var idx in activeIncomingConnections) {
+                        var connection = activeIncomingConnections[idx];
 
                         var latlngs = [
-                            new L.LatLng(connection.origin.lat, connection.origin.lng),
-                            new L.LatLng(connection.reception.lat, connection.reception.lng)
+                            new L.LatLng(connection['origin']['lat'], connection['origin']['lng']),
+                            new L.LatLng(connection['destination']['lat'], connection['destination']['lng'])
                         ];
 
-                        var offset = Math.log(connection.weight) + 1;
+                        var offset = Math.log(connection['weight']) + 1;
 
                         var options = {
                             weight: offset * 2,
@@ -249,6 +280,7 @@ angular.module('arachne.visualizations.directives')
 
                         L.polyline.antPath(latlngs, options).addTo(scope.connectionsLayer);
                     }
+
 
                     scope.connectionsLayer.addTo(scope.map);
                 };
