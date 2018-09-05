@@ -55,7 +55,7 @@ angular.module('arachne.visualizations.directives')
                         scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
                         scope.letterIndexById = scope.createIndex(scope.letterData, 'id');
 
-                        scope.getMinMaxDates();
+                        scope.setOverallMinMaxDates();
 
                         scope.updateState();
                     });
@@ -231,7 +231,7 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
-                scope.getMinMaxDates = function(){
+                scope.setOverallMinMaxDates = function(){
                   scope.minDate = new Date(8640000000000000);
                   scope.maxDate = new Date(-8640000000000000);
 
