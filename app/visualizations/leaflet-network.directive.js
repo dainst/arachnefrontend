@@ -126,14 +126,21 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
-
                 scope.updateState = function(){
+                    scope.updateDateDisplay();
+                    scope.updatePlaces();
+                    scope.updateConnections();
+
+                    scope.showPlaces();
+                    scope.showConnectionsForSelectedPlace();
+                };
+
+                scope.updatePlaces = function() {
                     scope.displayedPlaces = [];
 
                     var weights = {};
                     var display = [];
 
-                    scope.updateDateDisplay();
 
                     for(var i = 0; i < scope.letterData.length; i++){
                         var currentLetter = scope.letterData[i];
@@ -183,14 +190,9 @@ angular.module('arachne.visualizations.directives')
                             'weight': weights[display[i]]
                         })
                     }
-
-                    scope.accumulateConnectionsData();
-
-                    scope.showPlaces();
-                    scope.showConnectionsForSelectedPlace();
                 };
 
-                scope.accumulateConnectionsData = function() {
+                scope.updateConnections = function() {
                     scope.connections = [];
                     for(var i = 0; i < scope.letterData.length; i++){
                         var currentLetter = scope.letterData[i];
