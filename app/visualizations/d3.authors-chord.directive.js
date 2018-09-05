@@ -36,15 +36,14 @@ angular.module('arachne.visualizations.directives')
                     [      0,     0,      0,      21,      0,    12,       0,         0,       0,        0]  // Unbekannt (33)
                 ];
 
-                var div = document.querySelector('#svg-container');
-
-                var svg = d3.select("svg"),
-                    width = div.scrollWidth,
-                    height = div.scrollHeight,
-                    outerRadius = Math.min(width, height) * 0.5 - 120,
-                    innerRadius = outerRadius - 30;
+                var div = document.querySelector("#svg-container");
+                var width = div.scrollWidth;
+                var height = div.scrollHeight;
+                var outerRadius = Math.min(width, height) * 0.5 - 120;
+                var innerRadius = outerRadius - 30;
 
                 var formatValue = d3.formatPrefix(",.0", 1e2);
+                var svg = d3.select("svg");
 
                 var chord = d3.chord()
                     .padAngle(0.05)
@@ -58,73 +57,15 @@ angular.module('arachne.visualizations.directives')
                     .radius(innerRadius);
 
                 var color = d3.scaleOrdinal()
-                    .domain(d3.range(4))
+                    .domain(d3.range(10))
                     .range([
-                        "#cd3d08", "#ec8f00", "#6dae29", "#683f92", "#b60275",
-                        "#2058a5", "#00a592", "#009d3c", "#378974", "#ffca00"
+                        "#99ccff", "#6699cc", "#6699ff", "#3399cc", "#336699",
+                        "#3366cc", "#0099cc", "#006699", "#0066cc", "#003366"
                     ]);
 
                 var g = svg.append("g")
                     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
                     .datum(chord(matrix));
-
-                var group = g.append("g")
-                    .attr("class", "groups")
-                    .selectAll("g")
-                    .data(function (chords) {
-                        return chords.groups;
-                    })
-                    .enter().append("g");
-
-                group.append("path")
-                    .style("fill", function (d) {
-                        return color(d.index);
-                    })
-                    .style("stroke", function (d) {
-                        return d3.rgb(color(d.index)).darker();
-                    })
-                    .attr("d", arc);
-
-                group.append("text")
-                    .each(function(d) { d.angle = (d.startAngle + d.endAngle) / 2; })
-                    .attr("dy", ".35em")
-                    .attr("transform", function(d) {
-                        return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-                            + "translate(" + (innerRadius + 64) + ")" + (d.angle > Math.PI ? "rotate(180)" : "");
-                    })
-                    .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
-                    .text(function(d) { return names[d.index] })
-                    .style("cursor", "pointer");
-
-                var groupTick = group.selectAll(".group-tick")
-                    .data(function (d) {
-                        return groupTicks(d, 1e2);
-                    })
-                    .enter().append("g")
-                    .attr("class", "group-tick")
-                    .attr("transform", function (d) {
-                        return "rotate(" + (d.angle * 180 / Math.PI - 90) + ") translate(" + outerRadius + ",0)";
-                    });
-
-                groupTick.append("line")
-                    .attr("x2", 6);
-
-                groupTick
-                    .filter(function (d) {
-                        return d.value % 1e2 === 0;
-                    })
-                    .append("text")
-                    .attr("x", 8)
-                    .attr("dy", ".35em")
-                    .attr("transform", function (d) {
-                        return d.angle > Math.PI ? "rotate(180) translate(-16)" : null;
-                    })
-                    .style("text-anchor", function (d) {
-                        return d.angle > Math.PI ? "end" : null;
-                    })
-                    .text(function (d) {
-                        return formatValue(d.value);
-                    });
 
                 g.append("g")
                     .attr("class", "ribbons")
@@ -139,14 +80,114 @@ angular.module('arachne.visualizations.directives')
                     })
                     .style("stroke", function (d) {
                         return d3.rgb(color(d.target.index)).darker();
+                    })
+                    .on("mouseover", mouse_over_path)
+                    .on("mouseout", mouse_out);
+
+                var group = g.append("g")
+                    .attr("class", "groups")
+                    .selectAll("g")
+                    .data(function (chords) {
+                        return chords.groups;
+                    })
+                    .enter().append("g")
+                    .on("mouseover", mouse_over_group)
+                    .on("mouseout", mouse_out);
+
+                group.append("path")
+                    .style("fill", function (d) {
+                        return color(d.index);
+                    })
+                    .style("stroke", function (d) {
+                        return d3.rgb(color(d.index)).darker();
+                    })
+                    .attr("d", arc);
+
+                group.append("text")
+                    .each(function(d) { d.angle = (d.startAngle + d.endAngle) / 2; })
+                    .attr("dy", ".35em")
+                    .attr("transform", function(d) {
+                        return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")" +
+                            "translate(" + (innerRadius + 64) + ")" +
+                            (d.angle > Math.PI ? "rotate(180)" : "");
+                    })
+                    .style("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
+                    .text(function(d) { return names[d.index] });
+                    //.style("cursor", "pointer");
+
+                group.append("title")
+                    .text(function(d, i) {
+                        return names[i] + "\n" + d.value + " Letters";
+                    });
+
+                var groupTick = group.selectAll(".group-tick")
+                    .data(function (d) {
+                        return groupTicks(d, 1e2);
+                    })
+                    .enter().append("g")
+                    .attr("class", "group-tick")
+                    .attr("transform", function (d) {
+                        return "rotate(" + (d.angle * 180 / Math.PI - 90) + ") translate(" + outerRadius + ",0)";
+                    });
+
+                groupTick.append("line")
+                    .attr("x2", 6)
+                    .filter(function (d) {
+                        return d.value % 1e2 === 0;
+                    });
+
+                groupTick.append("text")
+                    .attr("x", 8)
+                    .attr("dy", ".35em")
+                    .attr("transform", function (d) {
+                        return d.angle > Math.PI ? "rotate(180) translate(-16)" : null;
+                    })
+                    .style("text-anchor", function (d) {
+                        return d.angle > Math.PI ? "end" : null;
+                    })
+                    .text(function (d) {
+                        return formatValue(d.value);
                     });
 
                 // Returns an array of tick angles and values for a given group and step.
                 function groupTicks(d, step) {
                     var k = (d.endAngle - d.startAngle) / d.value;
-                    return d3.range(0, d.value, step).map(function (value) {
-                        return {value: value, angle: value * k + d.startAngle};
+                    return d3.range(0, d.value, step)
+                        .map(function (value) {
+                            return {value: value, angle: value * k + d.startAngle};
+                        });
+                }
+
+                function mouse_over_group(d) {
+                    console.log("d-group-index: ", d.index);
+                    g.select("g.ribbons")
+                        .selectAll("path")
+                        .classed("fade", function(p) {
+                            return p.source.index !== d.index && p.target.index !== d.index;
+                        });
+                }
+
+                function mouse_over_path(d) {
+                    console.log("d-path-source: ", d.source.index, d.source.subindex);
+                    console.log("d-path-target: ", d.target.index, d.target.subindex);
+                    g.select("g.ribbons")
+                        .selectAll("path")
+                        .classed("fade", function(p) {
+                            console.log("p: ", p);
+
+                            return d.source.index === d.target.index ?
+                                (p.source.index !== d.source.index || p.target.index !== d.target.index) :
+                                (p.source.index !== d.source.index && p.target.index !== d.source.index) ||
+                                (p.source.index !== d.target.index && p.target.index !== d.target.index);
                     });
+                }
+
+                function mouse_out() {
+                    g.select("g.ribbons")
+                        .selectAll("path")
+                        .classed("fade", function() {
+                            return false;
+                        });
                 }
             }
         }
