@@ -197,7 +197,7 @@ angular.module('arachne.visualizations.directives')
                             d1 = scope.data[i],
                             d = x0 - d0.date > d1.date - x0 ? d1 : d0;
                         focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
-                        focus.select("text").text(d.count);
+                        focus.select("text").text(d.date.getFullYear() + '(' + d.count +')');
                     }
 
                     function dragStart() {
