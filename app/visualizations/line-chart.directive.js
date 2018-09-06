@@ -15,106 +15,10 @@ angular.module('arachne.visualizations.directives')
 
                 $q.all(dataQueries)
                     .then(function(responses) {
-                        scope.letterData = scope.parseTsvData(responses[0].data);
-                        scope.initialize();
-
-                        var margin = {top: 20, right: 50, bottom: 30, left: 50},
-                            width = 960 - margin.left - margin.right,
-                            height = 200 - margin.top - margin.bottom;
-
-                        var bisectDate = d3.bisector(function(d) { return d.date; }).left;
-
-                        var x = d3.scaleTime()
-                            .range([0, width]);
-
-                        var y = d3.scaleLinear()
-                            .range([height, 0]);
-
-                        var xAxis = d3.axisBottom()
-                            .scale(x);
-
-                        var yAxis = d3.axisLeft()
-                            .scale(y);
-
-                        var line = d3.line()
-                            .x(function(d) { return x(d.date); })
-                            .y(function(d) { return y(d.close); });
-
-                        var svg = d3.select("svg")
-                            .attr("width", width + margin.left + margin.right)
-                            .attr("height", height + margin.top + margin.bottom)
-                            .append("g")
-                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-                        var data = [];
-
-                        for (var key in scope.binnedData) {
-                            var current = scope.binnedData[key];
-                            var d = {};
-                            d['date'] = new Date(key);
-                            d['close'] = current;
-
-                            data.push(d)
-                        }
-
-                        data.sort(function(a, b) {
-                            return a.date - b.date;
-                        });
-
-
-                        x.domain([data[0].date, data[data.length - 1].date]);
-                        y.domain(d3.extent(data, function(d) { return d.close; }));
-
-                        svg.append("g")
-                            .attr("class", "x axis")
-                            .attr("transform", "translate(0," + height + ")")
-                            .call(xAxis);
-
-                        svg.append("g")
-                            .attr("class", "y axis")
-                            .call(yAxis)
-                            .append("text")
-                            .attr("transform", "rotate(-90)")
-                            .attr("y", 6)
-                            .attr("dy", ".71em")
-                            .style("text-anchor", "end")
-                            .text("Price ($)");
-
-                        svg.append("path")
-                            .datum(data)
-                            .attr("class", "line")
-                            .attr("d", line);
-
-                        var focus = svg.append("g")
-                            .attr("class", "focus")
-                            .style("display", "none");
-
-                        focus.append("circle")
-                            .attr("r", 4.5);
-
-                        focus.append("text")
-                            .attr("x", 9)
-                            .attr("dy", ".35em");
-
-                        svg.append("rect")
-                            .attr("class", "overlay")
-                            .attr("width", width)
-                            .attr("height", height)
-                            .on("mouseover", function() { focus.style("display", null); })
-                            .on("mouseout", function() { focus.style("display", "none"); })
-                            .on("mousemove", mousemove);
-
-                        function mousemove() {
-                            var x0 = x.invert(d3.mouse(this)[0]),
-                                i = bisectDate(data, x0, 1),
-                                d0 = data[i - 1],
-                                d1 = data[i],
-                                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-                            focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
-                            focus.select("text").text(d.close);
-                        }
-
-                        console.log('peepEnd');
+                        scope.processTsvData(
+                            scope.parseTsvData(responses[0].data)
+                        );
+                        scope.initializeD3();
                         scope.updateState();
                     });
 
@@ -143,13 +47,14 @@ angular.module('arachne.visualizations.directives')
                     return parsedRows
                 };
 
-                scope.initialize = function() {
+                scope.processTsvData = function(tsvData) {
+                    scope.data = [];
                     scope.binnedData = {};
                     scope.minYear = 2018;
                     scope.maxYear = 0;
 
-                    for(var i = 0; i < scope.letterData.length; i++){
-                        var currentLetter = scope.letterData[i];
+                    for(var i = 0; i < tsvData.length; i++){
+                        var currentLetter = tsvData[i];
 
                         var fromDate = new Date(currentLetter['origin_date_from']);
                         var toDate = new Date(currentLetter['origin_date_to']);
@@ -189,6 +94,153 @@ angular.module('arachne.visualizations.directives')
                             }
                         }
                     }
+
+                    for(var year in scope.binnedData){
+                        scope.data.push({
+                            'date': new Date(year),
+                            'close': scope.binnedData[year]
+                        });
+                    }
+
+                    scope.data.sort(function(a, b) {
+                        return a.date - b.date;
+                    });
+                };
+
+                scope.initializeD3 = function(){
+                    var margin = {top: 20, right: 50, bottom: 30, left: 50},
+                        width = 960 - margin.left - margin.right,
+                        height = 200 - margin.top - margin.bottom;
+
+                    var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+
+                    var x = d3.scaleTime()
+                        .range([0, width]);
+
+                    var y = d3.scaleLinear()
+                        .range([height, 0]);
+
+                    var xAxis = d3.axisBottom()
+                        .scale(x);
+
+                    var yAxis = d3.axisLeft()
+                        .scale(y);
+
+                    var line = d3.line()
+                        .x(function(d) { return x(d.date); })
+                        .y(function(d) { return y(d.close); });
+
+                    scope.svg = d3.select("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                    x.domain([scope.data[0].date, scope.data[scope.data.length - 1].date]);
+                    y.domain(d3.extent(scope.data, function(d) { return d.close; }));
+
+                    scope.svg.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + height + ")")
+                        .call(xAxis);
+
+                    scope.svg.append("g")
+                        .attr("class", "y axis")
+                        .call(yAxis)
+                        .append("text")
+                        .attr("transform", "rotate(-90)")
+                        .attr("y", 6)
+                        .attr("dy", ".71em")
+                        .style("text-anchor", "end")
+                        .text("Price ($)");
+
+                    scope.svg.append("path")
+                        .datum(scope.data)
+                        .attr("class", "line")
+                        .attr("d", line);
+
+                    var focus = scope.svg.append("g")
+                        .attr("class", "focus")
+                        .style("display", "none");
+
+                    focus.append("circle")
+                        .attr("r", 4.5);
+
+                    focus.append("text")
+                        .attr("x", 9)
+                        .attr("dy", ".35em");
+
+                    scope.svg.append("rect")
+                        .attr("class", "overlay")
+                        .attr("width", width)
+                        .attr("height", height)
+                        .on("mouseover", function() { focus.style("display", null); })
+                        .on("mouseout", function() { focus.style("display", "none"); })
+                        .on("mousemove", mousemove);
+
+                    var selection = scope.svg.append('rect')
+                        .attr('x', 10)
+                        .attr('y', 0)
+                        .attr('width', 50)
+                        .attr('height', height)
+                        .attr('opacity', .0);
+
+                    function mousemove() {
+                        var x0 = x.invert(d3.mouse(this)[0]),
+                            i = bisectDate(scope.data, x0, 1),
+                            d0 = scope.data[i - 1],
+                            d1 = scope.data[i],
+                            d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                        focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+                        focus.select("text").text(d.close);
+                    }
+
+                    function dragStart() {
+                        // console.log("dragStart");
+                        var p = d3.mouse(this);
+
+                        scope.startPosition = p[0];
+                        selection.attr('width', 0);
+
+                        var i = bisectDate(scope.data, x.invert(scope.startPosition), 1);
+                        var d0 = scope.data[i - 1],
+                            d1 = scope.data[i],
+                            d = scope.startPosition - d0.date > d1.date - scope.startPosition ? d1 : d0;
+
+                        selection.attr("opacity", .5);
+                        selection.attr('x', p[0]);
+
+                        console.dir(d);
+                    }
+
+                    function dragMove() {
+                        var p = d3.mouse(this);
+                        // console.log("dragEnd");
+                        if(scope.startPosition < p[0]) {
+                            selection.attr('width', p[0] - scope.startPosition)
+                        } else {
+                            selection.attr('x', p[0]);
+                            selection.attr('width', scope.startPosition - selection.attr('x'))
+                        }
+                    }
+
+                    function dragEnd() {
+
+                        var p = d3.mouse(this);
+                        var i = bisectDate(scope.data, x.invert(p[0]), 1);
+                        var d0 = scope.data[i - 1],
+                            d1 = scope.data[i],
+                            d = p[0] - d0.date > d1.date - p[0] ? d1 : d0;
+
+                        console.dir(d);
+                    }
+
+                    var dragBehavior = d3.drag()
+                        .on("drag", dragMove)
+                        .on("start", dragStart)
+                        .on("end", dragEnd);
+
+                    scope.svg.call(dragBehavior);
                 };
 
                 scope.updateState = function () {
