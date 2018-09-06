@@ -55,8 +55,8 @@ angular.module('arachne.visualizations.directives')
                 scope.processTsvData = function(tsvData) {
                     scope.data = [];
                     scope.binnedData = {};
-                    scope.minYear = 2018;
-                    scope.maxYear = 0;
+                    scope.minDate = new Date('2018-01-01');
+                    scope.maxDate = new Date('0000-01-01');
 
                     for(var i = 0; i < tsvData.length; i++){
                         var currentLetter = tsvData[i];
@@ -68,42 +68,42 @@ angular.module('arachne.visualizations.directives')
                             continue;
                         }
 
-                        if((fromDate.getFullYear() === toDate.getFullYear())) {
-                            var year = fromDate.getFullYear().toString();
+                        if(fromDate.toISOString() === toDate.toISOString()) {
+                            var binKey = fromDate.toISOString().substr(0,4);
 
-                            if(year < scope.minYear) scope.minYear = year;
-                            if(year > scope.maxYear) scope.maxYear = year;
+                            if(new Date(binKey) < scope.minDate) scope.minDate = new Date(binKey);
+                            if(new Date(binKey) > scope.maxDate) scope.maxDate = new Date(binKey);
 
-                            if(year in scope.binnedData) {
-                                scope.binnedData[year] += 1
+                            if(binKey in scope.binnedData) {
+                                scope.binnedData[binKey] += 1
                             } else {
-                                scope.binnedData[year] = 1
+                                scope.binnedData[binKey] = 1
                             }
                         } else {
-                            var fromYear = fromDate.getFullYear().toString();
-                            var toYear = toDate.getFullYear().toString();
+                            var fromBinKey = fromDate.toISOString().substr(0,4);
+                            var toBinKey = toDate.toISOString().substr(0,4);
 
-                            if(fromYear < scope.minYear) scope.minYear = fromYear;
-                            if(toYear > scope.maxYear) scope.maxYear = toYear;
+                            if(new Date(fromBinKey) < scope.minDate) scope.minDate = new Date(fromBinKey);
+                            if(new Date(toBinKey) > scope.maxDate) scope.maxDate = new Date(toBinKey);
 
-                            if(fromYear in scope.binnedData) {
-                                scope.binnedData[fromYear] += 1
+                            if(fromBinKey in scope.binnedData) {
+                                scope.binnedData[fromBinKey] += 1
                             } else {
-                                scope.binnedData[fromYear] = 1
+                                scope.binnedData[fromBinKey] = 1
                             }
 
-                            if(toYear in scope.binnedData) {
-                                scope.binnedData[toYear] += 1
+                            if(toBinKey in scope.binnedData) {
+                                scope.binnedData[toBinKey] += 1
                             } else {
-                                scope.binnedData[toYear] = 1
+                                scope.binnedData[toBinKey] = 1
                             }
                         }
                     }
 
-                    for(var year in scope.binnedData){
+                    for(var binKey in scope.binnedData){
                         scope.data.push({
-                            'date': new Date(year),
-                            'count': scope.binnedData[year]
+                            'date': new Date(binKey),
+                            'count': scope.binnedData[binKey]
                         });
                     }
 
@@ -266,9 +266,9 @@ angular.module('arachne.visualizations.directives')
                         }
 
                         scope.display.innerHTML =
-                            scope.from.toISOString().substring(0, 4)
+                            scope.from.toISOString()
                             + ' to '
-                            + scope.to.toISOString().substring(0, 4);
+                            + scope.to.toISOString();
                     }
                 }
             }
