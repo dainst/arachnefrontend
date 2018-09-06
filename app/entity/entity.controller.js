@@ -22,11 +22,6 @@ angular.module('arachne.controllers')
 
             $scope.currentQuery = searchService.currentQuery();
 
-            $scope.goToResultIndex = function (resultIndex) {
-                if (resultIndex > 0 && resultIndex <= $scope.resultSize) {
-                    $location.url(searchScope.currentScopePath() + 'entity/' + $scope.currentQuery.setParam('resultIndex',resultIndex).toString());
-                }
-            };
             //if id is not a number (=> string)
             if (isNaN($stateParams.id)) {
                 var live = $location.search()["live"] == "true";

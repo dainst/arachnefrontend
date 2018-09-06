@@ -1,7 +1,7 @@
 var EntityPage = function() {
 
-    this.load = function(entityId) {
-        var url = '/entity/' + entityId;
+    this.load = function(entityId, params='') {
+        var url = '/entity/' + entityId + '?' + params;
         return browser.get(url);
     };
 
@@ -11,6 +11,10 @@ var EntityPage = function() {
 
     this.getEntityTitle = function() {
         return element(by.css('.entity-title'));
+    };
+
+    this.getEntityType = function() {
+        return element(by.id('entity-type'));
     };
 
     this.getMainImage = function() {
@@ -31,6 +35,14 @@ var EntityPage = function() {
 
     this.getLinkedCatalogs = function() {
         return element.all(by.css('a[href*="catalog/"]'));
+    }
+
+    this.getPreviousResultLink = function() {
+        return element(by.id('entityPreviousResult'));
+    }
+
+    this.getNextResultLink = function() {
+        return element(by.id('entityNextResult'));
     }
 
 };

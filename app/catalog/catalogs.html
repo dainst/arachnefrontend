@@ -1,5 +1,11 @@
 <div class="row" ng-controller="CatalogsController">
-	<div class="col-md-6 col-md-offset-3">
+
+	<!-- Loading-Icon -->
+	<div ng-show="loading">
+		<div class="loading" style="margin-top:70px;"></div>
+	</div>
+
+	<div ng-hide="loading" class="col-md-6 col-md-offset-3">
 		<h2 class="page-header">
             {{ 'catalog_your_catalog' | transl8 }}
 
@@ -13,7 +19,7 @@
                 <a ng-href="catalog/{{catalog.id}}" class="panel-title">
                     <span class="glyphicon glyphicon-inbox"> </span> {{catalog.root.label}}
                 </a>
-                
+
                 <span ng-if="!catalog.public"  class="label label-danger pull-right">{{ 'catalog_visibility_private' | transl8 }} &nbsp; <span class="glyphicon glyphicon-lock"></span></span>
             </div>
             <div class="panel-body">
@@ -45,7 +51,7 @@
                         </a>
                     </div>
                 </div>
-                 
+
             </div>
         </div>
 
