@@ -194,6 +194,14 @@ angular.module('arachne.visualizations.directives')
                         .attr("class", "line")
                         .attr("d", line);
 
+                    var selection = scope.svg.append('rect')
+                        .attr('x', 10)
+                        .attr('y', 0)
+                        .attr('width', 50)
+                        .attr('height', height)
+                        .attr('opacity', .0)
+                        .style("fill", function(d) { return '#729AB4'; });
+
                     var focus = scope.svg.append("g")
                         .attr("class", "focus")
                         .style("display", "none");
@@ -212,13 +220,6 @@ angular.module('arachne.visualizations.directives')
                         .on("mouseover", function() { focus.style("display", null); })
                         .on("mouseout", function() { focus.style("display", "none"); })
                         .on("mousemove", mousemove);
-
-                    var selection = scope.svg.append('rect')
-                        .attr('x', 10)
-                        .attr('y', 0)
-                        .attr('width', 50)
-                        .attr('height', height)
-                        .attr('opacity', .0);
 
                     function mousemove() {
                         var x0 = x.invert(d3.mouse(this)[0]),
