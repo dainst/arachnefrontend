@@ -63,6 +63,8 @@ angular.module('arachne.visualizations.directives')
                         "#3366cc", "#0099cc", "#006699", "#0066cc", "#003366"
                     ]);
 
+                var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
                 var g = svg.append("g")
                     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
                     .datum(chord(matrix));
@@ -102,6 +104,7 @@ angular.module('arachne.visualizations.directives')
                         return d3.rgb(color(d.index)).darker();
                     })
                     .attr("d", arc);
+
 
                 group.append("text")
                     .each(function(d) { d.angle = (d.startAngle + d.endAngle) / 2; })
@@ -170,6 +173,13 @@ angular.module('arachne.visualizations.directives')
                 function mouse_over_path(d) {
                     console.log("d-path-source: ", d.source.index, d.source.subindex);
                     console.log("d-path-target: ", d.target.index, d.target.subindex);
+                    tooltip.style("left", d3.event.pageX - 50 + "px")
+                        .style("top", d3.event.pageY - 70 + "px")
+                        .style("display", "inline-block")
+                        .html(
+                            names[d.source.index]+" → "+names[d.target.index]+ ": "+d.source.value+" letters.<br\>" +
+                            names[d.target.index]+" ← "+names[d.source.index]+ ": "+d.target.value+ " letters."
+                        );
                     g.select("g.ribbons")
                         .selectAll("path")
                         .classed("fade", function(p) {
@@ -183,6 +193,7 @@ angular.module('arachne.visualizations.directives')
                 }
 
                 function mouse_out() {
+                    tooltip.style("display", "none");
                     g.select("g.ribbons")
                         .selectAll("path")
                         .classed("fade", function() {
