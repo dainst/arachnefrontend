@@ -4,7 +4,7 @@
 angular.module('arachne.visualizations.directives')
     .directive('con10tLineChart', ['$http', '$q', function ($http, $q) {
         return {
-            restrict: 'E',
+            restrict: 'A',
             scope: {
                 letterDataPath: '@'
             },
@@ -144,7 +144,7 @@ angular.module('arachne.visualizations.directives')
 
                 scope.initializeD3 = function(){
                     var margin = {top: 20, right: 50, bottom: 30, left: 50},
-                        width = 960 - margin.left - margin.right,
+                        width = element[0].scrollWidth - margin.left - margin.right,
                         height = 200 - margin.top - margin.bottom;
 
                     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
@@ -200,7 +200,7 @@ angular.module('arachne.visualizations.directives')
                         .attr('width', 50)
                         .attr('height', height)
                         .attr('opacity', .0)
-                        .style("fill", function(d) { return '#729AB4'; });
+                        .style("fill", '#729AB4');
 
                     var focus = scope.svg.append("g")
                         .attr("class", "focus")
