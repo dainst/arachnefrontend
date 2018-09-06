@@ -233,40 +233,49 @@ angular.module('arachne.visualizations.directives')
 
                     function dragStart() {
                         var mousePosition = d3.mouse(this);
+                        var xPos = mousePosition[0];
 
-                        scope.startPosition = mousePosition[0];
+                        if(xPos < 0) xPos = 0;
+                        if(xPos > width) xPos = width;
+
+                        scope.startPosition = xPos;
 
                         scope.selectionStartDate = null;
                         scope.selectionEndDate = null;
 
                         selection.attr('width', 0);
                         selection.attr("opacity", .5);
-                        selection.attr('x', mousePosition[0]);
+                        selection.attr('x', xPos);
 
-                        scope.selectionStartDate = getDateForPosition(mousePosition);
+                        scope.selectionStartDate = getDateForPosition(xPos);
                     }
 
                     function dragMove() {
                         var mousePosition = d3.mouse(this);
-                        if(scope.startPosition < mousePosition[0]) {
-                            selection.attr('width', mousePosition[0] - scope.startPosition)
+                        var xPos = mousePosition[0];
+
+                        if(xPos < 0) xPos = 0;
+                        if(xPos > width) xPos = width;
+
+                        if(scope.startPosition < xPos) {
+                            selection.attr('width', xPos - scope.startPosition)
                         } else {
-                            selection.attr('x', mousePosition[0]);
-                            selection.attr('width', scope.startPosition - selection.attr('x'))
+                            selection.attr('x', xPos);
+                            selection.attr('width', scope.startPosition - xPos)
                         }
 
-                        scope.selectionEndDate = getDateForPosition(mousePosition);
+                        scope.selectionEndDate = getDateForPosition(xPos);
                         scope.updateState()
                     }
 
                     function dragEnd() {
                     }
 
-                    function getDateForPosition(mousePosition) {
-                        var i = bisectDate(scope.data, x.invert(mousePosition[0]), 1);
+                    function getDateForPosition(xPos) {
+                        var i = bisectDate(scope.data, x.invert(xPos), 1);
                         var d0 = scope.data[i - 1],
                             d1 = scope.data[i],
-                            date = mousePosition[0] - d0.date > d1.date - mousePosition[0] ? d1 : d0;
+                            date = xPos - d0.date > d1.date - xPos ? d1 : d0;
 
                         return date;
                     }
