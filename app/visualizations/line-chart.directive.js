@@ -13,6 +13,11 @@ angular.module('arachne.visualizations.directives')
 
                 dataQueries.push($http.get(scope.letterDataPath));
 
+                scope.display = document.querySelector('#date-range-display-linechart');
+
+                scope.selectionStartDate = null;
+                scope.selectionEndDate = null;
+
                 $q.all(dataQueries)
                     .then(function(responses) {
                         scope.processTsvData(
@@ -98,7 +103,7 @@ angular.module('arachne.visualizations.directives')
                     for(var year in scope.binnedData){
                         scope.data.push({
                             'date': new Date(year),
-                            'close': scope.binnedData[year]
+                            'count': scope.binnedData[year]
                         });
                     }
 
@@ -128,7 +133,7 @@ angular.module('arachne.visualizations.directives')
 
                     var line = d3.line()
                         .x(function(d) { return x(d.date); })
-                        .y(function(d) { return y(d.close); });
+                        .y(function(d) { return y(d.count); });
 
                     scope.svg = d3.select("svg")
                         .attr("width", width + margin.left + margin.right)
@@ -137,7 +142,7 @@ angular.module('arachne.visualizations.directives')
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                     x.domain([scope.data[0].date, scope.data[scope.data.length - 1].date]);
-                    y.domain(d3.extent(scope.data, function(d) { return d.close; }));
+                    y.domain(d3.extent(scope.data, function(d) { return d.count; }));
 
                     scope.svg.append("g")
                         .attr("class", "x axis")
@@ -191,48 +196,48 @@ angular.module('arachne.visualizations.directives')
                             d0 = scope.data[i - 1],
                             d1 = scope.data[i],
                             d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-                        focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
-                        focus.select("text").text(d.close);
+                        focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
+                        focus.select("text").text(d.count);
                     }
 
                     function dragStart() {
-                        // console.log("dragStart");
-                        var p = d3.mouse(this);
+                        var mousePosition = d3.mouse(this);
 
-                        scope.startPosition = p[0];
+                        scope.startPosition = mousePosition[0];
+
+                        scope.selectionStartDate = null;
+                        scope.selectionEndDate = null;
+
                         selection.attr('width', 0);
-
-                        var i = bisectDate(scope.data, x.invert(scope.startPosition), 1);
-                        var d0 = scope.data[i - 1],
-                            d1 = scope.data[i],
-                            d = scope.startPosition - d0.date > d1.date - scope.startPosition ? d1 : d0;
-
                         selection.attr("opacity", .5);
-                        selection.attr('x', p[0]);
+                        selection.attr('x', mousePosition[0]);
 
-                        console.dir(d);
+                        scope.selectionStartDate = getDateForPosition(mousePosition);
                     }
 
                     function dragMove() {
-                        var p = d3.mouse(this);
-                        // console.log("dragEnd");
-                        if(scope.startPosition < p[0]) {
-                            selection.attr('width', p[0] - scope.startPosition)
+                        var mousePosition = d3.mouse(this);
+                        if(scope.startPosition < mousePosition[0]) {
+                            selection.attr('width', mousePosition[0] - scope.startPosition)
                         } else {
-                            selection.attr('x', p[0]);
+                            selection.attr('x', mousePosition[0]);
                             selection.attr('width', scope.startPosition - selection.attr('x'))
                         }
+
+                        scope.selectionEndDate = getDateForPosition(mousePosition);
+                        scope.updateState()
                     }
 
                     function dragEnd() {
+                    }
 
-                        var p = d3.mouse(this);
-                        var i = bisectDate(scope.data, x.invert(p[0]), 1);
+                    function getDateForPosition(mousePosition) {
+                        var i = bisectDate(scope.data, x.invert(mousePosition[0]), 1);
                         var d0 = scope.data[i - 1],
                             d1 = scope.data[i],
-                            d = p[0] - d0.date > d1.date - p[0] ? d1 : d0;
+                            date = mousePosition[0] - d0.date > d1.date - mousePosition[0] ? d1 : d0;
 
-                        console.dir(d);
+                        return date;
                     }
 
                     var dragBehavior = d3.drag()
@@ -245,6 +250,26 @@ angular.module('arachne.visualizations.directives')
 
                 scope.updateState = function () {
 
+                    if(scope.selectionStartDate != null && scope.selectionEndDate != null){
+                        scope.from = null;
+                        scope.to = null;
+
+                        if(scope.selectionStartDate['date'] < scope.selectionEndDate['date']){
+                            scope.from = scope.selectionStartDate['date'];
+                            scope.to = scope.selectionEndDate['date'];
+
+                        } else if(scope.selectionStartDate['date'] > scope.selectionEndDate['date']){
+                            scope.from = scope.selectionEndDate['date'];
+                            scope.to = scope.selectionStartDate['date'];
+                        } else {
+                            scope.from = scope.to = scope.selectionEndDate['date'];
+                        }
+
+                        scope.display.innerHTML =
+                            scope.from.toISOString().substring(0, 4)
+                            + ' to '
+                            + scope.to.toISOString().substring(0, 4);
+                    }
                 }
             }
         }
