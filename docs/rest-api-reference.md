@@ -1,17 +1,36 @@
 # Table of Contents
-1. [Data retrieval](#data-retrieval)
-2. [Search](#search)
-3. [User](#user)
-4. [Image retrieval](#image-retrieval)
-5. [Catalog](#catalog)
-6. [Book Browser related](#book-browser-related)
-7. [Administration](#administration)
-8. [Access](#access)
+1. [Headers](#headers)
+    1. [Authentication](#authentication)
+    1. [Content-Type](#content-type)
+1. [Endpoints](#endpoints)
+    1. [Data retrieval](#data-retrieval)
+    1. [Search](#search)
+    1. [User](#user)
+    1. [Image retrieval](#image-retrieval)
+    1. [Catalog](#catalog)
+    1. [Book Browser related](#book-browser-related)
+    1. [Administration](#administration)
 
 
-# Features and URLs
-Only the unique parts of the URLs specific to a feature will be used to identify the functionality. The complete URLs are of the form **http://$some_server.$some_domain/$servlet_name/$feature_specific_part**.
+# Headers
+
+## Authentication
+
+To use the backend with a authorized user / pw, you need to create a md5 hash of your password, e.g. http://www.miraclesalad.com/webtools/md5.php.
+
+Use HTTP Basic Authentication with your Arachne username and the md5-hashed password.
+
+## Content-Type
+
+When sending data to the API make sure to send the correct Content-Type header, e.g.:
+* `Content-Type:application/json`
+
+
+# Endpoints
+Endpoint-URLs are given relative to the base URL. For the production version of Arachne use `https://arachne.dainst.org/data`.
+
 All requests will return JSON. All POST/PUT requests expect JSON.
+
 All requests support HTTP basic auth, for some it is mandatory (mostly admin tasks).
 
 
@@ -760,10 +779,3 @@ Gets information about the backend, like the build number of the running instanc
 
 The build number taken is the one configured in `applicationProperties` as property `buildNumber`. If this property is not defined,
 the JSON from `/info` will not contain the `buildNumber` field.
-
-
-## Access
-To use the backend with a authorized user / pw, you need to create a md5 hash of your password, e.g. http://www.miraclesalad.com/webtools/md5.php
-Then for basic auth, enter your username as usual, but take the md5 hashed password as password. As header add "Content-Type": "application/json"
-
-![visual](/docs/screenshots/arachneentitydata.png)
