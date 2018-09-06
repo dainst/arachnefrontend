@@ -110,6 +110,36 @@ angular.module('arachne.visualizations.directives')
                     scope.data.sort(function(a, b) {
                         return a.date - b.date;
                     });
+
+                    var getYearsInbetween = function (startYear, endYear) {
+                        var result = [];
+                        var currentYear = startYear + 1;
+
+                        while(currentYear < endYear){
+                            result.push(
+                                {
+                                    'date': new Date(currentYear, 1, 1),
+                                    'count': 0
+                                });
+                            currentYear += 1;
+                        }
+
+                        return result;
+                    };
+
+                    for(var i = 0; i < scope.data.length - 1; i++) {
+
+                        if(scope.data[i]['date'].getFullYear() + 1 !== scope.data[i + 1]['date'].getFullYear()){
+                            var inbetween = getYearsInbetween(
+                                scope.data[i]['date'].getFullYear(),
+                                scope.data[i + 1]['date'].getFullYear()
+                            );
+
+                            for(var j = 0; j < inbetween.length; j++){
+                                scope.data.splice(i + 1 + j, 0, inbetween[j])
+                            }
+                        }
+                    }
                 };
 
                 scope.initializeD3 = function(){
