@@ -325,8 +325,8 @@ angular.module('arachne.widgets.map')
                 for (var i = 0; i < places.length-1; i++) {
 
                     var latlngs = [
-                        [places[i+1].location.lat, places[i+1].location.lon, i+1],
-                        [places[i].location.lat, places[i].location.lon, i]
+                        [places[i].location.lat, places[i].location.lon, i],
+                        [places[i+1].location.lat, places[i+1].location.lon, i+1]
                     ];
 
                     var options = {
