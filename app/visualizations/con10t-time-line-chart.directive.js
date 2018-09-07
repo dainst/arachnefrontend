@@ -2,7 +2,7 @@
 
 
 angular.module('arachne.visualizations.directives')
-    .directive('con10tTimeLineChart', ['$http', '$q', function ($http, $q) {
+    .directive('con10tTimeLineChart', ['$http', '$q', '$filter', function ($http, $q, $filter) {
         return {
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-time-line-chart.html',
@@ -12,6 +12,11 @@ angular.module('arachne.visualizations.directives')
                 maxDate: '='
             },
             link: function (scope, element, attrs) {
+
+                scope.objectDataColumns = [
+                    'id', 'timespanFrom', 'timespanTo'
+                ];
+
                 var dataQueries = [];
 
                 dataQueries.push($http.get(scope.objectDataPath));
@@ -21,38 +26,13 @@ angular.module('arachne.visualizations.directives')
 
                 $q.all(dataQueries)
                     .then(function(responses) {
-                        scope.processTsvData(
-                            scope.parseTsvData(responses[0].data)
+                        scope.objectData = scope.processTsvData(
+                            $filter('tsvData')(responses[0].data, scope.objectDataColumns)
                         );
 
                         scope.initializeD3();
                         scope.updateState();
                     });
-
-                scope.parseTsvData = function(data){
-                    var parsedRows = [];
-                    var lines = data.split('\n');
-
-                    var headings = lines[0].split('\t');
-
-                    var line_index = 1;
-                    while (line_index < lines.length && lines[line_index].trim() !== '') {
-                        var parsedLine = {};
-                        var values = lines[line_index].split('\t');
-
-                        var columnIndex = 0;
-
-                        while (columnIndex < headings.length) {
-                            parsedLine[headings[columnIndex]] = values[columnIndex];
-                            columnIndex += 1;
-                        }
-
-                        parsedRows.push(parsedLine);
-                        line_index += 1
-                    }
-
-                    return parsedRows
-                };
 
                 scope.processTsvData = function(tsvData) {
                     scope.data = [];
@@ -63,8 +43,8 @@ angular.module('arachne.visualizations.directives')
                     for(var i = 0; i < tsvData.length; i++){
                         var currentObject = tsvData[i];
 
-                        var fromDate = new Date(currentObject['origin_date_from']);
-                        var toDate = new Date(currentObject['origin_date_to']);
+                        var fromDate = new Date(currentObject['timespanFrom']);
+                        var toDate = new Date(currentObject['timespanTo']);
 
                         if(fromDate.toString() === 'Invalid Date' || toDate.toString() === 'Invalid Date'){
                             continue;

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('arachne.visualizations.directives')
-    .directive('con10tNetworkMap', ['$http', '$q', function ($http, $q) {
+    .directive('con10tNetworkMap', ['$http', '$q', '$filter', function ($http, $q, $filter) {
         return {
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-network-map.html',
@@ -16,6 +16,14 @@ angular.module('arachne.visualizations.directives')
                 maxDate: '='
             },
             link: function (scope, element, attrs) {
+                scope.placesDataColumns = [
+                    'id', 'lat', 'lng', 'name'
+                ];
+
+                scope.objectDataColumns = [
+                    'id', 'timespanFrom', 'timespanTo', 'originPlaceId', 'destinationPlaceId'
+                ];
+
                 var mapElement = element[0].querySelector('.map-container');
                 scope.map = L.map( mapElement).setView([scope.lat, scope.lng], scope.zoom);
 
@@ -48,9 +56,8 @@ angular.module('arachne.visualizations.directives')
 
                 $q.all(dataQueries)
                     .then(function(responses){
-
-                        scope.placeData = scope.parseTsvData(responses[0].data);
-                        scope.objectData = scope.parseTsvData(responses[1].data);
+                        scope.placeData =  $filter('tsvData')(responses[0].data, scope.placesDataColumns);
+                        scope.objectData = $filter('tsvData')(responses[1].data, scope.objectDataColumns);
 
                         scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
                         scope.objectIndexById = scope.createIndex(scope.objectData, 'id');
@@ -149,22 +156,22 @@ angular.module('arachne.visualizations.directives')
 
                     for(var i = 0; i < scope.objectData.length; i++){
                         var currentObject = scope.objectData[i];
-                        if(Date.parse(currentObject['origin_date_from']) < scope.minDate
-                            || Date.parse(currentObject['origin_date_to']) > scope.maxDate) {
+                        if(Date.parse(currentObject['timespanFrom']) < scope.minDate
+                            || Date.parse(currentObject['timespanTo']) > scope.maxDate) {
                             continue;
                         }
 
                         var originPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    scope.objectData[i]['origin_id']
+                                    scope.objectData[i]['originPlaceId']
                                     ]
                                 ];
 
                         var destinationPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    scope.objectData[i]['destination_id']
+                                    scope.objectData[i]['destinationPlaceId']
                                     ]
                                 ];
 
@@ -198,8 +205,8 @@ angular.module('arachne.visualizations.directives')
                     for(var i = 0; i < scope.objectData.length; i++){
                         var currentObject = scope.objectData[i];
 
-                        if(Date.parse(currentObject['origin_date_from']) < scope.minDate
-                            || Date.parse(currentObject['origin_date_to']) > scope.maxDate
+                        if(Date.parse(currentObject['timespanFrom']) < scope.minDate
+                            || Date.parse(currentObject['timespanTo']) > scope.maxDate
                         ){
                             continue;
                         }
@@ -207,14 +214,14 @@ angular.module('arachne.visualizations.directives')
                         var originPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    currentObject['origin_id']
+                                    currentObject['originPlaceId']
                                 ]
                             ];
 
                         var destinationPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    currentObject['destination_id']
+                                    currentObject['destinationPlaceId']
                                 ]
                             ];
 
@@ -239,12 +246,12 @@ angular.module('arachne.visualizations.directives')
                   for(var i = 0; i < scope.objectData.length; i++){
                       var current = scope.objectData[i];
 
-                      if(new Date(current['origin_date_from']) < scope.minDate){
-                          scope.minDate = new Date(current['origin_date_from'])
+                      if(new Date(current['timespanFrom']) < scope.minDate){
+                          scope.minDate = new Date(current['timespanFrom'])
                       }
 
-                      if(new Date(current['origin_date_to']) > scope.maxDate) {
-                          scope.maxDate = new Date(current['origin_date_to'])
+                      if(new Date(current['timespanTo']) > scope.maxDate) {
+                          scope.maxDate = new Date(current['timespanTo'])
                       }
                   }
 
@@ -292,7 +299,6 @@ angular.module('arachne.visualizations.directives')
                                 scope.showConnectionsForSelectedPlace();
                             });
                     }
-
 
                     scope.placeLayer.addTo(scope.map);
                 };
