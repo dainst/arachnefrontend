@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('arachne.visualizations.directives')
-    .directive('con10tLeafletNetwork', ['$http', '$q', function ($http, $q) {
+    .directive('con10tNetworkMap', ['$http', '$q', function ($http, $q) {
         return {
             restrict: 'E',
+            templateUrl: 'app/visualizations/con10t-network-map.html',
             scope: {
                 placesDataPath: '@',
                 letterDataPath: '@',

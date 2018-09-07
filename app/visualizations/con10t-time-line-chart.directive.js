@@ -2,18 +2,19 @@
 
 
 angular.module('arachne.visualizations.directives')
-    .directive('con10tLineChart', ['$http', '$q', function ($http, $q) {
+    .directive('con10tTimeLineChart', ['$http', '$q', function ($http, $q) {
         return {
-            restrict: 'A',
+            restrict: 'E',
+            templateUrl: 'app/visualizations/con10t-time-line-chart.html',
             scope: {
-                letterDataPath: '@'
+                letterDataPath: '@',
+                from: '=',
+                to: '='
             },
             link: function (scope, element, attrs) {
                 var dataQueries = [];
 
                 dataQueries.push($http.get(scope.letterDataPath));
-
-                scope.display = document.querySelector('#date-range-display-linechart');
 
                 scope.selectionStartDate = null;
                 scope.selectionEndDate = null;
@@ -144,7 +145,7 @@ angular.module('arachne.visualizations.directives')
 
                 scope.initializeD3 = function(){
                     var margin = {top: 20, right: 50, bottom: 30, left: 50},
-                        width = element[0].scrollWidth - margin.left - margin.right,
+                        width = 480 - margin.left - margin.right,
                         height = 200 - margin.top - margin.bottom;
 
                     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
@@ -272,6 +273,7 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     function getDateForPosition(xPos) {
+                        // TODO: second (invisible?) x axis that contains has a day stepsize instead of years
                         var i = bisectDate(scope.data, x.invert(xPos), 1);
                         var d0 = scope.data[i - 1],
                             d1 = scope.data[i],
@@ -304,11 +306,10 @@ angular.module('arachne.visualizations.directives')
                         } else {
                             scope.from = scope.to = scope.selectionEndDate['date'];
                         }
+                    }
 
-                        scope.display.innerHTML =
-                            scope.from.toISOString()
-                            + ' to '
-                            + scope.to.toISOString();
+                    if(!scope.$$phase) {
+                        scope.$apply();
                     }
                 }
             }

@@ -1,0 +1,17 @@
+<div class="container">
+  <pre>
+  {{fromDate.toISOString()}}, {{toDate.toISOString()}}
+  </pre>
+
+  <con10t-time-line-chart
+      letter-data-path="{{letterDataPath}}"
+      from="fromDate"
+      to="toDate" >
+  </con10t-time-line-chart>
+
+  <con10t-network-map
+      letter-data-path="{{letterDataPath}}"
+      places-data-path="{{placesDataPath}}"
+      zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}">
+  </con10t-network-map>
+</div>
