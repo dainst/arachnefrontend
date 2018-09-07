@@ -8,6 +8,7 @@ angular.module('arachne.visualizations.directives')
             scope: {
                 placesDataPath: '@',
                 letterDataPath: '@',
+                showControls: '@',
                 lat: '@',
                 lng: '@',
                 zoom: '@',
@@ -17,6 +18,7 @@ angular.module('arachne.visualizations.directives')
             link: function (scope, element, attrs) {
                 var mapElement = element[0].querySelector('.map-container');
                 scope.map = L.map( mapElement).setView([scope.lat, scope.lng], scope.zoom);
+                console.dir(scope.hideControls);
 
                 L.tileLayer(
                     'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b47a3cf895b94aedad41e5cfb5222b87', { })
@@ -104,13 +106,6 @@ angular.module('arachne.visualizations.directives')
                     return index;
                 };
 
-                scope.updateDateDisplay = function() {
-                    scope.dateDisplay.innerHTML =
-                        scope.minDate.toISOString().substring(0, 10)
-                        + ' to '
-                        + scope.maxDate.toISOString().substring(0, 10)
-                };
-
                 scope.setMinDate = function(value) {
                     if(value < scope.maxdatePicker.value) {
                         scope.maxdatePicker.value = value;
@@ -134,7 +129,7 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.updateState = function(){
-                    scope.updateDateDisplay();
+
                     scope.updatePlaces();
                     scope.updateConnections();
 
