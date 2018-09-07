@@ -325,17 +325,38 @@ angular.module('arachne.widgets.map')
                 for (var i = 0; i < places.length-1; i++) {
 
                     var latlngs = [
-                        [places[i+1].location.lat, places[i+1].location.lon, i+1],
-                        [places[i].location.lat, places[i].location.lon, i]
+                        [places[i].location.lat, places[i].location.lon, i],
+                        [places[i+1].location.lat, places[i+1].location.lon, i+1]
                     ];
 
                     var options = {
-                        weight: 1,
-                        delay: 600
+                          weight: 4,
+                          delay: 600,
+                          opacity: 0.5
                     };
 
-                    L.polyline.antPath(latlngs, options).addTo(translocationLayerGroup);
+                    var polyline = L.polyline(latlngs, options).addTo(translocationLayerGroup);
+                    L.polylineDecorator(polyline, {
 
+                      patterns: [
+                                  {offset: 20, repeat: 20, symbol: L.Symbol.arrowHead({
+                                    pixelSize: 4, polygon: false, pathOptions: {
+                                        stroke: true,
+                                        weight: 1,
+                                        color: 'white'
+                                  }})}
+                              ]
+                          /*patterns: [
+                          // defines a pattern of 10px-wide dashes, repeated every 20px on the line
+                              {offset: '100%', repeat: 20, symbol: L.Symbol.arrowHead({pixelSize: 5, pathOptions: {
+                                  stroke: true,
+                                  weight: 0,
+                                  fillOpacity: 1,
+                                  color: 'white'
+                                  }
+                              })}
+                          ]*/
+                      }).addTo(translocationLayerGroup);
                 }
 
             }
