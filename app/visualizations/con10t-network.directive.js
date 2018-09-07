@@ -13,8 +13,8 @@ angular.module('arachne.visualizations.directives')
                 zoom: '@'
             },
             link: function (scope, element, attrs) {
-                scope.minDate = new Date();
-                scope.maxDate = new Date();
+                scope.minDate = new Date(-8640000000000000);
+                scope.maxDate = new Date(8640000000000000);
             }
         }
     }]);

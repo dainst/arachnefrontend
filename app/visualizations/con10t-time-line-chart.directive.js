@@ -18,11 +18,10 @@ angular.module('arachne.visualizations.directives')
                 ];
 
                 var dataQueries = [];
-
                 dataQueries.push($http.get(scope.objectDataPath));
 
-                scope.selectionStartDate = null;
-                scope.selectionEndDate = null;
+                scope.dragStartDate = null;
+                scope.dragEndDate = null;
 
                 $q.all(dataQueries)
                     .then(function(responses) {
@@ -31,7 +30,7 @@ angular.module('arachne.visualizations.directives')
                         );
 
                         scope.initializeD3();
-                        scope.updateState();
+                        scope.evaluateState();
                     });
 
                 scope.processTsvData = function(tsvData) {
@@ -226,16 +225,16 @@ angular.module('arachne.visualizations.directives')
                         if(xPos < 0) xPos = 0;
                         if(xPos > width) xPos = width;
 
-                        scope.startPosition = xPos;
+                        scope.dragStartPosition = xPos;
 
-                        scope.selectionStartDate = null;
-                        scope.selectionEndDate = null;
+                        scope.dragStartDate = null;
+                        scope.dragEndDate = null;
 
                         selection.attr('width', 0);
                         selection.attr("opacity", .5);
                         selection.attr('x', xPos);
 
-                        scope.selectionStartDate = getDateForPosition(xPos);
+                        scope.dragStartDate = getDateForPosition(xPos);
                     }
 
                     function dragMove() {
@@ -245,23 +244,26 @@ angular.module('arachne.visualizations.directives')
                         if(xPos < 0) xPos = 0;
                         if(xPos > width) xPos = width;
 
-                        if(scope.startPosition < xPos) {
-                            selection.attr('width', xPos - scope.startPosition)
+                        if(scope.dragStartPosition < xPos) {
+                            selection.attr('width', xPos - scope.dragStartPosition)
                         } else {
                             selection.attr('x', xPos);
-                            selection.attr('width', scope.startPosition - xPos)
+                            selection.attr('width', scope.dragStartPosition - xPos)
                         }
 
-                        scope.selectionEndDate = getDateForPosition(xPos);
-                        scope.updateState()
+                        scope.dragEndDate = getDateForPosition(xPos);
+                        scope.evaluateState()
                     }
 
                     function dragEnd() {
                     }
 
                     function getDateForPosition(xPos) {
-                        // TODO: second (invisible?) x axis that contains has a day stepsize instead of years
+                        // TODO: second (invisible?) x axis that contains has a day step size instead of years
+
+                        // Get the x-axis data index where the current xPos value would be inserted...
                         var i = bisectDate(scope.data, x.invert(xPos), 1);
+                        // ... then check which of the neighbouring values is closer and return the closer one's date.
                         var d0 = scope.data[i - 1],
                             d1 = scope.data[i],
                             date = xPos - d0.date > d1.date - xPos ? d1 : d0;
@@ -277,21 +279,21 @@ angular.module('arachne.visualizations.directives')
                     scope.svg.call(dragBehavior);
                 };
 
-                scope.updateState = function () {
+                scope.evaluateState = function () {
 
-                    if(scope.selectionStartDate != null && scope.selectionEndDate != null){
+                    if(scope.dragStartDate != null && scope.dragEndDate != null){
                         scope.minDate = null;
                         scope.maxDate = null;
 
-                        if(scope.selectionStartDate['date'] < scope.selectionEndDate['date']){
-                            scope.minDate = scope.selectionStartDate['date'];
-                            scope.maxDate = scope.selectionEndDate['date'];
+                        if(scope.dragStartDate['date'] < scope.dragEndDate['date']){
+                            scope.minDate = scope.dragStartDate['date'];
+                            scope.maxDate = scope.dragEndDate['date'];
 
-                        } else if(scope.selectionStartDate['date'] > scope.selectionEndDate['date']){
-                            scope.minDate = scope.selectionEndDate['date'];
-                            scope.maxDate = scope.selectionStartDate['date'];
+                        } else if(scope.dragStartDate['date'] > scope.dragEndDate['date']){
+                            scope.minDate = scope.dragEndDate['date'];
+                            scope.maxDate = scope.dragStartDate['date'];
                         } else {
-                            scope.minDate = scope.maxDate = scope.selectionEndDate['date'];
+                            scope.minDate = scope.maxDate = scope.dragEndDate['date'];
                         }
                     }
 
