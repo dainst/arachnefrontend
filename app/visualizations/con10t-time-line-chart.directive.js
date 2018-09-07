@@ -308,7 +308,7 @@ angular.module('arachne.visualizations.directives')
                         }
                     }
 
-                    if(!scope.$$phase) {
+                    if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
                     }
                 }
