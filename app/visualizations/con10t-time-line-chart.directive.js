@@ -7,14 +7,14 @@ angular.module('arachne.visualizations.directives')
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-time-line-chart.html',
             scope: {
-                letterDataPath: '@',
+                objectDataPath: '@',
                 minDate: '=',
                 maxDate: '='
             },
             link: function (scope, element, attrs) {
                 var dataQueries = [];
 
-                dataQueries.push($http.get(scope.letterDataPath));
+                dataQueries.push($http.get(scope.objectDataPath));
 
                 scope.selectionStartDate = null;
                 scope.selectionEndDate = null;
@@ -24,6 +24,7 @@ angular.module('arachne.visualizations.directives')
                         scope.processTsvData(
                             scope.parseTsvData(responses[0].data)
                         );
+
                         scope.initializeD3();
                         scope.updateState();
                     });
@@ -60,10 +61,10 @@ angular.module('arachne.visualizations.directives')
                     scope.overallMaxDate = new Date('0000-01-01');
 
                     for(var i = 0; i < tsvData.length; i++){
-                        var currentLetter = tsvData[i];
+                        var currentObject = tsvData[i];
 
-                        var fromDate = new Date(currentLetter['origin_date_from']);
-                        var toDate = new Date(currentLetter['origin_date_to']);
+                        var fromDate = new Date(currentObject['origin_date_from']);
+                        var toDate = new Date(currentObject['origin_date_to']);
 
                         if(fromDate.toString() === 'Invalid Date' || toDate.toString() === 'Invalid Date'){
                             continue;

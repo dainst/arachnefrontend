@@ -7,7 +7,7 @@ angular.module('arachne.visualizations.directives')
             templateUrl: 'app/visualizations/con10t-network.html',
             scope: {
                 placesDataPath: '@',
-                letterDataPath: '@',
+                objectDataPath: '@',
                 lat: '@',
                 lng: '@',
                 zoom: '@'

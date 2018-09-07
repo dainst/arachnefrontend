@@ -7,7 +7,7 @@ angular.module('arachne.visualizations.directives')
             templateUrl: 'app/visualizations/con10t-network-map.html',
             scope: {
                 placesDataPath: '@',
-                letterDataPath: '@',
+                objectDataPath: '@',
                 showControls: '@',
                 lat: '@',
                 lng: '@',
@@ -44,16 +44,16 @@ angular.module('arachne.visualizations.directives')
                 var dataQueries = [];
 
                 dataQueries.push($http.get(scope.placesDataPath));
-                dataQueries.push($http.get(scope.letterDataPath));
+                dataQueries.push($http.get(scope.objectDataPath));
 
                 $q.all(dataQueries)
                     .then(function(responses){
 
                         scope.placeData = scope.parseTsvData(responses[0].data);
-                        scope.letterData = scope.parseTsvData(responses[1].data);
+                        scope.objectData = scope.parseTsvData(responses[1].data);
 
                         scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
-                        scope.letterIndexById = scope.createIndex(scope.letterData, 'id');
+                        scope.objectIndexById = scope.createIndex(scope.objectData, 'id');
 
                         scope.setOverallMinMaxDates();
 
@@ -147,24 +147,24 @@ angular.module('arachne.visualizations.directives')
                     var display = [];
 
 
-                    for(var i = 0; i < scope.letterData.length; i++){
-                        var currentLetter = scope.letterData[i];
-                        if(Date.parse(currentLetter['origin_date_from']) < scope.minDate
-                            || Date.parse(currentLetter['origin_date_to']) > scope.maxDate) {
+                    for(var i = 0; i < scope.objectData.length; i++){
+                        var currentObject = scope.objectData[i];
+                        if(Date.parse(currentObject['origin_date_from']) < scope.minDate
+                            || Date.parse(currentObject['origin_date_to']) > scope.maxDate) {
                             continue;
                         }
 
                         var originPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    scope.letterData[i]['origin_id']
+                                    scope.objectData[i]['origin_id']
                                     ]
                                 ];
 
                         var destinationPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    scope.letterData[i]['destination_id']
+                                    scope.objectData[i]['destination_id']
                                     ]
                                 ];
 
@@ -195,11 +195,11 @@ angular.module('arachne.visualizations.directives')
 
                 scope.updateConnections = function() {
                     scope.connections = [];
-                    for(var i = 0; i < scope.letterData.length; i++){
-                        var currentLetter = scope.letterData[i];
+                    for(var i = 0; i < scope.objectData.length; i++){
+                        var currentObject = scope.objectData[i];
 
-                        if(Date.parse(currentLetter['origin_date_from']) < scope.minDate
-                            || Date.parse(currentLetter['origin_date_to']) > scope.maxDate
+                        if(Date.parse(currentObject['origin_date_from']) < scope.minDate
+                            || Date.parse(currentObject['origin_date_to']) > scope.maxDate
                         ){
                             continue;
                         }
@@ -207,14 +207,14 @@ angular.module('arachne.visualizations.directives')
                         var originPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    currentLetter['origin_id']
+                                    currentObject['origin_id']
                                 ]
                             ];
 
                         var destinationPlace =
                             scope.placeData[
                                 scope.placeIndexById[
-                                    currentLetter['destination_id']
+                                    currentObject['destination_id']
                                 ]
                             ];
 
@@ -236,8 +236,8 @@ angular.module('arachne.visualizations.directives')
                   scope.minDate = new Date(8640000000000000);
                   scope.maxDate = new Date(-8640000000000000);
 
-                  for(var i = 0; i < scope.letterData.length; i++){
-                      var current = scope.letterData[i];
+                  for(var i = 0; i < scope.objectData.length; i++){
+                      var current = scope.objectData[i];
 
                       if(new Date(current['origin_date_from']) < scope.minDate){
                           scope.minDate = new Date(current['origin_date_from'])
