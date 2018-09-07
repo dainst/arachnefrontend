@@ -8,8 +8,8 @@ angular.module('arachne.visualizations.directives')
             templateUrl: 'app/visualizations/con10t-time-line-chart.html',
             scope: {
                 letterDataPath: '@',
-                from: '=',
-                to: '='
+                minDate: '=',
+                maxDate: '='
             },
             link: function (scope, element, attrs) {
                 var dataQueries = [];
@@ -56,8 +56,8 @@ angular.module('arachne.visualizations.directives')
                 scope.processTsvData = function(tsvData) {
                     scope.data = [];
                     scope.binnedData = {};
-                    scope.minDate = new Date('2018-01-01');
-                    scope.maxDate = new Date('0000-01-01');
+                    scope.overallMinDate = new Date('2018-01-01');
+                    scope.overallMaxDate = new Date('0000-01-01');
 
                     for(var i = 0; i < tsvData.length; i++){
                         var currentLetter = tsvData[i];
@@ -72,8 +72,8 @@ angular.module('arachne.visualizations.directives')
                         if(fromDate.toISOString() === toDate.toISOString()) {
                             var binKey = fromDate.toISOString().substr(0,4);
 
-                            if(new Date(binKey) < scope.minDate) scope.minDate = new Date(binKey);
-                            if(new Date(binKey) > scope.maxDate) scope.maxDate = new Date(binKey);
+                            if(new Date(binKey) < scope.overallMinDate) scope.overallMinDate = new Date(binKey);
+                            if(new Date(binKey) > scope.overallMaxDate) scope.overallMaxDate = new Date(binKey);
 
                             if(binKey in scope.binnedData) {
                                 scope.binnedData[binKey] += 1
@@ -84,8 +84,8 @@ angular.module('arachne.visualizations.directives')
                             var fromBinKey = fromDate.toISOString().substr(0,4);
                             var toBinKey = toDate.toISOString().substr(0,4);
 
-                            if(new Date(fromBinKey) < scope.minDate) scope.minDate = new Date(fromBinKey);
-                            if(new Date(toBinKey) > scope.maxDate) scope.maxDate = new Date(toBinKey);
+                            if(new Date(fromBinKey) < scope.overallMinDate) scope.overallMinDate = new Date(fromBinKey);
+                            if(new Date(toBinKey) > scope.overallMaxDate) scope.overallMaxDate = new Date(toBinKey);
 
                             if(fromBinKey in scope.binnedData) {
                                 scope.binnedData[fromBinKey] += 1
@@ -293,18 +293,18 @@ angular.module('arachne.visualizations.directives')
                 scope.updateState = function () {
 
                     if(scope.selectionStartDate != null && scope.selectionEndDate != null){
-                        scope.from = null;
-                        scope.to = null;
+                        scope.minDate = null;
+                        scope.maxDate = null;
 
                         if(scope.selectionStartDate['date'] < scope.selectionEndDate['date']){
-                            scope.from = scope.selectionStartDate['date'];
-                            scope.to = scope.selectionEndDate['date'];
+                            scope.minDate = scope.selectionStartDate['date'];
+                            scope.maxDate = scope.selectionEndDate['date'];
 
                         } else if(scope.selectionStartDate['date'] > scope.selectionEndDate['date']){
-                            scope.from = scope.selectionEndDate['date'];
-                            scope.to = scope.selectionStartDate['date'];
+                            scope.minDate = scope.selectionEndDate['date'];
+                            scope.maxDate = scope.selectionStartDate['date'];
                         } else {
-                            scope.from = scope.to = scope.selectionEndDate['date'];
+                            scope.minDate = scope.maxDate = scope.selectionEndDate['date'];
                         }
                     }
 

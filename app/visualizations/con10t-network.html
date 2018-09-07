@@ -1,19 +1,19 @@
 <div class="container">
   <pre>
-  {{fromDate.toISOString()}}, {{toDate.toISOString()}}
+  {{minDate.toISOString()}}, {{maxDate.toISOString()}}
   </pre>
 
   <con10t-time-line-chart
       letter-data-path="{{letterDataPath}}"
-      from="fromDate"
-      to="toDate" >
+      min-date="minDate"
+      max-date="maxDate" >
   </con10t-time-line-chart>
 
   <con10t-network-map
       letter-data-path="{{letterDataPath}}"
       places-data-path="{{placesDataPath}}"
       zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}"
-      min-date="fromDate"
-      max-date="toDate">
+      min-date="minDate"
+      max-date="maxDate">
   </con10t-network-map>
 </div>
