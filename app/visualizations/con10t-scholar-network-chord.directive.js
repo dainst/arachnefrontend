@@ -1,13 +1,9 @@
 angular.module('arachne.visualizations.directives')
-    .directive('con10tD3AuthorsChord', ['transl8', function (transl8) { // con10t-d3
+    .directive('con10tScholarNetworkChord', ['transl8', function (transl8) {
         return {
             restrict: 'E',
-            scope: {
-                spec: '@',
-                name: '@'
-            },
+            templateUrl: 'app/visualizations/con10t-scholar-network-chord.html',
             link: function () {
-
                 transl8.onLoaded().then(function () {
 
                     var names = [
