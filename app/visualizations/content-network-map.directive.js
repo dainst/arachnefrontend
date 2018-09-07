@@ -1,19 +1,19 @@
 'use strict';
 
-// In order to debug your Vega spec, run the following command in your browser's console:
-// view = angular.element(document.getElementsByName('<name attribute>')).scope().$$childHead.vegaView
-// You can then use the variable view as described in https://vega.github.io/vega/docs/api/debugging/
-
 angular.module('arachne.visualizations.directives')
-    .directive('con10tLeafletNetwork', ['$http', '$q', function ($http, $q) {
+    .directive('con10tNetworkMap', ['$http', '$q', function ($http, $q) {
         return {
             restrict: 'E',
+            templateUrl: 'app/visualizations/con10t-network-map.html',
             scope: {
                 placesDataPath: '@',
                 letterDataPath: '@',
+                showControls: '@',
                 lat: '@',
                 lng: '@',
-                zoom: '@'
+                zoom: '@',
+                minDate: '=',
+                maxDate: '='
             },
             link: function (scope, element, attrs) {
                 var mapElement = element[0].querySelector('.map-container');
@@ -55,9 +55,17 @@ angular.module('arachne.visualizations.directives')
                         scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
                         scope.letterIndexById = scope.createIndex(scope.letterData, 'id');
 
-                        scope.getMinMaxDates();
+                        scope.setOverallMinMaxDates();
 
                         scope.updateState();
+
+                        scope.$watch('minDate', function(newValue, oldValue) {
+                            scope.updateState();
+                        });
+
+                        scope.$watch('maxDate', function(newValue, oldValue) {
+                            scope.updateState();
+                        });
                     });
 
                 scope.parseTsvData = function(data){
@@ -97,13 +105,6 @@ angular.module('arachne.visualizations.directives')
                     return index;
                 };
 
-                scope.updateDateDisplay = function() {
-                    scope.dateDisplay.innerHTML =
-                        scope.minDate.toISOString().substring(0, 10)
-                        + ' to '
-                        + scope.maxDate.toISOString().substring(0, 10)
-                };
-
                 scope.setMinDate = function(value) {
                     if(value < scope.maxdatePicker.value) {
                         scope.maxdatePicker.value = value;
@@ -127,12 +128,16 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.updateState = function(){
-                    scope.updateDateDisplay();
+
                     scope.updatePlaces();
                     scope.updateConnections();
 
                     scope.showPlaces();
                     scope.showConnectionsForSelectedPlace();
+
+                    if(!scope.$root.$$phase && !scope.$$phase) {
+                        scope.$apply();
+                    }
                 };
 
                 scope.updatePlaces = function() {
@@ -178,10 +183,6 @@ angular.module('arachne.visualizations.directives')
                                 weights[originPlace['id']] = 1;
                             }
                         }
-                    }
-
-                    if(!display.includes(scope.selectedPlace)) {
-                        scope.selectedPlace = null;
                     }
 
                     for(var i = 0; i < display.length; i++) {
@@ -231,7 +232,7 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
-                scope.getMinMaxDates = function(){
+                scope.setOverallMinMaxDates = function(){
                   scope.minDate = new Date(8640000000000000);
                   scope.maxDate = new Date(-8640000000000000);
 

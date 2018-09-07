@@ -1,0 +1,20 @@
+<div class="row">
+  <div style="height: 500px; width: 100%;" class="map-container"></div>
+</div>
+
+<div class="row" ng-show="showControls">
+  <br/>
+  <div>
+    Showing data between dates:
+    <span id="date-range-display">
+    {{minDate.toISOString().substring(0, 10)}} to {{maxDate.toISOString().substring(0, 10)}}
+  </span>
+  </div>
+
+  <fieldset>
+    <label for="min-date-picker">Select daterange minimum</label>
+    <input type="range" id="min-date-picker" name="min date" />
+    <label for="max-date-picker">Select daterange maximum</label>
+    <input type="range" id="max-date-picker" name="max date"/>
+  </fieldset>
+</div>

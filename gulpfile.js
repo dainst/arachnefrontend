@@ -54,7 +54,7 @@ var jsDeps = [
     'node_modules/ng-showdown/dist/ng-showdown.min.js',
     'node_modules/3dviewer/dist/3dviewer.js',
     'lib/relative-paths-in-partial.js',
-    'node_modules/d3/build/d3.min.js',
+    'node_modules/d3/dist/d3.min.js',
     'node_modules/angular-ui-swiper/dist/angular-ui-swiper.min.js',
     'node_modules/angular-md5/angular-md5.js',
     'node_modules/svg-pan-zoom/dist/svg-pan-zoom.js',
