@@ -10,7 +10,9 @@ angular.module('arachne.visualizations.directives')
                 letterDataPath: '@',
                 lat: '@',
                 lng: '@',
-                zoom: '@'
+                zoom: '@',
+                minDate: '=',
+                maxDate: '='
             },
             link: function (scope, element, attrs) {
                 var mapElement = element[0].querySelector('.map-container');
@@ -55,6 +57,14 @@ angular.module('arachne.visualizations.directives')
                         scope.setOverallMinMaxDates();
 
                         scope.updateState();
+
+                        scope.$watch('minDate', function(newValue, oldValue) {
+                            scope.updateState();
+                        });
+
+                        scope.$watch('maxDate', function(newValue, oldValue) {
+                            scope.updateState();
+                        });
                     });
 
                 scope.parseTsvData = function(data){
@@ -130,6 +140,10 @@ angular.module('arachne.visualizations.directives')
 
                     scope.showPlaces();
                     scope.showConnectionsForSelectedPlace();
+
+                    if(!scope.$root.$$phase && !scope.$$phase) {
+                        scope.$apply();
+                    }
                 };
 
                 scope.updatePlaces = function() {
@@ -175,10 +189,6 @@ angular.module('arachne.visualizations.directives')
                                 weights[originPlace['id']] = 1;
                             }
                         }
-                    }
-
-                    if(!display.includes(scope.selectedPlace)) {
-                        scope.selectedPlace = null;
                     }
 
                     for(var i = 0; i < display.length; i++) {
