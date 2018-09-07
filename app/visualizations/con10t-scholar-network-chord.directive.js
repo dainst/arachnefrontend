@@ -122,7 +122,6 @@ angular.module('arachne.visualizations.directives')
                         .text(function (d) {
                             return names[d.index]
                         });
-                    //.style("cursor", "pointer");
 
                     group.append("title")
                         .text(function (d, i) {
@@ -169,7 +168,6 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     function mouse_over_group(d) {
-                        console.log("d-group-index: ", d.index);
                         g.select("g.ribbons")
                             .selectAll("path")
                             .classed("fade", function (p) {
@@ -178,21 +176,21 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     function mouse_over_path(d) {
-                        console.log("d-path-source: ", d.source.index, d.source.subindex);
-                        console.log("d-path-target: ", d.target.index, d.target.subindex);
                         tooltip.style("left", d3.event.pageX - 50 + "px")
                             .style("top", d3.event.pageY - 70 + "px")
                             .style("display", "inline-block")
+                            .style("white-space", "pre")
                             .html(
-                                names[d.source.index] + " → " + names[d.target.index] + ": " + d3.format(" 3")(d.source.value) +
-                                " " + transl8.getTranslation("cont10_authors_chord_letters") + ".<br\>" +
-                                names[d.source.index] + " ← " + names[d.target.index] + ": " + d3.format(" 3")(d.target.value) +
+                                names[d.source.index] + " → " + names[d.target.index] + ": " +
+                                d3.format("3")(d.source.value) + " " +
+                                transl8.getTranslation("cont10_authors_chord_letters") + ".<br\>" +
+                                names[d.source.index] + " ← " + names[d.target.index] + ": " +
+                                d3.format("3")(d.target.value) +
                                 " " + transl8.getTranslation("cont10_authors_chord_letters") + "."
                             );
                         g.select("g.ribbons")
                             .selectAll("path")
                             .classed("fade", function (p) {
-                                console.log("p: ", p);
 
                                 return d.source.index === d.target.index ?
                                     (p.source.index !== d.source.index || p.target.index !== d.target.index) :
