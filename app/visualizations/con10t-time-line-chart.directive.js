@@ -144,8 +144,14 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.initializeD3 = function(){
+
+                    outerWidth = 480;
+                    if(element.length === 1 && element[0].offsetWidth !== 0){
+                        outerWidth = element[0].offsetWidth
+                    }
+
                     var margin = {top: 20, right: 50, bottom: 30, left: 50},
-                        width = 480 - margin.left - margin.right,
+                        width = outerWidth - margin.left - margin.right,
                         height = 200 - margin.top - margin.bottom;
 
                     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
