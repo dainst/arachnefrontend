@@ -29,7 +29,7 @@ var MapPage = function() {
 	};
 
     this.getTranlocationLines = function() {
-        return element.all(by.css('svg path.leaflet-ant-path'));
+        return element.all(by.css('svg path.translocation-line'));
     };
 
     this.getTranslocationsButton = function() {

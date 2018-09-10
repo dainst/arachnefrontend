@@ -332,7 +332,8 @@ angular.module('arachne.widgets.map')
                     var options = {
                           weight: 4,
                           delay: 600,
-                          opacity: 0.5
+                          opacity: 0.5,
+                          className: 'translocation-line'
                     };
 
                     var polyline = L.polyline(latlngs, options).addTo(translocationLayerGroup);
