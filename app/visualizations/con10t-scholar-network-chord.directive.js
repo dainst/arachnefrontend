@@ -19,6 +19,19 @@ angular.module('arachne.visualizations.directives')
                         "Unbekannt"
                     ];
 
+                    var colors = [
+                        "#99ccff",
+                        "#6699cc",
+                        "#6699ff",
+                        "#3399cc",
+                        "#336699",
+                        "#3366cc",
+                        "#00b9ee",
+                        "#008ecc",
+                        "#0066cc",
+                        "#003366"
+                    ];
+
                     var matrix = [
                         // Autoren:
                         // Braun, Brunn, Bunsen, Gerhard, Henzen,  Jahn, Lepsius, Michaelis, Mommsen, Unbekannt
@@ -58,10 +71,7 @@ angular.module('arachne.visualizations.directives')
 
                     var color = d3.scaleOrdinal()
                         .domain(d3.range(names.length))
-                        .range([
-                            "#99ccff", "#6699cc", "#6699ff", "#3399cc", "#336699",
-                            "#3366cc", "#0099cc", "#006699", "#0066cc", "#003366"
-                        ]);
+                        .range(colors);
 
                     var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
@@ -78,10 +88,10 @@ angular.module('arachne.visualizations.directives')
                         .enter().append("path")
                         .attr("d", ribbon)
                         .style("fill", function (d) {
-                            return color(d.target.index);
+                            return color(d.source.index);
                         })
                         .style("stroke", function (d) {
-                            return d3.rgb(color(d.target.index)).darker();
+                            return d3.rgb(color(d.source.index)).darker();
                         })
                         .on("mouseover", mouse_over_path)
                         .on("mouseout", mouse_out);
