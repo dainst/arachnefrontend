@@ -1,6 +1,22 @@
 <div class="row">
   <div style="height: 500px; width: 100%;" class="map-container"></div>
 </div>
+<div class="row" ng-show="selectedPlaceId">
+  <h3>{{placeData[placeIndexById[selectedPlaceId]]['name']}}</h3>
+  <h4>Incoming ({{activeIncomingConnections.length}})</h4>
+  <span ng-repeat="value in activeIncomingConnections">
+    <button class="btn btn-default" ng-click="setSelectedPlaceId(value['origin']['id'])">
+      {{value['origin']['name']}} <span class="badge">{{value['weight']}}</span>
+    </button>
+  </span>
+
+  <h4>Outgoing ({{activeOutgoingConnections.length}})</h4>
+  <span ng-repeat="value in activeOutgoingConnections">
+    <button class="btn btn-default" ng-click="setSelectedPlaceId(value['destination']['id'])">
+      {{value['destination']['name']}} <span class="badge">{{value['weight']}}</span>
+    </button>
+  </span>
+</div>
 
 <div class="row" ng-show="showControls">
   <br/>

@@ -46,7 +46,7 @@ angular.module('arachne.visualizations.directives')
                 scope.visibleConnectionsLayer = new L.layerGroup().addTo(scope.map);
                 scope.placeLayer = L.layerGroup().addTo(scope.map);
                 scope.visibleConnections = [];
-                scope.selectedPlace = null;
+                scope.selectedPlaceId = null;
                 scope.displayedPlaces = [];
 
                 var dataQueries = [];
@@ -70,6 +70,10 @@ angular.module('arachne.visualizations.directives')
                         });
 
                         scope.$watch('maxDate', function(newValue, oldValue) {
+                            scope.evaluateState();
+                        });
+
+                        scope.$watch('selectedPlaceId', function(newValue, oldValue) {
                             scope.evaluateState();
                         });
                     });
@@ -248,8 +252,7 @@ angular.module('arachne.visualizations.directives')
                         )
                             .addTo(scope.placeLayer)
                             .on('click ', function (event) {
-                                scope.selectedPlace = event.sourceTarget.options.id;
-                                scope.showConnectionsForSelectedPlace();
+                                scope.setSelectedPlaceId(event.sourceTarget.options.id);
                             });
                     }
 
@@ -258,8 +261,8 @@ angular.module('arachne.visualizations.directives')
 
                 scope.showConnectionsForSelectedPlace = function () {
 
-                    var activeOutgoingConnections = [];
-                    var activeIncomingConnections = [];
+                    scope.activeOutgoingConnections = [];
+                    scope.activeIncomingConnections = [];
 
                     for (var idx in scope.visibleConnections){
                         var originId, destinationId;
@@ -268,7 +271,7 @@ angular.module('arachne.visualizations.directives')
                         originId = split[0];
                         destinationId = split[1];
 
-                        if (originId === scope.selectedPlace) {
+                        if (originId === scope.selectedPlaceId) {
 
                             var origin = scope.placeData[scope.placeIndexById[originId]];
                             var destination = scope.placeData[scope.placeIndexById[destinationId]];
@@ -279,25 +282,17 @@ angular.module('arachne.visualizations.directives')
                                 && destination['lat'] !== 'null'
                                 && destination['lng'] !== 'null'
                             ) {
-                                activeOutgoingConnections.push(
+                                scope.activeOutgoingConnections.push(
                                     {
                                         'weight': scope.visibleConnections[idx],
-                                        'origin': {
-                                            'lat': origin['lat'],
-                                            'lng': origin['lng'],
-                                            'name': origin['name']
-                                        },
-                                        'destination': {
-                                            'lat': destination['lat'],
-                                            'lng': destination['lng'],
-                                            'name': destination['name']
-                                        }
+                                        'origin': origin,
+                                        'destination': destination
                                     }
                                 );
                             }
                         }
 
-                        if (destinationId === scope.selectedPlace) {
+                        if (destinationId === scope.selectedPlaceId) {
                             var origin = scope.placeData[scope.placeIndexById[originId]];
                             var destination = scope.placeData[scope.placeIndexById[destinationId]];
 
@@ -307,19 +302,11 @@ angular.module('arachne.visualizations.directives')
                                 && destination['lat'] !== 'null'
                                 && destination['lng'] !== 'null'
                             ) {
-                                activeIncomingConnections.push(
+                                scope.activeIncomingConnections.push(
                                     {
                                         'weight': scope.visibleConnections[idx],
-                                        'origin': {
-                                            'lat': origin['lat'],
-                                            'lng': origin['lng'],
-                                            'name': origin['name']
-                                        },
-                                        'destination': {
-                                            'lat': destination['lat'],
-                                            'lng': destination['lng'],
-                                            'name': destination['name']
-                                        }
+                                        'origin': origin,
+                                        'destination': destination
                                     }
                                 );
                             }
@@ -329,8 +316,8 @@ angular.module('arachne.visualizations.directives')
                     scope.map.removeLayer(scope.visibleConnectionsLayer);
                     scope.visibleConnectionsLayer = new L.layerGroup();
 
-                    for (var idx in activeOutgoingConnections) {
-                        var connection = activeOutgoingConnections[idx];
+                    for (var idx in scope.activeOutgoingConnections) {
+                        var connection = scope.activeOutgoingConnections[idx];
 
                         var latlngs = [
                             new L.LatLng(connection['origin']['lat'], connection['origin']['lng']),
@@ -349,8 +336,8 @@ angular.module('arachne.visualizations.directives')
                         L.polyline.antPath(latlngs, options).addTo(scope.visibleConnectionsLayer);
                     }
 
-                    for (var idx in activeIncomingConnections) {
-                        var connection = activeIncomingConnections[idx];
+                    for (var idx in scope.activeIncomingConnections) {
+                        var connection = scope.activeIncomingConnections[idx];
 
                         var latlngs = [
                             new L.LatLng(connection['origin']['lat'], connection['origin']['lng']),
@@ -402,6 +389,14 @@ angular.module('arachne.visualizations.directives')
                         scope.evaluateState();
                     }
                 };
+
+                scope.setSelectedPlaceId = function(id) {
+                    scope.selectedPlaceId = id;
+
+                    if(!scope.$root.$$phase && !scope.$$phase) {
+                        scope.$apply();
+                    }
+                }
             }
         }
     }]);
