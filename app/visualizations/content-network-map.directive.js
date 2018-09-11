@@ -17,7 +17,7 @@ angular.module('arachne.visualizations.directives')
             },
             link: function (scope, element, attrs) {
                 scope.placesDataColumns = [
-                    'id', 'lat', 'lng', 'name'
+                    'id', 'lat', 'lng', 'name', 'authId', 'authSource'
                 ];
 
                 scope.objectDataColumns = [
@@ -243,7 +243,6 @@ angular.module('arachne.visualizations.directives')
                             new L.LatLng(
                                 place['lat'], place['lng']
                             ),
-
                             {
                                 title: place['title'],
                                 radius: (Math.log(currentWeight)  + 1)* 10000,
