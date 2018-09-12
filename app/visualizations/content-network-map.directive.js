@@ -360,11 +360,11 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.constructConnectionKey = function(originId, destinationId) {
-                    return originId + '-' + destinationId;
+                    return originId + ':::' + destinationId;
                 };
 
                 scope.deconstructConnectionKey = function (id) {
-                    return id.split('-')
+                    return id.split(':::')
                 };
 
                 scope.setMinDate = function(value) {
