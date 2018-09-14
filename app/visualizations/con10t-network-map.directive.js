@@ -338,11 +338,12 @@ angular.module('arachne.visualizations.directives')
                         var options = {
                             weight: offset * 2,
                             offset: offset,
-                            delay: 800,
-                            dashArray:[25,20]
+                            delay: 600,
+                            opacity: 0.5,
+                            color: 'red'
                         };
 
-                        L.polyline.antPath(latlngs, options).addTo(scope.visibleConnectionsLayer);
+                        L.polyline(latlngs, options).addTo(scope.visibleConnectionsLayer);
                     }
 
                     for (var idx in scope.activeIncomingConnections) {
@@ -358,12 +359,11 @@ angular.module('arachne.visualizations.directives')
                         var options = {
                             weight: offset * 2,
                             offset: offset,
-                            delay: 800,
-                            dashArray:[25,20],
-                            color: 'red'
+                            delay: 600,
+                            opacity: 0.5
                         };
 
-                        L.polyline.antPath(latlngs, options).addTo(scope.visibleConnectionsLayer);
+                        L.polyline(latlngs, options).addTo(scope.visibleConnectionsLayer);
                     }
 
 
