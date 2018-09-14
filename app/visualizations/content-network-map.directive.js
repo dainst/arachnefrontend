@@ -43,8 +43,8 @@ angular.module('arachne.visualizations.directives')
                     scope.setMaxDate(scope.maxdatePicker.value);
                 };
 
-                scope.visibleConnectionsLayer = new L.layerGroup().addTo(scope.map);
-                scope.placeLayer = L.layerGroup().addTo(scope.map);
+                scope.visibleConnectionsLayer = new L.LayerGroup().addTo(scope.map);
+                scope.placeLayer = new L.LayerGroup().addTo(scope.map);
                 scope.visibleConnections = [];
                 scope.selectedPlaceId = null;
                 scope.displayedPlaces = [];
@@ -224,7 +224,7 @@ angular.module('arachne.visualizations.directives')
                 scope.showPlaces = function() {
 
                     scope.map.removeLayer(scope.placeLayer);
-                    scope.placeLayer = new L.layerGroup();
+                    scope.placeLayer = new L.LayerGroup();
 
                     for(var i = 0; i < scope.visiblePlaces.length; i++){
                         var currentId = scope.visiblePlaces[i]['id'];
@@ -239,16 +239,21 @@ angular.module('arachne.visualizations.directives')
                             || typeof currentWeight === 'undefined'
                         ) continue;
 
-                        L.circle(
-                            new L.LatLng(
-                                place['lat'], place['lng']
-                            ),
-                            {
-                                title: place['title'],
-                                radius: (Math.log(currentWeight)  + 1)* 10000,
-                                id: place['id']
-                            }
-                        )
+                        var coordinates = new L.LatLng(place['lat'], place['lng']);
+                        var params = {
+                            title: place['title'],
+                            radius: (Math.log(currentWeight)  + 1)* 10000,
+                            id: place['id']
+                        };
+
+                        if(currentId === scope.selectedPlaceId){
+                            params['color'] = 'red';
+                            params['fillColor'] = '#f03';
+                        }
+
+                        var circle = L.circle(coordinates, params);
+
+                        circle
                             .addTo(scope.placeLayer)
                             .on('click ', function (event) {
                                 scope.setSelectedPlaceId(event.sourceTarget.options.id);
@@ -313,7 +318,7 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     scope.map.removeLayer(scope.visibleConnectionsLayer);
-                    scope.visibleConnectionsLayer = new L.layerGroup();
+                    scope.visibleConnectionsLayer = new L.LayerGroup();
 
                     for (var idx in scope.activeOutgoingConnections) {
                         var connection = scope.activeOutgoingConnections[idx];
