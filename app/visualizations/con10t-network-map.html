@@ -1,33 +1,6 @@
 <div class="row">
   <div style="height: 500px; width: 100%;" class="map-container"></div>
 </div>
-<div class="row" ng-show="selectedPlaceId">
-  <h3>
-    <span ng-if="placeData[placeIndexById[selectedPlaceId]]['authSource'] == 'GAZ'">
-      <a href="https://gazetteer.dainst.org/app/#!/show/{{placeData[placeIndexById[selectedPlaceId]]['authId']}}"
-         target="_blank">
-        {{placeData[placeIndexById[selectedPlaceId]]['name']}} <span class="glyphicon glyphicon-link"></span>
-      </a>
-    </span>
-    <span ng-if="placeData[placeIndexById[selectedPlaceId]]['authSource'] != 'GAZ'">
-      {{placeData[placeIndexById[selectedPlaceId]]['name']}}</span>
-    </span>
-
-  </h3>
-  <h4>Incoming ({{activeIncomingConnections.length}})</h4> <!-- TODO: Translate -->
-  <span ng-repeat="value in activeIncomingConnections">
-    <button class="btn btn-default" ng-click="setSelectedPlaceId(value['origin']['id'])">
-      {{value['origin']['name']}} <span class="badge">{{value['weight']}}</span>
-    </button>
-  </span>
-
-  <h4>Outgoing ({{activeOutgoingConnections.length}})</h4> <!-- TODO: Translate -->
-  <span ng-repeat="value in activeOutgoingConnections">
-    <button class="btn btn-default" ng-click="setSelectedPlaceId(value['destination']['id'])">
-      {{value['destination']['name']}} <span class="badge">{{value['weight']}}</span>
-    </button>
-  </span>
-</div>
 
 <div class="row" ng-show="showControls">
   <br/>

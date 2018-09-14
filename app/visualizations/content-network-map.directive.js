@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('arachne.visualizations.directives')
-    .directive('con10tNetworkMap', ['$http', '$q', '$filter', function ($http, $q, $filter) {
+    .directive('con10tNetworkMap', ['$http', '$q', '$filter', '$compile', function ($http, $q, $filter, $compile) {
         return {
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-network-map.html',
@@ -258,6 +258,11 @@ angular.module('arachne.visualizations.directives')
                             .on('click ', function (event) {
                                 scope.setSelectedPlaceId(event.sourceTarget.options.id);
                             });
+
+                        if(currentId === scope.selectedPlaceId) {
+                            scope.currentPopup = new L.Popup({ closeOnClick: false, minWidth : 200 })
+                                .setLatLng([place['lat'], place['lng']]);
+                        }
                     }
 
                     scope.placeLayer.addTo(scope.map);
@@ -361,6 +366,14 @@ angular.module('arachne.visualizations.directives')
                         L.polyline.antPath(latlngs, options).addTo(scope.visibleConnectionsLayer);
                     }
 
+
+                    if(scope.currentPopup) {
+                        var popContent = $compile('<con10t-network-map-popup></con10t-network-map-popup>')(scope);
+                        scope.currentPopup
+                            .setContent(popContent[0])
+                            .addTo(scope.placeLayer);
+
+                    }
                     scope.visibleConnectionsLayer.addTo(scope.map);
                 };
 
