@@ -259,7 +259,9 @@ angular.module('arachne.visualizations.directives')
                                 scope.setSelectedPlaceId(event.sourceTarget.options.id);
                             });
 
-                        if(currentId === scope.selectedPlaceId) {
+                        if(
+                            currentId === scope.selectedPlaceId
+                            && scope.selectedPlaceId !== scope.previouslySelectedPlaceId) {
                             scope.currentPopup = new L.Popup({ closeOnClick: false, minWidth : 200 })
                                 .setLatLng([place['lat'], place['lng']]);
                         }
@@ -408,6 +410,7 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.setSelectedPlaceId = function(id) {
+                    scope.previouslySelectedPlaceId = scope.selectedPlaceId;
                     scope.selectedPlaceId = id;
 
                     if(!scope.$root.$$phase && !scope.$$phase) {
