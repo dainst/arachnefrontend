@@ -2,7 +2,7 @@
   
 ## tl;dr
 Use the following command to get your local instance of the Arachne 4 Frontend running after checking out this repository:
-```
+```bash
 npm install && npm run build && npm start
 ```
 
@@ -20,13 +20,13 @@ You need the following components in order for the local server to work:
 * [gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md)
 
 To install the necessary dependencies for the app run the following command in the working directory:
-```
+```bash
 npm install
 ```
 
 On Debian-based systems, if you have trouble installing dependencies use the 'nodejs-legacy'-package instead of 'nodejs'. Also gulp needs to be installed globally to run 'gulp server'.
 
-```
+```bash
 sudo apt-get install nodejs-legacy
 sudo npm install -g gulp
 ```
@@ -35,7 +35,7 @@ sudo npm install -g gulp
 
 Build the application by running
 
-```
+```bash
 npm run build
 ```
 
@@ -50,7 +50,7 @@ The con10t submodule provides many valuable widgets which can be used on project
 #### Updating the submodule con10t
 
 Within the folder of the submodule execute
-```
+```bash
 git pull origin master
 ```
 to get the latest con10t version.
@@ -69,7 +69,7 @@ In each run of "npm run build", the script checks if "dev-config.js" exists. If 
 
 In order to run the frontend in the development server use the following command after building the Arachne 4 Frontend:
 
-```
+```bash
 npm start
 ```
 
@@ -89,7 +89,7 @@ This will run all tests matching the filename pattern `test/*_spec.js`. Jasmine 
 
 Call
 
-```
+```bash
 export LC_NUMERIC="en_US.UTF-8" && npm run e2e
 ```
 
