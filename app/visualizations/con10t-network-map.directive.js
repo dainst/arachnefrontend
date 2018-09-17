@@ -262,7 +262,7 @@ angular.module('arachne.visualizations.directives')
                         if(
                             currentId === scope.selectedPlaceId
                             && scope.selectedPlaceId !== scope.previouslySelectedPlaceId) {
-                            scope.currentPopup = new L.Popup({ closeOnClick: false, minWidth : 200 })
+                            scope.currentPopup = new L.Popup({ closeOnClick: false, minWidth : 250 })
                                 .setLatLng([place['lat'], place['lng']]);
                         }
                     }
@@ -370,7 +370,11 @@ angular.module('arachne.visualizations.directives')
 
 
                     if(scope.currentPopup) {
-                        var popContent = $compile('<con10t-network-map-popup></con10t-network-map-popup>')(scope);
+                        var popContent = $compile(
+                            '<con10t-network-map-popup ' +
+                            'list-item-limit=5 ' +
+                            'active-incoming-connections="activeIncomingConnections" ' +
+                            'active-outgoing-connections="activeOutgoingConnections"></con10t-network-map-popup>')(scope);
                         scope.currentPopup
                             .setContent(popContent[0])
                             .addTo(scope.placeLayer);
