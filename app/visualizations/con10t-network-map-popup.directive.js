@@ -7,7 +7,8 @@ angular.module('arachne.visualizations.directives')
             templateUrl: 'app/visualizations/con10t-network-map-popup.html',
             scope: {
                 activeIncomingConnections: '=',
-                activeOutgoingConnections: '='
+                activeOutgoingConnections: '=',
+                selectionCallback: '&'
             },
             link: function (scope, element, attrs) {
 
@@ -53,6 +54,11 @@ angular.module('arachne.visualizations.directives')
                     scope.listedOutgoing = angular.copy(scope.activeOutgoingConnections)
                         .sort(scope.sortConnectionsDesc)
                         .slice(scope.offsetOutgoing, scope.listItemLimit + scope.offsetOutgoing);
+                };
+
+                scope.selectPlace = function (id) {
+                    console.log('callback...');
+                    scope.selectionCallback({id: id});
                 };
 
                 scope.offsetIncoming = 0;

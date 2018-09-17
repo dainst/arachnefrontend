@@ -374,7 +374,8 @@ angular.module('arachne.visualizations.directives')
                             '<con10t-network-map-popup ' +
                             'list-item-limit=5 ' +
                             'active-incoming-connections="activeIncomingConnections" ' +
-                            'active-outgoing-connections="activeOutgoingConnections"></con10t-network-map-popup>')(scope);
+                            'active-outgoing-connections="activeOutgoingConnections" ' +
+                            'selection-callback="setSelectedPlaceId(id)"></con10t-network-map-popup>')(scope);
                         scope.currentPopup
                             .setContent(popContent[0])
                             .addTo(scope.placeLayer);
@@ -414,6 +415,7 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.setSelectedPlaceId = function(id) {
+                    console.log('called back...')
                     scope.previouslySelectedPlaceId = scope.selectedPlaceId;
                     scope.selectedPlaceId = id;
 

@@ -1,4 +1,4 @@
-<div>
+<div xmlns:color="http://www.w3.org/1999/xhtml">
   <h3>
   <span ng-if="placeData[placeIndexById[selectedPlaceId]]['authSource'] == 'GAZ'">
     <a href="https://gazetteer.dainst.org/app/#!/show/{{placeData[placeIndexById[selectedPlaceId]]['authId']}}"
@@ -13,64 +13,64 @@
 
   <div class="row">
     <div class="col-md-6">
-      <h4><!-- TODO: Translate -->
-        Incoming:
-        <small ng-if="incomingCount <= listItemLimit">
-          {{incomingCount}}
-        </small>
-      </h4>
-      <div ng-if="incomingCount > listItemLimit">
-        <small>
+      <!-- Incoming -->
+      <h4>
+        <span class="glyphicon glyphicon-resize-small" style="color: blue"></span>: {{incomingCount}}
+
+        <small ng-if="incomingCount > listItemLimit" class="align-center">
+          <br>
           <span ng-if="offsetIncoming > 0">
             <span class="clickable small glyphicon glyphicon-chevron-left"
                   ng-click="adjustOffsetIncoming(-listItemLimit)"></span>
           </span>
 
           {{offsetIncoming+1}}-{{(offsetIncoming + listItemLimit > incomingCount) ? incomingCount : offsetIncoming +
-          listItemLimit}} ({{incomingCount}})
+          listItemLimit}}
 
           <span ng-if="(offsetIncoming + listItemLimit) < incomingCount">
             <span class="clickable small glyphicon glyphicon-chevron-right"
                   ng-click="adjustOffsetIncoming(listItemLimit)"></span>
           </span>
         </small>
-      </div>
-
-      <div ng-repeat="value in listedIncoming">
-        <span ng-click="setSelectedPlaceId(value['origin']['id'])">
-          <div><span class="badge">{{value['weight']}}</span> {{value['origin']['name']}}</div>
-        </span>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <!-- TODO: Translate -->
-      <h4>Outgoing:
-        <strong ng-if="outgoingCount <= listItemLimit">
-          {{outgoingCount}}
-        </strong>
       </h4>
 
-      <div ng-if="outgoingCount > listItemLimit">
-        <small>
+      <div ng-repeat="value in listedIncoming">
+        <div ng-click="selectionCallback({id: value['origin']['id']})" style="cursor: pointer">
+          <span class="badge">{{value['weight']}}</span> {{value['origin']['name']}}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <!-- Outgoing -->
+      <h4>
+        <span class="glyphicon glyphicon-resize-full" style="color: red"></span>: {{outgoingCount}}
+
+        <small ng-if="outgoingCount > listItemLimit">
+          <br>
           <span ng-if="offsetOutgoing > 0">
-              <span class="clickable small glyphicon glyphicon-chevron-left"
-                    ng-click="adjustOffsetOutgoing(-listItemLimit)"></span>
+            <span class="clickable small glyphicon glyphicon-chevron-left"
+                  ng-click="adjustOffsetOutgoing(-listItemLimit)">
             </span>
+          </span>
 
           {{offsetOutgoing+1}}-{{(offsetOutgoing + listItemLimit > outgoingCount) ? outgoingCount : offsetOutgoing +
-          listItemLimit}} ({{outgoingCount}})
+          listItemLimit}}
 
           <span ng-if="(offsetOutgoing + listItemLimit) < outgoingCount">
             <span class="clickable small glyphicon glyphicon-chevron-right"
-                  ng-click="adjustOffsetOutgoing(listItemLimit)"></span>
+                  ng-click="adjustOffsetOutgoing(listItemLimit)">
+            </span>
           </span>
         </small>
-      </div>
+
+      </h4>
+
 
       <div ng-repeat="value in listedOutgoing">
-        <span ng-click="setSelectedPlaceId(value['destination']['id'])">
-          <div><span class="badge">{{value['weight']}}</span> {{value['destination']['name']}}</div>
-        </span>
+        <div ng-click="selectionCallback({id: value['destination']['id']})" style="cursor: pointer">
+          <span class="badge">{{value['weight']}}</span> {{value['destination']['name']}}
+        </div>
       </div>
     </div>
   </div>
