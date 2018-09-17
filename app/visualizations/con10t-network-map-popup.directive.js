@@ -8,6 +8,8 @@ angular.module('arachne.visualizations.directives')
             scope: {
                 activeIncomingConnections: '=',
                 activeOutgoingConnections: '=',
+                selectedPlaceId: '=',
+                placeDataCallback: '&',
                 selectionCallback: '&'
             },
             link: function (scope, element, attrs) {
@@ -57,8 +59,11 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.selectPlace = function (id) {
-                    console.log('callback...');
                     scope.selectionCallback({id: id});
+                };
+
+                scope.getPlaceData = function(id) {
+                    return scope.placeDataCallback({id: id});
                 };
 
                 scope.offsetIncoming = 0;
