@@ -20,14 +20,14 @@ angular.module('arachne.visualizations.directives')
                     ];
 
                     var colors = [
-                        "#99ccff",
+                        "#89b7e5",
                         "#6699cc",
-                        "#6699ff",
+                        "#5b89e5",
                         "#3399cc",
                         "#336699",
-                        "#3366cc",
-                        "#00b9ee",
-                        "#008ecc",
+                        "#75A3D1",
+                        "#668899",
+                        "#255177",
                         "#0066cc",
                         "#003366"
                     ];
@@ -198,6 +198,7 @@ angular.module('arachne.visualizations.directives')
                                 d3.format("3")(d.target.value) +
                                 " " + transl8.getTranslation("cont10_authors_chord_letters") + "."
                             );
+
                         g.select("g.ribbons")
                             .selectAll("path")
                             .classed("fade", function (p) {
