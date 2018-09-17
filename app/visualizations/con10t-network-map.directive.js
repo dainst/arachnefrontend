@@ -372,7 +372,6 @@ angular.module('arachne.visualizations.directives')
                     if(scope.currentPopup) {
                         var popContent = $compile(
                             '<con10t-network-map-popup ' +
-                            'list-item-limit=5 ' +
                             'active-incoming-connections="activeIncomingConnections" ' +
                             'active-outgoing-connections="activeOutgoingConnections" ' +
                             'selection-callback="setSelectedPlaceId(id)"></con10t-network-map-popup>')(scope);
