@@ -415,7 +415,6 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.setSelectedPlaceId = function(id) {
-                    console.log('called back...')
                     scope.previouslySelectedPlaceId = scope.selectedPlaceId;
                     scope.selectedPlaceId = id;
 
