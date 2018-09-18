@@ -246,17 +246,24 @@ angular.module('arachne.visualizations.directives')
                         .attr("height", height)
                         .on("mouseover", function() { focus.style("display", null); })
                         .on("mouseout", function() { focus.style("display", "none"); })
-                        .on("mousemove", mousemove);
+                        .on("mousemove", function () {
+                            var x0 = x.invert(d3.mouse(this)[0]),
+                                i = bisectDate(scope.data, x0, 1),
+                                d0 = scope.data[i - 1],
+                                d1 = scope.data[i],
+                                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                            focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
+                            focus.select("text").text(d.date.getFullYear() + '(' + d.count +')');
+                        })
+                        .on('click', function () {
+                            var x0 = x.invert(d3.mouse(this)[0]),
+                                i = bisectDate(scope.data, x0, 1);
 
-                    function mousemove() {
-                        var x0 = x.invert(d3.mouse(this)[0]),
-                            i = bisectDate(scope.data, x0, 1),
-                            d0 = scope.data[i - 1],
-                            d1 = scope.data[i],
-                            d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-                        focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
-                        focus.select("text").text(d.date.getFullYear() + '(' + d.count +')');
-                    }
+                            scope.dragStartDate = scope.data[i]['date'];
+                            scope.dragEndDate = scope.data[i + 1]['date'];
+                            scope.evaluateState();
+                        });
+
 
                     function dragStart() {
                         var mousePosition = d3.mouse(this);
