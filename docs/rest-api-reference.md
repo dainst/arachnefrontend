@@ -273,7 +273,8 @@ Handles communication between the image server and an IIP compliant viewer on th
 
 **GET /catalog/$catalogId**
 
-```{
+```
+{
     "id": 83,
     "root": {
         "id": 597,
@@ -359,11 +360,13 @@ Handles communication between the image server and an IIP compliant viewer on th
     },
     "author": "Testauthor",
     "public": false
-}```
+}
+```
 
 **POST /catalog**
 
-```{
+```
+{
     "author": "Testauthor",
     "public": false,
     "root": {
@@ -407,7 +410,8 @@ Handles communication between the image server and an IIP compliant viewer on th
 
 **PUT /catalog/$catalogId**
 
-```{
+```
+{
     "id": 83,
     "author": "Testauthor",
     "public": false
@@ -416,7 +420,8 @@ Handles communication between the image server and an IIP compliant viewer on th
 
 **POST /catalog/entry**
 
-```{
+```
+{
     "arachneEntityId": null,
     "label": "Testlabel",
     "parentId": 598,
@@ -426,7 +431,8 @@ Handles communication between the image server and an IIP compliant viewer on th
 
 **PUT /catalog/entry/$entryId**
 
-```{
+```
+{
     "id": 535353,
     "catalogId": 13213,
     "arachneEntityId": 1,
@@ -472,7 +478,8 @@ Returns 403 if the catalog is not owned by the current user or not public.
 
 **GET /catalog/$catalogId**
 
-```{
+```
+{
     "id": 83,
     "root": {
         "id": 597,
@@ -580,7 +587,8 @@ Newly created catalogs are always private.
 
 **POST /catalog**
 
-```{
+```
+{
     "author": "Testauthor",
     "public": false,
     "root": {
@@ -639,7 +647,8 @@ Ignores root of the posted catalog, so it can be ommited.
 
 **PUT /catalog/$catalogId**
 
-```{
+```
+{
     "id": 83,
     "author": "Testauthor",
     "public": false
@@ -709,7 +718,8 @@ Returns 422 if the entry cannot be processed.
 
 **PUT /catalog/entry/$entryId**
 
-```{
+```
+{
     "id": 535353,
     "catalogId": 13213,
     "arachneEntityId": 1,
@@ -736,11 +746,24 @@ Gets the book as JSON. Example:
 
 * **$entityId** long Unique ArachneID of the (book's) entity
 
-```{
+```
+{
   pages:[
     { "img_file":"http://arachne.uni-koeln.de/images/stichwerke/antiquities_of_ionia_1/BOOK-antiquitiesofionia01-0001_196.jpg"}
     { "img_file":"http://arachne.uni-koeln.de/images/stichwerke/antiquities_of_ionia_1/BOOK-antiquitiesofionia01-0002_197.jpg"}
   ]
+}
+```
+### GET /book/$alias
+
+Returns the entity ID of the aliased the (book) entity.
+
+* **$alias** string Unique alias associated with a specific (book) entity
+
+Example:
+```
+{
+  "entityId":15048
 }
 ```
 
@@ -772,7 +795,8 @@ HTTP basic access authentication must be used with an account that has an Arachn
 ### GET /info
 Gets information about the backend, like the build number of the running instance. Example
 
-```{
+```
+{
   "buildNumber" : "69"
 }
 ```

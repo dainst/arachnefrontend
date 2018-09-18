@@ -168,19 +168,8 @@ angular.module('arachne.visualizations.directives')
                             continue;
                         }
 
-                        var originPlace =
-                            scope.placeData[
-                                scope.placeIndexById[
-                                    scope.objectData[i]['originPlaceId']
-                                    ]
-                                ];
-
-                        var destinationPlace =
-                            scope.placeData[
-                                scope.placeIndexById[
-                                    scope.objectData[i]['destinationPlaceId']
-                                    ]
-                                ];
+                        var originPlace = scope.getPlaceById(scope.objectData[i]['originPlaceId']);
+                        var destinationPlace = scope.getPlaceById(scope.objectData[i]['destinationPlaceId']);
 
                         if(!display.includes(originPlace['id'])){
                             display.push(originPlace['id']);
@@ -218,19 +207,8 @@ angular.module('arachne.visualizations.directives')
                             continue;
                         }
 
-                        var originPlace =
-                            scope.placeData[
-                                scope.placeIndexById[
-                                    currentObject['originPlaceId']
-                                ]
-                            ];
-
-                        var destinationPlace =
-                            scope.placeData[
-                                scope.placeIndexById[
-                                    currentObject['destinationPlaceId']
-                                ]
-                            ];
+                        var originPlace = scope.getPlaceById(currentObject['originPlaceId']);
+                        var destinationPlace = scope.getPlaceById(currentObject['destinationPlaceId']);
 
                         if(
                             typeof originPlace !== 'undefined'
@@ -255,9 +233,7 @@ angular.module('arachne.visualizations.directives')
                         var currentId = scope.visiblePlaces[i]['id'];
                         var currentWeight = scope.visiblePlaces[i]['weight'];
 
-                        var place = scope.placeData[
-                                scope.placeIndexById[currentId]
-                            ];
+                        var place = scope.getPlaceById(currentId);
 
                         if(place['lat'] === 'null'
                             || place['lng'] === 'null'
@@ -307,11 +283,10 @@ angular.module('arachne.visualizations.directives')
                         originId = split[0];
                         destinationId = split[1];
 
+                        var origin = scope.getPlaceById(originId);
+                        var destination = scope.getPlaceById(destinationId);
+
                         if (originId === scope.selectedPlaceId) {
-
-                            var origin = scope.placeData[scope.placeIndexById[originId]];
-                            var destination = scope.placeData[scope.placeIndexById[destinationId]];
-
                             if(
                                 origin['lat'] !== 'null'
                                 && origin['lng'] !== 'null'
@@ -329,8 +304,6 @@ angular.module('arachne.visualizations.directives')
                         }
 
                         if (destinationId === scope.selectedPlaceId) {
-                            var origin = scope.placeData[scope.placeIndexById[originId]];
-                            var destination = scope.placeData[scope.placeIndexById[destinationId]];
 
                             if(
                                 origin['lat'] !== 'null'
@@ -393,19 +366,30 @@ angular.module('arachne.visualizations.directives')
                         L.polyline(latlngs, options).addTo(scope.visibleConnectionsLayer);
                     }
 
-
                     if(scope.currentPopup && scope.selectedPlaceId != null) {
-                        var popContent = $compile(
-                            '<con10t-network-map-popup ' +
-                            'active-incoming-connections="activeIncomingConnections" ' +
-                            'active-outgoing-connections="activeOutgoingConnections" ' +
-                            'selection-callback="setSelectedPlaceId(id)"></con10t-network-map-popup>')(scope);
+                        var popContent =
+                            $compile
+                            (
+                                '<con10t-network-map-popup ' +
+                                'active-incoming-connections="activeIncomingConnections" ' +
+                                'active-outgoing-connections="activeOutgoingConnections" ' +
+                                'selected-place-id="selectedPlaceId" ' +
+                                'selection-callback="setSelectedPlaceId(id)" ' +
+                                'place-data-callback="getPlaceById(id)">' +
+                                '</con10t-network-map-popup>'
+                            )
+                            (scope);
+
                         scope.currentPopup
                             .setContent(popContent[0])
                             .addTo(scope.placeLayer);
 
                     }
                     scope.visibleConnectionsLayer.addTo(scope.map);
+                };
+
+                scope.getPlaceById = function(id) {
+                    return scope.placeData[scope.placeIndexById[id]]
                 };
 
                 scope.constructConnectionKey = function(originId, destinationId) {
