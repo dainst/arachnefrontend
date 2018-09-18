@@ -221,7 +221,7 @@ angular.module('arachne.visualizations.directives')
                         .attr("class", "line")
                         .attr("d", line);
 
-                    var selection = scope.svg.append('rect')
+                    scope.selectionBox = scope.svg.append('rect')
                         .attr('x', 10)
                         .attr('y', 0)
                         .attr('width', 50)
@@ -277,9 +277,9 @@ angular.module('arachne.visualizations.directives')
                         scope.dragStartDate = null;
                         scope.dragEndDate = null;
 
-                        selection.attr('width', 0);
-                        selection.attr("opacity", .5);
-                        selection.attr('x', xPos);
+                        scope.selectionBox.attr('width', 0);
+                        scope.selectionBox.attr("opacity", .5);
+                        scope.selectionBox.attr('x', xPos);
 
                         scope.dragStartDate = getDateForPosition(xPos);
                     }
@@ -292,10 +292,10 @@ angular.module('arachne.visualizations.directives')
                         if(xPos > width) xPos = width;
 
                         if(scope.dragStartPosition < xPos) {
-                            selection.attr('width', xPos - scope.dragStartPosition)
+                            scope.selectionBox.attr('width', xPos - scope.dragStartPosition)
                         } else {
-                            selection.attr('x', xPos);
-                            selection.attr('width', scope.dragStartPosition - xPos)
+                            scope.selectionBox.attr('x', xPos);
+                            scope.selectionBox.attr('width', scope.dragStartPosition - xPos)
                         }
 
                         scope.dragEndDate = getDateForPosition(xPos);
@@ -322,6 +322,15 @@ angular.module('arachne.visualizations.directives')
                         .on("end", dragEnd);
 
                     scope.svg.call(dragBehavior);
+                };
+
+                scope.reset = function() {
+                    scope.dragStartDate = scope.overallMinDate;
+                    scope.dragEndDate = scope.overallMaxDate;
+
+                    scope.selectionBox.attr("opacity", .0);
+
+                    scope.evaluateState();
                 };
 
                 scope.evaluateState = function () {
