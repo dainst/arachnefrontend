@@ -366,7 +366,9 @@ angular.module('arachne.visualizations.directives')
                         L.polyline(latlngs, options).addTo(scope.visibleConnectionsLayer);
                     }
 
-                    if(scope.currentPopup && scope.selectedPlaceId != null) {
+                    if(scope.currentPopup
+                        && scope.selectedPlaceId != null
+                        && (scope.activeIncomingConnections.length > 0 || scope.activeOutgoingConnections.length > 0)) {
                         var popContent =
                             $compile
                             (
