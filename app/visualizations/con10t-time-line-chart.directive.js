@@ -121,6 +121,33 @@ angular.module('arachne.visualizations.directives')
                             }
                         }
                     }
+
+                    scope.generateDetailedTimeSpan(scope.overallMinDate, scope.overallMaxDate)
+                };
+
+                scope.generateDetailedTimeSpan = function(minDate, maxDate) {
+                    scope.detailedDates = [];
+                    scope.detailedDates.push(minDate);
+
+                    var addDays = function(inputDate, n)
+                    {
+                        return new Date(
+                            inputDate.getFullYear(),
+                            inputDate.getMonth(),
+                            inputDate.getDate() + n,
+                            inputDate.getHours(),
+                            inputDate.getMinutes(),
+                            inputDate.getSeconds());
+                    };
+
+                    var currentDate = minDate;
+                    while(currentDate < maxDate){
+                        var newDate = addDays(currentDate, 1);
+                        scope.detailedDates.push(newDate);
+                        currentDate = newDate;
+                    }
+
+                    scope.detailedDates.push(maxDate);
                 };
 
                 scope.initializeD3 = function(){
@@ -136,29 +163,42 @@ angular.module('arachne.visualizations.directives')
 
                     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
-                    var x = d3.scaleTime()
+                    var bisectDetailedDate = d3.bisector(function(d) { return d; }).left;
+
+                    var x = d3
+                        .scaleTime()
                         .range([0, width]);
 
-                    var y = d3.scaleLinear()
+                    var xDetailed = d3
+                        .scaleTime()
+                        .range([0, width]);
+
+                    var y = d3
+                        .scaleLinear()
                         .range([height, 0]);
 
-                    var xAxis = d3.axisBottom()
+                    var xAxis = d3
+                        .axisBottom()
                         .scale(x);
 
-                    var yAxis = d3.axisLeft()
+                    var yAxis = d3
+                        .axisLeft()
                         .scale(y);
 
-                    var line = d3.line()
+                    var line = d3
+                        .line()
                         .x(function(d) { return x(d.date); })
                         .y(function(d) { return y(d.count); });
 
-                    scope.svg = d3.select("svg")
+                    scope.svg = d3
+                        .select("svg")
                         .attr("width", width + margin.left + margin.right)
                         .attr("height", height + margin.top + margin.bottom)
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                     x.domain([scope.data[0].date, scope.data[scope.data.length - 1].date]);
+                    xDetailed.domain([scope.detailedDates[0], scope.detailedDates[scope.detailedDates.length - 1]]);
                     y.domain(d3.extent(scope.data, function(d) { return d.count; }));
 
                     scope.svg.append("g")
@@ -262,13 +302,11 @@ angular.module('arachne.visualizations.directives')
                         // TODO: second (invisible?) x axis that contains has a day step size instead of years
 
                         // Get the x-axis data index where the current xPos value would be inserted...
-                        var i = bisectDate(scope.data, x.invert(xPos), 1);
+                        var i = bisectDetailedDate(scope.detailedDates, xDetailed.invert(xPos), 1);
                         // ... then check which of the neighbouring values is closer and return the closer one's date.
-                        var d0 = scope.data[i - 1],
-                            d1 = scope.data[i],
-                            date = xPos - d0.date > d1.date - xPos ? d1 : d0;
-
-                        return date;
+                        var d0 = scope.detailedDates[i - 1],
+                            d1 = scope.detailedDates[i];
+                        return xPos - d0 > d1 - xPos ? d1 : d0;
                     }
 
                     var dragBehavior = d3.drag()
@@ -285,15 +323,14 @@ angular.module('arachne.visualizations.directives')
                         scope.minDate = null;
                         scope.maxDate = null;
 
-                        if(scope.dragStartDate['date'] < scope.dragEndDate['date']){
-                            scope.minDate = scope.dragStartDate['date'];
-                            scope.maxDate = scope.dragEndDate['date'];
-
-                        } else if(scope.dragStartDate['date'] > scope.dragEndDate['date']){
-                            scope.minDate = scope.dragEndDate['date'];
-                            scope.maxDate = scope.dragStartDate['date'];
+                        if(scope.dragStartDate < scope.dragEndDate){
+                            scope.minDate = scope.dragStartDate;
+                            scope.maxDate = scope.dragEndDate;
+                        } else if(scope.dragStartDate > scope.dragEndDate){
+                            scope.minDate = scope.dragEndDate;
+                            scope.maxDate = scope.dragStartDate;
                         } else {
-                            scope.minDate = scope.maxDate = scope.dragEndDate['date'];
+                            scope.minDate = scope.maxDate = scope.dragEndDate;
                         }
                     }
 
