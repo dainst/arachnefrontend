@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('arachne.visualizations.directives')
-    .directive('con10tNetworkMap', ['$http', '$q', '$filter', '$compile', function ($http, $q, $filter, $compile) {
+    .directive('con10tNetworkMap', ['$http', '$q', '$filter', '$compile', 'transl8',
+        function ($http, $q, $filter, $compile, transl8) {
         return {
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-network-map.html',
@@ -77,6 +78,30 @@ angular.module('arachne.visualizations.directives')
                             scope.evaluateState();
                         });
                     });
+
+                var DeselectControl = L.Control.extend({
+                    options: {
+                        position: 'topright'
+                    },
+                    onAdd: function(map) {
+                        var container = document.createElement("div");
+
+                        container.classList.add('leaflet-bar', 'leaflet-control', 'leaflet-control-custom');
+                        container.innerHTML = transl8.getTranslation('ui_reset');
+
+                        container.style.backgroundColor = 'white';
+                        container.style.padding = '5px';
+                        container.style.cursor = 'pointer';
+
+                        container.onclick = function () {
+                            scope.selectedPlaceId = null;
+                            scope.evaluateState();
+                        };
+                        return container;
+                    }
+                });
+
+                scope.map.addControl(new DeselectControl());
 
                 // Takes TSV data object and creates a lookup-index based on the values behind the given key
                 scope.createIndex = function (data, indexKey){
@@ -369,7 +394,7 @@ angular.module('arachne.visualizations.directives')
                     }
 
 
-                    if(scope.currentPopup) {
+                    if(scope.currentPopup && scope.selectedPlaceId != null) {
                         var popContent = $compile(
                             '<con10t-network-map-popup ' +
                             'active-incoming-connections="activeIncomingConnections" ' +
