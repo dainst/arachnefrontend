@@ -57,6 +57,91 @@ angular.module('arachne.visualizations.directives')
                         [0, 0, 0, 21, 0, 12, 0, 0, 0, 0]  // Unbekannt (33)
                     ];
                 };
+
+                scope.processTimeLineTsvData = function (tsvData) {
+                    scope.timeDataBins = [];
+                    scope.binnedData = {};
+
+                    for (var i = 0; i < tsvData.length; i++) {
+                        var currentObject = tsvData[i];
+
+                        var fromDate = new Date(currentObject['timespanFrom']);
+                        var toDate = new Date(currentObject['timespanTo']);
+
+                        if (fromDate.toString() === 'Invalid Date' || toDate.toString() === 'Invalid Date') {
+                            continue;
+                        }
+
+                        if (fromDate.toISOString() === toDate.toISOString()) {
+                            var binKey = fromDate.toISOString().substr(0, 4);
+
+                            if (binKey in scope.binnedData) {
+                                scope.binnedData[binKey] += 1
+                            } else {
+                                scope.binnedData[binKey] = 1
+                            }
+                        } else {
+                            var fromBinKey = fromDate.toISOString().substr(0, 4);
+                            var toBinKey = toDate.toISOString().substr(0, 4);
+
+                            if (fromBinKey in scope.binnedData) {
+                                scope.binnedData[fromBinKey] += 1
+                            } else {
+                                scope.binnedData[fromBinKey] = 1
+                            }
+
+                            if (toBinKey in scope.binnedData) {
+                                scope.binnedData[toBinKey] += 1
+                            } else {
+                                scope.binnedData[toBinKey] = 1
+                            }
+                        }
+                    }
+
+                    for (var binKey in scope.binnedData) {
+                        scope.timeDataBins.push({
+                            'date': new Date(binKey),
+                            'count': scope.binnedData[binKey]
+                        });
+                    }
+
+                    scope.timeDataBins.sort(function (a, b) {
+                        return a.date - b.date;
+                    });
+
+                    var getYearsInbetween = function (startYear, endYear) {
+                        var result = [];
+                        var currentYear = startYear + 1;
+
+                        while (currentYear < endYear) {
+                            result.push(
+                                {
+                                    'date': new Date(currentYear, 1, 1),
+                                    'count': 0
+                                });
+                            currentYear += 1;
+                        }
+
+                        return result;
+                    };
+
+                    // Fill up missing year bins (= years with 0 objects)
+                    for(var i = 0; i < scope.timeDataBins.length - 1; i++) {
+
+                        if(scope.timeDataBins[i]['date'].getFullYear() + 1
+                            !== scope.timeDataBins[i + 1]['date'].getFullYear()){
+                            var inbetween = getYearsInbetween(
+                                scope.timeDataBins[i]['date'].getFullYear(),
+                                scope.timeDataBins[i + 1]['date'].getFullYear()
+                            );
+
+                            for(var j = 0; j < inbetween.length; j++){
+                                scope.timeDataBins.splice(i + 1 + j, 0, inbetween[j])
+                            }
+                        }
+                    }
+                };
+
                 scope.initializeTimeLineParameters = function () {
                     var objectDataColumns = ['id', 'timespanFrom', 'timespanTo'];
                     var dataQueries = [];
@@ -64,101 +149,14 @@ angular.module('arachne.visualizations.directives')
 
                     $q.all(dataQueries)
                         .then(function (responses) {
-                            scope.objectData = scope.processTsvData(
+                            scope.objectData = scope.processTimeLineTsvData(
                                 $filter('tsvData')(responses[0].data, objectDataColumns)
                             );
                         });
-
-                    scope.processTsvData = function (tsvData) {
-                        scope.timeDataBins = [];
-                        scope.binnedData = {};
-
-                        for (var i = 0; i < tsvData.length; i++) {
-                            var currentObject = tsvData[i];
-
-                            var fromDate = new Date(currentObject['timespanFrom']);
-                            var toDate = new Date(currentObject['timespanTo']);
-
-                            if (fromDate.toString() === 'Invalid Date' || toDate.toString() === 'Invalid Date') {
-                                continue;
-                            }
-
-                            if (fromDate.toISOString() === toDate.toISOString()) {
-                                var binKey = fromDate.toISOString().substr(0, 4);
-
-                                if (binKey in scope.binnedData) {
-                                    scope.binnedData[binKey] += 1
-                                } else {
-                                    scope.binnedData[binKey] = 1
-                                }
-                            } else {
-                                var fromBinKey = fromDate.toISOString().substr(0, 4);
-                                var toBinKey = toDate.toISOString().substr(0, 4);
-
-                                if (fromBinKey in scope.binnedData) {
-                                    scope.binnedData[fromBinKey] += 1
-                                } else {
-                                    scope.binnedData[fromBinKey] = 1
-                                }
-
-                                if (toBinKey in scope.binnedData) {
-                                    scope.binnedData[toBinKey] += 1
-                                } else {
-                                    scope.binnedData[toBinKey] = 1
-                                }
-                            }
-                        }
-
-                        for (var binKey in scope.binnedData) {
-                            scope.timeDataBins.push({
-                                'date': new Date(binKey),
-                                'count': scope.binnedData[binKey]
-                            });
-                        }
-
-                        scope.timeDataBins.sort(function (a, b) {
-                            return a.date - b.date;
-                        });
-
-                        var getYearsInbetween = function (startYear, endYear) {
-                            var result = [];
-                            var currentYear = startYear + 1;
-
-                            while (currentYear < endYear) {
-                                result.push(
-                                    {
-                                        'date': new Date(currentYear, 1, 1),
-                                        'count': 0
-                                    });
-                                currentYear += 1;
-                            }
-
-                            return result;
-                        };
-
-                        // Fill up missing year bins (= years with 0 objects)
-                        for(var i = 0; i < scope.timeDataBins.length - 1; i++) {
-
-                            if(scope.timeDataBins[i]['date'].getFullYear() + 1
-                                !== scope.timeDataBins[i + 1]['date'].getFullYear()){
-                                var inbetween = getYearsInbetween(
-                                    scope.timeDataBins[i]['date'].getFullYear(),
-                                    scope.timeDataBins[i + 1]['date'].getFullYear()
-                                );
-
-                                for(var j = 0; j < inbetween.length; j++){
-                                    scope.timeDataBins.splice(i + 1 + j, 0, inbetween[j])
-                                }
-                            }
-                        }
-                    };
-
                 };
 
                 scope.initializeChordParameters();
                 scope.initializeTimeLineParameters();
-
-                console.log(scope.minDate, scope.maxDate)
             }
         }
     }]);
