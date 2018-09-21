@@ -77,31 +77,31 @@ angular.module('arachne.visualizations.directives')
                         scope.$watch('selectedPlaceId', function(newValue, oldValue) {
                             scope.evaluateState();
                         });
+
+                        var DeselectControl = L.Control.extend({
+                            options: {
+                                position: 'topright'
+                            },
+                            onAdd: function(map) {
+                                var container = document.createElement("div");
+
+                                container.classList.add('leaflet-bar', 'leaflet-control', 'leaflet-control-custom');
+                                container.innerHTML = transl8.getTranslation('ui_reset');
+
+                                container.style.backgroundColor = 'white';
+                                container.style.padding = '5px';
+                                container.style.cursor = 'pointer';
+
+                                container.onclick = function () {
+                                    scope.selectedPlaceId = null;
+                                    scope.evaluateState();
+                                };
+                                return container;
+                            }
+                        });
+
+                        scope.map.addControl(new DeselectControl());
                     });
-
-                var DeselectControl = L.Control.extend({
-                    options: {
-                        position: 'topright'
-                    },
-                    onAdd: function(map) {
-                        var container = document.createElement("div");
-
-                        container.classList.add('leaflet-bar', 'leaflet-control', 'leaflet-control-custom');
-                        container.innerHTML = transl8.getTranslation('ui_reset');
-
-                        container.style.backgroundColor = 'white';
-                        container.style.padding = '5px';
-                        container.style.cursor = 'pointer';
-
-                        container.onclick = function () {
-                            scope.selectedPlaceId = null;
-                            scope.evaluateState();
-                        };
-                        return container;
-                    }
-                });
-
-                scope.map.addControl(new DeselectControl());
 
                 // Takes TSV data object and creates a lookup-index based on the values behind the given key
                 scope.createIndex = function (data, indexKey){

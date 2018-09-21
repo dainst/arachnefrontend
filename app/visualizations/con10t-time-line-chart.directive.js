@@ -152,14 +152,20 @@ angular.module('arachne.visualizations.directives')
 
                 scope.initializeD3 = function(){
 
-                    outerWidth = 480;
-                    if(element.length === 1 && element[0].offsetWidth !== 0){
-                        outerWidth = element[0].offsetWidth
+                    var outerWidth = 480;
+                    var outerHeight = 200;
+                    if(element.length === 1){
+                        if(element[0].offsetWidth !== 0){
+                            outerWidth = element[0].offsetWidth
+                        }
+                        if(element[0].offsetHeight !== 0){
+                            outerHeight = element[0].offsetHeight;
+                        }
                     }
 
                     var margin = {top: 20, right: 50, bottom: 30, left: 50},
                         width = outerWidth - margin.left - margin.right,
-                        height = 200 - margin.top - margin.bottom;
+                        height = outerHeight - margin.top - margin.bottom;
 
                     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
@@ -191,7 +197,7 @@ angular.module('arachne.visualizations.directives')
                         .y(function(d) { return y(d.count); });
 
                     scope.svg = d3
-                        .select("svg")
+                        .select("#timeline-container")
                         .attr("width", width + margin.left + margin.right)
                         .attr("height", height + margin.top + margin.bottom)
                         .append("g")
