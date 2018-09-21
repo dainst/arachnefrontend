@@ -4,26 +4,31 @@
     Colors:   {{masterColors}},
     Matrix:   {{masterMatrix}},
     Min date: {{minDate}},
-    Max date: {{maxDate}}
+    Max date: {{maxDate}},
+    {{timeDataBins}}
   </pre>
 
   <div class="row">
-  <div class="col-md-6">
-    <con10t-scholar-network-chord
-      names="masterNames"
-      colors="masterColors"
-      matrix="masterMatrix" class="row"></con10t-scholar-network-chord>
+    <div class="col-md-6">
+      <con10t-scholar-network-chord
+          names="masterNames"
+          colors="masterColors"
+          matrix="masterMatrix" class="row"></con10t-scholar-network-chord>
     </div>
-      <div class="col-md-6">
+    <div class="col-md-6">
         <con10t-network-map
             object-data-path="{{objectDataPath}}"
             places-data-path="{{placesDataPath}}"
             zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}"
             min-date="minDate"
             max-date="maxDate"></con10t-network-map>
-      </div>
-  </div> <con10t-time-line-chart
-    object-data-path="{{objectDataPath}}"
-    min-date="minDate"
-    max-date="maxDate"></con10t-time-line-chart>
+    </div>
+  </div>
 
+  <con10t-time-line-chart
+    min-date="minDate"
+    max-date="maxDate"
+    overall-min-date="overallMinDate"
+    overall-max-date="overallMaxDate"
+    data="timeDataBins"></con10t-time-line-chart>
+</div>

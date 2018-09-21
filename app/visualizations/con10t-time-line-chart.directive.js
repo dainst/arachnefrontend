@@ -7,128 +7,33 @@ angular.module('arachne.visualizations.directives')
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-time-line-chart.html',
             scope: {
-                objectDataPath: '@',
                 reportOnDrag: '@',  // Pass "true" if you want to evaluate minDate/maxDate while dragging, otherwise evaluation will take place at drag end
+                overallMinDate: '=',
+                overallMaxDate: '=',
                 minDate: '=',
-                maxDate: '='
+                maxDate: '=',
+                data: '='
             },
             link: function (scope, element, attrs) {
+                scope.evaluateOverallTimespan = function(){
+                    scope.overallMaxDate = new Date(-8640000000000000);
+                    scope.overallMinDate = new Date(8640000000000000);
 
-                scope.objectDataColumns = [
-                    'id', 'timespanFrom', 'timespanTo'
-                ];
+                    for(var i = 0; i < scope.data.length; i++){
 
-                var dataQueries = [];
-                dataQueries.push($http.get(scope.objectDataPath));
-
-                scope.dragStartDate = null;
-                scope.dragEndDate = null;
-
-                $q.all(dataQueries)
-                    .then(function(responses) {
-                        scope.objectData = scope.processTsvData(
-                            $filter('tsvData')(responses[0].data, scope.objectDataColumns)
-                        );
-
-                        scope.initializeD3();
-                        scope.evaluateState();
-                    });
-
-                scope.processTsvData = function(tsvData) {
-                    scope.data = [];
-                    scope.binnedData = {};
-                    scope.overallMinDate = new Date('2018-01-01');
-                    scope.overallMaxDate = new Date('0000-01-01');
-
-                    for(var i = 0; i < tsvData.length; i++){
-                        var currentObject = tsvData[i];
-
-                        var fromDate = new Date(currentObject['timespanFrom']);
-                        var toDate = new Date(currentObject['timespanTo']);
-
-                        if(fromDate.toString() === 'Invalid Date' || toDate.toString() === 'Invalid Date'){
-                            continue;
+                        if(scope.data[i].date > scope.overallMaxDate){
+                            scope.overallMaxDate = new Date(scope.data[i].date);
                         }
 
-                        if(fromDate.toISOString() === toDate.toISOString()) {
-                            var binKey = fromDate.toISOString().substr(0,4);
-
-                            if(new Date(binKey) < scope.overallMinDate) scope.overallMinDate = new Date(binKey);
-                            if(new Date(binKey) > scope.overallMaxDate) scope.overallMaxDate = new Date(binKey);
-
-                            if(binKey in scope.binnedData) {
-                                scope.binnedData[binKey] += 1
-                            } else {
-                                scope.binnedData[binKey] = 1
-                            }
-                        } else {
-                            var fromBinKey = fromDate.toISOString().substr(0,4);
-                            var toBinKey = toDate.toISOString().substr(0,4);
-
-                            if(new Date(fromBinKey) < scope.overallMinDate) scope.overallMinDate = new Date(fromBinKey);
-                            if(new Date(toBinKey) > scope.overallMaxDate) scope.overallMaxDate = new Date(toBinKey);
-
-                            if(fromBinKey in scope.binnedData) {
-                                scope.binnedData[fromBinKey] += 1
-                            } else {
-                                scope.binnedData[fromBinKey] = 1
-                            }
-
-                            if(toBinKey in scope.binnedData) {
-                                scope.binnedData[toBinKey] += 1
-                            } else {
-                                scope.binnedData[toBinKey] = 1
-                            }
+                        if(scope.data[i].date < scope.overallMinDate){
+                            scope.overallMinDate = new Date(scope.data[i].date);
                         }
                     }
-
-                    for(var binKey in scope.binnedData){
-                        scope.data.push({
-                            'date': new Date(binKey),
-                            'count': scope.binnedData[binKey]
-                        });
-                    }
-
-                    scope.data.sort(function(a, b) {
-                        return a.date - b.date;
-                    });
-
-                    var getYearsInbetween = function (startYear, endYear) {
-                        var result = [];
-                        var currentYear = startYear + 1;
-
-                        while(currentYear < endYear){
-                            result.push(
-                                {
-                                    'date': new Date(currentYear, 1, 1),
-                                    'count': 0
-                                });
-                            currentYear += 1;
-                        }
-
-                        return result;
-                    };
-
-                    for(var i = 0; i < scope.data.length - 1; i++) {
-
-                        if(scope.data[i]['date'].getFullYear() + 1 !== scope.data[i + 1]['date'].getFullYear()){
-                            var inbetween = getYearsInbetween(
-                                scope.data[i]['date'].getFullYear(),
-                                scope.data[i + 1]['date'].getFullYear()
-                            );
-
-                            for(var j = 0; j < inbetween.length; j++){
-                                scope.data.splice(i + 1 + j, 0, inbetween[j])
-                            }
-                        }
-                    }
-
-                    scope.generateDetailedTimeSpan(scope.overallMinDate, scope.overallMaxDate)
                 };
 
-                scope.generateDetailedTimeSpan = function(minDate, maxDate) {
+                scope.generateDetailedTimeSpan = function() {
                     scope.detailedDates = [];
-                    scope.detailedDates.push(minDate);
+                    scope.detailedDates.push(scope.overallMinDate);
 
                     var addDays = function(inputDate, n)
                     {
@@ -141,14 +46,14 @@ angular.module('arachne.visualizations.directives')
                             inputDate.getSeconds());
                     };
 
-                    var currentDate = minDate;
-                    while(currentDate < maxDate){
+                    var currentDate = scope.overallMinDate;
+                    while(currentDate < scope.overallMaxDate){
                         var newDate = addDays(currentDate, 1);
                         scope.detailedDates.push(newDate);
                         currentDate = newDate;
                     }
 
-                    scope.detailedDates.push(maxDate);
+                    scope.detailedDates.push(scope.overallMaxDate);
                 };
 
                 scope.initializeD3 = function(){
@@ -347,9 +252,7 @@ angular.module('arachne.visualizations.directives')
                 scope.reset = function() {
                     scope.dragStartDate = scope.overallMinDate;
                     scope.dragEndDate = scope.overallMaxDate;
-
                     scope.selectionBox.attr("opacity", .0);
-
                     scope.evaluateState();
                 };
 
@@ -373,7 +276,25 @@ angular.module('arachne.visualizations.directives')
                     if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
                     }
-                }
+                };
+
+                scope.recreate = function() {
+                    scope.evaluateOverallTimespan();
+                    scope.generateDetailedTimeSpan();
+                    scope.initializeD3();
+                    scope.evaluateState();
+                };
+
+                scope.dragStartDate = null;
+                scope.dragEndDate = null;
+
+                scope.$watch('data', function(newValue, oldValue) {
+                    if(typeof newValue === 'undefined'){
+                        return;
+                    }
+                    scope.recreate();
+                });
+
             }
         }
     }]);
