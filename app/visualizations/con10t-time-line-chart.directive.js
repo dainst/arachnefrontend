@@ -8,6 +8,7 @@ angular.module('arachne.visualizations.directives')
             templateUrl: 'app/visualizations/con10t-time-line-chart.html',
             scope: {
                 objectDataPath: '@',
+                reportOnDrag: '@',  // Pass "true" if you want to evaluate minDate/maxDate while dragging, otherwise evaluation will take place at drag end
                 minDate: '=',
                 maxDate: '='
             },
@@ -304,11 +305,24 @@ angular.module('arachne.visualizations.directives')
                             scope.selectionBox.attr('width', scope.dragStartPosition - xPos)
                         }
 
-                        scope.dragEndDate = getDateForPosition(xPos);
-                        scope.evaluateState()
+                        if(scope.reportOnDrag  === 'true'){
+                            scope.dragEndDate = getDateForPosition(xPos);
+                            scope.evaluateState()
+                        }
+
                     }
 
                     function dragEnd() {
+                        if(scope.reportOnDrag !== 'true'){
+                            var mousePosition = d3.mouse(this);
+                            var xPos = mousePosition[0];
+
+                            if(xPos < 0) xPos = 0;
+                            if(xPos > width) xPos = width;
+
+                            scope.dragEndDate = getDateForPosition(xPos);
+                            scope.evaluateState()
+                        }
                     }
 
                     function getDateForPosition(xPos) {
