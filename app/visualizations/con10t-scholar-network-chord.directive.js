@@ -20,9 +20,6 @@ angular.module('arachne.visualizations.directives')
                 var innerRadius = outerRadius - 30;
                 var formatValue = d3.formatPrefix(",.0", 1e2);
 
-                console.log(element);
-                console.log(dimension);
-
                 var svg = d3
                     .select("#chord-svg")
                     .attr("width", dimension)
