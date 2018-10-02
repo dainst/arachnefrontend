@@ -13,8 +13,10 @@ angular.module('arachne.visualizations.directives')
                 zoom: '@'
             },
             link: function (scope, element, attrs) {
-                scope.initializeChordParameters = function () {
-                    scope.masterNames = [
+
+                scope.processChordData = function (data) {
+                    // TODO: Generate based on TSV data
+                    scope.names = [
                         "Braun, Emil",
                         "Brunn, Heinrich von",
                         "Bunsen, Christian Karl Josias von",
@@ -27,7 +29,7 @@ angular.module('arachne.visualizations.directives')
                         "Unbekannt"
                     ];
 
-                    scope.masterColors = [
+                    scope.colors = [
                         "#89b7e5",
                         "#6699cc",
                         "#5b89e5",
@@ -40,7 +42,7 @@ angular.module('arachne.visualizations.directives')
                         "#003366"
                     ];
 
-                    scope.masterMatrix = [
+                    scope.matrix = [
                         // Autoren:
                         // Braun, Brunn, Bunsen, Gerhard, Henzen,  Jahn, Lepsius, Michaelis, Mommsen, Unbekannt
                         // (692),  (56),   (61),  (1479), (1457), (299),   (128),       (0),     (1),      (51)
@@ -58,12 +60,12 @@ angular.module('arachne.visualizations.directives')
                     ];
                 };
 
-                scope.processTimeLineTsvData = function (tsvData) {
+                scope.processTimeLineData = function (data) {
                     scope.timeDataBins = [];
                     scope.binnedData = {};
 
-                    for (var i = 0; i < tsvData.length; i++) {
-                        var currentObject = tsvData[i];
+                    for (var i = 0; i < data.length; i++) {
+                        var currentObject = data[i];
 
                         var fromDate = new Date(currentObject['timespanFrom']);
                         var toDate = new Date(currentObject['timespanTo']);
@@ -142,21 +144,31 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
-                scope.initializeTimeLineParameters = function () {
-                    var objectDataColumns = ['id', 'timespanFrom', 'timespanTo'];
+                scope.processMapData = function(objectData, placeData) {
+
+                };
+
+                scope.loadData = function() {
+                    var objectDataColumns = ['id', 'timespanFrom', 'timespanTo', 'originPlaceId',
+                        'destinationPlaceId'];
+                    var placesDataColumns = [ 'id', 'lat', 'lng', 'name', 'authId', 'authSource' ];
+
                     var dataQueries = [];
                     dataQueries.push($http.get(scope.objectDataPath));
+                    dataQueries.push($http.get(scope.placesDataPath));
 
                     $q.all(dataQueries)
                         .then(function (responses) {
-                            scope.objectData = scope.processTimeLineTsvData(
-                                $filter('tsvData')(responses[0].data, objectDataColumns)
-                            );
+                            scope.objectData = $filter('tsvData')(responses[0].data, objectDataColumns);
+                            scope.placeData = $filter('tsvData')(responses[1].data, placesDataColumns);
+
+                            scope.processChordData(null);
+                            scope.processTimeLineData(scope.objectData);
+                            scope.processMapData(scope.objectData, scope.placeData)
                         });
                 };
 
-                scope.initializeChordParameters();
-                scope.initializeTimeLineParameters();
+                scope.loadData();
             }
         }
     }]);

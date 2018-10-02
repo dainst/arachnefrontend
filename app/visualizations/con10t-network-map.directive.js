@@ -7,23 +7,16 @@ angular.module('arachne.visualizations.directives')
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-network-map.html',
             scope: {
-                placesDataPath: '@',
-                objectDataPath: '@',
                 showControls: '@',
                 lat: '@',
                 lng: '@',
                 zoom: '@',
+                placeData: '=',
+                objectData: '=',
                 minDate: '=',
                 maxDate: '='
             },
             link: function (scope, element, attrs) {
-                scope.placesDataColumns = [
-                    'id', 'lat', 'lng', 'name', 'authId', 'authSource'
-                ];
-
-                scope.objectDataColumns = [
-                    'id', 'timespanFrom', 'timespanTo', 'originPlaceId', 'destinationPlaceId'
-                ];
 
                 var mapElement = element[0].querySelector('.map-container');
                 scope.map = L.map( mapElement).setView([scope.lat, scope.lng], scope.zoom);
@@ -50,60 +43,66 @@ angular.module('arachne.visualizations.directives')
                 scope.selectedPlaceId = null;
                 scope.displayedPlaces = [];
 
-                var dataQueries = [];
+                scope.$watch('minDate', function(newValue, oldValue) {
+                    scope.evaluateState();
+                });
 
-                dataQueries.push($http.get(scope.placesDataPath));
-                dataQueries.push($http.get(scope.objectDataPath));
+                scope.$watch('maxDate', function(newValue, oldValue) {
+                    scope.evaluateState();
+                });
 
-                $q.all(dataQueries)
-                    .then(function(responses){
-                        scope.placeData =  $filter('tsvData')(responses[0].data, scope.placesDataColumns);
-                        scope.objectData = $filter('tsvData')(responses[1].data, scope.objectDataColumns);
+                scope.$watch('selectedPlaceId', function(newValue, oldValue) {
+                    scope.evaluateState();
+                });
 
-                        scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
-                        scope.objectIndexById = scope.createIndex(scope.objectData, 'id');
+                scope.$watch('placeData', function(newValue, oldValue) {
+                    scope.initialize();
+                });
 
-                        scope.evaluateOverallDateRange();
-                        scope.evaluateState();
+                scope.$watch('objectData', function(newValue, oldValue) {
+                    scope.initialize();
+                });
 
-                        scope.$watch('minDate', function(newValue, oldValue) {
+                var DeselectControl = L.Control.extend({
+                    options: {
+                        position: 'topright'
+                    },
+                    onAdd: function(map) {
+                        var container = document.createElement("div");
+
+                        container.classList.add('leaflet-bar', 'leaflet-control', 'leaflet-control-custom');
+                        container.innerHTML = transl8.getTranslation('ui_reset');
+
+                        container.style.backgroundColor = 'white';
+                        container.style.padding = '5px';
+                        container.style.cursor = 'pointer';
+
+                        container.onclick = function () {
+                            scope.selectedPlaceId = null;
                             scope.evaluateState();
-                        });
+                        };
+                        return container;
+                    }
+                });
 
-                        scope.$watch('maxDate', function(newValue, oldValue) {
-                            scope.evaluateState();
-                        });
+                scope.map.addControl(new DeselectControl());
 
-                        scope.$watch('selectedPlaceId', function(newValue, oldValue) {
-                            scope.evaluateState();
-                        });
+                scope.initialize = function() {
+                    if(typeof scope.placeData === 'undefined'){
+                        return;
+                    }
+                    if(typeof scope.objectData === 'undefined'){
+                       return;
+                    }
 
-                        var DeselectControl = L.Control.extend({
-                            options: {
-                                position: 'topright'
-                            },
-                            onAdd: function(map) {
-                                var container = document.createElement("div");
+                    scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
+                    scope.objectIndexById = scope.createIndex(scope.objectData, 'id');
 
-                                container.classList.add('leaflet-bar', 'leaflet-control', 'leaflet-control-custom');
-                                container.innerHTML = transl8.getTranslation('ui_reset');
+                    scope.evaluateOverallDateRange();
+                    scope.evaluateState();
+                };
 
-                                container.style.backgroundColor = 'white';
-                                container.style.padding = '5px';
-                                container.style.cursor = 'pointer';
-
-                                container.onclick = function () {
-                                    scope.selectedPlaceId = null;
-                                    scope.evaluateState();
-                                };
-                                return container;
-                            }
-                        });
-
-                        scope.map.addControl(new DeselectControl());
-                    });
-
-                // Takes TSV data object and creates a lookup-index based on the values behind the given key
+                // Takes data and creates a lookup-index based on the values behind the given key
                 scope.createIndex = function (data, indexKey){
                     var index = {};
 
@@ -142,6 +141,9 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.evaluateState = function(){
+                    if(typeof scope.placeData === 'undefined' || typeof scope.objectData === 'undefined'){
+                        return;
+                    }
 
                     scope.evaluateVisiblePlaces();
                     scope.evaluateVisibleConnections();
