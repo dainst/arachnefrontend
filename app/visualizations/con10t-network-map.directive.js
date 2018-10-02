@@ -7,14 +7,11 @@ angular.module('arachne.visualizations.directives')
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-network-map.html',
             scope: {
-                showControls: '@',
                 lat: '@',
                 lng: '@',
                 zoom: '@',
                 places: '=',
-                connections: '=',
-                minDate: '=',
-                maxDate: '='
+                connections: '='
             },
             link: function (scope, element, attrs) {
 
