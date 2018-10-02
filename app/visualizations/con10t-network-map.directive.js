@@ -11,8 +11,8 @@ angular.module('arachne.visualizations.directives')
                 lat: '@',
                 lng: '@',
                 zoom: '@',
-                placeData: '=',
-                objectData: '=',
+                places: '=',
+                connections: '=',
                 minDate: '=',
                 maxDate: '='
             },
@@ -25,42 +25,17 @@ angular.module('arachne.visualizations.directives')
                     'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b47a3cf895b94aedad41e5cfb5222b87', { })
                     .addTo(scope.map);
 
-                scope.mindatePicker = document.querySelector('#min-date-picker');
-                scope.maxdatePicker = document.querySelector('#max-date-picker');
-                scope.dateDisplay = document.querySelector('#date-range-display');
-
-                scope.mindatePicker.oninput = function(){
-                    scope.setMinDate(scope.mindatePicker.value);
-                };
-
-                scope.maxdatePicker.oninput = function(){
-                    scope.setMaxDate(scope.maxdatePicker.value);
-                };
-
-                scope.visibleConnectionsLayer = new L.LayerGroup().addTo(scope.map);
                 scope.placeLayer = new L.LayerGroup().addTo(scope.map);
-                scope.visibleConnections = [];
+                scope.connectionsLayer = new L.LayerGroup().addTo(scope.map);
                 scope.selectedPlaceId = null;
-                scope.displayedPlaces = [];
-
-                scope.$watch('minDate', function(newValue, oldValue) {
-                    scope.evaluateState();
-                });
-
-                scope.$watch('maxDate', function(newValue, oldValue) {
-                    scope.evaluateState();
-                });
+                scope.previouslySelectedPlaceId = null;
 
                 scope.$watch('selectedPlaceId', function(newValue, oldValue) {
                     scope.evaluateState();
                 });
 
-                scope.$watch('placeData', function(newValue, oldValue) {
-                    scope.initialize();
-                });
-
-                scope.$watch('objectData', function(newValue, oldValue) {
-                    scope.initialize();
+                scope.$watch('places', function(newValue, oldValue) {
+                    scope.evaluateState();
                 });
 
                 var DeselectControl = L.Control.extend({
@@ -87,69 +62,16 @@ angular.module('arachne.visualizations.directives')
 
                 scope.map.addControl(new DeselectControl());
 
-                scope.initialize = function() {
-                    if(typeof scope.placeData === 'undefined'){
+                scope.evaluateState = function() {
+
+                    if(typeof scope.places === 'undefined' || scope.connections === 'undefined')
                         return;
-                    }
-                    if(typeof scope.objectData === 'undefined'){
-                       return;
-                    }
-
-                    scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
-                    scope.objectIndexById = scope.createIndex(scope.objectData, 'id');
-
-                    scope.evaluateOverallDateRange();
-                    scope.evaluateState();
-                };
-
-                // Takes data and creates a lookup-index based on the values behind the given key
-                scope.createIndex = function (data, indexKey){
-                    var index = {};
-
-                    var i = 0;
-                    while(i < data.length) {
-                        index[data[i][indexKey]] = i;
-                        i += 1;
-                    }
-
-                    return index;
-                };
-
-                scope.evaluateOverallDateRange = function(){
-                    scope.minDate = new Date(8640000000000000);
-                    scope.maxDate = new Date(-8640000000000000);
-
-                    for(var i = 0; i < scope.objectData.length; i++){
-                        var current = scope.objectData[i];
-
-                        if(new Date(current['timespanFrom']) < scope.minDate){
-                            scope.minDate = new Date(current['timespanFrom'])
-                        }
-
-                        if(new Date(current['timespanTo']) > scope.maxDate) {
-                            scope.maxDate = new Date(current['timespanTo'])
-                        }
-                    }
-
-                    scope.mindatePicker.min = Date.parse(scope.minDate);
-                    scope.mindatePicker.max = Date.parse(scope.maxDate);
-                    scope.mindatePicker.value = scope.mindatePicker.min;
-
-                    scope.maxdatePicker.min = Date.parse(scope.minDate);
-                    scope.maxdatePicker.max = Date.parse(scope.maxDate);
-                    scope.maxdatePicker.value = scope.maxdatePicker.max;
-                };
-
-                scope.evaluateState = function(){
-                    if(typeof scope.placeData === 'undefined' || typeof scope.objectData === 'undefined'){
-                        return;
-                    }
 
                     scope.evaluateVisiblePlaces();
                     scope.evaluateVisibleConnections();
 
-                    scope.showPlaces();
-                    scope.showConnectionsForSelectedPlace();
+                    scope.renderPlaces();
+                    scope.renderConnections();
 
                     if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
@@ -160,98 +82,64 @@ angular.module('arachne.visualizations.directives')
                     scope.visiblePlaces = [];
 
                     var weights = {};
-                    var display = [];
+                    for(var i = 0; i < scope.connections.length; i++){
+                        var connection = scope.connections[i];
 
-
-                    for(var i = 0; i < scope.objectData.length; i++){
-                        var currentObject = scope.objectData[i];
-                        if((isNaN(Date.parse(currentObject['timespanFrom']))
-                            || Date.parse(currentObject['timespanFrom']) < scope.minDate
-                        ) || (
-                            isNaN(Date.parse(currentObject['timespanTo']))
-                            || Date.parse(currentObject['timespanTo']) > scope.maxDate
-                        )) continue;
-
-                        var originPlace = scope.getPlaceById(scope.objectData[i]['originPlaceId']);
-                        var destinationPlace = scope.getPlaceById(scope.objectData[i]['destinationPlaceId']);
-
-                        if(!display.includes(originPlace['id'])){
-                            display.push(originPlace['id']);
-                        }
-
-                        if(!display.includes(destinationPlace['id'])){
-                            display.push(destinationPlace['id']);
-                        }
-
-                        if(typeof originPlace !== 'undefined') {
-                            if (originPlace['id'] in weights) {
-                                weights[originPlace['id']] += 1;
-                            } else {
-                                weights[originPlace['id']] = 1;
-                            }
+                        if (connection[0] in weights) {
+                            weights[connection[0]] += 1;
+                        } else {
+                            weights[connection[0]] = 1;
                         }
                     }
 
-                    for(var i = 0; i < display.length; i++) {
+                    for(var i = 0; i < scope.places.length; i++) {
                         scope.visiblePlaces.push({
-                            'id': display[i],
-                            'weight': weights[display[i]]
+                            'data': scope.places[i],
+                            'weight': weights[scope.places[i]['id']]
                         })
                     }
                 };
 
                 scope.evaluateVisibleConnections = function() {
                     scope.visibleConnections = [];
-                    for(var i = 0; i < scope.objectData.length; i++){
-                        var currentObject = scope.objectData[i];
 
-                        if(Date.parse(currentObject['timespanFrom']) < scope.minDate
-                            || Date.parse(currentObject['timespanTo']) > scope.maxDate
-                        ){
-                            continue;
-                        }
+                    for(var i = 0; i < scope.connections.length; i++){
+                        var connection = scope.connections[i];
 
-                        var originPlace = scope.getPlaceById(currentObject['originPlaceId']);
-                        var destinationPlace = scope.getPlaceById(currentObject['destinationPlaceId']);
-
-                        if(
-                            typeof originPlace !== 'undefined'
-                            && typeof destinationPlace !== 'undefined'
-                        ) {
-                            var connectionId = scope.constructConnectionKey(originPlace['id'], destinationPlace['id']);
-                            if(connectionId in scope.visibleConnections){
-                                scope.visibleConnections[connectionId] += 1
-                            } else {
-                                scope.visibleConnections[connectionId] = 1
-                            }
+                        var connectionId = scope.constructConnectionKey(connection[0], connection[1]);
+                        if(connectionId in scope.visibleConnections){
+                            scope.visibleConnections[connectionId] += 1
+                        } else {
+                            scope.visibleConnections[connectionId] = 1
                         }
                     }
                 };
 
-                scope.showPlaces = function() {
+                scope.renderPlaces = function() {
+                    if(typeof scope.places === 'undefined') {
+                        console.log('No places to render...');
+                        return;
+                    }
 
                     scope.map.removeLayer(scope.placeLayer);
                     scope.placeLayer = new L.LayerGroup();
 
                     for(var i = 0; i < scope.visiblePlaces.length; i++){
-                        var currentId = scope.visiblePlaces[i]['id'];
-                        var currentWeight = scope.visiblePlaces[i]['weight'];
-
-                        var place = scope.getPlaceById(currentId);
-
+                        var weight = scope.visiblePlaces[i]['weight'];
+                        var place = scope.visiblePlaces[i]['data'];
                         if(place['lat'] === 'null'
                             || place['lng'] === 'null'
-                            || typeof currentWeight === 'undefined'
+                            || typeof weight === 'undefined'
                         ) continue;
 
                         var coordinates = new L.LatLng(place['lat'], place['lng']);
                         var params = {
-                            title: place['title'],
-                            radius: (Math.log(currentWeight)  + 1)* 10000,
+                            title: place['name'],
+                            radius: (Math.log(weight)  + 1)* 10000,
                             id: place['id']
                         };
 
-                        if(currentId === scope.selectedPlaceId){
+                        if(place['id'] === scope.selectedPlaceId){
                             params['color'] = 'red';
                             params['fillColor'] = '#f03';
                         }
@@ -265,7 +153,7 @@ angular.module('arachne.visualizations.directives')
                             });
 
                         if(
-                            currentId === scope.selectedPlaceId
+                            place['id'] === scope.selectedPlaceId
                             && scope.selectedPlaceId !== scope.previouslySelectedPlaceId) {
                             scope.currentPopup = new L.Popup({ closeOnClick: false, minWidth : 250 })
                                 .setLatLng([place['lat'], place['lng']]);
@@ -275,7 +163,7 @@ angular.module('arachne.visualizations.directives')
                     scope.placeLayer.addTo(scope.map);
                 };
 
-                scope.showConnectionsForSelectedPlace = function () {
+                scope.renderConnections = function () {
 
                     scope.activeOutgoingConnections = [];
                     scope.activeIncomingConnections = [];
@@ -308,7 +196,6 @@ angular.module('arachne.visualizations.directives')
                         }
 
                         if (destinationId === scope.selectedPlaceId) {
-
                             if(
                                 origin['lat'] !== 'null'
                                 && origin['lng'] !== 'null'
@@ -326,8 +213,8 @@ angular.module('arachne.visualizations.directives')
                         }
                     }
 
-                    scope.map.removeLayer(scope.visibleConnectionsLayer);
-                    scope.visibleConnectionsLayer = new L.LayerGroup();
+                    scope.map.removeLayer(scope.connectionsLayer);
+                    scope.connectionsLayer = new L.LayerGroup();
 
                     for (var idx in scope.activeOutgoingConnections) {
                         var connection = scope.activeOutgoingConnections[idx];
@@ -347,7 +234,7 @@ angular.module('arachne.visualizations.directives')
                             color: 'red'
                         };
 
-                        L.polyline(latlngs, options).addTo(scope.visibleConnectionsLayer);
+                        L.polyline(latlngs, options).addTo(scope.connectionsLayer);
                     }
 
                     for (var idx in scope.activeIncomingConnections) {
@@ -367,7 +254,7 @@ angular.module('arachne.visualizations.directives')
                             opacity: 0.5
                         };
 
-                        L.polyline(latlngs, options).addTo(scope.visibleConnectionsLayer);
+                        L.polyline(latlngs, options).addTo(scope.connectionsLayer);
                     }
 
                     if(scope.currentPopup
@@ -389,13 +276,24 @@ angular.module('arachne.visualizations.directives')
                         scope.currentPopup
                             .setContent(popContent[0])
                             .addTo(scope.placeLayer);
-
                     }
-                    scope.visibleConnectionsLayer.addTo(scope.map);
+                    scope.connectionsLayer.addTo(scope.map);
+                };
+
+
+                scope.setSelectedPlaceId = function(id) {
+                    scope.previouslySelectedPlaceId = scope.selectedPlaceId;
+                    scope.selectedPlaceId = id;
+
+                    if(!scope.$root.$$phase && !scope.$$phase) {
+                        scope.$apply();
+                    }
                 };
 
                 scope.getPlaceById = function(id) {
-                    return scope.placeData[scope.placeIndexById[id]]
+                    return scope.places.filter(function(place){
+                        return place['id'] === id;
+                    })[0]
                 };
 
                 scope.constructConnectionKey = function(originId, destinationId) {
@@ -405,37 +303,6 @@ angular.module('arachne.visualizations.directives')
                 scope.deconstructConnectionKey = function (id) {
                     return id.split(':::')
                 };
-
-                scope.setMinDate = function(value) {
-                    if(value < scope.maxdatePicker.value) {
-                        scope.maxdatePicker.value = value;
-                        scope.mindatePicker.value = scope.minDate;
-                        scope.setMaxDate(value)
-                    } else {
-                        scope.minDate = new Date(Number(value));
-                        scope.evaluateState();
-                    }
-                };
-
-                scope.setMaxDate = function(value) {
-                    if(value > scope.mindatePicker.value) {
-                        scope.mindatePicker.value = value;
-                        scope.maxdatePicker.value = scope.maxDate;
-                        scope.setMinDate(value);
-                    } else {
-                        scope.maxDate = new Date(Number(value));
-                        scope.evaluateState();
-                    }
-                };
-
-                scope.setSelectedPlaceId = function(id) {
-                    scope.previouslySelectedPlaceId = scope.selectedPlaceId;
-                    scope.selectedPlaceId = id;
-
-                    if(!scope.$root.$$phase && !scope.$$phase) {
-                        scope.$apply();
-                    }
-                }
             }
         }
     }]);

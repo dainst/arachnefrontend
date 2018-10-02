@@ -1,8 +1,5 @@
 <div class="container">
   <pre>
-    Names:    {{names}},
-    Colors:   {{colors}},
-    Matrix:   {{matrix}},
     Min date: {{minDate}},
     Max date: {{maxDate}},
     {{timeDataBins}}
@@ -17,8 +14,8 @@
     </div>
     <div class="col-md-6">
         <con10t-network-map
-            place-data="placeData"
-            object-data="objectData"
+            places="visiblePlaces"
+            connections="visibleConnections"
             zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}"
             min-date="minDate"
             max-date="maxDate"></con10t-network-map>
