@@ -165,10 +165,12 @@ angular.module('arachne.visualizations.directives')
 
                     for(var i = 0; i < scope.objectData.length; i++){
                         var currentObject = scope.objectData[i];
-                        if(Date.parse(currentObject['timespanFrom']) < scope.minDate
-                            || Date.parse(currentObject['timespanTo']) > scope.maxDate) {
-                            continue;
-                        }
+                        if((isNaN(Date.parse(currentObject['timespanFrom']))
+                            || Date.parse(currentObject['timespanFrom']) < scope.minDate
+                        ) || (
+                            isNaN(Date.parse(currentObject['timespanTo']))
+                            || Date.parse(currentObject['timespanTo']) > scope.maxDate
+                        )) continue;
 
                         var originPlace = scope.getPlaceById(scope.objectData[i]['originPlaceId']);
                         var destinationPlace = scope.getPlaceById(scope.objectData[i]['destinationPlaceId']);
