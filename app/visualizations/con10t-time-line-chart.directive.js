@@ -224,6 +224,15 @@ angular.module('arachne.visualizations.directives')
 
                         scope.dragEndDate = getDetailedDateForPosition(xPos);
                         scope.drawSelection(scope.dragStartPosition, xPos);
+
+                        if(scope.dragStartPosition < xPos) {
+                            clickPreview.attr('x', scope.dragStartPosition);
+                            clickPreview.attr('width', xPos - scope.dragStartPosition)
+                        } else if(scope.dragStartPosition > xPos) {
+                            clickPreview.attr('x', xPos);
+                            clickPreview.attr('width', scope.dragStartPosition - xPos)
+                        }
+
                         if(scope.reportOnDrag  === 'true'){
                             scope.evaluateState();
                         }
@@ -338,6 +347,7 @@ angular.module('arachne.visualizations.directives')
                     scope.dragEndPosition = scope.getPositionForDate(scope.dragEndDate);
 
                     scope.evaluateState();
+                    scope.drawSelection(scope.dragStartPosition, scope.dragEndPosition);
                 };
 
                 scope.dragStartDate = null;
