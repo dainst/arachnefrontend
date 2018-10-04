@@ -15,6 +15,10 @@ angular.module('arachne.visualizations.directives')
                 selectedPlaceId: '='
             },
             link: function (scope, element, attrs) {
+                scope.text = '...'
+                transl8.onLoaded().then(function() {
+                    scope.text = transl8.getTranslation('ui_reset');
+                });
 
                 var mapElement = element[0].querySelector('.map-container');
                 scope.map = L.map( mapElement).setView([scope.lat, scope.lng], scope.zoom);
@@ -43,7 +47,7 @@ angular.module('arachne.visualizations.directives')
                         var container = document.createElement("div");
 
                         container.classList.add('leaflet-bar', 'leaflet-control', 'leaflet-control-custom');
-                        container.innerHTML = transl8.getTranslation('ui_reset');
+                        container.innerHTML = scope.text;
 
                         container.style.backgroundColor = 'white';
                         container.style.padding = '5px';
