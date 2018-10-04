@@ -8,6 +8,7 @@ angular.module('arachne.visualizations.directives')
             scope: {
                 placesDataPath: '@',
                 objectDataPath: '@',
+                personDataPath: '@',
                 lat: '@',
                 lng: '@',
                 zoom: '@'
@@ -75,20 +76,15 @@ angular.module('arachne.visualizations.directives')
                             continue;
                         }
 
-                        var originPlace = scope.placeData[
-                            scope.placeIndexById[currentObject['originPlaceId']]
-                            ];
-
-                        var destinationPlace = scope.placeData[
-                            scope.placeIndexById[currentObject['destinationPlaceId']]
-                            ];
                         var inactiveObjectDueToPlace = true;
                         if(scope.selectedPlaceId == null)
                             inactiveObjectDueToPlace = false;
-                        if(scope.selectedPlaceId === originPlace['id'])
+                        if(currentObject['originPlaceId'] !== 'null' && scope.selectedPlaceId === currentObject['originPlaceId']) {
                             inactiveObjectDueToPlace = false;
-                        if(scope.selectedPlaceId === destinationPlace['id'])
+                        }
+                        if(currentObject['destinationPlaceId'] !== 'null' && scope.selectedPlaceId === currentObject['destinationPlaceId']){
                             inactiveObjectDueToPlace = false;
+                        }
 
                         if(inactiveObjectDueToPlace)
                             continue;
@@ -182,8 +178,7 @@ angular.module('arachne.visualizations.directives')
                     }
                     scope.createTimeLineBins();
                     scope.evaluateVisiblePlaces();
-                    //console.log('Evaluating connections.');
-                    //scope.evaluateVisibleConnections();
+                    scope.evaluateTopPersonConnections();
 
                     if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
@@ -209,52 +204,140 @@ angular.module('arachne.visualizations.directives')
                             })
                         };
 
-                        var originPlace = scope.placeData[
-                            scope.placeIndexById[currentObject['originPlaceId']]
-                            ];
+                        if(currentObject['originPlaceId'] !== 'null'){
+                            var originPlace = scope.placeData[
+                                scope.placeIndexById[currentObject['originPlaceId']]
+                                ];
 
-                        if(!alreadyAdded(originPlace)) {
-                            scope.visiblePlaces.push(originPlace);
+                            if(!alreadyAdded(originPlace)) {
+                                scope.visiblePlaces.push(originPlace);
+                            }
                         }
 
-                        var destinationPlace = scope.placeData[
-                            scope.placeIndexById[currentObject['destinationPlaceId']]
-                            ];
+                        if(currentObject['destinationPlaceId'] !== 'null'){
+                            var destinationPlace = scope.placeData[
+                                scope.placeIndexById[currentObject['destinationPlaceId']]
+                                ];
 
-                        if(!alreadyAdded(destinationPlace)) {
-                            scope.visiblePlaces.push(destinationPlace);
+                            if(!alreadyAdded(destinationPlace)) {
+                                scope.visiblePlaces.push(destinationPlace);
+                            }
                         }
 
-                        scope.visibleConnections.push([
-                            currentObject['originPlaceId'], currentObject['destinationPlaceId']
-                        ]);
+                        if(typeof originPlace !== 'undefined' && typeof destinationPlace !== 'undefined'){
+                            scope.visibleConnections.push([
+                                currentObject['originPlaceId'], currentObject['destinationPlaceId']
+                            ]);
+                        }
                     }
                 };
 
+                scope.evaluateTopPersonConnections = function(){
+                    var personConnections = {};
+                    var combineKey = function (authorId, recipientId) {
+                        return authorId + ':::' + recipientId;
+                    };
+                    var splitKey = function (key) {
+                        return key.split(':::')
+                    };
+                    var generateMatrix = function(rows, values) {
+                        var result = [];
 
+                        for(var row = 0; row < rows.length; row++){
+                            result[row] = [];
+                            for(var column = 0; column < rows.length; column++){
+                                result[row][column] = 0;
+                            }
+
+                            for(var idx = 0; idx < values.length; idx++){
+                                if(values[idx][0] === rows[row]){
+                                    result[row][rows.indexOf(values[idx][1])] = values[idx][2]
+                                }
+                            }
+                        }
+                        return result;
+                    };
+
+                    for(var i = 0; i < scope.objectData.length; i++) {
+                        var currentKey = combineKey(
+                            scope.objectData[i]['authorId'],
+                            scope.objectData[i]['recipientId']
+                        );
+
+                        if(currentKey in personConnections) {
+                            personConnections[currentKey] += 1
+                        } else{
+                            personConnections[currentKey] = 1
+                        }
+                    }
+
+                    var personConnectionsSorted = [];
+                    for(var key in personConnections){
+                        var split = splitKey(key);
+                        var authorId = split[0];
+                        var recipientId = split[1];
+
+                        personConnectionsSorted.push([authorId, recipientId, personConnections[key]]);
+                    }
+                    personConnectionsSorted = personConnectionsSorted.sort(function(x, y) {
+                        return y[2] - x[2];
+                    }).slice(0, 10);
+
+                    var topPersonsIds = [];
+                    for(var idx in personConnectionsSorted){
+                        var authorId = personConnectionsSorted[idx][0];
+                        var recipientId = personConnectionsSorted[idx][1];
+
+                        if(topPersonsIds.indexOf(authorId) < 0) {
+                            topPersonsIds.push(authorId);
+                        }
+
+                        if(topPersonsIds.indexOf(recipientId) < 0){
+                            topPersonsIds.push(recipientId);
+                        }
+                    }
+
+                    var stack1 = [];
+                    var stack2 = [];
+                    for(var idx in topPersonsIds){
+                        if(idx % 2 === 0){
+                            stack1.push(topPersonsIds[idx]);
+                        } else {
+                            stack2.push(topPersonsIds[idx]);
+                        }
+                    }
+
+                    topPersonsIds = stack1.concat(stack2);
+
+                    var topConnections = [];
+                    for(var idx in personConnectionsSorted) {
+                        var currentConnection = personConnectionsSorted[idx];
+                        if(
+                            topPersonsIds.indexOf(currentConnection[0]) >= 0 &&
+                            topPersonsIds.indexOf(currentConnection[1]) >= 0
+                        ){
+                            topConnections.push(currentConnection);
+                        }
+                    }
+
+                    scope.matrix = generateMatrix(topPersonsIds, topConnections);
+                    scope.names = [];
+
+                    for(var i = 0; i < topPersonsIds.length; i++){
+                        scope.names.push(scope.rawPersonData[scope.personIndexById[topPersonsIds[i]]]['name'])
+                    }
+                };
 
                 scope.loadData = function() {
                     var objectDataColumns = ['id', 'timespanFrom', 'timespanTo', 'originPlaceId',
-                        'destinationPlaceId'];
+                        'destinationPlaceId', 'authorId', 'recipientId'];
                     var placesDataColumns = [ 'id', 'lat', 'lng', 'name', 'authId', 'authSource' ];
+                    var personDataColumns = [ 'id', 'authId', 'authSource', 'name'];
 
                     var dataQueries = [];
                     dataQueries.push($http.get(scope.objectDataPath));
                     dataQueries.push($http.get(scope.placesDataPath));
-
-                    // TODO: Generate based on TSV data
-                    scope.names = [
-                        "Braun, Emil",
-                        "Brunn, Heinrich von",
-                        "Bunsen, Christian Karl Josias von",
-                        "Gerhard, Eduard",
-                        "Henzen, Wilhelm",
-                        "Jahn, Otto",
-                        "Lepsius, Carl Richard",
-                        "Michaelis, Adolf",
-                        "Mommsen, Theodor",
-                        "Unbekannt"
-                    ];
+                    dataQueries.push($http.get(scope.personDataPath));
 
                     scope.colors = [
                         "#89b7e5",
@@ -269,33 +352,17 @@ angular.module('arachne.visualizations.directives')
                         "#003366"
                     ];
 
-                    scope.matrix = [
-                        // Autoren:
-                        // Braun, Brunn, Bunsen, Gerhard, Henzen,  Jahn, Lepsius, Michaelis, Mommsen, Unbekannt
-                        // (692),  (56),   (61),  (1479), (1457), (299),   (128),       (0),     (1),      (51)
-                        //                                                                                       Rezipienten:
-                        [0, 0, 0, 538, 31, 10, 31, 0, 0, 0], // Braun (610)
-                        [8, 0, 0, 82, 254, 5, 0, 0, 1, 1], // Brunn (351)
-                        [100, 2, 0, 67, 10, 0, 23, 0, 0, 21], // Bunsen (223)
-                        [461, 2, 59, 0, 578, 14, 33, 0, 0, 6], // Gerhard (1153)
-                        [30, 52, 0, 661, 2, 5, 41, 0, 0, 6], // Henzen (797)
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // Jahn (0)
-                        [92, 0, 2, 48, 245, 0, 0, 0, 0, 5], // Lepsius (392)
-                        [0, 0, 0, 62, 0, 252, 0, 0, 0, 0], // Michaelis (314)
-                        [1, 0, 0, 0, 337, 1, 0, 0, 0, 12], // Mommsen (351)
-                        [0, 0, 0, 21, 0, 12, 0, 0, 0, 0]  // Unbekannt (33)
-                    ];
-
                     $q.all(dataQueries)
                         .then(function (responses) {
                             scope.objectData = $filter('tsvData')(responses[0].data, objectDataColumns);
                             scope.placeData = $filter('tsvData')(responses[1].data, placesDataColumns);
+                            scope.rawPersonData = $filter('tsvData')(responses[2].data, personDataColumns);
 
                             scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
                             scope.objectIndexById = scope.createIndex(scope.objectData, 'id');
+                            scope.personIndexById = scope.createIndex(scope.rawPersonData, 'id');
 
                             scope.evaluateOverallDateRange();
-                            scope.createTimeLineBins();
                             scope.evaluateState();
                         });
                 };
