@@ -126,7 +126,7 @@ angular.module('arachne.visualizations.directives')
 
                     var groupTick = group.selectAll(".group-tick")
                         .data(function (d) {
-                            return groupTicks(d, 1e2);
+                            return groupTicks(d, scope.stepSize);
                         })
                         .enter().append("g")
                         .attr("class", "group-tick")
@@ -216,6 +216,19 @@ angular.module('arachne.visualizations.directives')
                         return null;
                     }
 
+                    var sum = 0;
+                    for(var i = 0; i < scope.matrix.length; i++){
+                        for(var j = 0; j < scope.matrix[i].length; j++){
+                            sum += scope.matrix[i][j];
+                        }
+                    }
+
+                    var exponent = Math.floor(sum / 100).toString().length;
+                    if(exponent < 1){
+                        exponent = 1;
+                    }
+
+                    scope.stepSize = Math.pow(10, exponent);
                     scope.initializeD3();
                 }
             }

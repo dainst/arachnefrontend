@@ -68,6 +68,8 @@ angular.module('arachne.visualizations.directives')
                     scope.binnedData = {};
 
                     for (var i = 0; i < scope.objectData.length; i++) {
+                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.objectData[i])) continue;
+
                         var currentObject = scope.objectData[i];
 
                         var fromDate = new Date(currentObject['timespanFrom']);
@@ -75,20 +77,6 @@ angular.module('arachne.visualizations.directives')
                         if (isNaN(fromDate.getDate()) || isNaN(toDate.getDate())) {
                             continue;
                         }
-
-                        var inactiveObjectDueToPlace = true;
-                        if(scope.selectedPlaceId == null)
-                            inactiveObjectDueToPlace = false;
-                        if(currentObject['originPlaceId'] !== 'null' && scope.selectedPlaceId === currentObject['originPlaceId']) {
-                            inactiveObjectDueToPlace = false;
-                        }
-                        if(currentObject['destinationPlaceId'] !== 'null' && scope.selectedPlaceId === currentObject['destinationPlaceId']){
-                            inactiveObjectDueToPlace = false;
-                        }
-
-                        if(inactiveObjectDueToPlace)
-                            continue;
-
                         if (fromDate.toISOString() === toDate.toISOString()) {
                             var binKey = fromDate.toISOString().substr(0, 4);
 
@@ -190,13 +178,9 @@ angular.module('arachne.visualizations.directives')
                     scope.visibleConnections = [];
 
                     for(var i = 0; i < scope.objectData.length; i++) {
+                        if(!scope.isObjectWithinSelectedTimeSpan(scope.objectData[i])) continue;
+
                         var currentObject = scope.objectData[i];
-                        if ((isNaN(Date.parse(currentObject['timespanFrom']))
-                            || Date.parse(currentObject['timespanFrom']) < scope.minDate
-                        ) || (
-                            isNaN(Date.parse(currentObject['timespanTo']))
-                            || Date.parse(currentObject['timespanTo']) > scope.maxDate
-                        )) continue;
 
                         var alreadyAdded = function (newPlace) {
                             return scope.visiblePlaces.some(function(place){
@@ -233,6 +217,9 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.evaluateTopPersonConnections = function(){
+
+
+
                     var personConnections = {};
                     var combineKey = function (authorId, recipientId) {
                         return authorId + ':::' + recipientId;
@@ -259,6 +246,9 @@ angular.module('arachne.visualizations.directives')
                     };
 
                     for(var i = 0; i < scope.objectData.length; i++) {
+                        if(!scope.isObjectWithinSelectedTimeSpan(scope.objectData[i])) continue;
+                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.objectData[i])) continue;
+
                         var currentKey = combineKey(
                             scope.objectData[i]['authorId'],
                             scope.objectData[i]['recipientId']
@@ -327,6 +317,35 @@ angular.module('arachne.visualizations.directives')
                         scope.names.push(scope.rawPersonData[scope.personIndexById[topPersonsIds[i]]]['name'])
                     }
                 };
+
+
+                scope.isObjectWithinSelectedTimeSpan = function(objectData){
+                    if(isNaN(Date.parse(objectData['timespanFrom']))
+                        || Date.parse(objectData['timespanFrom']) < scope.minDate
+                    ) return false;
+
+                    if(isNaN(Date.parse(objectData['timespanTo']))
+                        || Date.parse(objectData['timespanTo']) > scope.maxDate
+                    ) return false;
+
+                    return true;
+                };
+
+                scope.isObjectIgnoredDueToSelectedPlace = function(objectData){
+                    var isIgnored = true;
+                    if(scope.selectedPlaceId == null)
+                        isIgnored = false;
+                    if(objectData['originPlaceId'] !== 'null'
+                        && scope.selectedPlaceId === objectData['originPlaceId']) {
+                        isIgnored = false;
+                    }
+                    if(objectData['destinationPlaceId'] !== 'null'
+                        && scope.selectedPlaceId === objectData['destinationPlaceId']){
+                        isIgnored = false;
+                    }
+                    return isIgnored;
+                };
+
 
                 scope.loadData = function() {
                     var objectDataColumns = ['id', 'timespanFrom', 'timespanTo', 'originPlaceId',
