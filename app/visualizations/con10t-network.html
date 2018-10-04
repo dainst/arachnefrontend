@@ -2,7 +2,7 @@
   <pre>
     Min date: {{minDate}},
     Max date: {{maxDate}},
-    {{timeDataBins}}
+    Selected place ID: {{selectedPlaceId}}
   </pre>
 
   <div class="row">
@@ -16,9 +16,9 @@
         <con10t-network-map
             places="visiblePlaces"
             connections="visibleConnections"
+            selected-place-id="selectedPlaceId"
             zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}"
-            min-date="minDate"
-            max-date="maxDate"></con10t-network-map>
+        ></con10t-network-map>
     </div>
   </div>
 

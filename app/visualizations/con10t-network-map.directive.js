@@ -11,7 +11,8 @@ angular.module('arachne.visualizations.directives')
                 lng: '@',
                 zoom: '@',
                 places: '=',
-                connections: '='
+                connections: '=',
+                selectedPlaceId: '='
             },
             link: function (scope, element, attrs) {
 
@@ -24,7 +25,6 @@ angular.module('arachne.visualizations.directives')
 
                 scope.placeLayer = new L.LayerGroup().addTo(scope.map);
                 scope.connectionsLayer = new L.LayerGroup().addTo(scope.map);
-                scope.selectedPlaceId = null;
                 scope.previouslySelectedPlaceId = null;
 
                 scope.$watch('selectedPlaceId', function(newValue, oldValue) {

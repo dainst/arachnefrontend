@@ -22,22 +22,31 @@ angular.module('arachne.visualizations.directives')
                     scope.evaluateState()
                 });
 
+                scope.$watch('selectedPlaceId', function(newValue, oldValue){
+                   scope.evaluateState();
+                });
+
+                scope.selectedPlaceId = null;
+
 
                 scope.evaluateOverallDateRange = function(){
-                    scope.minDate = new Date(8640000000000000);
-                    scope.maxDate = new Date(-8640000000000000);
+                    scope.overallMinDate = new Date(8640000000000000);
+                    scope.overallMaxDate = new Date(-8640000000000000);
 
                     for(var i = 0; i < scope.objectData.length; i++){
                         var current = scope.objectData[i];
 
-                        if(new Date(current['timespanFrom']) < scope.minDate){
-                            scope.minDate = new Date(current['timespanFrom'])
+                        if(new Date(current['timespanFrom']) < scope.overallMinDate){
+                            scope.overallMinDate = new Date(current['timespanFrom'])
                         }
 
-                        if(new Date(current['timespanTo']) > scope.maxDate) {
-                            scope.maxDate = new Date(current['timespanTo'])
+                        if(new Date(current['timespanTo']) > scope.overallMaxDate) {
+                            scope.overallMaxDate = new Date(current['timespanTo'])
                         }
                     }
+
+                    scope.minDate = scope.overallMinDate;
+                    scope.maxDate = scope.overallMaxDate;
                 };
 
                 // Takes data and creates a lookup-index based on the values behind the given key
@@ -65,6 +74,24 @@ angular.module('arachne.visualizations.directives')
                         if (isNaN(fromDate.getDate()) || isNaN(toDate.getDate())) {
                             continue;
                         }
+
+                        var originPlace = scope.placeData[
+                            scope.placeIndexById[currentObject['originPlaceId']]
+                            ];
+
+                        var destinationPlace = scope.placeData[
+                            scope.placeIndexById[currentObject['destinationPlaceId']]
+                            ];
+                        var inactiveObjectDueToPlace = true;
+                        if(scope.selectedPlaceId == null)
+                            inactiveObjectDueToPlace = false;
+                        if(scope.selectedPlaceId === originPlace['id'])
+                            inactiveObjectDueToPlace = false;
+                        if(scope.selectedPlaceId === destinationPlace['id'])
+                            inactiveObjectDueToPlace = false;
+
+                        if(inactiveObjectDueToPlace)
+                            continue;
 
                         if (fromDate.toISOString() === toDate.toISOString()) {
                             var binKey = fromDate.toISOString().substr(0, 4);
@@ -110,7 +137,7 @@ angular.module('arachne.visualizations.directives')
                         while (currentYear < endYear) {
                             result.push(
                                 {
-                                    'date': new Date(currentYear, 1, 1),
+                                    'date': new Date(currentYear.toString()),
                                     'count': 0
                                 });
                             currentYear += 1;
@@ -120,6 +147,13 @@ angular.module('arachne.visualizations.directives')
                     };
 
                     // Fill up missing year bins (= years with 0 objects)
+                    var inbetween = getYearsInbetween(
+                        scope.overallMinDate.getFullYear() - 1,
+                        scope.timeDataBins[0]['date'].getFullYear()
+                    );
+
+                    scope.timeDataBins = inbetween.concat(scope.timeDataBins);
+
                     for(var i = 0; i < scope.timeDataBins.length - 1; i++) {
 
                         if(scope.timeDataBins[i]['date'].getFullYear() + 1
@@ -134,13 +168,19 @@ angular.module('arachne.visualizations.directives')
                             }
                         }
                     }
+
+                    var inbetween = getYearsInbetween(
+                        scope.timeDataBins[scope.timeDataBins.length - 1]['date'].getFullYear(),
+                        scope.overallMaxDate.getFullYear() + 1
+                    );
+                    scope.timeDataBins = scope.timeDataBins.concat(inbetween);
                 };
 
                 scope.evaluateState = function(){
                     if(typeof scope.placeData === 'undefined' || typeof scope.objectData === 'undefined'){
                         return;
                     }
-
+                    scope.createTimeLineBins();
                     scope.evaluateVisiblePlaces();
                     //console.log('Evaluating connections.');
                     //scope.evaluateVisibleConnections();

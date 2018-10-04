@@ -58,6 +58,12 @@ angular.module('arachne.visualizations.directives')
 
                 scope.initializeD3 = function(){
 
+                    d3.select("#timeline-container").selectAll("*").remove();
+                    var svgElement = document.querySelector('#timeline-container');
+
+                    svgElement.removeAttribute('width');
+                    svgElement.removeAttribute('height');
+
                     var outerWidth = 480;
                     var outerHeight = 200;
                     if(element.length === 1){
@@ -81,7 +87,7 @@ angular.module('arachne.visualizations.directives')
                         .scaleTime()
                         .range([0, width]);
 
-                    var xDetailed = d3
+                    scope.xDetailed = d3
                         .scaleTime()
                         .range([0, width]);
 
@@ -110,7 +116,9 @@ angular.module('arachne.visualizations.directives')
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                     x.domain([scope.data[0].date, scope.data[scope.data.length - 1].date]);
-                    xDetailed.domain([scope.detailedDates[0], scope.detailedDates[scope.detailedDates.length - 1]]);
+                    scope.xDetailed.domain(
+                        [scope.detailedDates[0], scope.detailedDates[scope.detailedDates.length - 1]]
+                    );
                     y.domain(d3.extent(scope.data, function(d) { return d.count; }));
 
                     scope.svg.append("g")
@@ -141,6 +149,17 @@ angular.module('arachne.visualizations.directives')
                         .attr('opacity', .0)
                         .style("fill", '#729AB4');
 
+
+                    var clickPreview = scope.svg.append('rect')
+                        .attr("class", "focus")
+                        .style("display", "none")
+                        .attr('y', 0)
+                        .attr('height', height)
+                        .attr('opacity', .8)
+                        .style('fill-opacity', 0)
+                        .style('stroke-width', 1.5)
+                        .style('stroke', '#324554');
+
                     var focus = scope.svg.append("g")
                         .attr("class", "focus")
                         .style("display", "none");
@@ -156,24 +175,28 @@ angular.module('arachne.visualizations.directives')
                         .attr("class", "overlay")
                         .attr("width", width)
                         .attr("height", height)
-                        .on("mouseover", function() { focus.style("display", null); })
-                        .on("mouseout", function() { focus.style("display", "none"); })
+                        .on("mouseover", function() {
+                            focus.style("display", null);
+                            clickPreview.style("display", null);
+                        })
+                        .on("mouseout", function() {
+                            focus.style("display", "none");
+                            clickPreview.style("display", "none");
+                        })
                         .on("mousemove", function () {
-                            var x0 = x.invert(d3.mouse(this)[0]),
-                                i = bisectDate(scope.data, x0, 1),
-                                d0 = scope.data[i - 1],
-                                d1 = scope.data[i],
-                                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                            var xPos = x.invert(d3.mouse(this)[0]),
+                                i = bisectDate(scope.data, xPos, 1),
+                                d1 = scope.data[i - 1],
+                                d2 = scope.data[i],
+                                d = xPos - d1.date > d2.date - xPos ? d2 : d1;
                             focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
                             focus.select("text").text(d.date.getFullYear() + '(' + d.count +')');
-                        })
-                        .on('click', function () {
-                            var x0 = x.invert(d3.mouse(this)[0]),
-                                i = bisectDate(scope.data, x0, 1);
 
-                            scope.dragStartDate = scope.data[i]['date'];
-                            scope.dragEndDate = scope.data[i + 1]['date'];
-                            scope.evaluateState();
+                            var x1 = x(d1.date);
+                            var x2 = x(d2.date);
+
+                            clickPreview.attr('x', x1);
+                            clickPreview.attr('width', x2 - x1);
                         });
 
 
@@ -189,11 +212,7 @@ angular.module('arachne.visualizations.directives')
                         scope.dragStartDate = null;
                         scope.dragEndDate = null;
 
-                        scope.selectionBox.attr('width', 0);
-                        scope.selectionBox.attr("opacity", .5);
-                        scope.selectionBox.attr('x', xPos);
-
-                        scope.dragStartDate = getDateForPosition(xPos);
+                        scope.dragStartDate = getDetailedDateForPosition(xPos);
                     }
 
                     function dragMove() {
@@ -203,18 +222,11 @@ angular.module('arachne.visualizations.directives')
                         if(xPos < 0) xPos = 0;
                         if(xPos > width) xPos = width;
 
-                        if(scope.dragStartPosition < xPos) {
-                            scope.selectionBox.attr('width', xPos - scope.dragStartPosition)
-                        } else {
-                            scope.selectionBox.attr('x', xPos);
-                            scope.selectionBox.attr('width', scope.dragStartPosition - xPos)
-                        }
-
+                        scope.dragEndDate = getDetailedDateForPosition(xPos);
+                        scope.drawSelection(scope.dragStartPosition, xPos);
                         if(scope.reportOnDrag  === 'true'){
-                            scope.dragEndDate = getDateForPosition(xPos);
-                            scope.evaluateState()
+                            scope.evaluateState();
                         }
-
                     }
 
                     function dragEnd() {
@@ -225,16 +237,32 @@ angular.module('arachne.visualizations.directives')
                             if(xPos < 0) xPos = 0;
                             if(xPos > width) xPos = width;
 
-                            scope.dragEndDate = getDateForPosition(xPos);
-                            scope.evaluateState()
+                            scope.dragEndPosition = xPos;
+                            if(scope.dragStartPosition === scope.dragEndPosition){
+                                scope.dragStartDate = new Date(
+                                    getDateForPosition(xPos)
+                                );
+                                scope.dragEndDate =  new Date(
+                                    (getDateForPosition(xPos).getFullYear() + 1).toString()
+                                );
+                            } else {
+                                scope.dragEndDate = getDetailedDateForPosition(xPos);
+                            }
+                            scope.evaluateState();
+                            scope.drawSelection(scope.dragStartPosition, scope.dragEndPosition);
                         }
                     }
 
-                    function getDateForPosition(xPos) {
-                        // TODO: second (invisible?) x axis that contains has a day step size instead of years
-
+                    function getDateForPosition(xPos){
                         // Get the x-axis data index where the current xPos value would be inserted...
-                        var i = bisectDetailedDate(scope.detailedDates, xDetailed.invert(xPos), 1);
+                        var i = bisectDate(scope.data, x.invert(xPos), 1);
+                        // ... then check which of the neighbouring values is closer and return the closer one's date.
+                        return scope.data[i - 1]['date'];
+                    }
+
+                    function getDetailedDateForPosition(xPos) {
+                        // Get the x-axis data index where the current xPos value would be inserted...
+                        var i = bisectDetailedDate(scope.detailedDates, scope.xDetailed.invert(xPos), 1);
                         // ... then check which of the neighbouring values is closer and return the closer one's date.
                         var d0 = scope.detailedDates[i - 1],
                             d1 = scope.detailedDates[i];
@@ -269,7 +297,9 @@ angular.module('arachne.visualizations.directives')
                             scope.minDate = scope.dragEndDate;
                             scope.maxDate = scope.dragStartDate;
                         } else {
-                            scope.minDate = scope.maxDate = scope.dragEndDate;
+                            console.log(scope.dragStartDate, scope.dragEndDate);
+                            scope.minDate = scope.dragStartDate;
+                            scope.maxDate = scope.dragEndDate.getFullYear() + 1;
                         }
                     }
 
@@ -278,10 +308,35 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
+                scope.getPositionForDate = function(date){
+                    return scope.xDetailed(date)
+                };
+
+                scope.drawSelection = function(x1, x2){
+                    if(x1 < x2) {
+                        scope.selectionBox.attr("opacity", .5);
+                        scope.selectionBox.attr('x', x1);
+                        scope.selectionBox.attr('width', x2 - x1)
+                    } else if(x1 > x2) {
+                        scope.selectionBox.attr("opacity", .5);
+                        scope.selectionBox.attr('x', x2);
+                        scope.selectionBox.attr('width', x1 - x2)
+                    } else {
+                        scope.selectionBox.attr("opacity", .0);
+                    }
+                };
+
                 scope.recreate = function() {
                     scope.evaluateOverallTimespan();
                     scope.generateDetailedTimeSpan();
                     scope.initializeD3();
+
+                    scope.dragStartDate = scope.minDate;
+                    scope.dragEndDate = scope.maxDate;
+
+                    scope.dragStartPosition = scope.getPositionForDate(scope.dragStartDate);
+                    scope.dragEndPosition = scope.getPositionForDate(scope.dragEndDate);
+
                     scope.evaluateState();
                 };
 
