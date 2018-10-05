@@ -5,13 +5,13 @@ angular.module('arachne.visualizations.directives')
             templateUrl: 'app/visualizations/con10t-network-chord.html',
             scope: {
                 objectsLabel: '@',
-                names: '=',
+                labels: '=',
                 colors: '=',
                 matrix: '='
             },
             link: function (scope, element, attrs) {
 
-                scope.$watch('names', function(newValue, oldValue) {
+                scope.$watch('labels', function(newValue, oldValue) {
                     scope.evaluateState();
                 });
 
@@ -35,6 +35,13 @@ angular.module('arachne.visualizations.directives')
                     var outerRadius = dimension * 0.5 - 120;
                     var innerRadius = outerRadius - 30;
                     var formatValue = d3.formatPrefix(",.0", 1e2);
+                    var trimLabel = function(label) {
+                        if(label.length > 18){
+                            return label.substring(0, 15) + '...';
+                        } else {
+                            return label;
+                        }
+                    };
 
                     // Clear all existing SVG content
                     d3.select("#chord-svg").selectAll("*").remove();
@@ -56,7 +63,7 @@ angular.module('arachne.visualizations.directives')
                         .radius(innerRadius);
 
                     var color = d3.scaleOrdinal()
-                        .domain(d3.range(scope.names.length))
+                        .domain(d3.range(scope.labels.length))
                         .range(scope.colors);
 
                     var tooltip = d3.select("body").append("div").attr("class", "toolTip");
@@ -116,12 +123,12 @@ angular.module('arachne.visualizations.directives')
                             return d.angle > Math.PI ? "end" : null;
                         })
                         .text(function (d) {
-                            return scope.names[d.index]
+                            return trimLabel(scope.labels[d.index])
                         });
 
                     group.append("title")
                         .text(function (d, i) {
-                            return scope.names[i] + "\n" +
+                            return scope.labels[i] + "\n" +
                                 d.value + " " + scope.objectsLabel;
                         });
 
@@ -177,9 +184,9 @@ angular.module('arachne.visualizations.directives')
                             .style("display", "inline-block")
                             .style("white-space", "pre")
                             .html(
-                                scope.names[d.source.index] + " → " + scope.names[d.target.index] + ": " +
+                                scope.labels[d.source.index] + " → " + scope.labels[d.target.index] + ": " +
                                 d3.format("3")(d.source.value) + " " + scope.objectsLabel + ".<br\>" +
-                                scope.names[d.source.index] + " ← " + scope.names[d.target.index] + ": " +
+                                scope.labels[d.source.index] + " ← " + scope.labels[d.target.index] + ": " +
                                 d3.format("3")(d.target.value) + " "+ scope.objectsLabel + "."
                             );
 
@@ -205,7 +212,7 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.evaluateState = function () {
-                    if(typeof scope.names === 'undefined'){
+                    if(typeof scope.labels === 'undefined'){
                         return null;
                     }
                     if(typeof scope.colors === 'undefined'){
