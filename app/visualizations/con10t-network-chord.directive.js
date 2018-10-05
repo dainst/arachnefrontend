@@ -215,19 +215,21 @@ angular.module('arachne.visualizations.directives')
                         return null;
                     }
 
-                    var sum = 0;
+                    var maxValue = 0;
                     for(var i = 0; i < scope.matrix.length; i++){
                         for(var j = 0; j < scope.matrix[i].length; j++){
-                            sum += scope.matrix[i][j];
+                            if(scope.matrix[i][j] > maxValue)
+                                maxValue = scope.matrix[i][j];
                         }
                     }
 
-                    var exponent = Math.floor(sum / 100).toString().length;
-                    if(exponent < 1){
-                        exponent = 1;
+                    if(maxValue <= 10){
+                        scope.stepSize = 1;
+                    } else {
+                        var exponent = Math.floor(maxValue / 10).toString().length;
+                        scope.stepSize = Math.pow(10, exponent);
                     }
 
-                    scope.stepSize = Math.pow(10, exponent);
                     scope.initializeD3();
                 }
             }
