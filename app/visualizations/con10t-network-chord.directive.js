@@ -11,18 +11,6 @@ angular.module('arachne.visualizations.directives')
             },
             link: function (scope, element, attrs) {
 
-                scope.$watch('labels', function(newValue, oldValue) {
-                    scope.evaluateState();
-                });
-
-                scope.$watch('colors', function(newValue, oldValue) {
-                    scope.evaluateState();
-                });
-
-                scope.$watch('matrix', function(newValue, oldValue) {
-                    scope.evaluateState();
-                });
-
                 scope.initializeD3 = function(){
 
                     var dimension = document.body.clientHeight;
@@ -238,7 +226,19 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     scope.initializeD3();
-                }
+                };
+
+                scope.$watch('labels', function(newValue, oldValue) {
+                    scope.evaluateState();
+                });
+
+                scope.$watch('colors', function(newValue, oldValue) {
+                    scope.evaluateState();
+                });
+
+                scope.$watch('matrix', function(newValue, oldValue) {
+                    scope.evaluateState();
+                });
             }
 
         }
