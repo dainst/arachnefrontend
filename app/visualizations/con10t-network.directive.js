@@ -6,7 +6,7 @@ angular.module('arachne.visualizations.directives')
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-network.html',
             scope: {
-                placesDataPath: '@',
+                placeDataPath: '@',
                 objectDataPath: '@',
                 personDataPath: '@',
                 lat: '@',
@@ -16,26 +16,12 @@ angular.module('arachne.visualizations.directives')
                 objectNamePlural: '@'
             },
             link: function (scope, element, attrs) {
-                scope.$watch('minDate', function(newValue, oldValue) {
-                    scope.evaluateState();
-                });
-
-                scope.$watch('maxDate', function(newValue, oldValue) {
-                    scope.evaluateState()
-                });
-
-                scope.$watch('selectedPlaceId', function(newValue, oldValue){
-                   scope.evaluateState();
-                });
-
-                scope.selectedPlaceId = null;
-
                 scope.evaluateOverallDateRange = function(){
                     scope.overallMinDate = new Date(8640000000000000);
                     scope.overallMaxDate = new Date(-8640000000000000);
 
-                    for(var i = 0; i < scope.objectData.length; i++){
-                        var current = scope.objectData[i];
+                    for(var i = 0; i < scope.rawObjectData.length; i++){
+                        var current = scope.rawObjectData[i];
 
                         if(new Date(current['timespanFrom']) < scope.overallMinDate){
                             scope.overallMinDate = new Date(current['timespanFrom'])
@@ -50,27 +36,14 @@ angular.module('arachne.visualizations.directives')
                     scope.maxDate = scope.overallMaxDate;
                 };
 
-                // Takes data and creates a lookup-index based on the values behind the given key
-                scope.createIndex = function (data, indexKey){
-                    var index = {};
-
-                    var i = 0;
-                    while(i < data.length) {
-                        index[data[i][indexKey]] = i;
-                        i += 1;
-                    }
-
-                    return index;
-                };
-
                 scope.createTimeLineBins = function(){
                     scope.timeDataBins = [];
                     scope.binnedData = {};
 
-                    for (var i = 0; i < scope.objectData.length; i++) {
-                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.objectData[i])) continue;
+                    for (var i = 0; i < scope.rawObjectData.length; i++) {
+                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
 
-                        var currentObject = scope.objectData[i];
+                        var currentObject = scope.rawObjectData[i];
 
                         var fromDate = new Date(currentObject['timespanFrom']);
                         var toDate = new Date(currentObject['timespanTo']);
@@ -160,27 +133,14 @@ angular.module('arachne.visualizations.directives')
                     scope.timeDataBins = scope.timeDataBins.concat(inbetween);
                 };
 
-                scope.evaluateState = function(){
-                    if(typeof scope.placeData === 'undefined' || typeof scope.objectData === 'undefined'){
-                        return;
-                    }
-                    scope.createTimeLineBins();
-                    scope.evaluateVisiblePlaces();
-                    scope.evaluateTopPersonConnections();
-
-                    if(!scope.$root.$$phase && !scope.$$phase) {
-                        scope.$apply();
-                    }
-                };
-
                 scope.evaluateVisiblePlaces = function() {
                     scope.visiblePlaces = [];
                     scope.visibleConnections = [];
 
-                    for(var i = 0; i < scope.objectData.length; i++) {
-                        if(!scope.isObjectWithinSelectedTimeSpan(scope.objectData[i])) continue;
+                    for(var i = 0; i < scope.rawObjectData.length; i++) {
+                        if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
 
-                        var currentObject = scope.objectData[i];
+                        var currentObject = scope.rawObjectData[i];
 
                         var alreadyAdded = function (newPlace) {
                             return scope.visiblePlaces.some(function(place){
@@ -189,7 +149,7 @@ angular.module('arachne.visualizations.directives')
                         };
 
                         if(currentObject['originPlaceId'] !== 'null'){
-                            var originPlace = scope.placeData[
+                            var originPlace = scope.rawPlaceData[
                                 scope.placeIndexById[currentObject['originPlaceId']]
                                 ];
 
@@ -199,7 +159,7 @@ angular.module('arachne.visualizations.directives')
                         }
 
                         if(currentObject['destinationPlaceId'] !== 'null'){
-                            var destinationPlace = scope.placeData[
+                            var destinationPlace = scope.rawPlaceData[
                                 scope.placeIndexById[currentObject['destinationPlaceId']]
                                 ];
 
@@ -224,6 +184,7 @@ angular.module('arachne.visualizations.directives')
                     var splitKey = function (key) {
                         return key.split(':::')
                     };
+
                     var generateMatrix = function(rows, values) {
                         var result = [];
 
@@ -243,13 +204,13 @@ angular.module('arachne.visualizations.directives')
                     };
 
                     var personConnections = {};
-                    for(var i = 0; i < scope.objectData.length; i++) {
-                        if(!scope.isObjectWithinSelectedTimeSpan(scope.objectData[i])) continue;
-                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.objectData[i])) continue;
+                    for(var i = 0; i < scope.rawObjectData.length; i++) {
+                        if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
+                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
 
                         var currentKey = combineKey(
-                            scope.objectData[i]['authorId'],
-                            scope.objectData[i]['recipientId']
+                            scope.rawObjectData[i]['authorId'],
+                            scope.rawObjectData[i]['recipientId']
                         );
 
                         if(currentKey in personConnections) {
@@ -318,6 +279,18 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
+                scope.evaluateState = function(){
+                    if(typeof scope.rawPlaceData === 'undefined' || typeof scope.rawObjectData === 'undefined'){
+                        return;
+                    }
+                    scope.createTimeLineBins();
+                    scope.evaluateVisiblePlaces();
+                    scope.evaluateTopPersonConnections();
+
+                    if(!scope.$root.$$phase && !scope.$$phase) {
+                        scope.$apply();
+                    }
+                };
 
                 scope.isObjectWithinSelectedTimeSpan = function(objectData){
                     if(isNaN(Date.parse(objectData['timespanFrom']))
@@ -346,6 +319,18 @@ angular.module('arachne.visualizations.directives')
                     return isIgnored;
                 };
 
+                // Creates a lookup-index for a list of data objects based on the given key
+                scope.createIndex = function (data, indexKey){
+                    var index = {};
+
+                    var i = 0;
+                    while(i < data.length) {
+                        index[data[i][indexKey]] = i;
+                        i += 1;
+                    }
+
+                    return index;
+                };
 
                 scope.loadData = function() {
                     var objectDataColumns = ['id', 'timespanFrom', 'timespanTo', 'originPlaceId',
@@ -355,7 +340,7 @@ angular.module('arachne.visualizations.directives')
 
                     var dataQueries = [];
                     dataQueries.push($http.get(scope.objectDataPath));
-                    dataQueries.push($http.get(scope.placesDataPath));
+                    dataQueries.push($http.get(scope.placeDataPath));
                     dataQueries.push($http.get(scope.personDataPath));
 
                     scope.colors = [
@@ -373,12 +358,12 @@ angular.module('arachne.visualizations.directives')
 
                     $q.all(dataQueries)
                         .then(function (responses) {
-                            scope.objectData = $filter('tsvData')(responses[0].data, objectDataColumns);
-                            scope.placeData = $filter('tsvData')(responses[1].data, placesDataColumns);
+                            scope.rawObjectData = $filter('tsvData')(responses[0].data, objectDataColumns);
+                            scope.rawPlaceData = $filter('tsvData')(responses[1].data, placesDataColumns);
                             scope.rawPersonData = $filter('tsvData')(responses[2].data, personDataColumns);
 
-                            scope.placeIndexById = scope.createIndex(scope.placeData, 'id');
-                            scope.objectIndexById = scope.createIndex(scope.objectData, 'id');
+                            scope.placeIndexById = scope.createIndex(scope.rawPlaceData, 'id');
+                            scope.objectIndexById = scope.createIndex(scope.rawObjectData, 'id');
                             scope.personIndexById = scope.createIndex(scope.rawPersonData, 'id');
 
                             scope.evaluateOverallDateRange();
@@ -386,6 +371,19 @@ angular.module('arachne.visualizations.directives')
                         });
                 };
 
+                scope.$watch('minDate', function(newValue, oldValue) {
+                    scope.evaluateState();
+                });
+
+                scope.$watch('maxDate', function(newValue, oldValue) {
+                    scope.evaluateState()
+                });
+
+                scope.$watch('selectedPlaceId', function(newValue, oldValue){
+                    scope.evaluateState();
+                });
+
+                scope.selectedPlaceId = null;
                 scope.loadData();
             }
         }
