@@ -15,10 +15,6 @@ angular.module('arachne.visualizations.directives')
                 selectedPlaceId: '='
             },
             link: function (scope, element, attrs) {
-                scope.text = '...'
-                transl8.onLoaded().then(function() {
-                    scope.text = transl8.getTranslation('ui_reset');
-                });
 
                 var mapElement = element[0].querySelector('.map-container');
                 scope.map = L.map( mapElement).setView([scope.lat, scope.lng], scope.zoom);
@@ -39,29 +35,31 @@ angular.module('arachne.visualizations.directives')
                     scope.evaluateState();
                 });
 
-                var DeselectControl = L.Control.extend({
-                    options: {
-                        position: 'topright'
-                    },
-                    onAdd: function(map) {
-                        var container = document.createElement("div");
+                transl8.onLoaded().then(function() {
+                    var DeselectControl = L.Control.extend({
+                        options: {
+                            position: 'topright'
+                        },
+                        onAdd: function(map) {
+                            var container = document.createElement("div");
 
-                        container.classList.add('leaflet-bar', 'leaflet-control', 'leaflet-control-custom');
-                        container.innerHTML = scope.text;
+                            container.classList.add('leaflet-bar', 'leaflet-control', 'leaflet-control-custom');
+                            container.innerHTML = transl8.getTranslation('ui_reset');
 
-                        container.style.backgroundColor = 'white';
-                        container.style.padding = '5px';
-                        container.style.cursor = 'pointer';
+                            container.style.backgroundColor = 'white';
+                            container.style.padding = '5px';
+                            container.style.cursor = 'pointer';
 
-                        container.onclick = function () {
-                            scope.selectedPlaceId = null;
-                            scope.evaluateState();
-                        };
-                        return container;
-                    }
+                            container.onclick = function () {
+                                scope.selectedPlaceId = null;
+                                scope.evaluateState();
+                            };
+                            return container;
+                        }
+                    });
+
+                    scope.map.addControl(new DeselectControl());
                 });
-
-                scope.map.addControl(new DeselectControl());
 
                 scope.evaluateState = function() {
 
