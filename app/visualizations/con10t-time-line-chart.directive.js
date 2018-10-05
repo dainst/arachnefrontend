@@ -187,7 +187,7 @@ angular.module('arachne.visualizations.directives')
                                 d2 = scope.data[i],
                                 d = xPos - d1.date > d2.date - xPos ? d2 : d1;
                             focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
-                            focus.select("text").text(d.date.getFullYear() + '(' + d.count +')');
+                            focus.select("text").text(d.date.getFullYear() + ' (' + d.count +')');
 
                             var x1 = x(d1.date);
                             var x2 = x(d2.date);
