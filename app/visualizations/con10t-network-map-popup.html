@@ -1,12 +1,11 @@
 <div>
   <h3>
-    {{selectedPlace}}
-  <span ng-if="getPlaceData(selectedPlaceId)['authSource'] == 'GAZ'">
-    <a href="https://gazetteer.dainst.org/app/#!/show/{{getPlaceData(selectedPlaceId)['authId']}}"
-       target="_blank">
-      {{getPlaceData(selectedPlaceId)['name']}} <span class="glyphicon glyphicon-link"></span>
-    </a>
-  </span>
+    <span ng-if="getPlaceData(selectedPlaceId)['authSource'] == 'GAZ'">
+      <a href="https://gazetteer.dainst.org/app/#!/show/{{getPlaceData(selectedPlaceId)['authId']}}"
+         target="_blank">
+        {{getPlaceData(selectedPlaceId)['name']}} <span class="glyphicon glyphicon-link"></span>
+      </a>
+    </span>
     <span ng-if="getPlaceData(selectedPlaceId)['authSource'] != 'GAZ'">
       {{getPlaceData(selectedPlaceId)['name']}}
     </span>
