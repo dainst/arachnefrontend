@@ -85,10 +85,12 @@ angular.module('arachne.visualizations.directives')
 
                     var x = d3
                         .scaleTime()
+                        .domain([scope.data[0].date, scope.data[scope.data.length - 1].date])
                         .range([0, width]);
 
                     scope.xDetailed = d3
                         .scaleTime()
+                        .domain([scope.detailedDates[0], scope.detailedDates[scope.detailedDates.length - 1]])
                         .range([0, width]);
 
                     var y = d3
@@ -97,7 +99,8 @@ angular.module('arachne.visualizations.directives')
 
                     var xAxis = d3
                         .axisBottom()
-                        .scale(x);
+                        .scale(x)
+                        .tickFormat(d3.timeFormat("%Y"));;
 
                     var yAxis = d3
                         .axisLeft()
@@ -115,10 +118,6 @@ angular.module('arachne.visualizations.directives')
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-                    x.domain([scope.data[0].date, scope.data[scope.data.length - 1].date]);
-                    scope.xDetailed.domain(
-                        [scope.detailedDates[0], scope.detailedDates[scope.detailedDates.length - 1]]
-                    );
                     y.domain(d3.extent(scope.data, function(d) { return d.count; }));
 
                     scope.svg.append("g")
@@ -133,8 +132,7 @@ angular.module('arachne.visualizations.directives')
                         .attr("transform", "rotate(-90)")
                         .attr("y", 6)
                         .attr("dy", ".71em")
-                        .style("text-anchor", "end")
-                        .text("Price ($)");
+                        .style("text-anchor", "end");
 
                     scope.svg.append("path")
                         .datum(scope.data)
@@ -148,7 +146,6 @@ angular.module('arachne.visualizations.directives')
                         .attr('height', height)
                         .attr('opacity', .0)
                         .style("fill", '#729AB4');
-
 
                     var clickPreview = scope.svg.append('rect')
                         .attr("class", "focus")
