@@ -221,7 +221,6 @@ angular.module('arachne.visualizations.directives')
 
 
 
-                    var personConnections = {};
                     var combineKey = function (authorId, recipientId) {
                         return authorId + ':::' + recipientId;
                     };
@@ -246,6 +245,7 @@ angular.module('arachne.visualizations.directives')
                         return result;
                     };
 
+                    var personConnections = {};
                     for(var i = 0; i < scope.objectData.length; i++) {
                         if(!scope.isObjectWithinSelectedTimeSpan(scope.objectData[i])) continue;
                         if(scope.isObjectIgnoredDueToSelectedPlace(scope.objectData[i])) continue;
@@ -274,10 +274,12 @@ angular.module('arachne.visualizations.directives')
                         return y[2] - x[2];
                     }).slice(0, 10);
 
+                    var tempConnections = personConnectionsSorted.slice(0, 10);
+
                     var topPersonsIds = [];
-                    for(var idx in personConnectionsSorted){
-                        var authorId = personConnectionsSorted[idx][0];
-                        var recipientId = personConnectionsSorted[idx][1];
+                    for(var idx in tempConnections){
+                        var authorId = tempConnections[idx][0];
+                        var recipientId = tempConnections[idx][1];
 
                         if(topPersonsIds.indexOf(authorId) < 0) {
                             topPersonsIds.push(authorId);
