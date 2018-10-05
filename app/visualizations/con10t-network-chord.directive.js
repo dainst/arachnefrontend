@@ -1,9 +1,10 @@
 angular.module('arachne.visualizations.directives')
-    .directive('con10tScholarNetworkChord', ['transl8', function (transl8) {
+    .directive('con10tNetworkChord', [ function () {
         return {
             restrict: 'E',
-            templateUrl: 'app/visualizations/con10t-scholar-network-chord.html',
+            templateUrl: 'app/visualizations/con10t-network-chord.html',
             scope: {
+                objectsLabel: '@',
                 names: '=',
                 colors: '=',
                 matrix: '='
@@ -121,7 +122,7 @@ angular.module('arachne.visualizations.directives')
                     group.append("title")
                         .text(function (d, i) {
                             return scope.names[i] + "\n" +
-                                d.value + " " + transl8.getTranslation("cont10_authors_chord_letters");
+                                d.value + " " + scope.objectsLabel;
                         });
 
                     var groupTick = group.selectAll(".group-tick")
@@ -177,11 +178,9 @@ angular.module('arachne.visualizations.directives')
                             .style("white-space", "pre")
                             .html(
                                 scope.names[d.source.index] + " → " + scope.names[d.target.index] + ": " +
-                                d3.format("3")(d.source.value) + " " +
-                                transl8.getTranslation("cont10_authors_chord_letters") + ".<br\>" +
+                                d3.format("3")(d.source.value) + " " + scope.objectsLabel + ".<br\>" +
                                 scope.names[d.source.index] + " ← " + scope.names[d.target.index] + ": " +
-                                d3.format("3")(d.target.value) +
-                                " " + transl8.getTranslation("cont10_authors_chord_letters") + "."
+                                d3.format("3")(d.target.value) + " "+ scope.objectsLabel + "."
                             );
 
                         g.select("g.ribbons")

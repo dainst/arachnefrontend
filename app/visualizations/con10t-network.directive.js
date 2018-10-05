@@ -11,10 +11,11 @@ angular.module('arachne.visualizations.directives')
                 personDataPath: '@',
                 lat: '@',
                 lng: '@',
-                zoom: '@'
+                zoom: '@',
+                objectNameSingular: '@',
+                objectNamePlural: '@'
             },
             link: function (scope, element, attrs) {
-
                 scope.$watch('minDate', function(newValue, oldValue) {
                     scope.evaluateState();
                 });

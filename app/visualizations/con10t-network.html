@@ -1,14 +1,12 @@
 <div class="container">
   <pre>
-    {{rawPersonData}}
+    <!-- {{rawPersonData}} -->
   </pre>
 
   <div class="row">
     <div class="col-md-6">
-      <con10t-scholar-network-chord style="display: block"
-          names="names"
-          colors="colors"
-          matrix="matrix" class="row"></con10t-scholar-network-chord>
+      <con10t-network-chord style="display: block" class="row" names="names" colors="colors" matrix="matrix"
+          objects-label="{{objectNamePlural}}"></con10t-network-chord>
     </div>
     <div class="col-md-6">
         <con10t-network-map
