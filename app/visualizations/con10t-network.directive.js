@@ -30,7 +30,6 @@ angular.module('arachne.visualizations.directives')
 
                 scope.selectedPlaceId = null;
 
-
                 scope.evaluateOverallDateRange = function(){
                     scope.overallMinDate = new Date(8640000000000000);
                     scope.overallMaxDate = new Date(-8640000000000000);
@@ -218,8 +217,6 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.evaluateTopPersonConnections = function(){
-
-
 
                     var combineKey = function (authorId, recipientId) {
                         return authorId + ':::' + recipientId;

@@ -1,3 +1,26 @@
+/**
+ * This directive draws a line chart over a given time span. The chart can then be used as a date picker by clicking
+ * or dragging on the chart area. The chart draws a line in 
+ *
+ * Expected Parameters
+ *
+ * - binnedData (required):
+ *   List of Javascript Objects, each containing keys 'date' and 'value', where 'date' should point to a Javascript Date
+ *   object and 'value' to a number.
+ * - minDate (required):
+ *   The earliest date of the currently selected time span (Javascript date object). If the directive is initialized
+ *   with minDate as undefined, the earliest date in the binned data is used as its initial value. The variable has
+ *   a two way binding and can be used outside this directive to read the current selection.
+ * - maxDate (required):
+ *   The latest date of the currently selected time span (Javascript date object). If the directive is initialized
+ *   with maxDate as undefined, the latest date in the binned data is used as its initial value. The variable has
+ *   a two way binding and can be used outside this directive to read the current selection.
+ * - reportOnDrag (optional):
+ *   If set as "true", minDate/maxDate are updated while dragging on the chart area. Otherwise, they are updated on
+ *   drag end (= when the mouse button is finally released).
+ */
+
+
 'use strict';
 
 
@@ -8,29 +31,36 @@ angular.module('arachne.visualizations.directives')
             templateUrl: 'app/visualizations/con10t-time-line-chart.html',
             scope: {
                 reportOnDrag: '@',  // Pass "true" if you want to evaluate minDate/maxDate while dragging, otherwise evaluation will take place at drag end
-                overallMinDate: '=',
-                overallMaxDate: '=',
+                binnedData: '=',
                 minDate: '=',
-                maxDate: '=',
-                data: '='
+                maxDate: '='
             },
             link: function (scope, element, attrs) {
+
                 scope.evaluateOverallTimespan = function(){
+
                     scope.overallMaxDate = new Date(-8640000000000000);
                     scope.overallMinDate = new Date(8640000000000000);
 
-                    for(var i = 0; i < scope.data.length; i++){
+                    for(var i = 0; i < scope.binnedData.length; i++){
 
-                        if(scope.data[i].date > scope.overallMaxDate){
-                            scope.overallMaxDate = new Date(scope.data[i].date);
+                        if(scope.binnedData[i].date > scope.overallMaxDate){
+                            scope.overallMaxDate = new Date(scope.binnedData[i].date);
                         }
 
-                        if(scope.data[i].date < scope.overallMinDate){
-                            scope.overallMinDate = new Date(scope.data[i].date);
+                        if(scope.binnedData[i].date < scope.overallMinDate){
+                            scope.overallMinDate = new Date(scope.binnedData[i].date);
                         }
                     }
+
+                    if(typeof scope.minDate === 'undefined')
+                        scope.minDate = scope.overallMinDate;
+                    if(typeof scope.maxDate === 'undefined')
+                        scope.maxDate = scope.overallMaxDate;
                 };
 
+                // Output (minDate/maxDate) is provided in days resolution, no matter the binned dates' resolution is,
+                // so we need to generate the day-dates between overall minimum and maximum date of the bins.
                 scope.generateDetailedTimeSpan = function() {
                     scope.detailedDates = [];
                     scope.detailedDates.push(scope.overallMinDate);
@@ -83,9 +113,9 @@ angular.module('arachne.visualizations.directives')
 
                     var bisectDetailedDate = d3.bisector(function(d) { return d; }).left;
 
-                    var x = d3
+                    var x = scope.xValues = d3
                         .scaleTime()
-                        .domain([scope.data[0].date, scope.data[scope.data.length - 1].date])
+                        .domain([scope.binnedData[0].date, scope.binnedData[scope.binnedData.length - 1].date])
                         .range([0, width]);
 
                     scope.xDetailed = d3
@@ -100,7 +130,7 @@ angular.module('arachne.visualizations.directives')
                     var xAxis = d3
                         .axisBottom()
                         .scale(x)
-                        .tickFormat(d3.timeFormat("%Y"));;
+                        .tickFormat(d3.timeFormat("%Y"));
 
                     var yAxis = d3
                         .axisLeft()
@@ -118,7 +148,7 @@ angular.module('arachne.visualizations.directives')
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-                    y.domain(d3.extent(scope.data, function(d) { return d.count; }));
+                    y.domain(d3.extent(scope.binnedData, function(d) { return d.count; }));
 
                     scope.svg.append("g")
                         .attr("class", "x axis")
@@ -135,7 +165,7 @@ angular.module('arachne.visualizations.directives')
                         .style("text-anchor", "end");
 
                     scope.svg.append("path")
-                        .datum(scope.data)
+                        .datum(scope.binnedData)
                         .attr("class", "line")
                         .attr("d", line);
 
@@ -182,9 +212,9 @@ angular.module('arachne.visualizations.directives')
                         })
                         .on("mousemove", function () {
                             var xPos = x.invert(d3.mouse(this)[0]),
-                                i = bisectDate(scope.data, xPos, 1),
-                                d1 = scope.data[i - 1],
-                                d2 = scope.data[i],
+                                i = bisectDate(scope.binnedData, xPos, 1),
+                                d1 = scope.binnedData[i - 1],
+                                d2 = scope.binnedData[i],
                                 d = xPos - d1.date > d2.date - xPos ? d2 : d1;
                             focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
                             focus.select("text").text(d.date.getFullYear() + ' (' + d.count +')');
@@ -261,9 +291,9 @@ angular.module('arachne.visualizations.directives')
 
                     function getDateForPosition(xPos){
                         // Get the x-axis data index where the current xPos value would be inserted...
-                        var i = bisectDate(scope.data, x.invert(xPos), 1);
+                        var i = bisectDate(scope.binnedData, x.invert(xPos), 1);
                         // ... then check which of the neighbouring values is closer and return the closer one's date.
-                        return scope.data[i - 1]['date'];
+                        return scope.binnedData[i - 1]['date'];
                     }
 
                     function getDetailedDateForPosition(xPos) {
@@ -283,13 +313,6 @@ angular.module('arachne.visualizations.directives')
                     scope.svg.call(dragBehavior);
                 };
 
-                scope.reset = function() {
-                    scope.dragStartDate = scope.overallMinDate;
-                    scope.dragEndDate = scope.overallMaxDate;
-                    scope.selectionBox.attr("opacity", .0);
-                    scope.evaluateState();
-                };
-
                 scope.evaluateState = function () {
 
                     if(scope.dragStartDate != null && scope.dragEndDate != null){
@@ -303,7 +326,6 @@ angular.module('arachne.visualizations.directives')
                             scope.minDate = scope.dragEndDate;
                             scope.maxDate = scope.dragStartDate;
                         } else {
-                            console.log(scope.dragStartDate, scope.dragEndDate);
                             scope.minDate = scope.dragStartDate;
                             scope.maxDate = scope.dragEndDate.getFullYear() + 1;
                         }
@@ -312,10 +334,6 @@ angular.module('arachne.visualizations.directives')
                     if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
                     }
-                };
-
-                scope.getPositionForDate = function(date){
-                    return scope.xDetailed(date)
                 };
 
                 scope.drawSelection = function(x1, x2){
@@ -330,6 +348,12 @@ angular.module('arachne.visualizations.directives')
                     } else {
                         scope.selectionBox.attr("opacity", .0);
                     }
+                };
+
+                scope.reset = function() {
+                    scope.dragStartDate = scope.overallMinDate;
+                    scope.dragEndDate = scope.overallMaxDate;
+                    scope.evaluateState();
                 };
 
                 scope.recreate = function() {
@@ -347,10 +371,14 @@ angular.module('arachne.visualizations.directives')
                     scope.drawSelection(scope.dragStartPosition, scope.dragEndPosition);
                 };
 
+                scope.getPositionForDate = function(date){
+                    return scope.xDetailed(date)
+                };
+
                 scope.dragStartDate = null;
                 scope.dragEndDate = null;
 
-                scope.$watch('data', function(newValue, oldValue) {
+                scope.$watch('binnedData', function(newValue, oldValue) {
                     if(typeof newValue === 'undefined'){
                         return;
                     }
