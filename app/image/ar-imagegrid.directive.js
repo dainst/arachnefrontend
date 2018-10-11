@@ -48,7 +48,7 @@ angular.module('arachne.directives')
                 scope.resizeRow = function (row) {
 
                     var i, len;
-                    
+
                     len = row.length;
 
                     // only resize if every cell in the row is complete
@@ -66,7 +66,7 @@ angular.module('arachne.directives')
                     var columns = scope.columns;
                     var totalWidth = element[0].clientWidth - 1;
                     totalWidth -= columns * scope.margin * 2;
-                    
+
                     // fill rows with fewer columns
                     if (len < columns) {
                         imagesWidth += (columns - len) * (totalWidth / columns)
@@ -77,7 +77,7 @@ angular.module('arachne.directives')
                     for (i = 0; i < len; i++) {
 
                         currentRow = row[i];
-                        
+
                         currentRow.width = currentRow.img.naturalWidth * scalingFactor;
                         if (scalingFactor > 1) {
                             currentRow.imgWidth = currentRow.img.naturalWidth;
@@ -99,9 +99,9 @@ angular.module('arachne.directives')
 
                     row.complete = true;
                     len = scope.grid.length;
-                    
+
                     for (i = 0; i < len; i++) {
-                        
+
                         if (!scope.grid[i].complete) {
                             scope.complete = false;
                             break;
@@ -149,52 +149,52 @@ angular.module('arachne.directives')
                 $scope.errorplaceholder = new Image();
                 $scope.errorplaceholder.src = 'img/placeholder/placeholderError.png';
                 $scope.complete = false;
+                $scope.grid = [];
 
-                $scope.$watch('cells', function (newCells, oldCells) {
+                $scope.$watchCollection('cells', function (newCells, oldCells) {
 
                     if (typeof newCells == 'undefined' || !newCells) return;
 
-                    var columns = $scope.columns;
-                    var rows = Math.ceil($scope.cells.length / columns);
-                    $scope.grid = new Array(rows);
+                    var column = 0;
+                    var row = 0;
 
-                    for (var i = 0; i < rows; i++) {
+                    for (var i = 0; i < $scope.cells.length; i++) {
 
-                        $scope.grid[i] = new Array(columns);
-
-                        for (var k = 0; k < columns; k++) {
-
-                            if (i * columns + k >= $scope.cells.length) break;
-                            var index = i * columns + k;
-                            var cell = $scope.cells[index];
-                            $scope.grid[i][k] = cell;
-                            cell.row = $scope.grid[i];
-                            $scope.grid[i].complete = false;
-                            if(typeof cell.imgUri == 'undefined') {
-                                cell.imgUri = $scope.placeholder.src;
-                            }
-                            switch (cell.label) {
-                                case 'Orte':
-                                    cell.imgUri = $scope.placeholderOrt.src;
-                                    break;
-                                case 'Literatur':
-                                    cell.imgUri = $scope.placeholderLiteratur.src;
-                                    break;
-                                case 'Personen':
-                                    cell.imgUri = $scope.placeholderPerson.src;
-                                    break;
-                                case 'Gruppierungen':
-                                    cell.imgUri = $scope.placeholderGruppierung.src;
-                                    break;
-                                case '3D-Modelle':
-                                    cell.imgUri = $scope.placeholder3D.src;
-                                    break;
-                                default:
-                                    break;
-                            }
-                            $scope.loadImage(cell);
+                        var cell = $scope.cells[i];
+                        row = Math.floor(i / $scope.columns);
+                        column = i % $scope.columns;
+                        if (!$scope.grid[row]) $scope.grid[row] = [];
+                        if ($scope.grid[row][column] == cell) continue;
+                        $scope.grid[row][column] = cell;
+                        cell.row = $scope.grid[row];
+                        $scope.grid[row].complete = false;
+                        if(typeof cell.imgUri == 'undefined') {
+                            cell.imgUri = $scope.placeholder.src;
                         }
+                        switch (cell.label) {
+                            case 'Orte':
+                                cell.imgUri = $scope.placeholderOrt.src;
+                                break;
+                            case 'Literatur':
+                                cell.imgUri = $scope.placeholderLiteratur.src;
+                                break;
+                            case 'Personen':
+                                cell.imgUri = $scope.placeholderPerson.src;
+                                break;
+                            case 'Gruppierungen':
+                                cell.imgUri = $scope.placeholderGruppierung.src;
+                                break;
+                            case '3D-Modelle':
+                                cell.imgUri = $scope.placeholder3D.src;
+                                break;
+                            default:
+                                break;
+                        }
+                        $scope.loadImage(cell);
                     }
+                    $scope.grid.length = row + 1;
+                    $scope.grid[row].length = column + 1;
+                    console.log($scope.grid);
                 });
             }]
         }

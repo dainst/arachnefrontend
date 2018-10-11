@@ -451,7 +451,7 @@ angular.module('arachne.controllers')
                 } else {
 
                     if (entry.totalChildren > 0) {
-                        showThumbnails(entry, treeScope);
+                        showThumbnails(entry, 0);
                     } else {
                         $scope.currentTreeScope = null;
                     }
@@ -459,37 +459,46 @@ angular.module('arachne.controllers')
                 }
             }
 
-            $scope.showMoreThumbnails = function() {
-                showThumbnails($scope.currentEntry);
+
+
+            $scope.showMoreThumbnails = function(offset) {
+                showThumbnails($scope.currentEntry, offset);
             };
 
-            function showThumbnails(entry) {
-
-                if (!$scope.currentEntry) {
-                    $scope.cells.length = 0;
-                } else {
-                    if ($scope.currentEntry.id !== entry.id) {
-                        $scope.cells.length = 0;
-                    }
-                }
+            function showThumbnails(entry, offset) {
 
                 $scope.currentEntry = entry;
                 $scope.cellsNotDisplayed = 0;
                 $scope.loadingThumbnails = true;
 
-                CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: $scope.cells.length-1},
+                CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: offset},
                     function (result) {
 
-                        result.children.forEach(function (cell) {
+                        var entityLoad = 0;
+                        var cells = [];
 
-                            if (cell.arachneEntityId) {
+                        result.children.forEach(function (child) {
 
-                                Entity.get({id: cell.arachneEntityId}, function (entity) {
+                            var cell = {title: child.label};
 
-                                    $scope.cells[cell.indexParent] = {
-                                        title: entity.title,
-                                        entityId: entity.thumbnailId,
-                                        entity: cell
+                            cells.push(cell);
+
+                            if (child.arachneEntityId) {
+                                entityLoad++;
+                                Entity.get({id: child.arachneEntityId}, function (entity) {
+
+                                    cell.imgUri = arachneSettings.dataserviceUri + "/image/height/" + entity.thumbnailId + "?height=300";
+                                    if  (entityLoad-- == 1){
+
+                                        if (offset>0){
+
+                                          for (var i=0; i<cells.length; i++){
+                                              $scope.cells.push(cells[i]);
+                                          }
+
+                                        }
+                                        else $scope.cells = cells;
+
                                     };
                                 }, function () {
                                     messages.add('default');

@@ -273,7 +273,7 @@
 
                     </div>
 
-                    <div class="row" ng-if="cells.length > 0">
+                  <div class="row" ng-if="cells.length > 0">
 
                         <div class="col-md-12">
 
@@ -284,7 +284,8 @@
                                         {{ 'catalog_preview' | transl8 }}
                                     </h2>
                                 </div>
-                                <div class="panel-body catalog-text">
+
+                                <!-- <div class="panel-body catalog-text">
                                     <div ng-repeat="cell in cells track by $index">
 
                                         <div ng-if="cells[$index]"
@@ -329,12 +330,35 @@
                                             ({{activeEntry.children.length - (cells.length+1)}} {{ 'ui_more_entries' | transl8 }})
                                         </em>
                                     </a>
+                                </div> -->
+
+                                <div ar-imagegrid
+					                           cells="cells"
+					                           columns="4"
+					                           margin="4">
+				                        </div>
+
+                                <div ng-if="cells.length < activeEntry.totalChildren"
+                                     class="more-thumbnails">
+                                    <a class="btn btn-primary"
+                                       ng-click="showMoreThumbnails(cells.length)">
+                                        {{ 'ui_show_more' | transl8 }}
+                                        <em ng-if="activeEntry.totalChildren - cells.length == 1">
+                                            ({{ 'ui_one_more_entry' | transl8 }})
+                                        </em>
+                                        <em ng-if="activeEntry.totalChildren - cells.length > 1">
+                                            ({{activeEntry.totalChildren - (cells.length)}} {{ 'ui_more_entries' | transl8 }})
+                                        </em>
+                                    </a>
                                 </div>
+
                             </div>
 
                         </div>
 
                     </div>
+
+
 
                 </div>
 
