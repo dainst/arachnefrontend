@@ -51,16 +51,14 @@ angular.module('arachne.controllers')
                     }
                 });
             }
-
             // if no id given, but query get id from search and reload
-            if (!$stateParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
+            else if (!$stateParams.id && $scope.currentQuery.hasOwnProperty('resultIndex')) {
 
                 var resultIndex = parseInt($scope.currentQuery.resultIndex);
                 searchService.getEntity(resultIndex).then(function (entity) {
                     $location.url('/' + searchScope.currentScopePath() + 'entity/' + entity.entityId + $scope.currentQuery.toString());
                     $location.replace();
                 });
-
             } else {
 
                 var live = $location.search()["live"] == "true";
