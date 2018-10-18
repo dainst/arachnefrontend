@@ -153,7 +153,7 @@ angular.module('arachne.directives')
 
                 $scope.$watchCollection('cells', function (newCells, oldCells) {
 
-                    if (typeof newCells == 'undefined' || !newCells || newCells == oldCells) return;
+                    if (typeof newCells == 'undefined' || !newCells) return;
 
                     var column = 0;
                     var row = 0;
