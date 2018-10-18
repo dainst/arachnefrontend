@@ -474,38 +474,30 @@ angular.module('arachne.controllers')
                 CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: offset},
                     function (result) {
 
-                        var entityLoad = 0;
-                        var cells = [];
+                        if (offset == 0) $scope.cells = [];
 
                         result.children.forEach(function (child) {
-
                             var cell = {title: child.label};
-
-                            cells.push(cell);
+                            var index = $scope.cells.length;
+                            $scope.cells[index] = cell;
 
                             if (child.arachneEntityId) {
-                                entityLoad++;
                                 Entity.get({id: child.arachneEntityId}, function (entity) {
 
-                                    cell.imgUri = arachneSettings.dataserviceUri + "/image/height/" + entity.thumbnailId + "?height=300";
-                                    if  (entityLoad-- == 1){
+                                    var newCell = angular.copy(cell);
+                                    newCell.href = "entity/" + entity.entityId;
+                                    if (entity.thumbnailId)
+                                        newCell.imgUri = arachneSettings.dataserviceUri + "/image/height/" + entity.thumbnailId + "?height=300";
+                                    $scope.cells[index] = newCell;
 
-                                        if (offset>0){
-
-                                          for (var i=0; i<cells.length; i++){
-                                              $scope.cells.push(cells[i]);
-                                          }
-
-                                        }
-                                        else $scope.cells = cells;
-
-                                    };
                                 }, function () {
                                     messages.add('default');
                                 });
                             } else {
+
                                 $scope.cellsNotDisplayed++;
                             }
+
                         });
 
                         $scope.loadingThumbnails = false;

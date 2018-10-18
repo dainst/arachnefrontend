@@ -153,7 +153,7 @@ angular.module('arachne.directives')
 
                 $scope.$watchCollection('cells', function (newCells, oldCells) {
 
-                    if (typeof newCells == 'undefined' || !newCells) return;
+                    if (typeof newCells == 'undefined' || !newCells || newCells == oldCells) return;
 
                     var column = 0;
                     var row = 0;
@@ -165,6 +165,7 @@ angular.module('arachne.directives')
                         column = i % $scope.columns;
                         if (!$scope.grid[row]) $scope.grid[row] = [];
                         if ($scope.grid[row][column] == cell) continue;
+
                         $scope.grid[row][column] = cell;
                         cell.row = $scope.grid[row];
                         $scope.grid[row].complete = false;
@@ -191,10 +192,11 @@ angular.module('arachne.directives')
                                 break;
                         }
                         $scope.loadImage(cell);
+
                     }
                     $scope.grid.length = row + 1;
                     $scope.grid[row].length = column + 1;
-                    console.log($scope.grid);
+
                 });
             }]
         }
