@@ -67,7 +67,8 @@ angular.module('arachne',[
 			'catalogs':			{ url: '/catalogs', templateUrl: 'app/catalog/catalogs.html', data: { pageTitle: title }},
 			'catalog':			{ url: '/catalog/:id?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }},
 			'catalog.entry':	{ url: '/:entryId?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }},
-			'books':			{ url: '/books/:id?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
+			'books':			{ url: '/books/:id', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
+            'booksSuffixed':    { url: '/books/:id/:suffix?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
 			'entity':			{ url: '/entity/:id?/:params?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
 
 

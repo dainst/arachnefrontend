@@ -25,8 +25,23 @@ angular.module('arachne.controllers')
             //if id is not a number (=> string)
             if (isNaN($stateParams.id)) {
                 var live = $location.search()["live"] == "true";
+                var params;
 
-                Entity.books({id: $stateParams.id, live: live}, function (data) {
+                if(typeof $stateParams.suffix !== 'undefined')
+                {
+                    params = {
+                        id: $stateParams.id,
+                        suffix: $stateParams.suffix,
+                        live: live
+                    };
+                } else{
+                    params = {
+                        id: $stateParams.id,
+                        live: live
+                    };
+                }
+
+                Entity.books(params, function (data) {
                     $scope = data;
 
                     if($scope.entityId == null) {
