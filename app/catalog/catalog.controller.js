@@ -493,6 +493,11 @@ angular.module('arachne.controllers')
                                 }, function () {
                                     messages.add('default');
                                 });
+                            } else if (child.id) {
+                                console.log(child);
+                                cell.href = "//" + document.location.host + "/catalog/" + child.catalogId + "/" + child.id;
+                                cell.imgUri = 'img/placeholder/placeholderFolder.png';
+
                             } else {
 
                                 $scope.cellsNotDisplayed++;
