@@ -485,7 +485,8 @@ angular.module('arachne.controllers')
                                 Entity.get({id: child.arachneEntityId}, function (entity) {
 
                                     var newCell = angular.copy(cell);
-                                    newCell.href = "entity/" + entity.entityId;
+                                    newCell.href = "//" + document.location.host + "/catalog/" + child.catalogId + "/" + child.id;
+
                                     if (entity.thumbnailId)
                                         newCell.imgUri = arachneSettings.dataserviceUri + "/image/height/" + entity.thumbnailId + "?height=300";
                                     $scope.cells[index] = newCell;
@@ -494,7 +495,7 @@ angular.module('arachne.controllers')
                                     messages.add('default');
                                 });
                             } else if (child.id) {
-                                console.log(child);
+
                                 cell.href = "//" + document.location.host + "/catalog/" + child.catalogId + "/" + child.id;
                                 cell.imgUri = 'img/placeholder/placeholderFolder.png';
 
