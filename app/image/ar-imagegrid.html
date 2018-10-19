@@ -14,7 +14,8 @@
 			cell-highlighting="{{cell.highlighting}}"
 			hide-title="{{hideTitle}}"
 			target="{{target}}"
-			search-scope="{{searchScopePath}}">
+			search-scope="{{searchScopePath}}"
+			on-click="cell.onClick">
 		</div>
 		<!-- prevent row from disappering when single cell is absolutely positioned -->
 		<div ng-if="row.length == 1"

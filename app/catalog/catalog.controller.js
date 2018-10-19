@@ -481,11 +481,17 @@ angular.module('arachne.controllers')
                             var index = $scope.cells.length;
                             $scope.cells[index] = cell;
 
+                            //    cell.href = "//" + document.location.host + "/catalog/" + child.catalogId + "/" + child.id;
+                            cell.onClick = function(scope) {
+                                return function() {
+                                    scope.selectEntry(child);
+                                }
+                            }($scope);
+
                             if (child.arachneEntityId) {
                                 Entity.get({id: child.arachneEntityId}, function (entity) {
 
                                     var newCell = angular.copy(cell);
-                                    newCell.href = "//" + document.location.host + "/catalog/" + child.catalogId + "/" + child.id;
 
                                     if (entity.thumbnailId)
                                         newCell.imgUri = arachneSettings.dataserviceUri + "/image/height/" + entity.thumbnailId + "?height=300";
@@ -494,16 +500,10 @@ angular.module('arachne.controllers')
                                 }, function () {
                                     messages.add('default');
                                 });
-                            } else if (child.id) {
-
-                                cell.href = "//" + document.location.host + "/catalog/" + child.catalogId + "/" + child.id;
-
-                                if (child.totalChildren > 0) cell.imgUri = 'img/placeholder/placeholderFolder.png';
-                                else cell.imgUri = 'img/placeholder/placeholderNoEntity.png';
-
+                            } else if (child.totalChildren > 0) {
+                                cell.imgUri = 'img/placeholder/placeholderFolder.png';
                             } else {
-
-                                $scope.cellsNotDisplayed++;
+                                cell.imgUri = 'img/placeholder/placeholderNoEntity.png';
                             }
 
                         });
