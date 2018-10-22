@@ -38,7 +38,7 @@ angular.module('arachne.visualizations.directives')
 
                 scope.evaluateActiveObjectData = function() {
                     scope.arachneIds = [];
-                    scope.activeObjectData = [];
+                    scope.activeObjectCount = 0;
 
                     for(var i = 0; i < scope.rawObjectData.length; i++) {
                         if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
@@ -47,7 +47,7 @@ angular.module('arachne.visualizations.directives')
                         if(scope.rawObjectData[i]['arachneId'] !== 'null') {
                             scope.arachneIds.push(scope.rawObjectData[i]['arachneId']);
                         }
-                        scope.activeObjectData.push(scope.rawObjectData[i]);
+                        scope.activeObjectCount += 1
                     }
                 };
 
@@ -55,9 +55,10 @@ angular.module('arachne.visualizations.directives')
                     scope.timeDataBins = [];
                     scope.binnedData = {};
 
-                    for (var i = 0; i < scope.activeObjectData.length; i++) {
+                    for (var i = 0; i < scope.rawObjectData.length; i++) {
+                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
 
-                        var currentObject = scope.activeObjectData[i];
+                        var currentObject = scope.rawObjectData[i];
 
                         var fromDate = new Date(currentObject['timespanFrom']);
                         var toDate = new Date(currentObject['timespanTo']);
@@ -151,8 +152,10 @@ angular.module('arachne.visualizations.directives')
                     scope.visiblePlaces = [];
                     scope.visibleConnections = [];
 
-                    for(var i = 0; i < scope.activeObjectData.length; i++) {
-                        var currentObject = scope.activeObjectData[i];
+                    for(var i = 0; i < scope.rawObjectData.length; i++) {
+                        if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
+
+                        var currentObject = scope.rawObjectData[i];
                         var alreadyAdded = function (newPlace) {
                             return scope.visiblePlaces.some(function(place){
                                 return place['id'] === newPlace['id'];
@@ -410,6 +413,7 @@ angular.module('arachne.visualizations.directives')
 
                 scope.selectedPlaceId = null;
                 scope.arachneIds = [];
+                scope.activeObjectCount = 0;
                 scope.loadData();
             }
         }
