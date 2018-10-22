@@ -125,7 +125,6 @@ angular.module('arachne.visualizations.directives')
                     );
 
                     scope.timeDataBins = inbetween.concat(scope.timeDataBins);
-
                     for(var i = 0; i < scope.timeDataBins.length - 1; i++) {
 
                         if(scope.timeDataBins[i]['date'].getFullYear() + 1
@@ -140,10 +139,9 @@ angular.module('arachne.visualizations.directives')
                             }
                         }
                     }
-
                     var inbetween = getYearsInbetween(
                         scope.timeDataBins[scope.timeDataBins.length - 1]['date'].getFullYear(),
-                        scope.overallMaxDate.getFullYear() + 1
+                        scope.overallMaxDate.getFullYear() + 2
                     );
                     scope.timeDataBins = scope.timeDataBins.concat(inbetween);
                 };
