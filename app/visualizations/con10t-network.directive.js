@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('arachne.visualizations.directives')
-    .directive('con10tNetwork', ['$http', '$q', '$filter', function ($http, $q, $filter) {
+    .directive('con10tNetwork', ['$http', '$q', '$filter', '$location', function ($http, $q, $filter, $location) {
         return {
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-network.html',
@@ -133,6 +133,20 @@ angular.module('arachne.visualizations.directives')
                     scope.timeDataBins = scope.timeDataBins.concat(inbetween);
                 };
 
+
+                scope.evaluateActiveArachneIDs = function() {
+                    scope.arachneIds = [];
+
+                    for(var i = 0; i < scope.rawObjectData.length; i++) {
+                        if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
+                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
+
+                        if(scope.rawObjectData[i]['arachneId'] !== 'null') {
+                            scope.arachneIds.push(scope.rawObjectData[i]['arachneId']);
+                        }
+                    }
+                };
+
                 scope.evaluateVisiblePlaces = function() {
                     scope.visiblePlaces = [];
                     scope.visibleConnections = [];
@@ -168,7 +182,8 @@ angular.module('arachne.visualizations.directives')
                             }
                         }
 
-                        if(typeof originPlace !== 'undefined' && typeof destinationPlace !== 'undefined'){
+                        if(currentObject['originPlaceId'] !== 'null' && typeof originPlace !== 'undefined' &&
+                            currentObject['destinationPlaceId'] !== 'null' && typeof destinationPlace !== 'undefined'){
                             scope.visibleConnections.push([
                                 currentObject['originPlaceId'], currentObject['destinationPlaceId']
                             ]);
@@ -283,6 +298,7 @@ angular.module('arachne.visualizations.directives')
                     if(typeof scope.rawPlaceData === 'undefined' || typeof scope.rawObjectData === 'undefined'){
                         return;
                     }
+                    scope.evaluateActiveArachneIDs();
                     scope.createTimeLineBins();
                     scope.evaluateVisiblePlaces();
                     scope.evaluateTopPersonConnections();
@@ -333,7 +349,7 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.loadData = function() {
-                    var objectDataColumns = ['id', 'timespanFrom', 'timespanTo', 'originPlaceId',
+                    var objectDataColumns = ['id', 'arachneId', 'timespanFrom', 'timespanTo', 'originPlaceId',
                         'destinationPlaceId', 'authorId', 'recipientId'];
                     var placesDataColumns = [ 'id', 'lat', 'lng', 'name', 'authId', 'authSource' ];
                     var personDataColumns = [ 'id', 'authId', 'authSource', 'name'];
@@ -371,6 +387,18 @@ angular.module('arachne.visualizations.directives')
                         });
                 };
 
+                scope.searchArachneIds = function() {
+
+                    if(scope.arachneIds.length === 0) return;
+
+                    var path = 'search?q=entityId:' + scope.arachneIds[0];
+                    for(var i = 1; i < scope.arachneIds.length; i++) {
+                        path += ' OR entityId:' + scope.arachneIds[i]
+                    }
+
+                    $location.url(path)
+                };
+
                 scope.$watch('minDate', function(newValue, oldValue) {
                     scope.evaluateState();
                 });
@@ -384,6 +412,7 @@ angular.module('arachne.visualizations.directives')
                 });
 
                 scope.selectedPlaceId = null;
+                scope.arachneIds = [];
                 scope.loadData();
             }
         }

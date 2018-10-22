@@ -1,7 +1,11 @@
 <div class="container">
-  <pre>
-    <!-- {{rawPersonData}} -->
-  </pre>
+  <!--<pre>
+    {{arachneIds}}
+  </pre>-->
+  <button type="button" class="btn btn-primary btn-lg btn-block" ng-disabled="arachneIds.length > 100"
+          ng-click="searchArachneIds()">
+    {{"ui_showobjects"|transl8}} ({{arachneIds.length}})
+  </button>
 
   <div class="row">
     <div class="col-md-6">
