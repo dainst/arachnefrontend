@@ -36,14 +36,28 @@ angular.module('arachne.visualizations.directives')
                     scope.maxDate = scope.overallMaxDate;
                 };
 
+                scope.evaluateActiveObjectData = function() {
+                    scope.arachneIds = [];
+                    scope.activeObjectData = [];
+
+                    for(var i = 0; i < scope.rawObjectData.length; i++) {
+                        if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
+                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
+
+                        if(scope.rawObjectData[i]['arachneId'] !== 'null') {
+                            scope.arachneIds.push(scope.rawObjectData[i]['arachneId']);
+                        }
+                        scope.activeObjectData.push(scope.rawObjectData[i]);
+                    }
+                };
+
                 scope.createTimeLineBins = function(){
                     scope.timeDataBins = [];
                     scope.binnedData = {};
 
-                    for (var i = 0; i < scope.rawObjectData.length; i++) {
-                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
+                    for (var i = 0; i < scope.activeObjectData.length; i++) {
 
-                        var currentObject = scope.rawObjectData[i];
+                        var currentObject = scope.activeObjectData[i];
 
                         var fromDate = new Date(currentObject['timespanFrom']);
                         var toDate = new Date(currentObject['timespanTo']);
@@ -133,29 +147,12 @@ angular.module('arachne.visualizations.directives')
                     scope.timeDataBins = scope.timeDataBins.concat(inbetween);
                 };
 
-
-                scope.evaluateActiveArachneIDs = function() {
-                    scope.arachneIds = [];
-
-                    for(var i = 0; i < scope.rawObjectData.length; i++) {
-                        if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
-                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
-
-                        if(scope.rawObjectData[i]['arachneId'] !== 'null') {
-                            scope.arachneIds.push(scope.rawObjectData[i]['arachneId']);
-                        }
-                    }
-                };
-
                 scope.evaluateVisiblePlaces = function() {
                     scope.visiblePlaces = [];
                     scope.visibleConnections = [];
 
-                    for(var i = 0; i < scope.rawObjectData.length; i++) {
-                        if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
-
-                        var currentObject = scope.rawObjectData[i];
-
+                    for(var i = 0; i < scope.activeObjectData.length; i++) {
+                        var currentObject = scope.activeObjectData[i];
                         var alreadyAdded = function (newPlace) {
                             return scope.visiblePlaces.some(function(place){
                                 return place['id'] === newPlace['id'];
@@ -298,7 +295,7 @@ angular.module('arachne.visualizations.directives')
                     if(typeof scope.rawPlaceData === 'undefined' || typeof scope.rawObjectData === 'undefined'){
                         return;
                     }
-                    scope.evaluateActiveArachneIDs();
+                    scope.evaluateActiveObjectData();
                     scope.createTimeLineBins();
                     scope.evaluateVisiblePlaces();
                     scope.evaluateTopPersonConnections();
