@@ -38,7 +38,7 @@ angular.module('arachne.controllers')
 
                 var handleActivationError = function (data) {
                     console.log(data);
-                    messages.add('default', 'danger');
+                    messages.add('ui.register.passwordsDontMatch', 'danger');
                 };
 
                 $scope.submit = function () {
