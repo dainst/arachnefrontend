@@ -153,7 +153,7 @@
                 </div>
 
                 <button ng-if="catalog.projectId"
-                        id="catalog-map-button" class="btn btn-default btn-sm pull-right"
+                        id="catalog-project-button" class="btn btn-default btn-sm pull-right"
                         uib-tooltip="{{ 'catalog_project' | transl8 }}"
                         tooltip-append-to-body="true">
                     <a href="/project/{{catalog.projectId}}">
@@ -167,6 +167,15 @@
                         tooltip-append-to-body="true">
                     <span class="glyphicon glyphicon-map-marker"></span>
                 </button>
+
+                <button ng-click="openDownloadDialog()"
+                        id="catalog-download-button" class="btn btn-default btn-sm pull-right"
+                        uib-tooltip="{{ 'catalog_download' | transl8 }}"
+                        tooltip-append-to-body="true">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                </button>
+
+
             </div>
 
             <span class="glyphicon glyphicon-inbox text-muted"></span>

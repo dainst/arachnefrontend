@@ -40,12 +40,24 @@ angular.module('arachne.controllers')
                 $scope.categories = categories;
             });
 
-            $scope.openDownloadDialog = function () {
+            $scope.openDownloadDialog = function() {
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'app/search/download-modal.html',
-                    controller: 'DownloadController'
+                    templateUrl: 'app/export/download-modal.html',
+                    controller: 'DownloadController',
+                    resolve: {
+                        downloadUrl: function() {
+                            var finalQuery = $scope.currentQuery.extend(searchScope.currentScopeData());
+                            // failsafe control if query is empty
+                            if (angular.isUndefined(finalQuery.q === undefined)) {
+                                finalQuery.q = '*';
+                            }
+                            finalQuery.removeParam('limit');
+                            finalQuery.setParam('fl',1);
+                            return '/search' + finalQuery.toString();
+                        }
+                    }
                 });
-                modalInstance.result.then(function () {
+                modalInstance.result.then(function() {
                     $window.location.reload();
                 });
             };

@@ -395,6 +395,24 @@ angular.module('arachne.controllers')
                 $scope.map = false;
             };
 
+
+
+            $scope.openDownloadDialog = function() {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'app/export/download-modal.html',
+                    controller: 'DownloadController',
+                    resolve: {
+                        downloadUrl: function() {
+                            return '/catalog/' + $scope.catalogId
+                        }
+                    }
+                });
+                modalInstance.result.then(function() {
+                    $window.location.reload();
+                });
+            };
+
+
             function initialize(entry) {
                 $scope.entryMap[entry.id] = entry;
 
