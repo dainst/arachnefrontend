@@ -95,6 +95,7 @@ angular.module('arachne',[
 			'editUser':			{ url: '/editUser', templateUrl: 'app/users/edit-user.html', data: { pageTitle: title }},
 			'contact':			{ url: '/contact', templateUrl: 'app/users/contact.html', data: { pageTitle: title }},
 			'dataimport':		{ url: '/admin/dataimport', templateUrl: 'app/pages/dataimport.html', data: { pageTitle: title }},
+			'dataexport':		{ url: '/admin/dataexport', templateUrl: 'app/pages/dataexport.html', data: { pageTitle: title }},
 			'pwdreset':			{ url: '/pwdreset', templateUrl: 'app/users/pwd-reset.html', data: { pageTitle: title }},
 			'pwdchange':		{ url: '/pwdchange', templateUrl: 'app/users/pwd-change.html', data: { pageTitle: title }},
 			'userActivation':	{ url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }},

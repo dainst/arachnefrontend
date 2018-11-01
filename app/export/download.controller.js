@@ -60,7 +60,6 @@ angular.module('arachne.controllers')
         };
 
         $scope.changeMode = function(mode){
-            console.log("!!!!!");
             $scope.mode = mode;
         };
 
