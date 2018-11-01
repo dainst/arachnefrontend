@@ -5,28 +5,88 @@ angular.module('arachne.controllers')
 /**
  * @author Patrick Jominet
  */
-    .controller('DownloadController', ['$scope', '$uibModalInstance', 'searchService', 'arachneSettings',
-        function ($scope, $uibModalInstance, searchService, arachneSettings) {
+    .controller('DownloadController', ['$scope', '$uibModalInstance', '$http', 'searchService', 'arachneSettings',
+        function ($scope, $uibModalInstance, $http, searchService, arachneSettings) {
 
             $scope.currentQuery = searchService.currentQuery();
-            $scope.resultSize = searchService.getSize();
             $scope.mode = 'csv';
+            $scope.formats = [];
+            $scope.message = "";
+            $scope.status = -1;
 
-            $scope.downloadAs = function () {
-                var currentQuery = $scope.currentQuery.q;
+            function refresh() {
+                if(!$scope.$$phase) {
+                    $scope.$apply();
+                }
+            }
+
+            $http.get(arachneSettings.dataserviceUri + '/export/types').then(
+                function(response) {
+                    $scope.formats = angular.isDefined(response.data) ? response.data : [];
+                    $scope.message = "";
+                    refresh();
+                },
+                function(response){
+                    $scope.message = "No export formats available";
+                    $scope.status = response.status;
+                    console.warn(response);
+                    refresh();
+                }
+            );
+
+            $scope.downloadAs = function() {
+
                 // failsafe control if query is empty
-                if (currentQuery === undefined)
-                    currentQuery = '*';
-                var currentSize = $scope.resultSize;
-                // failsafe control to not exceed limit
-                if (currentSize > 10000)
-                    currentSize = 10000;
-                var currentMode = $scope.mode;
-                $scope.filename = 'currentSearch.' + currentMode;
-                return arachneSettings.dataserviceUri + '/search.' + currentMode + '?q=' + currentQuery + '&limit=' + currentSize;
+                if (angular.isUndefined($scope.currentQuery.q === undefined)) {
+                    $scope.currentQuery.q = '*';
+                }
+
+                var url = arachneSettings.dataserviceUri + '/search' + $scope.currentQuery.toString() + '&mediaType=' + $scope.mode;
+                $http.get(url).then(
+                    function(response) {
+                        $scope.status = response.status;
+                        console.log("res is", response);
+                        if ($scope.status === 200) {
+                            $scope.message = "";
+                            var linkElem = document.querySelector('#hiddenDownloadLink');
+                            var link = angular.element(linkElem);
+                            link.prop("href", 'data: ' + $scope.mode + ';charset=utf-8,' + '\ufeff' + encodeURIComponent(response.data));
+                            link.prop("download", 'currentSearch.' + $scope.mode);
+                            linkElem.click();
+                            //$uibModalInstance.dismiss();
+                        } else {
+                            $scope.message = response.data;
+                        }
+                        refresh();
+                    },
+                    function(response) {
+                        console.warn(response);
+                        $scope.message = response.data;
+                        $scope.status = response.status;
+                        refresh();
+                    }
+                );
+
             };
 
-            $scope.cancel = function () {
+            $scope.changeMode = function(mode){
+                $scope.mode = mode;
+            };
+
+            $scope.cancel = function() {
                 $uibModalInstance.dismiss();
             };
+
+            $scope.isSuccess = function() {
+                if ($scope.status === -1) {
+                    return null;
+                }
+                return ($scope.status.toString().substr(0, 1) === "2");
+            };
+
+            $scope.reset = function() {
+                $scope.status = -1;
+                $scope.message = "";
+            }
+
         }]);
