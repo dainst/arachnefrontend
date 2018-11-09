@@ -6,10 +6,10 @@
 
     <div class="col-md-6 col-md-offset-3 col-xs-12">
 		
-        <h3>Data-Export Status:</h3>
-
+        <h3>{{"ui_data_export_status" | transl8}}</h3>
 
         <div class="row">
+            <div class="col-md-12" ng-if="!hasTasks()">{{'ui_data_export_none' | transl8}}</div>
 
             <div
                     class="panel "
@@ -21,37 +21,45 @@
                         'panel-info': task.status == 'running'}"
                 >
                 <div class="panel-heading">
-                    Export<div class="badge pull-right">Status: {{task.status}}</div>
+                    Export<div class="badge pull-right">{{'ui_status' | transl8}}: {{'ui_data_export_status_' + task.status | transl8}}</div>
                 </div>
 
-                <div class="panel-body">
+                <div class="panel-body row">
+                    <div class="col-md-11">
+                        <table>
+                            <tr>
+                                <td>{{'ui_owner' | transl8}}</td>
+                                <td>
+                                    {{task.owner}}
+                                    <div ng-show="task.owner === user.ui_data_export_other_user" class="alert alert-warning">{{'ui_data_export_other_user' | transl8}}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{'ui_created_at' | transl8}}</td>
+                                <td>{{task.created_at}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'ui_started_at' | transl8}}</td>
+                                <td>{{task.started_at}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'ui_media_type' | transl8}}</td>
+                                <td>{{task.mediaType}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'ui_url' | transl8}}</td>
+                                <td><a href="{{task.url}}">{{task.url}}</a></td>
+                            </tr>
 
-                    <table>
-                        <tr>
-                            <td>Owner</td>
-                            <td>{{task.owner}}</td>
-                        </tr>
-                        <tr>
-                            <td>Created At</td>
-                            <td>{{task.created_at}}</td>
-                        </tr>
-                        <tr>
-                            <td>Started At</td>
-                            <td>{{task.started_at}}</td>
-                        </tr>
-                        <tr>
-                            <td>MediaType</td>
-                            <td>{{task.mediaType}}</td>
-                        </tr>
-                        <tr>
-                            <td>Url</td>
-                            <td><a href="{{task.url}}">{{task.url}}</a></td>
-                        </tr>
-                        <tr ng-if="task.status == 'finished'">
-                            <td>Download</td>
-                            <td><a href="{{arachneSettings.dataserviceUri}}/export/file/{{taskID}}">Download File</a></td>
-                        </tr>
-                    </table>
+                        </table>
+                    </div>
+                    <div class="col-md-1" ng-if="task.status == 'finished'">
+                        <form
+                                action="{{dataserviceUri + '/export/file/' + taskID}}"
+                                method="get">
+                            <button type="submit" class="btn btn-success btn-sm pull-right">{{'ui_download' | transl8}}</button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
