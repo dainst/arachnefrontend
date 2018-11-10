@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-.controller('DownloadController', ['$scope', '$uibModalInstance', '$http', 'arachneSettings', 'downloadUrl',
-    function ($scope, $uibModalInstance, $http, arachneSettings, downloadUrl) {
+.controller('DownloadController', ['$scope', '$uibModalInstance', '$http', 'arachneSettings', 'downloadUrl', 'transl8',
+    function ($scope, $uibModalInstance, $http, arachneSettings, downloadUrl, transl8) {
 
         $scope.mode = 'csv';
         $scope.formats = [];
@@ -16,6 +16,20 @@ angular.module('arachne.controllers')
             }
         }
 
+        function transl8Response(msg) {
+            if (msg.substr(0, 12) !== "data_export_") {
+                return msg;
+            }
+            var msgParts = msg.split("|");
+            var msgKey = msgParts.shift();
+            try {
+                var transl8edMsg = transl8.getTranslation(msgKey);
+            } catch(e) {
+                var transl8edMsg = '#' + msgKey;
+            }
+            return transl8edMsg + msgParts.join("|");
+        }
+
         $http.get(arachneSettings.dataserviceUri + '/export/types').then(
             function(response) {
                 $scope.formats = angular.isDefined(response.data) ? response.data : [];
@@ -23,7 +37,7 @@ angular.module('arachne.controllers')
                 refresh();
             },
             function(response){
-                $scope.message = "No export formats available";
+                $scope.message = transl8.getTranslation("data_export_no_export_formats_available");
                 $scope.status = response.status;
                 console.warn(response);
                 refresh();
@@ -45,13 +59,13 @@ angular.module('arachne.controllers')
                         linkElem.click();
                         $uibModalInstance.dismiss();
                     } else {
-                        $scope.message = response.data;
+                        $scope.message = transl8Response(response.data);
                     }
                     refresh();
                 },
                 function(response) {
                     console.warn(response);
-                    $scope.message = response.data;
+                    $scope.message = transl8Response(response.data);
                     $scope.status = response.status;
                     refresh();
                 }
