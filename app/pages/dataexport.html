@@ -48,7 +48,9 @@
                             </tr>
                             <tr>
                                 <td>{{'ui_url' | transl8}}</td>
-                                <td><a href="{{task.url}}">{{task.url}}</a></td>
+                                <td>
+                                    <a href="{{restoreUrl(task.url)}}">{{'ui_restore_call' | transl8}}</a>
+                                </td>
                             </tr>
 
                         </table>

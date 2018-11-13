@@ -18,6 +18,12 @@ angular.module('arachne.controllers')
              return (Object.keys($scope.status.tasks).length > 0);
         };
 
+        $scope.restoreUrl = function(url) {
+            var regex = /(\/data)(.*)([&?]mediaType=.*)([&#].*)?/gm;
+            var parts = regex.exec(url);
+            return parts[2] + (angular.isDefined(parts[4]) ? parts[4] : '');
+        };
+
         function fetchStatus() {
             $http.get(arachneSettings.dataserviceUri + '/export/status').then(
                 function(response) {
