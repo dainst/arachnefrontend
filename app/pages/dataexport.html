@@ -21,7 +21,8 @@
                         'panel-info': task.status == 'running'}"
                 >
                 <div class="panel-heading">
-                    Export<div class="badge pull-right">{{'ui_status' | transl8}}: {{'ui_data_export_status_' + task.status | transl8}}</div>
+                    Export {{'ui_' + task.conversionType | transl8}} "{{task.name}}" {{'ui_to' | transl8}} {{task.mediaType}}
+                    <div class="badge pull-right">{{'ui_status' | transl8}}: {{'ui_data_export_status_' + task.status | transl8}}</div>
                 </div>
 
                 <div class="panel-body row">
@@ -44,7 +45,7 @@
                             </tr>
                             <tr>
                                 <td>{{'ui_media_type' | transl8}}</td>
-                                <td>{{task.mediaType}}</td>
+                                <td>{{'ui_' + task.conversionType | transl8}} {{'ui_to' | transl8}} {{task.mediaType}}</td>
                             </tr>
                             <tr>
                                 <td>{{'ui_url' | transl8}}</td>
