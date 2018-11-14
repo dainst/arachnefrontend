@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-.controller('DownloadController', ['$scope', '$uibModalInstance', '$http', 'arachneSettings', 'downloadUrl', 'transl8',
-    function ($scope, $uibModalInstance, $http, arachneSettings, downloadUrl, transl8) {
+.controller('DownloadController', ['$scope', '$uibModalInstance', '$http', 'arachneSettings', 'downloadUrl', 'transl8', 'language',
+    function ($scope, $uibModalInstance, $http, arachneSettings, downloadUrl, transl8, language) {
 
         $scope.mode = 'csv';
         $scope.formats = [];
@@ -45,8 +45,8 @@ angular.module('arachne.controllers')
         );
 
         $scope.downloadAs = function() {
-            var connector = (downloadUrl.indexOf('?') > -1) ? '&' : '?';
-            var url = arachneSettings.dataserviceUri + downloadUrl + connector +'mediaType=' + $scope.mode;
+            var connector = (downloadUrl.indexOf('?') > -1) ? '&' : '?';language
+            var url = arachneSettings.dataserviceUri + downloadUrl + connector +'mediaType=' + $scope.mode + '&lang=' + language.currentLanguage();
             $http.get(url).then(
                 function(response) {
                     $scope.status = response.status;
