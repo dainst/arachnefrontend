@@ -45,7 +45,7 @@ angular.module('arachne.controllers')
         );
 
         $scope.downloadAs = function() {
-            var connector = (downloadUrl.indexOf('?') > -1) ? '&' : '?';language
+            var connector = (downloadUrl.indexOf('?') > -1) ? '&' : '?';
             var url = arachneSettings.dataserviceUri + downloadUrl + connector +'mediaType=' + $scope.mode + '&lang=' + language.currentLanguage();
             $http.get(url).then(
                 function(response) {
@@ -55,7 +55,7 @@ angular.module('arachne.controllers')
                         var linkElem = document.querySelector('#hiddenDownloadLink');
                         var link = angular.element(linkElem);
                         link.prop("href", 'data: ' + $scope.mode + ';charset=utf-8,' + '\ufeff' + encodeURIComponent(response.data));
-                        link.prop("download", 'currentSearch.' + $scope.mode);
+                        link.prop("download", 'export.' + $scope.mode);
                         linkElem.click();
                         $uibModalInstance.dismiss();
                     } else {
