@@ -65,7 +65,13 @@ angular.module('arachne.controllers')
                 },
                 function(response) {
                     console.warn(response);
-                    $scope.message = transl8Response(response.data);
+                    var bodyRegex = /<body[^>]*>(.*)<\/body>/;
+                    var getBody = bodyRegex.exec(response.data);
+                    if (angular.isDefined(getBody[1])) {
+                        $scope.message = getBody[1];
+                    } else {
+                        $scope.message = transl8Response(response.data);
+                    }
                     $scope.status = response.status;
                     refresh();
                 }

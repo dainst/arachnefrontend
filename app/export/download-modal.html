@@ -4,9 +4,7 @@
 </div>
 <div class="modal-body" ng-init="reset()">
 
-    <div class="alert" ng-show="message" ng-class="isSuccess() ? 'alert-success' : 'alert-danger'">{{message}}</div>
-
-
+    <div class="alert" ng-show="message" ng-class="isSuccess() ? 'alert-success' : 'alert-danger'" ng-bind-html="message"></div>
 
     <form class="form-inline" role="form">
         <div class="row" ng-hide="message">
