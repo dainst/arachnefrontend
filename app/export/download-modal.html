@@ -12,10 +12,10 @@
         </div>
 
         <div class="row" ng-hide="message">
-            <div class="form-group space-left col col-xs-2" ng-repeat="format in formats">
+            <div class="form-group space-left col col-xs-2" ng-repeat="(format, mime) in formats">
                 <div class="radio">
                     <label class="radio-inline control-label">
-                        <input type="radio" ng-click="changeMode(format)" name="downloadFormat" ng-checked="format === 'csv'">
+                        <input type="radio" ng-click="changeMode(format)" name="downloadFormat" ng-checked="format === mode">
                         {{format.toUpperCase()}}
                     </label>
                     &nbsp;
