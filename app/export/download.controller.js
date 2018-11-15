@@ -54,7 +54,7 @@ angular.module('arachne.controllers')
                         $scope.message = "";
                         var linkElem = document.querySelector('#hiddenDownloadLink');
                         var link = angular.element(linkElem);
-                        link.prop("href", 'data: ' + $scope.mode + ';charset=utf-8,' + '\ufeff' + encodeURIComponent(response.data));
+                        link.prop("href", 'data:' + $scope.formats[$scope.mode] + ';charset=utf-8,' + '\ufeff' + encodeURIComponent(response.data));
                         link.prop("download", 'export.' + $scope.mode);
                         linkElem.click();
                         $uibModalInstance.dismiss();
