@@ -31,8 +31,9 @@ var NavbarPage = function() {
     var registrationPhone = element(by.model('user.phone'));
     var registrationBotConfirm = element(by.model('user.iAmHuman'));
     var registrationDataProtectionPolicyConfirm = element(by.model('dataProtectionCheck'));
-    var submitRegistrationButton = element(by.css('[ng-click="submit()"]'));
+    var submitButton = element(by.css('[ng-click="submit()"]'));
     var cancelRegistrationButton = element(by.css('[type="reset"]'));
+    var editUserButton = element(by.css('#usermenu a[href="editUser"]'));
 
     this.expandNavbar = function() {
         return new Promise(function expandNavbarPromise(resolve, reject) {
@@ -48,6 +49,10 @@ var NavbarPage = function() {
             .then(loginButton.click())
             .then(browser.wait(EC.visibilityOf(loginModal)))
 	}.bind(this);
+
+    this.clickEditUser = function() {
+        return editUserButton.click()
+    };
 
 	this.clickRegistration = function() {
         return this.expandNavbar()
@@ -140,7 +145,7 @@ var NavbarPage = function() {
     };
 
     this.submitPasswordReset = function() {
-        return submitRegistrationButton.click(); // Same Angular click binding as registration.
+        return submitButton.click(); // Same Angular click binding as registration.
     };
 
     this.registrationTypeInUsername = function(text) {
@@ -210,8 +215,8 @@ var NavbarPage = function() {
         return registrationDataProtectionPolicyConfirm.click()
     };
 
-    this.submitRegistration = function() {
-        return submitRegistrationButton.click();
+    this.submit = function() {
+        return submitButton.click();
     };
 
     this.clickCancelRegistration = function() {
