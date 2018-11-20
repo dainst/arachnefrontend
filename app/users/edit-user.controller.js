@@ -104,7 +104,11 @@ angular.module('arachne.controllers')
                 ).then(function (data) {
                     putMsg('ui.update.success', 'success')
                 }).catch(function (data) {
-                    putMsg(data.message, 'danger');
+                    if (data.data.message) {
+                        putMsg(data.data.message, 'danger');
+                    } else {
+                        putMsg('ui.update.error', 'danger');
+                    }
                 });
             }
         }]);
