@@ -13,7 +13,10 @@ exports.config = {
     exclude: [],
     chromeOnly: true,
     multiCapabilities: [{
-        browserName: 'chrome'
+        'browserName': 'chrome',
+        'chromeOptions': {
+            'args': ['--disable-web-security']
+        }
     }],
     allScriptsTimeout: 110000,
     getPageTimeout: 100000,
