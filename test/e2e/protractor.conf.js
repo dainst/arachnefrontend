@@ -13,11 +13,7 @@ exports.config = {
     exclude: [],
     chromeOnly: true,
     multiCapabilities: [{
-        browserName: 'chrome',
-        chromeOptions: {
-            binary: '/usr/bin/chromium-browser',
-            args: ["--headless", "--disable-gpu", "--window-size=1440x900", "--no-sandbox"]
-        }
+        browserName: 'chrome'
     }],
     allScriptsTimeout: 110000,
     getPageTimeout: 100000,
