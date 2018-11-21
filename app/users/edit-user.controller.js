@@ -66,6 +66,8 @@ angular.module('arachne.controllers')
                     delete newUser.datasetGroups;
                 }
                 delete newUser.emailValidation;
+                delete newUser.id;
+                delete newUser.lastLogin;
                 return newUser;
             };
 
