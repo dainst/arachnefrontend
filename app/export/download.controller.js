@@ -52,9 +52,14 @@ angular.module('arachne.controllers')
                     $scope.status = response.status;
                     if ($scope.status === 200) {
                         $scope.message = "";
+                        var headers = response.headers();
+                        var encoding = angular.isDefined(headers['content-encoding'])
+                            ? headers['content-encoding'] + ','
+                            : 'charset=utf-8,' + '\ufeff';
                         var linkElem = document.querySelector('#hiddenDownloadLink');
                         var link = angular.element(linkElem);
-                        link.prop("href", 'data:' + $scope.formats[$scope.mode] + ';charset=utf-8,' + '\ufeff' + encodeURIComponent(response.data));
+                        var dlUrl =  'data:' + $scope.formats[$scope.mode] + ';' + encoding + encodeURIComponent(response.data);
+                        link.prop("href", dlUrl);
                         link.prop("download", 'export.' + $scope.mode);
                         linkElem.click();
                         $uibModalInstance.dismiss();
