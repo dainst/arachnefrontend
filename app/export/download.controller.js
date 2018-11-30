@@ -72,7 +72,7 @@ angular.module('arachne.controllers')
                     console.warn(response);
                     var bodyRegex = /<body[^>]*>(.*)<\/body>/;
                     var getBody = bodyRegex.exec(response.data);
-                    if (angular.isDefined(getBody[1])) {
+                    if ((getBody !== null) && angular.isDefined(getBody[1])) {
                         $scope.message = getBody[1];
                     } else {
                         $scope.message = transl8Response(response.data);
