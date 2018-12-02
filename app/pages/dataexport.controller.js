@@ -27,7 +27,6 @@ angular.module('arachne.controllers')
         function fetchStatus() {
             $http.get(arachneSettings.dataserviceUri + '/export/status').then(
                 function(response) {
-                    console.log('res', response);
                     $scope.status = response.data;
                     $timeout.cancel(timeout);
                     timeout = $timeout(fetchStatus, 10000);
