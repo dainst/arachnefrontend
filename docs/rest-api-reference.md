@@ -803,3 +803,62 @@ Gets information about the backend, like the build number of the running instanc
 
 The build number taken is the one configured in `applicationProperties` as property `buildNumber`. If this property is not defined,
 the JSON from `/info` will not contain the `buildNumber` field.
+
+## Data Export
+
+The is no seperate endpoint to generate exports. You use the search or catalog endpoint and append a parameter `mediaType`. If the dataset is small you get the export as a result, if it is bigger an export-task is generated and started and you get a message. 
+
+### GET /export/status
+
+Return the status of running export-tasks.
+
+Example:
+```
+{
+	"max_threads": 4,
+	"tasks_running": 0,
+	"max_stack_size": 10,
+	"tasks_enqueued": 0,
+	"tasks": {
+		"d22149c2-a898-4222-bd33-7f27d5f267f8": {
+			"owner": "p.franck",
+			"duration": 18302,
+			"requestUrl": "http://localhost:8080/data/search?fl=20&q=baum&mediaType=pdf&lang=de",
+			"name": "'baum'",
+			"created_at": "2018-12-02 12:10:16.16",
+			"started_at": "2018-12-02 12:10:16.161",
+			"mediaType": "application/pdf",
+			"conversionType": "searchResult",
+			"stopped_at": "2018-12-02 12:10:34.463",
+			"status": "finished"
+		}
+	}
+}
+
+```
+
+### GET /export/types
+
+Returns a list of available export-types.
+
+Example:
+```
+{
+    "pdf": "application/pdf",
+    "csv": "text/csv",
+    "html": "text/html"
+}
+```
+
+### GET /export/$exportId
+
+Returns the file of export-task with id $exportId and deletes the export-task if the downloader and the tasl-owner are the same.
+
+In case of pdf, the result is base64 encoded.
+
+### GET /export/clean
+
+**Admin only**
+Deletes all outdated (rimeout defined in arachne-backned-config) export-tasks.
+
+Returns a list fo purged Task-Ids.
