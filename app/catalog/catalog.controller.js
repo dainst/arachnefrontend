@@ -145,6 +145,56 @@ angular.module('arachne.controllers')
                 }
             };
 
+            $scope.duplicateChild = function (scope, entry) {
+                if (entry.children.length > 0) {
+                    return;
+                }
+                var editableEntry = angular.copy(entry);
+                var editEntryModal = $uibModal.open({
+                    templateUrl: 'app/catalog/edit-entry.html',
+                    controller: 'EditCatalogEntryController',
+                    resolve: {
+                        entry: function () {
+                            return editableEntry
+                        }
+                    },
+                    backdrop: 'static'
+                });
+                editEntryModal.close = function (editedEntry, entity) {
+                    var newEntry = {};
+                    angular.copy(editedEntry, newEntry);
+
+                    if (entity) {
+                        newEntry.arachneEntityId = entity.entityId;
+                    } else {
+                        newEntry.arachneEntityId = null;
+                    }
+                    // Use associated entity title as label if label is not set
+                    if (!newEntry.label && entity.title) {
+                        newEntry.label = entity.title;
+                    }
+                    newEntry.parentId = entry.id;
+                    newEntry.indexParent = entry.children.length;
+
+                    CatalogEntry.save({}, [newEntry], function (result) {
+                        for (var i = 0; i < result.length; i++) {
+                            entry.children.push(result[i]);
+                            entry.totalChildren += 1;
+                            initialize(result[i]);
+                            if (scope && scope.collapsed) {
+                                $scope.toggleNode(scope, entry);
+                            }
+                        }
+                    }, function (err) {
+                        console.error("Error when creating catalog entry!", err);
+                        messages.add('default');
+                    });
+
+                    editEntryModal.dismiss();
+
+                }
+            };
+
             $scope.toggleNode = function (scope, entry) {
 
                 if (entry.totalChildren > 0) {
