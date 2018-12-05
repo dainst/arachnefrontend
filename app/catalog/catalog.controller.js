@@ -365,7 +365,7 @@ angular.module('arachne.controllers')
 
             $scope.manageEditors = function () {
                 var editableCatalog = {
-                    userIds: $scope.catalog.userIds,
+                    userIds: $scope.catalog.userIds
                 };
                 var manageEditorModal = $uibModal.open({
                     templateUrl: 'app/catalog/catalog-manage-editor.html',
@@ -418,7 +418,7 @@ angular.module('arachne.controllers')
                     }
                     $scope.catalog = result;
                     checkIfEditable();
-                    callback();
+                    callback(result);
                 }, function (error) {
                     $scope.error = true;
                     if (error.status === '403') {
@@ -433,15 +433,12 @@ angular.module('arachne.controllers')
 
                 // Toggle collapsed parent when selecting a thumbnail image in catalog preview
                 if (!treeScope && $scope.currentTreeScope) {
-
                     if ($scope.currentTreeScope.collapsed) {
                         $scope.currentTreeScope.toggle();
                     }
                 }
-
                 $scope.showThumbnails = false;
                 $scope.activeEntry = entry;
-
                 if (entry.arachneEntityId) {
                     Entity.get({id: entry.arachneEntityId}, function (entity) {
                         $scope.activeEntity = entity;
@@ -474,7 +471,7 @@ angular.module('arachne.controllers')
                 CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: offset},
                     function (result) {
 
-                        if (offset == 0) $scope.cells = [];
+                        if (offset === 0) $scope.cells = [];
 
                         result.children.forEach(function (child) {
                             var cell = {title: child.label};
@@ -586,15 +583,14 @@ angular.module('arachne.controllers')
                 }, 50);
             }
 
-            retrieveCatalog($stateParams.id, function() {
-
+            retrieveCatalog($stateParams.id, function(result) {
                 if ($stateParams.entryId) {
                     CatalogEntry.get({id: $stateParams.entryId}, function (entry) {
                         showEntry(entry);
                         toggleParentHierarchy($stateParams.entryId);
                     });
                 } else {
-                    $scope.selectEntry(result.root);
+                    $scope.selectEntry(result.root, null);
                 }
             });
 
