@@ -29,8 +29,6 @@ angular.module('arachne.controllers')
             $scope.removeItems = false;
             $scope.itemsToRemove = [];
 
-            $scope.toAdd = [];
-
             if ($stateParams.view === 'map') $scope.map = true;
 
             $scope.treeOptions = {
@@ -46,7 +44,7 @@ angular.module('arachne.controllers')
                     tempEntry.parentId = newParentId;
                     tempEntry.indexParent = event.dest.index;
                     if (tempEntry.indexParent !== movedEntry.indexParent || tempEntry.parentId !== movedEntry.parentId) {
-                        var promise = CatalogEntry.update({id: movedEntry.id}, tempEntry).$promise.then(function () {
+                        return CatalogEntry.update({id: movedEntry.id}, tempEntry).$promise.then(function () {
                             if (movedEntry.parentId !== newParentId) {
                                 $scope.entryMap[movedEntry.parentId].totalChildren -= 1;
                                 $scope.entryMap[newParentId].totalChildren += 1;
@@ -56,7 +54,6 @@ angular.module('arachne.controllers')
                         }, function () {
                             messages.add('default');
                         });
-                        return promise;
                     } else {
                         return true;
                     }
@@ -72,43 +69,58 @@ angular.module('arachne.controllers')
                 });
 
                 editEntryModal.close = function (newEntry, entity) {
-                    var time = 0;
-                    $scope.toAdd = [];
+
+                    var toAddPromises = [];
+                    var entriesToAdd = [];
+
                     if(newEntry instanceof Array && entity === null) { //Multiple entries are added
                         //Iterate through the array of objects which should be added
-                        $scope.toAdd = new Array(newEntry.length);
                         for(var i = 0; i < newEntry.length; i++) {
-                            $scope.toAdd[i] = {};
+
                             if(newEntry[i].index === undefined) { //Array contains entity ids
-                                var temp = {};
-                                Entity.get({id: parseInt(newEntry[i])}, function (entity) { //Try to find the entity. If found, add it to the catalog
-                                    if (entity) {
-                                        temp.arachneEntityId = entity.entityId;
-                                        temp.label = entity.title;
-                                        temp.parentId = entry.id;
-                                        temp.indexParent = entry.children.length;
-                                    }
-                                }, function () {
-                                    messages.add('default');
-                                });
-                                time += 100;
-                            }
-                            else { //Array contains entries with labels and entities attached to them
-                                if (newEntry[i].entity)
-                                    $scope.toAdd[i].arachneEntityId = newEntry[i].entity.entityId;
-                                else
-                                    $scope.toAdd[i].arachneEntityId = null;
+                                var id = parseInt(newEntry[i]);
+                                toAddPromises.push(new Promise(function(resolve, reject) {
+                                    Entity.get({id: id}, function (entity) { //Try to find the entity. If found, add it to the catalog
+                                        if (entity) {
+                                            entriesToAdd.push({
+                                                arachneEntityId: entity.entityId,
+                                                label: entity.title,
+                                                parentId: entry.id,
+                                                indexParent: entry.children.length
+                                            });
+                                        }
+                                        resolve();
+                                    }, function () {
+                                        messages.add('default');
+                                        resolve();
+                                    });
+                                }));
+
+                            } else { //Array contains entries with labels and entities attached to them
+                                console.log("HA", newEntry);
+                                var toAddItem = {};
+                                if (newEntry[i].entity) {
+                                    toAddItem.arachneEntityId = newEntry[i].entity.entityId;
+                                } else {
+                                    toAddItem.arachneEntityId = null;
+                                }
                                 // Use associated entity title as label if label is not set
-                                if (!newEntry[i].label && newEntry[i].entity.title)
-                                    $scope.toAdd[i].label = newEntry[i].entity.title;
-                                else
-                                    $scope.toAdd[i].label = newEntry[i].label;
-                                $scope.toAdd[i].parentId = entry.id;
-                                $scope.toAdd[i].indexParent = entry.children.length;
+                                if (!newEntry[i].label && newEntry[i].entity.title) {
+                                    toAddItem.label = newEntry[i].entity.title;
+                                } else {
+                                    toAddItem.label = newEntry[i].label;
+                                }
+                                toAddItem.parentId = entry.id;
+                                toAddItem.indexParent = entry.children.length;
+
+                                entriesToAdd.push(toAddItem);
+                                toAddPromises.push(true);
+
                             }
+
                         }
-                    }
-                    else { //Only a singular entry is added
+                    } else { //Only a singular entry is added
+
                         if (entity) {
                             newEntry.arachneEntityId = entity.entityId;
                         } else {
@@ -122,26 +134,32 @@ angular.module('arachne.controllers')
 
                         newEntry.parentId = entry.id;
                         newEntry.indexParent = entry.children.length;
-                        $scope.toAdd.push(newEntry)
+
+                        entriesToAdd.push(newEntry);
+                        toAddPromises.push(true);
+
                     }
-                    setTimeout(function () {
-                        if($scope.toAdd.length > 0) {
-                            CatalogEntry.save({}, $scope.toAdd, function (result) {
-                                for (var i = 0; i < result.length; i++) {
-                                    entry.children.push(result[i]);
-                                    entry.totalChildren += 1;
-                                    initialize(result[i]);
-                                    if (scope && scope.collapsed) {
-                                        $scope.toggleNode(scope, entry);
-                                    }
-                                }
-                            }, function (err) {
-                                console.error("Error when creating catalog entry!", err);
-                                messages.add('default');
-                            })
+
+                    Promise.all(toAddPromises).then(function() {
+                        if(!entriesToAdd.length) {
+                            return
                         }
+                        CatalogEntry.save({}, entriesToAdd, function(result) {
+                            for (var i = 0; i < result.length; i++) {
+                                entry.children.push(result[i]);
+                                entry.totalChildren += 1;
+                                initialize(result[i]);
+                                if (scope && scope.collapsed) {
+                                    $scope.toggleNode(scope, entry);
+                                }
+                            }
+                        }, function (err) {
+                            console.error("Error when creating catalog entry!", err);
+                            messages.add('default');
+                        });
                         editEntryModal.dismiss();
-                    }, time);
+                    });
+
                 }
             };
 
@@ -182,6 +200,7 @@ angular.module('arachne.controllers')
                             entry.totalChildren += 1;
                             initialize(result[i]);
                             if (scope && scope.collapsed) {
+                                console.log("!!!!!");
                                 $scope.toggleNode(scope, entry);
                             }
                         }
