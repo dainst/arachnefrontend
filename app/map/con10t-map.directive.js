@@ -203,7 +203,6 @@ angular.module('arachne.widgets.map')
                     mapService.activateBaselayer(cq.baselayer || "osm");
 
                     var bbox = (cq.bbox) ? _listToLatLngBox(cq.bbox) : placesPainter.getFixedPlacesBoundingBox();
-                    var fitViewToMarkersAllowed = !bbox;
 
                     if (bbox) {
                         mapService.initializeViewBB(bbox);

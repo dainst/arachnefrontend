@@ -66,6 +66,8 @@ angular.module('arachne.controllers')
                     delete newUser.datasetGroups;
                 }
                 delete newUser.emailValidation;
+                delete newUser.id;
+                delete newUser.lastLogin;
                 return newUser;
             };
 
@@ -104,7 +106,11 @@ angular.module('arachne.controllers')
                 ).then(function (data) {
                     putMsg('ui.update.success', 'success')
                 }).catch(function (data) {
-                    putMsg(data.message, 'danger');
+                    if (data.data.message) {
+                        putMsg(data.data.message, 'danger');
+                    } else {
+                        putMsg('ui.update.error', 'danger');
+                    }
                 });
             }
         }]);

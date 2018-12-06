@@ -72,6 +72,9 @@ angular.module('arachne.widgets.map')
         };
 
         var buildPlacesFromFacet = function(facet, bbox) {
+            if (!facet) {
+                return [];
+            }
             var bounds = new L.LatLngBounds(
                 new L.LatLng(parseFloat(bbox[0]), parseFloat(bbox[1])),
                 new L.LatLng(parseFloat(bbox[2]), parseFloat(bbox[3]))
