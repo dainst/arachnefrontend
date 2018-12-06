@@ -13,9 +13,15 @@ exports.config = {
     exclude: [],
     chromeOnly: true,
     multiCapabilities: [{
-        'browserName': 'chrome',
-        'chromeOptions': {
-            'args': ['--disable-web-security']
+        browserName: 'chrome',
+        chromeOptions: {
+            args: ['--disable-web-security'],
+            prefs: {
+                download: {
+                    prompt_for_download: false,
+                    default_directory: '/tmp/'
+                }
+            }
         }
     }],
     allScriptsTimeout: 110000,

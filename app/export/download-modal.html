@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body" ng-init="reset()">
 
-    <div class="alert" ng-show="message" ng-class="isSuccess() ? 'alert-success' : 'alert-danger'" ng-bind-html="message"></div>
+    <div id="download-message" class="alert" ng-show="message" ng-class="isSuccess() ? 'alert-success' : 'alert-danger'" ng-bind-html="message"></div>
 
     <form class="form-inline" role="form">
         <div class="row" ng-hide="message">
@@ -15,7 +15,7 @@
             <div class="form-group space-left col col-xs-2" ng-repeat="(format, mime) in formats">
                 <div class="radio">
                     <label class="radio-inline control-label">
-                        <input type="radio" ng-click="changeMode(format)" name="downloadFormat" ng-checked="format === mode">
+                        <input type="radio" ng-click="changeMode(format)" name="downloadFormat" id="download-as-{{format}}" ng-checked="format === mode">
                         {{format.toUpperCase()}}
                     </label>
                     &nbsp;
@@ -25,9 +25,9 @@
 
         <div class="row">
             <div class="col col-xs-12">
-                <button ng-show="isSuccess() === null" class="btn btn-primary" ng-click="downloadAs()">{{'ui_download' | transl8}}</button>
-                <button ng-show="isSuccess()" class="btn btn-primary" ng-click="cancel()">{{'ui_ok' | transl8}}</button>
-                <button ng-hide="isSuccess()" class="btn btn-default" ng-click="cancel()">{{'ui_cancel' | transl8 }}</button>
+                <button id="download-go" ng-show="isSuccess() === null" class="btn btn-primary" ng-click="downloadAs()">{{'ui_download' | transl8}}</button>
+                <button id="download-ok" ng-show="isSuccess()" class="btn btn-primary" ng-click="cancel()">{{'ui_ok' | transl8}}</button>
+                <button id="download-cancel" ng-hide="isSuccess()" class="btn btn-default" ng-click="cancel()">{{'ui_cancel' | transl8 }}</button>
                 <a style="display:none" target="_blank" id="hiddenDownloadLink">GET DOWNLOAD</a>
             </div>
         </div>
