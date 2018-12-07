@@ -34,6 +34,7 @@ var NavbarPage = function() {
     var submitButton = element(by.css('[ng-click="submit()"]'));
     var cancelRegistrationButton = element(by.css('[type="reset"]'));
     var editUserButton = element(by.css('#usermenu a[href="editUser"]'));
+    var exportPageButton = element(by.css('#usermenu a[href="admin/dataexport"]'));
 
     this.expandNavbar = function() {
         return new Promise(function expandNavbarPromise(resolve, reject) {
@@ -52,6 +53,10 @@ var NavbarPage = function() {
 
     this.clickEditUser = function() {
         return editUserButton.click()
+    };
+
+    this.clickExportPage = function() {
+        return exportPageButton.click()
     };
 
 	this.clickRegistration = function() {
@@ -217,6 +222,10 @@ var NavbarPage = function() {
 
     this.submit = function() {
         return submitButton.click();
+    };
+
+    this.waitForLogin = function() {
+        return browser.wait(EC.visibilityOf(element(by.css('#usermenu-navbar > .dropdown'))), 500);
     };
 
     this.clickCancelRegistration = function() {

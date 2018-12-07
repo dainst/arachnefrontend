@@ -126,8 +126,17 @@ var Common = function() {
     this.deleteTestUserInDB = function() {
         var hashedPassword = hasha(new Buffer(testUserPassword), { algorithm: 'md5' });
 
-        request.del(config.backendUri + '/userinfo/' + testUserName)
-            .auth(testUserName, hashedPassword, true);
+        return new Promise(function(resolve, reject) {
+            var request = promisedRequest(
+                "del test user",
+                "del",
+                config.backendUri + '/userinfo/' + testUserName,
+                {username: testUserName, password: hashedPassword}
+            );
+            request()
+                .then(resolve)
+                .catch(resolve); // if the user was not present we don't have to fail
+        });
     };
 
     this.createTestCatalog = function() {
@@ -185,6 +194,10 @@ var Common = function() {
                 .then(browser.getCurrentUrl)
         }.bind(this);
     };
+
+    this.dismissCookieNotice = function() {
+        return element(by.css('.btn[onclick="IDaiCookieNotice.dismiss()"]')).click();
+    }
 
 
 };
