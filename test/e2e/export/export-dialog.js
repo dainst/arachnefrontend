@@ -1,6 +1,5 @@
 var EC = protractor.ExpectedConditions;
 
-
 var exportDialog = function() {
 
     this.exportBtn = element.all(by.css('button[ng-click="openDownloadDialog()"]')).first();
