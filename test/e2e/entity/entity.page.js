@@ -35,11 +35,11 @@ var EntityPage = function() {
 
     this.getLinkedCatalogs = function() {
         return element.all(by.css('a[href*="catalog/"]'));
-    }
+    };
 
     this.getPreviousResultLink = function() {
         return element(by.id('entityPreviousResult'));
-    }
+    };
 
     this.getNextResultLink = function() {
         return element(by.id('entityNextResult'));
