@@ -9,10 +9,16 @@
         <h3>{{"ui_data_export_status" | transl8}}</h3>
 
         <div class="row">
-            <div class="col-md-12" ng-if="!hasTasks()">{{'ui_data_export_none' | transl8}}</div>
+
+            <div class="col-md-12" ng-if="status.error">
+                <div class="alert alert-danger">{{status.error | transl8}}</div>
+            </div>
+
+            <div class="col-md-12" ng-if="!status.error && !hasTasks()">{{'ui_data_export_none' | transl8}}</div>
 
             <div
-                    class="panel "
+                    ng-if="!status.error"
+                    class="panel export-job"
                     ng-repeat="(taskID, task) in status.tasks"
                     ng-class="{
                         'panel-success': task.status == 'finished',

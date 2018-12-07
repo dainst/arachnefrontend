@@ -34,9 +34,9 @@ angular.module('arachne.controllers')
                 function(response) {
                     console.warn('Error:', response);
                     $scope.status = {
-                        tasks: {}
+                        tasks: {},
+                        error: response.data
                     };
-                    timeout = $timeout(fetchStatus, 10000);
                 }
             );
         }
