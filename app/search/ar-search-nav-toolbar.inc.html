@@ -27,6 +27,7 @@
         <button ng-if="currentQuery.view == 'map'"
                 ng-click="showLinkModal()"
                 tooltip-placement="auto bottom"
+                tooltip-append-to-body="true"
                 uib-tooltip="{{'ui_map_link_heading' | transl8}}"
                 type="button"
                 class="btn btn-sm btn-default">
@@ -35,6 +36,7 @@
 
         <button ng-if="resultSize <= 10000"
                 tooltip-placement="auto bottom"
+                tooltip-append-to-body="true"
                 uib-tooltip="{{'ui_download_as' | transl8}}"
                 type="button"
                 ng-click="openDownloadDialog()"
@@ -44,6 +46,7 @@
 
         <button ng-if="resultSize > 10000"
                 tooltip-placement="auto bottom"
+                tooltip-append-to-body="true"
                 uib-tooltip="{{'ui_download_too-big' | transl8}}"
                 type="button"
                 class="btn btn-sm btn-default disabled">
@@ -53,6 +56,7 @@
 
         <button ng-if="(user.username && resultSize <= 300) && (currentQuery.view != 'map')"
                 tooltip-placement="auto bottom"
+                tooltip-append-to-body="true"
                 uib-tooltip="{{'search_catalog_create' | transl8}}"
                 type="button" ng-click="createCatalogFromSearch()"
                 class="btn btn-sm btn-default">
@@ -61,6 +65,7 @@
 
         <button ng-if="(user.username && resultSize > 300) && (currentQuery.view != 'map')"
                 tooltip-placement="auto bottom"
+                tooltip-append-to-body="true"
                 uib-tooltip="{{'search_catalog_too-big' | transl8}}"
                 type="button"
                 class="btn btn-sm btn-default disabled">

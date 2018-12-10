@@ -54,6 +54,14 @@
                data-nodrag>
 				<span class="glyphicon glyphicon-file"></span>
 			</a>
+            <a class="edit-btn pull-right"
+               ng-show="!entry.children.length"
+               ng-click="duplicateChild(this, entry)"
+               uib-tooltip="{{ 'catalog_duplicate_entry_child' | transl8 }}"
+               tooltip-append-to-body="true"
+               data-nodrag>
+            <span class="glyphicon glyphicon-duplicate"></span>
+			</a>
 			<a class="edit-btn pull-right"
                ng-click="editEntry(entry)"
                uib-tooltip="{{ 'catalog_edit_entry' | transl8 }}"
