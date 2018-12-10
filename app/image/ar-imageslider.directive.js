@@ -57,7 +57,7 @@ angular.module('arachne.directives')
                 scope.pageThumbsRight = function () {
                     var rowRect = sliderRow.getBoundingClientRect();
                     var offset = scope.offset + rowRect.width;
-                    scope.max = thumbRow.getBoundingClientRect().width - rowRect.width;
+                    scope.max = thumbRow.getBoundingClientRect().width + 15 - rowRect.width;
                     if (offset < scope.max) {
                         scope.offset = offset;
                     } else {
