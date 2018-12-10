@@ -15,6 +15,35 @@ angular.module('arachne.directives')
                 scope.offset = 0;
                 scope.max = 50;
 
+                function teiViewerSearch(entity){
+                    if(entity.externalLinks){
+                        for (var i = 0; i< entity.externalLinks.length; i++){
+                            if (entity.externalLinks[i].label == "TEI-Viewer")
+                            return entity.externalLinks[i].url;
+                        }
+                    }
+                    return false;
+                }
+
+                scope.imageClick = function (entity, currentImgNo, currentQuery) {
+                    if (entity.externalLinks){
+                        if (teiViewerSearch(entity) != false) return teiViewerSearch(entity);
+                    }
+                    else return "entity/" + entity.entityId + "/image/" + entity.images[currentImgNo].imageId + currentQuery.toString();
+                }
+
+                //returns the id to show the correct cursor depending on book or other objects
+                scope.imageId = function (entity){
+                    if (teiViewerSearch(entity)) return false;
+                    else return "maximg";
+                }
+
+                scope.imageTarget = function (entity){
+                    if (teiViewerSearch(entity)) return "_blank";
+                    return "_self";
+                }
+
+
                 scope.pageThumbsLeft = function () {
                     var rowRect = sliderRow.getBoundingClientRect();
                     var offset = scope.offset - rowRect.width;
