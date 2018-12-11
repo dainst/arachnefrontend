@@ -47,7 +47,7 @@ describe('data export', function() {
             exportDialog.exportBtn.click();
             exportDialog.export('pdf')
                 .then(function(contents) {
-                    expect(false).toEqual(true);
+                    throw new Error("(Job should be refused)");
                 })
                 .catch(function(messageType) {
                     expect(messageType).toContain('alert-danger');
@@ -56,7 +56,8 @@ describe('data export', function() {
         });
     });
 
-    // #10198 has to be fixed first
+
+
     xit('should enqueue big export if user is logged in', function() {
         frontPage.load()
             .then(navbarPage.clickLogin())
@@ -64,34 +65,26 @@ describe('data export', function() {
             .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
             .then(navbarPage.submitLogin())
             .then(navbarPage.waitForLogin())
+            .then(searchPage.load({q: 'baumstamm'}))
+//            .then(exportPage.cleanStack())
+            .then(exportDialog.exportBtn.click())
             .then(function() {
-                searchPage.load({q: 'baumstamm'})
-            })
-            .then(function() {
-                exportDialog.exportBtn.click();
                 exportDialog.export('pdf')
                     .then(function(contents) {
-                        expect(false).toEqual(true);
+                        throw new Error("(Job should be enqueued)");
                     })
                     .catch(function(messageType) {
                         expect(messageType).toContain('alert-success');
-                        exportPage.load().then(function() {
-                            browser.sleep(5000);
-
-                            // exportPage.getJob()
-                            //     .then(function(cls) {
-                            //         console.log("CLS", cls);
-                            //         expect(cls).toContain('panel-success');
-                            //     })
-                            //     .catch(function(x) {
-                            //         console.log("NOTFOUND",x);
-                            //     })
-                        })
-
-
                     });
+            })
+            .then(exportPage.load())
+            .then(function() {
+                expect(exportPage.getJobClass()).toContain('panel-info');
             });
     });
 
+    // fit('nes', function(){
+    //     exportPage.cleanStack()();
+    // });
 
 });

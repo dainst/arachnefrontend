@@ -1,28 +1,44 @@
 var EC = protractor.ExpectedConditions;
+var promisedRequest = require('../util/promisedRequest');
+var common = require('../common');
+var config = require('../../../config/dev-config.json');
+
 
 var exportPage = function() {
+
+    this.cleanStack = function() {
+        return promisedRequest("clean stack", 'get', {
+            url: config.backendUri + '/export/clean',
+            headers: {'Content-Type': 'application/json'},
+            auth: common.getAuthData(),
+            data: {
+                outdated: false
+            }
+        });
+
+    };
 
     this.load = function() {
         var url = '/admin/dataexport';
         return browser.get(url);
     };
 
-    this.getJob = function() {
-        var job = element(by.css('#projectLogo'));
-        return browser.wait(EC.visibilityOf(job), 5);
-    };
-
     this.getJobClass = function() {
-        //var job = element(by.css('.export-job:first-child'));
-
+        var job = element(by.css('.export-job:first-child'));
+        var ignoreSynchronization = browser.ignoreSynchronization;
+        browser.ignoreSynchronization = true;
         return new Promise(function(resolve, reject) {
-            browser.wait(EC.presenceOf(job), 5)
+            browser.wait(EC.presenceOf(job), 250)
                 .then(function() {
-                    //job.getAttribute('class')
-                    resolve("a");
+                    job.getAttribute('class')
+                        .then(resolve)
+                        .then(function() {
+                            browser.ignoreSynchronization = ignoreSynchronization;
+                        });
                 })
                 .catch(function() {
-                    resolve("");
+                    browser.ignoreSynchronization = ignoreSynchronization;
+                    resolve("(no job found)");
                 })
         });
     }

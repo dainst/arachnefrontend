@@ -123,6 +123,8 @@ var Common = function() {
         }
     }
 
+    this.getAuthData = getAuthData;
+
     this.deleteTestUserInDB = function() {
         var hashedPassword = hasha(new Buffer(testUserPassword), { algorithm: 'md5' });
 
