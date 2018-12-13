@@ -7,11 +7,11 @@
 }
 
 .blink {
-  animation: blinkanim 4s linear infinite;
+  animation: blinkanim 2s linear infinite alternate;
 }
 
 @keyframes blinkanim {
-  0%{opacity: 0;}
-  50%{opacity: 1;}
-  100%{opacity: 0;}
+  0%{opacity: 0.2;}
+  50%{opacity: 0.6;}
+  100%{opacity: 1;}
 }
