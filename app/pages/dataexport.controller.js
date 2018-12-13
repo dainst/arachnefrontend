@@ -37,6 +37,7 @@ angular.module('arachne.controllers')
         };
 
         $scope.clearTask = function(taskId) {
+            delete $scope.status.tasks[taskId];
             $http.post(arachneSettings.dataserviceUri + '/export/clean/' + taskId).then(
                 function(response) {
                     // do nothing

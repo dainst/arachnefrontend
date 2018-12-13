@@ -29,7 +29,9 @@
                 >
                 <div class="panel-heading">
                     Export {{'ui_' + task.conversionType | transl8}} "{{task.name}}" {{'ui_to' | transl8}} {{task.mediaType}}
-                    <div class="badge pull-right">{{'ui_status' | transl8}}: {{'ui_data_export_status_' + task.status | transl8}}</div>
+                    <div class="badge pull-right" ng-class="{'blink': task.status == 'running'}">
+                        {{'ui_status' | transl8}}: {{'ui_data_export_status_' + task.status | transl8}}
+                    </div>
                 </div>
 
                 <div class="panel-body row">
@@ -39,7 +41,9 @@
                                 <td>{{'ui_owner' | transl8}}</td>
                                 <td>
                                     {{task.owner}}
-                                    <div ng-show="task.owner === user.ui_data_export_other_user" class="alert alert-warning">{{'ui_data_export_other_user' | transl8}}</div>
+                                    <div ng-show="task.owner === user.ui_data_export_other_user" class="alert alert-warning">
+                                        {{'ui_data_export_other_user' | transl8}}
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
