@@ -3,8 +3,8 @@
 angular.module('arachne.controllers')
 
 
-.controller('DataexportController', ['$scope', '$http', '$timeout', 'arachneSettings', 'authService',
-    function ($scope, $http, $timeout, arachneSettings, authService) {
+.controller('DataexportController', ['$scope', '$http', '$timeout', 'arachneSettings', 'authService', 'messageService',
+    function ($scope, $http, $timeout, arachneSettings, authService, messageService) {
 
         $scope.status = {
             tasks: {}
@@ -22,6 +22,30 @@ angular.module('arachne.controllers')
             var regex = /(\/data)(.*)([&?]mediaType=.*)([&#].*)?/gm;
             var parts = regex.exec(url);
             return parts[2] + (angular.isDefined(parts[4]) ? parts[4] : '');
+        };
+
+        $scope.cancelTask = function(taskId) {
+            $http.post(arachneSettings.dataserviceUri + '/export/cancel/' + taskId).then(
+                function(response) {
+                    messageService.add('data_export_aborted');
+                },
+                function(response) {
+                    messageService.add('data_export_could_not_abort');
+                    console.warn('Error:', response);
+                }
+            );
+        };
+
+        $scope.clearTask = function(taskId) {
+            $http.post(arachneSettings.dataserviceUri + '/export/clean/' + taskId).then(
+                function(response) {
+                    // do nothing
+                },
+                function(response) {
+                    messageService.add('data_export_could_not_clean');
+                    console.warn('Error:', response);
+                }
+            );
         };
 
         function fetchStatus() {
