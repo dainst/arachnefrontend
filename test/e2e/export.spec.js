@@ -17,6 +17,10 @@ describe('data export', function() {
             .then(done);
     });
 
+    afterEach(function(done) {
+        exportPage.cleanStack().then(done).catch(console.warn).then(done);
+    });
+
     afterAll(common.deleteTestUserInDB);
 
     it('should directly download small csv exports', function() {
@@ -57,8 +61,7 @@ describe('data export', function() {
     });
 
 
-
-    xit('should enqueue big export if user is logged in', function() {
+    it('should enqueue big export if user is logged in', function() {
         frontPage.load()
             .then(navbarPage.clickLogin())
             .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
@@ -66,7 +69,6 @@ describe('data export', function() {
             .then(navbarPage.submitLogin())
             .then(navbarPage.waitForLogin())
             .then(searchPage.load({q: 'baumstamm'}))
-//            .then(exportPage.cleanStack())
             .then(exportDialog.exportBtn.click())
             .then(function() {
                 exportDialog.export('pdf')
@@ -83,8 +85,5 @@ describe('data export', function() {
             });
     });
 
-    // fit('nes', function(){
-    //     exportPage.cleanStack()();
-    // });
 
 });

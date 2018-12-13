@@ -7,15 +7,15 @@ var config = require('../../../config/dev-config.json');
 var exportPage = function() {
 
     this.cleanStack = function() {
-        return promisedRequest("clean stack", 'get', {
+        return promisedRequest("clean stack", 'post', {
             url: config.backendUri + '/export/clean',
             headers: {'Content-Type': 'application/json'},
             auth: common.getAuthData(),
-            data: {
-                outdated: false
-            }
-        });
-
+            body: JSON.stringify({
+                outdated: false,
+                finished: false
+            })
+        })();
     };
 
     this.load = function() {
