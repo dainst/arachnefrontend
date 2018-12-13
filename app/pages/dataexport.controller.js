@@ -27,10 +27,10 @@ angular.module('arachne.controllers')
         $scope.cancelTask = function(taskId) {
             $http.post(arachneSettings.dataserviceUri + '/export/cancel/' + taskId).then(
                 function(response) {
-                    messageService.add('data_export_aborted');
+                    // do nothing
                 },
                 function(response) {
-                    messageService.add('data_export_could_not_abort');
+                    messageService.add('data_export_could_not_abort', 'warning');
                     console.warn('Error:', response);
                 }
             );
@@ -42,13 +42,18 @@ angular.module('arachne.controllers')
                     // do nothing
                 },
                 function(response) {
-                    messageService.add('data_export_could_not_clean');
+                    messageService.add('data_export_could_not_clean', 'warning');
                     console.warn('Error:', response);
                 }
             );
         };
 
         function fetchStatus() {
+            if (!$scope.user) {
+                messageService.add('ui_not_logged_in', 'warning');
+            }
+
+
             $http.get(arachneSettings.dataserviceUri + '/export/status').then(
                 function(response) {
                     $scope.status = response.data;
@@ -69,4 +74,7 @@ angular.module('arachne.controllers')
         $scope.$on('$destroy', function(){
             $timeout.cancel(timeout);
         });
+
+
+
     }]);
