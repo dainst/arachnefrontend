@@ -19,7 +19,7 @@
             <div
                     ng-if="!status.error"
                     class="panel export-job"
-                    ng-repeat="(taskID, task) in status.tasks"
+                    ng-repeat="task in getTasks() | orderBy: '-created_at'"
                     ng-class="{
                         'panel-success': task.status == 'finished',
                         'panel-danger': task.status == 'error',
@@ -68,15 +68,15 @@
                         </table>
                     </div>
                     <div class="col-md-1" ng-if="task.status == 'finished'">
-                        <form action="{{dataserviceUri + '/export/file/' + taskID}}" method="get">
+                        <form action="{{dataserviceUri + '/export/file/' + task.id}}" method="get">
                             <button type="submit" class="btn btn-success btn-sm pull-right">{{'ui_download' | transl8}}</button>
                         </form>
                     </div>
                     <div class="col-md-1" ng-if="task.status == 'running' || task.status == 'enqueued'">
-                        <button ng-click="cancelTask(taskID)" type="submit" class="btn btn-danger btn-sm pull-right">{{'ui_cancel' | transl8}}</button>
+                        <button ng-click="cancelTask(task.id)" type="submit" class="btn btn-danger btn-sm pull-right">{{'ui_cancel' | transl8}}</button>
                     </div>
                     <div class="col-md-1" ng-if="task.status == 'error' || task.status == 'aborted'">
-                        <button ng-click="clearTask(taskID)" type="submit" class="btn btn-danger btn-sm pull-right">{{'ui_delete' | transl8}}</button>
+                        <button ng-click="clearTask(task.id)" type="submit" class="btn btn-danger btn-sm pull-right">{{'ui_delete' | transl8}}</button>
                     </div>
                 </div>
             </div>

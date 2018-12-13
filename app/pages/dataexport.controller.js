@@ -18,6 +18,10 @@ angular.module('arachne.controllers')
              return (Object.keys($scope.status.tasks).length > 0);
         };
 
+        $scope.getTasks = function() {
+            return Object.keys($scope.status.tasks).map(function(k){return $scope.status.tasks[k];}); // arachne is not ES6
+        };
+
         $scope.restoreUrl = function(url) {
             var regex = /(\/data)(.*)([&?]mediaType=.*)([&#].*)?/gm;
             var parts = regex.exec(url);
