@@ -793,7 +793,9 @@ HTTP basic access authentication must be used with an account that has an Arachn
 
 
 ### GET /info
-Gets information about the backend, like the build number of the running instance. Example
+Gets information about the backend, like the build number of the running instance. 
+
+Response Example:
 
 ```
 {
@@ -812,7 +814,7 @@ The is no seperate endpoint to generate exports. You use the search or catalog e
 
 Return the status of running export-tasks.
 
-Example:
+Response Example:
 ```
 {
 	"max_threads": 4,
@@ -821,6 +823,7 @@ Example:
 	"tasks_enqueued": 0,
 	"tasks": {
 		"d22149c2-a898-4222-bd33-7f27d5f267f8": {
+		    "id": "d22149c2-a898-4222-bd33-7f27d5f267f8",
 			"owner": "p.franck",
 			"duration": 18302,
 			"requestUrl": "http://localhost:8080/data/search?fl=20&q=baum&mediaType=pdf&lang=de",
@@ -841,7 +844,7 @@ Example:
 
 Returns a list of available export-types.
 
-Example:
+Response Example:
 ```
 {
     "pdf": "application/pdf",
@@ -856,9 +859,48 @@ Returns the file of export-task with id $exportId and deletes the export-task if
 
 In case of pdf, the result is base64 encoded.
 
-### GET /export/clean
+### POST /export/clean
 
-**Admin only**
-Deletes all outdated (rimeout defined in arachne-backned-config) export-tasks.
+Aborts all running/pending tasks of the user and removes all finished tasks from the stack completely. 
 
-Returns a list fo purged Task-Ids.
+* **RequestBody: a settings object (JSON) with three optional parameters:**
+
+    * **everyones**: Optional, default: false - If set to true (and user is admin) everyone's tasks are affected not only the user's ones.
+    * **outdated**: Optional, default: true - If set to true, only those finished tasks get removed, which are outdated (define in backend-config).   
+    * **finished**: Optional, default: true - If set to true, only finished tasks get removed, but running and pending tasks remain untouched. 
+
+Request Examples:
+
+```
+{
+    "everyones": true,
+    "outdated": false,
+    "finished":true
+}
+```
+
+Removes all outdated tasks. Should be done by a chronjob from time to time.
+
+```
+{
+    "everyones": false,
+    "outdated": false,
+    "finished": false
+}
+```
+
+Cleans completely the stack of the current user. Is used by the e2e-tests.
+
+
+Returns a list of affected Task-Ids.
+
+### POST /export/clean/$exportId
+
+Removes a finished task with $exportId completely and removes the cached output.
+Current user have to be the owner of this task or admin. 
+
+### POST /export/cancel/$exportId
+
+Cacnels a running or pending task with $exportId.
+Current user have to be the owner of this task or admin.
+
