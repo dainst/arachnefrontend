@@ -2,8 +2,8 @@
 
 angular.module('arachne.controllers')
 
-.controller('DownloadController', ['$scope', '$uibModalInstance', '$http', 'arachneSettings', 'downloadUrl', 'transl8', 'language',
-    function ($scope, $uibModalInstance, $http, arachneSettings, downloadUrl, transl8, language) {
+.controller('DownloadController', ['$scope', '$uibModalInstance', '$http', '$filter', 'arachneSettings', 'downloadUrl', 'transl8', 'language',
+    function ($scope, $uibModalInstance, $http, $filter, arachneSettings, downloadUrl, transl8, language) {
 
         $scope.mode = 'csv';
         $scope.formats = [];
@@ -16,33 +16,39 @@ angular.module('arachne.controllers')
             }
         }
 
+        function reset() {
+            $scope.status = -1;
+            $scope.message = "";
+        }
+
         function transl8Response(msg) {
             if (msg.substr(0, 12) !== "data_export_") {
                 return msg;
             }
             var msgParts = msg.split("|");
             var msgKey = msgParts.shift();
-            try {
-                var transl8edMsg = transl8.getTranslation(msgKey);
-            } catch(e) {
-                var transl8edMsg = '#' + msgKey;
-            }
+            var transl8edMsg = $filter(transl8)(msgKey + "c");
             return transl8edMsg + msgParts.join("|");
         }
 
-        $http.get(arachneSettings.dataserviceUri + '/export/types').then(
-            function(response) {
-                $scope.formats = angular.isDefined(response.data) ? response.data : [];
-                $scope.message = "";
-                refresh();
-            },
-            function(response){
-                $scope.message = transl8.getTranslation("data_export_no_export_formats_available");
-                $scope.status = response.status;
-                console.warn(response);
-                refresh();
-            }
-        );
+        console.log("neu()");
+        function getTypes() {
+            $http.get(arachneSettings.dataserviceUri + '/export/types').then(
+                function(response) {
+                    console.log("!", response);
+                    $scope.formats = angular.isDefined(response.data) ? response.data : [];
+                    $scope.message = "";
+                    refresh();
+                },
+                function(response) {
+                    $scope.message = $filter('transl8')("data_export_no_export_formats_available");
+                    $scope.status = response.status;
+                    $scope.mode = "?";
+                    console.warn("could not get types:", response);
+                    refresh();
+                    return response;
+                });
+        }
 
         $scope.downloadAs = function() {
             var connector = (downloadUrl.indexOf('?') > -1) ? '&' : '?';
@@ -100,7 +106,9 @@ angular.module('arachne.controllers')
         };
 
         $scope.reset = function() {
-            $scope.status = -1;
-            $scope.message = "";
+            if (!$scope.formats.length) {
+                getTypes();
+            }
+            reset();
         }
 }]);
