@@ -40,6 +40,16 @@ angular.module('arachne.controllers')
             );
         };
 
+        $scope.hrTime = function(ms) {
+            var x = ms / 1000;
+            var s = parseInt(x % 60);
+            x /= 60;
+            var m = parseInt(x % 60);
+            x /= 60;
+            var h = parseInt(x % 24);
+            return h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+        };
+
         $scope.clearTask = function(taskId) {
             delete $scope.status.tasks[taskId];
             $http.post(arachneSettings.dataserviceUri + '/export/clean/' + taskId).then(

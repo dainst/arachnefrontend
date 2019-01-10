@@ -54,6 +54,10 @@
                                 <td>{{'ui_started_at' | transl8}}</td>
                                 <td>{{task.started_at}}</td>
                             </tr>
+                            <tr ng-if="task.duration">
+                                <td>{{'ui_running_for' | transl8}}</td>
+                                <td>{{hrTime(task.duration)}}</td>
+                            </tr>
                             <tr>
                                 <td>{{'ui_media_type' | transl8}}</td>
                                 <td>{{'ui_' + task.conversionType | transl8}} {{'ui_to' | transl8}} {{task.mediaType}}</td>
