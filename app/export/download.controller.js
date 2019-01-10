@@ -27,15 +27,13 @@ angular.module('arachne.controllers')
             }
             var msgParts = msg.split("|");
             var msgKey = msgParts.shift();
-            var transl8edMsg = $filter(transl8)(msgKey + "c");
+            var transl8edMsg = $filter('transl8')(msgKey);
             return transl8edMsg + msgParts.join("|");
         }
 
-        console.log("neu()");
         function getTypes() {
             $http.get(arachneSettings.dataserviceUri + '/export/types').then(
                 function(response) {
-                    console.log("!", response);
                     $scope.formats = angular.isDefined(response.data) ? response.data : [];
                     $scope.message = "";
                     refresh();
