@@ -178,6 +178,7 @@ var Common = function() {
             auth: getAuthData()
         })()
             .then(this.deleteTestUserInDB)
+            .catch(this.deleteTestUserInDB)
 
     };
 
