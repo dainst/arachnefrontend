@@ -27,61 +27,52 @@ describe('basic scenarios', function() {
             });
     });
 
-    it('should search for entities, filter search results and show a single entity with linked entities', function(done) {
+    it('should search for entities, filter search results and show a single entity with linked entities', function() {
 
         var lastResultSize = 0;
-        var lastEntitityId = 0;
-        var linkedObjectSection = entityPage.getLinkedObjectSections().get(0);
+        var linkedObjectSection;
 
+        frontPage.typeInSearchField('Basilica Aemilia');
+        frontPage.getSearchButton().click();
 
-        frontPage.typeInSearchField('Basilica Aemilia')
-            .then(frontPage.getSearchButton().click())
-            .then(searchPage.getResultSize)
-            .then(function(resultSize){
-                expect(resultSize).toBeGreaterThan(1000);
-                expect(searchPage.getImages().count()).toBe(50);
-                lastResultSize = resultSize;
-            })
+        lastResultSize = searchPage.getResultSize();
 
-            .then(searchPage.getFacetButtons('facet_kategorie').get(1).click())
-            .then(browser.getCurrentUrl)
-            .then(searchPage.getResultSize)
-            .then(function(resultSize){
-                expect(resultSize).toBeGreaterThan(0);
-                expect(resultSize).toBeLessThan(lastResultSize);
-                expect(searchPage.getImages().count()).toBe(50);
-                lastResultSize = resultSize;
-            })
+        expect(searchPage.getResultSize()).toBeGreaterThan(1000);
+        expect(searchPage.getImages().count()).toBe(50);
 
-            .then(searchPage.getFacetButtons('facet_image').get(0).click())
-            .then(searchPage.getResultSize)
-            .then(function(resultSize){
-                expect(resultSize).toBeGreaterThan(0);
-                expect(searchPage.getResultSize()).toBeLessThan(lastResultSize);
-                expect(searchPage.getImages().count()).toBe(50);
-            })
+        searchPage.getFacetButtons('facet_kategorie').get(1).click();
 
-            .then(searchPage.getEntityLinks().get(0).click())
-            .then(function(){
-                expect(entityPage.getEntityTitle().isPresent()).toBe(true);
-                expect(entityPage.getEntityId().isPresent()).toBe(true);
-                expect(entityPage.getMainImage().getAttribute('complete')).toEqual('true');
-               return entityPage.getEntityId();
-            })
-            .then(function(entitityId) {
-                lastEntitityId = entitityId;
-            })
+        expect(searchPage.getResultSize()).toBeGreaterThan(0);
+        expect(searchPage.getResultSize()).toBeLessThan(lastResultSize);
+        expect(searchPage.getImages().count()).toBe(50);
 
-            .then(entityPage.getLinkedObjectExpandButton(linkedObjectSection).click())
-            .then(entityPage.getLinkedObjectEntryButtons(linkedObjectSection).get(1).click())
-            .then(function() {
-                expect(entityPage.getEntityTitle().isPresent()).toBe(true);
-                expect(entityPage.getEntityId().isPresent()).toBe(true);
-                expect(entityPage.getEntityId().getText()).not.toEqual(lastEntitityId)
-            })
+        lastResultSize = searchPage.getResultSize();
 
-            .then(done)
-            .catch(done.fail)
+        searchPage.getFacetButtons('facet_image').get(0).click();
+
+        expect(searchPage.getResultSize()).toBeGreaterThan(0);
+        expect(searchPage.getResultSize()).toBeLessThan(lastResultSize);
+        expect(searchPage.getImages().count()).toBe(50);
+
+        searchPage.getEntityLinks().get(0).click();
+
+        expect(entityPage.getEntityTitle().isPresent()).toBe(true);
+        expect(entityPage.getEntityId().isPresent()).toBe(true);
+        expect(entityPage.getMainImage().getAttribute('complete')).toEqual('true');
+
+        entityPage.getEntityId().getText().then(function(lastEntitityId) {
+            linkedObjectSection = entityPage.getLinkedObjectSections().get(0);
+
+            entityPage.getLinkedObjectExpandButton(linkedObjectSection).click();
+            entityPage.getLinkedObjectEntryButtons(linkedObjectSection).get(1).click();
+
+            expect(entityPage.getEntityTitle().isPresent()).toBe(true);
+            expect(entityPage.getEntityId().isPresent()).toBe(true);
+            expect(entityPage.getEntityId().getText()).not.toEqual(lastEntitityId);
+        }).catch(function(e) {
+            console.log(e)
+        });
+
 
     });
 
