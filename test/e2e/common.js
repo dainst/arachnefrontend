@@ -148,7 +148,7 @@ var Common = function() {
         function dataToSend(catalog) {
             var url = config.backendUri + '/catalog';
             if ((typeof catalog === "object") &&  (typeof catalog.id !== "undefined")) {
-               url += '/' + catalog.id;
+                url += '/' + catalog.id;
                 testcatalog.id = catalog.id;
             }
             return {
@@ -172,6 +172,8 @@ var Common = function() {
     };
 
     this.deleteTestCatalog = function(testCatalogId) {
+        var testcatalog = require("./catalog/testcatalog");
+        delete testcatalog.id;
         return promisedRequest("delete test catalog", 'delete', {
             url: config.backendUri + '/catalog/' + testCatalogId,
             headers: {'Content-Type': 'application/json'},
