@@ -145,41 +145,6 @@
 							</td>
 						</tr>
 
-						<!-- Facet values panel -->
-				        <div class="col-md-4">
-				            <div class="panel panel-default" ng-show="facetValues">
-				                <div class="panel-heading">
-				                    <h5 class="panel-title">{{valuesCount}} {{ 'facet_values' | transl8 }}</h5>
-				                </div>
-				                <div class="panel-nav" align="center">
-				                    <a href="category/?c={{category}}&fq={{currentFacet}}" ng-show="groupedBy">
-				                        <span class="glyphicon glyphicon-remove"></span>
-				                    </a>
-				                    <a href="category/?c={{category}}&fq={{currentFacet}}&group={{letter}}"
-				                       ng-repeat='letter in ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","x","y","z"]'
-				                       class="text-uppercase" ng-class="{'btn btn-primary': letter == groupedBy}">
-				                        {{letter}}
-				                    </a>
-
-				                    <hr class="clearfix">
-
-				                    <button ng-click="currentValuePage == 0 || previousValuePage()"
-				                            class="btn btn-sm btn-default"
-				                            style="border-radius:10px; width: 7em;"
-				                            ng-class="{ 'disabled': currentValuePage == 0 }">
-				                        <span aria-hidden="true" class="glyphicon glyphicon-arrow-left" style="font-size: 0.9em;"></span>
-				                    </button>
-				                    <small class="text-muted" style="padding: 0 8px;">
-				                        <strong>{{ 'ui_page' | transl8 }} {{currentValuePage + 1}} / {{facetValues.length}}</strong>
-				                    </small>
-				                    <button ng-click="currentValuePage + 1 >= facetValues.length || nextValuePage()"
-				                            class="btn btn-sm btn-default"
-				                            style="border-radius:10px; width: 7em;"
-				                            ng-class="{ 'disabled': currentValuePage + 1 >= facetValues.length }">
-				                        <span aria-hidden="true" class="glyphicon glyphicon-arrow-right" style="font-size: 0.9em;"></span>
-				                    </button>
-				                </div>
-
 					</table>
 				</div>
 
