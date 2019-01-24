@@ -59,13 +59,20 @@
 				</div>
 				<div ng-repeat="facet in facetgroup"
                  class="panel-default facet {{facet.name}}">
-                     <div class="panel-heading" ng-click="facet.open = !facet.open" style="padding-left:10px">
-						<h5 class="panel-title">
+
+
+			        <div class="panel-heading clearfix" style="padding-left:10px">
+
+						<button type="button" class="btn-link glyphicon glyphicon-list pull-right" ng-click="openFacetModal(facet);"></button>
+
+						<h5 class="panel-title pull-left" ng-click="facet.open = !facet.open" style="display: inline;">
 							<span class="glyphicon glyphicon-chevron-down" ng-hide="facet.open" style="color:silver"></span>
 							<span class="glyphicon glyphicon-chevron-up" ng-show="facet.open" style="color:silver"></span>
 							&nbsp;{{facet.name | transl8 }}
 						</h5>
+
 					</div>
+
 					<ul class="list-unstyled panel-body-small" ng-show="facet.open">
 						<li ng-repeat="facetValue in facet.values" class="facet-value">
 							<a ar-scoped-href="search{{currentQuery.addFacet(facet.name,facetValue.value).removeParam('offset').toString()}}">

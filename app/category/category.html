@@ -31,12 +31,12 @@
                             {{"ui_entries"|transl8}}
                         </li>
                         <li>
-                            <a ng-href="search?q=*&fq=facet_kategorie:'{{queryTitle}}'">
+                            <a ng-href="search?q=*&facet=facet_kategorie:'{{queryTitle}}'">
                                 <span class="glyphicon glyphicon-search"></span> {{'ui_showall'|transl8}}
                             </a>
                         </li>
                         <li ng-show="mapfacet">
-                            <a ng-href="map?q=*&fq=facet_kategorie:'{{queryTitle}}'&restrict={{mapfacet}}">
+                            <a ng-href="map?q=*&facet=facet_kategorie:'{{queryTitle}}'&restrict={{mapfacet}}">
                                 <span class="glyphicon glyphicon-map-marker"></span> {{'ui_map'|transl8}}
                             </a>
                         </li>
@@ -83,7 +83,7 @@
                     <ul class="list-unstyled facet">
                         <li ng-repeat="facet in facets[currentFacetPage]"
                             ng-class="{selected: facet.name == currentFacet}">
-                            <a ng-href="category/?c={{category}}&fq={{facet.name}}">{{facet.name | transl8 }}</a>
+                            <a ng-href="category/?c={{category}}&facet={{facet.name}}">{{facet.name | transl8 }}</a>
                         </li>
                     </ul>
                 </div>
@@ -97,10 +97,10 @@
                     <h5 class="panel-title">{{valuesCount}} {{ 'facet_values' | transl8 }}</h5>
                 </div>
                 <div class="panel-nav" align="center">
-                    <a href="category/?c={{category}}&fq={{currentFacet}}" ng-show="groupedBy">
+                    <a href="category/?c={{category}}&facet={{currentFacet}}" ng-show="groupedBy">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>
-                    <a href="category/?c={{category}}&fq={{currentFacet}}&group={{letter}}"
+                    <a href="category/?c={{category}}&facet={{currentFacet}}&group={{letter}}"
                        ng-repeat='letter in ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","x","y","z"]'
                        class="text-uppercase" ng-class="{'btn btn-primary': letter == groupedBy}">
                         {{letter}}
@@ -130,7 +130,7 @@
                         class="small list-unstyled facet">
                         <li ng-repeat="facetValue in facetValues[currentValuePage]"
                             ng-class="{selected: facetValue == currentValue}">
-                            <a href="category/?c={{category}}&fq={{currentFacet}}&fv={{facetValue}}">{{facetValue}}</a>
+                            <a href="category/?c={{category}}&facet={{currentFacet}}&fv={{facetValue}}">{{facetValue}}</a>
                         </li>
                     </ul>
                 </div>
