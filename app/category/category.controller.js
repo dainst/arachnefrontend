@@ -147,7 +147,6 @@ angular.module('arachne.controllers')
                 if ($location.search().facet && $location.search().fv) {
                     query = query.addFacet($location.search().facet, $location.search().fv)
                 }
-                console.log(query);
                 query.q = "*";
                 return query;
             }
