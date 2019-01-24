@@ -257,8 +257,8 @@ angular.module('arachne.controllers')
                 //$location.url(searchScope.currentScopePath() + 'search' + $scope.currentQuery + '&facet=' + facet.name);
 
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'app/search/facetValueModal.html',
-                    controller: 'FvmController',
+                    templateUrl: 'app/search/facet-value-modal.html',
+                    controller: 'FacetValueModalController',
                     resolve: {
                         facet: function(){
                             return facet;

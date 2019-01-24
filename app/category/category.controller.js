@@ -93,7 +93,8 @@ angular.module('arachne.controllers')
                     $scope.currentFacet = $location.search().facet;
                     $scope.currentValue = $location.search().fv;
 
-                    var url = '/data/index/' + $scope.queryTitle + '/' + $location.search().facet;
+                    var url = '/data/index/' + $location.search().facet + '?q=*'
+                    + '&fq=facet_kategorie:"' + $scope.queryTitle + '"' ;
 
                     if ($location.search().group) {
                         $scope.groupedBy = $location.search().group;
