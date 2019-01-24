@@ -155,7 +155,6 @@ angular.module('arachne.controllers')
                 var query = getCurrentQuery();
                 query.limit = $scope.entitiesSize;
                 query.offset = $scope.currentEntityPage * $scope.entitiesSize;
-                console.log(query);
 
 
                 Entity.query(query.toFlatObject(), function (response) {
