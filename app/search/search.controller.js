@@ -264,6 +264,26 @@ angular.module('arachne.controllers')
 
             }
 
+            $scope.openFacetModal = function (facet){
+
+                //$location.url(searchScope.currentScopePath() + 'search' + $scope.currentQuery + '&facet=' + facet.name);
+
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'app/search/facet-value-modal.html',
+                    controller: 'FacetValueModalController',
+                    resolve: {
+                        facet: function(){
+                            return facet;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (user) {
+                    $window.location.reload();
+                });
+
+            };
+
 
             $scope.printCategoryName = function(entityName) {
                 var cur;

@@ -77,9 +77,9 @@ angular.module('arachne.controllers')
 
             function loadFacetValues() {
 
-                if ($location.search().fq) {
+                if ($location.search().facet) {
 
-                    if ($scope.currentFacet === $location.search().fq
+                    if ($scope.currentFacet === $location.search().facet
                         && $scope.currentValue === $location.search().fv
                         && $scope.groupedBy === $location.search().group
                         && $scope.facetValues) {
@@ -90,10 +90,12 @@ angular.module('arachne.controllers')
                         $scope.currentValuePage = 0;
                     }
 
-                    $scope.currentFacet = $location.search().fq;
+                    $scope.currentFacet = $location.search().facet;
                     $scope.currentValue = $location.search().fv;
 
-                    var url = '/data/index/' + $scope.queryTitle + '/' + $location.search().fq;
+                    var url = '/data/index/' + $location.search().facet + '?q=*'
+                    + '&fq=facet_kategorie:"' + $scope.queryTitle + '"' ;
+
                     if ($location.search().group) {
                         $scope.groupedBy = $location.search().group;
                         url += "?group=" + $scope.groupedBy;
@@ -102,6 +104,7 @@ angular.module('arachne.controllers')
                     }
 
                     indexService.loadFacetValuesAsync(url).then(function (preprocessedValues) {
+
                         var itemsPerPage = 0;
                         var pageCounter = 0;
                         $scope.facetValues = [[]];
@@ -142,10 +145,9 @@ angular.module('arachne.controllers')
 
                 query = query.addFacet("facet_kategorie", $scope.queryTitle);
 
-                if ($location.search().fq && $location.search().fv) {
-                    query = query.addFacet($location.search().fq, $location.search().fv)
+                if ($location.search().facet && $location.search().fv) {
+                    query = query.addFacet($location.search().facet, $location.search().fv)
                 }
-
                 query.q = "*";
                 return query;
             }
@@ -154,6 +156,8 @@ angular.module('arachne.controllers')
                 var query = getCurrentQuery();
                 query.limit = $scope.entitiesSize;
                 query.offset = $scope.currentEntityPage * $scope.entitiesSize;
+
+
                 Entity.query(query.toFlatObject(), function (response) {
                     $scope.entityResultSize = response.size;
                     $scope.entities = response.entities;

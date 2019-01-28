@@ -1,4 +1,4 @@
-<h3 ng-if="entity.images.length > 1">
+<h3 ng-if="entity.images.length > 1" ng-init="loadImages(entity)">
     <a ng-href="entity/{{entity.entityId}}/images{{currentQuery.toString()}}">
         {{'entity_images'|transl8}}
         <small>({{entity.imageSize}})</small>
@@ -24,7 +24,7 @@
         </a>
 
         <div id="maximg-wrapper">
-          <a ar-scoped-href="entity/{{entity.entityId}}/image/{{entity.images[currentImgNo].imageId}}{{currentQuery.toString()}}" id="maximg">
+          <a ng-href="{{imageClick(entity, currentImgNo, currentQuery)}}" id="{{imageId(entity)}}" target="{{imageTarget(entity)}}">
               <img ar-img img-id="{{entity.images[currentImgNo].imageId}}"
                    img-height="300">
           </a>
@@ -48,10 +48,15 @@
         <div ng-style="{'transform': 'translateX(-'+offset+'px)','-webkit-transform': 'translateX(-'+offset+'px)'}"
              id="thumbbox">
             <a ng-click="setImage($index)"
-               ng-repeat="image in entity.images"
+               ng-repeat="image in entity.images | limitTo: 20"
                ng-class="{ 'active': $index == currentImgNo }">
                 <img ar-img img-id="{{image.imageId}}"
                      img-height="70">
+            </a>
+            <a class="btn btn-sm btn-link ng-scope"
+            style="white-space: normal;"
+            ng-href="entity/{{entity.entityId}}/images">
+            {{'all_images'|transl8}}<br>{{'show_images'|transl8}}
             </a>
         </div>
 

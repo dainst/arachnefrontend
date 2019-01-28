@@ -5,6 +5,9 @@
     position: relative;
   }
 
+  .btn-link{
+      opacity: 1;
+  }
 
   #thumbbox {
     height: 70px;
@@ -23,6 +26,10 @@
   #thumbbox a.active {
     opacity: 1;
     text-decoration: none;
+  }
+
+  #thumbbox a.btn-link{
+      opacity: 1;
   }
 
   .navigate-left {
@@ -81,7 +88,7 @@
     position: relative;
     height: 300px;
     background-color: #ededed;
-    
+
   }
   #maximg-wrapper {
     width: 100%;
