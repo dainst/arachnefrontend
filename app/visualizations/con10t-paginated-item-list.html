@@ -1,0 +1,19 @@
+<div class="container">
+    <h4>{{heading}}</h4>
+    <p>
+        <span class="clickable small glyphicon glyphicon-chevron-left"
+              ng-click="decreaseOffset()"></span>
+        ({{offset+1}}-{{(offset+ipp > itemList.length) ? itemList.length : offset + ipp}} / {{itemList.length}})
+        <span class="clickable small glyphicon glyphicon-chevron-right"
+              ng-click="increaseOffset()"></span>
+        {{selected.length}} selected.
+        <span class="btn btn-sm btn-success" ng-click="selectAll()">Select all</span>
+        <span class="btn btn-sm btn-danger" ng-click="deselectAll()">Deselect all</span>
+    </p>
+
+    <div ng-repeat="item in itemList.slice(offset, offset + ipp)">
+        <div class="btn btn-block {{(selected.indexOf(item[0]) >= 0) ? 'btn-primary' : 'btn-default'}}" ng-click="toggleItem(item[0])">
+            {{item[1]}}
+        </div>
+    </div>
+</div>
