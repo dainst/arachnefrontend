@@ -15,6 +15,8 @@ angular.module('arachne.visualizations.directives')
 
                 scope.offset = 0;
                 scope.ipp = parseInt(scope.itemsPerPage);
+                scope.orderType = 2;
+                scope.orderGlyph = 'glyphicon-sort-by-order-alt';
 
                 scope.increaseOffset = function(){
                     if(scope.offset + scope.ipp < scope.itemList.length - scope.ipp){
@@ -39,10 +41,40 @@ angular.module('arachne.visualizations.directives')
                     } else {
                         scope.selected.push(id)
                     }
+                };
 
-                    if(!scope.$root.$$phase && !scope.$$phase) {
-                        scope.$apply();
+                scope.updateDisplayedList = function(){
+
+                    if(typeof scope.itemList === 'undefined'){
+                        return;
                     }
+
+                    if(scope.orderType === 0) {
+                        scope.orderGlyph = 'glyphicon-sort-by-alphabet';
+                        scope.itemList.sort(function (a, b) {
+                            return a[1].toLowerCase() > b[1].toLowerCase()
+                        });
+                    } else if(scope.orderType === 1){
+                        scope.orderGlyph = 'glyphicon-sort-by-alphabet-alt';
+                        scope.itemList.sort(function (a, b) {
+                            return a[1].toLowerCase() < b[1].toLowerCase()
+                        });
+                    } else if(scope.orderType === 2){
+                        scope.orderGlyph =  'glyphicon-sort-by-order-alt';
+                        scope.itemList.sort(function(a, b){
+                            return a[2] < b[2];
+                        });
+                    } else {
+                        scope.orderGlyph = 'glyphicon-sort-by-order';
+                        scope.itemList.sort(function(a, b){
+                            return a[2] > b[2];
+                        });
+                    }
+                };
+
+                scope.toggleListOrder = function(){
+                    scope.orderType = (scope.orderType + 1) % 4;
+                    scope.updateDisplayedList();
                 };
 
                 scope.deselectAll = function(){
@@ -57,8 +89,10 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.$watch('itemList', function(newValue, oldValue){
+                    scope.updateDisplayedList();
                     scope.offset = 0;
                 });
+
             }
         }
     }]);

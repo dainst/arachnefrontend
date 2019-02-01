@@ -163,35 +163,30 @@ angular.module('arachne.visualizations.directives')
                     for(var i = 0; i < scope.rawObjectData.length; i++) {
                         authorId = scope.rawObjectData[i]['authorId'];
                         if(!(authorId in tempAuthors)) {
-                            tempAuthors[authorId] = scope.rawPersonData[scope.personIndexById[authorId]]
+                            tempAuthors[authorId] = [scope.rawPersonData[scope.personIndexById[authorId]], 1]
+                        } else {
+                            tempAuthors[authorId][1] = tempAuthors[authorId][1] + 1
                         }
 
                         recipientId = scope.rawObjectData[i]['recipientId'];
                         if(!(recipientId in tempRecipients)) {
-                            tempRecipients[recipientId] = scope.rawPersonData[scope.personIndexById[recipientId]]
+                            tempRecipients[recipientId] = [scope.rawPersonData[scope.personIndexById[recipientId]], 1]
+                        } else {
+                            tempRecipients[recipientId][1] = tempRecipients[recipientId][1] + 1
                         }
                     }
 
-                    // Generate final (alphabetically) sorted person lists
-                    var tempList;
-                    tempList = [];
+                    scope.activeAuthors = [];
+                    scope.activeRecipients = [];
+
                     for(var key in tempAuthors) {
-                        tempList.push([key, tempAuthors[key]['name']]);
+                        scope.activeAuthors.push([key, tempAuthors[key][0]['name'], tempAuthors[key][1]]);
                         scope.selectedAuthors.push(key);
                     }
-                    scope.activeAuthors = tempList.sort(function(a, b){
-                        return a[1].toLowerCase() > b[1].toLowerCase()
-                    });
-
-                    tempList = [];
                     for(var key in tempRecipients){
-                        tempList.push([key, tempRecipients[key]['name']]);
+                        scope.activeRecipients.push([key, tempRecipients[key][0]['name'], tempRecipients[key][1]]);
                         scope.selectedRecipients.push(key);
                     }
-                    scope.activeRecipients = tempList.sort(function(a, b){
-                        return a[1].toLowerCase() > b[1].toLowerCase()
-                    });
-
                 };
 
                 scope.evaluateVisiblePlaces = function() {
