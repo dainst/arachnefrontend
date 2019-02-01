@@ -39,6 +39,10 @@ angular.module('arachne.visualizations.directives')
                     } else {
                         scope.selected.push(id)
                     }
+
+                    if(!scope.$root.$$phase && !scope.$$phase) {
+                        scope.$apply();
+                    }
                 };
 
                 scope.deselectAll = function(){
@@ -50,7 +54,11 @@ angular.module('arachne.visualizations.directives')
                     for(var key in scope.itemList){
                         scope.selected.push(scope.itemList[key][0]);
                     }
-                }
+                };
+
+                scope.$watch('itemList', function(newValue, oldValue){
+                    scope.offset = 0;
+                });
             }
         }
     }]);

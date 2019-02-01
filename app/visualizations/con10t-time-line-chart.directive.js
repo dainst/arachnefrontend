@@ -357,6 +357,12 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.recreate = function() {
+
+                    if(scope.binnedData.length === 0){
+                        console.log("No time data.");
+                        return;
+                    }
+
                     scope.evaluateOverallTimespan();
                     scope.generateDetailedTimeSpan();
                     scope.initializeD3();
