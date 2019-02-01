@@ -57,16 +57,18 @@ angular.module('arachne.visualizations.directives')
                     scope.binnedData = {};
 
                     for (var i = 0; i < scope.rawObjectData.length; i++) {
-                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
-                        if(!scope.isObjectLinkedToSelectedPerson(scope.rawObjectData[i])) continue;
 
                         var currentObject = scope.rawObjectData[i];
+
+                        if(scope.isObjectIgnoredDueToSelectedPlace(currentObject)) continue;
+                        if(!scope.isObjectLinkedToSelectedPerson(currentObject)) continue;
 
                         var fromDate = new Date(currentObject['timespanFrom']);
                         var toDate = new Date(currentObject['timespanTo']);
                         if (isNaN(fromDate.getDate()) || isNaN(toDate.getDate())) {
                             continue;
                         }
+
                         if (fromDate.toISOString() === toDate.toISOString()) {
                             var binKey = fromDate.toISOString().substr(0, 4);
 
@@ -179,12 +181,29 @@ angular.module('arachne.visualizations.directives')
                     scope.activeAuthors = [];
                     scope.activeRecipients = [];
 
+                    scope.authorIdToIndexMapping = {};
+                    scope.recipientIdToIndexMapping = {};
+
                     for(var key in tempAuthors) {
-                        scope.activeAuthors.push([key, tempAuthors[key][0]['name'], tempAuthors[key][1]]);
+                        scope.activeAuthors.push(
+                            {
+                                'id': key,
+                                'label': tempAuthors[key][0]['name'],
+                                'count': tempAuthors[key][1],
+                                'active': true
+                            });
+                        scope.authorIdToIndexMapping[key] = scope.activeAuthors.length - 1;
                         scope.selectedAuthors.push(key);
                     }
                     for(var key in tempRecipients){
-                        scope.activeRecipients.push([key, tempRecipients[key][0]['name'], tempRecipients[key][1]]);
+                        scope.activeRecipients.push(
+                            {
+                                'id': key,
+                                'label': tempRecipients[key][0]['name'],
+                                'count': tempRecipients[key][1],
+                                'active': true
+                            });
+                        scope.recipientIdToIndexMapping[key] = scope.activeRecipients.length - 1;
                         scope.selectedRecipients.push(key);
                     }
                 };
@@ -233,36 +252,66 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
-                scope.evaluatePersonList = function(initCall){
+                scope.evaluatePersonList = function(){
                     // Deselect persons that have gone inactive based on timespan/place selections
-                    var activeAuthors = [];
-                    var activeRecipients = [];
+                    var activeAuthorsIndices = [];
+                    var activeRecipientsIndices = [];
+
+                    var authorIdToCountMapping = {};
+                    var recipientIdToCountMapping = {};
 
                     for(var i = 0; i < scope.rawObjectData.length; i++) {
-                        if(!initCall){
-                            if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
-                            if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
-                        }
                         var authorId = scope.rawObjectData[i]['authorId'];
-                        if(activeAuthors.indexOf(authorId) < 0){
-                            activeAuthors.push(authorId);
+                        var recipientId = scope.rawObjectData[i]['recipientId'];
+
+                        scope.activeAuthors[scope.authorIdToIndexMapping[authorId]].active = false;
+                        scope.activeAuthors[scope.authorIdToIndexMapping[authorId]].count = 0;
+                        scope.activeRecipients[scope.recipientIdToIndexMapping[recipientId]].active = false;
+                        scope.activeRecipients[scope.recipientIdToIndexMapping[recipientId]].count = 0;
+
+                        if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
+                        if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
+
+                        if(authorId in authorIdToCountMapping){
+                            authorIdToCountMapping[authorId] += 1;
+                        } else {
+                            authorIdToCountMapping[authorId] = 1;
                         }
 
-                        var recipientId = scope.rawObjectData[i]['recipientId'];
-                        if(activeRecipients.indexOf(recipientId) < 0){
-                            activeRecipients.push(recipientId);
+                        if(recipientId in recipientIdToCountMapping){
+                            recipientIdToCountMapping[recipientId] += 1;
+                        } else {
+                            recipientIdToCountMapping[recipientId] = 1;
+                        }
+
+                        if(activeAuthorsIndices.indexOf(authorId) < 0){
+                            activeAuthorsIndices.push(authorId);
+                        }
+
+                        if(activeRecipientsIndices.indexOf(recipientId) < 0){
+                            activeRecipientsIndices.push(recipientId);
                         }
                     }
 
+                    for(var idx in activeAuthorsIndices){
+                        scope.activeAuthors[scope.authorIdToIndexMapping[activeAuthorsIndices[idx]]].active = true;
+                        scope.activeAuthors[scope.authorIdToIndexMapping[activeAuthorsIndices[idx]]].count = authorIdToCountMapping[activeAuthorsIndices[idx]];
+                    }
+
+                    for(var idx in activeRecipientsIndices){
+                        scope.activeRecipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].active = true;
+                        scope.activeRecipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].count = recipientIdToCountMapping[activeRecipientsIndices[idx]];
+                    }
+
                     for(var idx in scope.selectedAuthors){
-                        var idxSelected = activeAuthors.indexOf(scope.selectedAuthors[idx]);
+                        var idxSelected = activeAuthorsIndices.indexOf(scope.selectedAuthors[idx]);
                         if(idxSelected < 0){
                             scope.selectedAuthors.splice(idx, 1);
                         }
                     }
 
                     for(var idx in scope.selectedRecipients) {
-                        var idxSelected = activeRecipients.indexOf(scope.selectedRecipients[idx]);
+                        var idxSelected = activeRecipientsIndices.indexOf(scope.selectedRecipients[idx]);
                         if (idxSelected < 0) {
                             scope.selectedRecipients.splice(idx, 1);
                         }
@@ -383,7 +432,7 @@ angular.module('arachne.visualizations.directives')
                     scope.evaluateActiveObjectData();
                     scope.createTimeLineBins();
                     scope.evaluateVisiblePlaces();
-                    scope.evaluatePersonList(false);
+                    scope.evaluatePersonList();
                     scope.evaluateTopPersonConnections();
 
                     if(!scope.$root.$$phase && !scope.$$phase) {
@@ -428,6 +477,11 @@ angular.module('arachne.visualizations.directives')
                         && scope.selectedPlaceId === objectData['destinationPlaceId']){
                         isIgnored = false;
                     }
+                    if(objectData['originPlaceId'] === 'null'
+                        || objectData['destinationPlaceId'] === 'null'){
+                        isIgnored = false;
+                    }
+
                     return isIgnored;
                 };
 
@@ -456,7 +510,7 @@ angular.module('arachne.visualizations.directives')
 
                     scope.colors = [
                         "#89b7e5",
-                        "#6699cc",
+                        "#201a71",
                         "#5b89e5",
                         "#3399cc",
                         "#336699",
@@ -520,6 +574,7 @@ angular.module('arachne.visualizations.directives')
                 scope.selectedRecipients = [];
                 scope.arachneIds = [];
                 scope.activeObjectCount = 0;
+                scope.placesWithoutDate = 0;
                 scope.loadData();
             }
         }

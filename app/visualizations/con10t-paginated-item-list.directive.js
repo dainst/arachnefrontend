@@ -19,10 +19,10 @@ angular.module('arachne.visualizations.directives')
                 scope.orderGlyph = 'glyphicon-sort-by-order-alt';
 
                 scope.increaseOffset = function(){
-                    if(scope.offset + scope.ipp < scope.itemList.length - scope.ipp){
+                    if(scope.offset + scope.ipp < scope.displayedList.length - scope.ipp){
                         scope.offset += scope.ipp;
                     } else {
-                        scope.offset = scope.itemList.length - scope.ipp;
+                        scope.offset = scope.displayedList.length - scope.ipp;
                     }
                 };
 
@@ -48,27 +48,32 @@ angular.module('arachne.visualizations.directives')
                     if(typeof scope.itemList === 'undefined'){
                         return;
                     }
+                    scope.displayedList = angular.copy(scope.itemList);
 
                     if(scope.orderType === 0) {
                         scope.orderGlyph = 'glyphicon-sort-by-alphabet';
-                        scope.itemList.sort(function (a, b) {
-                            return a[1].toLowerCase() > b[1].toLowerCase()
+                        scope.displayedList.sort(function (a, b) {
+                            return a.label.toLowerCase() > b.label.toLowerCase()
                         });
                     } else if(scope.orderType === 1){
                         scope.orderGlyph = 'glyphicon-sort-by-alphabet-alt';
-                        scope.itemList.sort(function (a, b) {
-                            return a[1].toLowerCase() < b[1].toLowerCase()
+                        scope.displayedList.sort(function (a, b) {
+                            return a.label.toLowerCase() < b.label.toLowerCase()
                         });
                     } else if(scope.orderType === 2){
                         scope.orderGlyph =  'glyphicon-sort-by-order-alt';
-                        scope.itemList.sort(function(a, b){
-                            return a[2] < b[2];
+                        scope.displayedList.sort(function(a, b){
+                            return a.count < b.count;
                         });
                     } else {
                         scope.orderGlyph = 'glyphicon-sort-by-order';
-                        scope.itemList.sort(function(a, b){
-                            return a[2] > b[2];
+                        scope.displayedList.sort(function (a, b) {
+                            return a.count > b.count;
                         });
+                    }
+
+                    if(!scope.$root.$$phase && !scope.$$phase) {
+                        scope.$apply();
                     }
                 };
 
@@ -83,15 +88,15 @@ angular.module('arachne.visualizations.directives')
 
                 scope.selectAll = function(){
                     scope.selected = [];
-                    for(var key in scope.itemList){
-                        scope.selected.push(scope.itemList[key][0]);
+                    for(var key in scope.displayedList){
+                        scope.selected.push(scope.displayedList[key].id);
                     }
                 };
 
                 scope.$watch('itemList', function(newValue, oldValue){
                     scope.updateDisplayedList();
                     scope.offset = 0;
-                });
+                }, true);
 
             }
         }

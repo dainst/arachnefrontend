@@ -12,16 +12,17 @@
 <div class="row">
     <span class="clickable glyphicon glyphicon-chevron-left"
           ng-click="decreaseOffset()"></span>
-    ({{offset+1}}-{{(offset+ipp > itemList.length) ? itemList.length : offset + ipp}} / {{itemList.length}})
+    ({{offset+1}}-{{(offset+ipp > displayedList.length) ? displayedList.length : offset + ipp}} / {{displayedList.length}})
     <span class="clickable glyphicon glyphicon-chevron-right"
           ng-click="increaseOffset()"></span> {{selected.length}} selected.
 </div>
 
 <div class="row">
-    <div ng-repeat="item in itemList.slice(offset, offset + ipp)">
-        <div class="clickable" ng-click="toggleItem(item[0])">
-            <span class="glyphicon {{(selected.indexOf(item[0]) >= 0) ? 'glyphicon-check' : 'glyphicon glyphicon-unchecked'}}"></span>
-            {{item[1]}}
+    <div ng-repeat="item in displayedList.slice(offset, offset + ipp)">
+        <div style="text-overflow: ellipsis;white-space: nowrap;" class="clickable" ng-click="toggleItem(item.id)">
+            <span class="glyphicon {{(selected.indexOf(item.id) >= 0) ? 'glyphicon-check' : 'glyphicon glyphicon-unchecked'}}"></span>
+            <span ng-if="item.active === false"><s>({{item.count}}) {{item.label}}</s></span>
+            <span ng-if="item.active === true">({{item.count}}) {{item.label}}</span>
         </div>
     </div>
 </div>
