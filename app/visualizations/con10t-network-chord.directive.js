@@ -24,8 +24,8 @@ angular.module('arachne.visualizations.directives')
                     var innerRadius = outerRadius - 30;
                     var formatValue = d3.formatPrefix(",.0", 1e2);
                     var trimLabel = function(label) {
-                        if(label.length > 18){
-                            return label.substring(0, 15) + '...';
+                        if(label.length > 15){
+                            return label.substring(0, 12) + '...';
                         } else {
                             return label;
                         }
