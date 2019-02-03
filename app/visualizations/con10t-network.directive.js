@@ -289,20 +289,6 @@ angular.module('arachne.visualizations.directives')
                         scope.recipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].active = true;
                         scope.recipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].count = recipientIdToCountMapping[activeRecipientsIndices[idx]];
                     }
-
-                    for(var idx in scope.selectedAuthors){
-                        var idxSelected = activeAuthorsIndices.indexOf(scope.selectedAuthors[idx]);
-                        if(idxSelected < 0){
-                            scope.selectedAuthors.splice(idx, 1);
-                        }
-                    }
-
-                    for(var idx in scope.selectedRecipients) {
-                        var idxSelected = activeRecipientsIndices.indexOf(scope.selectedRecipients[idx]);
-                        if (idxSelected < 0) {
-                            scope.selectedRecipients.splice(idx, 1);
-                        }
-                    }
                 };
 
                 scope.evaluateTopPersonConnections = function(){
