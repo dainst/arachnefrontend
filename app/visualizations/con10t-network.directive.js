@@ -55,6 +55,7 @@ angular.module('arachne.visualizations.directives')
                 scope.createTimeLineBins = function(){
                     scope.timeDataBins = [];
                     scope.binnedData = {};
+                    scope.objectsWithoutDate = 0;
 
                     for (var i = 0; i < scope.rawObjectData.length; i++) {
 
@@ -64,35 +65,19 @@ angular.module('arachne.visualizations.directives')
                         if(!scope.isObjectLinkedToSelectedPerson(currentObject)) continue;
 
                         var fromDate = new Date(currentObject['timespanFrom']);
-                        var toDate = new Date(currentObject['timespanTo']);
-                        if (isNaN(fromDate.getDate()) || isNaN(toDate.getDate())) {
+                        if (isNaN(fromDate.getDate())) {
+                            scope.objectsWithoutDate += 1;
                             continue;
                         }
 
-                        if (fromDate.toISOString() === toDate.toISOString()) {
-                            var binKey = fromDate.toISOString().substr(0, 4);
+                        var binKey = fromDate.toISOString().substr(0, 4);
 
-                            if (binKey in scope.binnedData) {
-                                scope.binnedData[binKey] += 1
-                            } else {
-                                scope.binnedData[binKey] = 1
-                            }
+                        if (binKey in scope.binnedData) {
+                            scope.binnedData[binKey] += 1
                         } else {
-                            var fromBinKey = fromDate.toISOString().substr(0, 4);
-                            var toBinKey = toDate.toISOString().substr(0, 4);
-
-                            if (fromBinKey in scope.binnedData) {
-                                scope.binnedData[fromBinKey] += 1
-                            } else {
-                                scope.binnedData[fromBinKey] = 1
-                            }
-
-                            if (toBinKey in scope.binnedData) {
-                                scope.binnedData[toBinKey] += 1
-                            } else {
-                                scope.binnedData[toBinKey] = 1
-                            }
+                            scope.binnedData[binKey] = 1
                         }
+
                     }
 
                     for (var binKey in scope.binnedData) {
@@ -446,8 +431,8 @@ angular.module('arachne.visualizations.directives')
                         && Date.parse(objectData['timespanFrom']) < scope.minDate
                     ) return false;
 
-                    if(!isNaN(Date.parse(objectData['timespanTo']))
-                        && Date.parse(objectData['timespanTo']) > scope.maxDate
+                    if(!isNaN(Date.parse(objectData['timespanFrom']))
+                        && Date.parse(objectData['timespanFrom']) > scope.maxDate
                     ) return false;
 
                     return true;
@@ -574,7 +559,7 @@ angular.module('arachne.visualizations.directives')
                 scope.selectedRecipients = [];
                 scope.arachneIds = [];
                 scope.activeObjectCount = 0;
-                scope.placesWithoutDate = 0;
+                scope.objectsWithoutDate = 0;
                 scope.loadData();
             }
         }
