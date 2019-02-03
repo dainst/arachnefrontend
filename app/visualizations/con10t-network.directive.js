@@ -402,10 +402,12 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     scope.matrix = generateMatrix(topPersonsIds, topConnections);
-                    scope.names = [];
+                    scope.chordLabels = [];
 
                     for(var i = 0; i < topPersonsIds.length; i++){
-                        scope.names.push(scope.rawPersonData[scope.personIndexById[topPersonsIds[i]]]['name'])
+                        scope.chordLabels.push({
+                            'id': scope.rawPersonData[scope.personIndexById[topPersonsIds[i]]]['id'],
+                            'text': scope.rawPersonData[scope.personIndexById[topPersonsIds[i]]]['name']})
                     }
                 };
 
@@ -421,6 +423,19 @@ angular.module('arachne.visualizations.directives')
                     scope.evaluateVisiblePlaces();
                     scope.evaluatePersonList();
                     scope.evaluateTopPersonConnections();
+
+                    if(!scope.$root.$$phase && !scope.$$phase) {
+                        scope.$apply();
+                    }
+                };
+
+                scope.setPersons = function(ids){
+                    if(ids.length === 2){
+                        scope.selectedAuthors = [ids[0], ids[1]];
+                        scope.selectedRecipients = [ids[0], ids[1]]
+                    } else {
+                        scope.selectedAuthors = [ids[0]];
+                    }
 
                     if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();

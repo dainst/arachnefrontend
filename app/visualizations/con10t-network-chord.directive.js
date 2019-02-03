@@ -7,7 +7,8 @@ angular.module('arachne.visualizations.directives')
                 objectsLabel: '@',
                 labels: '=',
                 colors: '=',
-                matrix: '='
+                matrix: '=',
+                selectionCallback: '&'
             },
             link: function (scope, element, attrs) {
 
@@ -34,6 +35,10 @@ angular.module('arachne.visualizations.directives')
                     // Clear all existing SVG content
                     d3.select("#chord-svg").selectAll("*").remove();
 
+                    if(document.querySelector('.chordToolTip') !== null){
+                        document.querySelector('.chordToolTip').remove();
+                    }
+
                     var svg = d3
                         .select("#chord-svg")
                         .attr("width", dimension)
@@ -54,7 +59,7 @@ angular.module('arachne.visualizations.directives')
                         .domain(d3.range(scope.labels.length))
                         .range(scope.colors);
 
-                    var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+                    var tooltip = d3.select("body").append("div").attr("class", "chordToolTip");
 
                     var g = svg.append("g")
                         .attr("transform", "translate(" + dimension / 2 + "," + dimension / 2 + ")")
@@ -85,7 +90,10 @@ angular.module('arachne.visualizations.directives')
                         })
                         .enter().append("g")
                         .on("mouseover", mouse_over_group)
-                        .on("mouseout", mouse_out);
+                        .on("mouseout", mouse_out)
+                        .on('click', function(d, i) {
+                            scope.selectPerson(scope.labels[d.index].id);
+                        });
 
                     group.append("path")
                         .style("fill", function (d) {
@@ -111,12 +119,12 @@ angular.module('arachne.visualizations.directives')
                             return d.angle > Math.PI ? "end" : null;
                         })
                         .text(function (d) {
-                            return trimLabel(scope.labels[d.index])
+                            return trimLabel(scope.labels[d.index].text)
                         });
 
                     group.append("title")
                         .text(function (d, i) {
-                            return scope.labels[i] + "\n" +
+                            return scope.labels[i].text + "\n" +
                                 d.value + " " + scope.objectsLabel;
                         });
 
@@ -163,6 +171,11 @@ angular.module('arachne.visualizations.directives')
                             .selectAll("path")
                             .classed("fade", function (p) {
                                 return p.source.index !== d.index && p.target.index !== d.index;
+                            })
+                            .on('click', function(d, i) {
+                                scope.selectPair(
+                                    scope.labels[d.source.index].id,
+                                    scope.labels[d.target.index].id);
                             });
                     }
 
@@ -172,9 +185,9 @@ angular.module('arachne.visualizations.directives')
                             .style("display", "inline-block")
                             .style("white-space", "pre")
                             .html(
-                                scope.labels[d.source.index] + " → " + scope.labels[d.target.index] + ": " +
+                                scope.labels[d.source.index].text + " → " + scope.labels[d.target.index].text + ": " +
                                 d3.format("3")(d.source.value) + " " + scope.objectsLabel + ".<br\>" +
-                                scope.labels[d.source.index] + " ← " + scope.labels[d.target.index] + ": " +
+                                scope.labels[d.source.index].text + " ← " + scope.labels[d.target.index].text + ": " +
                                 d3.format("3")(d.target.value) + " "+ scope.objectsLabel + "."
                             );
 
@@ -226,6 +239,14 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     scope.initializeD3();
+                };
+
+                scope.selectPerson = function (id) {
+                    scope.selectionCallback({ids: [id]});
+                };
+
+                scope.selectPair = function (id1, id2) {
+                    scope.selectionCallback({ids: [id1, id2]})
                 };
 
                 scope.$watch('labels', function(newValue, oldValue) {
