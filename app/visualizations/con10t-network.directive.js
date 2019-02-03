@@ -62,7 +62,9 @@ angular.module('arachne.visualizations.directives')
                         var currentObject = scope.rawObjectData[i];
 
                         if(scope.isObjectIgnoredDueToSelectedPlace(currentObject)) continue;
-                        if(!scope.isObjectLinkedToSelectedPerson(currentObject)) continue;
+                        if(!scope.isObjectLinkedToSelectedPerson(currentObject)
+                            || (scope.selectedAuthors.length === 0 // If nobody is selected, show graph as if all selected
+                            && scope.selectedRecipients.length === 0)) continue;
 
                         var fromDate = new Date(currentObject['timespanFrom']);
                         if (isNaN(fromDate.getDate())) {
