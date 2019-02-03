@@ -427,12 +427,20 @@ angular.module('arachne.visualizations.directives')
 
                 scope.isObjectWithinSelectedTimeSpan = function(objectData){
 
-                    if(!isNaN(Date.parse(objectData['timespanFrom']))
-                        && Date.parse(objectData['timespanFrom']) < scope.minDate
+                    var dateValue = objectData['timespanFrom'];
+
+                    // Ignore dates outside of currently selected timespan
+                    if(!isNaN(Date.parse(dateValue))
+                        && Date.parse(dateValue) < scope.minDate
+                    ) return false;
+                    if(!isNaN(Date.parse(dateValue))
+                        && Date.parse(dateValue) > scope.maxDate
                     ) return false;
 
-                    if(!isNaN(Date.parse(objectData['timespanFrom']))
-                        && Date.parse(objectData['timespanFrom']) > scope.maxDate
+                    // Ignore objects without date only if no date selected
+                    if(isNaN(Date.parse(dateValue))
+                        && scope.minDate !== scope.overallMinDate
+                        && scope.maxDate !== scope.overallMaxDate
                     ) return false;
 
                     return true;
