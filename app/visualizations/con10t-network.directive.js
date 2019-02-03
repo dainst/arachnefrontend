@@ -165,32 +165,32 @@ angular.module('arachne.visualizations.directives')
                         }
                     }
 
-                    scope.activeAuthors = [];
-                    scope.activeRecipients = [];
+                    scope.authors = [];
+                    scope.recipients = [];
 
                     scope.authorIdToIndexMapping = {};
                     scope.recipientIdToIndexMapping = {};
 
                     for(var key in tempAuthors) {
-                        scope.activeAuthors.push(
+                        scope.authors.push(
                             {
                                 'id': key,
                                 'label': tempAuthors[key][0]['name'],
                                 'count': tempAuthors[key][1],
                                 'active': true
                             });
-                        scope.authorIdToIndexMapping[key] = scope.activeAuthors.length - 1;
+                        scope.authorIdToIndexMapping[key] = scope.authors.length - 1;
                         scope.selectedAuthors.push(key);
                     }
                     for(var key in tempRecipients){
-                        scope.activeRecipients.push(
+                        scope.recipients.push(
                             {
                                 'id': key,
                                 'label': tempRecipients[key][0]['name'],
                                 'count': tempRecipients[key][1],
                                 'active': true
                             });
-                        scope.recipientIdToIndexMapping[key] = scope.activeRecipients.length - 1;
+                        scope.recipientIdToIndexMapping[key] = scope.recipients.length - 1;
                         scope.selectedRecipients.push(key);
                     }
                 };
@@ -251,10 +251,10 @@ angular.module('arachne.visualizations.directives')
                         var authorId = scope.rawObjectData[i]['authorId'];
                         var recipientId = scope.rawObjectData[i]['recipientId'];
 
-                        scope.activeAuthors[scope.authorIdToIndexMapping[authorId]].active = false;
-                        scope.activeAuthors[scope.authorIdToIndexMapping[authorId]].count = 0;
-                        scope.activeRecipients[scope.recipientIdToIndexMapping[recipientId]].active = false;
-                        scope.activeRecipients[scope.recipientIdToIndexMapping[recipientId]].count = 0;
+                        scope.authors[scope.authorIdToIndexMapping[authorId]].active = false;
+                        scope.authors[scope.authorIdToIndexMapping[authorId]].count = 0;
+                        scope.recipients[scope.recipientIdToIndexMapping[recipientId]].active = false;
+                        scope.recipients[scope.recipientIdToIndexMapping[recipientId]].count = 0;
 
                         if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
                         if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
@@ -281,13 +281,13 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     for(var idx in activeAuthorsIndices){
-                        scope.activeAuthors[scope.authorIdToIndexMapping[activeAuthorsIndices[idx]]].active = true;
-                        scope.activeAuthors[scope.authorIdToIndexMapping[activeAuthorsIndices[idx]]].count = authorIdToCountMapping[activeAuthorsIndices[idx]];
+                        scope.authors[scope.authorIdToIndexMapping[activeAuthorsIndices[idx]]].active = true;
+                        scope.authors[scope.authorIdToIndexMapping[activeAuthorsIndices[idx]]].count = authorIdToCountMapping[activeAuthorsIndices[idx]];
                     }
 
                     for(var idx in activeRecipientsIndices){
-                        scope.activeRecipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].active = true;
-                        scope.activeRecipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].count = recipientIdToCountMapping[activeRecipientsIndices[idx]];
+                        scope.recipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].active = true;
+                        scope.recipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].count = recipientIdToCountMapping[activeRecipientsIndices[idx]];
                     }
 
                     for(var idx in scope.selectedAuthors){
