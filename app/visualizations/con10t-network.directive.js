@@ -175,7 +175,7 @@ angular.module('arachne.visualizations.directives')
                         scope.authors.push(
                             {
                                 'id': key,
-                                'label': tempAuthors[key][0]['name'],
+                                'label': tempAuthors[key][0].name,
                                 'count': tempAuthors[key][1],
                                 'active': true
                             });
@@ -527,9 +527,30 @@ angular.module('arachne.visualizations.directives')
                             scope.objectIndexById = scope.createIndex(scope.rawObjectData, 'id');
                             scope.personIndexById = scope.createIndex(scope.rawPersonData, 'id');
 
-                            scope.createPersonList();
                             scope.evaluateOverallDateRange();
+                            scope.createPersonList();
+
                             scope.evaluateState();
+
+                            scope.$watch('minDate', function(newValue, oldValue) {
+                                scope.evaluateState();
+                            });
+
+                            scope.$watch('maxDate', function(newValue, oldValue) {
+                                scope.evaluateState()
+                            });
+
+                            scope.$watch('selectedPlaceId', function(newValue, oldValue){
+                                scope.evaluateState();
+                            });
+
+                            scope.$watchCollection('selectedAuthors', function(newValue, oldValue){
+                                scope.evaluateState();
+                            });
+
+                            scope.$watchCollection('selectedRecipients', function(newValue, oldValue){
+                                scope.evaluateState();
+                            });
                         });
                 };
 
@@ -544,26 +565,6 @@ angular.module('arachne.visualizations.directives')
 
                     $location.url(path)
                 };
-
-                scope.$watch('minDate', function(newValue, oldValue) {
-                    scope.evaluateState();
-                });
-
-                scope.$watch('maxDate', function(newValue, oldValue) {
-                    scope.evaluateState()
-                });
-
-                scope.$watch('selectedPlaceId', function(newValue, oldValue){
-                    scope.evaluateState();
-                });
-
-                scope.$watchCollection('selectedAuthors', function(newValue, oldValue){
-                    scope.evaluateState();
-                });
-
-                scope.$watchCollection('selectedRecipients', function(newValue, oldValue){
-                    scope.evaluateState();
-                });
 
                 scope.selectedPlaceId = null;
                 scope.selectedAuthors = [];
