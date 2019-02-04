@@ -32,6 +32,7 @@ angular.module('arachne.visualizations.directives')
             scope: {
                 reportOnDrag: '@',  // Pass "true" if you want to evaluate minDate/maxDate while dragging, otherwise evaluation will take place at drag end
                 binnedData: '=',
+                maxBinnedValue: '=',
                 minDate: '=',
                 maxDate: '='
             },
@@ -148,7 +149,7 @@ angular.module('arachne.visualizations.directives')
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-                    y.domain(d3.extent(scope.binnedData, function(d) { return d.count; }));
+                    y.domain([0, scope.maxBinnedValue]);
 
                     scope.svg.append("g")
                         .attr("class", "x axis")

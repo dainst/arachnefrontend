@@ -81,8 +81,11 @@ angular.module('arachne.visualizations.directives')
                         } else {
                             scope.binnedData[binKey] = 1
                         }
-
                     }
+
+                    var max = Math.max.apply(null, Object.values(scope.binnedData));
+
+                    if(max > scope.maxBinnedValue - 5) scope.maxBinnedValue = max + 5;
 
                     for (var binKey in scope.binnedData) {
                         scope.timeDataBins.push({
@@ -574,6 +577,7 @@ angular.module('arachne.visualizations.directives')
                 scope.arachneIds = [];
                 scope.activeObjectCount = 0;
                 scope.objectsWithoutDate = 0;
+                scope.maxBinnedValue = Number.MIN_VALUE;
                 scope.loadData();
             }
         }
