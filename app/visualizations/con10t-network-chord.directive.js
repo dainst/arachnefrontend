@@ -16,8 +16,8 @@ angular.module('arachne.visualizations.directives')
 
                     var dimension = document.body.clientHeight;
                     if(element.length === 1){
-                        if(element[0].offsetWidth !== 0) {
-                            dimension = element[0].offsetWidth;
+                        if(element[0].clientWidth !== 0) {
+                            dimension = element[0].clientWidth / 1.5;
                         }
                     }
 
