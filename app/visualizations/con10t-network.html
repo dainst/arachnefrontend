@@ -5,30 +5,30 @@
   </button>
 
   <div class="row">
-    <div class="col-md-3">
-      <con10t-paginated-item-list item-list="authors" items-per-page="30" heading="Authors" selected="selectedAuthors"></con10t-paginated-item-list>
-    </div>
-    <div class="col-md-3">
-      <con10t-paginated-item-list item-list="recipients" items-per-page="30" heading="Recipients" selected="selectedRecipients"></con10t-paginated-item-list>
-    </div>
-    <div class="col-md-6">
-      <con10t-network-chord style="display: block" class="row" labels="chordLabels" colors="colors" matrix="matrix"
-          objects-label="{{objectNamePlural}}" selection-callback="setPersons(ids)"></con10t-network-chord>
-    </div>
-  </div>
-
-  <div class="row">
-    <con10t-time-line-chart style="display: block"
-      min-date="minDate"
-      max-date="maxDate"
-      binned-data="timeDataBins"></con10t-time-line-chart>
-  </div>
-  <div class="row">
     <con10t-network-map
             places="visiblePlaces"
             connections="visibleConnections"
             selected-place-id="selectedPlaceId"
             zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}">
     </con10t-network-map>
+  </div>
+  <div class="row">
+    <con10t-time-line-chart style="display: block"
+                            min-date="minDate"
+                            max-date="maxDate"
+                            binned-data="timeDataBins"></con10t-time-line-chart>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <con10t-paginated-item-list item-list="authors" items-per-page="50" heading="Authors" selected="selectedAuthors"></con10t-paginated-item-list>
+    </div>
+
+    <div class="col-md-2">
+      <con10t-paginated-item-list item-list="recipients" items-per-page="50" heading="Recipients" selected="selectedRecipients"></con10t-paginated-item-list>
+    </div>
+    <div class="col-md-8">
+        <con10t-network-chord style="display: block;" class="row" labels="chordLabels" colors="colors" matrix="matrix"
+                              objects-label="{{objectNamePlural}}" selection-callback="setPersons(ids)"></con10t-network-chord>
+      </div>
   </div>
 </div>
