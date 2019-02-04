@@ -27,8 +27,8 @@ angular.module('arachne.visualizations.directives')
                             scope.overallMinDate = new Date(current['timespanFrom'])
                         }
 
-                        if(new Date(current['timespanTo']) > scope.overallMaxDate) {
-                            scope.overallMaxDate = new Date(current['timespanTo'])
+                        if(new Date(current['timespanFrom']) > scope.overallMaxDate) {
+                            scope.overallMaxDate = new Date(current['timespanFrom'])
                         }
                     }
 
