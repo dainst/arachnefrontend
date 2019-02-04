@@ -17,6 +17,7 @@ angular.module('arachne.visualizations.directives')
                 scope.ipp = parseInt(scope.itemsPerPage);
                 scope.orderType = 2;
                 scope.orderGlyph = 'glyphicon-sort-by-order-alt';
+                scope.itemFilter = '';
 
                 scope.increaseOffset = function(){
                     if(scope.offset + scope.ipp < scope.displayedList.length - scope.ipp){
@@ -72,6 +73,10 @@ angular.module('arachne.visualizations.directives')
                         });
                     }
 
+                    scope.displayedList = scope.displayedList.filter(function(a){
+                        return a.label.toLowerCase().includes(scope.itemFilter.toLowerCase())
+                    });
+
                     if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
                     }
@@ -97,7 +102,6 @@ angular.module('arachne.visualizations.directives')
                     scope.updateDisplayedList();
                     scope.offset = 0;
                 }, true);
-
             }
         }
     }]);
