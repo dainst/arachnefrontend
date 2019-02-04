@@ -13,7 +13,9 @@ angular.module('arachne.visualizations.directives')
                 lng: '@',
                 zoom: '@',
                 objectNameSingular: '@',
-                objectNamePlural: '@'
+                objectNamePlural: '@',
+                senderTerm: '@',
+                receiverTerm: '@'
             },
             link: function (scope, element, attrs) {
                 scope.evaluateOverallDateRange = function(){

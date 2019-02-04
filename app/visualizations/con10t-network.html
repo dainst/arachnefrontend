@@ -20,11 +20,11 @@
   </div>
   <div class="row">
     <div class="col-md-2">
-      <con10t-paginated-item-list item-list="authors" items-per-page="50" heading="Authors" selected="selectedAuthors"></con10t-paginated-item-list>
+      <con10t-paginated-item-list item-list="authors" items-per-page="50" heading="{{senderTerm}}" selected="selectedAuthors"></con10t-paginated-item-list>
     </div>
 
     <div class="col-md-2">
-      <con10t-paginated-item-list item-list="recipients" items-per-page="50" heading="Recipients" selected="selectedRecipients"></con10t-paginated-item-list>
+      <con10t-paginated-item-list item-list="recipients" items-per-page="50" heading="{{receiverTerm}}" selected="selectedRecipients"></con10t-paginated-item-list>
     </div>
     <div class="col-md-8">
         <con10t-network-chord style="display: block;" class="row" labels="chordLabels" colors="colors" matrix="matrix"
