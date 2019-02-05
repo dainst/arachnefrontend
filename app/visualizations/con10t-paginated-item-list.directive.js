@@ -54,22 +54,22 @@ angular.module('arachne.visualizations.directives')
                     if(scope.orderType === 0) {
                         scope.orderGlyph = 'glyphicon-sort-by-alphabet';
                         scope.displayedList.sort(function (a, b) {
-                            return a.label.toLowerCase() > b.label.toLowerCase()
+                            return a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1;
                         });
                     } else if(scope.orderType === 1){
                         scope.orderGlyph = 'glyphicon-sort-by-alphabet-alt';
                         scope.displayedList.sort(function (a, b) {
-                            return a.label.toLowerCase() < b.label.toLowerCase()
+                            return a.label.toLowerCase() > b.label.toLowerCase() ? -1 : 1;
                         });
                     } else if(scope.orderType === 2){
                         scope.orderGlyph =  'glyphicon-sort-by-order-alt';
                         scope.displayedList.sort(function(a, b){
-                            return a.count < b.count;
+                            return  b.count - a.count;
                         });
                     } else {
                         scope.orderGlyph = 'glyphicon-sort-by-order';
                         scope.displayedList.sort(function (a, b) {
-                            return a.count > b.count;
+                            return a.count - b.count;
                         });
                     }
 
