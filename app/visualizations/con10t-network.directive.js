@@ -264,6 +264,14 @@ angular.module('arachne.visualizations.directives')
                         if(!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
                         if(scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
 
+                        if(scope.selectedAuthors.length > 0){
+                            if(!scope.isObjectLinkedToSelectedAuthor(scope.rawObjectData[i])) continue;
+                        }
+
+                        if(scope.selectedRecipients.length > 0){
+                            if(!scope.isObjectLinkedToSelectedRecipient(scope.rawObjectData[i])) continue;
+                        }
+
                         if(authorId in authorIdToCountMapping){
                             authorIdToCountMapping[authorId] += 1;
                         } else {
@@ -287,12 +295,25 @@ angular.module('arachne.visualizations.directives')
 
                     for(var idx in activeAuthorsIndices){
                         scope.authors[scope.authorIdToIndexMapping[activeAuthorsIndices[idx]]].active = true;
-                        scope.authors[scope.authorIdToIndexMapping[activeAuthorsIndices[idx]]].count = authorIdToCountMapping[activeAuthorsIndices[idx]];
                     }
-
                     for(var idx in activeRecipientsIndices){
                         scope.recipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].active = true;
-                        scope.recipients[scope.recipientIdToIndexMapping[activeRecipientsIndices[idx]]].count = recipientIdToCountMapping[activeRecipientsIndices[idx]];
+                    }
+
+                    for(var idx in scope.authors){
+                        if(scope.authors[idx].id in authorIdToCountMapping){
+                            scope.authors[idx].count = authorIdToCountMapping[scope.authors[idx].id];
+                        } else {
+                            scope.authors[idx].count = 0;
+                        }
+                    }
+
+                    for(var idx in scope.recipients){
+                        if(scope.recipients[idx].id in recipientIdToCountMapping) {
+                            scope.recipients[idx].count = recipientIdToCountMapping[scope.recipients[idx].id];
+                        } else {
+                            scope.recipients[idx].count = 0
+                        }
                     }
                 };
 
@@ -515,6 +536,7 @@ angular.module('arachne.visualizations.directives')
                         "#5b89e5",
                         "#3399cc",
                         "#336699",
+                        "#0f4366",
                         "#75A3D1",
                         "#668899",
                         "#255177",
