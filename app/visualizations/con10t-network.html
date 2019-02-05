@@ -1,5 +1,3 @@
-{{maxBinnedValue}}
-
 <div style="width:100%" class="container">
   <button type="button" class="btn btn-primary btn-lg btn-block" ng-disabled="arachneIds.length == 0 || arachneIds.length > 100"
           ng-click="searchArachneIds()">
@@ -7,28 +5,30 @@
   </button>
 
   <div class="row">
-    <con10t-network-map
-            places="visiblePlaces"
-            connections="visibleConnections"
-            selected-place-id="selectedPlaceId"
-            zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}">
-    </con10t-network-map>
+    <div class="col-md-2">
+      <con10t-paginated-item-list item-list="authors" items-per-page="30" heading="{{senderTerm}}" selected="selectedAuthors"></con10t-paginated-item-list>
+    </div>
+
+    <div class="col-md-2">
+      <con10t-paginated-item-list item-list="recipients" items-per-page="30" heading="{{receiverTerm}}" selected="selectedRecipients"></con10t-paginated-item-list>
+    </div>
+
+    <div class="col-md-4">
+      <con10t-network-chord style="display: block;" class="row" labels="chordLabels" colors="colors" matrix="matrix"
+                            objects-label="{{objectNamePlural}}" selection-callback="setPersons(ids)"></con10t-network-chord>
+    </div>
+    <div class="col-md-4">
+      <con10t-network-map
+              map-height="532px"
+              places="visiblePlaces"
+              connections="visibleConnections"
+              selected-place-id="selectedPlaceId"
+              zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}">
+      </con10t-network-map>
+    </div>
   </div>
   <div class="row">
     <con10t-time-line-chart style="display: block" min-date="minDate" max-date="maxDate" binned-data="timeDataBins"
                             max-binned-value="maxBinnedValue"></con10t-time-line-chart>
-  </div>
-  <div class="row">
-    <div class="col-md-2">
-      <con10t-paginated-item-list item-list="authors" items-per-page="50" heading="{{senderTerm}}" selected="selectedAuthors"></con10t-paginated-item-list>
-    </div>
-
-    <div class="col-md-2">
-      <con10t-paginated-item-list item-list="recipients" items-per-page="50" heading="{{receiverTerm}}" selected="selectedRecipients"></con10t-paginated-item-list>
-    </div>
-    <div class="col-md-8">
-        <con10t-network-chord style="display: block;" class="row" labels="chordLabels" colors="colors" matrix="matrix"
-                              objects-label="{{objectNamePlural}}" selection-callback="setPersons(ids)"></con10t-network-chord>
-      </div>
   </div>
 </div>

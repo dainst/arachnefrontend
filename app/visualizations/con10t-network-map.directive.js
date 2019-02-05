@@ -10,6 +10,7 @@ angular.module('arachne.visualizations.directives')
                 lat: '@',
                 lng: '@',
                 zoom: '@',
+                mapHeight: '@',
                 places: '=',
                 connections: '=',
                 selectedPlaceId: '='
@@ -17,6 +18,8 @@ angular.module('arachne.visualizations.directives')
             link: function (scope, element, attrs) {
 
                 var mapElement = element[0].querySelector('.map-container');
+                mapElement.setAttribute('style', 'height:' + scope.mapHeight);
+
                 scope.map = L.map( mapElement).setView([scope.lat, scope.lng], scope.zoom);
 
                 L.tileLayer(
