@@ -5,20 +5,20 @@
   </button>
 
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-lg-2 col-md-6">
       <con10t-paginated-item-list item-list="authors" items-per-page="30" heading="{{senderTerm}}" selected="selectedAuthors"></con10t-paginated-item-list>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-lg-2 col-md-6">
       <con10t-paginated-item-list item-list="recipients" items-per-page="30" heading="{{receiverTerm}}" selected="selectedRecipients"></con10t-paginated-item-list>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-lg-4 col-md-6">
         <h4>Top 100 {{senderTerm}}/{{receiverTerm}}</h4>
         <con10t-network-chord style="display: block;" class="row" labels="chordLabels" colors="colors" matrix="matrix"
                             objects-label="{{objectNamePlural}}" selection-callback="setPersons(ids)"></con10t-network-chord>
     </div>
-    <div class="col-md-4">
+    <div class="col-lg-4 col-md-6">
       <con10t-network-map
               map-height="532px"
               places="visiblePlaces"

@@ -632,9 +632,9 @@ angular.module('arachne.visualizations.directives')
                 scope.selectedRecipients = [];
                 scope.arachneIds = [];
                 scope.activeObjectCount = 0;
-                scope.objectsOverall = 0;
+                scope.objectsOverall = 1;
                 scope.objectsWithDate = 0;
-                scope.objectsWithoutDate = 0;
+                scope.objectsWithoutDate = 1;
                 scope.maxBinnedValue = Number.MIN_VALUE;
                 scope.loadData();
             }
