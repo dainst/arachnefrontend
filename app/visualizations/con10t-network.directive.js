@@ -57,7 +57,9 @@ angular.module('arachne.visualizations.directives')
                 scope.createTimeLineBins = function () {
                     scope.timeDataBins = [];
                     scope.binnedData = {};
+                    scope.objectsWithDate = 0;
                     scope.objectsWithoutDate = 0;
+                    scope.objectsOverall = 0;
 
                     for (var i = 0; i < scope.rawObjectData.length; i++) {
 
@@ -67,11 +69,13 @@ angular.module('arachne.visualizations.directives')
                         if (!scope.isObjectLinkedToSelectedPerson(currentObject)
                             || (scope.selectedAuthors.length === 0 // If nobody is selected, show graph as if all selected
                                 && scope.selectedRecipients.length === 0)) continue;
-
+                        scope.objectsOverall += 1;
                         var fromDate = new Date(currentObject['timespanFrom']);
                         if (isNaN(fromDate.getDate())) {
                             scope.objectsWithoutDate += 1;
                             continue;
+                        } else {
+                            scope.objectsWithDate += 1;
                         }
 
                         var binKey = fromDate.toISOString().substr(0, 4);
@@ -437,6 +441,23 @@ angular.module('arachne.visualizations.directives')
                     scope.evaluatePersonList();
                     scope.evaluateTopPersonConnections();
 
+                    // var canvas = document.getElementById('withOrWithoutDateCanvas');
+                    // console.log(canvas);
+                    // var ctx = canvas.getContext('2d');
+                    //
+                    // var withoutDatePixels = (scope.objectsWithoutDate / scope.objectsOverall) * canvas.width;
+                    //
+                    // var myImageData = ctx.createImageData(canvas.width, canvas.height);
+                    // console.log(myImageData);
+                    // for (var row = 0; row < canvas.height; row += 1) {
+                    //     for(var column = 0; column < canvas.width; column += 1){
+                    //         myImageData.data[(row * column) * 4]     = 255;     // red
+                    //         myImageData.data[(row * column) * 4 + 3]   = 255;
+                    //     }
+                    // }
+                    //
+                    // ctx.putImageData(myImageData, 0, 0);
+
                     if (!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
                     }
@@ -557,8 +578,6 @@ angular.module('arachne.visualizations.directives')
                         first = !first;
                     }
 
-                    console.log(scope.colors);
-
                     $q.all(dataQueries)
                         .then(function (responses) {
                             scope.rawObjectData = $filter('tsvData')(responses[0].data, objectDataColumns);
@@ -613,6 +632,8 @@ angular.module('arachne.visualizations.directives')
                 scope.selectedRecipients = [];
                 scope.arachneIds = [];
                 scope.activeObjectCount = 0;
+                scope.objectsOverall = 0;
+                scope.objectsWithDate = 0;
                 scope.objectsWithoutDate = 0;
                 scope.maxBinnedValue = Number.MIN_VALUE;
                 scope.loadData();

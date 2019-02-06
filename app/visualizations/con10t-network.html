@@ -14,7 +14,8 @@
     </div>
 
     <div class="col-md-4">
-      <con10t-network-chord style="display: block;" class="row" labels="chordLabels" colors="colors" matrix="matrix"
+        <h4>Top 100 {{senderTerm}}/{{receiverTerm}}</h4>
+        <con10t-network-chord style="display: block;" class="row" labels="chordLabels" colors="colors" matrix="matrix"
                             objects-label="{{objectNamePlural}}" selection-callback="setPersons(ids)"></con10t-network-chord>
     </div>
     <div class="col-md-4">
@@ -28,7 +29,14 @@
     </div>
   </div>
   <div class="row">
-    <con10t-time-line-chart style="display: block" min-date="minDate" max-date="maxDate" binned-data="timeDataBins"
-                            max-binned-value="maxBinnedValue"></con10t-time-line-chart>
+      <div class="col-md-11">
+          <con10t-time-line-chart style="display: block" min-date="minDate" max-date="maxDate" binned-data="timeDataBins"
+                                  max-binned-value="maxBinnedValue"></con10t-time-line-chart>
+      </div>
+      <div class="col-md-1">
+          <!--<canvas id="withOrWithoutDateCanvas" style="width=100%"></canvas><br/> -->
+          {{objectNamePlural}} without a date: {{((objectsWithoutDate / objectsOverall) * 100).toFixed(2)}}% ({{objectsWithoutDate}} of {{objectsOverall}}).
+      </div>
+
   </div>
 </div>
