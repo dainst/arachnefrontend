@@ -1,9 +1,18 @@
 <div style="width:100%" class="container">
-  <button type="button" class="btn btn-primary btn-lg btn-block" ng-disabled="arachneIds.length == 0 || arachneIds.length > 100"
+  <button type="button" class="btn btn-primary btn-sm btn-block" ng-disabled="arachneIds.length == 0 || arachneIds.length > 100"
           ng-click="searchArachneIds()">
     {{"ui_showobjects"|transl8}} ({{arachneIds.length}})
   </button>
-
+    <div class="row">
+        <div class="col-md-10">
+            <con10t-time-line-chart style="display: block" min-date="minDate" max-date="maxDate" binned-data="timeDataBins"
+                                    max-binned-value="maxBinnedValue"></con10t-time-line-chart>
+        </div>
+        <div class="col-md-2">
+            <!--<canvas id="withOrWithoutDateCanvas" style="width=100%"></canvas><br/> -->
+            {{objectNamePlural}} ohne Datum: {{((objectsWithoutDate / objectsOverall) * 100).toFixed(2)}}% ({{objectsWithoutDate}} von {{objectsOverall}}).
+        </div>
+    </div>
   <div class="row">
     <div class="col-lg-2 col-md-6">
       <con10t-paginated-item-list item-list="authors" items-per-page="30" heading="{{senderTerm}}" selected="selectedAuthors"></con10t-paginated-item-list>
@@ -27,16 +36,5 @@
               zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}">
       </con10t-network-map>
     </div>
-  </div>
-  <div class="row">
-      <div class="col-md-11">
-          <con10t-time-line-chart style="display: block" min-date="minDate" max-date="maxDate" binned-data="timeDataBins"
-                                  max-binned-value="maxBinnedValue"></con10t-time-line-chart>
-      </div>
-      <div class="col-md-1">
-          <!--<canvas id="withOrWithoutDateCanvas" style="width=100%"></canvas><br/> -->
-          {{objectNamePlural}} without a date: {{((objectsWithoutDate / objectsOverall) * 100).toFixed(2)}}% ({{objectsWithoutDate}} of {{objectsOverall}}).
-      </div>
-
   </div>
 </div>

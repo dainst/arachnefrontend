@@ -102,7 +102,7 @@ angular.module('arachne.visualizations.directives')
                             outerWidth = element[0].offsetWidth
                         }
                         if(element[0].offsetHeight !== 0){
-                            outerHeight = element[0].offsetHeight;
+                            outerHeight = element[0].offsetHeight - (element[0].offsetHeight * 0.2);
                         }
                     }
 
