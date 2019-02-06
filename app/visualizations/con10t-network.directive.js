@@ -378,7 +378,7 @@ angular.module('arachne.visualizations.directives')
                         return y[2] - x[2];
                     });
 
-                    var tempConnections = personConnectionsSorted.slice(0, 100);
+                    var tempConnections = personConnectionsSorted.slice(0, 50);
 
                     var topPersonsIds = [];
                     for (var idx in tempConnections) {
