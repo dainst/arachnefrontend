@@ -207,6 +207,8 @@ angular.module('arachne.visualizations.directives')
                 scope.evaluateVisiblePlaces = function () {
                     scope.visiblePlaces = [];
                     scope.visibleConnections = [];
+                    scope.objectsWithMailingRoute = 0;
+                    scope.objectsWithoutMailingRoute = 0;
 
                     for (var i = 0; i < scope.rawObjectData.length; i++) {
                         if (!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
@@ -227,6 +229,9 @@ angular.module('arachne.visualizations.directives')
                             if (!alreadyAdded(originPlace)) {
                                 scope.visiblePlaces.push(originPlace);
                             }
+                        } else {
+                            scope.objectsWithoutMailingRoute += 1;
+                            continue;
                         }
 
                         if (currentObject['destinationPlaceId'] !== 'null') {
@@ -237,6 +242,9 @@ angular.module('arachne.visualizations.directives')
                             if (!alreadyAdded(destinationPlace)) {
                                 scope.visiblePlaces.push(destinationPlace);
                             }
+                        } else {
+                            scope.objectsWithoutMailingRoute += 1;
+                            continue;
                         }
 
                         if (currentObject['originPlaceId'] !== 'null' && typeof originPlace !== 'undefined' &&
@@ -244,6 +252,7 @@ angular.module('arachne.visualizations.directives')
                             scope.visibleConnections.push([
                                 currentObject['originPlaceId'], currentObject['destinationPlaceId']
                             ]);
+                            scope.objectsWithMailingRoute += 1
                         }
                     }
                 };
@@ -632,9 +641,10 @@ angular.module('arachne.visualizations.directives')
                 scope.selectedRecipients = [];
                 scope.arachneIds = [];
                 scope.activeObjectCount = 0;
-                scope.objectsOverall = 1;
                 scope.objectsWithDate = 0;
                 scope.objectsWithoutDate = 1;
+                scope.objectsWithMailingRoute = 0;
+                scope.objectsWithoutMailingRoute = 1;
                 scope.maxBinnedValue = Number.MIN_VALUE;
                 scope.loadData();
             }

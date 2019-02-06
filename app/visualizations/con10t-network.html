@@ -1,40 +1,55 @@
 <div style="width:100%" class="container">
-  <button type="button" class="btn btn-primary btn-sm btn-block" ng-disabled="arachneIds.length == 0 || arachneIds.length > 100"
-          ng-click="searchArachneIds()">
-    {{"ui_showobjects"|transl8}} ({{arachneIds.length}})
-  </button>
+
+
+    <div class="row">
+        <div class="col-lg-2 col-md-6">
+            <con10t-paginated-item-list item-list="authors" items-per-page="30" heading="{{senderTerm}}"
+                                        selected="selectedAuthors"></con10t-paginated-item-list>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+            <con10t-paginated-item-list item-list="recipients" items-per-page="30" heading="{{receiverTerm}}"
+                                        selected="selectedRecipients"></con10t-paginated-item-list>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <h4>Top {{senderTerm}}/{{receiverTerm}}</h4>
+            <con10t-network-chord style="display: block;" class="row" labels="chordLabels" colors="colors"
+                                  matrix="matrix"
+                                  objects-label="{{objectNamePlural}}"
+                                  selection-callback="setPersons(ids)"></con10t-network-chord>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <con10t-network-map
+                    map-height="532px"
+                    places="visiblePlaces"
+                    connections="visibleConnections"
+                    selected-place-id="selectedPlaceId"
+                    zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}">
+            </con10t-network-map>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-10">
-            <con10t-time-line-chart style="display: block" min-date="minDate" max-date="maxDate" binned-data="timeDataBins"
+            <con10t-time-line-chart style="display: block" min-date="minDate" max-date="maxDate"
+                                    binned-data="timeDataBins"
                                     max-binned-value="maxBinnedValue"></con10t-time-line-chart>
         </div>
         <div class="col-md-2">
             <!--<canvas id="withOrWithoutDateCanvas" style="width=100%"></canvas><br/> -->
-            {{objectNamePlural}} ohne Datum: {{((objectsWithoutDate / objectsOverall) * 100).toFixed(2)}}% ({{objectsWithoutDate}} von {{objectsOverall}}).
+            <p>
+                {{objectNamePlural}} ohne Datum: {{((objectsWithoutDate / (objectsWithoutDate + objectsWithDate)) *
+                100).toFixed(2)}}% ({{objectsWithoutDate}} von {{objectsWithoutDate + objectsWithDate}}).<br/>
+                {{objectNamePlural}} ohne bekannten Postweg: {{((objectsWithoutMailingRoute /
+                (objectsWithoutMailingRoute + objectsWithMailingRoute)) * 100).toFixed(2)}}%
+                ({{objectsWithoutMailingRoute}} von {{objectsWithoutMailingRoute + objectsWithMailingRoute}}).
+            </p>
+            <button type="button" class="btn btn-primary btn-sm btn-block"
+                    ng-disabled="arachneIds.length == 0 || arachneIds.length > 100"
+                    ng-click="searchArachneIds()">
+                {{"ui_showobjects"|transl8}} ({{arachneIds.length}})
+            </button>
         </div>
-    </div>
-  <div class="row">
-    <div class="col-lg-2 col-md-6">
-      <con10t-paginated-item-list item-list="authors" items-per-page="30" heading="{{senderTerm}}" selected="selectedAuthors"></con10t-paginated-item-list>
-    </div>
 
-    <div class="col-lg-2 col-md-6">
-      <con10t-paginated-item-list item-list="recipients" items-per-page="30" heading="{{receiverTerm}}" selected="selectedRecipients"></con10t-paginated-item-list>
     </div>
-
-    <div class="col-lg-4 col-md-6">
-        <h4>Top {{senderTerm}}/{{receiverTerm}}</h4>
-        <con10t-network-chord style="display: block;" class="row" labels="chordLabels" colors="colors" matrix="matrix"
-                            objects-label="{{objectNamePlural}}" selection-callback="setPersons(ids)"></con10t-network-chord>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <con10t-network-map
-              map-height="532px"
-              places="visiblePlaces"
-              connections="visibleConnections"
-              selected-place-id="selectedPlaceId"
-              zoom="{{zoom}}" lat="{{lat}}" lng="{{lng}}">
-      </con10t-network-map>
-    </div>
-  </div>
 </div>
