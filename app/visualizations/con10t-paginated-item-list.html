@@ -28,8 +28,10 @@
         <div style="text-overflow: ellipsis;white-space: nowrap;" class="clickable" ng-click="toggleItem(item.id)">
             <span class="glyphicon {{(selected.indexOf(item.id) >= 0) ? 'glyphicon-check' : 'glyphicon glyphicon-unchecked'}}"
                   style="color: {{(selected.indexOf(item.id) >= 0) ? 'green' : 'red'}}"></span>
-            <span ng-if="item.active === false"><s style="background-color: #d4d4d4">({{item.count}}) {{item.label}}</s></span>
-            <span ng-if="item.active === true">({{item.count}}) {{item.label}}</span>
+            <span ng-if="(orderType === 2 || orderType === 3)">({{item.count}})</span>
+            <span ng-if="item.active === false"><s style="background-color: #d4d4d4"> {{item.label}}</s></span>
+            <span ng-if="item.active === true">{{item.label}}
+            </span>
         </div>
     </div>
 </div>
