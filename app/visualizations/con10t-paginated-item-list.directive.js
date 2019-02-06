@@ -77,6 +77,10 @@ angular.module('arachne.visualizations.directives')
                         return a.label.toLowerCase().includes(scope.itemFilter.toLowerCase())
                     });
 
+                    if(scope.offset > scope.displayedList.length){
+                        scope.offset = (scope.displayedList.length - scope.ipp < 0) ? 0 : scope.displayedList.length - scope.ipp;
+                    }
+
                     if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
                     }
@@ -100,7 +104,6 @@ angular.module('arachne.visualizations.directives')
 
                 scope.$watch('itemList', function(newValue, oldValue){
                     scope.updateDisplayedList();
-                    scope.offset = 0;
                 }, true);
             }
         }
