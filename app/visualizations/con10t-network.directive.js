@@ -530,10 +530,6 @@ angular.module('arachne.visualizations.directives')
                         && scope.selectedPlaceId === objectData['destinationPlaceId']) {
                         isIgnored = false;
                     }
-                    if (objectData['originPlaceId'] === 'null'
-                        || objectData['destinationPlaceId'] === 'null') {
-                        isIgnored = false;
-                    }
 
                     return isIgnored;
                 };
