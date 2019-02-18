@@ -10,7 +10,7 @@ var concat = require('gulp-concat');
 var sort = require('gulp-sort');
 var addSrc = require('gulp-add-src');
 var minifyCss = require('gulp-minify-css');
-var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglify-es').default;
 var ngHtml2Js = require("gulp-ng-html2js");
 var minifyHtml = require("gulp-minify-html");
 var argv = require('yargs').argv;
@@ -18,6 +18,7 @@ var replace = require('gulp-replace');
 var rename = require('gulp-rename');
 var fs = require('fs');
 var git = require('gulp-git');
+var sourcemaps = require('gulp-sourcemaps');
 
 var pkg = require('./package.json');
 
@@ -91,9 +92,11 @@ gulp.task('minify-css', ['compile-css'], function() {
 // concatenates all js files in src into a single file in build dir
 gulp.task('concat-js', function() {
 	return gulp.src(['app/**/*.js', '!app/app.js'])
+        .pipe(sourcemaps.init())
 		.pipe(sort())
 		.pipe(addSrc.append('app/app.js'))
 		.pipe(concat(pkg.name + '.js'))
+        .pipe(sourcemaps.write())
 		.pipe(gulp.dest('dist/'));
 });
 
@@ -103,9 +106,11 @@ gulp.task('concat-deps', function () {
     var gutil = require('gulp-util');
 
     return gulp.src(jsDeps)
+        .pipe(sourcemaps.init())
         .pipe(concat(pkg.name + '-deps.js'))
         .pipe(uglify())
         .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist/'));
 });
 
@@ -290,7 +295,7 @@ gulp.task('server', function () {
             middleware: [
                 proxy(proxyOptions),
                 // rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
-                modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.csv|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
+                modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.ply|\\.nxz|\\.gif|\\.json|\\.csv|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
             ]
         },
         port: 8082,
