@@ -28,8 +28,11 @@ angular.module('arachne.directives')
                 scope.imageClick = function (entity, currentImgNo, currentQuery) {
                     if (entity.externalLinks){
                         if (teiViewerSearch(entity) != false) return teiViewerSearch(entity);
+                    } else {
+                        var url = "entity/" + entity.entityId + "/image/" + entity.images[currentImgNo].imageId;
+                        if (currentQuery) url += currentQuery.toString();
+                        return url;
                     }
-                    else return "entity/" + entity.entityId + "/image/" + entity.images[currentImgNo].imageId + currentQuery.toString();
                 }
 
                 //returns the id to show the correct cursor depending on book or other objects
