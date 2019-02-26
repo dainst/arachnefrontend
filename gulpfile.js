@@ -11,7 +11,7 @@ var sort = require('gulp-sort');
 var addSrc = require('gulp-add-src');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
-var ngHtml2Js = require("gulp-ng-html2js");
+var templateCache = require('gulp-angular-templatecache');
 var minifyHtml = require("gulp-minify-html");
 var argv = require('yargs').argv;
 var replace = require('gulp-replace');
@@ -27,7 +27,6 @@ var cssDeps = [
     'node_modules/leaflet.markercluster/dist/MarkerCluster.css',
     'node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css',
     'node_modules/drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css',
-    'node_modules/angular-ui-swiper/dist/angular-ui-swiper.css',
     'node_modules/leaflet-fullscreen/dist/leaflet.fullscreen.css'
 ];
 
@@ -109,16 +108,22 @@ gulp.task('concat-deps', function () {
 gulp.task('html2js-partials', function () {
     return gulp.src('partials/**/*.html')
         .pipe(minifyHtml())
-        .pipe(ngHtml2Js({moduleName: 'arachne.partials-templates', prefix: 'partials/'}))
-        .pipe(concat(pkg.name + '-partials-tpls.js'))
+        .pipe(templateCache(pkg.name + '-partials-tpls.js', {
+			standalone: true,
+			module: 'arachne.partials-templates',
+            root: 'partials'
+		}))
         .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('html2js-js', function () {
     return gulp.src('app/**/*.html')
         .pipe(minifyHtml())
-        .pipe(ngHtml2Js({moduleName: 'arachne.js-templates', prefix: 'app/'}))
-        .pipe(concat(pkg.name + '-js-tpls.js'))
+        .pipe(templateCache(pkg.name + '-js-tpls.js', {
+			standalone: true,
+			module: 'arachne.js-templates',
+            root: 'app'
+		}))
         .pipe(gulp.dest('dist/'));
 });
 
