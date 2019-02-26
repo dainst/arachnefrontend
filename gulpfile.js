@@ -55,14 +55,11 @@ var jsDeps = [
     'node_modules/3dviewer/dist/3dviewer.js',
     'lib/relative-paths-in-partial.js',
     'node_modules/d3/dist/d3.min.js',
-    'node_modules/angular-ui-swiper/dist/angular-ui-swiper.min.js',
     'node_modules/angular-md5/angular-md5.js',
     'node_modules/svg-pan-zoom/dist/svg-pan-zoom.js',
     'node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.min.js',
     'node_modules/idai-cookie-notice/idai-cookie-notice.js',
-    'node_modules/vega/build/vega.js',
-    'lib/leaflet-polylineoffset/leaflet.polylineoffset.js',
-    'lib/vega-as-leaflet-layer/bundle.js'
+    'lib/leaflet-polylineoffset/leaflet.polylineoffset.js'
 ];
 
 // compile sass and concatenate to single css file in build dir
@@ -81,12 +78,12 @@ gulp.task('compile-css', function () {
 });
 
 // minify css files in build dir
-gulp.task('minify-css', ['compile-css'], function() {
+gulp.task('minify-css', gulp.series('compile-css', function() {
 	return gulp.src('dist/css/' + pkg.name + '.css')
 		.pipe(minifyCss())
   		.pipe(concat(pkg.name + '.min.css'))
 		.pipe(gulp.dest('dist/css'));
-});
+}));
 
 // concatenates all js files in src into a single file in build dir
 gulp.task('concat-js', function() {
@@ -109,23 +106,6 @@ gulp.task('concat-deps', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-// minifies and concatenates js files in build dir
-gulp.task('minify-js', ['concat-js', 'html2js-js', 'html2js-partials'], function () {
-
-	var gutil = require('gulp-util');
-
-    return gulp.src(['dist/' + pkg.name + '.js',
-        'dist/' + pkg.name + '-partials-tpls.js',
-        'dist/' + pkg.name + '-js-tpls.js'
-        ])
-        .pipe(concat(pkg.name + '.js'))
-        .pipe(gulp.dest('dist/'))
-        .pipe(uglify())
-        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
-        .pipe(concat(pkg.name + '.min.js'))
-        .pipe(gulp.dest('dist/'));
-});
-
 gulp.task('html2js-partials', function () {
     return gulp.src('partials/**/*.html')
         .pipe(minifyHtml())
@@ -142,6 +122,22 @@ gulp.task('html2js-js', function () {
         .pipe(gulp.dest('dist/'));
 });
 
+// minifies and concatenates js files in build dir
+gulp.task('minify-js', gulp.series('concat-js', 'html2js-js', 'html2js-partials', function () {
+
+	var gutil = require('gulp-util');
+
+    return gulp.src(['dist/' + pkg.name + '.js',
+        'dist/' + pkg.name + '-partials-tpls.js',
+        'dist/' + pkg.name + '-js-tpls.js'
+        ])
+        .pipe(concat(pkg.name + '.js'))
+        .pipe(gulp.dest('dist/'))
+        .pipe(uglify())
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(concat(pkg.name + '.min.js'))
+        .pipe(gulp.dest('dist/'));
+}));
 
 gulp.task('copy-fonts', function () {
     var bsFontPath = 'node_modules/bootstrap-sass/assets/fonts/';
@@ -191,44 +187,6 @@ gulp.task('copy-con10t', function () {
         .pipe(gulp.dest('dist/con10t'));
 });
 
-gulp.task('build', [
-    'copy-con10t',
-    'copy-devconfigtemplate',
-    'copy-configfiles',
-    'minify-css',
-    'concat-deps',
-    'minify-js',
-    'copy-fonts',
-    'copy-imgs',
-    'copy-marker-imgs',
-    'copy-leaflet-fullscreen-icon',
-    'copy-index',
-    'copy-info'
-]);
-
-gulp.task('clone-con10t', function (callback) {
-
-    fs.access('./con10t', fs.F_OK, function (err) {
-
-        // Only clone con10t if con10t-files aren't already in place
-        if (err) {
-            git.clone('https://github.com/dainst/con10t.git', function (err) {
-                if (err) {
-                    return callback(err);
-                }
-            });
-        } else {
-            console.log('Will not clone con10t because the con10t-folder already exists.');
-        }
-        callback();
-    });
-});
-
-gulp.task('copy-configfiles', function() {
-    return gulp.src('config/**/*', { base: 'config' })
-        .pipe(gulp.dest('dist/config'));
-});
-
 gulp.task('copy-devconfigtemplate', function (callback) {
 
     return new Promise(function (resolve, reject) {
@@ -270,11 +228,49 @@ gulp.task('copy-devconfigtemplate', function (callback) {
     });
 });
 
-gulp.task('watch-css', ['minify-css'], function(done) { reload(); done(); });
-gulp.task('watch-js', ['minify-js'], function(done) { reload(); done(); });
-gulp.task('watch-index', ['copy-index'], function(done) { reload(); done(); });
-gulp.task('watch-con10t', ['copy-con10t'], function(done) { reload(); done(); });
-gulp.task('watch-info', ['copy-info'], function(done) { reload(); done(); });
+gulp.task('copy-configfiles', function() {
+    return gulp.src('config/**/*', { base: 'config' })
+        .pipe(gulp.dest('dist/config'));
+});
+
+gulp.task('build', gulp.series(
+    'copy-con10t',
+    'copy-devconfigtemplate',
+    'copy-configfiles',
+    'minify-css',
+    'concat-deps',
+    'minify-js',
+    'copy-fonts',
+    'copy-imgs',
+    'copy-marker-imgs',
+    'copy-leaflet-fullscreen-icon',
+    'copy-index',
+    'copy-info'
+));
+
+gulp.task('clone-con10t', function (callback) {
+
+    fs.access('./con10t', fs.F_OK, function (err) {
+
+        // Only clone con10t if con10t-files aren't already in place
+        if (err) {
+            git.clone('https://github.com/dainst/con10t.git', function (err) {
+                if (err) {
+                    return callback(err);
+                }
+            });
+        } else {
+            console.log('Will not clone con10t because the con10t-folder already exists.');
+        }
+        callback();
+    });
+});
+
+gulp.task('watch-css', gulp.series('minify-css', function(done) { reload(); done(); }));
+gulp.task('watch-js', gulp.series('minify-js', function(done) { reload(); done(); }));
+gulp.task('watch-index', gulp.series('copy-index', function(done) { reload(); done(); }));
+gulp.task('watch-con10t', gulp.series('copy-con10t', function(done) { reload(); done(); }));
+gulp.task('watch-info', gulp.series('copy-info', function(done) { reload(); done(); }));
 
 // runs the development server and sets up browser reloading
 gulp.task('server', function () {
@@ -297,11 +293,11 @@ gulp.task('server', function () {
         notify: false
     });
 
-	gulp.watch('scss/**/*.scss', ['watch-css']);
-	gulp.watch('app/**/*.js', ['watch-js']);
-    gulp.watch('app/**/*.html', ['watch-js']);
-    gulp.watch('index.html', ['watch-index']);
-    gulp.watch('con10t/**/*', ['watch-con10t']);
-    gulp.watch('info/**/*', ['watch-info']);
+	gulp.watch('scss/**/*.scss', gulp.series('watch-css'));
+	gulp.watch('app/**/*.js', gulp.series('watch-js'));
+    gulp.watch('app/**/*.html', gulp.series('watch-js'));
+    gulp.watch('index.html', gulp.series('watch-index'));
+    gulp.watch('con10t/**/*', gulp.series('watch-con10t'));
+    gulp.watch('info/**/*', gulp.series('watch-info'));
 
 });
