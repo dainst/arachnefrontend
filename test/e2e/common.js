@@ -125,7 +125,7 @@ var Common = function() {
 
     this.getAuthData = getAuthData;
 
-    this.deleteTestUserInDB = function() {
+    function deleteTestUserInDB() {
         var hashedPassword = hasha(new Buffer(testUserPassword), { algorithm: 'md5' });
 
         return new Promise(function(resolve, reject) {
@@ -139,7 +139,9 @@ var Common = function() {
                 .then(resolve)
                 .catch(resolve); // if the user was not present we don't have to fail
         });
-    };
+    }
+
+    this.deleteTestUserInDB = deleteTestUserInDB;
 
     this.createTestCatalog = function() {
 
@@ -164,8 +166,8 @@ var Common = function() {
          * otherwise the e2e_test_user could bot see, or we had to login
          */
 
-        return this.deleteTestUserInDB()
-            .then(this.createTestUserInDB)
+        return deleteTestUserInDB()
+            .then(createTestUserInDB)
             .then(promisedRequest("insert Test Catalog", "post", dataToSend))
             .then(promisedRequest("update catalog to make it public", "put", dataToSend))
             .then(function(catalog){return catalog.id})
