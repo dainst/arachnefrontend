@@ -53,7 +53,7 @@
     "cors": "~2.8.4",
     "del": "~3.0.0",
     "gulp": "~4.0.0",
-    "gulp-add-src": "~0.2.0",
+    "gulp-add-src": "~1.0.0",
     "gulp-concat": "~2.6.1",
     "gulp-git": "~2.4.2",
     "gulp-minify-css": "~1.2.4",
