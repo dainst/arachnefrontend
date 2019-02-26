@@ -74,6 +74,7 @@
     "protractor": "~5.4.0",
     "protractor-console-plugin": "~0.1.1",
     "proxy-middleware": "~0.15.0",
+    "puppeteer": "^1.12.2",
     "rimraf": "~2.6.2",
     "url": "~0.11.0",
     "webdriver-manager": "~12.1.0",
