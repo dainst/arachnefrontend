@@ -12,10 +12,10 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
 
-    browsers : ['PhantomJS'],
+    browsers : ['Chrome'],
 
     plugins : [
-      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
       'karma-jasmine',
       'karma-ng-html2js-preprocessor'
     ],
@@ -69,7 +69,7 @@ module.exports = function(config) {
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true,
-	
+
 	ngHtml2JsPreprocessor: {
 	    stripPrefix: 'app/',
 		moduleName: 'templates'
