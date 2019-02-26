@@ -164,8 +164,8 @@ var Common = function() {
          * otherwise the e2e_test_user could bot see, or we had to login
          */
 
-        return deleteTestUserInDB()
-            .then(createTestUserInDB)
+        return this.deleteTestUserInDB()
+            .then(this.createTestUserInDB)
             .then(promisedRequest("insert Test Catalog", "post", dataToSend))
             .then(promisedRequest("update catalog to make it public", "put", dataToSend))
             .then(function(catalog){return catalog.id})
