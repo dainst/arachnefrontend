@@ -164,7 +164,8 @@ var Common = function() {
          * otherwise the e2e_test_user could bot see, or we had to login
          */
 
-        return createTestUserInDB()
+        return deleteTestUserInDB()
+            .then(createTestUserInDB)
             .then(promisedRequest("insert Test Catalog", "post", dataToSend))
             .then(promisedRequest("update catalog to make it public", "put", dataToSend))
             .then(function(catalog){return catalog.id})
@@ -208,4 +209,3 @@ var Common = function() {
 };
 
 module.exports = new Common();
-
