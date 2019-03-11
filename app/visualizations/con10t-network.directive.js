@@ -557,31 +557,20 @@ angular.module('arachne.visualizations.directives')
                     dataQueries.push($http.get(scope.placeDataPath));
                     dataQueries.push($http.get(scope.personDataPath));
 
-                    var temp = [
-                        "#88b5e3", "#87b4e2", "#85b2e0", "#84b0de", "#83afdd", "#82addb", "#81abda", "#80aad8",
-                        "#7ea8d6", "#7da6d5", "#7ca5d3", "#7ba3d1", "#7aa1d0", "#79a0ce", "#779ecc", "#769ccb",
-                        "#759bc9", "#7499c8", "#7397c6", "#7196c4", "#7094c3", "#6f92c1", "#6e91bf", "#6d8fbe",
-                        "#6c8dbc", "#6a8cbb", "#698ab9", "#6888b7", "#6787b6", "#6685b4", "#6483b2", "#6382b1",
-                        "#6280af", "#617ead", "#607dac", "#5f7baa", "#5d79a9", "#5c78a7", "#5b76a5", "#5a74a4",
-                        "#5973a2", "#5871a0", "#566f9f", "#556e9d", "#546c9b", "#536a9a", "#526998", "#506797",
-                        "#4f6595", "#4e6493", "#4d6292", "#4c6190", "#4b5f8e", "#495d8d", "#485c8b", "#475a8a",
-                        "#465888", "#455786", "#435585", "#425383", "#415281", "#405080", "#3f4e7e", "#3e4d7c",
-                        "#3c4b7b", "#3b4979", "#3a4878", "#394676", "#384474", "#374373", "#354171", "#343f6f",
-                        "#333e6e", "#323c6c", "#313a6a", "#2f3969", "#2e3767", "#2d3566", "#2c3464", "#2b3262",
-                        "#2a3061", "#282f5f", "#272d5d", "#262b5c", "#252a5a", "#242859", "#222657", "#212555",
-                        "#202354", "#1f2152", "#1e2050", "#1d1e4f", "#1b1c4d", "#1a1b4b", "#19194a", "#181748",
-                        "#171647", "#161445", "#141243", "#131142"];
+                    scope.colors = [
+                        "#89b7e5",
+                        "#201a71",
+                        "#5b89e5",
+                        "#3399cc",
+                        "#336699",
+                        "#0f4366",
+                        "#75A3D1",
+                        "#668899",
+                        "#255177",
+                        "#0066cc"
+                    ];
 
-                    scope.colors = [];
-                    var first = true;
-                    while(temp.length > 0){
-                        if(first){
-                            scope.colors = scope.colors.concat(temp.splice(0));
-                        } else {
-                            scope.colors = scope.colors.concat(temp.splice(-1));
-                        }
-                        first = !first;
-                    }
+                    console.dir(scope.colors);
 
                     $q.all(dataQueries)
                         .then(function (responses) {
