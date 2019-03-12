@@ -8,6 +8,8 @@ angular.module('arachne.visualizations.directives')
             scope: {
                 placeDataPath: '@',
                 objectDataPath: '@',
+                objectGroupTerm: '@',
+                objectGroupsPath: '@',
                 personDataPath: '@',
                 lat: '@',
                 lng: '@',
@@ -43,6 +45,7 @@ angular.module('arachne.visualizations.directives')
                     scope.activeObjectCount = 0;
 
                     for (var i = 0; i < scope.rawObjectData.length; i++) {
+                        if(!scope.isObjectInActiveGroup(scope.rawObjectData[i])) continue;
                         if (!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
                         if (scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
                         if (!scope.isObjectLinkedToSelectedPerson(scope.rawObjectData[i])) continue;
@@ -65,6 +68,8 @@ angular.module('arachne.visualizations.directives')
 
                         var currentObject = scope.rawObjectData[i];
 
+
+                        if(!scope.isObjectInActiveGroup(scope.rawObjectData[i])) continue;
                         if (scope.isObjectIgnoredDueToSelectedPlace(currentObject)) continue;
                         if (!scope.isObjectLinkedToSelectedPerson(currentObject)
                             || (scope.selectedAuthors.length === 0 // If nobody is selected, show graph as if all selected
@@ -211,6 +216,8 @@ angular.module('arachne.visualizations.directives')
                     scope.objectsWithoutMailingRoute = 0;
 
                     for (var i = 0; i < scope.rawObjectData.length; i++) {
+
+                        if(!scope.isObjectInActiveGroup(scope.rawObjectData[i])) continue;
                         if (!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
                         if (!scope.isObjectLinkedToSelectedPerson(scope.rawObjectData[i])) continue;
 
@@ -274,6 +281,7 @@ angular.module('arachne.visualizations.directives')
                         scope.recipients[scope.recipientIdToIndexMapping[recipientId]].active = false;
                         scope.recipients[scope.recipientIdToIndexMapping[recipientId]].count = 0;
 
+                        if(!scope.isObjectInActiveGroup(scope.rawObjectData[i])) continue;
                         if (!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
                         if (scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
 
@@ -359,6 +367,8 @@ angular.module('arachne.visualizations.directives')
 
                     var personConnections = {};
                     for (var i = 0; i < scope.rawObjectData.length; i++) {
+
+                        if(!scope.isObjectInActiveGroup(scope.rawObjectData[i])) continue;
                         if (!scope.isObjectWithinSelectedTimeSpan(scope.rawObjectData[i])) continue;
                         if (scope.isObjectIgnoredDueToSelectedPlace(scope.rawObjectData[i])) continue;
                         if (!scope.isObjectLinkedToSelectedPerson(scope.rawObjectData[i])) continue;
@@ -485,6 +495,10 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
+                scope.isObjectInActiveGroup = function(objectData) {
+                    return scope.objectGroups[scope.objectGroupIndexById[objectData['groupId']]].active
+                };
+
                 scope.isObjectWithinSelectedTimeSpan = function (objectData) {
 
                     var dateValue = objectData['timespanFrom'];
@@ -548,14 +562,18 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.loadData = function () {
-                    var objectDataColumns = ['id', 'arachneId', 'timespanFrom', 'timespanTo', 'originPlaceId',
+                    var objectDataColumns = ['id', 'groupId', 'arachneId', 'timespanFrom', 'timespanTo', 'originPlaceId',
                         'destinationPlaceId', 'authorId', 'recipientId'];
+                    var objectGroupsDataColumns = ['id', 'label'];
                     var placesDataColumns = ['id', 'lat', 'lng', 'name', 'authId', 'authSource'];
                     var personDataColumns = ['id', 'authId', 'authSource', 'name'];
+
+
                     var dataQueries = [];
                     dataQueries.push($http.get(scope.objectDataPath));
                     dataQueries.push($http.get(scope.placeDataPath));
                     dataQueries.push($http.get(scope.personDataPath));
+                    dataQueries.push($http.get(scope.objectGroupsPath));
 
                     scope.colors = [
                         "#89b7e5",
@@ -570,16 +588,21 @@ angular.module('arachne.visualizations.directives')
                         "#0066cc"
                     ];
 
-                    console.dir(scope.colors);
-
                     $q.all(dataQueries)
                         .then(function (responses) {
                             scope.rawObjectData = $filter('tsvData')(responses[0].data, objectDataColumns);
                             scope.rawPlaceData = $filter('tsvData')(responses[1].data, placesDataColumns);
                             scope.rawPersonData = $filter('tsvData')(responses[2].data, personDataColumns);
+                            scope.objectGroups = $filter('tsvData')(responses[3].data, objectGroupsDataColumns);
 
+                            for(var i in scope.objectGroups){
+                                scope.objectGroups[i]['active'] = true;
+                            }
+
+                            // Index objects for faster lookup
                             scope.placeIndexById = scope.createIndex(scope.rawPlaceData, 'id');
                             scope.objectIndexById = scope.createIndex(scope.rawObjectData, 'id');
+                            scope.objectGroupIndexById = scope.createIndex(scope.objectGroups, 'id');
                             scope.personIndexById = scope.createIndex(scope.rawPersonData, 'id');
 
                             scope.evaluateOverallDateRange();
@@ -619,6 +642,11 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     $location.url(path)
+                };
+
+                scope.toggleObjectGroup = function(id) {
+                    scope.objectGroups[scope.objectGroupIndexById[id]].active = !scope.objectGroups[scope.objectGroupIndexById[id]].active;
+                    scope.evaluateState();
                 };
 
                 scope.selectedPlaceId = null;

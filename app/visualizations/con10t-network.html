@@ -36,7 +36,16 @@
                                     max-binned-value="maxBinnedValue"></con10t-time-line-chart>
         </div>
         <div class="col-md-2">
-            <!--<canvas id="withOrWithoutDateCanvas" style="width=100%"></canvas><br/> -->
+            <p>
+                <h4>{{objectGroupTerm}}:</h4>
+                <span ng-repeat="group in objectGroups">
+                    <button type="button"
+                            class="{{'btn btn-sm ' + (group.active ? 'btn-success' : 'btn-danger')}}"
+                            ng-click="toggleObjectGroup(group.id)">
+                        {{group.label}}
+                    </button>
+                </span>
+            </p>
             <p>
                 {{objectNamePlural}} ohne Datum: {{((objectsWithoutDate / (objectsWithoutDate + objectsWithDate)) *
                 100).toFixed(2)}}% ({{objectsWithoutDate}} von {{objectsWithoutDate + objectsWithDate}}).<br/>
