@@ -94,7 +94,7 @@ angular.module('arachne.visualizations.directives')
 
                     var max = Math.max.apply(null, Object.values(scope.binnedData));
 
-                    if (max > scope.maxBinnedValue - 5) scope.maxBinnedValue = max + 5;
+                    if (max > scope.maxBinnedValue) scope.maxBinnedValue = max;
 
                     for (var binKey in scope.binnedData) {
                         scope.timeDataBins.push({

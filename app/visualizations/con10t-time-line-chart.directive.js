@@ -32,7 +32,7 @@ angular.module('arachne.visualizations.directives')
             scope: {
                 reportOnDrag: '@',  // Pass "true" if you want to evaluate minDate/maxDate while dragging, otherwise evaluation will take place at drag end
                 binnedData: '=',
-                maxBinnedValue: '=',
+                noZoomMaxValue: '=',
                 minDate: '=',
                 maxDate: '='
             },
@@ -40,6 +40,7 @@ angular.module('arachne.visualizations.directives')
 
                 scope.evaluateOverallTimespan = function(){
 
+                    scope.zoomMaxValue = 0;
                     scope.overallMaxDate = new Date(-8640000000000000);
                     scope.overallMinDate = new Date(8640000000000000);
 
@@ -51,6 +52,10 @@ angular.module('arachne.visualizations.directives')
 
                         if(scope.binnedData[i].date < scope.overallMinDate){
                             scope.overallMinDate = new Date(scope.binnedData[i].date);
+                        }
+
+                        if(scope.binnedData[i].count > scope.zoomMaxValue){
+                            scope.zoomMaxValue = scope.binnedData[i].count;
                         }
                     }
 
@@ -149,7 +154,11 @@ angular.module('arachne.visualizations.directives')
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-                    y.domain([0, scope.maxBinnedValue]);
+                    if(scope.zoomed){
+                        y.domain([0, scope.zoomMaxValue + 5])
+                    } else {
+                        y.domain([0, scope.noZoomMaxValue  + 5]);
+                    }
 
                     scope.svg.append("g")
                         .attr("class", "x axis")
@@ -364,6 +373,7 @@ angular.module('arachne.visualizations.directives')
                         return;
                     }
 
+                    scope.zoomed = false;
                     scope.evaluateOverallTimespan();
                     scope.generateDetailedTimeSpan();
                     scope.initializeD3();
@@ -382,8 +392,15 @@ angular.module('arachne.visualizations.directives')
                     return scope.xDetailed(date)
                 };
 
+                scope.toggleZoom = function(){
+                    scope.zoomed = !scope.zoomed;
+                    scope.initializeD3();
+                    scope.drawSelection(scope.dragStartPosition, scope.dragEndPosition);
+                };
+
                 scope.dragStartDate = null;
                 scope.dragEndDate = null;
+                scope.zoomed = false;
 
                 scope.$watch('binnedData', function(newValue, oldValue) {
                     if(typeof newValue === 'undefined'){

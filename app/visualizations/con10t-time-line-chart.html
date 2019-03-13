@@ -39,5 +39,8 @@
     <span id="date-range-display-linechart">{{minDate.toISOString().substring(0, 10)}} to {{maxDate.toISOString().substring(0, 10)}}</span>
 
     <span class="btn btn-default btn-xs" ng-click="reset()"> {{'ui_reset'|transl8}}</span>
+    <span class="clickable glyphicon {{zoomed ? 'glyphicon-zoom-out' : 'glyphicon glyphicon-zoom-in'}}"
+          ng-click="toggleZoom()">
+    </span>
   </div>
 </div>
