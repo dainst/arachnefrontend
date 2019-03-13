@@ -20,10 +20,12 @@ angular.module('arachne.visualizations.directives')
                 var mapElement = element[0].querySelector('.map-container');
                 mapElement.setAttribute('style', 'height:' + scope.mapHeight);
 
-                scope.map = L.map( mapElement).setView([scope.lat, scope.lng], scope.zoom);
+                scope.map = L.map( mapElement, {center: [scope.lat, scope.lng], zoom:  scope.zoom,
+                    zoomAnimation: false});
 
                 L.tileLayer(
-                    'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b47a3cf895b94aedad41e5cfb5222b87', { })
+                    'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=b47a3cf895b94aedad41e5cfb5222b87',
+                    { attribution: 'Maps &copy; Thunderforest, Data &copy; OpenStreetMap contributors' })
                     .addTo(scope.map);
 
                 scope.placeLayer = new L.LayerGroup().addTo(scope.map);
