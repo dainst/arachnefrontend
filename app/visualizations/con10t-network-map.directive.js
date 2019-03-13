@@ -154,9 +154,7 @@ angular.module('arachne.visualizations.directives')
                                 scope.setSelectedPlaceId(event.sourceTarget.options.id);
                             });
 
-                        if(
-                            place['id'] === scope.selectedPlaceId
-                            && scope.selectedPlaceId !== scope.previouslySelectedPlaceId) {
+                        if(place['id'] === scope.selectedPlaceId) {
                             scope.currentPopup = new L.Popup({ closeOnClick: false, minWidth : 250 })
                                 .setLatLng([place['lat'], place['lng']]);
                         }
@@ -286,6 +284,14 @@ angular.module('arachne.visualizations.directives')
                 scope.setSelectedPlaceId = function(id) {
                     scope.previouslySelectedPlaceId = scope.selectedPlaceId;
                     scope.selectedPlaceId = id;
+
+                    // Reclicking a selected place should re-open the popup. Because the value stays the same for
+                    // scope.selectedPlaceId the watches are not triggered in this case. Because of that, we trigger
+                    // evaluate state for this special case and return.
+                    if(scope.previouslySelectedPlaceId === scope.selectedPlaceId){
+                        scope.evaluateState();
+                        return;
+                    }
 
                     if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
