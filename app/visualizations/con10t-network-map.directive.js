@@ -140,12 +140,13 @@ angular.module('arachne.visualizations.directives')
                         var params = {
                             title: place['name'],
                             radius: (Math.log(weight)  + 1)* 10000,
-                            id: place['id']
+                            id: place['id'],
+                            className: 'crosshair-cursor-enabled'
                         };
 
                         if(place['id'] === scope.selectedPlaceId){
                             params['color'] = 'red';
-                            params['fillColor'] = '#f03';
+                            params['fillColor'] = '#f03'
                         }
 
                         var circle = L.circle(coordinates, params);
