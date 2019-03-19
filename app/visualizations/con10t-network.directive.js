@@ -632,6 +632,22 @@ angular.module('arachne.visualizations.directives')
                     scope.evaluateState();
                 };
 
+                scope.resetLists = function(){
+                    var tempAuthors = [];
+                    var tempRecipients = [];
+
+                    for(var i = 0; i < scope.authors.length; i++){
+                        tempAuthors.push(scope.authors[i].id)
+                    }
+
+                    for(var j = 0; j < scope.recipients.length; j++){
+                        tempRecipients.push(scope.recipients[j].id)
+                    }
+
+                    scope.selectedAuthors = tempAuthors;
+                    scope.selectedRecipients = tempRecipients;
+                };
+
                 scope.selectedPlaceId = null;
                 scope.selectedAuthors = [];
                 scope.selectedRecipients = [];

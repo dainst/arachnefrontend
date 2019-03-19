@@ -2,14 +2,24 @@
 
 
     <div class="row">
-        <div class="col-lg-2 col-md-6">
-            <con10t-paginated-item-list item-list="authors" items-per-page="30" heading="{{senderTerm}}"
-                                        selected="selectedAuthors"></con10t-paginated-item-list>
-        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <con10t-paginated-item-list item-list="authors" items-per-page="30" heading="{{senderTerm}}"
+                                                selected="selectedAuthors"></con10t-paginated-item-list>
+                </div>
 
-        <div class="col-lg-2 col-md-6">
-            <con10t-paginated-item-list item-list="recipients" items-per-page="30" heading="{{receiverTerm}}"
-                                        selected="selectedRecipients"></con10t-paginated-item-list>
+                <div class="col-md-6">
+                    <con10t-paginated-item-list item-list="recipients" items-per-page="30" heading="{{receiverTerm}}"
+                                                selected="selectedRecipients"></con10t-paginated-item-list>
+                </div>
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-default btn-sm btn-block"
+                        ng-click="resetLists()">
+                    {{'ui_reset'|transl8}}
+                </button>
+            </div>
         </div>
 
         <div class="col-lg-4 col-md-6">
