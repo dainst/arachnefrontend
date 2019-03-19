@@ -64,12 +64,25 @@ angular.module('arachne.visualizations.directives')
                     } else if(scope.orderType === 2){
                         scope.orderGlyph =  'glyphicon-sort-by-order-alt';
                         scope.displayedList.sort(function(a, b){
-                            return  b.count - a.count;
+                            if(a.count > b.count){
+                                return -1;
+                            } else if (a.count < b.count) {
+                                return 1;
+                            } else {
+                                return  a.label.toLowerCase() < b.label.toLowerCase() ? -1 : 1;
+                            }
                         });
                     } else {
                         scope.orderGlyph = 'glyphicon-sort-by-order';
                         scope.displayedList.sort(function (a, b) {
-                            return a.count - b.count;
+
+                            if(a.count > b.count){
+                                return 1;
+                            } else if (a.count < b.count) {
+                                return -1;
+                            } else {
+                                return  a.label.toLowerCase() < b.label.toLowerCase() ? -1 : 1;
+                            }
                         });
                     }
 
