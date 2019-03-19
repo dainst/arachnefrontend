@@ -460,23 +460,6 @@ angular.module('arachne.visualizations.directives')
                     scope.evaluatePersonList();
                     scope.evaluateTopPersonConnections();
 
-                    // var canvas = document.getElementById('withOrWithoutDateCanvas');
-                    // console.log(canvas);
-                    // var ctx = canvas.getContext('2d');
-                    //
-                    // var withoutDatePixels = (scope.objectsWithoutDate / scope.objectsOverall) * canvas.width;
-                    //
-                    // var myImageData = ctx.createImageData(canvas.width, canvas.height);
-                    // console.log(myImageData);
-                    // for (var row = 0; row < canvas.height; row += 1) {
-                    //     for(var column = 0; column < canvas.width; column += 1){
-                    //         myImageData.data[(row * column) * 4]     = 255;     // red
-                    //         myImageData.data[(row * column) * 4 + 3]   = 255;
-                    //     }
-                    // }
-                    //
-                    // ctx.putImageData(myImageData, 0, 0);
-
                     if (!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
                     }
