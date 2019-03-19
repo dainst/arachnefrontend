@@ -19,7 +19,20 @@ angular.module('arachne.visualizations.directives')
                 scope.orderGlyph = 'glyphicon-sort-by-order-alt';
                 scope.itemFilter = '';
 
-                scope.increaseOffset = function(){
+
+                scope.firstPage = function(){
+                    scope.offset = 0;
+                };
+
+                scope.previousPage = function(){
+                    if(scope.offset - scope.ipp >= 0){
+                        scope.offset -= scope.ipp;
+                    } else {
+                        scope.offset = 0
+                    }
+                };
+
+                scope.nextPage = function(){
                     if(scope.offset + scope.ipp < scope.displayedList.length - scope.ipp){
                         scope.offset += scope.ipp;
                     } else {
@@ -27,12 +40,8 @@ angular.module('arachne.visualizations.directives')
                     }
                 };
 
-                scope.decreaseOffset = function(){
-                    if(scope.offset - scope.ipp >= 0){
-                        scope.offset -= scope.ipp;
-                    } else {
-                        scope.offset = 0
-                    }
+                scope.lastPage = function(){
+                    scope.offset = scope.displayedList.length - scope.ipp;
                 };
 
                 scope.toggleItem = function(id){

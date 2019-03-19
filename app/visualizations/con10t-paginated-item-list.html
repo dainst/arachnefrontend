@@ -16,11 +16,15 @@
 </div>
 
 <div class="row">
-    <span class="clickable glyphicon glyphicon-chevron-left"
-          ng-click="decreaseOffset()"></span>
+    <span class="clickable glyphicon glyphicon-fast-backward"
+          ng-click="firstPage()"></span>
+    <span class="clickable glyphicon glyphicon-step-backward"
+          ng-click="previousPage()"></span>
     ({{offset+1}}-{{(offset+ipp > displayedList.length) ? displayedList.length : offset + ipp}} / {{displayedList.length}})
-    <span class="clickable glyphicon glyphicon-chevron-right"
-          ng-click="increaseOffset()"></span> {{selected.length}} selected.
+    <span class="clickable glyphicon glyphicon-step-forward"
+          ng-click="nextPage()"></span>
+    <span class="clickable glyphicon glyphicon-fast-forward"
+          ng-click="lastPage()"></span> {{selected.length}} selected.
 </div>
 
 <div class="row">
