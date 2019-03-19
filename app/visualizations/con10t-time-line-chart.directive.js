@@ -341,6 +341,8 @@ angular.module('arachne.visualizations.directives')
                         }
                     }
 
+                    scope.zoomActive = (scope.noZoomMaxValue != scope.zoomMaxValue);
+
                     if(!scope.$root.$$phase && !scope.$$phase) {
                         scope.$apply();
                     }
@@ -374,6 +376,7 @@ angular.module('arachne.visualizations.directives')
                     }
 
                     scope.zoomed = false;
+
                     scope.evaluateOverallTimespan();
                     scope.generateDetailedTimeSpan();
                     scope.initializeD3();
@@ -393,6 +396,9 @@ angular.module('arachne.visualizations.directives')
                 };
 
                 scope.toggleZoom = function(){
+
+                    if(!scope.zoomActive) return;
+
                     scope.zoomed = !scope.zoomed;
                     scope.initializeD3();
                     scope.drawSelection(scope.dragStartPosition, scope.dragEndPosition);

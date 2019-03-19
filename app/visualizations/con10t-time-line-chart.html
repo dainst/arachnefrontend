@@ -35,12 +35,15 @@
 <div>
   <svg id="timeline-container"></svg>
   <div>
-    Showing data between dates:
-    <span id="date-range-display-linechart">{{minDate.toISOString().substring(0, 10)}} to {{maxDate.toISOString().substring(0, 10)}}</span>
-
-    <span class="btn btn-default btn-xs" ng-click="reset()"> {{'ui_reset'|transl8}}</span>
-    <span class="clickable glyphicon {{zoomed ? 'glyphicon-zoom-out' : 'glyphicon glyphicon-zoom-in'}}"
+    <button class="btn btn-default btn-sm" ng-click="reset()"> {{'ui_reset'|transl8}}</button>
+    <button class="btn btn-default btn-sm clickable glyphicon {{zoomActive ? '': 'disabled'}} {{zoomed ? 'glyphicon-zoom-out' : 'glyphicon glyphicon-zoom-in'}}"
           ng-click="toggleZoom()">
+    </button>
+  </div>
+  <p>
+  <div>Showing data between dates:
+    <span id="date-range-display-linechart">
+      {{minDate.toISOString().substring(0, 10)}} to {{maxDate.toISOString().substring(0, 10)}}
     </span>
   </div>
 </div>
