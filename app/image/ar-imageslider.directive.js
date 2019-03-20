@@ -15,19 +15,21 @@ angular.module('arachne.directives')
                 scope.offset = 0;
                 scope.max = 50;
 
-                function teiViewerSearch(entity){
-                    if(entity.externalLinks){
-                        for (var i = 0; i< entity.externalLinks.length; i++){
-                            if (entity.externalLinks[i].label == "TEI-Viewer")
-                            return entity.externalLinks[i].url;
+                function teiViewerSearch(entity) {
+                    if (entity.externalLinks) {
+                        for (var i = 0; i< entity.externalLinks.length; i++) {
+                            if (entity.externalLinks[i].label == "TEI-Viewer") {
+                                return entity.externalLinks[i].url;
+                            }
                         }
                     }
                     return false;
                 }
 
-                scope.imageClick = function (entity, currentImgNo, currentQuery) {
-                    if (entity.externalLinks){
-                        if (teiViewerSearch(entity) != false) return teiViewerSearch(entity);
+                scope.imageLink = function(entity, currentImgNo, currentQuery) {
+                    var teiUrl = teiViewerSearch(entity);
+                    if (teiUrl) {
+                        return teiUrl;
                     } else {
                         var url = "entity/" + entity.entityId + "/image/" + entity.images[currentImgNo].imageId;
                         if (currentQuery) url += currentQuery.toString();
