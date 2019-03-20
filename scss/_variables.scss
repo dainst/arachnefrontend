@@ -1,6 +1,12 @@
 // Components navbar related
-$screen-lg: 1100px;
+
+// navbar is collapsed when screen is smaller
+$screen-lg: 1180px;
+// ?
 $idai-navbar-search-width-diff:            400px !default;
-$screen-lg-navbar-search-width-diff:       1000px !default;
+// $screen-lg - this = space left for search bar
+$screen-lg-navbar-search-width-diff:       1050px !default;
+// navbar will not grow if the screen is larger
 $idai-screen-xl:                           1600px !default;
-$idai-screen-xl-navbar-search-width:       550px !default;
+// and will be fixed to this size
+$idai-screen-xl-navbar-search-width:       534px !default;
