@@ -33,37 +33,12 @@ angular.module('arachne.visualizations.directives')
                 reportOnDrag: '@',  // Pass "true" if you want to evaluate minDate/maxDate while dragging, otherwise evaluation will take place at drag end
                 binnedData: '=',
                 noZoomMaxValue: '=',
+                overallMaxDate: '=',
+                overallMinDate: '=',
                 minDate: '=',
                 maxDate: '='
             },
             link: function (scope, element, attrs) {
-
-                scope.evaluateOverallTimespan = function(){
-
-                    scope.zoomMaxValue = 0;
-                    scope.overallMaxDate = new Date(-8640000000000000);
-                    scope.overallMinDate = new Date(8640000000000000);
-
-                    for(var i = 0; i < scope.binnedData.length; i++){
-
-                        if(scope.binnedData[i].date > scope.overallMaxDate){
-                            scope.overallMaxDate = new Date(scope.binnedData[i].date);
-                        }
-
-                        if(scope.binnedData[i].date < scope.overallMinDate){
-                            scope.overallMinDate = new Date(scope.binnedData[i].date);
-                        }
-
-                        if(scope.binnedData[i].count > scope.zoomMaxValue){
-                            scope.zoomMaxValue = scope.binnedData[i].count;
-                        }
-                    }
-
-                    if(typeof scope.minDate === 'undefined')
-                        scope.minDate = scope.overallMinDate;
-                    if(typeof scope.maxDate === 'undefined')
-                        scope.maxDate = scope.overallMaxDate;
-                };
 
                 // Output (minDate/maxDate) is provided in days resolution, no matter the binned dates' resolution is,
                 // so we need to generate the day-dates between overall minimum and maximum date of the bins.
@@ -377,7 +352,6 @@ angular.module('arachne.visualizations.directives')
 
                     scope.zoomed = false;
 
-                    scope.evaluateOverallTimespan();
                     scope.generateDetailedTimeSpan();
                     scope.initializeD3();
 
