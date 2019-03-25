@@ -496,8 +496,7 @@ angular.module('arachne.visualizations.directives')
 
                     // Ignore objects without date only if no date selected
                     if (isNaN(Date.parse(dateValue))
-                         && scope.minDate > scope.overallMinDate
-                         && scope.maxDate < scope.overallMaxDate
+                        && (scope.minDate > scope.overallMinDate || scope.maxDate < scope.overallMaxDate)
                     ) return false;
 
                     return true;
