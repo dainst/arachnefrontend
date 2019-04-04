@@ -51,35 +51,6 @@ angular.module('arachne.controllers')
                 }
             };
 
-            $scope.downloadImage = function () {
-                var imgUri = arachneSettings.dataserviceUri + "/image/" + $scope.imageId;
-                var entityUri = arachneSettings.dataserviceUri + "/entity/" + $scope.imageId;
-
-                $http.get(imgUri, {responseType: 'blob'}).then(function (result) {
-
-                    var data = result.data;
-                    var blob = new Blob([data], {type: 'image/jpeg'});
-                    var blobUri = $window.URL.createObjectURL(blob);
-
-                    $http.get(entityUri).then(function (nextResult) {
-
-                        var nextData = nextResult.data;
-                        if (navigator.appVersion.toString().indexOf('.NET') > 0) {
-                            window.navigator.msSaveBlob(blob, nextData.filename);
-                        }
-                        else {
-                            var document = $window.document;
-                            var a = document.createElement('a');
-                            document.body.appendChild(a);
-                            a.setAttribute('style', 'display:none');
-                            a.href = blobUri;
-                            a.download = nextData.filename;
-                            a.click();
-                        }
-                    });
-                });
-            };
-
             $scope.user = authService.getUser();
             $scope.currentQuery = searchService.currentQuery();
             $scope.entityId = $stateParams.entityId;
@@ -106,10 +77,10 @@ angular.module('arachne.controllers')
             $scope.rotateRight = function () {
                 var container = document.getElementsByClassName('leaflet-tile-pane')[0];
                 var leafletContainer = document.getElementsByClassName('leaflet-container')[0];
-                
+
                 rotation += 90;
                 if (rotation > 360) rotation = 0;
-                
+
 
                 container.style.width = leafletContainer.offsetWidth + "px";
                 container.style.height = leafletContainer.offsetHeight + "px";

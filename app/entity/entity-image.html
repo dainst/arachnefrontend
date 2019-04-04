@@ -20,7 +20,7 @@
 	</div>
 
 	<!-- toolbox in upper right corner -->
-	<div ng-if="entity" 
+	<div ng-if="entity"
 			class="btn-group-vertical"
 			style="opacity:0.8; position:absolute; right:10px; top:90px;">
 		<a class="btn btn-default btn-sm" ar-scoped-href="entity/{{entity.entityId}}{{currentQuery.toString()}}">
@@ -28,9 +28,6 @@
 				<span class="glyphicon glyphicon-arrow-left"></span>
 				{{ 'entity.image.back_to' | transl8 }}<br>{{entity.title}}<br>
 			</div>
-		</a>
-		<a class="btn btn-default btn-sm"  ng-click="downloadImage()">
-			<span class="glyphicon glyphicon-download-alt"></span> {{ 'entity.image.download' | transl8 }}
 		</a>
 		<a class="btn btn-default btn-sm" ng-href="entity/{{imageId}}" ng-hide="entity.type == 'Bilder'">
 			<span class="glyphicon glyphicon-list"></span> {{ 'entity.image.metadata' | transl8 }}
