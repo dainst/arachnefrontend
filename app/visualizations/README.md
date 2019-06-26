@@ -11,9 +11,6 @@ The following directives can be used standalone:
 * con10t-network-map
 * con10t-network-chord
 
-They each require specifically formatted TSV (tab separated values) files. For file examples have a look at the
-[con10t](https://github.com/dainst/con10t/tree/master/visualizations/gelehrtenbriefe) repository. 
-
 As an alternative, the directives listed above can be used in conjunction using the directive:
 * con10t-network
 
