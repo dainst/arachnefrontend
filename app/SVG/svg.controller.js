@@ -23,16 +23,18 @@ angular.module('arachne.controllers')
                 $http.get(metadataRequestURL)
                     .then(function(response) {
                         if(!$scope.validFormat(response.data.format)){
-                            var msg = 'Error: "' + response.data.format + '" is no valid vector graphics format for this viewer.';
-                            $scope.statusElement.innerHTML = msg;
-                            $scope.statusElement.classList.remove('alert-success');
-                            $scope.statusElement.classList.add('alert-danger');
+                            $scope.setErrorMessage(
+                                'Error: "' + response.data.format + '" is no valid vector graphics format for this viewer.'
+                            );
                             return;
                         }
                         $scope.displayMetadata(response.data);
                         $scope.loadSVGData(arachneSettings.dataserviceUri + '/model/' + $scope.requestedId);
-                    }, function (response){
-                       console.dir(response)
+                    }, function (response) {
+                        $scope.setErrorMessage(
+                            'Error loading the requested SVG metadata.'
+                        );
+                        console.error(response.status + ", " + response.statusText);
                     });
                 };
 
@@ -53,27 +55,31 @@ angular.module('arachne.controllers')
             };
 
             $scope.loadSVGData = function(url) {
-                $http.get(url).then(function (response) {
-                    var svgContainer = document.querySelector('#svg-data-container');
+                $http.get(url)
+                    .then(
+                        function (response) {
+                            var svgContainer = document.querySelector('#svg-data-container');
 
-                    svgContainer.innerHTML = response.data;
-                    var metadataElement = document.querySelector('#svg-metadata-container');
+                            svgContainer.innerHTML = response.data;
+                            var metadataElement = document.querySelector('#svg-metadata-container');
 
-                    $scope.statusElement.style.display = 'none';
-                    metadataElement.style.display = 'block';
+                            $scope.statusElement.style.display = 'none';
+                            metadataElement.style.display = 'block';
 
-                    var svgContent = svgContainer.querySelector('svg');
+                            var svgContent = svgContainer.querySelector('svg');
 
-                    $scope.panZoomObject = svgPanZoom(svgContent, {
-                        controlIconsEnabled: false,
-                        maxZoom: 1000,
-                        fit: true,
-                        contain: true
-                    });
-
-                }, function (error) {
-                    console.dir(error);
-                })
+                            $scope.panZoomObject = svgPanZoom(svgContent, {
+                                controlIconsEnabled: false,
+                                maxZoom: 1000,
+                                fit: true,
+                                contain: true
+                            });
+                        }, function (error) {
+                            $scope.setErrorMessage(
+                                'Error loading the requested SVG metadata.'
+                            );
+                            console.error(response.status + ", " + response.statusText);
+                        })
             };
 
             $scope.zoomInSVG = function () {
@@ -86,6 +92,12 @@ angular.module('arachne.controllers')
 
             $scope.resetSVG = function () {
                 $scope.panZoomObject.reset();
+            };
+
+            $scope.setErrorMessage = function(msg) {
+                $scope.statusElement.innerHTML = msg;
+                $scope.statusElement.classList.remove('alert-success');
+                $scope.statusElement.classList.add('alert-danger');
             };
 
             $scope.init();
