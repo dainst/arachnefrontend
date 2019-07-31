@@ -75,12 +75,11 @@ describe('con10t-widget', function() {
     });
 
     it('tree widget should content tree', function() {
-        // TODO what if content changes?
-
         browser.get('/project/test_project')
             .then(con10tWidget.getTreeLeavesCount)
             .then(function(scc) {
-                expect(scc).toBeGreaterThan(10);
+                 expect(scc).toBeGreaterThan(0);
+                // note: check out amount of tree leaves for test_project ("facet_bestandsname:..."), data might be changed.
             });
     });
 
