@@ -508,7 +508,7 @@ angular.module('arachne.controllers')
                     callback(result);
                 }, function (error) {
                     $scope.error = true;
-                    if (error.status === '403') {
+                    if ($scope.editable === false) {
                         messages.add('catalog_403');
                     } else {
                         messages.add('default');
