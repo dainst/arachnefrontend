@@ -36,7 +36,7 @@ describe('data export', function() {
             .catch(done.fail);
     });
 
-    it('should directly download small csv exports', function() {
+    xit('should directly download small csv exports', function() {
         searchPage.load({q: 'Yoloaiquin'}).then(function() {
             exportDialog.exportBtn.click();
             exportDialog.export('csv').then(function(contents) {
@@ -48,7 +48,7 @@ describe('data export', function() {
         });
     });
 
-    it('should directly download small pdf exports', function() {
+    xit('should directly download small pdf exports', function() {
         searchPage.load({q: 'Yoloaiquin'}).then(function() {
             exportDialog.exportBtn.click();
             exportDialog.export('pdf').then(function(contents) {
@@ -59,7 +59,7 @@ describe('data export', function() {
         });
     });
 
-    it('should refuse large exports', function() {
+    xit('should refuse large exports', function() {
         searchPage.load({q: '*'}).then(function() {
             exportDialog.exportBtn.click();
             exportDialog.export('pdf')
@@ -74,40 +74,40 @@ describe('data export', function() {
     });
 
 
-    // it('should enqueue big export if user is logged in', function(done) {
-    //     var taskStatus = null;
-    //
-    //     frontPage.load()
-    //         .then(navbarPage.clickLogin())
-    //         .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
-    //         .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
-    //         .then(navbarPage.submitLogin())
-    //         .then(navbarPage.waitForLogin())
-    //         .then(searchPage.load({q: 'baumstamm'}))
-    //         .then(exportDialog.exportBtn.click())
-    //         .then(function() {
-    //             exportDialog.export('pdf')
-    //                 .then(function(contents) {
-    //                     throw new Error("(Job should be enqueued)");
-    //                 })
-    //                 .catch(function(messageType) {
-    //                     expect(messageType).toContain('alert-success');
-    //                 });
-    //         })
-    //
-    //         .then(exportPage.load())
-    //         .then(function() {
-    //             taskStatus = exportPage.getJobClass();
-    //         })
-    //
-    //         .then(function() {
-    //             expect(taskStatus).toContain('panel-info');
-    //         })
-    //         .then(done)
-    //         .catch(done.fail);
-    // });
+    xit('should enqueue big export if user is logged in', function(done) {
+             var taskStatus = null;
+    
+         frontPage.load()
+               .then(navbarPage.clickLogin())
+               .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
+               .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
+               .then(navbarPage.submitLogin())
+               .then(navbarPage.waitForLogin())
+               .then(searchPage.load({q: 'baumstamm'}))
+               .then(exportDialog.exportBtn.click())
+               .then(function() {
+                    exportDialog.export('pdf')
+                       .then(function(contents) {
+                             throw new Error("(Job should be enqueued)");
+                        })
+                       .catch(function(messageType) {
+                            expect(messageType).toContain('alert-success');
+                       });
+                 })
+    
+                .then(exportPage.load())
+                   .then(function() {
+                   taskStatus = exportPage.getJobClass();
+                })
+    
+                .then(function() {
+                     expect(taskStatus).toContain('panel-info');
+                  })
+                .then(done)
+                .catch(done.fail);
+     });
 
-    it('should export catalog', function(done) {
+    xit('should export catalog', function(done) {
         if (testCatalogId) {
             catalogPage.load(testCatalogId)
                 .then(function () {
