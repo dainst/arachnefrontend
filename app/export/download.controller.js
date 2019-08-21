@@ -50,7 +50,7 @@ angular.module('arachne.controllers')
 
         $scope.downloadAs = function() {
             var connector = (downloadUrl.indexOf('?') > -1) ? '&' : '?';
-            var url = arachneSettings.dataserviceUri + downloadUrl + connector +'mediaType=' + $scope.mode + '&lang=' + language.currentLanguage();
+            var url = arachneSettings.dataserviceUri + downloadUrl + connector +'mediatype=' + $scope.mode + '&lang=' + language.currentLanguage();
             $http.get(url).then(
                 function(response) {
                     $scope.status = response.status;
