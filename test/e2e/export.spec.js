@@ -74,38 +74,38 @@ describe('data export', function() {
     });
 
 
-    it('should enqueue big export if user is logged in', function(done) {
-        var taskStatus = null;
-
-        frontPage.load()
-            .then(navbarPage.clickLogin())
-            .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
-            .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
-            .then(navbarPage.submitLogin())
-            .then(navbarPage.waitForLogin())
-            .then(searchPage.load({q: 'baumstamm'}))
-            .then(exportDialog.exportBtn.click())
-            .then(function() {
-                exportDialog.export('pdf')
-                    .then(function(contents) {
-                        throw new Error("(Job should be enqueued)");
-                    })
-                    .catch(function(messageType) {
-                        expect(messageType).toContain('alert-success');
-                    });
-            })
-
-            .then(exportPage.load())
-            .then(function() {
-                taskStatus = exportPage.getJobClass();
-            })
-
-            .then(function() {
-                expect(taskStatus).toContain('panel-info');
-            })
-            .then(done)
-            .catch(done.fail);
-    });
+    // it('should enqueue big export if user is logged in', function(done) {
+    //     var taskStatus = null;
+    //
+    //     frontPage.load()
+    //         .then(navbarPage.clickLogin())
+    //         .then(navbarPage.loginTypeInUsername(common.getTestUserName()))
+    //         .then(navbarPage.loginTypeInPassword(common.getTestUserPassword()))
+    //         .then(navbarPage.submitLogin())
+    //         .then(navbarPage.waitForLogin())
+    //         .then(searchPage.load({q: 'baumstamm'}))
+    //         .then(exportDialog.exportBtn.click())
+    //         .then(function() {
+    //             exportDialog.export('pdf')
+    //                 .then(function(contents) {
+    //                     throw new Error("(Job should be enqueued)");
+    //                 })
+    //                 .catch(function(messageType) {
+    //                     expect(messageType).toContain('alert-success');
+    //                 });
+    //         })
+    //
+    //         .then(exportPage.load())
+    //         .then(function() {
+    //             taskStatus = exportPage.getJobClass();
+    //         })
+    //
+    //         .then(function() {
+    //             expect(taskStatus).toContain('panel-info');
+    //         })
+    //         .then(done)
+    //         .catch(done.fail);
+    // });
 
     it('should export catalog', function(done) {
         if (testCatalogId) {
