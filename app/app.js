@@ -90,7 +90,6 @@ angular.module('arachne',[
 			'gridmap':			{ url: '/gridmap', templateUrl: 'app/map/gridmap.html', data: { pageTitle: title }},
 			'3d':				{ url: '/3d', templateUrl: 'app/3d/3d.html', data: { pageTitle: title }},
 			'SVG':				{ url: '/SVG', templateUrl: 'app/SVG/svg.html', data: { pageTitle: title }},
-			'projects':			{ url: '/projects', templateUrl: 'app/pages/projects.html', data: { pageTitle: title }},
 			'register':			{ url: '/register', templateUrl: 'app/users/register.html', data: { pageTitle: title }},
 			'editUser':			{ url: '/editUser', templateUrl: 'app/users/edit-user.html', data: { pageTitle: title }},
 			'contact':			{ url: '/contact', templateUrl: 'app/users/contact.html', data: { pageTitle: title }},
