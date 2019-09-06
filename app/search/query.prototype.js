@@ -126,7 +126,7 @@ angular.module('arachne.services')
                         params.push("fq=" + encodeURIComponent(facetString));
                     }
                 } else if (angular.isString(this[key]) || angular.isNumber(this[key])) {
-                    if (this[key] || key == 'resultIndex') {
+                    if(!(key == 'limit') && (this[key] || key == 'resultIndex')) {
                         params.push(key + "=" + encodeURIComponent(this[key]));
                     }
                 } else if (angular.isArray(this[key])) {
