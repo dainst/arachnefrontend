@@ -51,8 +51,8 @@ angular.module('arachne.controllers')
                             if (angular.isUndefined(finalQuery.q === undefined)) {
                                 finalQuery.q = '*';
                             }
-                            finalQuery.removeParam('limit');
-                            finalQuery.setParam('fl',1);
+                            finalQuery = finalQuery.setParam('limit', searchService.getSize());
+                            finalQuery = finalQuery.setParam('fl', 1);
                             return '/search' + finalQuery.toString();
                         }
                     }
