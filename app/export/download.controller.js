@@ -79,8 +79,11 @@ angular.module('arachne.controllers')
                     var getBody = bodyRegex.exec(response.data);
                     if ((getBody !== null) && angular.isDefined(getBody[1])) {
                         $scope.message = getBody[1];
-                    } else {
+                    } else if (response.data) {
                         $scope.message = transl8Response(response.data);
+                    // backend returns bad request if limit is too high
+                    } else {
+                        $scope.message = $filter('transl8')('data_export_to_huge');
                     }
                     $scope.status = response.status;
                     refresh();
