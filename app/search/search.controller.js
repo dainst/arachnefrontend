@@ -46,14 +46,17 @@ angular.module('arachne.controllers')
                     controller: 'DownloadController',
                     resolve: {
                         downloadUrl: function() {
+                            return '/search';
+                        },
+                        downloadParams: function() {
                             var finalQuery = $scope.currentQuery.extend(searchScope.currentScopeData());
                             // failsafe control if query is empty
                             if (angular.isUndefined(finalQuery.q === undefined)) {
                                 finalQuery.q = '*';
                             }
-                            finalQuery.removeParam('limit');
-                            finalQuery.setParam('fl',1);
-                            return '/search' + finalQuery.toString();
+                            finalQuery = finalQuery.setParam('limit', searchService.getSize());
+                            finalQuery = finalQuery.setParam('fl', 1);
+                            return finalQuery.toFlatObject();
                         }
                     }
                 });

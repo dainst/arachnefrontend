@@ -473,6 +473,9 @@ angular.module('arachne.controllers')
                     resolve: {
                         downloadUrl: function() {
                             return '/catalog/' + $scope.catalogId
+                        },
+                        downloadParams: function() {
+                            return {}
                         }
                     }
                 });
