@@ -32,6 +32,13 @@
           }
         },
         {
+          "path": "https://idai.world/",
+          "title": {
+            "en": "Projects",
+            "de": "Projekte"
+          }
+        },
+        {
           "id": "about",
           "path": "info/",
           "title": {
