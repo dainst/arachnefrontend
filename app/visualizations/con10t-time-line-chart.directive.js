@@ -361,12 +361,6 @@ angular.module('arachne.visualizations.directives')
                     scope.dragStartPosition = scope.getPositionForDate(scope.dragStartDate);
                     scope.dragEndPosition = scope.getPositionForDate(scope.dragEndDate);
 
-                    scope.zoomMaxValue = Number.MIN_VALUE;
-                    for(var i = 0; i < scope.binnedData.length; i++){
-                        if(scope.binnedData[i].count > scope.zoomMaxValue){
-                            scope.zoomMaxValue = scope.binnedData[i].count;
-                        }
-                    }
                     scope.evaluateState();
                     scope.drawSelection(scope.dragStartPosition, scope.dragEndPosition);
                 };
@@ -387,7 +381,6 @@ angular.module('arachne.visualizations.directives')
                 scope.dragStartDate = null;
                 scope.dragEndDate = null;
                 scope.zoomed = false;
-                scope.zoomMaxValue = Number.MIN_VALUE;
 
                 scope.$watch('binnedData', function(newValue, oldValue) {
                     if(typeof newValue === 'undefined'){
