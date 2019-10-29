@@ -25,15 +25,13 @@ describe('language switcher', function() {
             .then(languageSwitcher.all(by.css('li')).get(0).click())
             .then(browser.wait(languageSwitcher.isPresent()))
             .then(function(){
-                expect(element.all(by.css('.navbar-links')).get(3).getText()).toBe('Über Arachne');
-                expect(element.all(by.css('.all-projects')).get(0).getText()).toBe('Alle Projekte anzeigen');
+                expect(element.all(by.css('.navbar-links')).get(4).getText()).toBe('Über Arachne');
             })
             .then(languageSwitcher.click())
             .then(languageSwitcher.all(by.css('li')).get(1).click())
             .then(browser.wait(languageSwitcher.isPresent()))
             .then(function(){
-                expect(element.all(by.css('.navbar-links')).get(3).getText()).toBe('About Arachne');
-                expect(element.all(by.css('.all-projects')).get(0).getText()).toBe('Show all projects');
+                expect(element.all(by.css('.navbar-links')).get(4).getText()).toBe('About Arachne');
             });
 
 
