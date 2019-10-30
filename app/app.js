@@ -8,6 +8,7 @@ angular.module('arachne',[
 	'ngResource',
 	'ngCookies',
 	'ng-showdown',
+	'ngTable',
 	'angulartics',
 	'angulartics.piwik',
 	'relativePathsInPartial',

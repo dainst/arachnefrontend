@@ -27,7 +27,8 @@ var cssDeps = [
     'node_modules/leaflet.markercluster/dist/MarkerCluster.css',
     'node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css',
     'node_modules/drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css',
-    'node_modules/leaflet-fullscreen/dist/leaflet.fullscreen.css'
+    'node_modules/leaflet-fullscreen/dist/leaflet.fullscreen.css',
+    'node_modules/ng-table/bundles/ng-table.css'
 ];
 
 var jsDeps = [
@@ -58,7 +59,8 @@ var jsDeps = [
     'node_modules/svg-pan-zoom/dist/svg-pan-zoom.js',
     'node_modules/leaflet-fullscreen/dist/Leaflet.fullscreen.min.js',
     'node_modules/idai-cookie-notice/idai-cookie-notice.js',
-    'lib/leaflet-polylineoffset/leaflet.polylineoffset.js'
+    'lib/leaflet-polylineoffset/leaflet.polylineoffset.js',
+    'node_modules/ng-table/bundles/ng-table.js'
 ];
 
 // compile sass and concatenate to single css file in build dir

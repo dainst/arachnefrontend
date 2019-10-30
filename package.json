@@ -40,6 +40,7 @@
     "leaflet.markercluster": "1.3.0",
     "natives": "^1.1.6",
     "ng-showdown": "1.1.0",
+    "ng-table": "^3.0.1",
     "request": "^2.87.0",
     "showdown": "1.8.4",
     "svg-pan-zoom": "3.5.3"
