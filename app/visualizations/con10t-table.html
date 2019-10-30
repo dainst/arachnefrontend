@@ -1,0 +1,21 @@
+<!---
+++++++++++++++++++++++++++++
+
+- fields (column 1, 2, 3 etc.) have to be defined as specific fields in data.json related to your project.
+- the ng-table framework is documented here (wit demo site): https://www.npmjs.com/package/ng-table
+- for a living arachne-example, s. /con10t/visualizations/inden1/con10t-table_inden.html
+- for data.json compare con10t/visualizations/inden1/stellenliste_inden_data.json
+
+++++++++++++++++++++++++++++++++
+--->
+
+<table ng-table="tableParams" class="table" show-filter="true">
+    <tr ng-repeat="entry in tableParams.data" class = "table">
+        <td title ="'column1'" sortable="'column1'" filter ="{column1: 'number'}">{{entry.column1}}</td>
+        <td title="'column2'" sortable="'column2'" filter ="{column2: 'number'}">{{entry.column2}}</td>
+        <td title="'column3'" sortable="'column3'" filter ="{column3: 'text'}">{{entry.column3}}</td>
+        <td title ="'column4'" sortable="'column4'" filter ="{column4: 'text'}">{{entry.column4}}</td>
+    </tr>
+</table>
+
+
