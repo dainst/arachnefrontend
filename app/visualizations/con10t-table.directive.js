@@ -53,6 +53,12 @@ angular.module('arachne.widgets.directives')
         };
     }]);
 
+// redefine placeholder for filter input in ngTable by caching:
+angular.module('ngTable').run(['$templateCache', function ($templateCache) {
+    $templateCache.put('ng-table/filters/text.html',
+        '<input type="text" ng-model="params.filter()[name]" ng-if="filter==\'text\'" placeholder="Filter..." class="input-filter form-control"/>');
+}]);
+
 
 
 
