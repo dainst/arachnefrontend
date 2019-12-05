@@ -1,4 +1,4 @@
-<div ng-cloak class="row"  ng-controller="EntityController">
+<div ng-cloak class="row" ng-controller="EntityController">
     <ar-schemaorg-jsonld entity="entity"></ar-schemaorg-jsonld>
 
 
@@ -7,10 +7,16 @@
     <div class="col-md-3" ng-show="entity.entityId">
         <!-- ENTER EDITOR Note: This is currently just a link to the editor of this entity in Arachne 3 -->
         <div ng-if="user.groupID >= 600 && entity.categoryKey">
-            <a class="btn btn-default center-block" href="http://arachne.uni-koeln.de/arachne/index.php?view[mode]=edit&view[layout]={{entity.categoryKey}}_item&view[section]=Allgemein&view[category]=overview&search[data]=ALL&search[mode]=detail&search[match]=similar&view[active_tab]=overview&search[constraints][{{entity.categoryKey}}][searchSeriennummer]={{entity.internalId}}">
+            <a class="btn btn-default center-block"
+                href="http://arachne.uni-koeln.de/arachne/index.php?view[mode]=edit&view[layout]={{entity.categoryKey}}_item&view[section]=Allgemein&view[category]=overview&search[data]=ALL&search[mode]=detail&search[match]=similar&view[active_tab]=overview&search[constraints][{{entity.categoryKey}}][searchSeriennummer]={{entity.internalId}}">
                 <span class="glyphicon glyphicon-wrench"></span>
                 {{"edit_button"|transl8}}
             </a>
+        </div>
+
+        <!-- PROJECT SCOPE (IF ANY) -->
+        <div class="well well-sm search-scope" ng-if="searchScope() !== null">
+            <div ar-search-scope scope="searchScope()"></div>
         </div>
 
         <!-- CURRENT QUERY STATUS -->
@@ -24,7 +30,7 @@
                         <div class="panel-heading">
 
                             <a ar-scoped-href="search{{currentQuery.removeParam('resultIndex').toString()}}"
-                               class="btn btn-xs pull-right btn-primary">
+                                class="btn btn-xs pull-right btn-primary">
                                 <span class="glyphicon glyphicon-arrow-left"></span> {{"ui_to_search_result"|transl8}}
                             </a>
 
@@ -51,42 +57,44 @@
                         <ul class="list-group">
 
                             <a ng-if="resultIndex > 1"
-                               ar-scoped-href="entity/{{currentQuery.setParam('resultIndex',resultIndex-1).toString()}}"
-                               class="list-group-item"
-                               id="entityPreviousResult">
+                                ar-scoped-href="entity/{{currentQuery.setParam('resultIndex',resultIndex-1).toString()}}"
+                                class="list-group-item" id="entityPreviousResult">
                                 <div>
                                     <strong class="text-muted uppercase small">
-                                        <span class="glyphicon glyphicon-chevron-left" style="color:black" ></span>
+                                        <span class="glyphicon glyphicon-chevron-left" style="color:black"></span>
                                         &nbsp; {{"entity_previous_result"|transl8}}
                                     </strong>
                                 </div>
 
                             </a>
 
-                            <li class="list-group-item" ng-hide="nextEntitySearch.size < 2" >
+                            <li class="list-group-item" ng-hide="nextEntitySearch.size < 2">
                                 <strong class="text-muted uppercase small">{{"entity_shown_result"|transl8}}</strong>
                                 <form ng-submit="goToResultIndex(resultIndexInput)">
                                     <div class="input-group"
-                                         ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
-                                        <input ng-model="resultIndexInput"
-                                               type="number" size="4"
-                                               class="form-control input-sm">
-                                        <span class="input-group-addon" style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>{{ 'ui_of' | transl8 }}</small> <strong>{{resultSize|number}}</strong></span>
-                                        <span ng-hide="resultIndex == resultIndexInput || resultIndexInput < 1 || resultIndexInput > resultSize" class="input-group-btn">
-							    		<button class="btn btn-primary btn-sm" ng-click="goToResultIndex(resultIndexInput)">{{ 'ui_goto' | transl8}}</button>
-							    	</span>
+                                        ng-class="{'has-error':(resultIndexInput < 1 || resultIndexInput > resultSize)}">
+                                        <input ng-model="resultIndexInput" type="number" size="4"
+                                            class="form-control input-sm">
+                                        <span class="input-group-addon"
+                                            style="border-top-right-radius: 3px; border-bottom-right-radius:3px; border-left:0;"><small>{{ 'ui_of' | transl8 }}</small>
+                                            <strong>{{resultSize|number}}</strong></span>
+                                        <span
+                                            ng-hide="resultIndex == resultIndexInput || resultIndexInput < 1 || resultIndexInput > resultSize"
+                                            class="input-group-btn">
+                                            <button class="btn btn-primary btn-sm"
+                                                ng-click="goToResultIndex(resultIndexInput)">{{ 'ui_goto' | transl8}}</button>
+                                        </span>
                                     </div>
                                 </form>
                             </li>
 
                             <a ng-if="resultIndex < resultSize"
-                               ar-scoped-href="entity/{{currentQuery.setParam('resultIndex',resultIndex+1).toString()}}"
-                               class="list-group-item text-right"
-                               id="entityNextResult">
+                                ar-scoped-href="entity/{{currentQuery.setParam('resultIndex',resultIndex+1).toString()}}"
+                                class="list-group-item text-right" id="entityNextResult">
                                 <div>
                                     <strong class="text-muted uppercase small">
                                         &nbsp; {{"entity_next_result"|transl8}}
-                                        <span class="glyphicon glyphicon-chevron-right" style="color:black" ></span>
+                                        <span class="glyphicon glyphicon-chevron-right" style="color:black"></span>
                                     </strong>
                                 </div>
 
@@ -141,10 +149,7 @@
                             <small>({{contextSize}})</small>
                         </a>
                     </h3>
-                    <div ar-facet-browser
-                         query="contextQuery"
-                         facet-name="facet_kategorie"
-                         context-size="contextSize">
+                    <div ar-facet-browser query="contextQuery" facet-name="facet_kategorie" context-size="contextSize">
                     </div>
                 </div>
 
