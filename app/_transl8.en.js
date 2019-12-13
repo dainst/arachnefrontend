@@ -475,7 +475,7 @@ transl8['en'] = {
     "ui_map_legende_min": "low",
     "ui_map_legende_max": "high",
     "search_500": "We encountered an internal server error while processing your search request. This should not happen. Please contact arachne@uni-koeln.de so that we may fix this issue.",
-    "catalog_preview": "Catalog Preview",
+    "catalog_preview": "Overview",
     "ui_download_as": "Download as",
     "ui_download_limit": "Set amount of entities",
     "ui_download_limit_other": "Custom value",

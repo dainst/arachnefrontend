@@ -471,7 +471,7 @@ transl8['de'] = {
     "ui_map_legende_min": "niedrig",
     "ui_map_legende_max": "hoch",
     "search_500": "Es ist ein interner Serverfehler bei der Bearbeitung Ihrer Suchanfrage aufgetreten. Dies sollte nicht passieren. Bitte kontaktieren Sie arachne@uni-koeln.de so dass wir diesen Fehler beheben können.",
-    "catalog_preview": "Katalogvorschau",
+    "catalog_preview": "Übersicht",
     "ui_download_as": "Herunterladen als",
     "ui_download_limit": "Angabe der Anzahl an Ergebnissen",
     "ui_download_limit_other": "Benutzerdefiniert",
