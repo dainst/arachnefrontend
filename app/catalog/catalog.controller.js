@@ -2,17 +2,17 @@
 
 angular.module('arachne.controllers')
 
-/**
- * Handles the layout for viewing and editing a catalog.
- *
- * @author: Sebastian Cuy
- * @author: Jan G. Wieners
- * @author: Finn Prox
- */
+    /**
+     * Handles the layout for viewing and editing a catalog.
+     *
+     * @author: Sebastian Cuy
+     * @author: Jan G. Wieners
+     * @author: Finn Prox
+     */
     .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window', '$timeout',
         'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService',
         function ($rootScope, $scope, $state, $stateParams, $uibModal, $window, $timeout,
-                  Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, messages) {
+            Catalog, CatalogEntry, authService, $http, arachneSettings, Entity, $location, messages) {
 
             $rootScope.tinyFooter = true;
             $scope.entryMap = {};
@@ -44,7 +44,7 @@ angular.module('arachne.controllers')
                     tempEntry.parentId = newParentId;
                     tempEntry.indexParent = event.dest.index;
                     if (tempEntry.indexParent !== movedEntry.indexParent || tempEntry.parentId !== movedEntry.parentId) {
-                        return CatalogEntry.update({id: movedEntry.id}, tempEntry).$promise.then(function () {
+                        return CatalogEntry.update({ id: movedEntry.id }, tempEntry).$promise.then(function () {
                             if (movedEntry.parentId !== newParentId) {
                                 $scope.entryMap[movedEntry.parentId].totalChildren -= 1;
                                 $scope.entryMap[newParentId].totalChildren += 1;
@@ -73,14 +73,14 @@ angular.module('arachne.controllers')
                     var toAddPromises = [];
                     var entriesToAdd = [];
 
-                    if(newEntry instanceof Array && entity === null) { //Multiple entries are added
+                    if (newEntry instanceof Array && entity === null) { //Multiple entries are added
                         //Iterate through the array of objects which should be added
-                        for(var i = 0; i < newEntry.length; i++) {
+                        for (var i = 0; i < newEntry.length; i++) {
 
-                            if(newEntry[i].index === undefined) { //Array contains entity ids
+                            if (newEntry[i].index === undefined) { //Array contains entity ids
                                 var id = parseInt(newEntry[i]);
-                                toAddPromises.push(new Promise(function(resolve, reject) {
-                                    Entity.get({id: id}, function (entity) { //Try to find the entity. If found, add it to the catalog
+                                toAddPromises.push(new Promise(function (resolve, reject) {
+                                    Entity.get({ id: id }, function (entity) { //Try to find the entity. If found, add it to the catalog
                                         if (entity) {
                                             entriesToAdd.push({
                                                 arachneEntityId: entity.entityId,
@@ -140,11 +140,11 @@ angular.module('arachne.controllers')
 
                     }
 
-                    Promise.all(toAddPromises).then(function() {
-                        if(!entriesToAdd.length) {
+                    Promise.all(toAddPromises).then(function () {
+                        if (!entriesToAdd.length) {
                             return
                         }
-                        CatalogEntry.save({}, entriesToAdd, function(result) {
+                        CatalogEntry.save({}, entriesToAdd, function (result) {
                             for (var i = 0; i < result.length; i++) {
                                 entry.children.push(result[i]);
                                 entry.totalChildren += 1;
@@ -219,7 +219,7 @@ angular.module('arachne.controllers')
                 if (entry.totalChildren > 0) {
                     if (!entry.children || entry.children.length === 0) {
                         entry.loading = true;
-                        CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: 0}, function (result) {
+                        CatalogEntry.get({ id: entry.id, limit: $scope.childrenLimit, offset: 0 }, function (result) {
                             entry.children = result.children;
                             for (var i in entry.children) initialize(entry.children[i]);
                             scope.toggle();
@@ -255,7 +255,7 @@ angular.module('arachne.controllers')
 
                     scope.remove();
                     $scope.entryMap[entry.parentId].totalChildren -= 1;
-                    CatalogEntry.remove({id: entry.id}, function () {
+                    CatalogEntry.remove({ id: entry.id }, function () {
                         deleteModal.dismiss();
                     }, function () {
                         messages.add('default');
@@ -299,7 +299,7 @@ angular.module('arachne.controllers')
                         entry = $scope.itemsToRemove[i];
 
                         $scope.entryMap[entry.parentId].totalChildren -= 1;
-                        CatalogEntry.remove({id: entry.id}, function () {
+                        CatalogEntry.remove({ id: entry.id }, function () {
                             deleteModal.dismiss();
                         }, function () {
                             messages.add('default');
@@ -338,7 +338,7 @@ angular.module('arachne.controllers')
 
                     angular.copy(editedEntry, entry);
                     entry.indexParent = getIndexParent(entry);
-                    CatalogEntry.update({id: entry.id}, entry, function () {
+                    CatalogEntry.update({ id: entry.id }, entry, function () {
                         editEntryModal.dismiss();
                     }, function () {
                         messages.add('default');
@@ -373,8 +373,8 @@ angular.module('arachne.controllers')
                     $scope.catalog.root.label = editedCatalog.root.label;
                     $scope.catalog.root.text = editedCatalog.root.text;
 
-                    Catalog.update({id: $scope.catalog.id}, $scope.catalog, function () {
-                        CatalogEntry.update({id: $scope.catalog.root.id}, $scope.catalog.root, function () {
+                    Catalog.update({ id: $scope.catalog.id }, $scope.catalog, function () {
+                        CatalogEntry.update({ id: $scope.catalog.root.id }, $scope.catalog.root, function () {
                             editCatalogModal.dismiss();
                         }, function () {
                             messages.add('default');
@@ -397,7 +397,7 @@ angular.module('arachne.controllers')
 
                 deleteModal.close = function () {
 
-                    Catalog.remove({id: $scope.catalog.id}, function () {
+                    Catalog.remove({ id: $scope.catalog.id }, function () {
                         deleteModal.dismiss();
                         $location.url('/catalogs');
                     }, function () {
@@ -409,12 +409,12 @@ angular.module('arachne.controllers')
             $scope.currentTreeScope = null;
 
             $scope.selectEntry = function (entry, treeScope) {
-                $state.transitionTo('catalog.entry', {id: $scope.catalog.id, entryId: entry.id}, {notify: true});
+                $state.transitionTo('catalog.entry', { id: $scope.catalog.id, entryId: entry.id }, { notify: true });
                 showEntry(entry, treeScope);
             };
 
             $scope.selectEntity = function (entity) {
-                CatalogEntry.list({entityId: entity.entityId}, function (result) {
+                CatalogEntry.list({ entityId: entity.entityId }, function (result) {
                     for (var i = 0; i < result.length; i++) {
                         if (result[i].entry.catalogId === $scope.catalog.id) {
                             $scope.selectEntry(result[i].entry);
@@ -448,8 +448,8 @@ angular.module('arachne.controllers')
                 });
                 manageEditorModal.close = function (editedCatalog) {
                     $scope.catalog.userIds = editedCatalog.userIds;
-                    Catalog.update({id: $scope.catalog.id}, $scope.catalog, function () {
-                        CatalogEntry.update({id: $scope.catalog.root.id}, $scope.catalog.root, function () {
+                    Catalog.update({ id: $scope.catalog.id }, $scope.catalog, function () {
+                        CatalogEntry.update({ id: $scope.catalog.root.id }, $scope.catalog.root, function () {
                             manageEditorModal.dismiss();
                         }, function () {
                             messages.add('default');
@@ -466,26 +466,26 @@ angular.module('arachne.controllers')
 
 
 
-            $scope.openDownloadDialog = function() {
+            $scope.openDownloadDialog = function () {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'app/export/download-modal.html',
                     controller: 'DownloadController',
                     resolve: {
-                        downloadUrl: function() {
+                        downloadUrl: function () {
                             return '/catalog/' + $scope.catalogId
                         },
-                        downloadParams: function() {
+                        downloadParams: function () {
                             return {}
                         }
                     }
                 });
-                modalInstance.result.then(function() {
+                modalInstance.result.then(function () {
                     $window.location.reload();
                 });
             };
 
 
-            function initialize(entry) {
+            function initialize (entry) {
                 $scope.entryMap[entry.id] = entry;
 
                 // needed to enable dragging to entries without children
@@ -493,13 +493,13 @@ angular.module('arachne.controllers')
                 if (!entry.children) entry.children = [];
             }
 
-            function getIndexParent(entry) {
+            function getIndexParent (entry) {
                 var parent = $scope.entryMap[entry.parentId];
                 return parent.children.indexOf(entry);
             }
 
-            function retrieveCatalog(id, callback) {
-                Catalog.get({id: id, limit: $scope.childrenLimit}, function(result) {
+            function retrieveCatalog (id, callback) {
+                Catalog.get({ id: id, limit: $scope.childrenLimit }, function (result) {
                     initialize(result.root);
                     if (result.root.children.length === 0 && result.root.totalChildren > 0) {
                         $scope.loadChildren(result.root);
@@ -519,7 +519,7 @@ angular.module('arachne.controllers')
                 });
             }
 
-            function showEntry(entry, treeScope) {
+            function showEntry (entry, treeScope) {
 
                 // Toggle collapsed parent when selecting a thumbnail image in catalog preview
                 if (!treeScope && $scope.currentTreeScope) {
@@ -530,7 +530,7 @@ angular.module('arachne.controllers')
                 $scope.showThumbnails = false;
                 $scope.activeEntry = entry;
                 if (entry.arachneEntityId) {
-                    Entity.get({id: entry.arachneEntityId}, function (entity) {
+                    Entity.get({ id: entry.arachneEntityId }, function (entity) {
                         $scope.activeEntity = entity;
                     }, function () {
                         messages.add('default');
@@ -548,35 +548,34 @@ angular.module('arachne.controllers')
 
 
 
-            $scope.showMoreThumbnails = function(offset) {
+            $scope.showMoreThumbnails = function (offset) {
                 showThumbnails($scope.currentEntry, offset);
             };
 
-            function showThumbnails(entry, offset) {
+            function showThumbnails (entry, offset) {
 
                 $scope.currentEntry = entry;
                 $scope.cellsNotDisplayed = 0;
                 $scope.loadingThumbnails = true;
 
-                CatalogEntry.get({id: entry.id, limit: $scope.childrenLimit, offset: offset},
+                if (offset === 0) $scope.cells = [];
+
+                CatalogEntry.get({ id: entry.id, limit: $scope.childrenLimit, offset: offset },
                     function (result) {
 
-                        if (offset === 0) $scope.cells = [];
-
                         result.children.forEach(function (child) {
-                            var cell = {title: child.label};
+                            var cell = { title: child.label };
                             var index = $scope.cells.length;
                             $scope.cells[index] = cell;
 
-                            //    cell.href = "//" + document.location.host + "/catalog/" + child.catalogId + "/" + child.id;
-                            cell.onClick = function(scope) {
-                                return function() {
+                            cell.onClick = function (scope) {
+                                return function () {
                                     scope.selectEntry(child);
                                 }
                             }($scope);
 
                             if (child.arachneEntityId) {
-                                Entity.get({id: child.arachneEntityId}, function (entity) {
+                                Entity.get({ id: child.arachneEntityId }, function (entity) {
 
                                     var newCell = angular.copy(cell);
 
@@ -603,7 +602,7 @@ angular.module('arachne.controllers')
                 $scope.showThumbnails = entry.totalChildren > 0;
             }
 
-            function checkIfEditable() {
+            function checkIfEditable () {
                 if (!$scope.user) {
                     $scope.editable = false;
                 } else {
@@ -615,12 +614,12 @@ angular.module('arachne.controllers')
                             var user = result.data;
                             $scope.editable = ($scope.catalog.userIds.indexOf(user.id) !== -1);
                         }).catch(function () {
-                        $scope.editable = false;
-                    });
+                            $scope.editable = false;
+                        });
                 }
             }
 
-            function loadEntry(entryId, callback) {
+            function loadEntry (entryId, callback) {
                 CatalogEntry.get({
                     id: entryId
                 }, function (result) {
@@ -631,21 +630,21 @@ angular.module('arachne.controllers')
                 });
             }
 
-            function toggleParentHierarchy(entryId) {
-                getAncestorList(entryId, [], function(list){
+            function toggleParentHierarchy (entryId) {
+                getAncestorList(entryId, [], function (list) {
                     list.reverse();
                     toggleEntriesInList(list);
                 });
             }
 
-            function getAncestorList(entryId, ancestorList, callback) {
-                if($scope.entryMap[entryId] === undefined){
-                    loadEntry(entryId, function(entry){
+            function getAncestorList (entryId, ancestorList, callback) {
+                if ($scope.entryMap[entryId] === undefined) {
+                    loadEntry(entryId, function (entry) {
                         ancestorList.push(entry);
                         return getAncestorList(entry.parentId, ancestorList, callback)
                     })(ancestorList)
                 } // ^- load entry, if not cached already
-                else if($scope.entryMap[entryId].parentId) {
+                else if ($scope.entryMap[entryId].parentId) {
                     ancestorList.push($scope.entryMap[entryId]);
                     return getAncestorList($scope.entryMap[entryId].parentId, ancestorList, callback)
                 } // ^- use cached entry, if  cached already
@@ -654,28 +653,28 @@ angular.module('arachne.controllers')
                 } // ^- if cached but no parentId present, we reached the root node and return the list
             }
 
-            function toggleEntriesInList(list) {
+            function toggleEntriesInList (list) {
 
                 var current = list[0];
                 if (current !== undefined) {
-                    waitForElem("entry-" + current.id, function(elem) {
+                    waitForElem("entry-" + current.id, function (elem) {
                         elem.click();
                         if (list.length > 1) toggleEntriesInList(list.slice(1));
                     });
                 }
             }
 
-            function waitForElem(id, callback) {
+            function waitForElem (id, callback) {
                 var elem = document.getElementById(id);
-                $timeout(function() {
+                $timeout(function () {
                     if (elem) callback(elem);
                     else waitForElem(id, callback);
                 }, 50);
             }
 
-            retrieveCatalog($stateParams.id, function(result) {
+            retrieveCatalog($stateParams.id, function (result) {
                 if ($stateParams.entryId) {
-                    CatalogEntry.get({id: $stateParams.entryId}, function (entry) {
+                    CatalogEntry.get({ id: $stateParams.entryId }, function (entry) {
                         showEntry(entry);
                         toggleParentHierarchy($stateParams.entryId);
                     });

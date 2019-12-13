@@ -115,27 +115,22 @@
         <h3 ng-click="selectEntry(catalog.root)" style="cursor:pointer">
 
             <div class="btn-toolbar">
-                <button ng-show="editable" ng-click="showHelp()"
-                        class="btn btn-default btn-sm pull-right"
-                        uib-tooltip="{{ 'catalog_show_help' | transl8 }}"
-                        tooltip-append-to-body="true">
+                <button ng-show="editable" ng-click="showHelp()" class="btn btn-default btn-sm pull-right"
+                    uib-tooltip="{{ 'catalog_show_help' | transl8 }}" tooltip-append-to-body="true">
                     <span class="glyphicon glyphicon glyphicon-question-sign"></span>
                 </button>
 
                 <div ng-show="editable" class="btn-group btn-group-sm pull-right">
                     <button class="btn btn-default" ng-click="editCatalog()"
-                            uib-tooltip="{{ 'catalog_edit' | transl8 }}"
-                            tooltip-append-to-body="true">
+                        uib-tooltip="{{ 'catalog_edit' | transl8 }}" tooltip-append-to-body="true">
                         <span class="glyphicon glyphicon-edit"></span>
                     </button>
                     <button class="btn btn-default" ng-click="manageEditors()"
-                            uib-tooltip="{{ 'catalog_add_user' | transl8 }}"
-                            tooltip-append-to-body="true">
+                        uib-tooltip="{{ 'catalog_add_user' | transl8 }}" tooltip-append-to-body="true">
                         <span class="glyphicon glyphicon-user"></span>
                     </button>
                     <button class="btn btn-default" ng-click="addChild(null, catalog.root)"
-                            uib-tooltip="{{ 'catalog_create_entry' | transl8 }}"
-                            tooltip-append-to-body="true">
+                        uib-tooltip="{{ 'catalog_create_entry' | transl8 }}" tooltip-append-to-body="true">
                         <span class="glyphicon glyphicon-file"></span>
                     </button>
 
@@ -145,41 +140,34 @@
                         }
                     </style>
 
-                    <button class="btn btn-default" style="margin-left: -1px;"
-                            ng-click="removeItems = !removeItems"
-                            ng-class="{ removemode: removeItems }"
-                            uib-tooltip="{{ 'catalog_delete_entries' | transl8 }}"
-                            tooltip-append-to-body="true">
+                    <button class="btn btn-default" style="margin-left: -1px;" ng-click="removeItems = !removeItems"
+                        ng-class="{ removemode: removeItems }" uib-tooltip="{{ 'catalog_delete_entries' | transl8 }}"
+                        tooltip-append-to-body="true">
                         <span class="glyphicon glyphicon-remove-sign"></span>
                     </button>
 
                     <button class="btn btn-default" ng-click="removeCatalog()"
-                            uib-tooltip="{{ 'catalog_delete' | transl8 }}"
-                            tooltip-append-to-body="true">
+                        uib-tooltip="{{ 'catalog_delete' | transl8 }}" tooltip-append-to-body="true">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
 
-                <button ng-if="catalog.projectId"
-                        id="catalog-project-button" class="btn btn-default btn-sm pull-right"
-                        uib-tooltip="{{ 'catalog_project' | transl8 }}"
-                        tooltip-append-to-body="true">
+                <button ng-if="catalog.projectId" id="catalog-project-button" class="btn btn-default btn-sm pull-right"
+                    uib-tooltip="{{ 'catalog_project' | transl8 }}" tooltip-append-to-body="true">
                     <a ng-href="/project/{{catalog.projectId}}">
                         <span class="glyphicon glyphicon-globe"></span>
                     </a>
                 </button>
 
                 <button ng-if="catalog.public" ng-click="$parent.map = true; $event.stopPropagation();"
-                        id="catalog-map-button" class="btn btn-default btn-sm pull-right"
-                        uib-tooltip="{{ 'catalog_map' | transl8 }}"
-                        tooltip-append-to-body="true">
+                    id="catalog-map-button" class="btn btn-default btn-sm pull-right"
+                    uib-tooltip="{{ 'catalog_map' | transl8 }}" tooltip-append-to-body="true">
                     <span class="glyphicon glyphicon-map-marker"></span>
                 </button>
 
-                <button ng-click="openDownloadDialog()"
-                        id="catalog-download-button" class="btn btn-default btn-sm pull-right"
-                        uib-tooltip="{{ 'catalog_download' | transl8 }}"
-                        tooltip-append-to-body="true">
+                <button ng-click="openDownloadDialog()" id="catalog-download-button"
+                    class="btn btn-default btn-sm pull-right" uib-tooltip="{{ 'catalog_download' | transl8 }}"
+                    tooltip-append-to-body="true">
                     <span class="glyphicon glyphicon-download-alt"></span>
                 </button>
 
@@ -196,15 +184,14 @@
         <hr>
 
         <div ng-if="catalog.root.children.length > 0" ui-tree="treeOptions" data-drag-enabled="editable && !removeItems"
-             id="tree-root">
+            id="tree-root">
             <ol ui-tree-nodes="nodes" ng-model="catalog.root.children" ng-class="{hidden: collapsed}">
-                <li ng-repeat="entry in catalog.root.children"
-                    ui-tree-node collapsed="{{entry.totalChildren > 0}}"
+                <li ng-repeat="entry in catalog.root.children" ui-tree-node collapsed="{{entry.totalChildren > 0}}"
                     ng-include="'entries_renderer.html'">
                 </li>
 
                 <div ng-if="!catalog.root.loading && catalog.root.children.length < catalog.root.totalChildren"
-                     class="catalog-entry" style="cursor: pointer;" ng-click="loadChildren(catalog.root)">
+                    class="catalog-entry" style="cursor: pointer;" ng-click="loadChildren(catalog.root)">
                     <a style="display: block;">
                         <em ng-if="catalog.root.totalChildren - catalog.root.children.length == 1">
                             {{ 'ui_show_more' | transl8 }} ({{ 'ui_one_more_entry' | transl8 }})
@@ -219,35 +206,27 @@
         </div>
 
         <div ng-show="!removeItems && editable && catalog.root.children.length == catalog.root.totalChildren"
-             class="catalog-entry"
-             style="cursor: pointer;" ng-click="addChild(null, catalog.root)">
+            class="catalog-entry" style="cursor: pointer;" ng-click="addChild(null, catalog.root)">
             <a style="display: block;">
                 <em><span class="glyphicon glyphicon-file"></span> {{ 'catalog_create_entry' | transl8 }}</em>
             </a>
         </div>
 
         <div ng-show="removeItems">
-            <button type="button"
-                    class="btn btn-primary pull-right"
-                    ng-class="{ disabled: itemsToRemove.length === 0 }"
-                    ng-click="itemsToRemove.length > 0 && removeEntries()">{{ 'catalog_delete_entries_button' | transl8
+            <button type="button" class="btn btn-primary pull-right" ng-class="{ disabled: itemsToRemove.length === 0 }"
+                ng-click="itemsToRemove.length > 0 && removeEntries()">{{ 'catalog_delete_entries_button' | transl8
                 }}
             </button>
         </div>
 
     </div>
 
-    <div con10t-map ng-if="map && catalog"
-         catalog-id="catalogId"
-         id="map" class="col-md-4 fullscreencol"
-         entity-callback="selectEntity">
+    <div con10t-map ng-if="map && catalog" catalog-id="catalogId" id="map" class="col-md-4 fullscreencol"
+        entity-callback="selectEntity">
 
-        <div ng-if="map && catalog" style="position: absolute; top: 80px; left: 10px; z-index: 23;"
-             class="leaflet-bar">
-            <a ng-click="hideMap()" class="clickable"
-               uib-tooltip="{{ 'catalog_list' | transl8 }}"
-               tooltip-append-to-body="true"
-               tooltip-placement="right">
+        <div ng-if="map && catalog" style="position: absolute; top: 80px; left: 10px; z-index: 23;" class="leaflet-bar">
+            <a ng-click="hideMap()" class="clickable" uib-tooltip="{{ 'catalog_list' | transl8 }}"
+                tooltip-append-to-body="true" tooltip-placement="right">
                 <span class="glyphicon glyphicon-list"></span>
             </a>
         </div>
@@ -264,13 +243,11 @@
             </div>
 
 
-            <div ng-if="showThumbnails"
-                 class="row" style="margin-top: 18px;">
+            <div ng-if="showThumbnails" class="row" style="margin-top: 18px;">
 
                 <div class="col-md-12">
 
-                    <div ng-if="activeEntry.text"
-                         class="row">
+                    <div ng-if="activeEntry.text" class="row">
 
                         <div class="col-md-12">
 
@@ -290,7 +267,11 @@
 
                     </div>
 
-                  <div class="row" ng-if="cells.length > 0">
+                    <div ng-hide="!loadingThumbnails" class="row" style="height: 100px">
+                        <div class="loading" style="vertical-align:middle; margin-top: 100px;"></div>
+                    </div>
+
+                    <div class="row" ng-if="cells.length > 0">
 
                         <div class="col-md-12">
 
@@ -302,23 +283,18 @@
                                     </h2>
                                 </div>
 
-                                <div ar-imagegrid
-					                           cells="cells"
-					                           columns="4"
-					                           margin="4"
-                                               target="_self">
-				                        </div>
+                                <div ar-imagegrid cells="cells" columns="4" margin="4" target="_self">
+                                </div>
 
-                                <div ng-if="cells.length < activeEntry.totalChildren"
-                                     class="more-thumbnails">
-                                    <a class="btn btn-primary"
-                                       ng-click="showMoreThumbnails(cells.length)">
+                                <div ng-if="cells.length < activeEntry.totalChildren" class="more-thumbnails">
+                                    <a class="btn btn-primary" ng-click="showMoreThumbnails(cells.length)">
                                         {{ 'ui_show_more' | transl8 }}
                                         <em ng-if="activeEntry.totalChildren - cells.length == 1">
                                             ({{ 'ui_one_more_entry' | transl8 }})
                                         </em>
                                         <em ng-if="activeEntry.totalChildren - cells.length > 1">
-                                            ({{activeEntry.totalChildren - (cells.length)}} {{ 'ui_more_entries' | transl8 }})
+                                            ({{activeEntry.totalChildren - (cells.length)}}
+                                            {{ 'ui_more_entries' | transl8 }})
                                         </em>
                                     </a>
                                 </div>
@@ -355,8 +331,8 @@
                 </div>
 
                 <div ng-show="activeEntity" class="col-md-4">
-                    <div ar-imageslider ng-if="activeEntity.images" entity="activeEntity"
-                         current-query="currentQuery"></div>
+                    <div ar-imageslider ng-if="activeEntity.images" entity="activeEntity" current-query="currentQuery">
+                    </div>
                     <ar-entity-links entity="activeEntity"></ar-entity-links>
                 </div>
 
