@@ -84,6 +84,7 @@
             ng-include="'entries_renderer.html'"></li>
 
         <div ng-if="!entry.loading && entry.children.length < entry.totalChildren" class="catalog-entry"
+             id="entry-more-{{entry.id}}"
              style="cursor: pointer;"
              ng-click="loadChildren(entry)">
             <a style="display: block;">
@@ -191,7 +192,7 @@
                 </li>
 
                 <div ng-if="!catalog.root.loading && catalog.root.children.length < catalog.root.totalChildren"
-                    class="catalog-entry" style="cursor: pointer;" ng-click="loadChildren(catalog.root)">
+                    class="catalog-entry" id="entry-more-{{catalog.root.id}}" style="cursor: pointer;" ng-click="loadChildren(catalog.root)">
                     <a style="display: block;">
                         <em ng-if="catalog.root.totalChildren - catalog.root.children.length == 1">
                             {{ 'ui_show_more' | transl8 }} ({{ 'ui_one_more_entry' | transl8 }})

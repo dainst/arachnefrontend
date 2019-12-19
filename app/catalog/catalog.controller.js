@@ -233,7 +233,7 @@ angular.module('arachne.controllers')
 
             $scope.loadChildren = function (entry) {
                 entry.loading = true;
-                CatalogEntry.get({
+                return CatalogEntry.get({
                     id: entry.id,
                     limit: $scope.childrenLimit,
                     offset: entry.children.length
@@ -243,7 +243,7 @@ angular.module('arachne.controllers')
                     entry.loading = undefined;
                 }, function () {
                     messages.add('backend_missing');
-                });
+                }).$promise;
             };
 
             $scope.removeEntry = function (scope, entry) {
@@ -657,8 +657,10 @@ angular.module('arachne.controllers')
 
                 var current = list[0];
                 if (current !== undefined) {
+                    toggleMoreEntries(current);
                     waitForElem("entry-" + current.id, function (elem) {
                         elem.click();
+                        elem.parentNode.scrollIntoView();
                         if (list.length > 1) toggleEntriesInList(list.slice(1));
                     });
                 }
@@ -670,6 +672,19 @@ angular.module('arachne.controllers')
                     if (elem) callback(elem);
                     else waitForElem(id, callback);
                 }, 50);
+            }
+
+            function toggleMoreEntries(entry) {
+                var parentEntry = $scope.entryMap[entry.parentId];
+                var foundEntry = parentEntry.children.find(function(e) { return e.id == entry.id });
+                if (!foundEntry) {
+                    waitForElem("entry-more-" + entry.parentId, function(elem) {
+                        elem.parentNode.scrollIntoView();
+                        $scope.loadChildren(parentEntry).then(function() {
+                            toggleMoreEntries(entry);
+                        });
+                    });
+                }
             }
 
             retrieveCatalog($stateParams.id, function (result) {
