@@ -8,8 +8,8 @@ angular.module('arachne.services')
 function($http, arachneSettings, $filter, $cookies) {
 
     // initialize to whatever is in the cookie, if anything
-    if ($cookies.get('ar-authdata')) {
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookies.get('ar-authdata');
+    if ($cookies.get('ar-auth')) {
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + $cookies.get('ar-auth');
     } else {
         delete $http.defaults.headers.common['Authorization'];
     }
@@ -25,7 +25,7 @@ function($http, arachneSettings, $filter, $cookies) {
                     response = result.data;
 
                     $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
-                    $cookies.put('ar-authdata', encoded);
+                    $cookies.put('ar-auth', encoded);
                     $cookies.putObject('ar-user-object', { username: username, groupID: response.groupID });
 
                     if (response.datasetGroups !== undefined) {
@@ -40,7 +40,7 @@ function($http, arachneSettings, $filter, $cookies) {
 
         clearCredentials: function () {
             document.execCommand("ClearAuthenticationCache");
-            $cookies.remove('ar-authdata');
+            $cookies.remove('ar-auth');
             $cookies.remove('ar-user-object');
             $cookies.remove('ar-datasetgroups-object');
             delete $http.defaults.headers.common['Authorization'];
