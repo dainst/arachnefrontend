@@ -9,7 +9,7 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var sort = require('gulp-sort');
 var addSrc = require('gulp-add-src');
-var minifyCss = require('gulp-minify-css');
+var cleanCss = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 var templateCache = require('gulp-angular-templatecache');
 var minifyHtml = require("gulp-minify-html");
@@ -81,7 +81,7 @@ gulp.task('compile-css', function () {
 // minify css files in build dir
 gulp.task('minify-css', gulp.series('compile-css', function() {
 	return gulp.src('dist/css/' + pkg.name + '.css')
-		.pipe(minifyCss())
+		.pipe(cleanCss({ inline: ['remote'] }))
   		.pipe(concat(pkg.name + '.min.css'))
 		.pipe(gulp.dest('dist/css'));
 }));
