@@ -144,7 +144,7 @@ describe('user management page', function () {
             .then(expect(navbarPage.getLoginWarning().isPresent()).toBe(true))
     });
 
-    it('should be able to close login modal', function () {
+    xit('should be able to close login modal', function () {
         navbarPage.clickLogin()
             .then(navbarPage.closeLoginModal())
             .then(expect(navbarPage.getLoginModal().isPresent()).toBe(false))
