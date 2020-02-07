@@ -37,8 +37,6 @@
             </a>
         </span>
 
-
-
         <span ng-show="editable && !removeItems" class="edit-section">
 			<a class="edit-btn pull-right"
                ng-click="removeEntry(this, entry)"
@@ -253,10 +251,18 @@
                         <div class="col-md-12">
 
                             <div class="panel panel-default">
-                                <div class="panel-heading">
+                                <!-- catalog.root has catalog_description -->
+                                <div ng-if = "activeEntry.id == catalog.root.id" class="panel-heading">
                                     <h2 class="panel-title">
                                         <span class="glyphicon glyphicon-file"></span>
                                         {{ 'catalog_description' | transl8 }}
+                                    </h2>
+                                </div>
+                                <!-- all other entries have catalog_text -->
+                                <div ng-if = "activeEntry.id != catalog.root.id" class="panel-heading">
+                                    <h2 class="panel-title">
+                                        <span class="glyphicon glyphicon-file"></span>
+                                        {{ 'catalog_text' | transl8 }}
                                     </h2>
                                 </div>
                                 <div class="panel-body catalog-text">
@@ -306,8 +312,6 @@
 
                     </div>
 
-
-
                 </div>
 
             </div>
@@ -321,7 +325,7 @@
                         <div class="panel-heading">
                             <h2 class="panel-title">
                                 <span class="glyphicon glyphicon-file"></span>
-                                {{ 'catalog_description' | transl8 }}
+                                {{ 'catalog_text' | transl8 }}
                             </h2>
                         </div>
                         <div class="panel-body catalog-text">
