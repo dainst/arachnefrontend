@@ -50,7 +50,7 @@ angular.module('arachne.controllers')
                                 $scope.entryMap[newParentId].totalChildren += 1;
                             }
                             movedEntry.parentId = newParentId;
-                            movedEntry.indexParent = getIndexParent(movedEntry);
+                            movedEntry.indexParent = tempEntry.indexParent;
                         }, function () {
                             messages.add('default');
                         });
