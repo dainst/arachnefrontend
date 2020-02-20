@@ -44,7 +44,7 @@ angular.module('arachne.controllers')
             var handleChangeSuccess = function () {
                 messages.dontClearOnNextLocationChange();
                 messages.add('ui.passwordchange.success', 'success');
-                $location.path("/user");
+                $location.path("/editUser");
             };
 
             /**
