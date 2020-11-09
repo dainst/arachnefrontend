@@ -27,6 +27,15 @@ angular.module('arachne.controllers')
                 var live = $location.search()["live"] == "true";
                 var params;
 
+                // TODO: Implement option to run page based query
+                // if(typeof $stateParams.page !== 'undefined') {
+                //     params = {
+                //         id: $stateParams.id,
+                //         suffix: $stateParams.suffix,
+                //         page: $stateParams.page,
+                //         live: live
+                //     };
+                // } else
                 if(typeof $stateParams.suffix !== 'undefined')
                 {
                     params = {
