@@ -27,7 +27,8 @@ angular.module('arachne.controllers')
                 var live = $location.search()["live"] == "true";
                 var params;
 
-                // TODO: Implement option to run page based query
+                // TODO: Implement option to run page alias based query, currently not supported by the backend 
+                // (Example: http://arachne.dainst.org/books/archive/A-VII-29/002 where "002" is the page alias.)
                 // if(typeof $stateParams.page !== 'undefined') {
                 //     params = {
                 //         id: $stateParams.id,
@@ -35,7 +36,8 @@ angular.module('arachne.controllers')
                 //         page: $stateParams.page,
                 //         live: live
                 //     };
-                // } else
+                // } 
+                // else if(typeof $stateParams.suffix !== 'undefined')
                 if(typeof $stateParams.suffix !== 'undefined')
                 {
                     params = {
