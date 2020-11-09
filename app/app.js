@@ -69,10 +69,9 @@ angular.module('arachne',[
 			'catalog':			{ url: '/catalog/:id?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }},
 			'catalog.entry':	{ url: '/:entryId?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }},
 			'books':			{ url: '/books/:id', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
-            'booksSuffixed':    { url: '/books/:id/:suffix?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
+			'booksSuffixed':	{ url: '/books/:id/:suffix?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
+			'booksSuffixedPage':	{ url: '/books/:id/:suffix/:page?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }}, // Temporary fix for WIT-185, also see Ticket SD-842
 			'entity':			{ url: '/entity/:id?/:params?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
-
-
 			'entityImages':		{ url: '/entity/:entityId/images', templateUrl: 'app/entity/entity-images.html', data: { pageTitle: title }},
 			'entityImage':		{ url: '/entity/:entityId/image/:imageId', templateUrl: 'app/entity/entity-image.html', data: { pageTitle: title }},
 			'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc&bbox&ghprec&group', templateUrl: 'app/search/search.html', data: { pageTitle: title }},
