@@ -48,7 +48,7 @@
   "devDependencies": {
     "angular-mocks": "~1.6.10",
     "bootstrap-sass": "^3.4.1",
-    "browser-sync": "^2.26.7",
+    "browser-sync": "^2.26.13",
     "chromedriver": "~2.37.0",
     "connect-modrewrite": "~0.10.2",
     "cors": "~2.8.4",
@@ -58,7 +58,7 @@
     "gulp-angular-templatecache": "^2.2.6",
     "gulp-clean-css": "^4.2.0",
     "gulp-concat": "~2.6.1",
-    "gulp-git": "~2.4.2",
+    "gulp-git": "^2.10.1",
     "gulp-minify-html": "~1.0.6",
     "gulp-rename": "~1.2.3",
     "gulp-replace": "~0.6.1",
