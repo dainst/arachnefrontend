@@ -448,17 +448,11 @@ Handles communication between the image server and an IIP compliant viewer on th
 
 ### GET /catalog
 
-**RequestParameter: full** *optional* (default: `false`)
-
-* **full** boolean If full catalogs shall be retrieved or only the root nodes.
-
 Retrieves all catalogs of the current user
 
 
 
 ### GET /catalog/$catalogId
-
-`RequestParameter: full` *optional* (default: `false`)
 
 `RequestParameter: limit` *optional* (default: 0)
 
@@ -466,9 +460,8 @@ Retrieves all catalogs of the current user
 
 * **$catalogId** long Unique ID of the catalog
 
-* **full** boolean If the full catalog shall be retrieved or only the root node including direct children.
-* **limit** int If the parameter _full_ is false then this limits the number of children retrieved. A value of 0 retrieves all children.
-* **offset** int If the parameter _full_ is false and the parameter _limit_ is greater than zero this parameter gives an offset into the child list.
+* **limit** int this limits the number of children retrieved. A value of 0 retrieves all children.
+* **offset** int If the parameter _limit_ is greater than zero this parameter gives an offset into the child list.
 
 Retrieves a single catalog with specified id.
 Returns 403 if the catalog is not owned by the current user or not public.
@@ -677,17 +670,14 @@ Retrieves a list of all catalogs of the current user of which the given entityId
 
 ### GET /catalog/entry/$catalogentryId
 
-**RequestParameter: full optional** (default: `false`)
-
 **RequestParameter: limit optional** (default: 0)
 
 **RequestParameter: offset optional** (default: 0)
 
 * **$catalogentryId** long Unique ID of the CatalogEntry
 
-* **full** boolean If the full catalog shall be retrieved or only the root node including direct children.
-* **limit** int If the parameter _full_ is false then this limits the number of children retrieved. A value of 0 retrieves all children.
-* **offset** int If the parameter _full_ is false and the parameter _limit_ is greater than zero this parameter gives an offset into the child list.
+* **limit** int This limits the number of children retrieved. A value of 0 retrieves all children.
+* **offset** int If the parameter _limit_ is greater than zero this parameter gives an offset into the child list.
 
 Retrieves a single CatalogEntry with specified id.
 Returns 403 if the catalog of the catalogEntry is not owned by the current user or not public.
