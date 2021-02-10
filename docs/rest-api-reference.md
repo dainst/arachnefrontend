@@ -406,13 +406,13 @@ Retrieves all catalogs of the current user
 
 ### GET /catalog/$catalogId
 
-`RequestParameter: limit` *optional* (default: 0)
+`RequestParameter: limit` *optional* (default: -1)
 
 `RequestParameter: offset` *optional* (default: 0)
 
 * **$catalogId** long Unique ID of the catalog
 
-* **limit** int this limits the number of children retrieved. A value of 0 retrieves all children.
+* **limit** int this limits the number of children retrieved. A value of -1 retrieves all children.
 * **offset** int If the parameter _limit_ is greater than zero this parameter gives an offset into the child list.
 
 Retrieves a single catalog with specified id.
@@ -622,13 +622,13 @@ Retrieves a list of all catalogs of the current user of which the given entityId
 
 ### GET /catalog/entry/$catalogentryId
 
-**RequestParameter: limit optional** (default: 0)
+**RequestParameter: limit optional** (default: -1)
 
 **RequestParameter: offset optional** (default: 0)
 
 * **$catalogentryId** long Unique ID of the CatalogEntry
 
-* **limit** int This limits the number of children retrieved. A value of 0 retrieves all children.
+* **limit** int This limits the number of children retrieved. A value of -1 retrieves all children.
 * **offset** int If the parameter _limit_ is greater than zero this parameter gives an offset into the child list.
 
 Retrieves a single CatalogEntry with specified id.
