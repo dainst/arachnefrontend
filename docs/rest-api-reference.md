@@ -281,7 +281,7 @@ Handles communication between the image server and an IIP compliant viewer on th
         "children": [
             {
                 "id": 594,
-                "children": [],
+                "totalChildren": 0,
                 "arachneEntityId": null,
                 "label": "Vorbebauung",
                 "text": null,
@@ -292,55 +292,7 @@ Handles communication between the image server and an IIP compliant viewer on th
             },
             {
                 "id": 593,
-                "children": [
-                    {
-                        "id": 595,
-                        "children": [
-                            {
-                                "id": 596,
-                                "children": [
-                                    {
-                                        "id": 598,
-                                        "children": [
-                                            {
-                                                "id": 599,
-                                                "children": [],
-                                                "arachneEntityId": 1184191,
-                                                "label": "Fundamente der Innensäulen",
-                                                "text": "Die Fundamente der Innensäulen.",
-                                                "path": "83/597/593/595/596/598/599",
-                                                "parentId": 598,
-                                                "indexParent": 0,
-                                                "catalogId": 83
-                                            }
-                                        ],
-                                        "arachneEntityId": null,
-                                        "label": "Fundamente",
-                                        "text": null,
-                                        "path": "83/597/593/595/596/598",
-                                        "parentId": 596,
-                                        "indexParent": 0,
-                                        "catalogId": 83
-                                    }
-                                ],
-                                "arachneEntityId": null,
-                                "label": "Republikanische Zeit",
-                                "text": null,
-                                "path": "83/597/593/595/596",
-                                "parentId": 595,
-                                "indexParent": 0,
-                                "catalogId": 83
-                            }
-                        ],
-                        "arachneEntityId": null,
-                        "label": "Aula",
-                        "text": null,
-                        "path": "83/597/593/595",
-                        "parentId": 593,
-                        "indexParent": 0,
-                        "catalogId": 83
-                    }
-                ],
+                "totalChildren": 6,
                 "arachneEntityId": null,
                 "label": "Basilica Aemilia",
                 "text": null,
