@@ -240,6 +240,11 @@ gulp.task('copy-configfiles', function() {
         .pipe(gulp.dest('dist/config'));
 });
 
+gulp.task('copy-3dhop', function() {
+    return gulp.src('3dhop/**/*', {base: '3dhop'})
+        .pipe(gulp.dest('dist/3dhop'));
+});
+
 gulp.task('build', gulp.series(
     'copy-con10t',
     'copy-devconfigtemplate',
@@ -251,6 +256,7 @@ gulp.task('build', gulp.series(
     'copy-imgs',
     'copy-marker-imgs',
     'copy-leaflet-fullscreen-icon',
+    'copy-3dhop',
     'copy-index',
     'copy-info'
 ));
@@ -293,7 +299,7 @@ gulp.task('server', function () {
             middleware: [
                 proxy(proxyOptions),
                 // rewrite for AngularJS HTML5 mode, redirect all non-file urls to index.html
-                modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.csv|\\.woff2|\\.woff|\\.ttf$ /index.html [L]'])
+                modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png|\\.jpg|\\.gif|\\.json|\\.csv|\\.woff2|\\.woff|\\.ttf|\\.nxz$ /index.html [L]'])
             ]
         },
         port: 8082,

@@ -156,5 +156,8 @@ angular.module('arachne.controllers')
 
                 }
             }
+
+            $scope.getNexusUrl = (entity) => entity && '3dhop/thumb.html?model=/data/model/' + entity.internalId + '.nxz';
+
         }
     ]);

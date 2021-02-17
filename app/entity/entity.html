@@ -138,6 +138,10 @@
             <!-- CONTEXT & IMAGE SECTION -->
             <div class="col-md-4">
 
+                <div ng-if="entity.type === '3D-Modelle' && entity.filename.endsWith('.nxz')" class="panel threedhop-container">
+                    <iframe ng-src="{{getNexusUrl(entity)}}" title="3D-Viewer"></iframe>
+                </div>
+
                 <div ar-imageslider ng-if="entity.images" entity="entity" current-query="currentQuery"></div>
 
                 <ar-entity-links entity="entity"></ar-entity-links>
