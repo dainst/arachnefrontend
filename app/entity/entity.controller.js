@@ -157,7 +157,18 @@ angular.module('arachne.controllers')
                 }
             }
 
-            $scope.getNexusUrl = (entity) => entity && '3dhop/thumb.html?model=/data/model/' + entity.internalId + '.nxz';
+            $scope.show3DHOP = (entity) => entity && getFirst3dhopModel(entity);
+
+            $scope.getModelUrl = (entity) => {
+                if (!entity) return;
+                const model = getFirst3dhopModel(entity);
+                return '3dhop/thumb.html?model=/data/model/' + model.internalId + entity.filename.substr(-4);
+            }
 
         }
     ]);
+
+const getFirst3dhopModel = (entity) => {
+    console.log({ models: entity.models.find(model => /(\.nxz|\.ply)$/.test(model.fileName))});
+    return entity.models && entity.models.find(model => /(\.nxz|\.ply)$/.test(model.fileName));
+}
