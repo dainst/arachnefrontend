@@ -168,7 +168,5 @@ angular.module('arachne.controllers')
         }
     ]);
 
-const getFirst3dhopModel = (entity) => {
-    console.log({ models: entity.models.find(model => /(\.nxz|\.ply)$/.test(model.fileName))});
-    return entity.models && entity.models.find(model => /(\.nxz|\.ply)$/.test(model.fileName));
-}
+const getFirst3dhopModel = (entity) => 
+    entity.models && entity.models.find(model => /(\.nxz|\.ply)$/.test(model.fileName));
