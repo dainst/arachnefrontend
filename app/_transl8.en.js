@@ -42,6 +42,7 @@ transl8['en'] = {
     "entity_images": "Images",
     "entity_analysis": "Analysis",
     "entity_image": "Image",
+    "entity_3dmodel": "3D model",
     "entity_other_views": "Other views",
     "ui_category": "Category",
     "ui_serial_number": "Serial Number",

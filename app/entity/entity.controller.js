@@ -157,27 +157,5 @@ angular.module('arachne.controllers')
                 }
             }
 
-            $scope.showObjViewer = (entity) => entity && getFirstObjModel(entity);
-
-            $scope.getObjViewerUrl = (entity) => {
-                if (!entity) return;
-                const model = getFirstObjModel(entity);
-                return '3dviewer/thumb.html?modelId=' + model.internalId + '&backendUri=' + arachneSettings.dataserviceUri;
-            }
-
-            $scope.show3DHOP = (entity) => entity && getFirst3dhopModel(entity);
-
-            $scope.get3DHOPViewerUrl = (entity) => {
-                if (!entity) return;
-                const model = getFirst3dhopModel(entity);
-                return '3dhop/thumb.html?model=/data/model/' + model.internalId + model.fileName.substr(-4);
-            }
-
         }
     ]);
-
-const getFirstObjModel = (entity) => 
-    entity.models && entity.models.find(model => /(\.obj)$/.test(model.fileName));
-
-const getFirst3dhopModel = (entity) => 
-    entity.models && entity.models.find(model => /(\.nxz|\.ply)$/.test(model.fileName));

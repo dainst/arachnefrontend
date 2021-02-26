@@ -1,0 +1,13 @@
+<div>
+
+    <h3>{{'entity_3dmodel'|transl8}}</h3>
+
+    <div ng-if="showObjViewer(entity)" class="panel threedviewer threedviewer-container">
+        <iframe ng-src="{{getObjViewerUrl(entity)}}" title="3D-Viewer" scrolling="no"></iframe>
+    </div>
+
+    <div ng-if="show3DHOP(entity)" class="panel threedviewer-container">
+        <iframe ng-src="{{get3DHOPViewerUrl(entity)}}" title="3D-Viewer"></iframe>
+    </div>
+
+</div>

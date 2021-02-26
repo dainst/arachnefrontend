@@ -10,6 +10,7 @@ transl8['de'] = {
     "entity_images": "Abbildungen",
     "entity_analysis": "Analyse",
     "entity_image": "Abbildung",
+    "entity_3dmodel": "3D-Modell",
     "ui_category": "Kategorie",
     "ui_serial_number": "Seriennummer",
     "facet_subkategorie_bilder": "Bestandstyp",

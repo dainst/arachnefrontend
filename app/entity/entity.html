@@ -138,13 +138,7 @@
             <!-- CONTEXT & IMAGE SECTION -->
             <div class="col-md-4">
 
-                <div ng-if="showObjViewer(entity)" class="panel threedviewer threedviewer-container">
-                    <iframe ng-src="{{getObjViewerUrl(entity)}}" title="3D-Viewer" scrolling="no"></iframe>
-                </div>
-
-                <div ng-if="show3DHOP(entity)" class="panel threedviewer-container">
-                    <iframe ng-src="{{get3DHOPViewerUrl(entity)}}" title="3D-Viewer"></iframe>
-                </div>
+                <div ar-entity-3dmodel ng-if="entity.models" entity="entity"></div>
 
                 <div ar-imageslider ng-if="entity.images" entity="entity" current-query="currentQuery"></div>
 
