@@ -7,7 +7,13 @@
   <script type="text/javascript" src="idai-3dviewer.min.js"></script>
 </head>
 
-<body style="margin: 0;">
+<body style="margin: 0; font-family: 'Courier New', Courier, monospace;">
+
+    <div style="position: absolute; top: 10px; left: 10px; background-color: rgba(100,100,100,0.7); border-radius: 8px;">
+        <a href="" id="fullscreen-link" style="text-decoration: none;" target="_parent">
+            <img src="full.png" alt="Show model in fullscreen window" style="margin-bottom: -3px; height: 50px;">
+        </a>
+    </div>
 
     <!-- three.js container -->
     <div id="3d-container"></div>
@@ -27,6 +33,8 @@
         const params = new URLSearchParams(window.location.search);
         const modelId = params.get("modelId");
         const backendUri = params.get("backendUri") || "https://arachne.dainst.org/data";
+
+        document.getElementById("fullscreen-link").setAttribute("href", "/3d?id=" + modelId);
 
         _3dviewer({backendUri, modelId});
     </script>
