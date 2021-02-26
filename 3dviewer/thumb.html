@@ -1,0 +1,34 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>3d Viewer</title>
+  <script type="text/javascript" src="idai-3dviewer.min.js"></script>
+</head>
+
+<body>
+
+    <!-- three.js container -->
+    <div id="3d-container"></div>
+    <div id="loader" style="position: absolute; top: 50%; left: 50%; margin:-40px 0 0 -40px;">
+        <div id="progress" style="position: bottom; text-align: center"></div>
+    </div>
+    <!-- info on screen display (is expected by viewer code but hidden in thumb view) -->
+    <div id="info" style="text-align:center; visibility: hidden;">
+        <div class="top" id="title"></div>
+        <div class="topLeft" id="data"></div>
+        <div class="topRight" id="gui"></div>
+        <div class="bottomRight" id="help"></div>
+    </div>  
+
+    <script type="application/javascript">
+
+        const params = new URLSearchParams(window.location.search);
+        const modelId = params.get("modelId");
+        const backendUri = params.get("backendUri") || "https://arachne.dainst.org/data";
+
+        _3dviewer({backendUri, modelId});
+    </script>
+</body>
+</html>

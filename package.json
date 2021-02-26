@@ -15,7 +15,7 @@
     "server-src": "gulp server-src"
   },
   "dependencies": {
-    "3dviewer": "git+https://github.com/dainst/3dviewer.git#v1.0.1",
+    "idai-3dviewer": "1.0.3",
     "@uirouter/angularjs": "1.0.11",
     "angular": "1.8.2",
     "angular-cookies": "1.8.2",

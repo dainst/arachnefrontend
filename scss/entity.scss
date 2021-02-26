@@ -104,12 +104,16 @@
     cursor: pointer;
 }
 
-.threedhop-container {
+.threedviewer-container {
+    position: relative;
+    height: 310px;
+    top: 0;
     overflow: hidden;
     width: 100%;
     height: 310px;
 
     iframe {
+      overflow: hidden;
       border: 0;
       width: 100%;
       height: 100%;

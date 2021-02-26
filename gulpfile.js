@@ -52,7 +52,7 @@ var jsDeps = [
     'node_modules/angular-ui-tree/dist/angular-ui-tree.min.js',
     'node_modules/showdown/dist/showdown.min.js',
     'node_modules/ng-showdown/dist/ng-showdown.min.js',
-    'node_modules/3dviewer/dist/3dviewer.js',
+    'node_modules/idai-3dviewer/dist/idai-3dviewer.js',
     'lib/relative-paths-in-partial.js',
     'node_modules/d3/dist/d3.min.js',
     'node_modules/angular-md5/angular-md5.js',
@@ -240,6 +240,11 @@ gulp.task('copy-configfiles', function() {
         .pipe(gulp.dest('dist/config'));
 });
 
+gulp.task('copy-3dviewer', function() {
+    return gulp.src(['node_modules/idai-3dviewer/dist/idai-3dviewer.min.js', '3dviewer/**/*'])
+        .pipe(gulp.dest('dist/3dviewer'));
+});
+
 gulp.task('copy-3dhop', function() {
     return gulp.src('3dhop/**/*', {base: '3dhop'})
         .pipe(gulp.dest('dist/3dhop'));
@@ -256,6 +261,7 @@ gulp.task('build', gulp.series(
     'copy-imgs',
     'copy-marker-imgs',
     'copy-leaflet-fullscreen-icon',
+    'copy-3dviewer',
     'copy-3dhop',
     'copy-index',
     'copy-info'
