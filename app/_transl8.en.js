@@ -326,6 +326,7 @@ transl8['en'] = {
     "navbar_edit_profile": "Edit profile",
     "projects_all_projects": "All projects in Arachne",
     "search_no_results": "No results found for",
+    "search_no_results_rights": "You may not have the necessary access rights. Please contact the address given on the project entry page.",
     "search_current_filters": "with current filters",
     "ui_no_title": "has no title",
     "3Dinfo_flight_control": "Flight control:",
