@@ -68,11 +68,15 @@ function setup3dhop() {
 }
 
 function actionsToolbar(action) {
+	console.log({action});
 	if(action=='home') presenter.resetTrackball(); 
 	else if(action=='zoomin') presenter.zoomIn();
 	else if(action=='zoomout') presenter.zoomOut(); 
 	else if(action=='light' || action=='light_on') { presenter.enableLightTrackball(!presenter.isLightTrackballEnabled()); lightSwitch(); } 
-	else if(action=='full'  || action=='full_on') fullscreenSwitch(); 
+	else if(action=='full'  || action=='full_on') {
+		var fullUrl = window.location.href.replace('thumb.html', 'full.html');
+		window.open(fullUrl, '_blank');
+	}
 }
 
 $(document).ready(function(){

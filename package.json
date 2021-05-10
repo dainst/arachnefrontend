@@ -15,7 +15,6 @@
     "server-src": "gulp server-src"
   },
   "dependencies": {
-    "idai-3dviewer": "1.0.3",
     "@uirouter/angularjs": "1.0.11",
     "angular": "1.8.2",
     "angular-cookies": "1.8.2",
@@ -30,6 +29,7 @@
     "d3": "5.7.0",
     "drmonty-leaflet-awesome-markers": "2.0.2",
     "font-awesome": "4.7.0",
+    "idai-3dviewer": "1.0.3",
     "idai-components": "3.0.1",
     "idai-cookie-notice": "~0.0.3",
     "leaflet": "1.3.1",
