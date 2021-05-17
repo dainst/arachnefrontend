@@ -92,6 +92,7 @@ transl8['en'] = {
     "facet_jahr": "Year",
     "facet_autor": "Author",
     "facet_kontext": "Context",
+    "facet_weiterepersonen": "Other persons",
     "ui_previous_queries": "Previous Searches",
     "catalog_delete_type_catalog_name": "Please type in the name of the catalog to confirm.",
     "catalog_show_help": "Show help",
