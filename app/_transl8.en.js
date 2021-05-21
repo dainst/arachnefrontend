@@ -607,5 +607,7 @@ transl8['en'] = {
     "ui_add_name": "Add name",
     "ui_add_language": "Add language",
     "navbar_this_scope": "This Scope",
-    "navbar_leave_scope": "Leave Search Scope"
+    "navbar_leave_scope": "Leave Search Scope",
+    "facet_titel": "Title",
+    "facet_ethnienationalitaet": "Nationality"
 }
