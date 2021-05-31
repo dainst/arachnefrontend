@@ -606,5 +606,6 @@ transl8['de'] = {
     "ui_add_name": "Namen hinzufügen",
     "ui_add_language": "Sprache hinzufügen",
     "navbar_this_scope": "Dieser Suchbereich",
-    "navbar_leave_scope": "Suchbereich verlassen"
+    "navbar_leave_scope": "Suchbereich verlassen",
+    "ui.con10t-network.too_many_entities": "Bitte schränken Sie ihre Suche auf 300 Ergebnisse oder weniger ein."
 };

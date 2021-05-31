@@ -647,6 +647,7 @@ angular.module('arachne.visualizations.directives')
                     scope.selectedRecipients = tempRecipients;
                 };
 
+                scope.maxIdsForSearching = 300;
                 scope.selectedPlaceId = null;
                 scope.selectedAuthors = [];
                 scope.selectedRecipients = [];

@@ -609,5 +609,6 @@ transl8['en'] = {
     "navbar_this_scope": "This Scope",
     "navbar_leave_scope": "Leave Search Scope",
     "facet_titel": "Title",
-    "facet_ethnienationalitaet": "Nationality"
+    "facet_ethnienationalitaet": "Nationality",
+    "ui.con10t-network.too_many_entities": "Please narrow down your search to 300 results or less."
 }
