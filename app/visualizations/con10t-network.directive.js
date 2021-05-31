@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('arachne.visualizations.directives')
-    .directive('con10tNetwork', ['$http', '$q', '$filter', '$location', function ($http, $q, $filter, $location) {
+    .directive('con10tNetwork', ['$http', '$q', '$filter', '$window', function ($http, $q, $filter, $window) {
         return {
             restrict: 'E',
             templateUrl: 'app/visualizations/con10t-network.html',
@@ -623,7 +623,7 @@ angular.module('arachne.visualizations.directives')
                         path += ' OR entityId:' + scope.arachneIds[i]
                     }
 
-                    $location.url(path)
+                    $window.open(path);
                 };
 
                 scope.toggleObjectGroup = function(id) {
