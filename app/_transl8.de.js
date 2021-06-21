@@ -171,7 +171,6 @@ transl8['de'] = {
     "facet_datierungepoche": "Datierung, Epoche",
     "facet_ort": "Ort",
     "facet_kategorie": "Kategorie",
-    "facet_weiterepersonen": "Weitere Personen",
     "type_sammlungen": "Sammlungen",
     "ui_current_search": "Aktuelle Suche",
     "ui_gridmap_heading": "Georeferenzierte Objekte in Arachne",
