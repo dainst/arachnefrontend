@@ -606,5 +606,13 @@ transl8['en'] = {
     "ui_add_name": "Add name",
     "ui_add_language": "Add language",
     "navbar_this_scope": "This Scope",
-    "navbar_leave_scope": "Leave Search Scope"
+    "navbar_leave_scope": "Leave Search Scope",
+    "facet_titel": "Title",
+    "facet_ethnienationalitaet": "Nationality",
+    "ui.con10t-network.too_many_entities": "Please narrow down your search to 300 results or less.",
+    "group_facet_person": "People",
+    "facet_personroleauthor": "Authors",
+    "facet_personroletopic": "Mentioned",
+    "facet_personroleaddressee": "Addressees",
+    "facet_personrolenone": "Other"
 }

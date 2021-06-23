@@ -64,11 +64,14 @@
                 (objectsWithoutMailingRoute + objectsWithMailingRoute)) * 100).toFixed(2)}}%
                 ({{objectsWithoutMailingRoute}} von {{objectsWithoutMailingRoute + objectsWithMailingRoute}}).
             </p>
-            <button type="button" class="btn btn-primary btn-sm btn-block"
-                    ng-disabled="arachneIds.length == 0 || arachneIds.length > 100"
-                    ng-click="searchArachneIds()">
-                {{"ui_showobjects"|transl8}} ({{arachneIds.length}})
-            </button>
+            <p>
+                <button type="button" class="btn btn-primary btn-sm btn-block"
+                        ng-disabled="arachneIds.length == 0 || arachneIds.length > maxIdsForSearching"
+                        ng-click="searchArachneIds()">
+                    {{"ui_showobjects"|transl8}} ({{arachneIds.length}})
+                </button>
+            </p>
+            <p ng-if="arachneIds.length >= maxIdsForSearching">{{"ui.con10t-network.too_many_entities"|transl8}}</p>
         </div>
 
     </div>
