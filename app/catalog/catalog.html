@@ -17,7 +17,7 @@
               ng-click="selectEntry(entry)"></span>
 
         <span data-nodrag class="entry-label clickable"
-              ng-click="selectEntry(entry, this)">
+              ng-click="selectEntry(entry, this); $event.stopPropagation();">
             {{entry.label}}
             <small ng-if="entry.arachneEntityId" class="text-muted"><i>{{ entry.arachneEntityId }}</i></small>
             <small>
