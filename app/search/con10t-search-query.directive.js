@@ -29,7 +29,7 @@ return {
             var href = '';
 
             if (typeof scope.con10tSearchScope === "undefined") {
-				href = $location.url();
+				href = $location.path();
             } else if (scope.con10tSearchScope !== '/') {
 				href = 'project/'+ scope.con10tSearchScope;
             }
