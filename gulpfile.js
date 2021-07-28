@@ -148,7 +148,7 @@ gulp.task('minify-js', gulp.series('concat-js', 'html2js-js', 'html2js-partials'
 
 gulp.task('copy-fonts', function () {
     var bsFontPath = 'node_modules/bootstrap-sass/assets/fonts/';
-    return gulp.src(['node_modules/font-awesome/fonts/**', bsFontPath + '**/*'])
+    return gulp.src(['fonts/**', 'node_modules/font-awesome/fonts/**', bsFontPath + '**/*'])
         .pipe(gulp.dest('dist/fonts'));
 });
 
