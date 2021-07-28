@@ -17,18 +17,8 @@
 @import "download-modal";
 @import "footer";
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
-
-@font-face {
-  font-family: 'Cargan';
-  src: local('Cargan-Light'), url(../fonts/Cargan-Light.woff2) format('woff2'), url(../fonts/Cargan-Light.woff) format('woff');
-  font-weight: 300;
-  font-style: normal;
-}
-
 body {
   overflow-y: scroll; /* always show scrollbar */
-  font-family : 'Open Sans', sans-serif;
 }
 
 #noscriptinfo {
@@ -197,7 +187,6 @@ idai-footer.white {
 h1, h2, h3, h4, h5, h6 {
     line-height: 1.3;
     font-weight: 400;
-    font-family: 'Cargan', serif;
 }
 
 h1 { font-size: 26px; }
