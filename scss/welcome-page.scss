@@ -78,10 +78,9 @@
 
     opacity: 1;
     border-radius: 1px;
-    height: 95px;
+    height: 100px;
     margin-right: 15px;
     vertical-align: baseline;
-    padding-top: 15px;
     box-sizing: inherit;
   }
 
@@ -100,10 +99,15 @@
     font-weight: 300;
     margin-left: 2px;
     color: #999;
-    top: 29px;
+    top: 10px;
     position: relative;
     font-size: 35px;
-    margin-bottom: 10px;
+  }
+
+  #arachne-brand #brand-bottom {
+
+    top: -10px;
+    position: relative;
   }
 }
 
