@@ -1,6 +1,10 @@
 <div>
-
-    <h3>{{'entity_3dmodel'|transl8}}</h3>
+    <h3>
+        <a ng-if="hasExactlyOneModel(entity)" ng-href="{{firstModelLink(entity)}}" target="_blank">
+            {{'entity_3dmodel'|transl8}}
+        </a>
+        <span ng-if="!hasExactlyOneModel(entity)">{{'entity_3dmodel'|transl8}}</span>
+    </h3>
 
     <div ng-if="showObjViewer(entity)" class="panel threedviewer threedviewer-container">
         <iframe ng-src="{{getObjViewerUrl(entity)}}" title="3D-Viewer" scrolling="no"></iframe>
