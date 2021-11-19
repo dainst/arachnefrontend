@@ -44,7 +44,7 @@
             <span class="glyphicon glyphicon-download-alt"></span>
         </button>
 
-        <button ng-if="(user.username && resultSize <= 300) && (currentQuery.view != 'map')"
+        <button ng-if="(user.username && resultSize <= maxSearchSizeForCatalog) && (currentQuery.view != 'map')"
                 tooltip-placement="auto bottom"
                 tooltip-append-to-body="true"
                 uib-tooltip="{{'search_catalog_create' | transl8}}"
@@ -53,10 +53,10 @@
             <span class="glyphicon glyphicon-inbox"></span>
         </button>
 
-        <button ng-if="(user.username && resultSize > 300) && (currentQuery.view != 'map')"
+        <button ng-if="(user.username && resultSize > maxSearchSizeForCatalog) && (currentQuery.view != 'map')"
                 tooltip-placement="auto bottom"
                 tooltip-append-to-body="true"
-                uib-tooltip="{{'search_catalog_too-big' | transl8}}"
+                uib-tooltip="{{'search_catalog_too-big' | transl8}} {{maxSearchSizeForCatalog}}."
                 type="button"
                 class="btn btn-sm btn-default disabled">
             <span class="glyphicon glyphicon-inbox"></span>

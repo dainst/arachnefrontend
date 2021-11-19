@@ -193,7 +193,7 @@ transl8['de'] = {
     "ui_of": "von",
     "ui_objects_shown": "Objekte im Bildausschnitt",
     "search_catalog_create": "Katalog aus Suchergebnis erstellen",
-    "search_catalog_too-big": "Das Suchergebnis hat mehr als 300 Ergebnisse und ist damit zu groß, um einen Katalog anzulegen. Nutzen Sie die Filter, um das Ergebnis einzugrenzen.",
+    "search_catalog_too-big": "Das Suchergebnis ist zu groß, um einen Katalog anzulegen. Nutzen Sie die Filter, um das Ergebnis einzugrenzen. Die Maximale Größe ist",
     "ui.register.bot": "Entschuldigung, eine Registrierung für Roboter ist ausgeschlossen!",
     "ui.register.fieldMissing.lastname": "Bitte geben Sie Ihren Nachnamen an, um mit der Registrierung fortzufahren.",
     "ui.register.fieldMissing.email": "Bitte geben Sie eine Email-Adresse ein, um mit der Registrierung fortzufahren.",

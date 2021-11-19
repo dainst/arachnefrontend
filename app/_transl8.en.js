@@ -190,7 +190,7 @@ transl8['en'] = {
     "ui_of": "of",
     "ui_objects_shown": "Objects in viewport",
     "search_catalog_create": "Create catalog from search result",
-    "search_catalog_too-big": "This search result is too big to create a catalog. Use filters to narrow down the result. The maximum is 300.",
+    "search_catalog_too-big": "This search result is too big to create a catalog. Use filters to narrow down the result. The maximum is ",
     "ui.register.bot": "Sorry, registration is not possible for robots!",
     "ui.register.fieldMissing.lastname": "Please fill in your surname to proceed with the registration.",
     "ui.register.fieldMissing.email": "Please enter your email address to proceed with the registration.",

@@ -2,10 +2,13 @@
 
 angular.module('arachne.directives')
 
-    .directive('arSearchNav', function () {
+    .directive('arSearchNav', ['arachneSettings', function (arachneSettings) {
         return {
             templateUrl: 'app/search/ar-search-nav.html',
             link: function(scope) {
+
+                scope.maxSearchSizeForCatalog = arachneSettings.maxSearchSizeForCatalog;
+
                 scope.stripQuery = function(query, view) {
                     if (view) {
                         query = query.setParam('view', view);
@@ -22,4 +25,4 @@ angular.module('arachne.directives')
                 }
             }
         }
-    });
+    }]);

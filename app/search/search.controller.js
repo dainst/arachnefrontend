@@ -183,7 +183,8 @@ angular.module('arachne.controllers')
             };
 
             $scope.createCatalogFromSearch = function () {
-                if (searchService.getSize() > 300) {
+                
+                if (searchService.getSize() > arachneSettings.maxSearchSizeForCatalog) {
                     return;
                 }
 
@@ -193,7 +194,7 @@ angular.module('arachne.controllers')
                 }
 
                 angular.extend(query, {
-                    offset: 0, limit: 1000
+                    offset: 0, limit: arachneSettings.maxSearchSizeForCatalog
                 });
 
                 var entityQuery = Entity.query(query);
