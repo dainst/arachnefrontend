@@ -48,8 +48,9 @@
                 tooltip-placement="auto bottom"
                 tooltip-append-to-body="true"
                 uib-tooltip="{{'search_catalog_create' | transl8}}"
-                type="button" ng-click="createCatalogFromSearch()"
+                type="button" ng-click="openCatalogModal()"
                 class="btn btn-sm btn-default">
+                {{entitiesToAdd}}
             <span class="glyphicon glyphicon-inbox"></span>
         </button>
 
