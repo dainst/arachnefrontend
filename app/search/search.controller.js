@@ -10,10 +10,10 @@ angular.module('arachne.controllers')
 
 
     .controller('SearchController', ['$rootScope', '$scope', 'searchService', 'categoryService', '$filter',
-        'arachneSettings', '$location', 'Catalog', 'messageService', '$uibModal', '$http', 'Entity',
+        'arachneSettings', '$location', 'Catalog', 'CatalogEntry', 'messageService', '$uibModal', '$http', 'Entity',
         'authService', '$timeout', 'searchScope',
         function ($rootScope, $scope, searchService, categoryService, $filter,
-                  arachneSettings, $location, Catalog, messages, $uibModal, $http, Entity,
+                  arachneSettings, $location, Catalog, CatalogEntry, messages, $uibModal, $http, Entity,
                   authService, $timeout, searchScope) {
 
             searchService.initQuery();
@@ -131,15 +131,14 @@ angular.module('arachne.controllers')
                     templateUrl: 'app/catalog/edit-catalog.html',
                     controller: 'EditCatalogController',
                     resolve: {
-                        catalog: function () {
-                            return {
-                                author: $scope.user.username,
-                                root: {
-                                    label: $scope.currentQuery.label,
-                                    text: $scope.createCatalogTextForCurrentQuery()
-                                },
-                                generateTexts: false
-                            }
+                        catalog: {
+                            author: $scope.user.username,
+                            root: {
+                                label: $scope.currentQuery.label,
+                                text: $scope.createCatalogTextForCurrentQuery(),
+                                children: []
+                            },
+                            generateTexts: false
                         }
                     }
                 });
@@ -147,45 +146,55 @@ angular.module('arachne.controllers')
                 catalogModal.close = function(catalog) {
 
                     if (catalog) {
-                        $scope.createCatalogFromSearch(catalog);
+
+                        Catalog.save({}, catalog).$promise.then(result => {
+                            $scope.createCatalogEntries(result, catalog.generateTexts);
+                        });
                     }
 
                     catalogModal.dismiss();
                 }
             };
 
-            $scope.processCatalogEntities = function (catalog, entities) {
-                
-                catalog.root.children = [];
+            $scope.processCatalogEntities = function(catalog, entities, generateTexts) {
 
                 var promises = entities.map(entity => {
                     return Entity.get({id: entity.entityId}).$promise
-                        .then(entity => $scope.addCatalogEntry(catalog, entity))
+                        .then(entity => $scope.buildCatalogEntry(entity, catalog, generateTexts))
                         .catch(err => console.warn(err));
                 });
 
-                return promises.all();
+                return Promise.all(promises).then(entries => $scope.addCatalogEntries(entries));
             };
 
-            $scope.addCatalogEntry = function (catalog, entity) {
+            $scope.buildCatalogEntry = function(entity, catalog, generateTexts) {
 
-                var title = entity.title || "";
+                let title = entity.title || "";
 
-                catalog.root.children.push({
-                    "arachneEntityId": entity.entityId,
-                    "label": title,
-                    "text": catalog.generateTexts ? $scope.createCatalogEntryText(entity) : ""
-                });
-
-                if (--$scope.entitiesToAdd === 0) {
-                    delete catalog.generateTexts;
-                    return Catalog.save({}, catalog).$promise;
-                }
+                return {
+                    arachneEntityId: entity.entityId,
+                    label: title,
+                    text: generateTexts ? $scope.createCatalogEntryText(entity) : "",
+                    catalogId: catalog.id,
+                    indexParent: ++$scope.entitiesAdded,
+                    parentId: catalog.root.id,
+                };
             };
 
-            $scope.createCatalogFromSearch = function(catalog) {
+            $scope.addCatalogEntries = function(entries) {
 
-                $scope.entitiesToAdd = searchService.getSize();
+                return CatalogEntry.save({}, entries).$promise;
+            };
+
+            $scope.createCatalogEntries = function(catalog, generateTexts) {
+
+                $scope.entitiesAdded = 0;
+                $scope.createCatalogEntriesForBatch(catalog, generateTexts);
+            };
+
+            $scope.createCatalogEntriesForBatch = function(catalog, generateTexts, offset=0) {
+
+                console.log("createCatalogEntriesForBatch", catalog, generateTexts, offset);
 
                 var query = $scope.currentQuery.toFlatObject();
                 if (query.q === "") {
@@ -193,21 +202,25 @@ angular.module('arachne.controllers')
                 }
 
                 angular.extend(query, {
-                    offset: 0, limit: arachneSettings.maxSearchSizeForCatalog
+                    offset, limit: arachneSettings.batchSizeForCatalog
                 });
 
                 var entityQuery = Entity.query(query);
 
                 entityQuery.$promise.then(function (result) {
                     if (result.entities) {
-                        $scope.processCatalogEntities(catalog, result.entities);
+                        $scope.processCatalogEntities(catalog, result.entities, generateTexts).then(() => {
+                            if ($scope.entitiesAdded < searchService.getSize()) {
+                                $scope.createCatalogEntriesForBatch(catalog, generateTexts, offset + arachneSettings.batchSizeForCatalog);
+                            }
+                        }).catch(err => console.warn(err));
                     } else {
                         console.warn('No entities could be retrieved.');
                     }
                 }, function (err) {
                     console.warn('Error in retrieving entities.', err);
                 });
-            };
+            }
 
             $scope.go = function (path) {
                 $location.url(path);
