@@ -164,9 +164,9 @@ angular.module('arachne.controllers')
                         .catch(err => console.warn(err));
                 });
 
-                return Promise.all(promises)
+                Promise.all(promises)
                     .then(entries => $scope.addCatalogEntries(entries))
-                    .then(entries => { $scope.entitiesAdded += entries.length; return entries });
+                    .then(entries => $scope.$apply(() => $scope.entitiesAdded += entries.length));
             };
 
             $scope.buildCatalogEntry = function(entity, catalog, generateTexts) {

@@ -50,7 +50,9 @@
                 uib-tooltip="{{'search_catalog_create' | transl8}}"
                 type="button" ng-click="openCatalogModal()"
                 class="btn btn-sm btn-default">
-                {{entitiesAdded}}
+                <span ng-if="entitiesBuilt">
+                    {{entitiesAdded / resultSize * 100 | number:0}}%
+                </span>
             <span class="glyphicon glyphicon-inbox"></span>
         </button>
 
