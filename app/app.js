@@ -156,8 +156,8 @@ angular.module('arachne',[
 	facetLimit: 20,
 	openFacets : ["facet_kategorie", "facet_image", "facet_bestandsname", "facet_subkategoriebestand"], // order is important for sorting of default facets
 	sortableFields : ["entityId", "title", "subtitle"],
-	maxSearchSizeForCatalog: 1000,
-	batchSizeForCatalog: 250,
+	maxSearchSizeForCatalog: 10000,
+	batchSizeForCatalog: 100,
 })
 .constant('componentsSettings', {
 	transl8Uri: 'https://arachne.dainst.org/transl8/translation/jsonp?application=arachne4_frontend&application=shared&lang={LANG}',

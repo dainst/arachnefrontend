@@ -164,7 +164,9 @@ angular.module('arachne.controllers')
                         .catch(err => console.warn(err));
                 });
 
-                return Promise.all(promises).then(entries => $scope.addCatalogEntries(entries));
+                return Promise.all(promises)
+                    .then(entries => $scope.addCatalogEntries(entries))
+                    .then(entries => { $scope.entitiesAdded += entries.length; return entries });
             };
 
             $scope.buildCatalogEntry = function(entity, catalog, generateTexts) {
@@ -176,7 +178,7 @@ angular.module('arachne.controllers')
                     label: title,
                     text: generateTexts ? $scope.createCatalogEntryText(entity) : "",
                     catalogId: catalog.id,
-                    indexParent: ++$scope.entitiesAdded,
+                    indexParent: $scope.entitiesBuilt++,
                     parentId: catalog.root.id,
                 };
             };
@@ -188,13 +190,13 @@ angular.module('arachne.controllers')
 
             $scope.createCatalogEntries = function(catalog, generateTexts) {
 
+                $scope.entitiesBuilt = 0;
                 $scope.entitiesAdded = 0;
+
                 $scope.createCatalogEntriesForBatch(catalog, generateTexts);
             };
 
             $scope.createCatalogEntriesForBatch = function(catalog, generateTexts, offset=0) {
-
-                console.log("createCatalogEntriesForBatch", catalog, generateTexts, offset);
 
                 var query = $scope.currentQuery.toFlatObject();
                 if (query.q === "") {
@@ -209,11 +211,10 @@ angular.module('arachne.controllers')
 
                 entityQuery.$promise.then(function (result) {
                     if (result.entities) {
-                        $scope.processCatalogEntities(catalog, result.entities, generateTexts).then(() => {
-                            if ($scope.entitiesAdded < searchService.getSize()) {
-                                $scope.createCatalogEntriesForBatch(catalog, generateTexts, offset + arachneSettings.batchSizeForCatalog);
-                            }
-                        }).catch(err => console.warn(err));
+                        $scope.processCatalogEntities(catalog, result.entities, generateTexts);
+                        if (offset + arachneSettings.batchSizeForCatalog < searchService.getSize()) {
+                            $scope.createCatalogEntriesForBatch(catalog, generateTexts, offset + arachneSettings.batchSizeForCatalog);
+                        }
                     } else {
                         console.warn('No entities could be retrieved.');
                     }
