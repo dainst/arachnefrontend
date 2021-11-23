@@ -127,7 +127,7 @@ angular.module('arachne.controllers')
                     return;
                 }
 
-                var catalogModal = $uibModal.open({
+                let catalogModal = $uibModal.open({
                     templateUrl: 'app/catalog/edit-catalog.html',
                     controller: 'EditCatalogController',
                     resolve: {
@@ -145,14 +145,22 @@ angular.module('arachne.controllers')
 
                 catalogModal.close = function(catalog) {
 
+                    catalogModal.dismiss();
+
                     if (catalog) {
+
+                        $scope.entitiesBuilt = 0;
+                        $scope.entitiesAdded = 0;
+
+                        $uibModal.open({
+                            templateUrl: 'app/catalog/catalog-progress.html',
+                            scope: $scope,
+                        });
 
                         Catalog.save({}, catalog).$promise.then(result => {
                             $scope.createCatalogEntries(result, catalog.generateTexts);
                         });
                     }
-
-                    catalogModal.dismiss();
                 }
             };
 
@@ -166,7 +174,7 @@ angular.module('arachne.controllers')
 
                 Promise.all(promises)
                     .then(entries => $scope.addCatalogEntries(entries))
-                    .then(entries => $scope.$apply(() => $scope.entitiesAdded += entries.length));
+                    .then(entries => $scope.$applyAsync(() => $scope.entitiesAdded += entries.length));
             };
 
             $scope.buildCatalogEntry = function(entity, catalog, generateTexts) {
@@ -189,9 +197,6 @@ angular.module('arachne.controllers')
             };
 
             $scope.createCatalogEntries = function(catalog, generateTexts) {
-
-                $scope.entitiesBuilt = 0;
-                $scope.entitiesAdded = 0;
 
                 $scope.createCatalogEntriesForBatch(catalog, generateTexts);
             };

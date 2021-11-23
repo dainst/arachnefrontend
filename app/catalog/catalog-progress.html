@@ -1,0 +1,27 @@
+<div class="modal-header">
+	<h4 class="modal-title">
+		{{ 'catalog_progress' | transl8 }}
+	</h4>
+</div>
+<div class="modal-body">
+    <uib-progressbar ng-if="entitiesAdded < resultSize"
+            max="resultSize"
+            value="entitiesAdded"
+            class="progress-striped active"
+            type="info">
+        <span style="color:white; white-space:nowrap;">
+            {{ entitiesAdded / resultSize * 100 | number:0 }}%
+        </span>
+    </uib-progressbar>
+    <uib-progressbar ng-if="entitiesAdded === resultSize"
+            max="resultSize"
+            value="entitiesAdded"
+            type="success">
+        <span style="color:white; white-space:nowrap;">
+            {{ 'catalog_progress_complete' | transl8 }}
+        </span>
+    </uib-progressbar>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="$close()">{{ 'ui_close' | transl8}}</button>
+</div>
