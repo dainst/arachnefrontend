@@ -31,5 +31,6 @@
     </div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default" ng-click="$close()">{{ 'ui_close' | transl8}}</button>
+    <button ng-if="entitiesAdded < resultSize" class="btn btn-danger" ng-click="$dismiss()">{{ 'ui_cancel' | transl8 }}</button>
+	<button ng-if="entitiesAdded === resultSize" class="btn btn-default" ng-click="$close()">{{ 'ui_close' | transl8 }}</button>
 </div>

@@ -151,10 +151,14 @@ angular.module('arachne.controllers')
 
                         $scope.entitiesBuilt = 0;
                         $scope.entitiesAdded = 0;
+                        $scope.catalogCreationCancelled = false;
 
                         $uibModal.open({
                             templateUrl: 'app/catalog/catalog-progress.html',
                             scope: $scope,
+                        }).result.catch(() => {
+                            $scope.catalogCreationCancelled = true;
+                            Catalog.delete({ id: $scope.catalogId });
                         });
 
                         Catalog.save({}, catalog).$promise.then(result => {
@@ -166,6 +170,8 @@ angular.module('arachne.controllers')
             };
 
             $scope.processCatalogEntities = function(catalog, entities, generateTexts) {
+
+                if ($scope.catalogCreationCancelled) return;
 
                 var promises = entities.map(entity => {
                     return Entity.get({id: entity.entityId}).$promise
@@ -194,6 +200,8 @@ angular.module('arachne.controllers')
 
             $scope.addCatalogEntries = function(entries) {
 
+                if ($scope.catalogCreationCancelled) return Promise.reject();
+
                 return CatalogEntry.save({}, entries).$promise;
             };
 
@@ -203,6 +211,8 @@ angular.module('arachne.controllers')
             };
 
             $scope.createCatalogEntriesForBatch = function(catalog, generateTexts, offset=0) {
+
+                if ($scope.catalogCreationCancelled) return;
 
                 var query = $scope.currentQuery.toFlatObject();
                 if (query.q === "") {
