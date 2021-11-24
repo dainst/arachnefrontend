@@ -45,7 +45,7 @@ angular.module('arachne',[
 
 		$httpProvider.useApplyAsync(true);
 
-		var title = "Arachne";
+		var title = 'iDAI.objects / Arachne';
 
 
 		var loadingPromises = {
