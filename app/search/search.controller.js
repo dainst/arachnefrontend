@@ -111,7 +111,8 @@ angular.module('arachne.controllers')
                             value = section.content[i].value;
                         }
                         value = value.replace(/<hr>/g, "  \n").replace(/<hr\/>/g, "  \n").replace(/<hr \/>/g, "  \n")
-                            .replace(/-/g, "\\-").replace(/\*/g, "\\*").replace(/#/g, "\\#");
+                            .replace(/-/g, "\\-").replace(/\*/g, "\\*").replace(/#/g, "\\#")
+                            .replace(/<a href="(.*?)"( target="_blank")?>(.*?)<\/a>/g, "[$3]($1)");
                         sectionText += value + "  \n";
                     } else {
                         sectionText += $scope.createSectionText(section.content[i], false) + "  \n";
