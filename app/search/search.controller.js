@@ -158,6 +158,7 @@ angular.module('arachne.controllers')
                         });
 
                         Catalog.save({}, catalog).$promise.then(result => {
+                            $scope.catalogId = result.id;
                             $scope.createCatalogEntries(result, catalog.generateTexts);
                         });
                     }

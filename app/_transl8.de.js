@@ -611,5 +611,8 @@ transl8['de'] = {
     "facet_personroleauthor": "Autoren",
     "facet_personroletopic": "Erwähnte",
     "facet_personroleaddressee": "Adressaten",
-    "facet_personrolenone": "Sonstige"
+    "facet_personrolenone": "Sonstige",
+    "catalog_progress": "Katalog wird erstellt",
+    "catalog_progress_complete": "Erfolgreich abgeschlossen",
+    "catalog_progress_catalog_link": "Zum Katalog"
 };

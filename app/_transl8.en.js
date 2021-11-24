@@ -614,5 +614,8 @@ transl8['en'] = {
     "facet_personroleauthor": "Authors",
     "facet_personroletopic": "Mentioned",
     "facet_personroleaddressee": "Addressees",
-    "facet_personrolenone": "Other"
+    "facet_personrolenone": "Other",
+    "catalog_progress": "Catalog is being created",
+    "catalog_progress_complete": "Completed successfully",
+    "catalog_progress_catalog_link": "Show catalog"
 }
