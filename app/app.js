@@ -26,8 +26,8 @@ angular.module('arachne',[
 	'arachne.widgets.map',
     'arachne.visualizations.directives'
 ])
-.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider', '$qProvider',
-	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider, $qProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider', '$qProvider', '$httpProvider',
+	function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider, $qProvider, $httpProvider) {
 
         // eliminate "Possibly unhandled rejection" errors with Angular 1.5.9
         $qProvider.errorOnUnhandledRejections(false);
@@ -42,6 +42,8 @@ angular.module('arachne',[
 
 		$urlRouterProvider.when('', '/');
 		$urlRouterProvider.otherwise('/404');
+
+		$httpProvider.useApplyAsync(true);
 
 		var title = "Arachne";
 
