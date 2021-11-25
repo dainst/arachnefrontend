@@ -59,7 +59,9 @@ body {
 
   #projectLogo img {
     height: 28px !important;
-    margin-top: 12px !important;
+    margin: 11px 4px 0 0 !important;
+    vertical-align: top !important;
+    float: inherit !important;
   }
 }
 
