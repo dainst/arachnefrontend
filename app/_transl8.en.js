@@ -1,5 +1,4 @@
-var transl8 = transl8 || {};
-transl8['en'] = {
+export default {
     "facet_topographieart": "Category of topography",
     "facet_antikeroemprovinz": "Ancient roman province",
     "facet_bauordnung": "Architectural order",

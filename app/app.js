@@ -12,11 +12,20 @@ import 'angulartics';
 import 'angulartics-piwik';
 import 'angular-ui-tree';
 
-import './_transl8.en.js';
-import './_transl8.de.js';
+import transl8_en from './_transl8.en.js';
+import transl8_de from './_transl8.de.js';
 
 import 'idai-components';
+import '../partials/navbar-menu.html';
 import '../lib/relative-paths-in-partial.js';
+
+require.context('../con10t/frontimages', false, /^\.\/.*\.(png|jpg|gif|svg)$/);
+require.context('../img/', true, /^\.\/.*\.(png|jpg|gif|svg)$/);
+
+import '../con10t/search-scopes.json';
+import '../con10t/content.json';
+import '../con10t/front.json';
+import '../info/content.json';
 
 import './_modules.js';
 import './SVG/svg.html';
@@ -378,6 +387,7 @@ angular.module('arachne', [
 
 
 }])
+.constant('transl8map', { en: transl8_en, de: transl8_de })
 .constant('arachneSettings', {
     arachneUrl: 'https://arachne.dainst.org',
     dataserviceUri: "//" + document.location.host + "/data",

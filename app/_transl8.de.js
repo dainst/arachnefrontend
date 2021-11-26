@@ -1,5 +1,4 @@
-var transl8 = transl8 || {};
-transl8['de'] = {
+export default {
     "catalog_help_page_text_1": "Im Menü \"Neuen Eintrag anlegen\" können Sie den Titel des Eintrags festlegen. Falls gewünscht, können Sie zudem einen Datensatz mit dem Eintrag verknüpfen.",
     "entity_other_views": "Weitere Ansichten",
     "entity_create_entry": "Katalogeintrag anlegen",
