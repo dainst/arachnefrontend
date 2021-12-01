@@ -66,32 +66,6 @@ import './markdown/ar-markdown-text-editor.html';
 import './markdown/add-markdown-link.html';
 import './markdown/add-markdown-link.controller.js';
 import './markdown/ar-markdown-text-editor.directive.js';
-import './catalog/catalog.resource.js';
-import './catalog/edit-catalog-entry.controller.js';
-import './catalog/catalog-manage-editor.controller.js';
-import './catalog/edit-entry.controller.js';
-import './catalog/catalog.html';
-import './catalog/ar-catalog-occurrences.directive.js';
-import './catalog/edit-catalog.controller.js';
-import './catalog/catalog-progress.html';
-import './catalog/delete-catalog.js';
-import './catalog/edit-catalog-help.html';
-import './catalog/catalog-manage-editor.html';
-import './catalog/catalogs.html';
-import './catalog/create-entry-pos.html';
-import './catalog/edit-catalog.html';
-import './catalog/delete-catalog.html';
-import './catalog/con10t-catalog-tree.directive.js';
-import './catalog/edit-catalog-help.controller.js';
-import './catalog/delete-entries.html';
-import './catalog/catalogs.controller.js';
-import './catalog/catalog.controller.js';
-import './catalog/ar-catalog-occurrences.html';
-import './catalog/update-entry.html';
-import './catalog/edit-entry.html';
-import './catalog/delete-entry.html';
-import './catalog/catalog-entry.resource.js';
-import './catalog/con10t-catalog-tree.html';
 import './utils/filters/error-message.filter.js';
 import './utils/filters/range.filter.js';
 import './utils/filters/base64.filter.js';
@@ -304,8 +278,8 @@ angular.module('arachne', [
         var states = {
             '404':				{ url: '/404', template: require('./pages/404.html'), data: { pageTitle: 'Arachne | 404' }},
             'welcome':			{ url: '/', template: require('./pages/welcome-page.html'), data: { pageTitle: title }},
-            'catalogs':			{ url: '/catalogs', template: require('./catalog/catalogs.html'), data: { pageTitle: title }},
-            'catalog':			{ url: '/catalog/:id?view', template: require('./catalog/catalog.html'), data: { pageTitle: title }},
+            'catalogs.**':		{ url: '/catalogs', lazyLoad: lazyLoad(import('./catalog/catalog.module.js')), data: { pageTitle: title }},
+            'catalog.**':		{ url: '/catalog/:id?view', lazyLoad: lazyLoad(import('./catalog/catalog.module.js')), data: { pageTitle: title }},
             'catalog.entry':	{ url: '/:entryId?view', template: require('./catalog/catalog.html'), data: { pageTitle: title }},
             'books':			{ url: '/books/:id', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }},
             'booksSuffixed':	{ url: '/books/:id/:suffix?', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }},

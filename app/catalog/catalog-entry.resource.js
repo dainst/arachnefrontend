@@ -1,9 +1,4 @@
-'use strict';
-
-angular.module('arachne.resources')
-
-.factory('CatalogEntry', ['$resource', 'arachneSettings',
-function($resource, arachneSettings) {
+export default function($resource, arachneSettings) {
 
     return $resource(arachneSettings.dataserviceUri + '/catalog/entry/:id', null, {
         update: { method: 'PUT' },
@@ -14,4 +9,4 @@ function($resource, arachneSettings) {
         },
         save: { method: 'POST', isArray: true }
     });
-}]);
+};

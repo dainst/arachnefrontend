@@ -1,11 +1,5 @@
-'use strict';
+export default function ($scope) {
 
-angular.module('arachne.controllers')
-
-    .controller('DeleteCatalogController', ['$scope', '$uibModalInstance',
-        function ($scope, $uibModalInstance) {
-
-            $scope.catalogName = $scope.catalog.root.label;
-            $scope.inputCatalogName = "";
-        }
-    ]);
+    $scope.catalogName = $scope.catalog.root.label;
+    $scope.inputCatalogName = "";
+};
