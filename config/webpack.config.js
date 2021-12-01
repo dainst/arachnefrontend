@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
     entry: path.resolve(__dirname, '../app/app.js'),
@@ -59,8 +60,18 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: require.resolve('idai-3dviewer'),
+                use:
+                  'exports-loader?type=commonjs&exports=_3dviewer',
+            }
         ]
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+          THREE: 'three',
+        }),
+    ],
     devtool: 'source-map',
     devServer: {
         proxy: {

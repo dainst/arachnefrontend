@@ -29,10 +29,6 @@ import '../con10t/front.json';
 import '../info/content.json';
 
 import './_modules.js';
-import './3d/3d-info-modal.html';
-import './3d/three-dimensional.controller.js';
-import './3d/threedviewer.directive.js';
-import './3d/3d.html';
 import './facets/ar-active-facets.directive.js';
 import './facets/index.html';
 import './facets/index.controller.js';
@@ -331,7 +327,7 @@ angular.module('arachne', [
             },
 
             // 'gridmap':			{ url: '/gridmap', template: require('./map/gridmap.html'), data: { pageTitle: title }},
-            '3d':				{ url: '/3d', template: require('./3d/3d.html'), data: { pageTitle: title }},
+            '3d.**':			{ url: '/3d', lazyLoad: lazyLoad(import('./3d/3d.module.js')), data: { pageTitle: title }},
             'svg.**':			{ url: '/svg', lazyLoad: lazyLoad(import('./svg/svg.module.js')), data: { pageTitle: title }},
             'register':			{ url: '/register', template: require('./users/register.html'), data: { pageTitle: title }},
             'editUser':			{ url: '/editUser', template: require('./users/edit-user.html'), data: { pageTitle: title }},

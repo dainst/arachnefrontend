@@ -27,7 +27,7 @@
     "d3": "5.7.0",
     "drmonty-leaflet-awesome-markers": "2.0.2",
     "font-awesome": "4.7.0",
-    "idai-3dviewer": "1.0.3",
+    "idai-3dviewer": "1.0.4",
     "idai-components": "3.1.8",
     "idai-cookie-notice": "~0.0.3",
     "leaflet": "1.3.1",
@@ -40,7 +40,8 @@
     "oclazyload": "^1.1.0",
     "request": "^2.87.0",
     "showdown": "^1.9.1",
-    "svg-pan-zoom": "3.5.3"
+    "svg-pan-zoom": "3.5.3",
+    "three": "^0.103.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.6.10",
@@ -51,6 +52,7 @@
     "cors": "~2.8.4",
     "css-loader": "^6.5.1",
     "del": "~3.0.0",
+    "exports-loader": "^3.1.0",
     "file-loader": "^6.2.0",
     "gulp": "~4.0.0",
     "gulp-add-src": "~1.0.0",

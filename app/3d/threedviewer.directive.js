@@ -1,8 +1,6 @@
-'use strict';
+import { _3dviewer } from 'idai-3dviewer';
 
-angular.module('arachne.directives')
-
-.directive('threeDViewer', [function () {
+export default function () {
     return {
 
         restrict: 'A',
@@ -17,4 +15,4 @@ angular.module('arachne.directives')
             init();
         }
     }
-}]);
+};
