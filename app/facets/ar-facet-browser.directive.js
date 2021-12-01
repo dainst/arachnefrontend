@@ -6,7 +6,7 @@ angular.module('arachne.directives')
         return {
 
             scope: {query: '=', facetName: '@', contextSize: '='},
-            templateUrl: 'app/facets/ar-facet-browser.html',
+            template: require('./ar-facet-browser.html'),
 
             link: function (scope, element, attrs) {
 

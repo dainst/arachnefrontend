@@ -4,7 +4,7 @@ angular.module('arachne.directives')
 
     .directive('arSearchNav', ['arachneSettings', function (arachneSettings) {
         return {
-            templateUrl: 'app/search/ar-search-nav.html',
+            template: require('./ar-search-nav.html'),
             link: function(scope) {
 
                 scope.maxSearchSizeForCatalog = arachneSettings.maxSearchSizeForCatalog;

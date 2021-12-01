@@ -11,6 +11,7 @@ import 'angular-cookies';
 import 'angulartics';
 import 'angulartics-piwik';
 import 'angular-ui-tree';
+import 'oclazyload';
 
 import transl8_en from './_transl8.en.js';
 import transl8_de from './_transl8.de.js';
@@ -28,8 +29,6 @@ import '../con10t/front.json';
 import '../info/content.json';
 
 import './_modules.js';
-import './SVG/svg.html';
-import './SVG/svg.controller.js';
 import './3d/3d-info-modal.html';
 import './3d/three-dimensional.controller.js';
 import './3d/threedviewer.directive.js';
@@ -236,10 +235,16 @@ import './pages/static-content.controller.js';
 
 import '../scss/app.scss';
 
+const lazyLoad = (importPromise) => ($transition$) => {
+    const $ocLazyLoad = $transition$.injector().get('$ocLazyLoad');
+    return importPromise.then(mod => $ocLazyLoad.load(mod.default));
+}
+
 angular.module('arachne', [
     'ui.bootstrap',
     'ui.bootstrap.tpls',
     'ui.router',
+    'oc.lazyLoad',
     'ngSanitize',
     'ngResource',
     'ngCookies',
@@ -301,45 +306,45 @@ angular.module('arachne', [
 
 
         var states = {
-            '404':				{ url: '/404', templateUrl: 'app/pages/404.html', data: { pageTitle: 'Arachne | 404' }},
-            'welcome':			{ url: '/', templateUrl: 'app/pages/welcome-page.html', data: { pageTitle: title }},
-            'catalogs':			{ url: '/catalogs', templateUrl: 'app/catalog/catalogs.html', data: { pageTitle: title }},
-            'catalog':			{ url: '/catalog/:id?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }},
-            'catalog.entry':	{ url: '/:entryId?view', templateUrl: 'app/catalog/catalog.html', data: { pageTitle: title }},
-            'books':			{ url: '/books/:id', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
-            'booksSuffixed':	{ url: '/books/:id/:suffix?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
-            'booksSuffixedPage':	{ url: '/books/:id/:suffix/:page?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }}, // Temporary fix for WIT-185, also see Ticket SD-842
-            'entity':			{ url: '/entity/:id?/:params?', templateUrl: 'app/entity/entity.html', reloadOnSearch: false, data: { pageTitle: title }},
-            'entityImages':		{ url: '/entity/:entityId/images', templateUrl: 'app/entity/entity-images.html', data: { pageTitle: title }},
-            'entityImage':		{ url: '/entity/:entityId/image/:imageId', templateUrl: 'app/entity/entity-image.html', data: { pageTitle: title }},
-            'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc&bbox&ghprec&group', templateUrl: 'app/search/search.html', data: { pageTitle: title }},
-            'categories':		{ url: '/categories', templateUrl: 'app/category/categories.html', data: { pageTitle: title }},
-            'category':			{ url: '/category/?c&facet&fv&group', templateUrl: 'app/category/category.html', data: { pageTitle: title }},
+            '404':				{ url: '/404', template: require('./pages/404.html'), data: { pageTitle: 'Arachne | 404' }},
+            'welcome':			{ url: '/', template: require('./pages/welcome-page.html'), data: { pageTitle: title }},
+            'catalogs':			{ url: '/catalogs', template: require('./catalog/catalogs.html'), data: { pageTitle: title }},
+            'catalog':			{ url: '/catalog/:id?view', template: require('./catalog/catalog.html'), data: { pageTitle: title }},
+            'catalog.entry':	{ url: '/:entryId?view', template: require('./catalog/catalog.html'), data: { pageTitle: title }},
+            'books':			{ url: '/books/:id', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }},
+            'booksSuffixed':	{ url: '/books/:id/:suffix?', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }},
+            'booksSuffixedPage':	{ url: '/books/:id/:suffix/:page?', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }}, // Temporary fix for WIT-185, also see Ticket SD-842
+            'entity':			{ url: '/entity/:id?/:params?', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }},
+            'entityImages':		{ url: '/entity/:entityId/images', template: require('./entity/entity-images.html'), data: { pageTitle: title }},
+            'entityImage':		{ url: '/entity/:entityId/image/:imageId', template: require('./entity/entity-image.html'), data: { pageTitle: title }},
+            'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc&bbox&ghprec&group', template: require('./search/search.html'), data: { pageTitle: title }},
+            'categories':		{ url: '/categories', template: require('./category/categories.html'), data: { pageTitle: title }},
+            'category':			{ url: '/category/?c&facet&fv&group', template: require('./category/category.html'), data: { pageTitle: title }},
 
             'map': {
                 url: '/map?q&fq&view&sort&offset&limit&desc&bbox&ghprec',
-                templateUrl: 'app/map/map.html',
+                template: require('./map/map.html'),
                 data: {
                     pageTitle: title,
                     searchPage: 'map'
                 }
             },
 
-            'gridmap':			{ url: '/gridmap', templateUrl: 'app/map/gridmap.html', data: { pageTitle: title }},
-            '3d':				{ url: '/3d', templateUrl: 'app/3d/3d.html', data: { pageTitle: title }},
-            'SVG':				{ url: '/SVG', templateUrl: 'app/SVG/svg.html', data: { pageTitle: title }},
-            'register':			{ url: '/register', templateUrl: 'app/users/register.html', data: { pageTitle: title }},
-            'editUser':			{ url: '/editUser', templateUrl: 'app/users/edit-user.html', data: { pageTitle: title }},
-            'contact':			{ url: '/contact', templateUrl: 'app/users/contact.html', data: { pageTitle: title }},
-            'dataimport':		{ url: '/admin/dataimport', templateUrl: 'app/pages/dataimport.html', data: { pageTitle: title }},
-            'dataexport':		{ url: '/admin/dataexport', templateUrl: 'app/pages/dataexport.html', data: { pageTitle: title }},
-            'pwdreset':			{ url: '/pwdreset', templateUrl: 'app/users/pwd-reset.html', data: { pageTitle: title }},
-            'pwdchange':		{ url: '/pwdchange', templateUrl: 'app/users/pwd-change.html', data: { pageTitle: title }},
-            'userActivation':	{ url: '/user/activation/:token', templateUrl: 'app/users/pwd-activation.html', data: { pageTitle: title }},
-            'project':			{ url: '/project/:title', templateUrl: 'app/pages/static.html', data: { pageTitle: title}},
-            'index':			{ url: '/index?c&fq&fv&group', templateUrl: 'app/facets/index.html', reloadOnSearch: true, data: { pageTitle: title }},
-            'info':				{ url: '/info/:title?id', templateUrl: 'app/pages/static.html', data: { pageTitle: title }}, // Named it info, not static, to sound not too technical.
-            'login':			{ url: '/login?redirectTo', templateUrl: 'app/users/login.html', data: { pageTitle: title }}
+            // 'gridmap':			{ url: '/gridmap', template: require('./map/gridmap.html'), data: { pageTitle: title }},
+            '3d':				{ url: '/3d', template: require('./3d/3d.html'), data: { pageTitle: title }},
+            'svg.**':			{ url: '/svg', lazyLoad: lazyLoad(import('./svg/svg.module.js')), data: { pageTitle: title }},
+            'register':			{ url: '/register', template: require('./users/register.html'), data: { pageTitle: title }},
+            'editUser':			{ url: '/editUser', template: require('./users/edit-user.html'), data: { pageTitle: title }},
+            'contact':			{ url: '/contact', template: require('./users/contact.html'), data: { pageTitle: title }},
+            'dataimport':		{ url: '/admin/dataimport', template: require('./pages/dataimport.html'), data: { pageTitle: title }},
+            'dataexport':		{ url: '/admin/dataexport', template: require('./pages/dataexport.html'), data: { pageTitle: title }},
+            'pwdreset':			{ url: '/pwdreset', template: require('./users/pwd-reset.html'), data: { pageTitle: title }},
+            'pwdchange':		{ url: '/pwdchange', template: require('./users/pwd-change.html'), data: { pageTitle: title }},
+            'userActivation':	{ url: '/user/activation/:token', template: require('./users/pwd-activation.html'), data: { pageTitle: title }},
+            'project':			{ url: '/project/:title', template: require('./pages/static.html'), data: { pageTitle: title}},
+            'index':			{ url: '/index?c&fq&fv&group', template: require('./facets/index.html'), reloadOnSearch: true, data: { pageTitle: title }},
+            'info':				{ url: '/info/:title?id', template: require('./pages/static.html'), data: { pageTitle: title }}, // Named it info, not static, to sound not too technical.
+            'login':			{ url: '/login?redirectTo', template: require('./users/login.html'), data: { pageTitle: title }}
 
         };
 
@@ -380,9 +385,9 @@ angular.module('arachne', [
         var toParams = trans.params();
 
         document.title = (typeof toParams.title !== "undefined") ? searchScope.getScopeTitle(toParams.title) + ' |\u00A0' : '';
-        document.title += toState.data.pageTitle;
+        document.title += toState.data?.pageTitle || '';
 
-           searchScope.refresh(); // refresh scopeObject for navbarSearch
+        searchScope.refresh(); // refresh scopeObject for navbarSearch
     });
 
 

@@ -36,7 +36,7 @@ angular.module('arachne.widgets.map')
                     facetsAppend: '=?',
                     facetValuesLimit: '=?'
                 },
-                templateUrl: 'app/map/con10t-map-menu-facet-search.html',
+                template: require('./con10t-map-menu-facet-search.html'),
                 link: function (scope) {
 
                     scope.loadMoreFacetValues = loadMoreFacetValues;

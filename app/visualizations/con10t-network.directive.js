@@ -4,7 +4,7 @@ angular.module('arachne.visualizations.directives')
     .directive('con10tNetwork', ['$http', '$q', '$filter', '$window', function ($http, $q, $filter, $window) {
         return {
             restrict: 'E',
-            templateUrl: 'app/visualizations/con10t-network.html',
+            template: require('./con10t-network.html'),
             scope: {
                 placeDataPath: '@',
                 objectDataPath: '@',

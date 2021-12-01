@@ -81,7 +81,7 @@ function($scope, facet, $location, indexService, Query, Entity, searchService) {
 
 .component('facets', {
     controller: 'SearchController',
-    templateUrl: 'facet-value-modal.html',
+    template: require('./facet-value-modal.html'),
     bindings:{
         facet: '=',
     }

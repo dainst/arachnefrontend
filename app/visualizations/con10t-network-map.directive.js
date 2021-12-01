@@ -5,7 +5,7 @@ angular.module('arachne.visualizations.directives')
         function ($http, $q, $filter, $compile, transl8) {
         return {
             restrict: 'E',
-            templateUrl: 'app/visualizations/con10t-network-map.html',
+            template: require('./con10t-network-map.html'),
             scope: {
                 lat: '@',
                 lng: '@',

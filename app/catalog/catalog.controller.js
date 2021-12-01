@@ -64,7 +64,7 @@ angular.module('arachne.controllers')
 
                 if (!entry.children) entry.children = [];
                 var editEntryModal = $uibModal.open({
-                    templateUrl: 'app/catalog/edit-entry.html',
+                    template: require('./edit-entry.html'),
                     backdrop: 'static'
                 });
 
@@ -169,7 +169,7 @@ angular.module('arachne.controllers')
                 }
                 var editableEntry = angular.copy(entry);
                 var editEntryModal = $uibModal.open({
-                    templateUrl: 'app/catalog/edit-entry.html',
+                    template: require('./edit-entry.html'),
                     controller: 'EditCatalogEntryController',
                     resolve: {
                         entry: function () {
@@ -248,7 +248,7 @@ angular.module('arachne.controllers')
 
             $scope.removeEntry = function (scope, entry) {
                 var deleteModal = $uibModal.open({
-                    templateUrl: 'app/catalog/delete-entry.html',
+                    template: require('./delete-entry.html'),
                     backdrop: 'static'
                 });
                 deleteModal.close = function () {
@@ -286,7 +286,7 @@ angular.module('arachne.controllers')
             $scope.removeEntries = function () {
 
                 var deleteModal = $uibModal.open({
-                    templateUrl: 'app/catalog/delete-entries.html',
+                    template: require('./delete-entries.html'),
                     backdrop: 'static'
                 });
 
@@ -314,7 +314,7 @@ angular.module('arachne.controllers')
             $scope.editEntry = function (entry) {
                 var editableEntry = angular.copy(entry);
                 var editEntryModal = $uibModal.open({
-                    templateUrl: 'app/catalog/edit-entry.html',
+                    template: require('./edit-entry.html'),
                     controller: 'EditCatalogEntryController',
                     resolve: {
                         entry: function () {
@@ -357,7 +357,7 @@ angular.module('arachne.controllers')
                     }
                 };
                 var editCatalogModal = $uibModal.open({
-                    templateUrl: 'app/catalog/edit-catalog.html',
+                    template: require('./edit-catalog.html'),
                     controller: 'EditCatalogController',
                     resolve: {
                         catalog: function () {
@@ -389,7 +389,7 @@ angular.module('arachne.controllers')
             $scope.removeCatalog = function () {
 
                 var deleteModal = $uibModal.open({
-                    templateUrl: 'app/catalog/delete-catalog.html',
+                    template: require('./delete-catalog.html'),
                     controller: 'DeleteCatalogController',
                     scope: $scope,
                     backdrop: 'static'
@@ -426,7 +426,7 @@ angular.module('arachne.controllers')
 
             $scope.showHelp = function () {
                 $uibModal.open({
-                    templateUrl: 'app/catalog/edit-catalog-help.html',
+                    template: require('./edit-catalog-help.html'),
                     controller: 'EditCatalogHelpController',
                     backdrop: 'static'
                 });
@@ -437,7 +437,7 @@ angular.module('arachne.controllers')
                     userIds: $scope.catalog.userIds
                 };
                 var manageEditorModal = $uibModal.open({
-                    templateUrl: 'app/catalog/catalog-manage-editor.html',
+                    template: require('./catalog-manage-editor.html'),
                     controller: 'ManageEditorController',
                     backdrop: 'static',
                     resolve: {
@@ -468,7 +468,7 @@ angular.module('arachne.controllers')
 
             $scope.openDownloadDialog = function () {
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'app/export/download-modal.html',
+                    template: require('../export/download-modal.html'),
                     controller: 'DownloadController',
                     resolve: {
                         downloadUrl: function () {

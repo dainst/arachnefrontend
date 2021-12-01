@@ -18,7 +18,7 @@ angular.module('arachne.widgets.map')
                     searchScope: '@',
                     linkToSearch: '='
                 },
-                templateUrl: 'app/map/con10t-map-menu-search-info.html',
+                template: require('./con10t-map-menu-search-info.html'),
                 link: function (scope, element, attrs) {
                     scope.placesCount = null;
                     scope.currentQuery = searchService.currentQuery();

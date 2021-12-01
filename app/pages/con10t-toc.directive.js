@@ -8,7 +8,7 @@ return {
     scope: {
         tocHeading: '@'
     },
-    templateUrl: 'app/pages/con10t-toc.html',
+    template: require('./con10t-toc.html'),
     link: function(scope, element, attrs) {
         var headings = document.querySelectorAll(".con10t-toc-entry");
 

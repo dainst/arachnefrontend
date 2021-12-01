@@ -9,7 +9,7 @@ angular.module('arachne.widgets.directives')
     .directive('con10tMediaTree', ['arachneSettings', function (arachneSettings) {
         return {
             restrict: 'E',
-            templateUrl: 'app/utils/con10t-media-tree.html',
+            template: require('./con10t-media-tree.html'),
             scope: {
                 title: '@',
                 headerTeaser: '@',

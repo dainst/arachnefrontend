@@ -19,7 +19,7 @@ angular.module('arachne.controllers')
             $window.location.href = redirectUrl;
         } else {
             var modalInstance = $uibModal.open({
-                templateUrl: 'app/users/login-form.html',
+                template: require('./login-form.html'),
                 controller: 'LoginFormController'
             });
             modalInstance.result.then(function (user) {

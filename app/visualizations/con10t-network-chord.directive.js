@@ -2,7 +2,7 @@ angular.module('arachne.visualizations.directives')
     .directive('con10tNetworkChord', [ function () {
         return {
             restrict: 'E',
-            templateUrl: 'app/visualizations/con10t-network-chord.html',
+            template: require('./con10t-network-chord.html'),
             scope: {
                 objectsLabel: '@',
                 labels: '=',

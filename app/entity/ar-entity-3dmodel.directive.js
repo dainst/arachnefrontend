@@ -36,6 +36,6 @@ angular.module('arachne.directives')
             },
             scope: { entity: '=' },
             replace: true,
-            templateUrl: 'app/entity/ar-entity-3dmodel.html'
+            template: require('./ar-entity-3dmodel.html')
         }
     }]);

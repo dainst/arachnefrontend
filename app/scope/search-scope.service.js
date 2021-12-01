@@ -68,7 +68,7 @@ function($location, $rootScope, Query, $http, $stateParams, language, $state) {
 		 * @returns {*}
 		 */
 		currentScopeName: function() {
-			if ($state.current.data.scoped !== true) {
+			if ($state.current.data?.scoped !== true) {
                 currentScopeName = null
 			} else {
                 currentScopeName =

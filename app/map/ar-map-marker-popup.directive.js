@@ -14,7 +14,7 @@ var arMapMarkerPopup = ['$location', 'Entity', 'searchScope', function($location
             entityCallback: '=',
             shortForm: '='
         },
-        templateUrl: 'app/map/ar-map-marker-popup.html',
+        template: require('./ar-map-marker-popup.html'),
         link: function(scope, element, attrs) {
 
             scope.get = function(offset, limit) {

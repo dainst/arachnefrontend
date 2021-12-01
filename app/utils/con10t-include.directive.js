@@ -12,6 +12,6 @@ angular.module('arachne.widgets.directives')
             scope: {
                 src: '@'
             },
-            templateUrl: 'app/utils/con10t-include.html'
+            template: require('./con10t-include.html')
         }
     }]);

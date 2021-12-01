@@ -4,7 +4,7 @@ angular.module('arachne.visualizations.directives')
     .directive('con10tPaginatedItemList', ['$filter', function ($filter) {
         return {
             restrict: 'E',
-            templateUrl: 'app/visualizations/con10t-paginated-item-list.html',
+            template: require('./con10t-paginated-item-list.html'),
             scope: {
                 heading: '@',
                 itemsPerPage: '@',

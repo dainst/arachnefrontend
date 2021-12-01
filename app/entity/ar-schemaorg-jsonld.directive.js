@@ -7,6 +7,6 @@ angular.module('arachne.directives')
             scope: 
             	{ entity: '=', lastmodified: '=' },
             replace: true,
-            templateUrl: 'app/entity/ar-schemaorg-jsonld.html'
+            template: require('./ar-schemaorg-jsonld.html')
         }
    }]);

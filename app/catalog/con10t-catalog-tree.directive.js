@@ -18,7 +18,7 @@ angular.module('arachne.widgets.directives')
 				catalogId: '@',
 				heading: '='
 			},
-			templateUrl: 'app/catalog/con10t-catalog-tree.html',
+			template: require('./con10t-catalog-tree.html'),
 			link: function(scope, element, attrs) {
 
 				scope.catalogLinks = attrs.hasOwnProperty('catalogLinks');

@@ -13,7 +13,7 @@ angular.module('arachne.directives')
                 complete: '=?',
                 target: '@'
             },
-            templateUrl: 'app/image/ar-imagegrid.html',
+            template: require('./ar-imagegrid.html'),
 
             link: function (scope, element, attrs) {
 

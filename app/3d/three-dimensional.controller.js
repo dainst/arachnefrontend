@@ -19,7 +19,7 @@ angular.module('arachne.controllers')
                 }
 
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'app/3d/3d-info-modal.html',
+                    template: require('./3d-info-modal.html'),
                     scope: $scope
                 });
 

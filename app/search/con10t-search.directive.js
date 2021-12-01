@@ -5,7 +5,7 @@ angular.module('arachne.widgets.directives')
 .directive('con10tSearch', ['$location', '$filter', function($location, $filter) {
 return {
     restrict: 'E',
-    templateUrl: 'app/search/con10t-search.html',
+    template: require('./con10t-search.html'),
     scope: {
         catalogId: '@',
         fq: '@',

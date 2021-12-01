@@ -18,6 +18,6 @@ angular.module('arachne.directives')
             scope: {
                 entity: '='
             },
-            templateUrl: 'app/entity/ar-entity-sections.html'
+            template: require('./ar-entity-sections.html')
         }
     });

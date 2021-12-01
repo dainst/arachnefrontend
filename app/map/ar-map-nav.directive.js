@@ -6,7 +6,7 @@ angular.module('arachne.widgets.map')
         function(searchService, authService, $uibModal, $location, mapService) {
 
         return {
-            templateUrl: 'app/map/ar-map-nav.html',
+            template: require('./ar-map-nav.html'),
             link: function(scope) {
 
                 scope.$watch(function() {
@@ -30,7 +30,7 @@ angular.module('arachne.widgets.map')
                     scope.linkText = host + port + baseLinkRef + path + query;
 
                     var modalInstance = $uibModal.open({
-                        templateUrl: 'app/map/map-link-modal.html',
+                        template: require('./map-link-modal.html'),
                         scope: scope
                     });
 
@@ -48,7 +48,7 @@ angular.module('arachne.widgets.map')
 
                 scope.openDownloadDialog = function () {
                     var modalInstance = $uibModal.open({
-                        templateUrl: 'app/search/download-modal.html',
+                        template: require('../export/download-modal.html'),
                         controller: 'DownloadController'
                     });
 

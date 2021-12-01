@@ -36,7 +36,7 @@ angular.module('arachne.directives')
 			scope: {
 				scope: '='
 			},
-			templateUrl: 'app/scope/ar-search-scope.html',
+			template: require('./ar-search-scope.html'),
 			link: function(scope, element) {
 
 				// project page

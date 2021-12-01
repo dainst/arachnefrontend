@@ -18,7 +18,7 @@ angular.module('arachne.widgets.map')
                     type: '@',
                     searchScope: '@'
                 },
-                templateUrl: 'app/map/con10t-map-menu-translocations.html',
+                template: require('./con10t-map-menu-translocations.html'),
                 link: function (scope) {
                     scope.isTranslocationViewShown = false;
 

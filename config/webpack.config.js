@@ -12,9 +12,6 @@ module.exports = {
                 test: /\.html$/i,
                 use: [
                     {
-                        loader: 'ngtemplate-loader?relativeTo=' + path.resolve(__dirname, '../') + '/',
-                    },
-                    {
                         loader: 'html-loader',
                         options: {
                             esModule: false,
@@ -71,6 +68,9 @@ module.exports = {
                 target: 'http://bogusman02.dai-cloud.uni-koeln.de',
                 changeOrigin: true,
             }
+        },
+        historyApiFallback: {
+            index: 'index.html'
         }
     }
 };

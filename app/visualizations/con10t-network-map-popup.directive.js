@@ -4,7 +4,7 @@ angular.module('arachne.visualizations.directives')
     .directive('con10tNetworkMapPopup', ['$http', '$q', '$filter', function ($http, $q, $filter) {
         return {
             restrict: 'E',
-            templateUrl: 'app/visualizations/con10t-network-map-popup.html',
+            template: require('./con10t-network-map-popup.html'),
             scope: {
                 activeIncomingConnections: '=',
                 activeOutgoingConnections: '=',

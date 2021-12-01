@@ -10,7 +10,7 @@ angular.module('arachne.widgets.map')
             return {
                 restrict: 'A',
                 scope: {},
-                templateUrl: 'app/map/con10t-map-menu-legend.html',
+                template: require('./con10t-map-menu-legend.html'),
                 link: function () {
                 }
             }

@@ -28,7 +28,7 @@ angular.module('arachne.visualizations.directives')
     .directive('con10tTimeLineChart', ['$http', '$q', '$filter', function ($http, $q, $filter) {
         return {
             restrict: 'E',
-            templateUrl: 'app/visualizations/con10t-time-line-chart.html',
+            template: require('./con10t-time-line-chart.html'),
             scope: {
                 reportOnDrag: '@',  // Pass "true" if you want to evaluate minDate/maxDate while dragging, otherwise evaluation will take place at drag end
                 binnedData: '=',

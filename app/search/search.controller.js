@@ -42,7 +42,7 @@ angular.module('arachne.controllers')
 
             $scope.openDownloadDialog = function() {
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'app/export/download-modal.html',
+                    template: require('../export/download-modal.html'),
                     controller: 'DownloadController',
                     resolve: {
                         downloadUrl: function() {
@@ -129,7 +129,7 @@ angular.module('arachne.controllers')
                 }
 
                 let catalogModal = $uibModal.open({
-                    templateUrl: 'app/catalog/edit-catalog.html',
+                    template: require('../catalog/edit-catalog.html'),
                     controller: 'EditCatalogController',
                     resolve: {
                         catalog: {
@@ -155,7 +155,7 @@ angular.module('arachne.controllers')
                         $scope.catalogCreationCancelled = false;
 
                         $uibModal.open({
-                            templateUrl: 'app/catalog/catalog-progress.html',
+                            template: require('../catalog/catalog-progress.html'),
                             scope: $scope,
                         }).result.catch(() => {
                             $scope.catalogCreationCancelled = true;
@@ -303,7 +303,7 @@ angular.module('arachne.controllers')
                 //$location.url(searchScope.currentScopePath() + 'search' + $scope.currentQuery + '&facet=' + facet.name);
 
                 var modalInstance = $uibModal.open({
-                    templateUrl: 'app/search/facet-value-modal.html',
+                    template: require('./facet-value-modal.html'),
                     controller: 'FacetValueModalController',
                     resolve: {
                         facet: function(){

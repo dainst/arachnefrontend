@@ -5,6 +5,6 @@ angular.module('arachne.directives')
     .directive('arEntityLinks', function() {
         return {
             scope: { entity: '=' },
-            templateUrl: 'app/entity/ar-entity-links.html'
+            template: require('./ar-entity-links.html')
         }
     });

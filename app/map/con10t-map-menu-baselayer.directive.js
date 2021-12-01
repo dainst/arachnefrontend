@@ -11,7 +11,7 @@ return {
     scope: {
         baselayers: '='
     },
-    templateUrl: 'app/map/con10t-map-menu-baselayer.html',
+    template: require('./con10t-map-menu-baselayer.html'),
     link: function(scope) {
 
         scope.chosenBaselayer = searchService.currentQuery().baselayer || "osm";
