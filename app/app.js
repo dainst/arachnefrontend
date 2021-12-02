@@ -36,11 +36,6 @@ import './facets/ar-facet-browser.html';
 import './facets/ar-facet-browser.directive.js';
 import './facets/index.service.js';
 import './facets/ar-active-facets.html';
-import './category/category.controller.js';
-import './category/category.html';
-import './category/categories.controller.js';
-import './category/category.service.js';
-import './category/categories.html';
 import './entity/entity.controller.js';
 import './entity/entity-images.controller.js';
 import './entity/cells-from-entities.filter.js';
@@ -288,8 +283,8 @@ angular.module('arachne', [
             'entityImages':		{ url: '/entity/:entityId/images', template: require('./entity/entity-images.html'), data: { pageTitle: title }},
             'entityImage':		{ url: '/entity/:entityId/image/:imageId', template: require('./entity/entity-image.html'), data: { pageTitle: title }},
             'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc&bbox&ghprec&group', template: require('./search/search.html'), data: { pageTitle: title }},
-            'categories':		{ url: '/categories', template: require('./category/categories.html'), data: { pageTitle: title }},
-            'category':			{ url: '/category/?c&facet&fv&group', template: require('./category/category.html'), data: { pageTitle: title }},
+            'categories.**':	{ url: '/categories', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
+            'category.**':		{ url: '/category', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
 
             'map': {
                 url: '/map?q&fq&view&sort&offset&limit&desc&bbox&ghprec',

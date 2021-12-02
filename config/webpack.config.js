@@ -34,6 +34,9 @@ module.exports = {
             },
             {
                 test: /\.(json)$/i,
+                exclude: [
+                    path.resolve(__dirname, "../app")
+                ],
                 type: 'asset/resource',
                 generator: {
                     filename: '[file][query]'
