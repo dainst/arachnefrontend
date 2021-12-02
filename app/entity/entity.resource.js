@@ -1,14 +1,9 @@
-'use strict';
-
-angular.module('arachne.resources')
-
 /**
  * Resource interface for backend requests to entity- and search-endpoints.
  *
  * @author: Sebastian Cuy
  */
-.factory('Entity', ['$resource', 'arachneSettings', '$q',
-function($resource, arachneSettings, $q) {
+export default function($resource, arachneSettings, $q) {
 
     return $resource(
         arachneSettings.dataserviceUri + "/:endpoint/:id/:suffix",
@@ -64,4 +59,4 @@ function($resource, arachneSettings, $q) {
         }
     );
 
-}]);
+};

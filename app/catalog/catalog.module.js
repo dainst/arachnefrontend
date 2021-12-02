@@ -1,8 +1,6 @@
 import arCatalogOccurrences from './ar-catalog-occurrences.directive.js';
-import CatalogEntry from './catalog-entry.resource.js';
 import ManageEditorController from './catalog-manage-editor.controller.js';
 import CatalogController from './catalog.controller.js';
-import Catalog from './catalog.resource.js';
 import CatalogsController from './catalogs.controller.js';
 import con10tCatalogTree from './con10t-catalog-tree.directive.js';
 import DeleteCatalogController from './delete-catalog.js';
@@ -17,11 +15,9 @@ export default angular.module('arachne.catalog', [])
         $stateProvider.state({ name: 'catalog', url: '/catalog/:id?view', template: require('./catalog.html')});
     }])
     .directive('arCatalogOccurrences', ['arachneSettings', '$http', '$uibModal', 'Catalog', 'CatalogEntry', arCatalogOccurrences])
-    .factory('CatalogEntry', ['$resource', 'arachneSettings', CatalogEntry])
     .controller('ManageEditorController', ['$scope', '$http', 'arachneSettings', 'messageService', '$uibModalInstance', 'catalog', ManageEditorController])
     .controller('CatalogController', ['$rootScope', '$scope', '$state', '$stateParams', '$uibModal', '$window', '$timeout',
         'Catalog', 'CatalogEntry', 'authService', '$http', 'arachneSettings', 'Entity', '$location', 'messageService', CatalogController])
-    .factory('Catalog', ['$resource', 'arachneSettings', Catalog])
     .controller('CatalogsController',['$scope', '$uibModal', '$location',
         'authService', 'Entity', 'Catalog', 'CatalogEntry', '$http', 'arachneSettings', 'messageService', CatalogsController])
     .directive('con10tCatalogTree', ['Catalog', 'CatalogEntry', '$filter', con10tCatalogTree])

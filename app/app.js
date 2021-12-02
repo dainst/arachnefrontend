@@ -36,27 +36,6 @@ import './facets/ar-facet-browser.html';
 import './facets/ar-facet-browser.directive.js';
 import './facets/index.service.js';
 import './facets/ar-active-facets.html';
-import './entity/entity.controller.js';
-import './entity/entity-images.controller.js';
-import './entity/cells-from-entities.filter.js';
-import './entity/ar-entity-links.directive.js';
-import './entity/ar-entity-header.directive.js';
-import './entity/ar-entity-links.html';
-import './entity/ar-entity-3dmodel.html';
-import './entity/ar-schemaorg-jsonld.directive.js';
-import './entity/entity-image.html';
-import './entity/entity-images.html';
-import './entity/ar-schemaorg-jsonld.html';
-import './entity/ar-entity-title.directive.js';
-import './entity/ar-entity-3dmodel.directive.js';
-import './entity/ar-entity-title.html';
-import './entity/ar-entity-header.html';
-import './entity/ar-entity-sections.directive.js';
-import './entity/entity.resource.js';
-import './entity/ar-entity-sections.html';
-import './entity/entity-image.controller.js';
-import './entity/entity.html';
-import './entity/con10t-item.directive.js';
 import './markdown/ar-markdown-text-editor.html';
 import './markdown/add-markdown-link.html';
 import './markdown/add-markdown-link.controller.js';
@@ -200,6 +179,11 @@ import './pages/static-content.controller.js';
 
 import '../scss/app.scss';
 
+import Catalog from './catalog/catalog.resource.js';
+import CatalogEntry from './catalog/catalog-entry.resource.js';
+import categoryService from './category/category.service.js';
+import Entity from './entity/entity.resource.js';
+
 const lazyLoad = (importPromise) => ($transition$) => {
     const $ocLazyLoad = $transition$.injector().get('$ocLazyLoad');
     return importPromise.then(mod => $ocLazyLoad.load(mod.default));
@@ -232,6 +216,10 @@ angular.module('arachne', [
     'arachne.widgets.map',
     'arachne.visualizations.directives'
 ])
+.factory('Catalog', ['$resource', 'arachneSettings', Catalog])
+.factory('CatalogEntry', ['$resource', 'arachneSettings', CatalogEntry])
+.factory('categoryService', ['$filter', '$q', 'transl8', categoryService])
+.factory('Entity', ['$resource', 'arachneSettings', '$q', Entity])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider', '$qProvider', '$httpProvider',
     function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider, $qProvider, $httpProvider) {
 
@@ -274,14 +262,10 @@ angular.module('arachne', [
             '404':				{ url: '/404', template: require('./pages/404.html'), data: { pageTitle: 'Arachne | 404' }},
             'welcome':			{ url: '/', template: require('./pages/welcome-page.html'), data: { pageTitle: title }},
             'catalogs.**':		{ url: '/catalogs', lazyLoad: lazyLoad(import('./catalog/catalog.module.js')), data: { pageTitle: title }},
-            'catalog.**':		{ url: '/catalog/:id?view', lazyLoad: lazyLoad(import('./catalog/catalog.module.js')), data: { pageTitle: title }},
+            'catalog.**':		{ url: '/catalog', lazyLoad: lazyLoad(import('./catalog/catalog.module.js')), data: { pageTitle: title }},
             'catalog.entry':	{ url: '/:entryId?view', template: require('./catalog/catalog.html'), data: { pageTitle: title }},
-            'books':			{ url: '/books/:id', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }},
-            'booksSuffixed':	{ url: '/books/:id/:suffix?', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }},
-            'booksSuffixedPage':	{ url: '/books/:id/:suffix/:page?', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }}, // Temporary fix for WIT-185, also see Ticket SD-842
-            'entity':			{ url: '/entity/:id?/:params?', template: require('./entity/entity.html'), reloadOnSearch: false, data: { pageTitle: title }},
-            'entityImages':		{ url: '/entity/:entityId/images', template: require('./entity/entity-images.html'), data: { pageTitle: title }},
-            'entityImage':		{ url: '/entity/:entityId/image/:imageId', template: require('./entity/entity-image.html'), data: { pageTitle: title }},
+            'books.**':			{ url: '/books', lazyLoad: lazyLoad(import('./entity/entity.module.js')), reloadOnSearch: false, data: { pageTitle: title }},
+            'entity.**':		{ url: '/entity', lazyLoad: lazyLoad(import('./entity/entity.module.js')), reloadOnSearch: false, data: { pageTitle: title }},
             'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc&bbox&ghprec&group', template: require('./search/search.html'), data: { pageTitle: title }},
             'categories.**':	{ url: '/categories', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
             'category.**':		{ url: '/category', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
@@ -313,7 +297,7 @@ angular.module('arachne', [
 
         };
 
-        var scoped = {'project': ['search', 'map', 'entity', 'entityImage', 'entityImages']};
+        var scoped = {'project': ['search', 'map', 'entity.**']};
 
         function registerState(state, name) {
             $stateProvider.state(name, angular.copy(state));

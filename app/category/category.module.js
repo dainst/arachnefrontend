@@ -1,6 +1,5 @@
 import CategoriesController from './categories.controller.js';
 import CategoryController from './category.controller.js';
-import categoryService from './category.service.js';
 
 export default angular.module('arachne.category', [])
     .config(['$stateProvider', $stateProvider => {
@@ -9,5 +8,4 @@ export default angular.module('arachne.category', [])
     }])
     .controller('CategoriesController', ['$rootScope', '$scope', '$filter', 'categoryService', CategoriesController])
     .controller('CategoryController', ['$rootScope', '$scope', '$uibModal', 'Query', '$http', 'arachneSettings', 'categoryService', '$location', 'Entity', '$filter', 'indexService', CategoryController])
-    .factory('categoryService', ['$filter', '$q', 'transl8', categoryService])
 ;

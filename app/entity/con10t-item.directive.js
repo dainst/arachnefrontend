@@ -1,7 +1,4 @@
-'use strict';
-
-angular.module('arachne.widgets.directives')
-    .directive('con10tItem', function() {
+export default function() {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -9,4 +6,5 @@ angular.module('arachne.widgets.directives')
                 element.attr("href", "http://arachne.dainst.org/entity/" + value);
             });
         }
-    }});
+    }
+};
