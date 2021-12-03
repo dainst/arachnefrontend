@@ -1,37 +1,33 @@
-'use strict';
+export default function () {
+    return {
+        scope: {
+            route: '@',
+            currentQuery: '='
+        },
+        template: require('./ar-active-facets.html'),
+        link: function (scope) {
+            scope.facets = scope.currentQuery.facets || [];
 
-angular.module('arachne.directives')
+            scope.removeBBox = function() {
+                if (scope.currentQuery && scope.currentQuery.bbox) {
+                    delete scope.currentQuery.bbox;
+                }
+            };
 
-    .directive('arActiveFacets', function () {
-        return {
-            scope: {
-                route: '@',
-                currentQuery: '='
-            },
-            template: require('./ar-active-facets.html'),
-            link: function (scope) {
-                scope.facets = scope.currentQuery.facets || [];
+            scope.getBoundingBoxHumanReadable = function() {
 
-                scope.removeBBox = function() {
-                    if (scope.currentQuery && scope.currentQuery.bbox) {
-                        delete scope.currentQuery.bbox;
-                    }
-                };
+                function cutCoord(c) {
+                    return c.toString().substring(0, 8) + '..'
+                }
 
-                scope.getBoundingBoxHumanReadable = function() {
-
-                    function cutCoord(c) {
-                        return c.toString().substring(0, 8) + '..'
-                    }
-
-                    if (!scope.currentQuery || !scope.currentQuery.bbox) {
-                        return "";
-                    }
-                    return scope.currentQuery.bbox
-                        .split(',')
-                        .map(cutCoord)
-                        .join(', ');
-                };
-            }
+                if (!scope.currentQuery || !scope.currentQuery.bbox) {
+                    return "";
+                }
+                return scope.currentQuery.bbox
+                    .split(',')
+                    .map(cutCoord)
+                    .join(', ');
+            };
         }
-    });
+    }
+};
