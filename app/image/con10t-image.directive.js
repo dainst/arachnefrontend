@@ -1,29 +1,25 @@
-'use strict';
-
-angular.module('arachne.widgets.directives')
-
 /**
  * @author: Jan G. Wieners
  */
-    .directive('con10tImage', [function() {
-        return {
-            restrict: 'E',
-            scope: {
-                src: '@',
-                alt: '@',
-                align: '@',
-                width: '@',
-                height: '@',
-                entityId: '@'
-            },
-            transclude: true,
-            template: require('./con10t-image.html'),
+export default function() {
+    return {
+        restrict: 'E',
+        scope: {
+            src: '@',
+            alt: '@',
+            align: '@',
+            width: '@',
+            height: '@',
+            entityId: '@'
+        },
+        transclude: true,
+        template: require('./con10t-image.html'),
 
-            link: function(scope, element, attrs, ctrl, $transclude) {
+        link: function(scope, element, attrs, ctrl, $transclude) {
 
-                $transclude(function(clone){
-                    scope.showCaption = clone.length;
-                });
-            }
+            $transclude(function(clone){
+                scope.showCaption = clone.length;
+            });
         }
-    }]);
+    }
+};
