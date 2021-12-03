@@ -38,6 +38,7 @@
     "ng-showdown": "1.1.0",
     "ng-table": "^3.0.1",
     "oclazyload": "^1.1.0",
+    "overlapping-marker-spiderfier-leaflet": "^0.2.7",
     "request": "^2.87.0",
     "showdown": "^1.9.1",
     "svg-pan-zoom": "3.5.3",

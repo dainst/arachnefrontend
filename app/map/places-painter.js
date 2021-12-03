@@ -1,4 +1,5 @@
-'use strict';
+import 'leaflet';
+import 'leaflet-polylinedecorator';
 
 angular.module('arachne.widgets.map')
 

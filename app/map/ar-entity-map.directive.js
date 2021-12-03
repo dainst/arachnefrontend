@@ -1,9 +1,11 @@
+import 'leaflet';
+import 'drmonty-leaflet-awesome-markers';
+import 'drmonty-leaflet-awesome-markers/css/leaflet.awesome-markers.css';
+import 'overlapping-marker-spiderfier-leaflet';
+
 /**
  * @author: Jan G. Wieners
  */
-
-'use strict';
-
 angular.module('arachne.widgets.map')
     .directive('arEntityMap', ['$compile', 'Entity', 'Query', 'placesPainter',
         function($compile, Entity, Query, placesPainter) {
@@ -47,7 +49,7 @@ angular.module('arachne.widgets.map')
 
                     var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied: true });
                     oms.addListener('spiderfy', function(markers) {
-                        map.closePopup();
+                         map.closePopup();
                     });
 
                     var markers = [];
@@ -98,6 +100,7 @@ angular.module('arachne.widgets.map')
                                     if (place.relation.indexOf("Aufbewahrung") != -1) icon = 'home';
                                     else if (place.relation == "Fundort") icon = "eye-open";
                                 }
+                                
                                 var awesomeMarker = L.AwesomeMarkers.icon({
                                     icon: icon,
                                     markerColor: 'cadetblue'
