@@ -49,6 +49,7 @@
     "browser-sync": "^2.27.5",
     "chromedriver": "~2.37.0",
     "connect-modrewrite": "~0.10.2",
+    "copy-webpack-plugin": "^10.0.0",
     "cors": "~2.8.4",
     "css-loader": "^6.5.1",
     "del": "~3.0.0",

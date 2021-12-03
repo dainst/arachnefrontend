@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, '../app/app.js'),
@@ -71,6 +72,13 @@ module.exports = {
         ]
     },
     plugins: [
+        new CopyPlugin({
+            patterns: [
+                { from: "3dhop", to: "3dhop" },
+                { from: "3dviewer", to: "3dviewer" },
+                { from: "node_modules/idai-3dviewer/dist/idai-3dviewer.min.js", to: "3dviewer/idai-3dviewer.min.js" },
+            ],
+        }),
         new webpack.ProvidePlugin({
           THREE: 'three',
         }),
