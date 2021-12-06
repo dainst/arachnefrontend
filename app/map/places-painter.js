@@ -1,13 +1,11 @@
 import 'leaflet';
 import 'leaflet-polylinedecorator';
 
-angular.module('arachne.widgets.map')
-
 /*
  * @author: David Neugebauer
  * @author: Daniel de Oliveira
  */
-.factory('placesPainter', ['$compile', 'Place', '$rootScope', function ($compile, Place, $rootScope) {
+export default function($compile, Place, $rootScope) {
 
     var markers = null; // used to keep track of markers for deleting them later
     var translocationLayerGroups = [];
@@ -366,4 +364,4 @@ angular.module('arachne.widgets.map')
             return translocationLayerGroup;
         }
     }
-}]);
+};

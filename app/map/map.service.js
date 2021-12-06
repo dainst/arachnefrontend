@@ -1,6 +1,5 @@
-'use strict';
-
-angular.module('arachne.widgets.map')
+import 'leaflet';
+import 'leaflet-fullscreen';
 
 /*
  * Provides a single leaflet map for different controllers/directives.
@@ -9,7 +8,7 @@ angular.module('arachne.widgets.map')
  * @author: David Neugebauer
  * @author: Daniel de Oliveira
  */
-.factory('mapService', [ 'searchService' , function (searchService) {
+export default function(searchService) {
 
     var translocationLayerActive = false;
     var map = null;
@@ -313,4 +312,4 @@ angular.module('arachne.widgets.map')
             return newQuery;
         }
     }
-}]);
+};

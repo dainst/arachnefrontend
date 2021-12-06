@@ -1,12 +1,8 @@
-'use strict';
-
-angular.module('arachne.widgets.map')
-
 /**
  * @author Daniel de Oliveira
  * @author Sebastian Cuy
  */
-.factory('heatmapPainter', function () {
+export default function () {
 
     var map;
     var heatLayer;
@@ -65,4 +61,4 @@ angular.module('arachne.widgets.map')
             if (heatLayer) map.removeLayer(heatLayer);
         }
     }
-});
+};

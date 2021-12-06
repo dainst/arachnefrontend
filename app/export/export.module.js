@@ -1,5 +1,5 @@
 import DownloadController from './download.controller.js';
 
-angular.module('arachne.export', [])
+export default angular.module('arachne.export', [])
     .controller('DownloadController', ['$scope', '$uibModalInstance', '$http', '$filter', 'arachneSettings', 'downloadUrl', 'downloadParams', 'transl8', 'language', DownloadController])
 ;

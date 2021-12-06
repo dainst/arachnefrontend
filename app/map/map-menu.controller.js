@@ -1,15 +1,9 @@
-'use strict';
+export default function($scope, searchService) {
 
-angular.module('arachne.widgets.map')
+    $scope.leftMenuToggled = true;
+    $scope.rightMenuToggled = true;
 
-    .controller('MapMenuController', ['$scope', 'searchService',
-        function ($scope, searchService) {
-
-            $scope.leftMenuToggled = true;
-            $scope.rightMenuToggled = true;
-
-            $scope.overlaysActive = function () {
-                return (searchService.currentQuery().overlays ? true : false);
-            }
-        }
-    ]);
+    $scope.overlaysActive = function () {
+        return (searchService.currentQuery().overlays ? true : false);
+    }
+};

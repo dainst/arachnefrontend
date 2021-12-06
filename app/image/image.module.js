@@ -6,7 +6,7 @@ import cellsFromImages from './cells-from-images.filter.js';
 import con10tImage from './con10t-image.directive.js';
 import zoomifyimg from './zoomifyimg.directive.js';
 
-angular.module('arachne.image', [])
+export default angular.module('arachne.image', [])
     .directive('arImagegridCell', arImagegridCell)
     .directive('arImagegrid', ['$http', '$window', 'searchScope', arImagegrid])
     .directive('arImageslider', arImageslider)

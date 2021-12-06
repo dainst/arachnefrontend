@@ -98,36 +98,6 @@ import './visualizations/con10t-network-map-popup.directive.js';
 import './visualizations/con10t-paginated-item-list.html';
 import './visualizations/con10t-network.html';
 import './visualizations/con10t-network-map.directive.js';
-import './map/ar-map-nav.html';
-import './map/con10t-map-menu-legend.html';
-import './map/con10t-map-menu-search-field.html';
-import './map/map.html';
-import './map/con10t-map-menu-search-info.html';
-import './map/con10t-map-overlays.html';
-import './map/con10t-map-menu-overlays.directive.js';
-import './map/map.service.js';
-import './map/con10t-map-menu-baselayer.html';
-import './map/con10t-map-menu-search-info.directive.js';
-import './map/ar-map-nav.directive.js';
-import './map/places.service.js';
-import './map/con10t-map-menu-translocations.html';
-import './map/heatmap-painter.js';
-import './map/map-link-modal.html';
-import './map/map-menu.controller.js';
-import './map/con10t-map.directive.js';
-import './map/con10t-map-menu-overlays.html';
-import './map/con10t-map-menu-facet-search.directive.js';
-import './map/con10t-map-menu-legend.directive.js';
-import './map/place.prototype.js';
-import './map/con10t-map-menu-facet-search.html';
-import './map/ar-entity-map.directive.js';
-import './map/ar-map-marker-popup.directive.js';
-import './map/con10t-map-overlays.directive.js';
-import './map/con10t-map-menu-translocations.directive.js';
-import './map/ar-map-marker-popup.html';
-import './map/con10t-map-menu-search-field.directive.js';
-import './map/con10t-map-menu-baselayer.directive.js';
-import './map/places-painter.js';
 import './users/contact.service.js';
 import './users/pwd-reset.controller.js';
 import './users/edit-user.controller.js';
@@ -200,7 +170,6 @@ angular.module('arachne', [
     'arachne.directives',
     'arachne.controllers',
     'arachne.widgets.directives',
-    'arachne.widgets.map',
     'arachne.visualizations.directives'
 ])
 .factory('Catalog', ['$resource', 'arachneSettings', Catalog])
@@ -256,16 +225,7 @@ angular.module('arachne', [
             'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc&bbox&ghprec&group', template: require('./search/search.html'), data: { pageTitle: title }},
             'categories.**':	{ url: '/categories', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
             'category.**':		{ url: '/category', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
-
-            'map': {
-                url: '/map?q&fq&view&sort&offset&limit&desc&bbox&ghprec',
-                template: require('./map/map.html'),
-                data: {
-                    pageTitle: title,
-                    searchPage: 'map'
-                }
-            },
-
+            'map.**':           { url: '/map', lazyLoad: lazyLoad(import('./map/map.module.js')), data: { pageTitle: title, searchPage: 'map' }},
             // 'gridmap':			{ url: '/gridmap', template: require('./map/gridmap.html'), data: { pageTitle: title }},
             '3d.**':			{ url: '/3d', lazyLoad: lazyLoad(import('./3d/3d.module.js')), data: { pageTitle: title }},
             'svg.**':			{ url: '/svg', lazyLoad: lazyLoad(import('./svg/svg.module.js')), data: { pageTitle: title }},
@@ -284,7 +244,7 @@ angular.module('arachne', [
 
         };
 
-        var scoped = {'project': ['search', 'map', 'entity.**']};
+        var scoped = {'project': ['search', 'map.**', 'entity.**']};
 
         function registerState(state, name) {
             $stateProvider.state(name, angular.copy(state));
