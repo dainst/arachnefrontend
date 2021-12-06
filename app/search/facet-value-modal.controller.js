@@ -1,13 +1,7 @@
-'use strict';
-
-angular.module('arachne.controllers')
-
 /**
  * @author: Sven Linßen
  */
-
-.controller('FacetValueModalController', ['$scope', 'facet', '$location', 'indexService', 'Query', 'Entity', 'searchService',
-function($scope, facet, $location, indexService, Query, Entity, searchService) {
+export default function($scope, facet, $location, indexService, searchService) {
     $scope.currentFacet = facet.name;
     $scope.facetValues = facet.values;
 
@@ -77,12 +71,4 @@ function($scope, facet, $location, indexService, Query, Entity, searchService) {
         loadFacetValues(letter);
     };
 
-}])
-
-.component('facets', {
-    controller: 'SearchController',
-    template: require('./facet-value-modal.html'),
-    bindings:{
-        facet: '=',
-    }
-});
+};

@@ -52,14 +52,6 @@ import './utils/tiny-footer.directive.js';
 import './utils/con10t-include.directive.js';
 import './utils/news.service.js';
 import './utils/con10t-media-tree.directive.js';
-import './search/search.service.js';
-import './search/ar-search-nav.directive.js';
-import './search/con10t-search-catalog.directive.js';
-import './search/con10t-search-query.directive.js';
-import './search/facet-value-modal.controller.js';
-import './search/con10t-search.directive.js';
-import './search/search.controller.js';
-import './search/query.prototype.js';
 import './visualizations/con10t-time-line-chart.directive.js';
 import './visualizations/con10t-network.directive.js';
 ////import './visualizations/con10t-table.directive.js';
@@ -179,7 +171,7 @@ angular.module('arachne', [
             'catalog.entry':	{ url: '/:entryId?view', template: require('./catalog/catalog.html'), data: { pageTitle: title }},
             'books.**':			{ url: '/books', lazyLoad: lazyLoad(import('./entity/entity.module.js')), reloadOnSearch: false, data: { pageTitle: title }},
             'entity.**':		{ url: '/entity', lazyLoad: lazyLoad(import('./entity/entity.module.js')), reloadOnSearch: false, data: { pageTitle: title }},
-            'search':			{ url: '/search?q&fq&view&sort&offset&limit&desc&bbox&ghprec&group', template: require('./search/search.html'), data: { pageTitle: title }},
+            'search.**':		{ url: '/search', lazyLoad: lazyLoad(import('./search/search.module.js')), data: { pageTitle: title }},
             'categories.**':	{ url: '/categories', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
             'category.**':		{ url: '/category', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
             'map.**':           { url: '/map', lazyLoad: lazyLoad(import('./map/map.module.js')), data: { pageTitle: title, searchPage: 'map' }},
@@ -201,7 +193,7 @@ angular.module('arachne', [
 
         };
 
-        var scoped = {'project': ['search', 'map.**', 'entity.**']};
+        var scoped = {'project': ['search.**', 'map.**', 'entity.**']};
 
         function registerState(state, name) {
             $stateProvider.state(name, angular.copy(state));

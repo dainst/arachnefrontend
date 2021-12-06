@@ -1,4 +1,4 @@
-export default function ($http, $window, searchScope) {
+export default function($http, $window, searchScope) {
     return {
         scope: {
             cells: '=',

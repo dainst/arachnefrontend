@@ -1,7 +1,3 @@
-'use strict';
-
-angular.module('arachne.services')
-
 /**
  * represents a search query
  * handles conversion between string representation for frontend URLs
@@ -9,7 +5,7 @@ angular.module('arachne.services')
  *
  * @author: Sebastian Cuy
  */
-.factory('Query', ['arachneSettings', function(arachneSettings) {
+export default function(arachneSettings) {
 
     function Query() {
         this.facets = [];
@@ -196,4 +192,4 @@ angular.module('arachne.services')
 
     return Query;
 
-}]);
+};
