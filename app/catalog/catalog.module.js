@@ -8,8 +8,9 @@ import EditCatalogEntryController from './edit-catalog-entry.controller.js';
 import EditCatalogHelpController from './edit-catalog-help.controller.js';
 import EditCatalogController from './edit-catalog.controller.js';
 import EditEntryController from './edit-entry.controller.js';
+import MarkdownModule from '../markdown/markdown.module.js';
 
-export default angular.module('arachne.catalog', [])
+export default angular.module('arachne.catalog', [MarkdownModule.name])
     .config(['$stateProvider', $stateProvider => {
         $stateProvider.state({ name: 'catalogs', url: '/catalogs', template: require('./catalogs.html')});
         $stateProvider.state({ name: 'catalog', url: '/catalog/:id?view', template: require('./catalog.html')});
