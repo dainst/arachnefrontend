@@ -1,11 +1,6 @@
-'use strict';
-
-angular.module('arachne.services')
-
 // singleton service for authentication, stores credentials in browser cookie
 // if cookie is present the stored credentials get sent with every backend request
-.factory('authService', ['$http', 'arachneSettings', '$filter', '$cookies',
-function($http, arachneSettings, $filter, $cookies) {
+export default function($http, arachneSettings, $filter, $cookies) {
 
     // initialize to whatever is in the cookie, if anything
     if ($cookies.get('ar-auth')) {
@@ -55,4 +50,4 @@ function($http, arachneSettings, $filter, $cookies) {
         }
 
     };
-}]);
+};

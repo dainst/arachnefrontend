@@ -87,6 +87,7 @@ import Catalog from './catalog/catalog.resource.js';
 import CatalogEntry from './catalog/catalog-entry.resource.js';
 import categoryService from './category/category.service.js';
 import Entity from './entity/entity.resource.js';
+import authService from './users/auth.service.js';
 import scopeModule from './scope/scope.module.js';
 
 const lazyLoad = (importPromise) => ($transition$) => {
@@ -125,6 +126,7 @@ angular.module('arachne', [
 .factory('CatalogEntry', ['$resource', 'arachneSettings', CatalogEntry])
 .factory('categoryService', ['$filter', '$q', 'transl8', categoryService])
 .factory('Entity', ['$resource', 'arachneSettings', '$q', Entity])
+.factory('authService', ['$http', 'arachneSettings', '$filter', '$cookies', authService])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider', '$qProvider', '$httpProvider',
     function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider, $qProvider, $httpProvider) {
 
@@ -164,33 +166,32 @@ angular.module('arachne', [
 
 
         var states = {
-            '404':				{ url: '/404', template: require('./pages/404.html'), data: { pageTitle: 'Arachne | 404' }},
-            'welcome':			{ url: '/', template: require('./pages/welcome-page.html'), data: { pageTitle: title }},
-            'catalogs.**':		{ url: '/catalogs', lazyLoad: lazyLoad(import('./catalog/catalog.module.js')), data: { pageTitle: title }},
-            'catalog.**':		{ url: '/catalog', lazyLoad: lazyLoad(import('./catalog/catalog.module.js')), data: { pageTitle: title }},
-            'catalog.entry':	{ url: '/:entryId?view', template: require('./catalog/catalog.html'), data: { pageTitle: title }},
-            'books.**':			{ url: '/books', lazyLoad: lazyLoad(import('./entity/entity.module.js')), reloadOnSearch: false, data: { pageTitle: title }},
-            'entity.**':		{ url: '/entity', lazyLoad: lazyLoad(import('./entity/entity.module.js')), reloadOnSearch: false, data: { pageTitle: title }},
-            'search.**':		{ url: '/search', lazyLoad: lazyLoad(import('./search/search.module.js')), data: { pageTitle: title }},
-            'categories.**':	{ url: '/categories', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
-            'category.**':		{ url: '/category', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title }},
-            'map.**':           { url: '/map', lazyLoad: lazyLoad(import('./map/map.module.js')), data: { pageTitle: title, searchPage: 'map' }},
-            // 'gridmap':			{ url: '/gridmap', template: require('./map/gridmap.html'), data: { pageTitle: title }},
-            '3d.**':			{ url: '/3d', lazyLoad: lazyLoad(import('./3d/3d.module.js')), data: { pageTitle: title }},
-            'svg.**':			{ url: '/svg', lazyLoad: lazyLoad(import('./svg/svg.module.js')), data: { pageTitle: title }},
-            'register':			{ url: '/register', template: require('./users/register.html'), data: { pageTitle: title }},
-            'editUser':			{ url: '/editUser', template: require('./users/edit-user.html'), data: { pageTitle: title }},
-            'contact':			{ url: '/contact', template: require('./users/contact.html'), data: { pageTitle: title }},
-            'dataimport':		{ url: '/admin/dataimport', template: require('./pages/dataimport.html'), data: { pageTitle: title }},
-            'dataexport':		{ url: '/admin/dataexport', template: require('./pages/dataexport.html'), data: { pageTitle: title }},
-            'pwdreset':			{ url: '/pwdreset', template: require('./users/pwd-reset.html'), data: { pageTitle: title }},
-            'pwdchange':		{ url: '/pwdchange', template: require('./users/pwd-change.html'), data: { pageTitle: title }},
-            'userActivation':	{ url: '/user/activation/:token', template: require('./users/pwd-activation.html'), data: { pageTitle: title }},
-            'project':			{ url: '/project/:title', template: require('./pages/static.html'), data: { pageTitle: title}},
-            'index':			{ url: '/index?c&fq&fv&group', template: require('./facets/index.html'), reloadOnSearch: true, data: { pageTitle: title }},
-            'info':				{ url: '/info/:title?id', template: require('./pages/static.html'), data: { pageTitle: title }}, // Named it info, not static, to sound not too technical.
-            'login':			{ url: '/login?redirectTo', template: require('./users/login.html'), data: { pageTitle: title }}
-
+            '404': { url: '/404', template: require('./pages/404.html'), data: { pageTitle: 'Arachne | 404' } },
+            'welcome': { url: '/', template: require('./pages/welcome-page.html'), data: { pageTitle: title } },
+            'catalogs.**': { url: '/catalogs', lazyLoad: lazyLoad(import('./catalog/catalog.module.js')), data: { pageTitle: title } },
+            'catalog.**': { url: '/catalog', lazyLoad: lazyLoad(import('./catalog/catalog.module.js')), data: { pageTitle: title } },
+            'catalog.entry': { url: '/:entryId?view', template: require('./catalog/catalog.html'), data: { pageTitle: title } },
+            'books.**': { url: '/books', lazyLoad: lazyLoad(import('./entity/entity.module.js')), reloadOnSearch: false, data: { pageTitle: title } },
+            'entity.**': { url: '/entity', lazyLoad: lazyLoad(import('./entity/entity.module.js')), reloadOnSearch: false, data: { pageTitle: title } },
+            'search.**': { url: '/search', lazyLoad: lazyLoad(import('./search/search.module.js')), data: { pageTitle: title } },
+            'categories.**': { url: '/categories', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title } },
+            'category.**': { url: '/category', lazyLoad: lazyLoad(import('./category/category.module.js')), data: { pageTitle: title } },
+            'map.**': { url: '/map', lazyLoad: lazyLoad(import('./map/map.module.js')), data: { pageTitle: title, searchPage: 'map' } },
+            // 'gridmap': { url: '/gridmap', template: require('./map/gridmap.html'), data: { pageTitle: title }},
+            '3d.**': { url: '/3d', lazyLoad: lazyLoad(import('./3d/3d.module.js')), data: { pageTitle: title } },
+            'svg.**': { url: '/svg', lazyLoad: lazyLoad(import('./svg/svg.module.js')), data: { pageTitle: title } },
+            'register.**': { url: '/register', lazyLoad: lazyLoad(import('./users/users.module.js')), data: { pageTitle: title }},
+            'editUser.**': { url: '/editUser', lazyLoad: lazyLoad(import('./users/users.module.js')), data: { pageTitle: title }},
+            'contact.**': { url: '/contact', lazyLoad: lazyLoad(import('./users/users.module.js')), data: { pageTitle: title }},
+            'pwdreset.**': { url: '/pwdreset', lazyLoad: lazyLoad(import('./users/users.module.js')), data: { pageTitle: title }},
+			'pwdchange.**': { url: '/pwdchange', lazyLoad: lazyLoad(import('./users/users.module.js')), data: { pageTitle: title }},
+			'userActivation.**': { url: '/user/activation/:token', lazyLoad: lazyLoad(import('./users/users.module.js')), data: { pageTitle: title }},
+            'login.**': { url: '/login?redirectTo',lazyLoad: lazyLoad(import('./users/users.module.js')), data: { pageTitle: title }},
+            'dataimport': { url: '/admin/dataimport', template: require('./pages/dataimport.html'), data: { pageTitle: title }},
+            'dataexport': { url: '/admin/dataexport', template: require('./pages/dataexport.html'), data: { pageTitle: title }},
+            'project': { url: '/project/:title', template: require('./pages/static.html'), data: { pageTitle: title } },
+            'index': { url: '/index?c&fq&fv&group', template: require('./facets/index.html'), reloadOnSearch: true, data: { pageTitle: title } },
+            'info': { url: '/info/:title?id', template: require('./pages/static.html'), data: { pageTitle: title } },
         };
 
         var scoped = {'project': ['search.**', 'map.**', 'entity.**']};

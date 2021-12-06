@@ -1,9 +1,4 @@
-'use strict';
-
-angular.module('arachne.resources')
-
-.factory('PwdActivation', ['$resource', 'arachneSettings',
-function($resource, arachneSettings) {
+export default function($resource, arachneSettings) {
 
     return $resource(arachneSettings.dataserviceUri + '/user/activation/:token', {}, {
         save : {
@@ -12,4 +7,4 @@ function($resource, arachneSettings) {
             headers: {'Content-Type': 'application/json'}
         }
     });
-}]);
+};

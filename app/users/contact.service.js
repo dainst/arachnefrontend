@@ -1,12 +1,4 @@
-'use strict';
-
-angular.module('arachne.services')
-
-/**
- * contact Form
- */
-.factory('contactService', ['arachneSettings', '$resource',
-function(arachneSettings, $resource) {
+export default function(arachneSettings, $resource) {
     var contactService = $resource('', {}, {
         sendContact : {
             url: arachneSettings.dataserviceUri + '/contact',
@@ -20,4 +12,4 @@ function(arachneSettings, $resource) {
             return contactService.sendContact(contact, successMethod, errorMethod);
         }
     }
-}]);
+};
