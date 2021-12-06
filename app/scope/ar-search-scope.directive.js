@@ -1,4 +1,3 @@
-'use strict';
 /**
  *  The interesting question was, should a click on the projekt logo/name lead the user to the project page or to remove
  * the filter as the others do it. I think no body will understand why he leaves a project when he clicks, so I decided
@@ -8,61 +7,60 @@
  * why? what would the average DAU-archaelogical user do If he or she wants to search everywhere? click on the arachne
  * logo, nothing else.
  */
-angular.module('arachne.directives')
 
-	.directive('arSearchScope', ['$q', 'searchScope', function ($q, searchScope) {
+export default function ($q, searchScope) {
 
-		// preloads image and checks if exists
-		function isImage(src) {
+    // preloads image and checks if exists
+    function isImage(src) {
 
-			var deferred = $q.defer();
+        var deferred = $q.defer();
 
-			var image = new Image();
-			image.onerror = function() {
-				deferred.resolve(false);
-			};
-			image.onload = function() {
-				deferred.resolve(true);
-			};
-			image.src = src;
+        var image = new Image();
+        image.onerror = function() {
+            deferred.resolve(false);
+        };
+        image.onload = function() {
+            deferred.resolve(true);
+        };
+        image.src = src;
 
-			return deferred.promise;
-		}
-
+        return deferred.promise;
+    }
 
 
 
-		return {
-			scope: {
-				scope: '='
-			},
-			template: require('./ar-search-scope.html'),
-			link: function(scope, element) {
 
-				// project page
-				scope.projectPage = "/project/" + scope.scope;
+    return {
+        scope: {
+            scope: '='
+        },
+        template: require('./ar-search-scope.html'),
+        link: function(scope, element) {
 
-				// project logo
-				var imagePath = "/con10t/img/" + scope.scope + "/search-logo.jpg";
-				scope.hasImage = false;
-				scope.imagePath = '';
+            // project page
+            scope.projectPage = "/project/" + scope.scope;
 
-				isImage(imagePath).then(
-					function(isImage) {
-						if (isImage) {
-							scope.imagePath = imagePath;
-							scope.hasImage = true;
-						} else {
-							scope.imagePath = '';
-							scope.hasImage = false;
-						}
-					}
-				)
+            // project logo
+            var imagePath = "/con10t/img/" + scope.scope + "/search-logo.jpg";
+            scope.hasImage = false;
+            scope.imagePath = '';
 
-				// project title
-				scope.name = scope.scope;
-				scope.currentScopeTitle = searchScope.currentScopeTitle;
+            isImage(imagePath).then(
+                function(isImage) {
+                    if (isImage) {
+                        scope.imagePath = imagePath;
+                        scope.hasImage = true;
+                    } else {
+                        scope.imagePath = '';
+                        scope.hasImage = false;
+                    }
+                }
+            )
 
-			}
-		}
-	}]);
+            // project title
+            scope.name = scope.scope;
+            scope.currentScopeTitle = searchScope.currentScopeTitle;
+
+        }
+    }
+};

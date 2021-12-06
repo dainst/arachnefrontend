@@ -29,12 +29,9 @@ import '../info/content.json';
 
 import './_modules.js';
 import './facets/ar-active-facets.directive.js';
-import './facets/index.html';
 import './facets/index.controller.js';
-import './facets/ar-facet-browser.html';
 import './facets/ar-facet-browser.directive.js';
 import './facets/index.service.js';
-import './facets/ar-active-facets.html';
 import './utils/filters/error-message.filter.js';
 import './utils/filters/range.filter.js';
 import './utils/filters/base64.filter.js';
@@ -47,86 +44,49 @@ import './utils/filters/singular.filter.js';
 import './utils/filters/md5.filter.js';
 import './utils/filters/strip-coords.filter.js';
 import './utils/con10t-show-if.directive.js';
-import './utils/con10t-media-tree.html';
-import './utils/error-modal.html';
 import './utils/con10t-tree.directive.js';
 import './utils/autofillfix.directive.js';
 import './utils/focus-me.directive.js';
 import './utils/convert-to-bool.directive.js';
-import './utils/con10t-show-if.html';
 import './utils/tiny-footer.directive.js';
-import './utils/con10t-tree.html';
 import './utils/con10t-include.directive.js';
-import './utils/con10t-include.html';
 import './utils/news.service.js';
 import './utils/con10t-media-tree.directive.js';
-import './scope/ar-search-scope.directive.js';
-import './scope/ar-scoped.directive.js';
-import './scope/ar-search-scope.html';
-import './scope/search-scope.service.js';
 import './search/search.service.js';
-import './search/ar-search-nav-pagination.inc.html';
 import './search/ar-search-nav.directive.js';
 import './search/con10t-search-catalog.directive.js';
 import './search/con10t-search-query.directive.js';
-import './search/con10t-search.html';
 import './search/facet-value-modal.controller.js';
-import './search/ar-search-nav-order-menu.inc.html';
-import './search/ar-search-nav.html';
-import './search/search.html';
 import './search/con10t-search.directive.js';
 import './search/search.controller.js';
-import './search/facet-value-modal.html';
-import './search/ar-search-nav-toolbar.inc.html';
 import './search/query.prototype.js';
 import './visualizations/con10t-time-line-chart.directive.js';
-import './visualizations/con10t-time-line-chart.html';
 import './visualizations/con10t-network.directive.js';
-import './visualizations/con10t-network-map-popup.html';
-//import './visualizations/con10t-table.html';
-import './visualizations/con10t-network-chord.html';
-//import './visualizations/con10t-table.directive.js';
-import './visualizations/con10t-network-map.html';
+////import './visualizations/con10t-table.directive.js';
 import './visualizations/con10t-paginated-item-list.directive.js';
 import './visualizations/con10t-network-chord.directive.js';
 import './visualizations/con10t-network-map-popup.directive.js';
-import './visualizations/con10t-paginated-item-list.html';
-import './visualizations/con10t-network.html';
 import './visualizations/con10t-network-map.directive.js';
 import './users/contact.service.js';
 import './users/pwd-reset.controller.js';
 import './users/edit-user.controller.js';
 import './users/register.controller.js';
-import './users/contact.html';
-import './users/edit-user.html';
 import './users/pwd-activation.controller.js';
-import './users/pwd-reset.html';
-import './users/register.html';
 import './users/login-form.controller.js';
-import './users/login.html';
 import './users/pwd-change.resource.js';
 import './users/pwd-reset.resource.js';
-import './users/pwd-activation.html';
 import './users/pwd-change.controller.js';
-import './users/login-form.html';
 import './users/auth.service.js';
-import './users/pwd-change.html';
 import './users/pwd-activation.resource.js';
 import './users/contact.controller.js';
 import './users/login.controller.js';
 import './menu.controller.js';
 import './pages/dataexport.controller.js';
 import './pages/con10t-toc.directive.js';
-import './pages/welcome-page.html';
 import './pages/dataimport.controller.js';
-import './pages/404.html';
 import './pages/welcome-page.controller.js';
-import './pages/dataimport.html';
 import './pages/projects.controller.js';
-import './pages/static.html';
 import './pages/con10t-page.directive.js';
-import './pages/dataexport.html';
-import './pages/con10t-toc.html';
 import './pages/static-content.controller.js';
 
 import '../scss/app.scss';
@@ -135,6 +95,7 @@ import Catalog from './catalog/catalog.resource.js';
 import CatalogEntry from './catalog/catalog-entry.resource.js';
 import categoryService from './category/category.service.js';
 import Entity from './entity/entity.resource.js';
+import scopeModule from './scope/scope.module.js';
 
 const lazyLoad = (importPromise) => ($transition$) => {
     const $ocLazyLoad = $transition$.injector().get('$ocLazyLoad');
@@ -165,7 +126,8 @@ angular.module('arachne', [
     'arachne.directives',
     'arachne.controllers',
     'arachne.widgets.directives',
-    'arachne.visualizations.directives'
+    'arachne.visualizations.directives',
+    scopeModule.name
 ])
 .factory('Catalog', ['$resource', 'arachneSettings', Catalog])
 .factory('CatalogEntry', ['$resource', 'arachneSettings', CatalogEntry])
@@ -259,17 +221,8 @@ angular.module('arachne', [
 /**
  * Change <title> after page change
  */
-.run(['$transitions', 'searchScope', '$rootScope', function($transitions, searchScope, $rootScope) {
+.run(['$transitions', 'searchScope', function($transitions, searchScope) {
 
-    /*
-    $transitions.onError({ }, function(trans) {
-        console.log(trans.error())
-        console.log(trans._ignoredReason())
-        console.log(trans._options)
-        console.log('pending:', trans.router.globals.transition)
-        console.log('tc:', trans.treeChanges())
-    });
-    */
     $transitions.onSuccess({}, function(trans) {
 
         var toState = trans.to().$$state();
