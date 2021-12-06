@@ -17,7 +17,6 @@ import transl8_en from './_transl8.en.js';
 import transl8_de from './_transl8.de.js';
 
 import 'idai-components';
-import '../partials/navbar-menu.html';
 import '../lib/relative-paths-in-partial.js';
 
 require.context('../con10t/frontimages', false, /^\.\/.*\.(png|jpg|gif|svg)$/);
