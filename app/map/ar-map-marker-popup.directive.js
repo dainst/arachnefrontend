@@ -2,11 +2,7 @@
  * @author: David Neugebauer
  * @author: Simon Hohl
  */
-
-'use strict';
-
-
-var arMapMarkerPopup = ['$location', 'Entity', 'searchScope', function($location, Entity, searchScope) {
+export default function($location, Entity, searchScope) {
     return {
         restrict: 'A',
         scope: {
@@ -51,11 +47,4 @@ var arMapMarkerPopup = ['$location', 'Entity', 'searchScope', function($location
             }
         }
     }
-}];
-
-
-angular.module('arachne.widgets.map')
-    .directive('arMapMarkerPopup', arMapMarkerPopup);
-
-angular.module('arachne.widgets.map')
-    .directive('con10tMapPopup', arMapMarkerPopup);
+};
