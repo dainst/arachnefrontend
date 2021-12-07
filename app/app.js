@@ -1,6 +1,4 @@
 import angular from 'angular';
-import 'angular-ui-bootstrap';
-import 'angular-ui-bootstrap/dist/ui-bootstrap-tpls';
 import '@uirouter/angularjs';
 import 'angular-sanitize';
 import 'angular-resource';
@@ -12,6 +10,10 @@ import 'angulartics';
 import 'angulartics-piwik';
 import 'angular-ui-tree';
 import 'oclazyload';
+
+import './lib/ui-bootstrap-custom-build/ui-bootstrap-custom-2.5.0.js';
+import './lib/ui-bootstrap-custom-build/ui-bootstrap-custom-tpls-2.5.0.js';
+import './lib/ui-bootstrap-custom-build/ui-bootstrap-custom-2.5.0-csp.css';
 
 import transl8_en from './_transl8.en.js';
 import transl8_de from './_transl8.de.js';
