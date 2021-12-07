@@ -76,6 +76,8 @@ import Catalog from './catalog/catalog.resource.js';
 import CatalogEntry from './catalog/catalog-entry.resource.js';
 import categoryService from './category/category.service.js';
 import Entity from './entity/entity.resource.js';
+import Query from './search/query.prototype.js';
+import searchService from './search/search.service.js';
 import authService from './users/auth.service.js';
 import scopeModule from './scope/scope.module.js';
 
@@ -115,6 +117,8 @@ angular.module('arachne', [
 .factory('CatalogEntry', ['$resource', 'arachneSettings', CatalogEntry])
 .factory('categoryService', ['$filter', '$q', 'transl8', categoryService])
 .factory('Entity', ['$resource', 'arachneSettings', '$q', Entity])
+.factory('searchService', ['$location', 'Entity', 'Query', '$q', 'searchScope', searchService])
+.factory('Query', ['arachneSettings', Query])
 .factory('authService', ['$http', 'arachneSettings', '$filter', '$cookies', authService])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$resourceProvider', '$qProvider', '$httpProvider',
     function($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $resourceProvider, $qProvider, $httpProvider) {

@@ -101,6 +101,7 @@ module.exports = {
                 { from: "3dhop", to: "3dhop" },
                 { from: "3dviewer", to: "3dviewer" },
                 { from: "node_modules/idai-3dviewer/dist/idai-3dviewer.min.js", to: "3dviewer/idai-3dviewer.min.js" },
+                { from: "node_modules/three/build/three.min.js", to: "3dviewer/three.min.js" },
                 { from: "node_modules/font-awesome/fonts", to: "font-awesome/fonts" },
                 { from: "node_modules/drmonty-leaflet-awesome-markers/css/images", to: "css/images" },
             ],
@@ -129,8 +130,6 @@ module.exports = {
                 changeOrigin: true,
             }
         },
-        historyApiFallback: {
-            index: 'index.html'
-        }
+        historyApiFallback: true,
     }
 };

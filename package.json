@@ -9,8 +9,8 @@
   "scripts": {
     "test": "karma start test/browser/karma.conf",
     "e2e": "rimraf test/e2e-screenshots/*.png && protractor test/e2e/protractor.conf.js",
-    "build": "webpack --config config/webpack.config.js",
-    "start": "webpack-dev-server --config config/webpack.config.js"
+    "build": "webpack --config config/webpack.config.js --mode production",
+    "start": "webpack-dev-server --config config/webpack.config.js --mode development"
   },
   "dependencies": {
     "@uirouter/angularjs": "1.0.11",
@@ -27,7 +27,7 @@
     "d3": "5.7.0",
     "drmonty-leaflet-awesome-markers": "2.0.2",
     "font-awesome": "4.7.0",
-    "idai-3dviewer": "1.0.4",
+    "idai-3dviewer": "1.0.7",
     "idai-components": "3.1.8",
     "idai-cookie-notice": "~0.0.3",
     "leaflet": "1.3.1",
