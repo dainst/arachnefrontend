@@ -1,12 +1,28 @@
-var path = require('path');
-var webpack = require('webpack');
-var CopyPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const glob = require('glob');
+const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const PurgecssPlugin = require('purgecss-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, '../app/app.js'),
     output: {
         path: path.resolve(__dirname, '../public'),
         filename: 'bundle.js',
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                styles: {
+                    name: 'styles',
+                    test: /\.css$/,
+                    chunks: 'all',
+                    enforce: true
+                }
+            }
+        }
     },
     module: {
         rules: [
@@ -46,7 +62,7 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/i,
                 use: [
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     'resolve-url-loader',
                     {
@@ -67,7 +83,7 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                 ],
             },
@@ -88,8 +104,20 @@ module.exports = {
                 { from: "node_modules/drmonty-leaflet-awesome-markers/css/images", to: "css/images" },
             ],
         }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, '../app/index.html'),
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+        }),
+        new PurgecssPlugin({
+            paths: [
+                ...glob.sync(`${path.resolve(__dirname, '../app')}/**/*.html`, { nodir: true }),
+                ...glob.sync(`${path.resolve(__dirname, '../node_modules/idai-components')}/**/*.html`, { nodir: true }),
+            ]
+        }),
         new webpack.ProvidePlugin({
-          THREE: 'three',
+            THREE: 'three',
         }),
     ],
     devtool: 'source-map',
