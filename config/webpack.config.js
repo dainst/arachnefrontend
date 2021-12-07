@@ -97,6 +97,7 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
+                { from: "./app/partials/navbar-menu.html", to: "./partials/navbar-menu.html" },
                 { from: "3dhop", to: "3dhop" },
                 { from: "3dviewer", to: "3dviewer" },
                 { from: "node_modules/idai-3dviewer/dist/idai-3dviewer.min.js", to: "3dviewer/idai-3dviewer.min.js" },
