@@ -111,7 +111,7 @@
         <!-- END CURRENT QUERY STATUS -->
 
         <!-- Karte -->
-        <div ng-if="entity.places">
+        <div ng-if="entity.places" class="hidden-xs hidden-sm">
             <h5 class="text-muted uppercase"><strong>{{'entity_places'|transl8}}</strong></h5>
             <div class="well" ar-entity-map places="entity.places" id="entityMap" style="height:200px;"></div>
         </div>
