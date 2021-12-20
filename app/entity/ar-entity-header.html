@@ -21,28 +21,30 @@
     <div class="col-md-4">
         <table class="table table-condensed" style="margin-bottom:0">
             <thead>
-            <tr>
-                <td><strong>{{ 'entityId' | transl8 }}:</strong></td>
-                <td id="entity-id-label">{{ entity.entityId }}</td>
-            </tr>
+                <tr>
+                    <td><strong>{{ 'entityId' | transl8 }}:</strong></td>
+                    <td id="entity-id-label">{{ entity.entityId }}</td>
+                </tr>
             </thead>
-            <tr>
-                <td><strong>{{'ui_category'|transl8}}:</strong></td>
-                <td id="entity-type">
-                    <div ng-switch="!!entity.categoryHref">
-                        <div ng-switch-when="true">
-                            <a ng-href="{{ serverUri }}{{ entity.categoryHref }}">
-                                {{entity.type}}
-                            </a>
+            <tbody>
+                <tr>
+                    <td><strong>{{'ui_category'|transl8}}:</strong></td>
+                    <td id="entity-type">
+                        <div ng-switch="!!entity.categoryHref">
+                            <div ng-switch-when="true">
+                                <a ng-href="{{ serverUri }}{{ entity.categoryHref }}">
+                                    {{entity.type}}
+                                </a>
+                            </div>
+                            <div ng-switch-when="false">{{entity.type}}</div>
                         </div>
-                        <div ng-switch-when="false">{{entity.type}}</div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>{{'ui_serial_number'|transl8}}:</strong></td>
-                <td>{{ entity.internalId }}</td>
-            </tr>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>{{'ui_serial_number'|transl8}}:</strong></td>
+                    <td>{{ entity.internalId }}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
