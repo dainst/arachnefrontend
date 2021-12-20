@@ -55,7 +55,7 @@ git pull origin master
 ```
 to get the latest con10t version.
 
-### Configurating the Development Server
+### Configuring the Development Server
 
 The Arachne 4 Frontend uses the development server configured in the config file template "dev-config.json.template" in the folder "/config".
   
@@ -102,9 +102,9 @@ In order for AngularJS' HTML5 mode to work use the following configurations:
 #### nginx
 ```
 server {
-        listen   80;
-        root /usr/share/nginx/www;
-        try_files $uri $uri/ /index.html =404;
+    listen   80;
+    root /usr/share/nginx/www;
+    try_files $uri $uri/ /index.html =404;
 }
 ```
 
