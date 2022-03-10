@@ -1,6 +1,6 @@
 > 🚨 **ACHTUNG!**
 >
-> Dieses Repository ist veraltet. Zukünftige Änderungen am Code müssen [im gemeinsamen Repository für Arachne 4](/dainst/arachne4/tree/main/frontend) erfolgen.
+> Dieses Repository ist veraltet. Zukünftige Änderungen am Code müssen [im gemeinsamen Repository für Arachne 4](https://github.com/dainst/arachne4/tree/main/frontend) erfolgen.
 
 # Arachne 4 Frontend   
   
